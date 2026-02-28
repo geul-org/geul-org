@@ -4,13 +4,13 @@ weight: 2
 date: 2026-02-26T12:00:11+09:00
 lastmod: 2026-02-26T12:00:11+09:00
 tags: ["RAG", "search", "embedding"]
-summary: "Looking relevant and being relevant are not the same thing"
+summary: "RAG searches natural language as natural language. Three fundamental limitations of embedding similarity search, and why structured semantic search is the alternative."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---
 
-## Looking relevant and being relevant are not the same thing.
+**Looking relevant and being relevant are not the same thing.**
 
 ---
 
@@ -89,6 +89,8 @@ it is mechanically distinguished from "Q3 2023."
 No need to compute similarity.
 Does it match or not? Yes or no.
 
+The structural limitations of embedding similarity are explored further in [Why Embedding Vectors Are Not Enough](/why/not-embedding-vector/).
+
 ---
 
 ## Problem 2: Chunks Are Not Units of Meaning
@@ -153,6 +155,8 @@ In a structured representation, source, time, and confidence are fields.
 "Exclude confidence below 0.5" is one numeric comparison.
 No LLM call needed.
 
+The principles of mechanical filtering are discussed in [Why Mechanical Verification Is Necessary](/why/mechanical-verification/), and contradiction detection in [Why Consistency Checks Are Necessary](/why/consistency-check/).
+
 ---
 
 ## The Fundamental Premise of RAG
@@ -214,6 +218,8 @@ When these three conditions are met,
 search shifts from "guessing plausible candidates"
 to "confirming what matches."
 
+How these conditions are concretely implemented is discussed in [Why a Semantically-Aligned Index?](/why/semantically-aligned-index/).
+
 ---
 
 ## RAG Is a Transitional Technology
@@ -239,6 +245,8 @@ Natural language -> structured query -> structural search -> structured results 
 RAG does not disappear.
 Its backend changes.
 From embedding similarity search to semantic-structure-based search.
+
+Why the structural flaws of natural language create hallucinations is analyzed in [Why Does Natural Language Create Hallucinations?](/why/natural-language-hallucination/).
 
 ---
 

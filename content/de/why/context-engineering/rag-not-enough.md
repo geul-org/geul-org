@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---
 
-## Relevant aussehen und relevant sein sind nicht dasselbe.
+**Relevant aussehen und relevant sein sind nicht dasselbe.**
 
 ---
 
@@ -89,6 +89,8 @@ wird es mechanisch von "Q3 2023" unterschieden.
 Keine Aehnlichkeitsberechnung noetig.
 Stimmt es ueberein oder nicht? Ja oder nein.
 
+Die strukturellen Grenzen der Embedding-Aehnlichkeit werden in [Warum Embedding-Vektoren nicht ausreichen](/de/why/not-embedding-vector/) eingehender untersucht.
+
 ---
 
 ## Problem 2: Chunks sind keine Bedeutungseinheiten
@@ -153,6 +155,8 @@ In einer strukturierten Darstellung sind Quelle, Zeit und Konfidenz Felder.
 "Konfidenz unter 0,5 ausschliessen" ist ein numerischer Vergleich.
 Kein LLM-Aufruf noetig.
 
+Die Prinzipien der mechanischen Filterung werden in [Warum mechanische Verifikation notwendig ist](/de/why/mechanical-verification/) diskutiert, und die Erkennung von Widerspruechen in [Warum Konsistenzpruefungen notwendig sind](/de/why/consistency-check/).
+
 ---
 
 ## Die fundamentale Praemisse von RAG
@@ -214,6 +218,8 @@ Wenn diese drei Bedingungen erfuellt sind,
 verschiebt sich die Suche von "plausible Kandidaten erraten"
 zu "Uebereinstimmungen bestaetigen."
 
+Wie diese Bedingungen konkret umgesetzt werden, wird in [Warum ein semantisch ausgerichteter Index?](/de/why/semantically-aligned-index/) diskutiert.
+
 ---
 
 ## RAG ist eine Uebergangstechnologie
@@ -239,6 +245,8 @@ Natuerliche Sprache -> strukturierte Abfrage -> strukturelle Suche -> strukturie
 RAG verschwindet nicht.
 Sein Backend aendert sich.
 Von Embedding-Aehnlichkeitssuche zu semantisch-strukturbasierter Suche.
+
+Warum die strukturellen Maengel natuerlicher Sprache Halluzinationen erzeugen, wird in [Warum erzeugt natuerliche Sprache Halluzinationen?](/de/why/natural-language-hallucination/) analysiert.
 
 ---
 

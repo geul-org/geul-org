@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---
 
-## Paraitre pertinent et etre pertinent ne sont pas la meme chose.
+**Paraitre pertinent et etre pertinent ne sont pas la meme chose.**
 
 ---
 
@@ -89,6 +89,8 @@ il est mecaniquement distingue de "T3 2023."
 Pas besoin de calculer la similarite.
 Ca correspond ou pas ? Oui ou non.
 
+Les limites structurelles de la similarite d'embedding sont explorees dans [Pourquoi les vecteurs d'embedding ne suffisent pas](/fr/why/not-embedding-vector/).
+
 ---
 
 ## Probleme 2 : Les fragments ne sont pas des unites de sens
@@ -153,6 +155,8 @@ Dans une representation structuree, la source, le temps et la confiance sont des
 "Exclure la confiance inferieure a 0,5" est une comparaison numerique.
 Pas besoin d'appel au LLM.
 
+Les principes du filtrage mecanique sont discutes dans [Pourquoi la verification mecanique est necessaire](/fr/why/mechanical-verification/), et la detection de contradictions dans [Pourquoi les verifications de coherence sont necessaires](/fr/why/consistency-check/).
+
 ---
 
 ## La premisse fondamentale de RAG
@@ -214,6 +218,8 @@ Quand ces trois conditions sont remplies,
 la recherche passe de "deviner des candidats plausibles"
 a "confirmer ce qui correspond."
 
+Comment ces conditions sont concretement mises en oeuvre est discute dans [Pourquoi un index semantiquement aligne ?](/fr/why/semantically-aligned-index/).
+
 ---
 
 ## RAG est une technologie de transition
@@ -239,6 +245,8 @@ Langage naturel -> requete structuree -> recherche structurelle -> resultats str
 RAG ne disparait pas.
 Son backend change.
 De la recherche par similarite d'embedding a la recherche basee sur la structure semantique.
+
+Pourquoi les defauts structurels du langage naturel creent des hallucinations est analyse dans [Pourquoi le langage naturel cree-t-il des hallucinations ?](/fr/why/natural-language-hallucination/).
 
 ---
 

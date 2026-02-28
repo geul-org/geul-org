@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---
 
-## Tampak relevan dan benar-benar relevan adalah dua hal yang berbeda.
+**Tampak relevan dan benar-benar relevan adalah dua hal yang berbeda.**
 
 ---
 
@@ -89,6 +89,8 @@ ia secara mekanis dibedakan dari "Q3 2023."
 Tidak perlu menghitung kemiripan.
 Cocok atau tidak? Ya atau tidak.
 
+Keterbatasan struktural kemiripan embedding dibahas lebih lanjut dalam [Mengapa Vektor Embedding Tidak Cukup](/id/why/not-embedding-vector/).
+
 ---
 
 ## Masalah 2: Chunk Bukan Satuan Makna
@@ -153,6 +155,8 @@ Dalam representasi terstruktur, sumber, waktu, dan kepercayaan adalah field.
 "Kecualikan kepercayaan di bawah 0,5" adalah satu perbandingan numerik.
 Tidak perlu pemanggilan LLM.
 
+Prinsip penyaringan mekanis dibahas dalam [Mengapa Verifikasi Mekanis Diperlukan](/id/why/mechanical-verification/), dan deteksi kontradiksi dalam [Mengapa Pemeriksaan Konsistensi Diperlukan](/id/why/consistency-check/).
+
 ---
 
 ## Premis Fundamental RAG
@@ -214,6 +218,8 @@ Ketika ketiga syarat ini terpenuhi,
 pencarian bergeser dari "menebak kandidat yang masuk akal"
 menjadi "mengonfirmasi apa yang cocok."
 
+Bagaimana syarat-syarat ini diimplementasikan secara konkret dibahas dalam [Mengapa Indeks yang Selaras Secara Semantik?](/id/why/semantically-aligned-index/).
+
 ---
 
 ## RAG Adalah Teknologi Transisi
@@ -239,6 +245,8 @@ Bahasa alami -> kueri terstruktur -> pencarian struktural -> hasil terstruktur -
 RAG tidak menghilang.
 Backend-nya yang berubah.
 Dari pencarian kemiripan embedding ke pencarian berbasis struktur semantik.
+
+Mengapa cacat struktural bahasa alami menciptakan halusinasi dianalisis dalam [Mengapa Bahasa Alami Menciptakan Halusinasi?](/id/why/natural-language-hallucination/).
 
 ---
 

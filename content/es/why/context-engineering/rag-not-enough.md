@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---
 
-## Parecer relevante y ser relevante no son lo mismo.
+**Parecer relevante y ser relevante no son lo mismo.**
 
 ---
 
@@ -89,6 +89,8 @@ se distingue mecanicamente de "Q3 2023."
 No es necesario calcular similitud.
 Coincide o no? Si o no.
 
+Las limitaciones estructurales de la similitud de embedding se exploran en [Por qué los vectores de embedding no son suficientes](/es/why/not-embedding-vector/).
+
 ---
 
 ## Problema 2: Los fragmentos no son unidades de significado
@@ -153,6 +155,8 @@ En una representacion estructurada, la fuente, el tiempo y la confianza son camp
 "Excluir confianza inferior a 0.5" es una comparacion numerica.
 No se necesita llamar al LLM.
 
+Los principios del filtrado mecanico se discuten en [Por que la verificacion mecanica es necesaria](/es/why/mechanical-verification/), y la deteccion de contradicciones en [Por que las verificaciones de consistencia son necesarias](/es/why/consistency-check/).
+
 ---
 
 ## La premisa fundamental de RAG
@@ -214,6 +218,8 @@ Cuando se cumplen estas tres condiciones,
 la busqueda pasa de "adivinar candidatos plausibles"
 a "confirmar lo que coincide."
 
+Como se implementan concretamente estas condiciones se discute en [Por que un indice semanticamente alineado?](/es/why/semantically-aligned-index/).
+
 ---
 
 ## RAG es una tecnologia de transicion
@@ -239,6 +245,8 @@ Lenguaje natural -> consulta estructurada -> busqueda estructural -> resultados 
 RAG no desaparece.
 Su backend cambia.
 De busqueda por similitud de embedding a busqueda basada en estructura semantica.
+
+Por que los defectos estructurales del lenguaje natural crean alucinaciones se analiza en [Por que el lenguaje natural crea alucinaciones?](/es/why/natural-language-hallucination/).
 
 ---
 

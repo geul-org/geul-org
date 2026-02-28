@@ -23,7 +23,11 @@
   "description": "{{ with .Params.summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}",
   "publisher": {
     "@type": "Organization",
-    "name": "GEUL"
+    "name": "GEUL",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ "images/og-default.webp" | absURL }}"
+    }
   },
   "inLanguage": "{{ .Lang }}",
   "author": {

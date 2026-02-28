@@ -4,7 +4,7 @@ GEUL 프로젝트 공식 웹사이트. Hugo 정적 사이트, 12개 언어, S3+C
 
 **Author:** 박준우 (mail@parkjunwoo.com)
 **License:** MIT
-**관련 레포:** [geul](https://github.com/parkjunwoo/geul) (GEUL 언어 본체)
+**관련 레포:** [geul](https://github.com/park-jun-woo/geul) · [geul-sidx](https://github.com/park-jun-woo/geul-sidx) · [silk](https://github.com/park-jun-woo/silk)
 
 ---
 
@@ -19,10 +19,10 @@ geul-org/
 ├── hugo.toml / Makefile
 ├── content/{en,ko,zh,es,ar,pt,id,ru,ja,fr,de,he}/
 │   ├── _index.md                    # 홈
+│   ├── repos/                       # GitHub 저장소 목록
 │   └── why/                         # "왜?" 시리즈 (16글)
-│       ├── 16-bit.md / cache-reasoning-as-code.md / claims-not-facts.md
-│       ├── semantically-aligned-index.md / structured-memory.md
-│       ├── artificial-language/     # 인공언어 (3글)
+│       ├── architecture/            # 아키텍처 (5글)
+│       ├── artificial-language/     # 인공언어 (6글)
 │       └── context-engineering/     # 컨텍스트 엔지니어링 (7글)
 ├── layouts/                         # 외부 테마 없음
 │   ├── index.html                   # 홈
@@ -77,7 +77,7 @@ Route53 (geul.org, www) → CloudFront (E2Z17ZOR6DJTRZ) → S3 (geul-org-public)
 | CloudFront | `E2Z17ZOR6DJTRZ` | HTTPS redirect, CachingOptimized, 압축 |
 | CF Function | `geul-public-router` | 언어 감지(cookie→Accept-Language) + clean URL |
 | ACM | `www.geul.org` + SAN `geul.org` | us-east-1 |
-| Route53 | `geul.org` zone (`Z09654152WX7070IWCD4A`) | A×2(apex+www→CF) |
+| Route53 | `geul.org` zone (`Z09654152WX7070IWCD4A`) | A×2(apex+www→CF), TXT(Google 인증) |
 | IAM | `geul-deployer` | S3 sync + CF invalidation |
 
 **Terraform** (`deployments/terraform/`): Region ap-northeast-2 / us-east-1(CF,ACM)
@@ -95,13 +95,15 @@ Makefile에 `INDEXNOW_KEY` 미설정 (TODO). 설정 후 `make deploy` 시 자동
 ## Cross-linking
 
 geul.org ↔ parkjunwoo.com 상호 백링크 (SEO)
-- footer → `parkjunwoo.com/1/en/about/` · GitHub
+- footer → `parkjunwoo.com/1/en/about/` · Repos · Languages
 
 ## Google Search Console
 
 - GCP: `claribot-488401` | SA: `claude-code@claribot-488401.iam.gserviceaccount.com`
 - SA 키: `~/.config/gcloud/claude-code-sa-key.json`
-- 사이트: `sc-domain:geul.org` (SA 권한 미등록 — 수동 추가 필요)
+- 사이트: `sc-domain:geul.org` (DNS TXT 인증 완료, SA=siteOwner)
+- 소유자: SA + `mail@parkjunwoo.com`
+- 사이트맵: `https://geul.org/sitemap.xml` (제출 완료)
 
 ```bash
 # SA 활성화
@@ -136,3 +138,4 @@ curl -s -X POST -H "Authorization: Bearer $(gcloud auth print-access-token --sco
 3. **슬러그 규칙:** 영문 소문자 하이픈, 관사 제거, 3~5단어, 모든 언어 동일 파일명
 4. **이미지:** WebP 포맷, static/images/에 저장
 5. **RTL 언어:** ar, he는 RTL 레이아웃 자동 적용 (CSS)
+6. **커밋:** Co-Authored-By 트레일러 넣지 않는다
