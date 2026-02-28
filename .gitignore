@@ -1,9 +1,8 @@
-.key
-.venv
-bak/
-hugo/public/
-hugo/resources/
-.claude/
-hugo/deployments/terraform/.terraform/
-hugo/deployments/terraform/.terraform.lock.hcl
-hugo/deployments/terraform/env/
+public/
+resources/
+.hugo_build.lock
+deployments/terraform/.terraform/
+deployments/terraform/.terraform.lock.hcl
+deployments/terraform/env/
+deployments/terraform/tfplan
+deployments/terraform/tfplan2
