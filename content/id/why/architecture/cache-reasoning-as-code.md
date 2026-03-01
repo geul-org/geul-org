@@ -1,6 +1,6 @@
 ---
 title: "Mengapa Cache Penalaran sebagai Kode?"
-weight: 18
+weight: 19
 date: 2026-02-26T12:00:02+09:00
 lastmod: 2026-02-26T12:00:02+09:00
 tags: ["cache", "penalaran", "kode"]

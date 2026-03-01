@@ -1,6 +1,6 @@
 ---
 title: "Por Que a Memoria Estruturada e Necessaria?"
-weight: 17
+weight: 18
 date: 2026-02-26T12:00:05+09:00
 lastmod: 2026-02-26T12:00:05+09:00
 tags: ["memoria", "estrutura", "WMS"]

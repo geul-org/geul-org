@@ -498,7 +498,7 @@ main, .site-footer {
 .post-content h2 {
   font-size: 1.35rem;
   color: #1a1a1a;
-  margin: 2.5rem 0 1rem;
+  margin: 3.5rem 0 1.2rem;
   padding-bottom: 0.3rem;
   border-bottom: 1px solid #e5e5e5;
 }
@@ -506,13 +506,25 @@ main, .site-footer {
 .post-content h3 {
   font-size: 1.1rem;
   color: #333;
-  margin: 2rem 0 0.75rem;
+  margin: 3rem 0 1rem;
 }
 
 .post-content h4 {
   font-size: 1rem;
   color: #444;
-  margin: 1.5rem 0 0.5rem;
+  margin: 2.5rem 0 0.8rem;
+}
+
+.post-content h5 {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 2rem 0 0.6rem;
+}
+
+.post-content h6 {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 1.8rem 0 0.5rem;
 }
 
 .post-content p {

@@ -1,6 +1,6 @@
 ---
 title: "Warum Behauptungen, nicht Fakten?"
-weight: 14
+weight: 15
 date: 2026-02-26T12:00:06+09:00
 lastmod: 2026-02-26T12:00:06+09:00
 tags: ["Behauptungen", "Fakten", "Konfidenz"]

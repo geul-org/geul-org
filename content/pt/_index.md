@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:00+09:00
 summary: "GEUL é uma linguagem artificial semanticamente alinhada e um formato de fluxo binário projetado para comunicação inequívoca entre humanos e IA."
 ---
 
-# Por que GEUL
+## Por que GEUL
 
 ---
 

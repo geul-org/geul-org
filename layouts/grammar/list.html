@@ -1,0 +1,26 @@
+{{ define "main" }}
+{{ if .Parent.IsHome }}
+{{/* Root grammar section */}}
+<section class="hero">
+  <h1 class="hero-title">{{ if eq .Lang "ko" }}GEUL 문법 명세{{ else if eq .Lang "zh" }}GEUL 语法规范{{ else if eq .Lang "es" }}Especificación gramatical de GEUL{{ else if eq .Lang "ar" }}مواصفات قواعد GEUL{{ else if eq .Lang "pt" }}Especificação gramatical do GEUL{{ else if eq .Lang "id" }}Spesifikasi Tata Bahasa GEUL{{ else if eq .Lang "ru" }}Спецификация грамматики GEUL{{ else if eq .Lang "ja" }}GEUL 文法仕様{{ else if eq .Lang "fr" }}Spécification grammaticale de GEUL{{ else if eq .Lang "de" }}GEUL-Grammatikspezifikation{{ else if eq .Lang "he" }}מפרט דקדוק GEUL{{ else }}GEUL Grammar Specification{{ end }}</h1>
+  <p class="hero-sub">{{ if eq .Lang "ko" }}64비트 SIDX 기반 의미정렬 바이너리 스트림 포맷의 패킷 타입과 인코딩 규칙{{ else if eq .Lang "zh" }}基于64位SIDX的语义对齐二进制流格式的数据包类型与编码规则{{ else if eq .Lang "es" }}Tipos de paquetes y reglas de codificación del formato de flujo binario semánticamente alineado basado en SIDX de 64 bits{{ else if eq .Lang "ar" }}أنواع الحزم وقواعد الترميز لتنسيق التدفق الثنائي المحاذي دلالياً المبني على SIDX 64 بت{{ else if eq .Lang "pt" }}Tipos de pacotes e regras de codificação do formato de fluxo binário semanticamente alinhado baseado em SIDX de 64 bits{{ else if eq .Lang "id" }}Tipe paket dan aturan encoding format aliran biner yang selaras secara semantik berbasis SIDX 64-bit{{ else if eq .Lang "ru" }}Типы пакетов и правила кодирования семантически выровненного бинарного потокового формата на основе 64-битного SIDX{{ else if eq .Lang "ja" }}64ビットSIDXベースの意味整列バイナリストリームフォーマットのパケットタイプとエンコーディングルール{{ else if eq .Lang "fr" }}Types de paquets et règles d'encodage du format de flux binaire sémantiquement aligné basé sur le SIDX 64 bits{{ else if eq .Lang "de" }}Pakettypen und Kodierungsregeln des semantisch ausgerichteten Binärstreamformats auf Basis des 64-Bit-SIDX{{ else if eq .Lang "he" }}סוגי מנות וכללי קידוד של פורמט הזרימה הבינארית המיושרת סמנטית מבוססת SIDX 64 סיביות{{ else }}Packet types and encoding rules for the 64-bit SIDX-based semantically-aligned binary stream format{{ end }}</p>
+</section>
+
+<section class="content-wrap">
+  {{ range .Pages.ByWeight }}
+  <article class="post-item">
+    <div class="post-item-body">
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
+    </div>
+  </article>
+  {{ end }}
+</section>
+{{ else }}
+{{/* Nested section (e.g., verb-edge) — render content like single page */}}
+<div class="content-wrap">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+</div>
+{{ end }}
+{{ end }}

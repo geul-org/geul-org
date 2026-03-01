@@ -30,7 +30,7 @@
 {{ with .Section }}<meta property="article:section" content="{{ . }}">{{ end }}
 {{- end }}
 
-{{ if or (eq .Kind "taxonomy") (eq .Kind "term") }}<meta name="robots" content="noindex, follow">{{ end }}
+{{ if or (eq .Kind "taxonomy") (eq .Kind "term") (eq .Layout "languages") }}<meta name="robots" content="noindex, follow">{{ end }}
 
 <meta name="twitter:card" content="{{ if .Params.image }}summary_large_image{{ else }}summary{{ end }}">
 {{ with .Params.image }}<meta name="twitter:image" content="{{ . | absURL }}">{{ end }}

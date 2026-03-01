@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:00+09:00
 summary: "GEUL ist eine semantisch ausgerichtete künstliche Sprache und ein binäres Streamformat für eindeutige Kommunikation zwischen Menschen und KI."
 ---
 
-# Warum GEUL
+## Warum GEUL
 
 ---
 

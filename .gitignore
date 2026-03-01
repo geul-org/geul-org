@@ -6,3 +6,8 @@ deployments/terraform/.terraform.lock.hcl
 deployments/terraform/env/
 deployments/terraform/tfplan
 deployments/terraform/tfplan2
+
+.claude/
+CLAUDE.md
+
+draft/

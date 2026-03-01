@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:00+09:00
 summary: "GEUL is a semantically-aligned artificial language and binary stream format designed for unambiguous communication between humans and AI."
 ---
 
-# Why GEUL
+## Why GEUL
 
 ---
 

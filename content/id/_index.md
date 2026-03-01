@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:00+09:00
 summary: "GEUL adalah bahasa buatan yang diselaraskan secara semantik dan format aliran biner yang dirancang untuk komunikasi tanpa ambiguitas antara manusia dan AI."
 ---
 
-# Mengapa GEUL
+## Mengapa GEUL
 
 ---
 

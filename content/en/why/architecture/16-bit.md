@@ -1,6 +1,6 @@
 ---
 title: "Why 16-Bit?"
-weight: 16
+weight: 17
 date: 2026-02-26T12:00:04+09:00
 lastmod: 2026-02-26T12:00:04+09:00
 tags: ["16-bit", "binary", "stream"]

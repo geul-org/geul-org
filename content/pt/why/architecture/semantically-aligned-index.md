@@ -1,6 +1,6 @@
 ---
 title: "Por Que um Indice Semanticamente Alinhado?"
-weight: 15
+weight: 16
 date: 2026-02-26T12:00:03+09:00
 lastmod: 2026-02-26T12:00:03+09:00
 tags: ["SIDX", "alinhamento semantico", "indice"]

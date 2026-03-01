@@ -12,6 +12,54 @@
   }
 }
 </script>
+{{ else if .IsSection }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{{ .Title }}",
+  "url": "{{ .Permalink }}",
+  "description": "{{ with .Params.summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}",
+  "inLanguage": "{{ .Lang }}",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "{{ .Site.Title }}",
+    "url": "{{ .Site.BaseURL }}"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {{- $pos := 1 -}}
+    {
+      "@type": "ListItem",
+      "position": {{ $pos }},
+      "name": "Home",
+      "item": "{{ .Site.BaseURL }}"
+    }
+    {{- range .Ancestors.Reverse -}}
+    {{- if not .IsHome -}}
+    {{- $pos = add $pos 1 -}},
+    {
+      "@type": "ListItem",
+      "position": {{ $pos }},
+      "name": "{{ .Title }}",
+      "item": "{{ .Permalink }}"
+    }
+    {{- end -}}
+    {{- end -}}
+    {{- $pos = add $pos 1 -}},
+    {
+      "@type": "ListItem",
+      "position": {{ $pos }},
+      "name": "{{ .Title }}"
+    }
+  ]
+}
+</script>
 {{ else if .IsPage }}
 <script type="application/ld+json">
 {

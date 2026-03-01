@@ -20,10 +20,12 @@ geul-org/
 ├── content/{en,ko,zh,es,ar,pt,id,ru,ja,fr,de,he}/
 │   ├── _index.md                    # 홈
 │   ├── repos/                       # GitHub 저장소 목록
-│   └── why/                         # "왜?" 시리즈 (16글)
-│       ├── architecture/            # 아키텍처 (5글)
-│       ├── artificial-language/     # 인공언어 (6글)
-│       └── context-engineering/     # 컨텍스트 엔지니어링 (7글)
+│   ├── why/                         # "왜?" 시리즈 (21글)
+│   │   ├── context-engineering/     # 컨텍스트 엔지니어링 (7글)
+│   │   ├── artificial-language/     # 인공언어 (8글)
+│   │   └── architecture/            # 아키텍처 (6글)
+│   └── grammar/                     # 문법 명세 (12글)
+│       └── verb-edge/               # 동사 엣지 (2글)
 ├── layouts/                         # 외부 테마 없음
 │   ├── index.html                   # 홈
 │   ├── _default/{baseof,single,list,languages}.html
@@ -37,11 +39,95 @@ geul-org/
 └── public/                          # Hugo 출력 (.gitignore)
 ```
 
+## 콘텐츠 현황
+
+### Why 섹션 (21글, weight 순 = 목록 표시 순서)
+
+#### 컨텍스트 엔지니어링 (context-engineering/, 7글)
+
+| W | slug | 제목(ko) |
+|---|------|----------|
+| 1 | prompt-engineering-over | 왜 프롬프트 엔지니어링의 시대는 끝났는가 |
+| 2 | rag-not-enough | 왜 RAG로는 부족한가 |
+| 3 | clarification | 왜 명료화가 필요한가 |
+| 4 | mechanical-verification | 왜 기계적 검증이 필요한가 |
+| 5 | filter | 왜 필터가 필요한가 |
+| 6 | consistency-check | 왜 정합성 검사가 필요한가 |
+| 7 | exploration | 왜 탐색이 필요한가 |
+
+#### 인공언어 (artificial-language/, 8글)
+
+| W | slug | 제목(ko) |
+|---|------|----------|
+| 7 | artificial-language-needed | 왜 인공언어가 필요한가 |
+| 8 | natural-language-hallucination | 왜 자연어는 환각을 만드는가 |
+| 9 | not-md-json-xml | 왜 MD/JSON/XML로는 안 되는가 |
+| 10 | not-programming-language | 왜 프로그래밍 언어로는 부족한가 |
+| 11 | not-embedding-vector | 왜 임베딩 벡터로는 안 되는가 |
+| 12 | esperanto-failed | 왜 에스페란토는 실패했는가 |
+| 13 | wikidata | 왜 위키데이터인가 |
+| 14 | wordnet | 왜 워드넷인가 |
+
+#### 아키텍처 (architecture/, 6글)
+
+| W | slug | 제목(ko) |
+|---|------|----------|
+| 15 | claims-not-facts | 왜 사실이 아니라 주장인가 |
+| 16 | semantically-aligned-index | 왜 의미정렬 인덱스인가 |
+| 17 | 16-bit | 왜 16비트인가 |
+| 18 | structured-memory | 왜 구조화된 기억이 필요한가 |
+| 19 | cache-reasoning-as-code | 왜 추론을 코드로 캐시하는가 |
+| 20 | annotation-as-index | 왜 주석이 인덱스여야 하는가 |
+
+### Grammar 섹션 (12글)
+
+| W | slug | 제목(ko) |
+|---|------|----------|
+| 10 | verb-edge/_index | 동사 엣지 (카테고리) |
+| 10 | verb-edge/semantic-role | 참여자 역할 |
+| 20 | verb-edge/qualifier | 의미 한정자 |
+| 20 | entity-node | 엔티티 노드 |
+| 30 | triple-edge | 트리플 엣지 |
+| 40 | clause-edge | 절 엣지 |
+| 50 | event6-edge | 이벤트6 엣지 |
+| 60 | context-edge | 컨텍스트 엣지 |
+| 70 | quantity-node | 수량 노드 |
+| 80 | ast-edge | AST 엣지 |
+| 90 | group-edge | 그룹 엣지 |
+| 100 | stream-format | 스트림 포맷 |
+
+### Draft (미발행 초안)
+
+| 파일명 | 비고 |
+|--------|------|
+| why-must-reserved.md | 예약 영역 |
+
+발행 완료된 원본은 `draft/published/`에 보관.
+
+## 게시 절차
+
+사용자가 `draft/`에 초안을 올리면 아래 순서대로 실행한다. 계획 수립 불필요.
+
+1. **소스 읽기:** `draft/`에서 원본 확인, 카테고리·slug·weight 결정
+2. **한국어 원본 생성:** `content/ko/{section}/{category}/{slug}.md`
+   - front matter 작성 (title, weight, date, lastmod, tags, summary, author, authorLink, image)
+   - H1 제거(템플릿 자동), `##`부터 시작, 저자 서명·시리즈 라인 제거
+3. **11개 언어 번역:** `content/{en,zh,es,ar,pt,id,ru,ja,fr,de,he}/{section}/{category}/{slug}.md`
+   - 동일 slug, 동일 weight, 동일 front matter 구조
+   - 기술 용어(GEUL, LLVM IR, LLM 등) 영문 유지
+   - 문화적 예시 현지화 (인물, 인사말, 역사 출처)
+   - author: en/es/pt/id/fr/de="Junwoo Park", ko="박준우", zh/ja="朴俊宇", ar="جونو بارك", ru="Джунву Пак", he="ג'ונו פארק"
+4. **발행:** 원본을 `draft/published/`로 이동 후 `make publish` 실행
+   - `make publish` = deploy(빌드→S3→CF무효화→IndexNow) + sitemap-ping(GSC) + archive(Wayback)
+5. **커밋 & 푸시:** `git add` → `git commit` → `git push origin master`
+6. **CLAUDE.md 업데이트:** 콘텐츠 현황 표에 새 글 추가
+
 ## Front Matter
 
 ```yaml
 ---
 title: "Title"
+weight: 7
 date: 2026-02-26T12:00:00+09:00
 lastmod: 2026-02-26T12:00:00+09:00
 tags: ["tag1", "tag2"]
@@ -57,13 +143,16 @@ image: "/images/og-default.webp"
 Hugo 경로: `/home/parkjunwoo/bin/hugo`
 
 ```bash
-make serve     # hugo server -D
-make build     # hugo --minify → public/
-make clean     # rm -rf public/
-make deploy    # build + S3 sync + XML content-type fix + CF invalidation + IndexNow
+make serve        # hugo server -D
+make build        # hugo --minify → public/
+make clean        # rm -rf public/
+make deploy       # build + S3 sync + XML content-type fix + CF invalidation + IndexNow
+make sitemap-ping # Google Search Console 사이트맵 재제출
+make archive      # en sitemap URL → Wayback Machine 제출
+make publish      # deploy + sitemap-ping + archive 일괄 실행
 ```
 
-배포 시 `CF_DIST_ID=E2Z17ZOR6DJTRZ make deploy`
+`CF_DIST_ID`는 Makefile에 기본값 설정됨 (`E2Z17ZOR6DJTRZ`)
 
 ## AWS Deployment
 
@@ -84,7 +173,7 @@ Route53 (geul.org, www) → CloudFront (E2Z17ZOR6DJTRZ) → S3 (geul-org-public)
 
 ## IndexNow
 
-Makefile에 `INDEXNOW_KEY` 미설정 (TODO). 설정 후 `make deploy` 시 자동 제출.
+`make deploy` 시 자동 제출 (설정 완료).
 
 ## URL Convention
 
