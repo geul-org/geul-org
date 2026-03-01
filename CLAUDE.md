@@ -24,8 +24,9 @@ geul-org/
 │   │   ├── context-engineering/     # 컨텍스트 엔지니어링 (7글)
 │   │   ├── artificial-language/     # 인공언어 (8글)
 │   │   └── architecture/            # 아키텍처 (6글)
-│   └── grammar/                     # 문법 명세 (12글)
-│       └── verb-edge/               # 동사 엣지 (2글)
+│   ├── grammar/                     # 문법 명세 (12글)
+│   │   └── verb-edge/               # 동사 엣지 (2글)
+│   └── silk/                        # SILK 검색 아키텍처 (1글)
 ├── layouts/                         # 외부 테마 없음
 │   ├── index.html                   # 홈
 │   ├── _default/{baseof,single,list,languages}.html
@@ -41,7 +42,7 @@ geul-org/
 
 ## 콘텐츠 현황
 
-### Why 섹션 (21글, weight 순 = 목록 표시 순서)
+### Why 섹션 (22글, weight 순 = 목록 표시 순서)
 
 #### 컨텍스트 엔지니어링 (context-engineering/, 7글)
 
@@ -68,7 +69,7 @@ geul-org/
 | 13 | wikidata | 왜 위키데이터인가 |
 | 14 | wordnet | 왜 워드넷인가 |
 
-#### 아키텍처 (architecture/, 6글)
+#### 아키텍처 (architecture/, 7글)
 
 | W | slug | 제목(ko) |
 |---|------|----------|
@@ -78,6 +79,7 @@ geul-org/
 | 18 | structured-memory | 왜 구조화된 기억이 필요한가 |
 | 19 | cache-reasoning-as-code | 왜 추론을 코드로 캐시하는가 |
 | 20 | annotation-as-index | 왜 주석이 인덱스여야 하는가 |
+| 21 | must-reserved | 왜 비워둬야 하는가 |
 
 ### Grammar 섹션 (12글)
 
@@ -96,11 +98,15 @@ geul-org/
 | 90 | group-edge | 그룹 엣지 |
 | 100 | stream-format | 스트림 포맷 |
 
+### SILK 섹션 (1글)
+
+| slug | 제목(ko) |
+|------|----------|
+| _index | SILK — LLM 지식을 위한 심볼릭 인덱스 |
+
 ### Draft (미발행 초안)
 
-| 파일명 | 비고 |
-|--------|------|
-| why-must-reserved.md | 예약 영역 |
+현재 미발행 초안 없음.
 
 발행 완료된 원본은 `draft/published/`에 보관.
 
