@@ -1,17 +1,17 @@
 ---
 title: "מאגרים"
 date: 2026-02-28T12:00:00+09:00
-summary: "מאגרי GitHub המרכיבים את פרויקט GEUL. עיצוב שפה, צינור קידוד, מנוע חיפוש ואתר אינטרנט."
+summary: "מאגרי GitHub המרכיבים את פרויקט GEUL. מפרט שפה, ספרי קודים דקדוקיים, חיפוש, DSL ואתר אינטרנט."
 image: "/images/og-default.webp"
 ---
 
-פרויקט GEUL מורכב מארבעה מאגרים.
-
-לעצב את השפה (geul), לקודד את ישויות העולם ל-64 ביט (geul-sidx), לחפש על האינדקס הזה (silk), ולהסביר מדוע כל זה נחוץ (geul-org).
+כל המאגרים נמצאים בארגון [geul-org](https://github.com/geul-org) ב-GitHub.
 
 ---
 
-## geul
+## שפה
+
+### geul
 
 שפה מלאכותית מיושרת סמנטית ופורמט זרם בינארי לבינה מלאכותית.
 
@@ -19,27 +19,67 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul](https://github.com/park-jun-woo/geul) |
+| GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | שפה | Go, Python |
 | רישיון | MIT |
 
 ---
 
-## geul-sidx
+## דקדוק
 
-בנאי ספרי קודים וצינור קידוד עבור SIDX (אינדקס מיושר סמנטית).
+### geul-verb
 
-מקודד 108.8 מיליון ישויות Wikidata למזהים מובנים של 64 ביט. מגדיר 63 סוגי ישויות, מעצב סכמות תכונות של 48 ביט לכל סוג, בונה ספרי קודים ומאמת תוצאות קידוד (VALID). היצרן של האינדקסים וספרי הקודים ש-SILK צורך.
+ספר קודים של פעלים SIDX ב-16 ביט (מבוסס WordNet).
+
+ממפה סינסטים של פעלים מ-WordNet לקודים של 16 ביט לשימוש בחבילות GEUL Verb Edge. מספק את אוצר המילים של הפעלים שפורמט הזרם צורך.
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-sidx](https://github.com/park-jun-woo/geul-sidx) |
+| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| שפה | Python |
+| רישיון | MIT |
+
+### geul-entity
+
+ספר קודים של ישויות SIDX ב-48 ביט (מבוסס Wikidata).
+
+מקודד ישויות Wikidata למזהים מובנים של 48 ביט. מגדיר סוגי ישויות, מעצב סכמות תכונות לכל סוג, ובונה את ספרי הקודים ש-SILK צורך.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| שפה | Python |
+| רישיון | MIT |
+
+### geul-quantities
+
+ספר קודים של צמתי כמות.
+
+מגדיר את סכמת הקידוד לערכי כמות — מספרים עם יחידות, טווחים ודיוק — המשמשים בחבילות GEUL Quantity Node.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-quantities](https://github.com/geul-org/geul-quantities) |
+| שפה | Python |
+| רישיון | MIT |
+
+### geul-ast
+
+ספר קודים של קשתות AST.
+
+מגדיר את סכמת הקידוד לקשתות עץ תחביר מופשט, ומאפשר ייצוג קוד מובנה בתוך פורמט הזרם של GEUL.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-ast](https://github.com/geul-org/geul-ast) |
 | שפה | Python |
 | רישיון | MIT |
 
 ---
 
-## silk
+## חיפוש
+
+### silk
 
 SILK (Symbolic Index for LLM Knowledge) — ארכיטקטורת חיפוש נוירו-סמלית.
 
@@ -47,13 +87,31 @@ SILK (Symbolic Index for LLM Knowledge) — ארכיטקטורת חיפוש נו
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/silk](https://github.com/park-jun-woo/silk) |
+| GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | שפה | Python |
 | רישיון | MIT |
 
 ---
 
-## geul-org
+## DSL
+
+### ssac
+
+Service Sequences as Code — מפרסר לוגיקת שירות הצהרתית מהערות Go ומייצר קוד מימוש ב-Go דרך CLI.
+
+מגדיר זרימות שירות כהערות מובנות בקבצי מקור Go. ה-CLI קורא הצהרות אלה ומייצר את קוד המימוש המתאים, ומבטל קוד תבניתי תוך שמירה על קריאות הלוגיקה ובקרת גרסאות.
+
+| | |
+|---|---|
+| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
+| שפה | Go |
+| רישיון | MIT |
+
+---
+
+## אתר
+
+### geul-org
 
 קוד המקור של אתר זה.
 
@@ -61,6 +119,6 @@ SILK (Symbolic Index for LLM Knowledge) — ארכיטקטורת חיפוש נו
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-org](https://github.com/park-jun-woo/geul-org) |
+| GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | שפה | Hugo (Go Templates), CSS |
 | רישיון | MIT |

@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 Pesquisa com inteiros de 64 bits. Nao requer vector DB, grafos ANN nem modelos de embedding.
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">Repositorio no GitHub</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">Repositorio no GitHub</a>
 
 ## Proposicao central
 
@@ -236,4 +236,4 @@ VALID como guardiao: alucinacoes fora dos valores validos do codebook fisicament
 
 ## Licenca
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub</a>

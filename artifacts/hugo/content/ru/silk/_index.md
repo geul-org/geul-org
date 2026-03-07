@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 Поиск на 64-битных целых числах. Не нужны векторная БД, ANN-граф или модель эмбеддингов.
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">Репозиторий GitHub</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">Репозиторий GitHub</a>
 
 ## Ключевой тезис
 
@@ -237,4 +237,4 @@ VALID — привратник: галлюцинации за пределами
 
 ## Лицензия
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">Репозиторий GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">Репозиторий GitHub</a>

@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 64ビット整数で検索する。ベクトルDB、ANNグラフ、埋め込みモデルは不要。
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHubリポジトリ</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHubリポジトリ</a>
 
 ## 核心命題
 
@@ -233,4 +233,4 @@ VALIDが門番：コードブック有効値の外の幻覚は物理的にイン
 
 ## ライセンス
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub</a>

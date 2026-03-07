@@ -1,17 +1,17 @@
 ---
 title: "Repositori"
 date: 2026-02-28T12:00:00+09:00
-summary: "Repositori GitHub yang membentuk proyek GEUL. Desain bahasa, pipeline encoding, mesin pencari, dan situs web."
+summary: "Repositori GitHub yang membentuk proyek GEUL. Spesifikasi bahasa, buku kode tata bahasa, pencarian, DSL, dan situs web."
 image: "/images/og-default.webp"
 ---
 
-Proyek GEUL terdiri dari empat repositori.
-
-Mendesain bahasa (geul), mengkodekan entitas dunia ke dalam 64 bit (geul-sidx), mencari di atas indeks tersebut (silk), dan menjelaskan mengapa semua ini diperlukan (geul-org).
+Semua repositori berada di organisasi [geul-org](https://github.com/geul-org) GitHub.
 
 ---
 
-## geul
+## Bahasa
+
+### geul
 
 Bahasa buatan yang selaras secara semantik dan format aliran biner untuk AI.
 
@@ -19,27 +19,67 @@ Sistem bahasa 2 byte (65.536 simbol) yang dirancang untuk komunikasi tanpa ambig
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul](https://github.com/park-jun-woo/geul) |
+| GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | Bahasa | Go, Python |
 | Lisensi | MIT |
 
 ---
 
-## geul-sidx
+## Tata Bahasa
 
-Pembangun buku kode dan pipeline encoding SIDX (Semantic-aligned Index).
+### geul-verb
 
-Mengkodekan 108,8 juta entitas Wikidata menjadi pengenal terstruktur 64 bit. Mendefinisikan 63 jenis entitas, mendesain skema atribut 48 bit per jenis, membangun buku kode, dan memvalidasi hasil encoding (VALID). Produsen indeks dan buku kode yang dikonsumsi oleh SILK.
+Buku kode kata kerja SIDX 16 bit (berbasis WordNet).
+
+Memetakan synset kata kerja WordNet ke kode 16 bit untuk digunakan dalam paket GEUL Verb Edge. Menyediakan kosakata kata kerja yang dikonsumsi format aliran.
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-sidx](https://github.com/park-jun-woo/geul-sidx) |
+| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| Bahasa | Python |
+| Lisensi | MIT |
+
+### geul-entity
+
+Buku kode entitas SIDX 48 bit (berbasis Wikidata).
+
+Mengkodekan entitas Wikidata menjadi pengenal terstruktur 48 bit. Mendefinisikan jenis entitas, mendesain skema atribut per jenis, dan membangun buku kode yang dikonsumsi oleh SILK.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| Bahasa | Python |
+| Lisensi | MIT |
+
+### geul-quantities
+
+Buku kode node kuantitas.
+
+Mendefinisikan skema encoding untuk nilai kuantitas — angka dengan satuan, rentang, dan presisi — yang digunakan dalam paket GEUL Quantity Node.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-quantities](https://github.com/geul-org/geul-quantities) |
+| Bahasa | Python |
+| Lisensi | MIT |
+
+### geul-ast
+
+Buku kode edge AST.
+
+Mendefinisikan skema encoding untuk edge pohon sintaksis abstrak, memungkinkan representasi kode terstruktur dalam format aliran GEUL.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-ast](https://github.com/geul-org/geul-ast) |
 | Bahasa | Python |
 | Lisensi | MIT |
 
 ---
 
-## silk
+## Pencarian
+
+### silk
 
 SILK (Symbolic Index for LLM Knowledge) — arsitektur pencarian neuro-simbolik.
 
@@ -47,13 +87,31 @@ Mencari dengan bilangan bulat 64 bit. Tidak memerlukan database vektor, graf ANN
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/silk](https://github.com/park-jun-woo/silk) |
+| GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | Bahasa | Python |
 | Lisensi | MIT |
 
 ---
 
-## geul-org
+## DSL
+
+### ssac
+
+Service Sequences as Code — mem-parsing logika layanan deklaratif dari komentar Go dan menghasilkan kode implementasi Go melalui CLI.
+
+Mendefinisikan alur layanan sebagai komentar terstruktur dalam file sumber Go. CLI membaca deklarasi ini dan menghasilkan kode implementasi yang sesuai, menghilangkan boilerplate sambil menjaga logika tetap terbaca dan terkontrol versinya.
+
+| | |
+|---|---|
+| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
+| Bahasa | Go |
+| Lisensi | MIT |
+
+---
+
+## Situs Web
+
+### geul-org
 
 Kode sumber situs web ini.
 
@@ -61,6 +119,6 @@ Generator situs statis Hugo yang mendukung 12 bahasa. Di-deploy melalui S3 + Clo
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-org](https://github.com/park-jun-woo/geul-org) |
+| GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | Bahasa | Hugo (Go Templates), CSS |
 | Lisensi | MIT |
