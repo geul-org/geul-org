@@ -1,13 +1,19 @@
-public/
-resources/
-.hugo_build.lock
-deployments/terraform/.terraform/
-deployments/terraform/.terraform.lock.hcl
-deployments/terraform/env/
-deployments/terraform/tfplan
-deployments/terraform/tfplan2
+# Hugo
+artifacts/hugo/public/
+artifacts/hugo/resources/
+artifacts/hugo/.hugo_build.lock
 
+# Terraform
+artifacts/terraform/.terraform/
+artifacts/terraform/.terraform.lock.hcl
+artifacts/terraform/env/
+artifacts/terraform/tfplan
+artifacts/terraform/tfplan*
+
+# Claude
 .claude/
 CLAUDE.md
 
-draft/
+# Draft
+files/
+specs/
