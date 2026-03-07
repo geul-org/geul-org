@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 用64位整数检索。不需要向量数据库、ANN图、嵌入模型。
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub 仓库</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub 仓库</a>
 
 ## 核心命题
 
@@ -231,4 +231,4 @@ VALID是守门人：码本有效值之外的幻觉在物理上无法进入索引
 
 ## 许可证
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub</a>

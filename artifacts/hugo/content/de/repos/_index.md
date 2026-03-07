@@ -1,17 +1,17 @@
 ---
 title: "Repositories"
 date: 2026-02-28T12:00:00+09:00
-summary: "GitHub-Repositories des GEUL-Projekts. Sprachdesign, Encoding-Pipeline, Suchmaschine und Website."
+summary: "GitHub-Repositories des GEUL-Projekts. Sprachspezifikation, Grammatik-Codebücher, Suche, DSL und Website."
 image: "/images/og-default.webp"
 ---
 
-Das GEUL-Projekt besteht aus vier Repositories.
-
-Die Sprache entwerfen (geul), die Entitäten der Welt in 64 Bit kodieren (geul-sidx), über diesem Index suchen (silk) und erklären, warum all das notwendig ist (geul-org).
+Alle Repositories befinden sich in der [geul-org](https://github.com/geul-org) GitHub-Organisation.
 
 ---
 
-## geul
+## Sprache
+
+### geul
 
 Eine semantisch ausgerichtete künstliche Sprache und ein binäres Streamformat für KI.
 
@@ -19,27 +19,67 @@ Ein 2-Byte-Sprachsystem (65.536 Symbole), das für eindeutige Kommunikation zwis
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul](https://github.com/park-jun-woo/geul) |
+| GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | Sprache | Go, Python |
 | Lizenz | MIT |
 
 ---
 
-## geul-sidx
+## Grammatik
 
-SIDX (Semantic-aligned Index) Codebuch-Builder und Encoding-Pipeline.
+### geul-verb
 
-Kodiert 108,8 Millionen Wikidata-Entitäten in 64-Bit-strukturierte Bezeichner. Definiert 63 Entitätstypen, entwirft 48-Bit-Attributschemata pro Typ, baut Codebücher und validiert die Encoding-Ergebnisse (VALID). Der Produzent der Indizes und Codebücher, die SILK konsumiert.
+Verb-SIDX-16-Bit-Codebuch (WordNet-basiert).
+
+Ordnet WordNet-Verb-Synsets 16-Bit-Codes zu, die in GEUL-Verb-Edge-Paketen verwendet werden. Stellt das Verbvokabular bereit, das das Streamformat konsumiert.
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-sidx](https://github.com/park-jun-woo/geul-sidx) |
+| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| Sprache | Python |
+| Lizenz | MIT |
+
+### geul-entity
+
+Entitäts-SIDX-48-Bit-Codebuch (Wikidata-basiert).
+
+Kodiert Wikidata-Entitäten in 48-Bit-strukturierte Bezeichner. Definiert Entitätstypen, entwirft Attributschemata pro Typ und baut die Codebücher, die SILK konsumiert.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| Sprache | Python |
+| Lizenz | MIT |
+
+### geul-quantities
+
+Mengenknoten-Codebuch.
+
+Definiert das Kodierungsschema für Mengenwerte — Zahlen mit Einheiten, Bereiche und Genauigkeit — die in GEUL-Quantity-Node-Paketen verwendet werden.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-quantities](https://github.com/geul-org/geul-quantities) |
+| Sprache | Python |
+| Lizenz | MIT |
+
+### geul-ast
+
+AST-Edge-Codebuch.
+
+Definiert das Kodierungsschema für Kanten abstrakter Syntaxbäume und ermöglicht strukturierte Codedarstellung innerhalb des GEUL-Streamformats.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-ast](https://github.com/geul-org/geul-ast) |
 | Sprache | Python |
 | Lizenz | MIT |
 
 ---
 
-## silk
+## Suche
+
+### silk
 
 SILK (Symbolic Index for LLM Knowledge) — eine neuro-symbolische Sucharchitektur.
 
@@ -47,13 +87,31 @@ Sucht mit 64-Bit-Ganzzahlen. Keine Vektordatenbank, kein ANN-Graph, kein Embeddi
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/silk](https://github.com/park-jun-woo/silk) |
+| GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | Sprache | Python |
 | Lizenz | MIT |
 
 ---
 
-## geul-org
+## DSL
+
+### ssac
+
+Service Sequences as Code — parst deklarative Servicelogik aus Go-Kommentaren und generiert Go-Implementierungscode via CLI.
+
+Definiert Service-Abläufe als strukturierte Kommentare in Go-Quelldateien. Das CLI liest diese Deklarationen und generiert den entsprechenden Implementierungscode, wodurch Boilerplate eliminiert wird, während die Logik lesbar und versionskontrolliert bleibt.
+
+| | |
+|---|---|
+| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
+| Sprache | Go |
+| Lizenz | MIT |
+
+---
+
+## Website
+
+### geul-org
 
 Der Quellcode dieser Website.
 
@@ -61,6 +119,6 @@ Ein Hugo-Generator für statische Websites mit Unterstützung für 12 Sprachen. 
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-org](https://github.com/park-jun-woo/geul-org) |
+| GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | Sprache | Hugo (Go Templates), CSS |
 | Lizenz | MIT |

@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 يبحث بأعداد صحيحة 64 بت. لا حاجة لقاعدة بيانات متجهية، ولا رسم بياني ANN، ولا نموذج تضمين.
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">مستودع GitHub</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">مستودع GitHub</a>
 
 ## القضية الجوهرية
 
@@ -231,4 +231,4 @@ VALID هو الحارس: الهلوسات خارج القيم الصالحة ل�
 
 ## الرخصة
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">مستودع GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">مستودع GitHub</a>

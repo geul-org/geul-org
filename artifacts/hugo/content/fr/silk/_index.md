@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 Recherche par entiers 64 bits. Ni vector DB, ni graphes ANN, ni modeles d'embedding.
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">Depot GitHub</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">Depot GitHub</a>
 
 ## Proposition centrale
 
@@ -237,4 +237,4 @@ VALID comme gardien : les hallucinations hors valeurs valides du codebook ne peu
 
 ## Licence
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub</a>

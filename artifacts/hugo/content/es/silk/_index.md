@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 Busca con enteros de 64 bits. No requiere vector DB, grafos ANN ni modelos de embedding.
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">Repositorio en GitHub</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">Repositorio en GitHub</a>
 
 ## Proposicion central
 
@@ -236,4 +236,4 @@ VALID como guardian: alucinaciones fuera de valores validos del codebook fisicam
 
 ## Licencia
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub</a>

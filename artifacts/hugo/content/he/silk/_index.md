@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 מחפש באמצעות מספרים שלמים של 64 סיביות. אין צורך במסד נתונים וקטורי, גרף ANN או מודל הטמעה.
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">מאגר GitHub</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">מאגר GitHub</a>
 
 ## הטענה המרכזית
 
@@ -231,4 +231,4 @@ VALID הוא שומר הסף: הזיות מחוץ לערכים החוקיים ב
 
 ## רישיון
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">מאגר GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">מאגר GitHub</a>

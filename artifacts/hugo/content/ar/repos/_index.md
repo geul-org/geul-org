@@ -1,17 +1,17 @@
 ---
 title: "المستودعات"
 date: 2026-02-28T12:00:00+09:00
-summary: "مستودعات GitHub التي يتكون منها مشروع GEUL. تصميم اللغة، خط أنابيب الترميز، محرك البحث، والموقع الإلكتروني."
+summary: "مستودعات GitHub التي يتكون منها مشروع GEUL. مواصفات اللغة، دفاتر شفرات القواعد، البحث، DSL والموقع الإلكتروني."
 image: "/images/og-default.webp"
 ---
 
-يتكون مشروع GEUL من أربعة مستودعات.
-
-تصميم اللغة (geul)، وترميز كيانات العالم في 64 بت (geul-sidx)، والبحث في ذلك الفهرس (silk)، وشرح لماذا كل هذا ضروري (geul-org).
+جميع المستودعات موجودة في منظمة [geul-org](https://github.com/geul-org) على GitHub.
 
 ---
 
-## geul
+## اللغة
+
+### geul
 
 لغة اصطناعية محاذاة دلالياً وتنسيق تدفق ثنائي للذكاء الاصطناعي.
 
@@ -19,27 +19,67 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul](https://github.com/park-jun-woo/geul) |
+| GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | اللغة | Go, Python |
 | الرخصة | MIT |
 
 ---
 
-## geul-sidx
+## القواعد
 
-منشئ دفاتر الشفرات وخط أنابيب الترميز لـ SIDX (الفهرس المحاذى دلالياً).
+### geul-verb
 
-يرمّز 108.8 مليون كيان من ويكي بيانات إلى معرّفات مهيكلة من 64 بت. يحدد 63 نوعاً من الكيانات، ويصمم مخططات سمات من 48 بت لكل نوع، ويبني دفاتر الشفرات، ويتحقق من نتائج الترميز (VALID). هو المنتج للفهارس ودفاتر الشفرات التي يستهلكها SILK.
+دفتر شفرات الأفعال SIDX بـ 16 بت (مبني على WordNet).
+
+يربط مجموعات مترادفات أفعال WordNet بأكواد 16 بت للاستخدام في حزم GEUL Verb Edge. يوفر مفردات الأفعال التي يستهلكها تنسيق التدفق.
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-sidx](https://github.com/park-jun-woo/geul-sidx) |
+| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| اللغة | Python |
+| الرخصة | MIT |
+
+### geul-entity
+
+دفتر شفرات الكيانات SIDX بـ 48 بت (مبني على Wikidata).
+
+يرمّز كيانات Wikidata إلى معرّفات مهيكلة من 48 بت. يحدد أنواع الكيانات، ويصمم مخططات سمات لكل نوع، ويبني دفاتر الشفرات التي يستهلكها SILK.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| اللغة | Python |
+| الرخصة | MIT |
+
+### geul-quantities
+
+دفتر شفرات عقد الكميات.
+
+يحدد مخطط ترميز قيم الكميات — أرقام بوحدات ونطاقات ودقة — المستخدمة في حزم GEUL Quantity Node.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-quantities](https://github.com/geul-org/geul-quantities) |
+| اللغة | Python |
+| الرخصة | MIT |
+
+### geul-ast
+
+دفتر شفرات حواف AST.
+
+يحدد مخطط ترميز حواف شجرة البنية التجريدية، مما يتيح تمثيل الشفرة المهيكلة داخل تنسيق تدفق GEUL.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-ast](https://github.com/geul-org/geul-ast) |
 | اللغة | Python |
 | الرخصة | MIT |
 
 ---
 
-## silk
+## البحث
+
+### silk
 
 SILK (Symbolic Index for LLM Knowledge) — بنية بحث عصبية-رمزية.
 
@@ -47,13 +87,31 @@ SILK (Symbolic Index for LLM Knowledge) — بنية بحث عصبية-رمزي�
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/silk](https://github.com/park-jun-woo/silk) |
+| GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | اللغة | Python |
 | الرخصة | MIT |
 
 ---
 
-## geul-org
+## DSL
+
+### ssac
+
+Service Sequences as Code — يحلل منطق الخدمة التصريحي من تعليقات Go ويولّد شفرة التنفيذ بلغة Go عبر CLI.
+
+يعرّف تدفقات الخدمة كتعليقات منظمة في ملفات Go المصدرية. يقرأ CLI هذه التصريحات ويولّد شفرة التنفيذ المقابلة، مما يزيل الشفرة النمطية مع الحفاظ على قابلية القراءة والتحكم بالإصدارات.
+
+| | |
+|---|---|
+| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
+| اللغة | Go |
+| الرخصة | MIT |
+
+---
+
+## الموقع
+
+### geul-org
 
 الكود المصدري لهذا الموقع.
 
@@ -61,6 +119,6 @@ SILK (Symbolic Index for LLM Knowledge) — بنية بحث عصبية-رمزي�
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-org](https://github.com/park-jun-woo/geul-org) |
+| GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | اللغة | Hugo (Go Templates), CSS |
 | الرخصة | MIT |

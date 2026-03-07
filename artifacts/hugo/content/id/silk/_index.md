@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 Mencari dengan bilangan bulat 64-bit. Tidak memerlukan vector DB, graf ANN, maupun model embedding.
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">Repositori GitHub</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">Repositori GitHub</a>
 
 ## Tesis Utama
 
@@ -235,4 +235,4 @@ VALID adalah penjaga gerbang: halusinasi di luar nilai valid codebook secara fis
 
 ## Lisensi
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">Repositori GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">Repositori GitHub</a>

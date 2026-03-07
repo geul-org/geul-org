@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 Suche mit 64-Bit-Ganzzahlen. Keine Vector DB, keine ANN-Graphen, keine Embedding-Modelle.
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub-Repository</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub-Repository</a>
 
 ## Kernthese
 
@@ -236,4 +236,4 @@ VALID als Waechter: Halluzinationen ausserhalb gueltiger Codebook-Werte koennen 
 
 ## Lizenz
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub</a>

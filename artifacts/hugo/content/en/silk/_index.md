@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 Searches with 64-bit integers. No vector DB, no ANN graphs, no embedding models.
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub Repository</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub Repository</a>
 
 ## Core Thesis
 
@@ -231,4 +231,4 @@ VALID is the gatekeeper: hallucinations outside codebook values physically canno
 
 ## License
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub</a>

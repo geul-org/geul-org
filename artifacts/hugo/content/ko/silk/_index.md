@@ -13,7 +13,7 @@ image: "/images/og-default.webp"
 
 64비트 정수로 검색한다. 벡터 DB, ANN 그래프, 임베딩 모델이 필요 없다.
 
-<a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub 저장소</a>
+<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub 저장소</a>
 
 ## 핵심 명제
 
@@ -231,4 +231,4 @@ VALID이 문지기: 코드북 유효값 바깥의 환각은 물리적으로 인�
 
 ## 라이선스
 
-MIT — <a href="https://github.com/park-jun-woo/silk" target="_blank" rel="noopener">GitHub</a>
+MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub</a>

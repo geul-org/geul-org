@@ -1,17 +1,17 @@
 ---
 title: "Репозитории"
 date: 2026-02-28T12:00:00+09:00
-summary: "Репозитории GitHub, составляющие проект GEUL. Проектирование языка, конвейер кодирования, поисковый движок и веб-сайт."
+summary: "Репозитории GitHub, составляющие проект GEUL. Спецификация языка, кодовые книги грамматики, поиск, DSL и веб-сайт."
 image: "/images/og-default.webp"
 ---
 
-Проект GEUL состоит из четырёх репозиториев.
-
-Спроектировать язык (geul), закодировать сущности мира в 64 бита (geul-sidx), искать по этому индексу (silk) и объяснить, зачем всё это нужно (geul-org).
+Все репозитории находятся в организации [geul-org](https://github.com/geul-org) на GitHub.
 
 ---
 
-## geul
+## Язык
+
+### geul
 
 Семантически выровненный искусственный язык и формат бинарного потока для ИИ.
 
@@ -19,27 +19,67 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul](https://github.com/park-jun-woo/geul) |
+| GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | Язык | Go, Python |
 | Лицензия | MIT |
 
 ---
 
-## geul-sidx
+## Грамматика
 
-Сборщик кодовых книг и конвейер кодирования SIDX (Semantic-aligned Index).
+### geul-verb
 
-Кодирует 108,8 млн сущностей Wikidata в 64-битные структурированные идентификаторы. Определяет 63 типа сущностей, проектирует 48-битные схемы атрибутов для каждого типа, строит кодовые книги и валидирует результаты кодирования (VALID). Производитель индексов и кодовых книг, которые потребляет SILK.
+Кодовая книга глаголов SIDX 16 бит (на основе WordNet).
+
+Сопоставляет синсеты глаголов WordNet с 16-битными кодами для использования в пакетах GEUL Verb Edge. Предоставляет глагольный словарь, потребляемый форматом потока.
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-sidx](https://github.com/park-jun-woo/geul-sidx) |
+| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| Язык | Python |
+| Лицензия | MIT |
+
+### geul-entity
+
+Кодовая книга сущностей SIDX 48 бит (на основе Wikidata).
+
+Кодирует сущности Wikidata в 48-битные структурированные идентификаторы. Определяет типы сущностей, проектирует схемы атрибутов для каждого типа и строит кодовые книги, которые потребляет SILK.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| Язык | Python |
+| Лицензия | MIT |
+
+### geul-quantities
+
+Кодовая книга узлов количества.
+
+Определяет схему кодирования для значений количества — чисел с единицами измерения, диапазонов и точности — используемых в пакетах GEUL Quantity Node.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-quantities](https://github.com/geul-org/geul-quantities) |
+| Язык | Python |
+| Лицензия | MIT |
+
+### geul-ast
+
+Кодовая книга рёбер AST.
+
+Определяет схему кодирования для рёбер абстрактного синтаксического дерева, обеспечивая структурированное представление кода в формате потока GEUL.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-ast](https://github.com/geul-org/geul-ast) |
 | Язык | Python |
 | Лицензия | MIT |
 
 ---
 
-## silk
+## Поиск
+
+### silk
 
 SILK (Symbolic Index for LLM Knowledge) — нейро-символическая поисковая архитектура.
 
@@ -47,13 +87,31 @@ SILK (Symbolic Index for LLM Knowledge) — нейро-символическа�
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/silk](https://github.com/park-jun-woo/silk) |
+| GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | Язык | Python |
 | Лицензия | MIT |
 
 ---
 
-## geul-org
+## DSL
+
+### ssac
+
+Service Sequences as Code — парсит декларативную логику сервисов из комментариев Go и генерирует код реализации на Go через CLI.
+
+Определяет потоки сервисов как структурированные комментарии в исходных файлах Go. CLI читает эти объявления и генерирует соответствующий код реализации, устраняя шаблонный код при сохранении читаемости логики и контроля версий.
+
+| | |
+|---|---|
+| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
+| Язык | Go |
+| Лицензия | MIT |
+
+---
+
+## Сайт
+
+### geul-org
 
 Исходный код этого сайта.
 
@@ -61,6 +119,6 @@ SILK (Symbolic Index for LLM Knowledge) — нейро-символическа�
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-org](https://github.com/park-jun-woo/geul-org) |
+| GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | Язык | Hugo (Go Templates), CSS |
 | Лицензия | MIT |

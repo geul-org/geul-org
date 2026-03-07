@@ -1,17 +1,17 @@
 ---
 title: "Dépôts"
 date: 2026-02-28T12:00:00+09:00
-summary: "Les dépôts GitHub qui composent le projet GEUL. Conception du langage, pipeline d'encodage, moteur de recherche et site web."
+summary: "Les dépôts GitHub qui composent le projet GEUL. Spécification du langage, livres de codes grammaticaux, recherche, DSL et site web."
 image: "/images/og-default.webp"
 ---
 
-Le projet GEUL se compose de quatre dépôts.
-
-Concevoir le langage (geul), encoder les entités du monde en 64 bits (geul-sidx), rechercher dans cet index (silk), et expliquer pourquoi tout cela est nécessaire (geul-org).
+Tous les dépôts se trouvent dans l'organisation [geul-org](https://github.com/geul-org) sur GitHub.
 
 ---
 
-## geul
+## Langage
+
+### geul
 
 Un langage artificiel sémantiquement aligné et un format de flux binaire pour l'IA.
 
@@ -19,27 +19,67 @@ Un système linguistique de 2 octets (65 536 symboles) conçu pour une communica
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul](https://github.com/park-jun-woo/geul) |
+| GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | Langage | Go, Python |
 | Licence | MIT |
 
 ---
 
-## geul-sidx
+## Grammaire
 
-Constructeur de livres de codes et pipeline d'encodage SIDX (Semantic-aligned Index).
+### geul-verb
 
-Encode 108,8 millions d'entités Wikidata en identifiants structurés de 64 bits. Définit 63 types d'entités, conçoit des schémas d'attributs de 48 bits par type, construit des livres de codes et valide les résultats d'encodage (VALID). Le producteur des index et livres de codes consommés par SILK.
+Livre de codes des verbes SIDX 16 bits (basé sur WordNet).
+
+Associe les synsets de verbes WordNet à des codes de 16 bits pour utilisation dans les paquets GEUL Verb Edge. Fournit le vocabulaire verbal consommé par le format de flux.
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-sidx](https://github.com/park-jun-woo/geul-sidx) |
+| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| Langage | Python |
+| Licence | MIT |
+
+### geul-entity
+
+Livre de codes des entités SIDX 48 bits (basé sur Wikidata).
+
+Encode les entités Wikidata en identifiants structurés de 48 bits. Définit les types d'entités, conçoit des schémas d'attributs par type et construit les livres de codes consommés par SILK.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| Langage | Python |
+| Licence | MIT |
+
+### geul-quantities
+
+Livre de codes des nœuds de quantité.
+
+Définit le schéma d'encodage pour les valeurs de quantité — nombres avec unités, intervalles et précision — utilisés dans les paquets GEUL Quantity Node.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-quantities](https://github.com/geul-org/geul-quantities) |
+| Langage | Python |
+| Licence | MIT |
+
+### geul-ast
+
+Livre de codes des arêtes AST.
+
+Définit le schéma d'encodage pour les arêtes d'arbres de syntaxe abstraite, permettant la représentation structurée de code au sein du format de flux GEUL.
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-ast](https://github.com/geul-org/geul-ast) |
 | Langage | Python |
 | Licence | MIT |
 
 ---
 
-## silk
+## Recherche
+
+### silk
 
 SILK (Symbolic Index for LLM Knowledge) — une architecture de recherche neuro-symbolique.
 
@@ -47,13 +87,31 @@ Recherche avec des entiers de 64 bits. Pas besoin de base de données vectoriell
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/silk](https://github.com/park-jun-woo/silk) |
+| GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | Langage | Python |
 | Licence | MIT |
 
 ---
 
-## geul-org
+## DSL
+
+### ssac
+
+Service Sequences as Code — analyse la logique de service déclarative dans les commentaires Go et génère le code d'implémentation Go via CLI.
+
+Définit les flux de service comme des commentaires structurés dans les fichiers source Go. Le CLI lit ces déclarations et génère le code d'implémentation correspondant, éliminant le code répétitif tout en gardant la logique lisible et sous contrôle de version.
+
+| | |
+|---|---|
+| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
+| Langage | Go |
+| Licence | MIT |
+
+---
+
+## Site web
+
+### geul-org
 
 Le code source de ce site web.
 
@@ -61,6 +119,6 @@ Un générateur de sites statiques Hugo prenant en charge 12 langues. Déployé 
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-org](https://github.com/park-jun-woo/geul-org) |
+| GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | Langage | Hugo (Go Templates), CSS |
 | Licence | MIT |

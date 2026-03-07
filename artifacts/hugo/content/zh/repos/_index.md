@@ -1,17 +1,17 @@
 ---
 title: "代码仓库"
 date: 2026-02-28T12:00:00+09:00
-summary: "构成GEUL项目的GitHub仓库列表。语言设计、编码管线、搜索引擎与网站。"
+summary: "构成GEUL项目的GitHub仓库列表。语言规范、文法码本、搜索、DSL与网站。"
 image: "/images/og-default.webp"
 ---
 
-GEUL项目由四个仓库组成。
-
-设计语言（geul），将世界的实体编码为64位（geul-sidx），在该索引上进行搜索（silk），并解释为什么这一切是必要的（geul-org）。
+所有仓库均位于[geul-org](https://github.com/geul-org) GitHub组织下。
 
 ---
 
-## geul
+## 语言
+
+### geul
 
 面向AI的语义对齐人工语言与二进制流格式。
 
@@ -19,27 +19,67 @@ GEUL项目由四个仓库组成。
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul](https://github.com/park-jun-woo/geul) |
+| GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | 语言 | Go, Python |
 | 许可证 | MIT |
 
 ---
 
-## geul-sidx
+## 文法
 
-SIDX（语义对齐索引）码本构建器与编码管线。
+### geul-verb
 
-将1.088亿个Wikidata实体编码为64位结构化标识符。定义63种实体类型，设计每种类型的48位属性模式，构建码本，并验证编码结果（VALID）。是SILK所使用的索引和码本的生产者。
+动词SIDX 16位码本（基于WordNet）。
+
+将WordNet动词同义词集映射为16位代码，用于GEUL Verb Edge数据包。提供流格式所使用的动词词汇。
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-sidx](https://github.com/park-jun-woo/geul-sidx) |
+| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| 语言 | Python |
+| 许可证 | MIT |
+
+### geul-entity
+
+实体SIDX 48位码本（基于Wikidata）。
+
+将Wikidata实体编码为48位结构化标识符。定义实体类型，设计每种类型的属性模式，并构建SILK所使用的码本。
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| 语言 | Python |
+| 许可证 | MIT |
+
+### geul-quantities
+
+数量节点码本。
+
+定义GEUL Quantity Node数据包中使用的数量值编码方案——带单位的数字、范围和精度。
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-quantities](https://github.com/geul-org/geul-quantities) |
+| 语言 | Python |
+| 许可证 | MIT |
+
+### geul-ast
+
+AST边码本。
+
+定义抽象语法树边的编码方案，使GEUL流格式内的结构化代码表示成为可能。
+
+| | |
+|---|---|
+| GitHub | [geul-org/geul-ast](https://github.com/geul-org/geul-ast) |
 | 语言 | Python |
 | 许可证 | MIT |
 
 ---
 
-## silk
+## 搜索
+
+### silk
 
 SILK（Symbolic Index for LLM Knowledge）——神经符号搜索架构。
 
@@ -47,13 +87,31 @@ SILK（Symbolic Index for LLM Knowledge）——神经符号搜索架构。
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/silk](https://github.com/park-jun-woo/silk) |
+| GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | 语言 | Python |
 | 许可证 | MIT |
 
 ---
 
-## geul-org
+## DSL
+
+### ssac
+
+Service Sequences as Code——从Go注释中解析声明式服务逻辑，通过CLI生成Go实现代码。
+
+在Go源文件中以结构化注释定义服务流程。CLI读取这些声明并生成相应的实现代码，消除样板代码，同时保持逻辑的可读性和版本控制。
+
+| | |
+|---|---|
+| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
+| 语言 | Go |
+| 许可证 | MIT |
+
+---
+
+## 网站
+
+### geul-org
 
 本网站的源代码。
 
@@ -61,6 +119,6 @@ SILK（Symbolic Index for LLM Knowledge）——神经符号搜索架构。
 
 | | |
 |---|---|
-| GitHub | [park-jun-woo/geul-org](https://github.com/park-jun-woo/geul-org) |
+| GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | 语言 | Hugo (Go Templates), CSS |
 | 许可证 | MIT |
