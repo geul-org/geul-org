@@ -107,6 +107,18 @@ Goソースファイル内の構造化コメントとしてサービスフロー
 | 言語 | Go |
 | ライセンス | MIT |
 
+### stml
+
+SSOT Template Markup Language——HTML5 data-*属性による宣言的UI-APIバインディング、OpenAPI対比シンボリック検証、React コード生成。
+
+HTML5 data属性でUIテンプレートをAPIスキーマにバインドする。ビルド時にOpenAPI仕様に対してシンボリック検証を行い、型安全なReactコンポーネントを生成する。スキーマから画面まで単一の真実の情報源。
+
+| | |
+|---|---|
+| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
+| 言語 | TypeScript |
+| ライセンス | MIT |
+
 ---
 
 ## ウェブサイト
