@@ -107,6 +107,18 @@ Définit les flux de service comme des commentaires structurés dans les fichier
 | Langage | Go |
 | Licence | MIT |
 
+### stml
+
+SSOT Template Markup Language — liaison déclarative UI-API avec des attributs HTML5 data-*, validation symbolique contre OpenAPI et génération de code React.
+
+Lie les templates UI aux schémas API via les attributs HTML5 data. Valide symboliquement par rapport aux spécifications OpenAPI au moment du build, puis génère des composants React typés. Une seule source de vérité du schéma à l'écran.
+
+| | |
+|---|---|
+| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
+| Langage | TypeScript |
+| Licence | MIT |
+
 ---
 
 ## Site web

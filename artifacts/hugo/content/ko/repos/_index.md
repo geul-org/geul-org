@@ -107,6 +107,18 @@ Go 소스 파일의 구조화된 주석으로 서비스 흐름을 정의한다. 
 | 언어 | Go |
 | 라이선스 | MIT |
 
+### stml
+
+SSOT Template Markup Language — HTML5 data-* 속성으로 UI와 API를 선언적으로 바인딩하고, OpenAPI 대비 심볼릭 검증 후 React 코드를 생성한다.
+
+HTML5 data 속성으로 UI 템플릿을 API 스키마에 바인딩한다. 빌드 시점에 OpenAPI 명세 대비 심볼릭 검증을 수행하고, 타입 안전한 React 컴포넌트를 생성한다. 스키마에서 화면까지 단일 진실 공급원.
+
+| | |
+|---|---|
+| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
+| 언어 | TypeScript |
+| 라이선스 | MIT |
+
 ---
 
 ## 웹사이트

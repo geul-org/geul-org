@@ -107,6 +107,18 @@ Defines service flows as structured comments in Go source files. The CLI reads t
 | Language | Go |
 | License | MIT |
 
+### stml
+
+SSOT Template Markup Language — declarative UI-to-API binding with HTML5 data-* attributes, symbolic validation against OpenAPI, and React codegen.
+
+Binds UI templates to API schemas using HTML5 data attributes. Validates bindings symbolically against OpenAPI specs at build time, then generates type-safe React components. One source of truth from schema to screen.
+
+| | |
+|---|---|
+| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
+| Language | TypeScript |
+| License | MIT |
+
 ---
 
 ## Website

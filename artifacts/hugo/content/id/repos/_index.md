@@ -107,6 +107,18 @@ Mendefinisikan alur layanan sebagai komentar terstruktur dalam file sumber Go. C
 | Bahasa | Go |
 | Lisensi | MIT |
 
+### stml
+
+SSOT Template Markup Language — pengikatan deklaratif UI-ke-API dengan atribut HTML5 data-*, validasi simbolik terhadap OpenAPI, dan pembuatan kode React.
+
+Mengikat template UI ke skema API menggunakan atribut HTML5 data. Memvalidasi secara simbolik terhadap spesifikasi OpenAPI saat build, lalu menghasilkan komponen React yang aman tipe. Satu sumber kebenaran dari skema ke layar.
+
+| | |
+|---|---|
+| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
+| Bahasa | TypeScript |
+| Lisensi | MIT |
+
 ---
 
 ## Situs Web

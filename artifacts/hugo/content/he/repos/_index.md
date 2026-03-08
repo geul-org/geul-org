@@ -107,6 +107,18 @@ Service Sequences as Code — מפרסר לוגיקת שירות הצהרתית 
 | שפה | Go |
 | רישיון | MIT |
 
+### stml
+
+SSOT Template Markup Language — קישור הצהרתי UI-ל-API עם תכונות HTML5 data-*, אימות סמלי מול OpenAPI, ויצירת קוד React.
+
+מקשר תבניות UI לסכמות API באמצעות תכונות HTML5 data. מאמת סמלית מול מפרטי OpenAPI בזמן בנייה, ואז מייצר רכיבי React בטוחי טיפוס. מקור אמת יחיד מהסכמה למסך.
+
+| | |
+|---|---|
+| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
+| שפה | TypeScript |
+| רישיון | MIT |
+
 ---
 
 ## אתר

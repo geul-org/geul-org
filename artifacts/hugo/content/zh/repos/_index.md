@@ -107,6 +107,18 @@ Service Sequences as Code——从Go注释中解析声明式服务逻辑，通�
 | 语言 | Go |
 | 许可证 | MIT |
 
+### stml
+
+SSOT Template Markup Language——用HTML5 data-*属性声明式绑定UI与API，对OpenAPI进行符号验证，并生成React代码。
+
+用HTML5 data属性将UI模板绑定到API模式。构建时对OpenAPI规范进行符号验证，然后生成类型安全的React组件。从模式到界面的单一事实来源。
+
+| | |
+|---|---|
+| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
+| 语言 | TypeScript |
+| 许可证 | MIT |
+
 ---
 
 ## 网站

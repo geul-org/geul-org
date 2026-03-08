@@ -107,6 +107,18 @@ Service Sequences as Code — يحلل منطق الخدمة التصريحي م
 | اللغة | Go |
 | الرخصة | MIT |
 
+### stml
+
+SSOT Template Markup Language — ربط تصريحي بين واجهة المستخدم وAPI باستخدام سمات HTML5 data-*، والتحقق الرمزي مقابل OpenAPI، وتوليد شفرة React.
+
+يربط قوالب واجهة المستخدم بمخططات API باستخدام سمات HTML5 data. يتحقق رمزياً من مواصفات OpenAPI في وقت البناء، ثم يولّد مكونات React آمنة النوع. مصدر حقيقة واحد من المخطط إلى الشاشة.
+
+| | |
+|---|---|
+| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
+| اللغة | TypeScript |
+| الرخصة | MIT |
+
 ---
 
 ## الموقع

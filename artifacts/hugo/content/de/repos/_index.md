@@ -107,6 +107,18 @@ Definiert Service-Abläufe als strukturierte Kommentare in Go-Quelldateien. Das 
 | Sprache | Go |
 | Lizenz | MIT |
 
+### stml
+
+SSOT Template Markup Language — deklarative UI-API-Bindung mit HTML5 data-*-Attributen, symbolische Validierung gegen OpenAPI und React-Codegenerierung.
+
+Bindet UI-Templates über HTML5-data-Attribute an API-Schemas. Validiert symbolisch gegen OpenAPI-Spezifikationen zur Build-Zeit und generiert typsichere React-Komponenten. Eine einzige Quelle der Wahrheit vom Schema zum Bildschirm.
+
+| | |
+|---|---|
+| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
+| Sprache | TypeScript |
+| Lizenz | MIT |
+
 ---
 
 ## Website

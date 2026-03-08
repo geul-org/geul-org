@@ -107,6 +107,18 @@ Service Sequences as Code — парсит декларативную логик
 | Язык | Go |
 | Лицензия | MIT |
 
+### stml
+
+SSOT Template Markup Language — декларативная привязка UI к API через атрибуты HTML5 data-*, символьная валидация по OpenAPI и генерация кода React.
+
+Привязывает UI-шаблоны к API-схемам через атрибуты HTML5 data. Символьно валидирует по спецификациям OpenAPI на этапе сборки, затем генерирует типобезопасные React-компоненты. Единый источник истины от схемы до экрана.
+
+| | |
+|---|---|
+| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
+| Язык | TypeScript |
+| Лицензия | MIT |
+
 ---
 
 ## Сайт
