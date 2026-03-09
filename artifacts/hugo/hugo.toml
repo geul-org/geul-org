@@ -35,10 +35,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.en.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "Projects"
+        pageRef = "/projects"
         weight = 3
+      [[languages.en.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 2. 한국어
   [languages.ko]
     languageName = "한국어"
@@ -59,10 +64,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.ko.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "프로젝트"
+        pageRef = "/projects"
         weight = 3
+      [[languages.ko.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 3. 中文
   [languages.zh]
     languageName = "中文"
@@ -83,10 +93,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.zh.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "项目"
+        pageRef = "/projects"
         weight = 3
+      [[languages.zh.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 4. Español
   [languages.es]
     languageName = "Español"
@@ -107,10 +122,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.es.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "Proyectos"
+        pageRef = "/projects"
         weight = 3
+      [[languages.es.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 5. العربية (RTL)
   [languages.ar]
     languageName = "العربية"
@@ -131,10 +151,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.ar.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "مشاريع"
+        pageRef = "/projects"
         weight = 3
+      [[languages.ar.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 6. Português
   [languages.pt]
     languageName = "Português"
@@ -155,10 +180,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.pt.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "Projetos"
+        pageRef = "/projects"
         weight = 3
+      [[languages.pt.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 7. Bahasa Indonesia
   [languages.id]
     languageName = "Bahasa Indonesia"
@@ -179,10 +209,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.id.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "Proyek"
+        pageRef = "/projects"
         weight = 3
+      [[languages.id.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 8. Русский
   [languages.ru]
     languageName = "Русский"
@@ -203,10 +238,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.ru.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "Проекты"
+        pageRef = "/projects"
         weight = 3
+      [[languages.ru.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 9. 日本語
   [languages.ja]
     languageName = "日本語"
@@ -227,10 +267,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.ja.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "プロジェクト"
+        pageRef = "/projects"
         weight = 3
+      [[languages.ja.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 10. Français
   [languages.fr]
     languageName = "Français"
@@ -251,10 +296,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.fr.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "Projets"
+        pageRef = "/projects"
         weight = 3
+      [[languages.fr.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 11. Deutsch
   [languages.de]
     languageName = "Deutsch"
@@ -275,10 +325,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.de.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "Projekte"
+        pageRef = "/projects"
         weight = 3
+      [[languages.de.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
   # 12. עברית (RTL)
   [languages.he]
     languageName = "עברית"
@@ -299,10 +354,15 @@ defaultContentLanguageInSubdir = false
         pageRef = "/grammar"
         weight = 2
       [[languages.he.menus.main]]
-        identifier = "silk"
-        name = "SILK"
-        pageRef = "/silk"
+        identifier = "projects"
+        name = "פרויקטים"
+        pageRef = "/projects"
         weight = 3
+      [[languages.he.menus.main]]
+        identifier = "dsl"
+        name = "DSL"
+        pageRef = "/dsl"
+        weight = 4
 # ──────────────────────────────────────────────
 # Taxonomy / Sitemap / Output / Markup
 # ──────────────────────────────────────────────

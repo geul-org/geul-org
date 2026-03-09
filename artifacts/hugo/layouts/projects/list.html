@@ -1,0 +1,17 @@
+{{ define "main" }}
+<section class="hero">
+  <h1 class="hero-title">{{ if eq .Lang "ko" }}GEUL 프로젝트{{ else if eq .Lang "zh" }}GEUL 项目{{ else if eq .Lang "es" }}Proyectos GEUL{{ else if eq .Lang "ar" }}مشاريع GEUL{{ else if eq .Lang "pt" }}Projetos GEUL{{ else if eq .Lang "id" }}Proyek GEUL{{ else if eq .Lang "ru" }}Проекты GEUL{{ else if eq .Lang "ja" }}GEUL プロジェクト{{ else if eq .Lang "fr" }}Projets GEUL{{ else if eq .Lang "de" }}GEUL-Projekte{{ else if eq .Lang "he" }}פרויקטים של GEUL{{ else }}GEUL Projects{{ end }}</h1>
+  <p class="hero-sub">{{ if eq .Lang "ko" }}GEUL 코드북을 활용하여 구축된 시스템들{{ else if eq .Lang "zh" }}基于GEUL码本构建的系统{{ else if eq .Lang "es" }}Sistemas construidos con los codebooks de GEUL{{ else if eq .Lang "ar" }}أنظمة مبنية باستخدام كتب رموز GEUL{{ else if eq .Lang "pt" }}Sistemas construídos com os codebooks do GEUL{{ else if eq .Lang "id" }}Sistem yang dibangun dengan codebook GEUL{{ else if eq .Lang "ru" }}Системы, построенные на кодовых книгах GEUL{{ else if eq .Lang "ja" }}GEULコードブックを活用して構築されたシステム{{ else if eq .Lang "fr" }}Systèmes construits avec les codebooks GEUL{{ else if eq .Lang "de" }}Mit GEUL-Codebüchern aufgebaute Systeme{{ else if eq .Lang "he" }}מערכות שנבנו באמצעות ספרי הקודים של GEUL{{ else }}Systems built with GEUL codebooks{{ end }}</p>
+</section>
+
+<section class="content-wrap">
+  {{ range .Pages.ByWeight }}
+  <article class="post-item">
+    <div class="post-item-body">
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
+    </div>
+  </article>
+  {{ end }}
+</section>
+{{ end }}
