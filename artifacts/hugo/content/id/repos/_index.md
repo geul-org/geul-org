@@ -95,6 +95,18 @@ Mencari dengan bilangan bulat 64 bit. Tidak memerlukan database vektor, graf ANN
 
 ## DSL
 
+### fullend
+
+Full-stack SSOT Orchestrator — memvalidasi konsistensi 5 sumber SSOT (STML, OpenAPI, SSaC, SQL DDL, Terraform) dan menghasilkan kode darinya.
+
+Memanggil alat validasi individual setiap lapisan, lalu melakukan validasi silang batas antar lapisan. Setelah validasi lolos, mengorkestrasi pembuatan kode dari sqlc, oapi-codegen, SSaC, dan STML, serta menghasilkan kode penghubung.
+
+| | |
+|---|---|
+| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
+| Bahasa | Go |
+| Lisensi | MIT |
+
 ### ssac
 
 Service Sequences as Code — mem-parsing logika layanan deklaratif dari komentar Go dan menghasilkan kode implementasi Go melalui CLI.

@@ -95,6 +95,18 @@ SILK (Symbolic Index for LLM Knowledge) — нейро-символическа�
 
 ## DSL
 
+### fullend
+
+Full-stack SSOT Orchestrator — проверяет согласованность 5 источников SSOT (STML, OpenAPI, SSaC, SQL DDL, Terraform) и генерирует код.
+
+Вызывает инструменты валидации каждого слоя, затем выполняет перекрёстную проверку границ между слоями. После прохождения валидации оркестрирует генерацию кода из sqlc, oapi-codegen, SSaC и STML и создаёт связующий код.
+
+| | |
+|---|---|
+| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
+| Язык | Go |
+| Лицензия | MIT |
+
 ### ssac
 
 Service Sequences as Code — парсит декларативную логику сервисов из комментариев Go и генерирует код реализации на Go через CLI.

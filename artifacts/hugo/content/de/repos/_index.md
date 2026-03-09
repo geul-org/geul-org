@@ -95,6 +95,18 @@ Sucht mit 64-Bit-Ganzzahlen. Keine Vektordatenbank, kein ANN-Graph, kein Embeddi
 
 ## DSL
 
+### fullend
+
+Full-stack SSOT Orchestrator — validiert die Konsistenz über 5 SSOT-Quellen (STML, OpenAPI, SSaC, SQL DDL, Terraform) und generiert Code daraus.
+
+Ruft die individuellen Validierungstools jeder Schicht auf und führt dann eine Kreuzvalidierung der Schichtgrenzen durch. Nach erfolgreicher Validierung orchestriert es die Codegenerierung aus sqlc, oapi-codegen, SSaC und STML und erzeugt Verbindungscode.
+
+| | |
+|---|---|
+| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
+| Sprache | Go |
+| Lizenz | MIT |
+
 ### ssac
 
 Service Sequences as Code — parst deklarative Servicelogik aus Go-Kommentaren und generiert Go-Implementierungscode via CLI.

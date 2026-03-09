@@ -95,6 +95,18 @@ SILK (Symbolic Index for LLM Knowledge) — ארכיטקטורת חיפוש נו
 
 ## DSL
 
+### fullend
+
+Full-stack SSOT Orchestrator — מאמת עקביות בין 5 מקורות SSOT (STML, OpenAPI, SSaC, SQL DDL, Terraform) ומייצר קוד מהם.
+
+מפעיל את כלי האימות הפרטניים של כל שכבה, ואז מבצע אימות צולב של הגבולות בין השכבות. לאחר מעבר האימות, מתזמר יצירת קוד מ-sqlc, oapi-codegen, SSaC ו-STML, ומפיק קוד חיבור.
+
+| | |
+|---|---|
+| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
+| שפה | Go |
+| רישיון | MIT |
+
 ### ssac
 
 Service Sequences as Code — מפרסר לוגיקת שירות הצהרתית מהערות Go ומייצר קוד מימוש ב-Go דרך CLI.

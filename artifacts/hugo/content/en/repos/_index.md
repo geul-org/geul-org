@@ -95,6 +95,18 @@ Searches with 64-bit integers. No vector DB, no ANN graph, no embedding model re
 
 ## DSL
 
+### fullend
+
+Full-stack SSOT Orchestrator — validates consistency across 5 SSOT sources (STML, OpenAPI, SSaC, SQL DDL, Terraform) and generates code from them.
+
+Calls each layer's individual validation tools, then cross-validates boundaries between layers. After validation passes, orchestrates code generation from sqlc, oapi-codegen, SSaC, and STML, and produces glue code.
+
+| | |
+|---|---|
+| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
+| Language | Go |
+| License | MIT |
+
 ### ssac
 
 Service Sequences as Code — parses declarative service logic from Go comments and generates Go implementation code via CLI.
