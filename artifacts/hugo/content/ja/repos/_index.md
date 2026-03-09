@@ -95,6 +95,18 @@ SILK（Symbolic Index for LLM Knowledge）——ニューロシンボリック�
 
 ## DSL
 
+### fullend
+
+Full-stack SSOT Orchestrator — 5つのSSOTソース（STML、OpenAPI、SSaC、SQL DDL、Terraform）間の整合性を検証し、コードを生成する。
+
+各レイヤーの個別検証ツールを呼び出した後、レイヤー間の境界を交差検証する。検証通過後、sqlc、oapi-codegen、SSaC、STMLのコード生成をオーケストレーションし、グルーコードを出力する。
+
+| | |
+|---|---|
+| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
+| 言語 | Go |
+| ライセンス | MIT |
+
 ### ssac
 
 Service Sequences as Code——Goコメントから宣言的サービスロジックをパースし、CLI経由でGo実装コードを生成する。

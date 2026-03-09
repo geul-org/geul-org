@@ -95,6 +95,18 @@ SILK（Symbolic Index for LLM Knowledge）——神经符号搜索架构。
 
 ## DSL
 
+### fullend
+
+全栈 SSOT 编排器 — 验证 5 个 SSOT 源（STML、OpenAPI、SSaC、SQL DDL、Terraform）之间的一致性并生成代码。
+
+调用各层的独立验证工具后，交叉验证层间边界。验证通过后，编排 sqlc、oapi-codegen、SSaC、STML 的代码生成并产出胶水代码。
+
+| | |
+|---|---|
+| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
+| 语言 | Go |
+| 许可证 | MIT |
+
 ### ssac
 
 Service Sequences as Code——从Go注释中解析声明式服务逻辑，通过CLI生成Go实现代码。

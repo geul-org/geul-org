@@ -95,6 +95,18 @@ SILK(Symbolic Index for LLM Knowledge) — 뉴로-심볼릭 검색 아키텍처.
 
 ## DSL
 
+### fullend
+
+Full-stack SSOT Orchestrator — 5개 SSOT(STML, OpenAPI, SSaC, SQL DDL, Terraform)의 교차 정합성을 검증하고 코드를 산출한다.
+
+각 레이어의 개별 검증 도구를 호출한 뒤, 레이어 간 경계를 교차 검증한다. 검증 통과 후 sqlc, oapi-codegen, SSaC, STML의 코드 생성을 오케스트레이션하고 글루 코드를 산출한다.
+
+| | |
+|---|---|
+| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
+| 언어 | Go |
+| 라이선스 | MIT |
+
 ### ssac
 
 Service Sequences as Code — Go 주석에서 선언적 서비스 로직을 파싱하여 Go 구현 코드를 CLI로 생성한다.

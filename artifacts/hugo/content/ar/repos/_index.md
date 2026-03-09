@@ -95,6 +95,18 @@ SILK (Symbolic Index for LLM Knowledge) — بنية بحث عصبية-رمزي�
 
 ## DSL
 
+### fullend
+
+منسق SSOT للمكدس الكامل — يتحقق من اتساق 5 مصادر SSOT (STML، OpenAPI، SSaC، SQL DDL، Terraform) ويولّد الكود منها.
+
+يستدعي أدوات التحقق الفردية لكل طبقة، ثم يجري التحقق المتبادل بين الطبقات. بعد نجاح التحقق، ينسّق توليد الكود من sqlc وoapi-codegen وSSaC وSTML وينتج كود الربط.
+
+| | |
+|---|---|
+| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
+| اللغة | Go |
+| الرخصة | MIT |
+
 ### ssac
 
 Service Sequences as Code — يحلل منطق الخدمة التصريحي من تعليقات Go ويولّد شفرة التنفيذ بلغة Go عبر CLI.
