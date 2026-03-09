@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "participant", "semantic-role"]
 summary: "16 ролей Participant, определяющих семантические роли внутри события. 4-битное кодирование охватывает ключевые роли Agent, Theme, Recipient и дополнительные Cause, Purpose."
-author: "박준우"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

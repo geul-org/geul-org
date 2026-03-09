@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:08+09:00
 lastmod: 2026-02-26T12:00:08+09:00
 tags: ["اتساق", "تناقض", "تماسك"]
 summary: "المعلومات الصحيحة فردياً قد تكون خاطئة جماعياً"
-author: "جونوو بارك"
+author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "group", "set", "logic"]
 summary: "קשת באורך משתנה המקבצת מספר צמתים ב-7 סוגים: AND, OR, LIST, SET ועוד. תומכת בחברים ללא הגבלה באמצעות Prefix של 13 סיביות וסמן סיום (0x0000)."
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

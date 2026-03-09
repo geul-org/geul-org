@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:03+09:00
 lastmod: 2026-02-26T12:00:03+09:00
 tags: ["SIDX", "意味整列", "インデックス"]
 summary: "意味がビットに刻まれるとき、検索は推論になる"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

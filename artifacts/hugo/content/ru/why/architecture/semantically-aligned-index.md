@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:03+09:00
 lastmod: 2026-02-26T12:00:03+09:00
 tags: ["SIDX", "семантическое выравнивание", "индекс"]
 summary: "Когда смысл выгравирован в битах, поиск становится рассуждением"
-author: "Junwoo Park"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

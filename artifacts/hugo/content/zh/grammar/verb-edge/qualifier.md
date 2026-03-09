@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "qualifier", "tense", "aspect"]
 summary: "Verb Edge的语义限定符。通过证据性、语气、情态、时态、体貌、礼貌、肯否定、意图性、确信度、反复性等14个范畴编码谓述的语法与语用信息。"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

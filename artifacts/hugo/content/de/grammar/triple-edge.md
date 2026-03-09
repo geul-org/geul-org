@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "triple", "property"]
 summary: "Edge-Typ zur Darstellung von Beziehungen und Eigenschaften in der Form (Subject, Property, Object). Duale Struktur mit 4-Woerter-Basismodus und 5-Woerter-Erweiterungsmodus, optimiert fuer die Top 63 hochfrequenten Eigenschaften."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

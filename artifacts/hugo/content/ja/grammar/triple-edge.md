@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "triple", "property"]
 summary: "(Subject, Property, Object)形式の関係と属性を表現するEdgeタイプ。基本モード4ワードと拡張モード5ワードの二重構造でTop 63高頻度属性を最適化する。"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

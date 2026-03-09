@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "event6", "5W1H"]
 summary: "Edge evenement a longueur variable exprimant les 5W1H (Who, What, Whom, When, Where, Why) d'un seul coup. La structure variable de 3 a 8 mots est realisee par un masque de bits Presence."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

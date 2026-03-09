@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:11+09:00
 lastmod: 2026-02-26T12:00:11+09:00
 tags: ["RAG", "بحث", "تضمين"]
 summary: "أن يبدو ذا صلة وأن يكون ذا صلة ليسا الشيء نفسه"
-author: "جونوو بارك"
+author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

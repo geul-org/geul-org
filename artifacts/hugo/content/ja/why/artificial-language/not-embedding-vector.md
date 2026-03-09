@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:18+09:00
 lastmod: 2026-02-26T12:00:18+09:00
 tags: ["埋め込み", "ベクトル", "ホワイトボックス"]
 summary: "埋め込みベクトルを並べ替えるとモデルが壊れる。壊さずに並べ替えるにはモデルを作り直すしかない。ブラックボックスの内部を透明にするのではなく、外部に透明な層が必要だ。"
-author: "Junwoo Park"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

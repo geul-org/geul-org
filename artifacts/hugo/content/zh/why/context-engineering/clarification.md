@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:13+09:00
 lastmod: 2026-02-26T12:00:13+09:00
 tags: ["明确化", "输入", "输出"]
 summary: "清晰的输入产生清晰的输出"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

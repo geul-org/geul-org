@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:12+09:00
 lastmod: 2026-02-26T12:00:12+09:00
 tags: ["提示", "上下文", "工程"]
 summary: "从怎么说到给什么看——游戏变了"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

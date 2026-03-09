@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:14+09:00
 lastmod: 2026-02-26T12:00:14+09:00
 tags: ["эсперанто", "искусственный язык", "история"]
 summary: "Искусственные языки для людей потерпели неудачу -- искусственные языки для ИИ устроены иначе"
-author: "Junwoo Park"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "entity", "SIDX", "quantification"]
 summary: "Node mit fester Laenge von 4 Woertern (64 Bit) zur Identifikation von Entitaeten wie Personen, Orten, Objekten und Organisationen. 3 Bit Mode druecken Quantifikation und Numerus aus, 6 Bit EntityType klassifizieren 64 Obertypen, und 48 Bit Attributes kodieren typspezifische semantische Attribute."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

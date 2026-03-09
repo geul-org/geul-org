@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:06+09:00
 lastmod: 2026-02-26T12:00:06+09:00
 tags: ["ادعاءات", "حقائق", "ثقة"]
 summary: "الحقيقة تتلاشى أسرع من سرعة الضوء"
-author: "Junwoo Park"
+author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

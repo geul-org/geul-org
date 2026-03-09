@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "qualifier", "tense", "aspect"]
 summary: "Семантические квалификаторы Verb Edge. 14 категорий — эвиденциальность, наклонение, модальность, время, вид, вежливость, полярность и др. — кодируют грамматическую и прагматическую информацию предиката."
-author: "박준우"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

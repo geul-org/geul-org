@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "צומת באורך משתנה של 4~7 מילים לייצוג גדלים פיזיקליים, מספרים, מטבעות וליטרלים. מקודד 64 קודי יחידות SI בסיסיות/נגזרות ומטבעות ב-6 סיביות Unit, ומבטא קידומות SI ב-4 סיביות Scale."
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

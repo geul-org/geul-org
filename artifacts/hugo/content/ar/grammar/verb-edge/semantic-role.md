@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "participant", "semantic-role"]
 summary: "تعريف 16 دوراً دلالياً للمشاركين في الحدث. ترميز 4 بت يغطي الأدوار الأساسية مثل Agent وTheme وRecipient والأدوار الإضافية مثل Cause وPurpose."
-author: "박준우"
+author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

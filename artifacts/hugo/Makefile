@@ -5,7 +5,7 @@ CF_DIST_ID ?= E2Z17ZOR6DJTRZ
 GSC_SITE := sc-domain%3Ageul.org
 GSC_SCOPE := https://www.googleapis.com/auth/webmasters
 
-.PHONY: serve build clean deploy indexnow archive sitemap-ping publish
+.PHONY: serve build clean deploy indexnow archive sitemap-ping publish validate
 
 serve:
 	$(HUGO) server -D
@@ -61,4 +61,7 @@ archive:
 	done; \
 	echo "Wayback Machine done."
 
-publish: deploy sitemap-ping archive
+validate:
+	python3 ../scripts/validate-frontmatter.py
+
+publish: validate deploy sitemap-ping archive

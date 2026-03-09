@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:18+09:00
 lastmod: 2026-02-26T12:00:18+09:00
 tags: ["嵌入", "向量", "白盒"]
 summary: "重新排列嵌入向量会破坏模型。要避免破坏就必须重建模型。我们需要的不是让黑盒内部变透明，而是在外部构建一个透明层。"
-author: "Junwoo Park"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:12+09:00
 lastmod: 2026-02-26T12:00:12+09:00
 tags: ["プロンプト", "コンテキスト", "エンジニアリング"]
 summary: "言い方から見せるものへ——ゲームが変わった"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

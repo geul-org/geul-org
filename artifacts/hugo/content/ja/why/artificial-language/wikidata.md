@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:17+09:00
 lastmod: 2026-02-26T12:00:17+09:00
 tags: ["ウィキデータ", "オントロジー", "SIDX"]
 summary: "GEULはウィキデータを否定しない。1億エンティティの分類体系と頻度統計をSIDXコードブックに変換する。辞書の上に文法を載せる。"
-author: "Junwoo Park"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

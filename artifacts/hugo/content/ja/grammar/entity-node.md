@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "entity", "SIDX", "quantification"]
 summary: "人物・場所・事物・組織などの個体を識別する固定長4ワード（64ビット）Node。3ビットModeで量化/数を表現し、6ビットEntityTypeで64種の上位タイプを分類し、48ビットAttributesでタイプ別意味属性をエンコードする。"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

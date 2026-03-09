@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:05+09:00
 lastmod: 2026-02-26T12:00:05+09:00
 tags: ["記憶", "構造", "WMS"]
 summary: "記憶のない知能は毎回ゼロから始まる"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

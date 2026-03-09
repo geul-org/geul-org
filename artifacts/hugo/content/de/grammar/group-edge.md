@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "group", "set", "logic"]
 summary: "Edge variabler Laenge, der mehrere Nodes in 7 Typen gruppiert: AND, OR, LIST, SET usw. Ein 13-Bit-Prefix und ein Terminierungsmarker (0x0000) ermoeglichen unbegrenzte Mitgliederzahl."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

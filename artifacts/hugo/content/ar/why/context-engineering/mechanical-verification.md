@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:10+09:00
 lastmod: 2026-02-26T12:00:10+09:00
 tags: ["تحقق", "مواصفات", "مترجم"]
 summary: "اللغة الطبيعية ليس فيها مفهوم الجملة غير الصالحة"
-author: "جونوو بارك"
+author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "qualifier", "tense", "aspect"]
 summary: "المحددات الدلالية لـ Verb Edge. تُشفّر المعلومات النحوية والتداولية للوصف عبر 14 فئة: الدليلية، الصيغة، الجهة، الزمن، المظهر، التأدب، القطبية، القصدية، اليقين، والتكرار."
-author: "박준우"
+author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

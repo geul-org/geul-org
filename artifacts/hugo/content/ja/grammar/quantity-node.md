@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "物理量、数値、通貨、リテラル等を表現する可変長4~7ワードNode。6ビットUnitでSI基本/誘導単位・通貨・特殊リテラルをエンコードし、4ビットScaleでSI接頭辞を表現する。"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

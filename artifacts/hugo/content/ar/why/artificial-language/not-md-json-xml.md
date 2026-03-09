@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:15+09:00
 lastmod: 2026-02-26T12:00:15+09:00
 tags: ["تنسيق", "JSON", "XML"]
 summary: "التنسيقات الموجودة لا تستطيع حمل المعنى"
-author: "Junwoo Park"
+author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "Node de comprimento variável de 4 a 7 palavras que representa grandezas físicas, valores numéricos, moedas e literais. Codifica unidades base/derivadas do SI, moedas e literais especiais com 6 bits de Unit, e prefixos SI com 4 bits de Scale."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

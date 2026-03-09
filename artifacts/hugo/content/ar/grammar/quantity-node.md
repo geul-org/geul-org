@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "عقدة متغيرة الطول بحجم 4~7 كلمات لتمثيل الكميات الفيزيائية والأعداد والعملات والقيم الحرفية. تُشفّر 64 رمز وحدة SI أساسية/مشتقة وعملات بـ 6 بت Unit، وتعبّر عن بادئات SI بـ 4 بت Scale."
-author: "박준우"
+author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "participant", "semantic-role"]
 summary: "16 Participant definissant les roles semantiques au sein d'un evenement. L'encodage 4 bits couvre les roles principaux tels que Agent, Theme et Recipient, ainsi que les roles complementaires comme Cause et Purpose."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

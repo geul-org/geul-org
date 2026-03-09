@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "entity", "SIDX", "quantification"]
 summary: "Фиксированный 4-словный (64-бит) Node для идентификации сущностей: людей, мест, объектов и организаций. 3-бит Mode для квантификации/числа, 6-бит EntityType для 64 верхних типов, 48-бит Attributes для семантических свойств каждого типа."
-author: "박준우"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

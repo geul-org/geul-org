@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:05+09:00
 lastmod: 2026-02-26T12:00:05+09:00
 tags: ["זיכרון", "מבנה", "WMS"]
 summary: "אינטליגנציה ללא זיכרון מתחילה מאפס בכל פעם"
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

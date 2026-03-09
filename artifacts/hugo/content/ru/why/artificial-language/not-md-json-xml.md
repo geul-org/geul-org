@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:15+09:00
 lastmod: 2026-02-26T12:00:15+09:00
 tags: ["формат", "JSON", "XML"]
 summary: "Существующие форматы не могут нести смысл"
-author: "Junwoo Park"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

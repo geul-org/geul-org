@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "Node переменной длины 4~7 слов для физических величин, чисел, валют и литералов. 6-бит Unit кодирует основные/производные единицы SI, валюты и спец. литералы, а 4-бит Scale представляет приставки SI."
-author: "박준우"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

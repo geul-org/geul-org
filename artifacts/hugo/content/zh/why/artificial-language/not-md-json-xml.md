@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:15+09:00
 lastmod: 2026-02-26T12:00:15+09:00
 tags: ["格式", "JSON", "XML"]
 summary: "现有格式无法承载意义"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:06+09:00
 lastmod: 2026-02-26T12:00:06+09:00
 tags: ["טענות", "עובדות", "ודאות"]
 summary: "האמת נעלמת מהר יותר ממהירות האור"
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---
