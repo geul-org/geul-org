@@ -1,6 +1,6 @@
 ---
 title: "SSaC — Service Sequences as Code"
-weight: 2
+weight: 3
 date: 2026-03-08T12:00:00+09:00
 lastmod: 2026-03-08T12:00:00+09:00
 tags: ["SSaC", "DSL", "SSOT", "Go", "codegen"]

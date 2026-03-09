@@ -1,6 +1,6 @@
 ---
 title: "STML — SSOT Template Markup Language"
-weight: 1
+weight: 2
 date: 2026-03-08T12:00:00+09:00
 lastmod: 2026-03-08T12:00:00+09:00
 tags: ["STML", "DSL", "SSOT", "frontend", "React", "OpenAPI"]
