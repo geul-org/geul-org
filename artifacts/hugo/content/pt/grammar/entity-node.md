@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "entity", "SIDX", "quantification"]
 summary: "Node de comprimento fixo de 4 palavras (64 bits) que identifica entidades como pessoas, lugares, objetos e organizações. Expressa quantificação/número com 3 bits de Mode, classifica 64 tipos superiores com 6 bits de EntityType e codifica atributos semânticos com 48 bits de Attributes."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

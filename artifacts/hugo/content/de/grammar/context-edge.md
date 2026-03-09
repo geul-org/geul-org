@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "context", "worldview", "modal-logic"]
 summary: "Leichtgewichtiger 3-Woerter-Edge, der ausdrueckt, 'in welcher Weltanschauung/welchem Kontext diese Behauptung wahr ist'. 64 Typen fuer Quelle, Weltanschauung, Fiktion und Perspektive kodieren die Wahrheitsbedingungen."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

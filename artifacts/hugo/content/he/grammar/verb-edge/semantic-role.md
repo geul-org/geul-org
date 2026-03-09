@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "participant", "semantic-role"]
 summary: "הגדרת 16 תפקידים סמנטיים של משתתפים באירוע. קידוד של 4 סיביות מכסה תפקידי ליבה כגון Agent, Theme ו-Recipient ותפקידים נלווים כגון Cause ו-Purpose."
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

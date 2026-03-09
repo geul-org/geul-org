@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "clause", "RST", "discourse"]
 summary: "Edge fijo de 4 palabras que expresa relaciones lógicas y discursivas entre predicados, eventos y relaciones. Codifica relaciones de causalidad, temporalidad, contraste y argumentación con 16 tipos basados en RST."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

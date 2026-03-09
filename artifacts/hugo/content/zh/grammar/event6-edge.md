@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "event6", "5W1H"]
 summary: "一次性表达六何原则（Who, What, Whom, When, Where, Why）的可变长度事件Edge。通过Presence位掩码实现3~8字的可变结构。"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

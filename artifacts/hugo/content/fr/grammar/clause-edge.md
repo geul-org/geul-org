@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "clause", "RST", "discourse"]
 summary: "Edge fixe de 4 mots exprimant les relations logiques et discursives entre predications, evenements et relations. 16 types de relations basees sur RST encodent les relations causales, temporelles, contrastives et argumentatives."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

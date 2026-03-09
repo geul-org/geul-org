@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:09+09:00
 lastmod: 2026-02-26T12:00:09+09:00
 tags: ["фильтр", "релевантность", "доверие"]
 summary: "Валидная информация -- не всегда нужная информация"
-author: "Джуну Пак"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

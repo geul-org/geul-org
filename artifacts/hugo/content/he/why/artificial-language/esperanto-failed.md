@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:14+09:00
 lastmod: 2026-02-26T12:00:14+09:00
 tags: ["Esperanto", "שפה מלאכותית", "היסטוריה"]
 summary: "שפות מלאכותיות לבני אדם נכשלו -- שפות מלאכותיות ל-AI שונות"
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

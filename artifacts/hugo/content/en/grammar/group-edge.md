@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "group", "set", "logic"]
 summary: "A variable-length Edge that bundles multiple Nodes into 7 types: AND, OR, LIST, SET, and more. Uses a 13-bit Prefix and terminator marker (0x0000) to support unlimited members."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "event6", "5W1H"]
 summary: "קשת אירוע באורך משתנה המבטאת את שש השאלות (מי, מה, למי, מתי, איפה, למה) בבת אחת. מממשת מבנה משתנה של 3~8 מילים באמצעות מסכת סיביות Presence."
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

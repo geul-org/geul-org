@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:17+09:00
 lastmod: 2026-02-26T12:00:17+09:00
 tags: ["ויקינתונים", "אונטולוגיה", "SIDX"]
 summary: "GEUL לא דוחה את ויקינתונים. היא ממירה את מערכת הסיווג ואת סטטיסטיקות התדירות של 100 מיליון ישויות לספרי קוד SIDX. דקדוק נבנה מעל מילון."
-author: "Junwoo Park"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

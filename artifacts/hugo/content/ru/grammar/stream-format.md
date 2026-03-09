@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "stream", "TID"]
 summary: "Поток GEUL — это последовательность пакетов, начинающаяся и заканчивающаяся Meta Node. Определяет скоупинг TID, прямые ссылки и правила порядка пакетов."
-author: "박준우"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

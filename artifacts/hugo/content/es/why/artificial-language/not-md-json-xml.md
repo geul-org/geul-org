@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:15+09:00
 lastmod: 2026-02-26T12:00:15+09:00
 tags: ["formato", "JSON", "XML"]
 summary: "Los formatos existentes no pueden transportar significado"
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

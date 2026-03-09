@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "Node a longueur variable de 4 a 7 mots representant grandeurs physiques, valeurs numeriques, devises et litteraux. 6 bits d'Unit encodent les unites SI de base et derivees, devises et litteraux speciaux, tandis que 4 bits de Scale expriment les prefixes SI."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

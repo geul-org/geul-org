@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "AST", "programming", "PathGEUL"]
 summary: "نوع Edge يمثل شجرة AST للغات البرمجة في رسم GEUL البياني. يصنّف 64 لغة بـ 6 بت ويشفّر 256 نوع عقدة AST بـ 8 بت. يتضمن لغة استعلام PathGEUL."
-author: "박준우"
+author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

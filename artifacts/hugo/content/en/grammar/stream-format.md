@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "stream", "TID"]
 summary: "A GEUL stream is a packet sequence that begins and ends with a Meta Node. Defines TID scoping, forward-only references, and packet ordering rules."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

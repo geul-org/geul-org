@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "stream", "TID"]
 summary: "GEULストリームはMeta Nodeで始まり終わるパケットシーケンスである。TIDスコーピング、順方向参照、パケット順序規則を定義する。"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

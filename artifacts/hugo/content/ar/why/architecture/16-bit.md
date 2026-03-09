@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:04+09:00
 lastmod: 2026-02-26T12:00:04+09:00
 tags: ["16-bit", "ثنائي", "تدفق"]
 summary: "كلمة واحدة تخترق ثلاثة عوالم"
-author: "Junwoo Park"
+author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

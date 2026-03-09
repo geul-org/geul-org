@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "qualifier", "tense", "aspect"]
 summary: "Semantic qualifiers for Verb Edge. Encodes grammatical and pragmatic information of predications across 14 categories including evidentiality, mood, modality, tense, aspect, politeness, polarity, and confidence."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

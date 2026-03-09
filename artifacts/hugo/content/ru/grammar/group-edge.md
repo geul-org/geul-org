@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "group", "set", "logic"]
 summary: "Edge переменной длины для объединения нескольких Node в группы 7 типов: AND, OR, LIST, SET и др. 13-битный Prefix и маркер завершения (0x0000) поддерживают неограниченное число членов."
-author: "박준우"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

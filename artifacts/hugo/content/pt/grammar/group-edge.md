@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "group", "set", "logic"]
 summary: "Edge de comprimento variável que agrupa múltiplos Nodes em 7 tipos: AND, OR, LIST, SET, etc. Suporta membros ilimitados por Prefix de 13 bits e marcador de terminação (0x0000)."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

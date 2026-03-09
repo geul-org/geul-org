@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "context", "worldview", "modal-logic"]
 summary: "A lightweight 3-word Edge expressing 'in which worldview/context is this claim true.' Encodes truth conditions across 64 types including source, worldview, fiction, and perspective."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

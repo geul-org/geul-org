@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "A variable-length 4-7 word Node for representing physical quantities, numbers, currencies, and literals. Encodes SI base/derived units, currencies, and special literals with 6-bit Unit codes and 4-bit Scale for SI prefixes."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

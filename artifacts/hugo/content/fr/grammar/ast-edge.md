@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "AST", "programming", "PathGEUL"]
 summary: "Type d'Edge representant l'AST de langages de programmation sous forme de graphe GEUL. 6 bits classifient 64 langages, 8 bits encodent 256 types de noeuds AST. Inclut le langage de requete PathGEUL."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

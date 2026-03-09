@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "表达物理量、数值、货币、字面量等的可变长度4~7字Node。6位Unit编码SI基本/导出单位、货币、特殊字面量，4位Scale表达SI前缀。"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

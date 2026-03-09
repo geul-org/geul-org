@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "qualifier", "tense", "aspect"]
 summary: "Kualifikator semantik Verb Edge. 14 kategori — evidensialitas, modus, modalitas, tense, aspek, kesopanan, polaritas, dan lainnya — meng-encode informasi gramatikal dan pragmatik predikat."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

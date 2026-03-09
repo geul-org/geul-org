@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:15+09:00
 lastmod: 2026-02-26T12:00:15+09:00
 tags: ["פורמט", "JSON", "XML"]
 summary: "פורמטים קיימים אינם מסוגלים לשאת משמעות"
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

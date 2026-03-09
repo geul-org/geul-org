@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "AST", "programming", "PathGEUL"]
 summary: "Edge-Typ zur Darstellung von ASTs von Programmiersprachen als GEUL-Graphen. 6 Bit klassifizieren 64 Sprachen, 8 Bit kodieren 256 AST-Knotentypen. Enthaelt die Abfragesprache PathGEUL."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

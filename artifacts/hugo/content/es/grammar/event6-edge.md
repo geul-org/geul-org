@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "event6", "5W1H"]
 summary: "Edge de evento de longitud variable que expresa las 6 preguntas fundamentales (Who, What, Whom, When, Where, Why) de una sola vez. Realiza una estructura variable de 3 a 8 palabras mediante máscara de bits Presence."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

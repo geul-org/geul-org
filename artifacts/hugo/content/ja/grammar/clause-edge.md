@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "clause", "RST", "discourse"]
 summary: "述語、イベント、関係間の論理的・談話的関係を表現する4ワード固定Edge。RSTベースの16種の関係タイプで因果、時間、対比、論証関係をエンコードする。"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

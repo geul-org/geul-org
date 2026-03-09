@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "qualifier", "tense", "aspect"]
 summary: "מגדירים סמנטיים של Verb Edge. מקודדים מידע תחבירי ופרגמטי של תיאור ב-14 קטגוריות: ראייתיות, מצב, מודאליות, זמן, היבט, נימוס, קוטביות, רצוניות, ביטחון וחזרתיות."
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

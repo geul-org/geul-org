@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "context", "worldview", "modal-logic"]
 summary: "Лёгкий 3-словный Edge для выражения «в каком мировоззрении/контексте это утверждение истинно». 64 типа — источник, мировоззрение, вымысел, точка зрения — кодируют условия истинности."
-author: "박준우"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

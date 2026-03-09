@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "event6", "5W1H"]
 summary: "Edge переменной длины для представления событий по принципу 5W1H (Who, What, Whom, When, Where, Why). Битовая маска Presence реализует переменную структуру от 3 до 8 слов."
-author: "박준우"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

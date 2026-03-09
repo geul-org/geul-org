@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:19+09:00
 lastmod: 2026-02-26T12:00:19+09:00
 tags: ["プログラミング言語", "記述", "知識表現"]
 summary: "プログラミング言語は手続きを記述する。世界を叙述できない。JSONは構造を提供するが意味がない。LISPですら構文を借りているに過ぎない。"
-author: "Junwoo Park"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

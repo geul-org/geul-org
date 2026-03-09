@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:04+09:00
 lastmod: 2026-02-26T12:00:04+09:00
 tags: ["16位", "二进制", "流"]
 summary: "一个字贯穿三个世界"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

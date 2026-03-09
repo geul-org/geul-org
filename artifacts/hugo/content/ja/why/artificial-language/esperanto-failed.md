@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:14+09:00
 lastmod: 2026-02-26T12:00:14+09:00
 tags: ["エスペラント", "人工言語", "歴史"]
 summary: "人間のための人工言語は失敗した——AIのための人工言語は異なる"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

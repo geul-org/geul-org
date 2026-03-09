@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "participant", "semantic-role"]
 summary: "16 Participants que definen roles semánticos dentro de un evento. Codificación de 4 bits que abarca desde roles esenciales como Agent, Theme y Recipient hasta roles adicionales como Cause y Purpose."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

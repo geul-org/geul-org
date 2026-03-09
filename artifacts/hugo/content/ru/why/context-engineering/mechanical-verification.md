@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:10+09:00
 lastmod: 2026-02-26T12:00:10+09:00
 tags: ["верификация", "спецификация", "компилятор"]
 summary: "У естественного языка нет понятия невалидного предложения"
-author: "Джуну Пак"
+author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

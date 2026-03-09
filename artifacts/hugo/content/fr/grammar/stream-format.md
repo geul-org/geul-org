@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "stream", "TID"]
 summary: "Le flux GEUL est une sequence de paquets delimitee par des Meta Nodes de debut et de fin. Definit la portee des TID, les references en avant et les regles d'ordre des paquets."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

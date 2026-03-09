@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "entity", "SIDX", "quantification"]
 summary: "用于识别人物、地点、事物、组织等实体的固定长度4字（64位）Node。3位Mode表达量化/数，6位EntityType分类64种上位类型，48位Attributes编码各类型的语义属性。"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

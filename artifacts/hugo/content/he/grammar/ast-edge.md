@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "AST", "programming", "PathGEUL"]
 summary: "סוג Edge המייצג עץ AST של שפות תכנות בגרף GEUL. מסווג 64 שפות ב-6 סיביות ומקודד 256 סוגי צמתי AST ב-8 סיביות. כולל שפת שאילתא PathGEUL."
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

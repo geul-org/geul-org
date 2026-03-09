@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:02+09:00
 lastmod: 2026-02-26T12:00:02+09:00
 tags: ["缓存", "推理", "代码"]
 summary: "将一次推理转化为永久程序"
-author: "박준우"
+author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

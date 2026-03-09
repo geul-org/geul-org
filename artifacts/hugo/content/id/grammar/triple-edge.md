@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "triple", "property"]
 summary: "Tipe Edge untuk menyatakan relasi dan properti dalam bentuk (Subject, Property, Object). Struktur ganda mode dasar 4 word dan mode ekstensi 5 word mengoptimalkan Top 63 properti frekuensi tinggi."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

@@ -5,7 +5,7 @@ date: 2026-02-26T12:00:12+09:00
 lastmod: 2026-02-26T12:00:12+09:00
 tags: ["פרומפט", "הקשר", "הנדסה"]
 summary: "מ'איך אומרים' ל'מה מראים' -- המשחק השתנה"
-author: "박준우"
+author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

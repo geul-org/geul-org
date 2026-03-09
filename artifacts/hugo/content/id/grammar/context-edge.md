@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "context", "worldview", "modal-logic"]
 summary: "Edge ringan 3 word untuk menyatakan 'dalam pandangan dunia/konteks mana klaim ini benar'. 64 tipe — sumber, pandangan dunia, fiksi, perspektif — meng-encode kondisi kebenaran."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---

@@ -5,7 +5,7 @@ date: 2026-03-01T12:00:00+09:00
 lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "context", "worldview", "modal-logic"]
 summary: "Edge ligero de 3 palabras que expresa 'en qué cosmovisión/contexto esta afirmación es verdadera'. Codifica las condiciones de verdad con 64 tipos incluyendo fuente, cosmovisión, ficción y perspectiva."
-author: "박준우"
+author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
 ---
