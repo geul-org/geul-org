@@ -2,9 +2,9 @@
 title: "Fullend — Full-stack SSOT Orchestrator"
 weight: 1
 date: 2026-03-09T12:00:00+09:00
-lastmod: 2026-03-10T12:00:00+09:00
+lastmod: 2026-03-13T12:00:00+09:00
 tags: ["Fullend", "DSL", "SSOT", "cross-validation", "vibe-coding"]
-summary: "10個のSSOTの交差整合性を検証し、コードを生成するCLI。バイブコーディングの亀裂を構造で埋める。"
+summary: "10個のSSOTを交差検証し、コードを生成するCLI。バイブコーディングの亀裂を構造で埋める。"
 author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/1/about"
 image: "/images/og-default.webp"
@@ -12,7 +12,7 @@ image: "/images/og-default.webp"
 
 **Full-stack SSOT Orchestrator** — 10個のSSOTの整合性を一度に検証し、コードを生成するCLI。
 
-<a href="https://github.com/geul-org/fullend" target="_blank" rel="noopener">GitHubリポジトリ</a>
+<a href="https://github.com/geul-org/fullend" target="_blank" rel="noopener">GitHub リポジトリ</a>
 
 ## バイブコーディングの亀裂
 
@@ -20,7 +20,7 @@ image: "/images/og-default.webp"
 
 AIに「予約機能を作って」と言えば作る。「キャンセル機能を追加して」と言えば追加する。5つ目の機能を追加したとき、2つ目の機能が壊れる。APIスキーマを変えたのにフロントエンドを直していない。DBカラムを追加したのにサービスレイヤーが知らない。
 
-原因は単純だ。AIがコード全体を記憶できないからだ。
+原因は単純だ。AIがコードベース全体を記憶できないからだ。
 
 そこで人々がやること：壊れた箇所を見つけたらAIに「これも直して」と言う。直すと別の場所が壊れる。「それも直して」。このループが繰り返される。プロジェクトが大きくなるほどループは長くなり、ある時点で「最初から作り直した方が早い」となる。
 
@@ -41,7 +41,7 @@ AIに「予約機能を作って」と言えば作る。「キャンセル機能
 
 10万行のコードのうち、決定は12,500行だ。残りの87,500行は配線だ。
 
-AIエージェントのコンテキストウィンドウには限りがある。10番目の機能を追加するとき、前の9回を覚えていない。10万行を丸ごと読めないからだ。
+AIエージェントのコンテキストウィンドウには限りがある。10番目の機能を追加するとき、前の9つを覚えていない。10万行を丸ごと読めないからだ。
 
 決定だけを分離すれば12,500行。200Kトークンコンテキストの55%。AIが一度に読める大きさだ。
 
@@ -54,7 +54,7 @@ Fullendはソフトウェアのすべての決定を10個の宣言型仕様に�
 | プロジェクト設定 | fullend.yaml | 技術スタック、ミドルウェア、モジュールパス |
 | 画面 | [STML](/ja/dsl/stml/) (HTML5 + data-*) | 何を表示し何をするか |
 | API契約 | OpenAPI 3.x | どんなリクエストを受け、どんなレスポンスを返すか |
-| サービスフロー | [SSaC](/ja/dsl/ssac/) (Go comment DSL) | どの順序で処理するか |
+| サービスフロー | [SSaC](/ja/dsl/ssac/) (.ssac DSL) | どの順序で処理するか |
 | データ構造 | SQL DDL + sqlc | 何を保存するか |
 | 外部関数 | Func Spec (Go) | カスタムロジックのインターフェースと実装 |
 | 状態遷移 | Mermaid stateDiagram | リソースがどの状態を経るか |
@@ -62,20 +62,21 @@ Fullendはソフトウェアのすべての決定を10個の宣言型仕様に�
 | シナリオ | Gherkin (.feature) | エンドポイント間のビジネスフロー検証 |
 | インフラ | Terraform HCL | どこで動かすか |
 
-OpenAPI、SQL DDL、Terraformは業界標準だ。それ以外の関心事には対応するSSoT DSLが存在しなかった。サービスフローはGoハンドラに散在し、画面の決定はReactフックに埋没し、状態遷移はif-else分岐に隠れ、権限はミドルウェアにハードコードされていた。そこでSTML、SSaC、Func Spec、stateDiagram連携、OPA連携、Gherkin連携を設計した。このプロジェクトで作ったDSLと連携だ。
+OpenAPI、SQL DDL、Terraformは業界標準だ。それ以外の関心事には対応するSSoT DSLが存在しなかった。サービスフローはGoハンドラに散在し、画面の決定はReactフックに埋没し、状態遷移はif-else分岐に隠れ、権限はミドルウェアにハードコードされていた。そこでSTML、SSaC、Func Spec、stateDiagram連携、OPA連携、Gherkin連携を設計した。
 
 ```
 specs/my-project/
-├── fullend.yaml           → プロジェクト設定
-├── frontend/*.html        → STML
-├── api/openapi.yaml       → OpenAPI 3.x
-├── service/*.go           → SSaC
-├── db/*.sql               → SQL DDL + sqlc queries
-├── func/<pkg>/*.go        → Func Spec
-├── states/*.md            → Mermaid stateDiagram
-├── policy/*.rego          → OPA Rego
-├── scenario/*.feature     → Gherkin
-└── terraform/*.tf         → HCL
+├── fullend.yaml             → プロジェクト設定
+├── api/openapi.yaml         → OpenAPI 3.x
+├── db/*.sql                 → SQL DDL + sqlcクエリ
+├── service/**/*.ssac        → SSaC（.ssac拡張子）
+├── model/*.go               → Go構造体（// @dto）
+├── func/<pkg>/*.go          → Func Spec
+├── states/*.md              → Mermaid stateDiagram
+├── policy/*.rego            → OPA Rego
+├── scenario/*.feature       → Gherkin
+├── frontend/*.html          → STML
+└── terraform/*.tf           → HCL
 ```
 
 `specs/`が真実だ。`artifacts/`はいつでも再生成できる。
@@ -113,18 +114,24 @@ STMLとSSaCにもそれぞれ内蔵バリデータを作った。SSaCはサー�
 Fullendは交差バリデータだ。個別ツールを再発明しない。各ツールを呼び出し、SSOT間の境界を検査する。
 
 ```bash
-fullend validate specs/my-project
+fullend validate <specs-dir>
+fullend validate --skip states,terraform <specs-dir>
 ```
 
+10個のSSOTそれぞれを個別検証した後、SSOT間の交差検証を行う。Funcは`func/`ディレクトリが存在する場合のみ検証される。`--skip`で特定のSSOTを除外できる。
+
 ```
-✓ Config       fullend.yaml valid
-✓ DDL          3 tables, 18 columns
+✓ Config       my-project, go/gin, typescript/react
 ✓ OpenAPI      7 endpoints
+✓ DDL          3 tables, 18 columns
 ✓ SSaC         7 service functions
+✓ Model        3 files
 ✓ STML         4 pages, 6 bindings
-✓ States       2 diagrams
-✓ Policy       3 rules
-✓ Scenario     2 features
+✓ States       1 diagrams, 3 transitions
+✓ Policy       1 files, 5 rules, 3 ownership mappings
+✓ Scenario     4 features, 5 scenarios
+✓ Func         3 funcs
+✓ Terraform    2 files
 ✓ Cross        0 mismatches
 
 All SSOT sources are consistent.
@@ -143,20 +150,129 @@ All SSOT sources are consistent.
 FAILED: Fix errors before codegen.
 ```
 
-検証が通ればコードを生成する。
+検証が通ればコードを生成する。`--skip`オプションはvalidateと同様に使える。
 
 ```bash
-fullend gen specs/my-project artifacts/my-project
+fullend gen <specs-dir> <artifacts-dir>
+fullend gen --skip terraform <specs-dir> <artifacts-dir>
 ```
 
-sqlcがDBモデルを生成し、oapi-codgenがAPI型を生成し、SSaCがginハンドラを生成し、STMLがReactコンポーネントを生成し、状態マシンパッケージとOPA Authorizerが生成され、GherkinからHurlテストが生成され、Fullendがそれらを繋ぐグルーコードを生成する。
+sqlcがDBモデルを生成し、oapi-codegenがAPI型を生成し、SSaCがginハンドラを生成し、STMLがReactコンポーネントを生成し、状態マシンパッケージとOPA Authorizerが生成され、GherkinからHurlテストが生成され、Fullendがそれらを繋ぐグルーコードを生成する。
+
+### gen-model
+
+外部のOpenAPIドキュメントからGoモデルファイル（インターフェース＋型＋HTTPクライアント）を生成する。ローカルファイルパスまたはURLを受け付ける。
+
+```bash
+fullend gen-model <openapi-source> <output-dir>
+fullend gen-model https://api.stripe.com/openapi.yaml ./external/
+```
+
+### chain
+
+単一のAPIオペレーションに接続されたすべてのSSOTノードをトレースする。1つのoperationIdを入力すると、レイヤーをまたぐ完全なファイル:行マップを出力する。
+
+```bash
+fullend chain <operationId> <specs-dir>
+```
+
+```
+── Feature Chain: AcceptProposal ──
+
+  OpenAPI    api/openapi.yaml:296                          POST /proposals/{id}/accept
+  SSaC       service/proposal/accept_proposal.ssac:19      @get @empty @auth @state @put @call @post @response
+  DDL        db/gigs.sql:1                                 CREATE TABLE gigs
+  DDL        db/proposals.sql:1                            CREATE TABLE proposals
+  DDL        db/transactions.sql:1                         CREATE TABLE transactions
+  Rego       policy/authz.rego:3                           resource: gig
+  StateDiag  states/gig.md:7                               diagram: gig → AcceptProposal
+  StateDiag  states/proposal.md:6                          diagram: proposal → AcceptProposal
+  FuncSpec   func/billing/hold_escrow.go:8                 @func billing.HoldEscrow
+  Gherkin    scenario/gig_lifecycle.feature:4              Scenario: Happy Path - Full Gig Lifecycle
+```
+
+### status
+
+検出されたSSOTとその統計のサマリーを表示する。
+
+```bash
+fullend status <specs-dir>
+```
+
+```
+SSOT Status:
+  OpenAPI      api/openapi.yaml               7 endpoints
+  DDL          db                             3 tables, 18 columns
+  SSaC         service                        7 functions
+  STML         frontend                       4 pages
+  States       states                         1 diagrams, 3 transitions
+  Policy       policy                         1 files, 5 rules
+  Scenario     scenario                       4 features, 5 scenarios
+  Func         func                           3 funcs
+```
+
+## 組み込み関数とモデル
+
+Fullendには一般的に使われる関数実装とモデルインターフェースが同梱されている。SSaCの`@call`で呼び出すことができる。
+
+### デフォルト関数 (pkg/)
+
+| パッケージ | 関数 | 説明 |
+|---|---|---|
+| `auth` | `hashPassword` | bcryptパスワードハッシュ化 |
+| `auth` | `verifyPassword` | bcryptパスワード検証 |
+| `auth` | `issueToken` | JWTアクセストークン生成（24時間） |
+| `auth` | `verifyToken` | JWTトークン検証＋クレーム抽出 |
+| `auth` | `refreshToken` | リフレッシュトークン生成（7日間） |
+| `auth` | `generateResetToken` | パスワードリセット用ランダムhexトークン |
+| `crypto` | `encrypt` | AES-256-GCM対称暗号化 |
+| `crypto` | `decrypt` | AES-256-GCM復号 |
+| `crypto` | `generateOTP` | TOTPシークレット＋QRプロビジョニングURL |
+| `crypto` | `verifyOTP` | TOTPコード検証 |
+| `storage` | `uploadFile` | S3互換ファイルアップロード |
+| `storage` | `deleteFile` | S3互換ファイル削除 |
+| `storage` | `presignURL` | S3署名付きダウンロードURL |
+| `mail` | `sendEmail` | SMTPプレーンテキストメール |
+| `mail` | `sendTemplateEmail` | GoテンプレートHTMLメール（SMTP経由） |
+| `text` | `generateSlug` | UnicodeからURLセーフなスラグ変換 |
+| `text` | `sanitizeHTML` | XSS防止HTMLサニタイズ |
+| `text` | `truncateText` | Unicode安全なテキスト切り詰め |
+| `image` | `ogImage` | OG画像生成（1200x630、PNG） |
+| `image` | `thumbnail` | サムネイル生成（200x200、PNG） |
+
+プロジェクトは`specs/<project>/func/<pkg>/`にカスタム実装を置くことで上書きできる。
+
+### 組み込みモデル (pkg/)
+
+非DDL I/O用のパッケージプレフィックス付き@modelインターフェース。`fullend.yaml`で設定する。
+
+| パッケージ | インターフェース | バックエンド | SSaCでの使用 |
+|---|---|---|---|
+| `session` | `SessionModel` (Set/Get/Delete + TTL) | PostgreSQL, Memory | `session.Session.Get({key: ...})` |
+| `cache` | `CacheModel` (Set/Get/Delete + TTL) | PostgreSQL, Memory | `cache.Cache.Set({key: ..., value: ..., ttl: ...})` |
+| `file` | `FileModel` (Upload/Download/Delete) | S3, LocalFile | `file.File.Upload({key: ..., body: ...})` |
+| `queue` | シングルトン Pub/Sub (Publish/Subscribe) | PostgreSQL, Memory | `@publish "topic" {payload}` |
+
+### ミドルウェア（自動生成）
+
+Fullendは`fullend.yaml`のクレーム設定からプロジェクト固有の`internal/middleware/bearerauth.go`を生成する。
+
+| ミドルウェア | トリガー | 説明 |
+|---|---|---|
+| `BearerAuth(secret)` | `securitySchemes.bearerAuth` + `backend.auth.claims` | JWTを抽出し`*model.CurrentUser`をginコンテキストに設定 |
+
+ルートグルーピングはOpenAPIの`security`フィールドで決定される。`security: [{bearerAuth: []}]`のあるオペレーションは認証グループに、ないオペレーションはパブリックグループに振り分けられる。
 
 ## 交差検証ルール
 
 Fullendの固有の価値は交差検証にある。個別ツールが自分のレイヤーを検証した後、FullendがSSoT間の不一致を検出する。
 
-**OpenAPI ↔ DDL**
+**fullend.yaml ↔ OpenAPI**
+| 検証対象 | ルール |
+|---|---|
+| ミドルウェア名 | securitySchemesキーと一致するか |
 
+**OpenAPI ↔ DDL**
 | 検証対象 | ルール |
 |---|---|
 | x-sort.allowed | 該当カラムがテーブルに存在するか |
@@ -165,23 +281,20 @@ Fullendの固有の価値は交差検証にある。個別ツールが自分の�
 | x-include.allowed | FK関係で接続されたテーブルか |
 
 **SSaC ↔ DDL**
-
 | 検証対象 | ルール |
 |---|---|
 | Model.Method | sqlcクエリに該当メソッドが存在するか |
 | @result Type | DDLテーブルから派生した型と一致するか |
-| 引数フィールド | DDLカラムに変換可能か |
+| 引数フィールド | DDLカラムにマッピング可能か |
 
 **SSaC ↔ OpenAPI**
-
 | 検証対象 | ルール |
 |---|---|
 | 関数名 | operationIdと一致するか |
 | request引数 | リクエストスキーマにフィールドがあるか |
 | @responseフィールド | レスポンススキーマにフィールドがあるか |
 
-**States ↔ SSaC ↔ OpenAPI**
-
+**States ↔ SSaC ↔ OpenAPI ↔ DDL**
 | 検証対象 | ルール |
 |---|---|
 | 遷移イベント | SSaC関数名と一致するか |
@@ -189,31 +302,53 @@ Fullendの固有の価値は交差検証にある。個別ツールが自分の�
 | SSaC @state | 参照するstateDiagramが存在するか |
 | @stateフィールド | DDLカラムとして存在するか |
 
-**Policy ↔ SSaC ↔ DDL**
-
+**Policy ↔ SSaC ↔ DDL ↔ States**
 | 検証対象 | ルール |
 |---|---|
 | allow (action, resource) | SSaC @authと一致するか |
 | @ownership table.column | DDLに存在するか |
 | @ownership via join | ジョインテーブルFKがDDLに存在するか |
+| 状態遷移イベント | @authを持つ遷移に対応するRegoルールがあるか |
 
 **Func ↔ SSaC**
-
 | 検証対象 | ルール |
 |---|---|
 | @call参照 | 対応するFunc実装があるか |
-| 引数の数/型 | @call引数とRequestフィールドが一致するか |
+| 引数の数 | @call引数とRequestフィールド数が一致するか |
+| 引数の型 | DDL/OpenAPI経由で位置型が一致するか |
+| result/response | result/responseが一貫しているか |
 | 関数本体 | TODOスタブではないか（WARNING） |
 
-**Scenario ↔ OpenAPI**
-
+**Scenario ↔ OpenAPI ↔ States**
 | 検証対象 | ルール |
 |---|---|
 | operationId | OpenAPIに存在するか |
 | HTTPメソッド | OpenAPIメソッドと一致するか |
 | JSONフィールド | リクエストスキーマに存在するか |
+| ステップ順序 | 状態遷移ルールに従っているか |
+
+**Queue (Pub/Sub)**
+| 検証対象 | ルール |
+|---|---|
+| @publishトピック | 対応する@subscribe関数があるか |
+| payload/messageフィールド | 一貫しているか |
+| Queue設定 | fullend.yamlにqueue設定があるか |
 
 **STML ↔ SSaC** — どちらも同じOpenAPIのoperationIdを参照する。両方の検証が通れば、フロントエンドが呼び出すAPIとバックエンドが処理するAPIの一致が自動的に保証される。
+
+## ランタイムテスト
+
+`fullend gen`はOpenAPIスペックとGherkinシナリオから[Hurl](https://hurl.dev)テストを生成する。
+
+```bash
+# サーバーを起動してから：
+hurl --test --variable host=http://localhost:8080 artifacts/my-project/tests/*.hurl
+```
+
+生成されるテスト：
+- **smoke.hurl** — OpenAPIエンドポイントのスモークテスト（自動生成）
+- **scenario-*.hurl** — ビジネスシナリオテスト（.featureファイルから）
+- **invariant-*.hurl** — エンドポイント間不変条件テスト（.featureファイルから）
 
 ## エージェントのための設計
 
@@ -247,7 +382,7 @@ spec作成後の検証ループは単純だ。
 
 10個のシーケンスタイプで対応できないものは`@call`に逃がす。data-*属性で対応できないものは`custom.ts`に逃がす。このエスケープハッチが全体の20%を超えると、構造化の意味が薄れる。
 
-しかし例外は隔離された瞬間に観察可能になる。多くのプロジェクトがFullendで構造化されれば、`@call`と`custom.ts`に繰り返されるパターンが現れるだろう。
+しかし例外は隔離された瞬間に観察可能になる。多くのプロジェクトがFullendを導入すれば、`@call`と`custom.ts`に繰り返されるパターンが現れるだろう。
 
 SSaCの10個のシーケンスタイプも最初から設計されたものではない。サービスコードを数百個観察した結果、10個に収束した。同じ原理がエスケープハッチでも繰り返されると期待している。頻出する`@call`パターンは新しいシーケンスタイプになり、頻出する`custom.ts`パターンは新しいdata-*属性になる。
 
@@ -257,7 +392,7 @@ SSaCの10個のシーケンスタイプも最初から設計されたもので�
 
 現在FullendはGo(gin) + React + PostgreSQL + Terraformに固定されている。意図的だ。PoC段階では1つのスタックを最後まで貫通させることが先だ。
 
-しかし10個のSSOTのうち多く（OpenAPI、SQL DDL、Terraform、Mermaid、OPA Rego、Gherkin）はすでに言語非依存だ。SSaCのシーケンスタイプ10個は言語に依存しないパターンだ — Goコメントで表現しているだけだ。STMLはHTML5 data-*属性なのでフレームワークに依存しない。
+しかし10個のSSOTのうち多く（OpenAPI、SQL DDL、Terraform、Mermaid、OPA Rego、Gherkin）はすでに言語非依存だ。SSaCの10個のシーケンスタイプは言語に依存しないパターンだ — Goコメントで表現しているだけだ。STMLはHTML5 data-*属性なのでフレームワークに依存しない。
 
 拡張はコード生成バックエンドを追加する問題だ。検証ロジックと交差検証ルールはそのまま維持される。
 

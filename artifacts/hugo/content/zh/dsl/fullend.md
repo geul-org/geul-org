@@ -2,7 +2,7 @@
 title: "Fullend — Full-stack SSOT Orchestrator"
 weight: 1
 date: 2026-03-09T12:00:00+09:00
-lastmod: 2026-03-10T12:00:00+09:00
+lastmod: 2026-03-13T12:00:00+09:00
 tags: ["Fullend", "DSL", "SSOT", "cross-validation", "vibe-coding"]
 summary: "交叉验证10个SSOT并生成代码的CLI。用结构填补氛围编程的裂缝。"
 author: "朴俊宇"
@@ -54,7 +54,7 @@ Fullend 将软件的所有决策分离为10个声明式规范。每个规范成�
 | 项目设置 | fullend.yaml | 技术栈、中间件、模块路径 |
 | 界面 | [STML](/zh/dsl/stml/) (HTML5 + data-*) | 展示什么、做什么 |
 | API 契约 | OpenAPI 3.x | 接收什么请求、返回什么响应 |
-| 服务流程 | [SSaC](/zh/dsl/ssac/) (Go comment DSL) | 按什么顺序处理 |
+| 服务流程 | [SSaC](/zh/dsl/ssac/) (.ssac DSL) | 按什么顺序处理 |
 | 数据结构 | SQL DDL + sqlc | 存储什么 |
 | 外部函数 | Func Spec (Go) | 自定义逻辑的接口与实现 |
 | 状态转移 | Mermaid stateDiagram | 资源经历哪些状态 |
@@ -66,16 +66,17 @@ OpenAPI、SQL DDL 和 Terraform 是行业标准。其余关注点此前没有对
 
 ```
 specs/my-project/
-├── fullend.yaml           → 项目设置
-├── frontend/*.html        → STML
-├── api/openapi.yaml       → OpenAPI 3.x
-├── service/*.go           → SSaC
-├── db/*.sql               → SQL DDL + sqlc queries
-├── func/<pkg>/*.go        → Func Spec
-├── states/*.md            → Mermaid stateDiagram
-├── policy/*.rego          → OPA Rego
-├── scenario/*.feature     → Gherkin
-└── terraform/*.tf         → HCL
+├── fullend.yaml             → 项目设置
+├── api/openapi.yaml         → OpenAPI 3.x
+├── db/*.sql                 → SQL DDL + sqlc queries
+├── service/**/*.ssac        → SSaC（.ssac 扩展名）
+├── model/*.go               → Go structs (// @dto)
+├── func/<pkg>/*.go          → Func Spec
+├── states/*.md              → Mermaid stateDiagram
+├── policy/*.rego            → OPA Rego
+├── scenario/*.feature       → Gherkin
+├── frontend/*.html          → STML
+└── terraform/*.tf           → HCL
 ```
 
 `specs/` 是真实来源。`artifacts/` 随时可以重新生成。
@@ -113,18 +114,24 @@ STML 和 SSaC 也各自创建了内置验证器。SSaC 检查服务流程的内�
 Fullend 是交叉验证器。它不重新发明已有工具，而是调用各个工具并检查 SSOT 间的边界。
 
 ```bash
-fullend validate specs/my-project
+fullend validate <specs-dir>
+fullend validate --skip states,terraform <specs-dir>
 ```
 
+先对10个 SSOT 进行单独验证，再进行交叉验证。Func 仅在存在 `func/` 目录时才验证。可以用 `--skip` 排除特定 SSOT。
+
 ```
-✓ Config       fullend.yaml valid
-✓ DDL          3 tables, 18 columns
+✓ Config       my-project, go/gin, typescript/react
 ✓ OpenAPI      7 endpoints
+✓ DDL          3 tables, 18 columns
 ✓ SSaC         7 service functions
+✓ Model        3 files
 ✓ STML         4 pages, 6 bindings
-✓ States       2 diagrams
-✓ Policy       3 rules
-✓ Scenario     2 features
+✓ States       1 diagrams, 3 transitions
+✓ Policy       1 files, 5 rules, 3 ownership mappings
+✓ Scenario     4 features, 5 scenarios
+✓ Func         3 funcs
+✓ Terraform    2 files
 ✓ Cross        0 mismatches
 
 All SSOT sources are consistent.
@@ -143,17 +150,128 @@ All SSOT sources are consistent.
 FAILED: Fix errors before codegen.
 ```
 
-验证通过后生成代码。
+验证通过后生成代码。`--skip` 选项与 validate 用法相同。
 
 ```bash
-fullend gen specs/my-project artifacts/my-project
+fullend gen <specs-dir> <artifacts-dir>
+fullend gen --skip terraform <specs-dir> <artifacts-dir>
 ```
 
 sqlc 生成数据库模型，oapi-codegen 生成 API 类型，SSaC 生成 gin 处理器，STML 生成 React 组件，状态机包和 OPA Authorizer 被生成，从 Gherkin 生成 Hurl 测试，Fullend 生成将它们串联在一起的胶水代码。
 
+### gen-model
+
+从外部 OpenAPI 文档生成 Go 模型文件（接口 + 类型 + HTTP 客户端）。支持本地文件或 URL 作为输入。
+
+```bash
+fullend gen-model <openapi-source> <output-dir>
+fullend gen-model https://api.stripe.com/openapi.yaml ./external/
+```
+
+### chain
+
+追踪与某个 API 操作关联的所有 SSOT 节点。输入一个 operationId，输出所有层级的 file:line 映射。
+
+```bash
+fullend chain <operationId> <specs-dir>
+```
+
+```
+── Feature Chain: AcceptProposal ──
+
+  OpenAPI    api/openapi.yaml:296                          POST /proposals/{id}/accept
+  SSaC       service/proposal/accept_proposal.ssac:19      @get @empty @auth @state @put @call @post @response
+  DDL        db/gigs.sql:1                                 CREATE TABLE gigs
+  DDL        db/proposals.sql:1                            CREATE TABLE proposals
+  DDL        db/transactions.sql:1                         CREATE TABLE transactions
+  Rego       policy/authz.rego:3                           resource: gig
+  StateDiag  states/gig.md:7                               diagram: gig → AcceptProposal
+  StateDiag  states/proposal.md:6                          diagram: proposal → AcceptProposal
+  FuncSpec   func/billing/hold_escrow.go:8                 @func billing.HoldEscrow
+  Gherkin    scenario/gig_lifecycle.feature:4              Scenario: Happy Path - Full Gig Lifecycle
+```
+
+### status
+
+显示检测到的 SSOT 的概要状态。
+
+```bash
+fullend status <specs-dir>
+```
+
+```
+SSOT Status:
+  OpenAPI      api/openapi.yaml               7 endpoints
+  DDL          db                             3 tables, 18 columns
+  SSaC         service                        7 functions
+  STML         frontend                       4 pages
+  States       states                         1 diagrams, 3 transitions
+  Policy       policy                         1 files, 5 rules
+  Scenario     scenario                       4 features, 5 scenarios
+  Func         func                           3 funcs
+```
+
+## 内置函数与模型
+
+Fullend 内置了常用的函数实现和模型接口。可通过 SSaC 的 `@call` 调用。
+
+### Default Functions (pkg/)
+
+| 包 | 函数 | 说明 |
+|---|---|---|
+| `auth` | `hashPassword` | bcrypt 密码哈希 |
+| `auth` | `verifyPassword` | bcrypt 密码验证 |
+| `auth` | `issueToken` | JWT 访问令牌生成（24h） |
+| `auth` | `verifyToken` | JWT 令牌验证 + 声明提取 |
+| `auth` | `refreshToken` | 刷新令牌生成（7天） |
+| `auth` | `generateResetToken` | 密码重置用随机 hex 令牌 |
+| `crypto` | `encrypt` | AES-256-GCM 对称加密 |
+| `crypto` | `decrypt` | AES-256-GCM 解密 |
+| `crypto` | `generateOTP` | TOTP 密钥 + QR 配置 URL |
+| `crypto` | `verifyOTP` | TOTP 代码验证 |
+| `storage` | `uploadFile` | S3 兼容文件上传 |
+| `storage` | `deleteFile` | S3 兼容文件删除 |
+| `storage` | `presignURL` | S3 presigned 下载 URL |
+| `mail` | `sendEmail` | SMTP 纯文本邮件 |
+| `mail` | `sendTemplateEmail` | Go 模板 HTML 邮件（SMTP） |
+| `text` | `generateSlug` | Unicode → URL-safe slug |
+| `text` | `sanitizeHTML` | XSS 防护 HTML 清理 |
+| `text` | `truncateText` | Unicode 安全文本截断 |
+| `image` | `ogImage` | OG 图片生成（1200x630，PNG） |
+| `image` | `thumbnail` | 缩略图生成（200x200，PNG） |
+
+在项目中将同名实现放在 `specs/<project>/func/<pkg>/` 下即可覆盖。
+
+### Built-in Models (pkg/)
+
+用于不通过 DDL 定义的非关系型 I/O 的包前缀 @model 接口。在 `fullend.yaml` 中配置后端。
+
+| 包 | 接口 | 后端 | SSaC 用法 |
+|---|---|---|---|
+| `session` | `SessionModel` (Set/Get/Delete + TTL) | PostgreSQL, Memory | `session.Session.Get({key: ...})` |
+| `cache` | `CacheModel` (Set/Get/Delete + TTL) | PostgreSQL, Memory | `cache.Cache.Set({key: ..., value: ..., ttl: ...})` |
+| `file` | `FileModel` (Upload/Download/Delete) | S3, LocalFile | `file.File.Upload({key: ..., body: ...})` |
+| `queue` | Singleton Pub/Sub (Publish/Subscribe) | PostgreSQL, Memory | `@publish "topic" {payload}` |
+
+### Middleware（生成）
+
+Fullend 根据 `fullend.yaml` 的 claims 配置为每个项目生成 `internal/middleware/bearerauth.go`。
+
+| 中间件 | 触发条件 | 说明 |
+|---|---|---|
+| `BearerAuth(secret)` | `securitySchemes.bearerAuth` + `backend.auth.claims` | 从 JWT 提取 `*model.CurrentUser` 并设置到 gin 上下文 |
+
+OpenAPI `security` 字段决定路由分组。有 `security: [{bearerAuth: []}]` 的操作归入 auth 组，没有的归入 public 组。
+
 ## 交叉验证规则
 
 Fullend 的核心价值在于交叉验证。各个工具验证自己的层级后，Fullend 捕获 SSOT 之间的不一致。
+
+**fullend.yaml ↔ OpenAPI**
+
+| 验证对象 | 规则 |
+|---|---|
+| 中间件名称 | 是否与 securitySchemes 键匹配 |
 
 **OpenAPI ↔ DDL**
 
@@ -180,7 +298,7 @@ Fullend 的核心价值在于交叉验证。各个工具验证自己的层级后
 | request 参数 | 请求模式中是否存在该字段 |
 | @response 字段 | 响应模式中是否存在该字段 |
 
-**States ↔ SSaC ↔ OpenAPI**
+**States ↔ SSaC ↔ OpenAPI ↔ DDL**
 
 | 验证对象 | 规则 |
 |---|---|
@@ -189,31 +307,58 @@ Fullend 的核心价值在于交叉验证。各个工具验证自己的层级后
 | SSaC @state | 引用的 stateDiagram 是否存在 |
 | @state 字段 | 是否作为 DDL 字段存在 |
 
-**Policy ↔ SSaC ↔ DDL**
+**Policy ↔ SSaC ↔ DDL ↔ States**
 
 | 验证对象 | 规则 |
 |---|---|
 | allow (action, resource) | 是否与 SSaC @auth 匹配 |
 | @ownership table.column | 是否存在于 DDL 中 |
 | @ownership via join | 连接表 FK 是否存在于 DDL 中 |
+| 状态转移事件 | 带 @auth 的转移是否有匹配的 Rego 规则 |
 
 **Func ↔ SSaC**
 
 | 验证对象 | 规则 |
 |---|---|
 | @call 引用 | 是否有对应的 Func 实现 |
-| 参数数量/类型 | @call 参数与 Request 字段是否一致 |
+| 参数数量 | @call 参数与 Request 字段数量是否一致 |
+| 参数类型 | 各位置的类型是否通过 DDL/OpenAPI 匹配 |
+| 结果/响应 | result/response 是否一致 |
 | 函数体 | 是否为 TODO 存根 (WARNING) |
 
-**Scenario ↔ OpenAPI**
+**Scenario ↔ OpenAPI ↔ States**
 
 | 验证对象 | 规则 |
 |---|---|
 | operationId | 是否存在于 OpenAPI 中 |
 | HTTP method | 是否与 OpenAPI 方法一致 |
 | JSON 字段 | 是否存在于请求模式中 |
+| 步骤顺序 | 是否遵循状态转移规则 |
+
+**Queue (Pub/Sub)**
+
+| 验证对象 | 规则 |
+|---|---|
+| @publish topic | 是否有匹配的 @subscribe 函数 |
+| payload/message 字段 | 是否一致 |
+| queue 配置 | fullend.yaml 中是否有 queue config |
 
 **STML ↔ SSaC** — 两者都引用相同的 OpenAPI operationId。如果双方验证都通过，前端调用的 API 和后端处理的 API 自动保证一致。
+
+## 运行时测试
+
+`fullend gen` 从 OpenAPI 规范和 Gherkin 场景生成 [Hurl](https://hurl.dev) 测试。
+
+```bash
+# 启动服务器后：
+hurl --test --variable host=http://localhost:8080 artifacts/my-project/tests/*.hurl
+```
+
+生成的测试：
+
+- **smoke.hurl** — OpenAPI 端点冒烟测试（自动生成）
+- **scenario-*.hurl** — 业务场景测试（从 .feature 文件生成）
+- **invariant-*.hurl** — 端点间不变式测试（从 .feature 文件生成）
 
 ## 为代理而设计
 
@@ -227,7 +372,7 @@ Fullend 是为 AI 代理设计的。
 代理工作流：
 1. 修改 specs/
 2. fullend validate specs/my-project
-3. 有错误 → 修改对应 SSOT → 回到 2
+3. 有错误 → 修改对应 SSOT → 回到第2步
 4. 零错误 → fullend gen specs/my-project artifacts/my-project
 ```
 
