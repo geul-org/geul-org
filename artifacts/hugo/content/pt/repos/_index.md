@@ -1,7 +1,7 @@
 ---
 title: "Repositórios"
 date: 2026-02-28T12:00:00+09:00
-summary: "Repositórios do GitHub que compõem o projeto GEUL. Especificação da linguagem, livros de códigos gramaticais, busca, DSL e site."
+summary: "Repositórios do GitHub que compõem o projeto GEUL. Especificação da linguagem, livros de códigos gramaticais, busca e site."
 image: "/images/og-default.webp"
 ---
 
@@ -89,46 +89,6 @@ Busca com inteiros de 64 bits. Não requer banco de dados vetorial, nem grafo AN
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | Linguagem | Python |
-| Licença | MIT |
-
----
-
-## DSL
-
-### fullend
-
-Full-stack SSOT Orchestrator — valida a consistência entre 5 fontes SSOT (STML, OpenAPI, SSaC, SQL DDL, Terraform) e gera código a partir delas.
-
-Chama as ferramentas de validação individuais de cada camada e depois faz validação cruzada dos limites entre camadas. Após a validação, orquestra a geração de código a partir de sqlc, oapi-codegen, SSaC e STML, e produz o código de ligação.
-
-| | |
-|---|---|
-| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
-| Linguagem | Go |
-| Licença | MIT |
-
-### ssac
-
-Service Sequences as Code — analisa lógica de serviço declarativa em comentários Go e gera código de implementação em Go via CLI.
-
-Define fluxos de serviço como comentários estruturados em arquivos fonte Go. O CLI lê essas declarações e gera o código de implementação correspondente, eliminando código repetitivo enquanto mantém a lógica legível e sob controle de versão.
-
-| | |
-|---|---|
-| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
-| Linguagem | Go |
-| Licença | MIT |
-
-### stml
-
-SSOT Template Markup Language — vinculação declarativa UI-API com atributos HTML5 data-*, validação simbólica contra OpenAPI e geração de código React.
-
-Vincula templates de UI a schemas de API usando atributos HTML5 data. Valida simbolicamente contra especificações OpenAPI em tempo de build e gera componentes React com tipos seguros. Uma única fonte de verdade do schema à tela.
-
-| | |
-|---|---|
-| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
-| Linguagem | TypeScript |
 | Licença | MIT |
 
 ---

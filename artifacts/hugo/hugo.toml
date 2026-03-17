@@ -39,11 +39,6 @@ defaultContentLanguageInSubdir = false
         name = "Projects"
         pageRef = "/projects"
         weight = 3
-      [[languages.en.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 2. 한국어
   [languages.ko]
     languageName = "한국어"
@@ -68,11 +63,6 @@ defaultContentLanguageInSubdir = false
         name = "프로젝트"
         pageRef = "/projects"
         weight = 3
-      [[languages.ko.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 3. 中文
   [languages.zh]
     languageName = "中文"
@@ -97,11 +87,6 @@ defaultContentLanguageInSubdir = false
         name = "项目"
         pageRef = "/projects"
         weight = 3
-      [[languages.zh.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 4. Español
   [languages.es]
     languageName = "Español"
@@ -126,11 +111,6 @@ defaultContentLanguageInSubdir = false
         name = "Proyectos"
         pageRef = "/projects"
         weight = 3
-      [[languages.es.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 5. العربية (RTL)
   [languages.ar]
     languageName = "العربية"
@@ -155,11 +135,6 @@ defaultContentLanguageInSubdir = false
         name = "مشاريع"
         pageRef = "/projects"
         weight = 3
-      [[languages.ar.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 6. Português
   [languages.pt]
     languageName = "Português"
@@ -184,11 +159,6 @@ defaultContentLanguageInSubdir = false
         name = "Projetos"
         pageRef = "/projects"
         weight = 3
-      [[languages.pt.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 7. Bahasa Indonesia
   [languages.id]
     languageName = "Bahasa Indonesia"
@@ -213,11 +183,6 @@ defaultContentLanguageInSubdir = false
         name = "Proyek"
         pageRef = "/projects"
         weight = 3
-      [[languages.id.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 8. Русский
   [languages.ru]
     languageName = "Русский"
@@ -242,11 +207,6 @@ defaultContentLanguageInSubdir = false
         name = "Проекты"
         pageRef = "/projects"
         weight = 3
-      [[languages.ru.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 9. 日本語
   [languages.ja]
     languageName = "日本語"
@@ -271,11 +231,6 @@ defaultContentLanguageInSubdir = false
         name = "プロジェクト"
         pageRef = "/projects"
         weight = 3
-      [[languages.ja.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 10. Français
   [languages.fr]
     languageName = "Français"
@@ -300,11 +255,6 @@ defaultContentLanguageInSubdir = false
         name = "Projets"
         pageRef = "/projects"
         weight = 3
-      [[languages.fr.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 11. Deutsch
   [languages.de]
     languageName = "Deutsch"
@@ -329,11 +279,6 @@ defaultContentLanguageInSubdir = false
         name = "Projekte"
         pageRef = "/projects"
         weight = 3
-      [[languages.de.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
   # 12. עברית (RTL)
   [languages.he]
     languageName = "עברית"
@@ -358,11 +303,6 @@ defaultContentLanguageInSubdir = false
         name = "פרויקטים"
         pageRef = "/projects"
         weight = 3
-      [[languages.he.menus.main]]
-        identifier = "dsl"
-        name = "DSL"
-        pageRef = "/dsl"
-        weight = 4
 # ──────────────────────────────────────────────
 # Taxonomy / Sitemap / Output / Markup
 # ──────────────────────────────────────────────

@@ -1,7 +1,7 @@
 ---
 title: "Repositori"
 date: 2026-02-28T12:00:00+09:00
-summary: "Repositori GitHub yang membentuk proyek GEUL. Spesifikasi bahasa, buku kode tata bahasa, pencarian, DSL, dan situs web."
+summary: "Repositori GitHub yang membentuk proyek GEUL. Spesifikasi bahasa, buku kode tata bahasa, pencarian dan situs web."
 image: "/images/og-default.webp"
 ---
 
@@ -89,46 +89,6 @@ Mencari dengan bilangan bulat 64 bit. Tidak memerlukan database vektor, graf ANN
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | Bahasa | Python |
-| Lisensi | MIT |
-
----
-
-## DSL
-
-### fullend
-
-Full-stack SSOT Orchestrator — memvalidasi konsistensi 5 sumber SSOT (STML, OpenAPI, SSaC, SQL DDL, Terraform) dan menghasilkan kode darinya.
-
-Memanggil alat validasi individual setiap lapisan, lalu melakukan validasi silang batas antar lapisan. Setelah validasi lolos, mengorkestrasi pembuatan kode dari sqlc, oapi-codegen, SSaC, dan STML, serta menghasilkan kode penghubung.
-
-| | |
-|---|---|
-| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
-| Bahasa | Go |
-| Lisensi | MIT |
-
-### ssac
-
-Service Sequences as Code — mem-parsing logika layanan deklaratif dari komentar Go dan menghasilkan kode implementasi Go melalui CLI.
-
-Mendefinisikan alur layanan sebagai komentar terstruktur dalam file sumber Go. CLI membaca deklarasi ini dan menghasilkan kode implementasi yang sesuai, menghilangkan boilerplate sambil menjaga logika tetap terbaca dan terkontrol versinya.
-
-| | |
-|---|---|
-| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
-| Bahasa | Go |
-| Lisensi | MIT |
-
-### stml
-
-SSOT Template Markup Language — pengikatan deklaratif UI-ke-API dengan atribut HTML5 data-*, validasi simbolik terhadap OpenAPI, dan pembuatan kode React.
-
-Mengikat template UI ke skema API menggunakan atribut HTML5 data. Memvalidasi secara simbolik terhadap spesifikasi OpenAPI saat build, lalu menghasilkan komponen React yang aman tipe. Satu sumber kebenaran dari skema ke layar.
-
-| | |
-|---|---|
-| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
-| Bahasa | TypeScript |
 | Lisensi | MIT |
 
 ---

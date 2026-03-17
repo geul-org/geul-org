@@ -1,7 +1,7 @@
 ---
 title: "Repositorios"
 date: 2026-02-28T12:00:00+09:00
-summary: "Repositorios de GitHub que componen el proyecto GEUL. Especificación del lenguaje, libros de códigos gramaticales, búsqueda, DSL y sitio web."
+summary: "Repositorios de GitHub que componen el proyecto GEUL. Especificación del lenguaje, libros de códigos gramaticales, búsqueda y sitio web."
 image: "/images/og-default.webp"
 ---
 
@@ -89,46 +89,6 @@ Busca con enteros de 64 bits. No requiere base de datos vectorial, ni grafo ANN,
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | Lenguaje | Python |
-| Licencia | MIT |
-
----
-
-## DSL
-
-### fullend
-
-Full-stack SSOT Orchestrator — valida la consistencia entre 5 fuentes SSOT (STML, OpenAPI, SSaC, SQL DDL, Terraform) y genera código a partir de ellas.
-
-Invoca las herramientas de validación individuales de cada capa y luego realiza una validación cruzada de los límites entre capas. Tras la validación, orquesta la generación de código desde sqlc, oapi-codegen, SSaC y STML, y produce el código de unión.
-
-| | |
-|---|---|
-| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
-| Lenguaje | Go |
-| Licencia | MIT |
-
-### ssac
-
-Service Sequences as Code — analiza la lógica de servicio declarativa en comentarios de Go y genera código de implementación en Go mediante CLI.
-
-Define flujos de servicio como comentarios estructurados en archivos fuente de Go. El CLI lee estas declaraciones y genera el código de implementación correspondiente, eliminando el código repetitivo mientras mantiene la lógica legible y bajo control de versiones.
-
-| | |
-|---|---|
-| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
-| Lenguaje | Go |
-| Licencia | MIT |
-
-### stml
-
-SSOT Template Markup Language — vinculación declarativa UI-API con atributos HTML5 data-*, validación simbólica contra OpenAPI y generación de código React.
-
-Vincula plantillas de UI a esquemas de API usando atributos HTML5 data. Valida simbólicamente contra especificaciones OpenAPI en tiempo de compilación y genera componentes React con tipos seguros. Una única fuente de verdad del esquema a la pantalla.
-
-| | |
-|---|---|
-| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
-| Lenguaje | TypeScript |
 | Licencia | MIT |
 
 ---

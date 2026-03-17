@@ -1,7 +1,7 @@
 ---
 title: "Repositories"
 date: 2026-02-28T12:00:00+09:00
-summary: "GitHub-Repositories des GEUL-Projekts. Sprachspezifikation, Grammatik-Codebücher, Suche, DSL und Website."
+summary: "GitHub-Repositories des GEUL-Projekts. Sprachspezifikation, Grammatik-Codebücher, Suche und Website."
 image: "/images/og-default.webp"
 ---
 
@@ -89,46 +89,6 @@ Sucht mit 64-Bit-Ganzzahlen. Keine Vektordatenbank, kein ANN-Graph, kein Embeddi
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | Sprache | Python |
-| Lizenz | MIT |
-
----
-
-## DSL
-
-### fullend
-
-Full-stack SSOT Orchestrator — validiert die Konsistenz über 5 SSOT-Quellen (STML, OpenAPI, SSaC, SQL DDL, Terraform) und generiert Code daraus.
-
-Ruft die individuellen Validierungstools jeder Schicht auf und führt dann eine Kreuzvalidierung der Schichtgrenzen durch. Nach erfolgreicher Validierung orchestriert es die Codegenerierung aus sqlc, oapi-codegen, SSaC und STML und erzeugt Verbindungscode.
-
-| | |
-|---|---|
-| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
-| Sprache | Go |
-| Lizenz | MIT |
-
-### ssac
-
-Service Sequences as Code — parst deklarative Servicelogik aus Go-Kommentaren und generiert Go-Implementierungscode via CLI.
-
-Definiert Service-Abläufe als strukturierte Kommentare in Go-Quelldateien. Das CLI liest diese Deklarationen und generiert den entsprechenden Implementierungscode, wodurch Boilerplate eliminiert wird, während die Logik lesbar und versionskontrolliert bleibt.
-
-| | |
-|---|---|
-| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
-| Sprache | Go |
-| Lizenz | MIT |
-
-### stml
-
-SSOT Template Markup Language — deklarative UI-API-Bindung mit HTML5 data-*-Attributen, symbolische Validierung gegen OpenAPI und React-Codegenerierung.
-
-Bindet UI-Templates über HTML5-data-Attribute an API-Schemas. Validiert symbolisch gegen OpenAPI-Spezifikationen zur Build-Zeit und generiert typsichere React-Komponenten. Eine einzige Quelle der Wahrheit vom Schema zum Bildschirm.
-
-| | |
-|---|---|
-| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
-| Sprache | TypeScript |
 | Lizenz | MIT |
 
 ---
