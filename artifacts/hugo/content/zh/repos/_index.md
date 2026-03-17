@@ -1,7 +1,7 @@
 ---
 title: "代码仓库"
 date: 2026-02-28T12:00:00+09:00
-summary: "构成GEUL项目的GitHub仓库列表。语言规范、文法码本、搜索、DSL与网站。"
+summary: "构成GEUL项目的GitHub仓库列表。语言规范、文法码本、搜索、与网站。"
 image: "/images/og-default.webp"
 ---
 
@@ -89,46 +89,6 @@ SILK（Symbolic Index for LLM Knowledge）——神经符号搜索架构。
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | 语言 | Python |
-| 许可证 | MIT |
-
----
-
-## DSL
-
-### fullend
-
-全栈 SSOT 编排器 — 验证 5 个 SSOT 源（STML、OpenAPI、SSaC、SQL DDL、Terraform）之间的一致性并生成代码。
-
-调用各层的独立验证工具后，交叉验证层间边界。验证通过后，编排 sqlc、oapi-codegen、SSaC、STML 的代码生成并产出胶水代码。
-
-| | |
-|---|---|
-| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
-| 语言 | Go |
-| 许可证 | MIT |
-
-### ssac
-
-Service Sequences as Code——从Go注释中解析声明式服务逻辑，通过CLI生成Go实现代码。
-
-在Go源文件中以结构化注释定义服务流程。CLI读取这些声明并生成相应的实现代码，消除样板代码，同时保持逻辑的可读性和版本控制。
-
-| | |
-|---|---|
-| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
-| 语言 | Go |
-| 许可证 | MIT |
-
-### stml
-
-SSOT Template Markup Language——用HTML5 data-*属性声明式绑定UI与API，对OpenAPI进行符号验证，并生成React代码。
-
-用HTML5 data属性将UI模板绑定到API模式。构建时对OpenAPI规范进行符号验证，然后生成类型安全的React组件。从模式到界面的单一事实来源。
-
-| | |
-|---|---|
-| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
-| 语言 | TypeScript |
 | 许可证 | MIT |
 
 ---

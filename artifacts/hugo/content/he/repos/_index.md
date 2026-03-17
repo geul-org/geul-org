@@ -1,7 +1,7 @@
 ---
 title: "מאגרים"
 date: 2026-02-28T12:00:00+09:00
-summary: "מאגרי GitHub המרכיבים את פרויקט GEUL. מפרט שפה, ספרי קודים דקדוקיים, חיפוש, DSL ואתר אינטרנט."
+summary: "מאגרי GitHub המרכיבים את פרויקט GEUL. מפרט שפה, ספרי קודים דקדוקיים, חיפוש ואתר אינטרנט."
 image: "/images/og-default.webp"
 ---
 
@@ -89,46 +89,6 @@ SILK (Symbolic Index for LLM Knowledge) — ארכיטקטורת חיפוש נו
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | שפה | Python |
-| רישיון | MIT |
-
----
-
-## DSL
-
-### fullend
-
-Full-stack SSOT Orchestrator — מאמת עקביות בין 5 מקורות SSOT (STML, OpenAPI, SSaC, SQL DDL, Terraform) ומייצר קוד מהם.
-
-מפעיל את כלי האימות הפרטניים של כל שכבה, ואז מבצע אימות צולב של הגבולות בין השכבות. לאחר מעבר האימות, מתזמר יצירת קוד מ-sqlc, oapi-codegen, SSaC ו-STML, ומפיק קוד חיבור.
-
-| | |
-|---|---|
-| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
-| שפה | Go |
-| רישיון | MIT |
-
-### ssac
-
-Service Sequences as Code — מפרסר לוגיקת שירות הצהרתית מהערות Go ומייצר קוד מימוש ב-Go דרך CLI.
-
-מגדיר זרימות שירות כהערות מובנות בקבצי מקור Go. ה-CLI קורא הצהרות אלה ומייצר את קוד המימוש המתאים, ומבטל קוד תבניתי תוך שמירה על קריאות הלוגיקה ובקרת גרסאות.
-
-| | |
-|---|---|
-| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
-| שפה | Go |
-| רישיון | MIT |
-
-### stml
-
-SSOT Template Markup Language — קישור הצהרתי UI-ל-API עם תכונות HTML5 data-*, אימות סמלי מול OpenAPI, ויצירת קוד React.
-
-מקשר תבניות UI לסכמות API באמצעות תכונות HTML5 data. מאמת סמלית מול מפרטי OpenAPI בזמן בנייה, ואז מייצר רכיבי React בטוחי טיפוס. מקור אמת יחיד מהסכמה למסך.
-
-| | |
-|---|---|
-| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
-| שפה | TypeScript |
 | רישיון | MIT |
 
 ---

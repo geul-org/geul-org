@@ -1,7 +1,7 @@
 ---
 title: "リポジトリ"
 date: 2026-02-28T12:00:00+09:00
-summary: "GEULプロジェクトを構成するGitHubリポジトリ一覧。言語仕様、文法コードブック、検索、DSL、ウェブサイト。"
+summary: "GEULプロジェクトを構成するGitHubリポジトリ一覧。言語仕様、文法コードブック、検索、、ウェブサイト。"
 image: "/images/og-default.webp"
 ---
 
@@ -89,46 +89,6 @@ SILK（Symbolic Index for LLM Knowledge）——ニューロシンボリック�
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | 言語 | Python |
-| ライセンス | MIT |
-
----
-
-## DSL
-
-### fullend
-
-Full-stack SSOT Orchestrator — 5つのSSOTソース（STML、OpenAPI、SSaC、SQL DDL、Terraform）間の整合性を検証し、コードを生成する。
-
-各レイヤーの個別検証ツールを呼び出した後、レイヤー間の境界を交差検証する。検証通過後、sqlc、oapi-codegen、SSaC、STMLのコード生成をオーケストレーションし、グルーコードを出力する。
-
-| | |
-|---|---|
-| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
-| 言語 | Go |
-| ライセンス | MIT |
-
-### ssac
-
-Service Sequences as Code——Goコメントから宣言的サービスロジックをパースし、CLI経由でGo実装コードを生成する。
-
-Goソースファイル内の構造化コメントとしてサービスフローを定義する。CLIがこれらの宣言を読み取り、対応する実装コードを生成し、ロジックの可読性とバージョン管理を維持しながらボイラープレートを排除する。
-
-| | |
-|---|---|
-| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
-| 言語 | Go |
-| ライセンス | MIT |
-
-### stml
-
-SSOT Template Markup Language——HTML5 data-*属性による宣言的UI-APIバインディング、OpenAPI対比シンボリック検証、React コード生成。
-
-HTML5 data属性でUIテンプレートをAPIスキーマにバインドする。ビルド時にOpenAPI仕様に対してシンボリック検証を行い、型安全なReactコンポーネントを生成する。スキーマから画面まで単一の真実の情報源。
-
-| | |
-|---|---|
-| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
-| 言語 | TypeScript |
 | ライセンス | MIT |
 
 ---

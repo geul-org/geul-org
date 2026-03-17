@@ -1,7 +1,7 @@
 ---
 title: "Dépôts"
 date: 2026-02-28T12:00:00+09:00
-summary: "Les dépôts GitHub qui composent le projet GEUL. Spécification du langage, livres de codes grammaticaux, recherche, DSL et site web."
+summary: "Les dépôts GitHub qui composent le projet GEUL. Spécification du langage, livres de codes grammaticaux, recherche et site web."
 image: "/images/og-default.webp"
 ---
 
@@ -89,46 +89,6 @@ Recherche avec des entiers de 64 bits. Pas besoin de base de données vectoriell
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | Langage | Python |
-| Licence | MIT |
-
----
-
-## DSL
-
-### fullend
-
-Full-stack SSOT Orchestrator — valide la cohérence entre 5 sources SSOT (STML, OpenAPI, SSaC, SQL DDL, Terraform) et génère du code à partir d'elles.
-
-Appelle les outils de validation individuels de chaque couche, puis effectue une validation croisée des frontières entre couches. Après validation, orchestre la génération de code depuis sqlc, oapi-codegen, SSaC et STML, et produit le code de liaison.
-
-| | |
-|---|---|
-| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
-| Langage | Go |
-| Licence | MIT |
-
-### ssac
-
-Service Sequences as Code — analyse la logique de service déclarative dans les commentaires Go et génère le code d'implémentation Go via CLI.
-
-Définit les flux de service comme des commentaires structurés dans les fichiers source Go. Le CLI lit ces déclarations et génère le code d'implémentation correspondant, éliminant le code répétitif tout en gardant la logique lisible et sous contrôle de version.
-
-| | |
-|---|---|
-| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
-| Langage | Go |
-| Licence | MIT |
-
-### stml
-
-SSOT Template Markup Language — liaison déclarative UI-API avec des attributs HTML5 data-*, validation symbolique contre OpenAPI et génération de code React.
-
-Lie les templates UI aux schémas API via les attributs HTML5 data. Valide symboliquement par rapport aux spécifications OpenAPI au moment du build, puis génère des composants React typés. Une seule source de vérité du schéma à l'écran.
-
-| | |
-|---|---|
-| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
-| Langage | TypeScript |
 | Licence | MIT |
 
 ---

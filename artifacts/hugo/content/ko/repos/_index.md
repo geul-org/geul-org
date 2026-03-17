@@ -93,46 +93,6 @@ SILK(Symbolic Index for LLM Knowledge) — 뉴로-심볼릭 검색 아키텍처.
 
 ---
 
-## DSL
-
-### fullend
-
-Full-stack SSOT Orchestrator — 5개 SSOT(STML, OpenAPI, SSaC, SQL DDL, Terraform)의 교차 정합성을 검증하고 코드를 산출한다.
-
-각 레이어의 개별 검증 도구를 호출한 뒤, 레이어 간 경계를 교차 검증한다. 검증 통과 후 sqlc, oapi-codegen, SSaC, STML의 코드 생성을 오케스트레이션하고 글루 코드를 산출한다.
-
-| | |
-|---|---|
-| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
-| 언어 | Go |
-| 라이선스 | MIT |
-
-### ssac
-
-Service Sequences as Code — Go 주석에서 선언적 서비스 로직을 파싱하여 Go 구현 코드를 CLI로 생성한다.
-
-Go 소스 파일의 구조화된 주석으로 서비스 흐름을 정의한다. CLI가 이 선언을 읽고 대응하는 구현 코드를 생성하여, 보일러플레이트를 제거하면서 로직의 가독성과 버전 관리를 유지한다.
-
-| | |
-|---|---|
-| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
-| 언어 | Go |
-| 라이선스 | MIT |
-
-### stml
-
-SSOT Template Markup Language — HTML5 data-* 속성으로 UI와 API를 선언적으로 바인딩하고, OpenAPI 대비 심볼릭 검증 후 React 코드를 생성한다.
-
-HTML5 data 속성으로 UI 템플릿을 API 스키마에 바인딩한다. 빌드 시점에 OpenAPI 명세 대비 심볼릭 검증을 수행하고, 타입 안전한 React 컴포넌트를 생성한다. 스키마에서 화면까지 단일 진실 공급원.
-
-| | |
-|---|---|
-| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
-| 언어 | TypeScript |
-| 라이선스 | MIT |
-
----
-
 ## 웹사이트
 
 ### geul-org

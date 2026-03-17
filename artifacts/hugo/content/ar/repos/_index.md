@@ -1,7 +1,7 @@
 ---
 title: "المستودعات"
 date: 2026-02-28T12:00:00+09:00
-summary: "مستودعات GitHub التي يتكون منها مشروع GEUL. مواصفات اللغة، دفاتر شفرات القواعد، البحث، DSL والموقع الإلكتروني."
+summary: "مستودعات GitHub التي يتكون منها مشروع GEUL. مواصفات اللغة، دفاتر شفرات القواعد، البحث، والموقع الإلكتروني."
 image: "/images/og-default.webp"
 ---
 
@@ -89,46 +89,6 @@ SILK (Symbolic Index for LLM Knowledge) — بنية بحث عصبية-رمزي�
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
 | اللغة | Python |
-| الرخصة | MIT |
-
----
-
-## DSL
-
-### fullend
-
-منسق SSOT للمكدس الكامل — يتحقق من اتساق 5 مصادر SSOT (STML، OpenAPI، SSaC، SQL DDL، Terraform) ويولّد الكود منها.
-
-يستدعي أدوات التحقق الفردية لكل طبقة، ثم يجري التحقق المتبادل بين الطبقات. بعد نجاح التحقق، ينسّق توليد الكود من sqlc وoapi-codegen وSSaC وSTML وينتج كود الربط.
-
-| | |
-|---|---|
-| GitHub | [geul-org/fullend](https://github.com/geul-org/fullend) |
-| اللغة | Go |
-| الرخصة | MIT |
-
-### ssac
-
-Service Sequences as Code — يحلل منطق الخدمة التصريحي من تعليقات Go ويولّد شفرة التنفيذ بلغة Go عبر CLI.
-
-يعرّف تدفقات الخدمة كتعليقات منظمة في ملفات Go المصدرية. يقرأ CLI هذه التصريحات ويولّد شفرة التنفيذ المقابلة، مما يزيل الشفرة النمطية مع الحفاظ على قابلية القراءة والتحكم بالإصدارات.
-
-| | |
-|---|---|
-| GitHub | [geul-org/ssac](https://github.com/geul-org/ssac) |
-| اللغة | Go |
-| الرخصة | MIT |
-
-### stml
-
-SSOT Template Markup Language — ربط تصريحي بين واجهة المستخدم وAPI باستخدام سمات HTML5 data-*، والتحقق الرمزي مقابل OpenAPI، وتوليد شفرة React.
-
-يربط قوالب واجهة المستخدم بمخططات API باستخدام سمات HTML5 data. يتحقق رمزياً من مواصفات OpenAPI في وقت البناء، ثم يولّد مكونات React آمنة النوع. مصدر حقيقة واحد من المخطط إلى الشاشة.
-
-| | |
-|---|---|
-| GitHub | [geul-org/stml](https://github.com/geul-org/stml) |
-| اللغة | TypeScript |
 | الرخصة | MIT |
 
 ---
