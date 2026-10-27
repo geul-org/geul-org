@@ -1,7 +1,7 @@
 ---
 title: "GEUL 문법"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "GEUL v1 문법 명세. 16비트 워드 위의 레코드, 네 가지 Kind와 모든 Codec, 문서 구조, Issuer와 공표 규칙을 정의한다."
 author: "박준우"
@@ -291,8 +291,9 @@ Codec의 상위 2비트가 계열이다. NUMERIC/DECIMAL은 상위 3번째 비�
 | `0x03` | [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/) | NUMERIC | Payload 1/2/4/8 WORD의 IEEE 754 binary16/32/64/128 scalar |
 | `0x04` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도 binary64, 불확도 binary32와 그 단위 Reference(ABSENT = 미상) |
 | `0x05` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도 binary64, 불확도 binary32와 그 단위 Reference |
-| `0x06` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | SIGNED-DECIMAL amount, 단위 Reference, 하한·상한. 단위·경계는 생략 가능(ABSENT `0x0000`) |
-| `0x07`~`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | 수치 Value amount(정수·BINARY-FLOAT·10진수·분수), 단위 Reference, 하한·상한. 단위·경계는 생략 가능(ABSENT `0x0000`) |
+| `0x07` | [FRACTION](/ko/grammar/value/numeric/fraction/) | NUMERIC | 원문 표기를 보존하는 분수: 정수·10진수 분자, 부호 없는 정수·10진수 분모. 약분하지 않음 |
+| `0x08`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) | DECIMAL | signed exponent `E`와 최소 WORD 2의 보수 coefficient `C`의 `C×10^E` |
 | `0x11` | [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/) | DECIMAL | signed exponent `E`와 최소 WORD unsigned coefficient `C`의 `C×10^E` |
 | `0x12`~`0x1F` | Reserved | DECIMAL |  |

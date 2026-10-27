@@ -2,7 +2,7 @@
 title: "Documento de especificación de Codec"
 weight: 90
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
 summary: "El libro de códigos también es un documento GEUL. Cuatro Edge (DECLARE, FIELD, ENUM, CODEC) declaran la composición del Payload de un Codec, y ese único documento sirve a la vez para validar, descomponer y mostrar."
 author: "Junwoo Park"
@@ -130,10 +130,10 @@ En el Value QUANTITY (`0806`), los cuatro campos son registros.
 
 | Campo | CODEC |
 |---|---|
-| `amount` | `0810` SIGNED-DECIMAL |
+| `amount` | `0801` SIGNED-INTEGER, `0802` UNSIGNED-INTEGER, `0803` BINARY-FLOAT (solo valores finitos), `0807` FRACTION, `0810` SIGNED-DECIMAL, `0811` UNSIGNED-DECIMAL |
 | `unit` | `0780` cualquier Reference, `0000` opcional |
-| `lower` | `0810` SIGNED-DECIMAL, `0000` opcional |
-| `upper` | `0810` SIGNED-DECIMAL, `0000` opcional |
+| `lower` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (igual que amount), `0000` opcional |
+| `upper` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (igual que amount), `0000` opcional |
 
 ## Reglas
 

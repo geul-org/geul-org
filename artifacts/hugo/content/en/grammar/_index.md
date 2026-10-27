@@ -1,7 +1,7 @@
 ---
 title: "GEUL Grammar"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "The GEUL v1 grammar specification. It defines records on 16-bit words, the four Kinds and all Codecs, the document structure, and the rules for Issuers and publication."
 author: "Junwoo Park"
@@ -291,8 +291,9 @@ The upper 2 bits of the Codec are the family. NUMERIC and DECIMAL are divided ag
 | `0x03` | [BINARY-FLOAT](/grammar/value/numeric/binary-float/) | NUMERIC | An IEEE 754 binary16/32/64/128 scalar with a Payload of 1/2/4/8 WORD |
 | `0x04` | [COORDINATE-EARTH](/grammar/value/numeric/coordinate-earth/) | NUMERIC | Earth (WGS 84) latitude and longitude as binary64, uncertainty as binary32, and its unit Reference (ABSENT = unknown) |
 | `0x05` | [COORDINATE-GEO](/grammar/value/numeric/coordinate-geo/) | NUMERIC | A celestial body Reference, latitude and longitude as binary64, uncertainty as binary32, and its unit Reference |
-| `0x06` | [QUANTITY](/grammar/value/numeric/quantity/) | NUMERIC | A SIGNED-DECIMAL amount, a unit Reference, lower and upper bounds. The unit and bounds can be omitted (ABSENT `0x0000`) |
-| `0x07`-`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/grammar/value/numeric/quantity/) | NUMERIC | A numeric Value amount (integer, BINARY-FLOAT, decimal, fraction), a unit Reference, lower and upper bounds. The unit and bounds can be omitted (ABSENT `0x0000`) |
+| `0x07` | [FRACTION](/grammar/value/numeric/fraction/) | NUMERIC | Fraction that preserves the original notation: integer or decimal numerator, unsigned integer or decimal denominator. Not reduced |
+| `0x08`-`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/grammar/value/decimal/signed-decimal/) | DECIMAL | `C×10^E` with a signed exponent `E` and a coefficient `C` in minimal WORDs, two's complement |
 | `0x11` | [UNSIGNED-DECIMAL](/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C×10^E` with a signed exponent `E` and a coefficient `C` in minimal WORDs, unsigned |
 | `0x12`-`0x1F` | Reserved | DECIMAL |  |

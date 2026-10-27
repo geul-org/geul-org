@@ -1,7 +1,7 @@
 ---
 title: "דקדוק GEUL"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "מפרט הדקדוק של GEUL v1. מגדיר רשומות על גבי WORD של 16 ביט, ארבעת סוגי ה-Kind וכל ה-Codec, מבנה המסמך, וכללי Issuer ופרסום."
 author: "ג'ונו פארק"
@@ -291,8 +291,9 @@ Issuer הוא הגורם שמגדיר מסמכים ופורמטים — [Issuer 
 | `0x03` | [BINARY-FLOAT](/he/grammar/value/numeric/binary-float/) | NUMERIC | scalar של IEEE 754 binary16/32/64/128 עם Payload של 1/2/4/8 WORD |
 | `0x04` | [COORDINATE-EARTH](/he/grammar/value/numeric/coordinate-earth/) | NUMERIC | קו רוחב וקו אורך על כדור הארץ (WGS 84) ב-binary64, אי-ודאות ב-binary32 ו-Reference של יחידה שלה (ABSENT = לא ידוע) |
 | `0x05` | [COORDINATE-GEO](/he/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference של גרם שמים, קו רוחב וקו אורך ב-binary64, אי-ודאות ב-binary32 ו-Reference של יחידה שלה |
-| `0x06` | [QUANTITY](/he/grammar/value/numeric/quantity/) | NUMERIC | amount מסוג SIGNED-DECIMAL, Reference של יחידה, גבול תחתון ועליון. היחידה והגבולות יכולים להיות מושמטים (ABSENT `0x0000`) |
-| `0x07`~`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/he/grammar/value/numeric/quantity/) | NUMERIC | amount מסוג Value מספרי (שלם, BINARY-FLOAT, עשרוני, שבר), Reference של יחידה, גבול תחתון ועליון. היחידה והגבולות יכולים להיות מושמטים (ABSENT `0x0000`) |
+| `0x07` | [FRACTION](/he/grammar/value/numeric/fraction/) | NUMERIC | שבר ששומר על הכתיב המקורי: מונה שלם או עשרוני, מכנה שלם או עשרוני בלי סימן. לא מצומצם |
+| `0x08`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/he/grammar/value/decimal/signed-decimal/) | DECIMAL | `C×10^E` ממעריך חתום `E` ומקדם `C` בשיטת המשלים ל-2 במינימום WORD |
 | `0x11` | [UNSIGNED-DECIMAL](/he/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C×10^E` ממעריך חתום `E` ומקדם `C` unsigned במינימום WORD |
 | `0x12`~`0x1F` | Reserved | DECIMAL |  |

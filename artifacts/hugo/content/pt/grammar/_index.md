@@ -1,7 +1,7 @@
 ---
 title: "Gramática do GEUL"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "Especificação da gramática do GEUL v1. Define os registros sobre palavras de 16 bits, os quatro Kinds e todos os Codecs, a estrutura do documento e as regras de Issuer e publicação."
 author: "Junwoo Park"
@@ -291,8 +291,9 @@ Os 2 bits superiores do Codec são a família. NUMERIC/DECIMAL se dividem de nov
 | `0x03` | [BINARY-FLOAT](/pt/grammar/value/numeric/binary-float/) | NUMERIC | Escalar IEEE 754 binary16/32/64/128 com Payload de 1/2/4/8 WORDs |
 | `0x04` | [COORDINATE-EARTH](/pt/grammar/value/numeric/coordinate-earth/) | NUMERIC | Latitude e longitude binary64 na Terra (WGS 84), incerteza binary32 e a Reference da sua unidade (ABSENT = desconhecida) |
 | `0x05` | [COORDINATE-GEO](/pt/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference de corpo celeste, latitude e longitude binary64, incerteza binary32 e a Reference da sua unidade |
-| `0x06` | [QUANTITY](/pt/grammar/value/numeric/quantity/) | NUMERIC | amount SIGNED-DECIMAL, Reference da unidade, limite inferior e superior. Unidade e limites podem ser omitidos (ABSENT `0x0000`) |
-| `0x07`~`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/pt/grammar/value/numeric/quantity/) | NUMERIC | amount Value numérico (inteiro, BINARY-FLOAT, decimal, fração), Reference da unidade, limite inferior e superior. Unidade e limites podem ser omitidos (ABSENT `0x0000`) |
+| `0x07` | [FRACTION](/pt/grammar/value/numeric/fraction/) | NUMERIC | Fração que preserva a notação original: numerador inteiro ou decimal, denominador inteiro ou decimal sem sinal. Não é simplificada |
+| `0x08`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/pt/grammar/value/decimal/signed-decimal/) | DECIMAL | `C×10^E` com expoente com sinal `E` e coeficiente `C` em complemento de dois no mínimo de WORDs |
 | `0x11` | [UNSIGNED-DECIMAL](/pt/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C×10^E` com expoente com sinal `E` e coeficiente sem sinal `C` no mínimo de WORDs |
 | `0x12`~`0x1F` | Reserved | DECIMAL |  |

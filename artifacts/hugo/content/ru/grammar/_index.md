@@ -1,7 +1,7 @@
 ---
 title: "Грамматика GEUL"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "Спецификация грамматики GEUL v1. Определяет записи на 16-битных словах, четыре вида Kind и все Codec, структуру документа, Issuer и правила публикации."
 author: "Джунву Пак"
@@ -291,8 +291,9 @@ Issuer — субъект, определяющий документы и фор
 | `0x03` | [BINARY-FLOAT](/ru/grammar/value/numeric/binary-float/) | NUMERIC | Скаляр IEEE 754 binary16/32/64/128 с Payload 1/2/4/8 WORD |
 | `0x04` | [COORDINATE-EARTH](/ru/grammar/value/numeric/coordinate-earth/) | NUMERIC | Широта и долгота на Земле (WGS 84) в binary64, неопределённость в binary32 и Reference её единицы (ABSENT = неизвестно) |
 | `0x05` | [COORDINATE-GEO](/ru/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference небесного тела, широта и долгота в binary64, неопределённость в binary32 и Reference её единицы |
-| `0x06` | [QUANTITY](/ru/grammar/value/numeric/quantity/) | NUMERIC | SIGNED-DECIMAL amount, Reference единицы, нижняя и верхняя границы. Единицу и границы можно опустить (ABSENT `0x0000`) |
-| `0x07`~`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/ru/grammar/value/numeric/quantity/) | NUMERIC | числовой Value amount (целое, BINARY-FLOAT, десятичное, дробь), Reference единицы, нижняя и верхняя границы. Единицу и границы можно опустить (ABSENT `0x0000`) |
+| `0x07` | [FRACTION](/ru/grammar/value/numeric/fraction/) | NUMERIC | Дробь с сохранением исходной записи: числитель — целое или десятичное, знаменатель — целое или десятичное без знака. Не сокращается |
+| `0x08`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/ru/grammar/value/decimal/signed-decimal/) | DECIMAL | `C×10^E` со знаковым показателем `E` и коэффициентом `C` в дополнительном коде с минимальным числом WORD |
 | `0x11` | [UNSIGNED-DECIMAL](/ru/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C×10^E` со знаковым показателем `E` и беззнаковым коэффициентом `C` с минимальным числом WORD |
 | `0x12`~`0x1F` | Reserved | DECIMAL |  |

@@ -2,7 +2,7 @@
 title: "מסמך מפרט Codec"
 weight: 90
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
 summary: "גם ה-codebook הוא מסמך GEUL. ארבע ה-Edge DECLARE·FIELD·ENUM·CODEC מצהירות על מבנה ה-Payload של Codec אחד, ומסמך אחד כזה משמש יחד לאימות, לפירוק ולתצוגה."
 author: "ג'ונו פארק"
@@ -130,10 +130,10 @@ DECLARE           LOCAL (ה-DECLARE ששדה זה שייך אליו)
 
 | שדה | CODEC |
 |---|---|
-| `amount` | `0810` SIGNED-DECIMAL |
+| `amount` | `0801` SIGNED-INTEGER, `0802` UNSIGNED-INTEGER, `0803` BINARY-FLOAT (ערכים סופיים בלבד), `0807` FRACTION, `0810` SIGNED-DECIMAL, `0811` UNSIGNED-DECIMAL |
 | `unit` | `0780` כל Reference, `0000` רשות |
-| `lower` | `0810` SIGNED-DECIMAL, `0000` רשות |
-| `upper` | `0810` SIGNED-DECIMAL, `0000` רשות |
+| `lower` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (כמו amount), `0000` רשות |
+| `upper` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (כמו amount), `0000` רשות |
 
 ## כללים
 

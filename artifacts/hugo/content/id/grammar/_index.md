@@ -1,7 +1,7 @@
 ---
 title: "Tata Bahasa GEUL"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "Spesifikasi tata bahasa GEUL v1. Mendefinisikan record di atas kata 16-bit, empat Kind dan semua Codec, struktur dokumen, serta aturan Issuer dan publikasi."
 author: "Junwoo Park"
@@ -291,8 +291,9 @@ Issuer dan nomor format ditaruh pada Codec extension TAG setelah `0x7C`~`0x7F` (
 | `0x03` | [BINARY-FLOAT](/id/grammar/value/numeric/binary-float/) | NUMERIC | Scalar IEEE 754 binary16/32/64/128 dengan Payload 1/2/4/8 WORD |
 | `0x04` | [COORDINATE-EARTH](/id/grammar/value/numeric/coordinate-earth/) | NUMERIC | Lintang·bujur Bumi (WGS 84) binary64, ketidakpastian binary32 dan Reference satuannya (ABSENT = tidak diketahui) |
 | `0x05` | [COORDINATE-GEO](/id/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference benda langit dan lintang·bujur binary64, ketidakpastian binary32 dan Reference satuannya |
-| `0x06` | [QUANTITY](/id/grammar/value/numeric/quantity/) | NUMERIC | amount SIGNED-DECIMAL, Reference satuan, batas bawah·atas. Satuan·batas dapat dihilangkan (ABSENT `0x0000`) |
-| `0x07`~`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/id/grammar/value/numeric/quantity/) | NUMERIC | amount Value numerik (bilangan bulat·BINARY-FLOAT·desimal·pecahan), Reference satuan, batas bawah·atas. Satuan·batas dapat dihilangkan (ABSENT `0x0000`) |
+| `0x07` | [FRACTION](/id/grammar/value/numeric/fraction/) | NUMERIC | Pecahan yang mempertahankan notasi asli: pembilang bilangan bulat·desimal, penyebut bilangan bulat·desimal tanpa tanda. Tidak disederhanakan |
+| `0x08`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/id/grammar/value/decimal/signed-decimal/) | DECIMAL | `C×10^E` dari eksponen bertanda `E` dan koefisien `C` komplemen 2 dengan WORD minimum |
 | `0x11` | [UNSIGNED-DECIMAL](/id/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C×10^E` dari eksponen bertanda `E` dan koefisien unsigned `C` dengan WORD minimum |
 | `0x12`~`0x1F` | Reserved | DECIMAL |  |

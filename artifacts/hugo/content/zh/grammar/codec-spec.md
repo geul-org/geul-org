@@ -2,7 +2,7 @@
 title: "Codec 规格文档"
 weight: 90
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
 summary: "codebook 也是 GEUL 文档。用 DECLARE·FIELD·ENUM·CODEC 四种 Edge 声明单个 Codec 的 Payload 构成，凭这一个文档同时完成验证·分解·显示。"
 author: "朴俊宇"
@@ -130,10 +130,10 @@ Value QUANTITY（`0806`）的四个字段全是记录。
 
 | 字段 | CODEC |
 |---|---|
-| `amount` | `0810` SIGNED-DECIMAL |
+| `amount` | `0801` SIGNED-INTEGER, `0802` UNSIGNED-INTEGER, `0803` BINARY-FLOAT（仅限有限值）, `0807` FRACTION, `0810` SIGNED-DECIMAL, `0811` UNSIGNED-DECIMAL |
 | `unit` | `0780` 任意 Reference, `0000` 可选 |
-| `lower` | `0810` SIGNED-DECIMAL, `0000` 可选 |
-| `upper` | `0810` SIGNED-DECIMAL, `0000` 可选 |
+| `lower` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811`（与 amount 相同）, `0000` 可选 |
+| `upper` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811`（与 amount 相同）, `0000` 可选 |
 
 ## 规则
 

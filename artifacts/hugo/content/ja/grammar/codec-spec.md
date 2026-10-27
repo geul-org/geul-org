@@ -2,7 +2,7 @@
 title: "Codec 規格ドキュメント"
 weight: 90
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
 summary: "コードブックも GEUL ドキュメントだ。DECLARE・FIELD・ENUM・CODEC の四つの Edge で Codec 一つの Payload 構成を宣言し、そのドキュメント一つで検証・分解・表示をまとめて行う。"
 author: "朴俊宇"
@@ -130,10 +130,10 @@ Value QUANTITY(`0806`)は、フィールド四つがすべてレコードだ。
 
 | フィールド | CODEC |
 |---|---|
-| `amount` | `0810` SIGNED-DECIMAL |
+| `amount` | `0801` SIGNED-INTEGER、`0802` UNSIGNED-INTEGER、`0803` BINARY-FLOAT(有限の値のみ)、`0807` FRACTION、`0810` SIGNED-DECIMAL、`0811` UNSIGNED-DECIMAL |
 | `unit` | `0780` 任意の Reference、`0000` オプション |
-| `lower` | `0810` SIGNED-DECIMAL、`0000` オプション |
-| `upper` | `0810` SIGNED-DECIMAL、`0000` オプション |
+| `lower` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811`(amount と同じ)、`0000` オプション |
+| `upper` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811`(amount と同じ)、`0000` オプション |
 
 ## 規則
 

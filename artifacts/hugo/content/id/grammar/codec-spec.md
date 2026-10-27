@@ -2,7 +2,7 @@
 title: "Dokumen spesifikasi Codec"
 weight: 90
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
 summary: "Codebook juga adalah dokumen GEUL. Empat Edge DECLARE·FIELD·ENUM·CODEC mendeklarasikan susunan Payload satu Codec, dan satu dokumen itu sekaligus melakukan validasi, penguraian, dan tampilan."
 author: "Junwoo Park"
@@ -130,10 +130,10 @@ Value QUANTITY (`0806`) memiliki empat field yang semuanya record.
 
 | Field | CODEC |
 |---|---|
-| `amount` | `0810` SIGNED-DECIMAL |
+| `amount` | `0801` SIGNED-INTEGER, `0802` UNSIGNED-INTEGER, `0803` BINARY-FLOAT (hanya nilai hingga), `0807` FRACTION, `0810` SIGNED-DECIMAL, `0811` UNSIGNED-DECIMAL |
 | `unit` | `0780` Reference apa saja, `0000` opsional |
-| `lower` | `0810` SIGNED-DECIMAL, `0000` opsional |
-| `upper` | `0810` SIGNED-DECIMAL, `0000` opsional |
+| `lower` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (sama dengan amount), `0000` opsional |
+| `upper` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (sama dengan amount), `0000` opsional |
 
 ## Aturan
 

@@ -2,7 +2,7 @@
 title: "Codec-Spezifikationsdokument"
 weight: 90
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
 summary: "Auch das Codebook ist ein GEUL-Dokument. Mit den vier Edges DECLARE, FIELD, ENUM und CODEC wird der Payload-Aufbau eines Codecs deklariert, und dieses eine Dokument dient zugleich der Prüfung, Zerlegung und Anzeige."
 author: "Junwoo Park"
@@ -130,10 +130,10 @@ Beim Value QUANTITY (`0806`) sind alle vier Felder Records.
 
 | Feld | CODEC |
 |---|---|
-| `amount` | `0810` SIGNED-DECIMAL |
+| `amount` | `0801` SIGNED-INTEGER, `0802` UNSIGNED-INTEGER, `0803` BINARY-FLOAT (nur endliche Werte), `0807` FRACTION, `0810` SIGNED-DECIMAL, `0811` UNSIGNED-DECIMAL |
 | `unit` | `0780` beliebiges Reference, `0000` optional |
-| `lower` | `0810` SIGNED-DECIMAL, `0000` optional |
-| `upper` | `0810` SIGNED-DECIMAL, `0000` optional |
+| `lower` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (wie amount), `0000` optional |
+| `upper` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (wie amount), `0000` optional |
 
 ## Regeln
 

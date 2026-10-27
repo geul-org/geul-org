@@ -1,7 +1,7 @@
 ---
 title: "نحو GEUL"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "مواصفة نحو GEUL v1. تعرّف السجلات فوق الكلمات ذات 16 بت وأنواع Kind الأربعة وكل Codec وبنية المستند وقواعد Issuer والنشر."
 author: "جونو بارك"
@@ -291,8 +291,9 @@ Issuer هو الجهة التي تعرّف المستندات والصيغ — [
 | `0x03` | [BINARY-FLOAT](/ar/grammar/value/numeric/binary-float/) | NUMERIC | scalar من IEEE 754 binary16/32/64/128 بـ Payload من 1/2/4/8 WORD |
 | `0x04` | [COORDINATE-EARTH](/ar/grammar/value/numeric/coordinate-earth/) | NUMERIC | خط العرض وخط الطول على الأرض (WGS 84) binary64 وعدم اليقين binary32 وReference لوحدته (ABSENT = مجهول) |
 | `0x05` | [COORDINATE-GEO](/ar/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference الجرم السماوي وخط العرض وخط الطول binary64 وعدم اليقين binary32 وReference لوحدته |
-| `0x06` | [QUANTITY](/ar/grammar/value/numeric/quantity/) | NUMERIC | amount من SIGNED-DECIMAL وReference الوحدة والحد الأدنى والأعلى. يمكن حذف الوحدة والحدود (ABSENT `0x0000`) |
-| `0x07`~`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/ar/grammar/value/numeric/quantity/) | NUMERIC | amount من Value رقمي (عدد صحيح، BINARY-FLOAT، عدد عشري، كسر) وReference الوحدة والحد الأدنى والأعلى. يمكن حذف الوحدة والحدود (ABSENT `0x0000`) |
+| `0x07` | [FRACTION](/ar/grammar/value/numeric/fraction/) | NUMERIC | كسر يحفظ الكتابة الأصلية: بسط صحيح أو عشري، ومقام صحيح أو عشري بلا إشارة. لا يُختزل |
+| `0x08`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/ar/grammar/value/decimal/signed-decimal/) | DECIMAL | `C×10^E` من exponent `E` موقّع وcoefficient `C` بمتمم اثنين بأقل عدد من WORD |
 | `0x11` | [UNSIGNED-DECIMAL](/ar/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C×10^E` من exponent `E` موقّع وcoefficient `C` بلا إشارة بأقل عدد من WORD |
 | `0x12`~`0x1F` | Reserved | DECIMAL |  |

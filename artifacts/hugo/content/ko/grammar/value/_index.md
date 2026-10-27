@@ -2,7 +2,7 @@
 title: "Value"
 weight: 50
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
 summary: "Value는 값 자체를 담는 레코드다. Codec 상위 2비트가 계열(수·10진수, 시간, 텍스트, 바이너리)이고, 자주 쓰는 형식은 직접 코드, 나머지는 표준 단체별 Issuer 형식으로 둔다."
 author: "박준우"
@@ -50,7 +50,8 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 Issuer 형식
 | `0x03` | [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
 | `0x04` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도와 불확도(단위 Reference) |
 | `0x05` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도, 불확도(단위 Reference) |
-| `0x06` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | 10진수 양, 단위 Reference, 하한·상한 |
+| `0x06` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | 수치 양(정수·BINARY-FLOAT·10진수·분수), 단위 Reference, 하한·상한 |
+| `0x07` | [FRACTION](/ko/grammar/value/numeric/fraction/) | NUMERIC | 표기를 보존하는 분수(분자·분모 레코드, 약분하지 않음) |
 | `0x10` | [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, 부호 있는 계수 |
 | `0x11` | [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, 부호 없는 계수 |
 | `0x20` | [GREGORIAN-DATE](/ko/grammar/value/time/gregorian-date/) | TIME | 1970-01-01부터의 날짜 수 (그레고리력) |
@@ -97,7 +98,7 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 Issuer 형식
 
 | 묶음 | 계열 | 형식 |
 |---|---|---|
-| [numeric](/ko/grammar/value/numeric/) | NUMERIC | BOOL, 정수, 부동소수, 좌표, QUANTITY |
+| [numeric](/ko/grammar/value/numeric/) | NUMERIC | BOOL, 정수, 부동소수, 좌표, QUANTITY, FRACTION |
 | [decimal](/ko/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL, UNSIGNED-DECIMAL, IEEE 754 decimal32/64/128 |
 | [time](/ko/grammar/value/time/) | TIME | 날짜, 시각, 타임스탬프, 경과 시간, EDTF, GEDCOM 날짜 |
 | [text](/ko/grammar/value/text/) | TEXT | UTF-8 텍스트, 언어가 붙은 텍스트, URI, 언어 코드 |
@@ -144,10 +145,10 @@ QUANTITY는 양과 단위, 경계를 하나의 값으로 담는다.
 ```
 TAG WORD          0000 1LLL L000 0110
 [Length 확장 TAG]
-양                SIGNED-DECIMAL 레코드
+양                수치 Value 레코드 (정수·BINARY-FLOAT·10진수·분수)
 단위              Reference 레코드 (단위 항목), 무단위면 0x0000
-하한              SIGNED-DECIMAL 레코드, 생략하면 0x0000 ABSENT
-상한              SIGNED-DECIMAL 레코드, 생략하면 0x0000 ABSENT
+하한              수치 Value 레코드, 생략하면 0x0000 ABSENT
+상한              수치 Value 레코드, 생략하면 0x0000 ABSENT
 ```
 
 - 단위는 값의 일부다. 단위를 떼어 다른 곳에 적지 않는다(떼면 `652`가 km인지 m인지 알 수 없다).
@@ -179,4 +180,4 @@ TAG WORD          0000 1LLL L000 0110
 
 - 공개 미디어 형식(JPEG, PNG, MP4, MOV 등)은 IANA Issuer(`0x0021`)의 BINARY 형식 번호로 둔다. 미디어 타입과 형식 번호의 대응표 관리 방식.
 - Value 직접 코드의 최종 목록. 법령·업무 대화 표본의 Value 빈도를 측정해 정한다(금액, 백분율, 날짜 구간 후보).
-- 작은 스칼라 7개(ADHOC BFLOAT16, ONNX FP8 4종, OCP FP8-E8M0FNU·FP4-E2M1FN)의 상세 규격과 배치. NUMERIC 직접 코드 예약 구간(`0x07`~`0x0F`)으로 옮길지 정하지 않았다. 지금은 형식 번호만 배정되어 있다.
+- 작은 스칼라 7개(ADHOC BFLOAT16, ONNX FP8 4종, OCP FP8-E8M0FNU·FP4-E2M1FN)의 상세 규격과 배치. NUMERIC 직접 코드 예약 구간(`0x08`~`0x0F`)으로 옮길지 정하지 않았다. 지금은 형식 번호만 배정되어 있다.

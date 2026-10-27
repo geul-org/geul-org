@@ -2,7 +2,7 @@
 title: "Value"
 weight: 50
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
 summary: "Value は値そのものを収めるレコードだ。Codec の上位2ビットが系列(数・10進数、時間、テキスト、バイナリ)で、よく使う形式は直接コード、残りは標準団体ごとの Issuer 形式に置く。"
 author: "朴俊宇"
@@ -50,7 +50,8 @@ Codec の上位2ビットが系列だ。直接コード(7ビット)と Issuer �
 | `0x03` | [BINARY-FLOAT](/ja/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
 | `0x04` | [COORDINATE-EARTH](/ja/grammar/value/numeric/coordinate-earth/) | NUMERIC | 地球(WGS 84)の緯度・経度と不確かさ(単位 Reference) |
 | `0x05` | [COORDINATE-GEO](/ja/grammar/value/numeric/coordinate-geo/) | NUMERIC | 天体 Reference と緯度・経度、不確かさ(単位 Reference) |
-| `0x06` | [QUANTITY](/ja/grammar/value/numeric/quantity/) | NUMERIC | 10進数の量、単位 Reference、下限・上限 |
+| `0x06` | [QUANTITY](/ja/grammar/value/numeric/quantity/) | NUMERIC | 数値の量(整数・BINARY-FLOAT・10進数・分数)、単位 Reference、下限・上限 |
+| `0x07` | [FRACTION](/ja/grammar/value/numeric/fraction/) | NUMERIC | 表記を保存する分数(分子・分母のレコード、約分しない) |
 | `0x10` | [SIGNED-DECIMAL](/ja/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`、符号付き係数 |
 | `0x11` | [UNSIGNED-DECIMAL](/ja/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`、符号なし係数 |
 | `0x20` | [GREGORIAN-DATE](/ja/grammar/value/time/gregorian-date/) | TIME | 1970-01-01 からの日数 (グレゴリオ暦) |
@@ -97,7 +98,7 @@ Codec の上位2ビットが系列だ。直接コード(7ビット)と Issuer �
 
 | まとまり | 系列 | 形式 |
 |---|---|---|
-| [numeric](/ja/grammar/value/numeric/) | NUMERIC | BOOL、整数、浮動小数点、座標、QUANTITY |
+| [numeric](/ja/grammar/value/numeric/) | NUMERIC | BOOL、整数、浮動小数点、座標、QUANTITY、FRACTION |
 | [decimal](/ja/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL、UNSIGNED-DECIMAL、IEEE 754 decimal32/64/128 |
 | [time](/ja/grammar/value/time/) | TIME | 日付、時刻、タイムスタンプ、経過時間、EDTF、GEDCOM 日付 |
 | [text](/ja/grammar/value/text/) | TEXT | UTF-8 テキスト、言語付きテキスト、URI、言語コード |
@@ -144,10 +145,10 @@ QUANTITY は、量と単位、境界を一つの値に収める。
 ```
 TAG WORD          0000 1LLL L000 0110
 [Length 拡張 TAG]
-量                SIGNED-DECIMAL レコード
+量                数値 Value レコード (整数・BINARY-FLOAT・10進数・分数)
 単位              Reference レコード (単位項目)、単位なしなら 0x0000
-下限              SIGNED-DECIMAL レコード、省略なら 0x0000 ABSENT
-上限              SIGNED-DECIMAL レコード、省略なら 0x0000 ABSENT
+下限              数値 Value レコード、省略なら 0x0000 ABSENT
+上限              数値 Value レコード、省略なら 0x0000 ABSENT
 ```
 
 - 単位は値の一部だ。単位を切り離して別の場所に書かない(切り離すと `652` が km か m か分からない)。
@@ -179,4 +180,4 @@ TAG WORD          0000 1LLL L000 0110
 
 - 公開メディア形式(JPEG、PNG、MP4、MOV など)は、IANA Issuer(`0x0021`)の BINARY 形式番号で置く。メディアタイプと形式番号の対応表の管理方式。
 - Value 直接コードの最終一覧。法令・業務会話のサンプルの Value 頻度を測定して決める(金額、パーセント、日付区間が候補)。
-- 小さなスカラー 7 個(ADHOC BFLOAT16、ONNX FP8 4 種、OCP FP8-E8M0FNU・FP4-E2M1FN)の詳細規格と配置。NUMERIC 直接コードの予約区間(`0x07`~`0x0F`)に移すかは決めていない。今は形式番号だけを割り当てている。
+- 小さなスカラー 7 個(ADHOC BFLOAT16、ONNX FP8 4 種、OCP FP8-E8M0FNU・FP4-E2M1FN)の詳細規格と配置。NUMERIC 直接コードの予約区間(`0x08`~`0x0F`)に移すかは決めていない。今は形式番号だけを割り当てている。

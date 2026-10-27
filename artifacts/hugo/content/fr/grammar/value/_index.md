@@ -2,7 +2,7 @@
 title: "Value"
 weight: 50
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
 summary: "Value est un enregistrement qui contient une valeur. Les 2 bits de poids fort du Codec forment la famille (nombres et décimaux, temps, texte, binaire) ; les formats fréquents ont un code direct, les autres sont des formats d'Issuer par organisme de normalisation."
 author: "Junwoo Park"
@@ -50,7 +50,8 @@ Les 2 bits de poids fort du Codec forment la famille. Le code direct (7 bits) et
 | `0x03` | [BINARY-FLOAT](/fr/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
 | `0x04` | [COORDINATE-EARTH](/fr/grammar/value/numeric/coordinate-earth/) | NUMERIC | Latitude et longitude terrestres (WGS 84) et incertitude (Reference d'unité) |
 | `0x05` | [COORDINATE-GEO](/fr/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference d'un corps céleste, latitude et longitude, incertitude (Reference d'unité) |
-| `0x06` | [QUANTITY](/fr/grammar/value/numeric/quantity/) | NUMERIC | Quantité décimale, Reference d'unité, bornes inférieure et supérieure |
+| `0x06` | [QUANTITY](/fr/grammar/value/numeric/quantity/) | NUMERIC | Quantité numérique (entier, BINARY-FLOAT, décimal, fraction), Reference d'unité, bornes inférieure et supérieure |
+| `0x07` | [FRACTION](/fr/grammar/value/numeric/fraction/) | NUMERIC | Fraction qui conserve sa notation (enregistrements numérateur et dénominateur, sans simplification) |
 | `0x10` | [SIGNED-DECIMAL](/fr/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, coefficient signé |
 | `0x11` | [UNSIGNED-DECIMAL](/fr/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, coefficient non signé |
 | `0x20` | [GREGORIAN-DATE](/fr/grammar/value/time/gregorian-date/) | TIME | Nombre de jours depuis le 1970-01-01 (calendrier grégorien) |
@@ -97,7 +98,7 @@ La disposition, l'interprétation, la validité et les exemples de chaque format
 
 | Groupe | Famille | Formats |
 |---|---|---|
-| [numeric](/fr/grammar/value/numeric/) | NUMERIC | BOOL, entiers, virgule flottante, coordonnées, QUANTITY |
+| [numeric](/fr/grammar/value/numeric/) | NUMERIC | BOOL, entiers, virgule flottante, coordonnées, QUANTITY, FRACTION |
 | [decimal](/fr/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL, UNSIGNED-DECIMAL, IEEE 754 decimal32/64/128 |
 | [time](/fr/grammar/value/time/) | TIME | Dates, heures, horodatages, durées, EDTF, dates GEDCOM |
 | [text](/fr/grammar/value/text/) | TEXT | Texte UTF-8, texte accompagné d'une langue, URI, codes de langue |
@@ -144,10 +145,10 @@ QUANTITY contient en une seule valeur la quantité, l'unité et les bornes.
 ```
 TAG WORD          0000 1LLL L000 0110
 [TAG d'extension de Length]
-Quantité          enregistrement SIGNED-DECIMAL
+Quantité          enregistrement Value numérique (entier, BINARY-FLOAT, décimal, fraction)
 Unité             enregistrement Reference (élément d'unité), 0x0000 si sans unité
-Borne inférieure  enregistrement SIGNED-DECIMAL, 0x0000 ABSENT si omise
-Borne supérieure  enregistrement SIGNED-DECIMAL, 0x0000 ABSENT si omise
+Borne inférieure  enregistrement Value numérique, 0x0000 ABSENT si omise
+Borne supérieure  enregistrement Value numérique, 0x0000 ABSENT si omise
 ```
 
 - L'unité fait partie de la valeur. On ne détache pas l'unité pour l'écrire ailleurs (détachée, on ne saurait plus si `652` est en km ou en m).
@@ -179,4 +180,4 @@ Exemple : `652 km`, intervalle `[651, 653]` (km = Q828224 de Wikidata)
 
 - Les formats de médias publics (JPEG, PNG, MP4, MOV, etc.) se placent comme numéros de format BINARY de l'Issuer IANA (`0x0021`). Mode de gestion de la table de correspondance entre types de médias et numéros de format.
 - Liste finale des codes directs de Value. À fixer en mesurant la fréquence des Value dans des échantillons de lois et de conversations professionnelles (candidats : montants, pourcentages, intervalles de dates).
-- Spécification détaillée et placement de sept petits scalaires (ADHOC BFLOAT16, quatre FP8 ONNX, FP8-E8M0FNU et FP4-E2M1FN d'OCP). On n'a pas décidé de les déplacer dans la plage réservée des codes directs NUMERIC (`0x07`~`0x0F`). Pour l'instant, seuls les numéros de format sont attribués.
+- Spécification détaillée et placement de sept petits scalaires (ADHOC BFLOAT16, quatre FP8 ONNX, FP8-E8M0FNU et FP4-E2M1FN d'OCP). On n'a pas décidé de les déplacer dans la plage réservée des codes directs NUMERIC (`0x08`~`0x0F`). Pour l'instant, seuls les numéros de format sont attribués.

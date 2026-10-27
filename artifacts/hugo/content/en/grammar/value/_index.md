@@ -2,7 +2,7 @@
 title: "Value"
 weight: 50
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
 summary: "A Value is a record that holds a value itself. The upper 2 bits of the Codec give the family (numbers and decimals, time, text, binary); frequently used formats are direct codes, and the rest are Issuer formats under standards bodies."
 author: "Junwoo Park"
@@ -50,7 +50,8 @@ The upper 2 bits of the Codec are the family. Direct codes (7 bits) and Issuer f
 | `0x03` | [BINARY-FLOAT](/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
 | `0x04` | [COORDINATE-EARTH](/grammar/value/numeric/coordinate-earth/) | NUMERIC | Earth (WGS 84) latitude and longitude, and uncertainty (unit Reference) |
 | `0x05` | [COORDINATE-GEO](/grammar/value/numeric/coordinate-geo/) | NUMERIC | A celestial body Reference, latitude and longitude, and uncertainty (unit Reference) |
-| `0x06` | [QUANTITY](/grammar/value/numeric/quantity/) | NUMERIC | A decimal amount, a unit Reference, lower and upper bounds |
+| `0x06` | [QUANTITY](/grammar/value/numeric/quantity/) | NUMERIC | A numeric amount (integer, BINARY-FLOAT, decimal, fraction), a unit Reference, lower and upper bounds |
+| `0x07` | [FRACTION](/grammar/value/numeric/fraction/) | NUMERIC | Fraction that preserves its notation (numerator and denominator records, not reduced) |
 | `0x10` | [SIGNED-DECIMAL](/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, signed coefficient |
 | `0x11` | [UNSIGNED-DECIMAL](/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, unsigned coefficient |
 | `0x20` | [GREGORIAN-DATE](/grammar/value/time/gregorian-date/) | TIME | Day count from 1970-01-01 (Gregorian calendar) |
@@ -97,7 +98,7 @@ The layout, interpretation, validity, and examples of each format are in the bun
 
 | Bundle | Family | Formats |
 |---|---|---|
-| [numeric](/grammar/value/numeric/) | NUMERIC | BOOL, integers, floating point, coordinates, QUANTITY |
+| [numeric](/grammar/value/numeric/) | NUMERIC | BOOL, integers, floating point, coordinates, QUANTITY, FRACTION |
 | [decimal](/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL, UNSIGNED-DECIMAL, IEEE 754 decimal32/64/128 |
 | [time](/grammar/value/time/) | TIME | Dates, times of day, timestamps, durations, EDTF, GEDCOM dates |
 | [text](/grammar/value/text/) | TEXT | UTF-8 text, text with a language, URI, language codes |
@@ -144,10 +145,10 @@ QUANTITY holds an amount, a unit, and bounds as one value.
 ```
 TAG WORD          0000 1LLL L000 0110
 [Length extension TAG]
-Amount            SIGNED-DECIMAL record
+Amount            numeric Value record (integer, BINARY-FLOAT, decimal, fraction)
 Unit              Reference record (unit item), 0x0000 if unitless
-Lower bound       SIGNED-DECIMAL record, 0x0000 ABSENT if omitted
-Upper bound       SIGNED-DECIMAL record, 0x0000 ABSENT if omitted
+Lower bound       numeric Value record, 0x0000 ABSENT if omitted
+Upper bound       numeric Value record, 0x0000 ABSENT if omitted
 ```
 
 - The unit is part of the value. The unit is not detached and written elsewhere (once detached, it cannot be known whether `652` is km or m).
@@ -179,4 +180,4 @@ Example: `652 km`, range `[651, 653]` (km = Wikidata Q828224)
 
 - Public media formats (JPEG, PNG, MP4, MOV, and so on) are placed as BINARY format numbers of the IANA Issuer (`0x0021`). How to manage the mapping between media types and format numbers.
 - The final list of Value direct codes. To be decided by measuring Value frequency in samples of statutes and business conversations (candidates: amounts, percentages, date ranges).
-- The detailed specification and placement of 7 small scalars (ADHOC BFLOAT16, 4 ONNX FP8 kinds, OCP FP8-E8M0FNU and FP4-E2M1FN). It is undecided whether to move them into the reserved range for NUMERIC direct codes (`0x07`-`0x0F`). For now only format numbers are assigned.
+- The detailed specification and placement of 7 small scalars (ADHOC BFLOAT16, 4 ONNX FP8 kinds, OCP FP8-E8M0FNU and FP4-E2M1FN). It is undecided whether to move them into the reserved range for NUMERIC direct codes (`0x08`-`0x0F`). For now only format numbers are assigned.

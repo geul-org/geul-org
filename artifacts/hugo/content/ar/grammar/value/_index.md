@@ -2,7 +2,7 @@
 title: "Value"
 weight: 50
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
 summary: "Value سجل يحمل القيمة نفسها. أعلى بتّين في Codec يحددان العائلة (الأعداد والأعداد العشرية، الزمن، النص، الثنائي). الصيغ الشائعة لها رموز مباشرة، وبقية الصيغ توضع تحت Issuer الجهة المعيارية."
 author: "جونو بارك"
@@ -50,7 +50,8 @@ Payload
 | `0x03` | [BINARY-FLOAT](/ar/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
 | `0x04` | [COORDINATE-EARTH](/ar/grammar/value/numeric/coordinate-earth/) | NUMERIC | خط العرض وخط الطول على الأرض (WGS 84) مع عدم اليقين (Reference الوحدة) |
 | `0x05` | [COORDINATE-GEO](/ar/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference الجرم السماوي مع خط العرض وخط الطول وعدم اليقين (Reference الوحدة) |
-| `0x06` | [QUANTITY](/ar/grammar/value/numeric/quantity/) | NUMERIC | كمية عشرية وReference الوحدة والحد الأدنى والأعلى |
+| `0x06` | [QUANTITY](/ar/grammar/value/numeric/quantity/) | NUMERIC | كمية رقمية (عدد صحيح، BINARY-FLOAT، عدد عشري، كسر) وReference الوحدة والحد الأدنى والأعلى |
+| `0x07` | [FRACTION](/ar/grammar/value/numeric/fraction/) | NUMERIC | كسر يحفظ كتابته (سجلا البسط والمقام، بلا اختزال) |
 | `0x10` | [SIGNED-DECIMAL](/ar/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`، معامل بإشارة |
 | `0x11` | [UNSIGNED-DECIMAL](/ar/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`، معامل بلا إشارة |
 | `0x20` | [GREGORIAN-DATE](/ar/grammar/value/time/gregorian-date/) | TIME | عدد الأيام منذ 1970-01-01 (التقويم الميلادي) |
@@ -97,7 +98,7 @@ Payload
 
 | الحزمة | العائلة | الصيغ |
 |---|---|---|
-| [numeric](/ar/grammar/value/numeric/) | NUMERIC | BOOL، الأعداد الصحيحة، الفاصلة العائمة، الإحداثيات، QUANTITY |
+| [numeric](/ar/grammar/value/numeric/) | NUMERIC | BOOL، الأعداد الصحيحة، الفاصلة العائمة، الإحداثيات، QUANTITY، FRACTION |
 | [decimal](/ar/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL, UNSIGNED-DECIMAL, IEEE 754 decimal32/64/128 |
 | [time](/ar/grammar/value/time/) | TIME | التاريخ، الوقت، الطابع الزمني، الزمن المنقضي، EDTF، تاريخ GEDCOM |
 | [text](/ar/grammar/value/text/) | TEXT | نص UTF-8، النص المرفق بلغة، URI، رموز اللغات |
@@ -144,10 +145,10 @@ QUANTITY تحمل الكمية والوحدة والحدود في قيمة وا�
 ```
 TAG WORD          0000 1LLL L000 0110
 [Length ممتد TAG]
-الكمية            سجل SIGNED-DECIMAL
+الكمية            سجل Value رقمي (عدد صحيح، BINARY-FLOAT، عدد عشري، كسر)
 الوحدة            سجل Reference (عنصر الوحدة)، وإن لم تكن هناك وحدة فـ 0x0000
-الحد الأدنى       سجل SIGNED-DECIMAL، وإن حُذف فـ 0x0000 ABSENT
-الحد الأعلى       سجل SIGNED-DECIMAL، وإن حُذف فـ 0x0000 ABSENT
+الحد الأدنى       سجل Value رقمي، وإن حُذف فـ 0x0000 ABSENT
+الحد الأعلى       سجل Value رقمي، وإن حُذف فـ 0x0000 ABSENT
 ```
 
 - الوحدة جزء من القيمة. لا تُفصل الوحدة وتُكتب في مكان آخر (فبعد الفصل لا يُعرف هل `652` كيلومترات أم أمتار).
@@ -179,4 +180,4 @@ TAG WORD          0000 1LLL L000 0110
 
 - صيغ الوسائط العامة (JPEG وPNG وMP4 وMOV وغيرها) توضع برقم صيغة BINARY تحت Issuer الخاص بـ IANA (`0x0021`). كيفية إدارة جدول المقابلة بين نوع الوسائط ورقم الصيغة.
 - القائمة النهائية للرموز المباشرة في Value. تُحدد بقياس تكرار Value في عينات القوانين والحوارات المهنية (مرشحات: المبلغ، النسبة المئوية، فترة التاريخ).
-- المواصفة التفصيلية وموضع الكميات العددية الصغيرة السبع (ADHOC BFLOAT16، وFP8 الأربعة من ONNX، وFP8-E8M0FNU وFP4-E2M1FN من OCP). لم يتقرر هل تُنقل إلى النطاق المحجوز للرموز المباشرة في NUMERIC (`0x07`~`0x0F`). حالياً أُعطيت أرقام صيغ فقط.
+- المواصفة التفصيلية وموضع الكميات العددية الصغيرة السبع (ADHOC BFLOAT16، وFP8 الأربعة من ONNX، وFP8-E8M0FNU وFP4-E2M1FN من OCP). لم يتقرر هل تُنقل إلى النطاق المحجوز للرموز المباشرة في NUMERIC (`0x08`~`0x0F`). حالياً أُعطيت أرقام صيغ فقط.

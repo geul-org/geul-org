@@ -2,7 +2,7 @@
 title: "Codec 규격 문서"
 weight: 90
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
 summary: "코덱북도 GEUL 문서다. DECLARE·FIELD·ENUM·CODEC 네 Edge로 Codec 하나의 Payload 구성을 선언하고, 그 문서 하나로 검증·분해·표시를 함께 한다."
 author: "박준우"
@@ -130,10 +130,10 @@ Value QUANTITY(`0806`)는 필드 네 개가 모두 레코드다.
 
 | 필드 | CODEC |
 |---|---|
-| `amount` | `0810` SIGNED-DECIMAL |
+| `amount` | `0801` SIGNED-INTEGER, `0802` UNSIGNED-INTEGER, `0803` BINARY-FLOAT(유한한 값만), `0807` FRACTION, `0810` SIGNED-DECIMAL, `0811` UNSIGNED-DECIMAL |
 | `unit` | `0780` 아무 Reference, `0000` 선택 |
-| `lower` | `0810` SIGNED-DECIMAL, `0000` 선택 |
-| `upper` | `0810` SIGNED-DECIMAL, `0000` 선택 |
+| `lower` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811`(amount와 같음), `0000` 선택 |
+| `upper` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811`(amount와 같음), `0000` 선택 |
 
 ## 규칙
 

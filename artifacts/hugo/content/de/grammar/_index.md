@@ -1,7 +1,7 @@
 ---
 title: "GEUL-Grammatik"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "Die Grammatikspezifikation von GEUL v1. Sie definiert Records auf 16-Bit-Wörtern, die vier Kinds und alle Codecs, die Dokumentstruktur sowie Issuer und Veröffentlichungsregeln."
 author: "Junwoo Park"
@@ -291,8 +291,9 @@ Die oberen 2 Bit des Codec bilden die Familie. NUMERIC/DECIMAL werden über das 
 | `0x03` | [BINARY-FLOAT](/de/grammar/value/numeric/binary-float/) | NUMERIC | IEEE-754-Skalar binary16/32/64/128 mit Payload 1/2/4/8 WORD |
 | `0x04` | [COORDINATE-EARTH](/de/grammar/value/numeric/coordinate-earth/) | NUMERIC | Breite und Länge der Erde (WGS 84) als binary64, Unsicherheit als binary32 und deren Einheit als Reference (ABSENT = unbekannt) |
 | `0x05` | [COORDINATE-GEO](/de/grammar/value/numeric/coordinate-geo/) | NUMERIC | Himmelskörper-Reference, Breite und Länge als binary64, Unsicherheit als binary32 und deren Einheit als Reference |
-| `0x06` | [QUANTITY](/de/grammar/value/numeric/quantity/) | NUMERIC | SIGNED-DECIMAL amount, Einheit als Reference, untere/obere Schranke. Einheit und Schranken können ausgelassen werden (ABSENT `0x0000`) |
-| `0x07`~`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/de/grammar/value/numeric/quantity/) | NUMERIC | numerischer Value als amount (Ganzzahl, BINARY-FLOAT, Dezimalzahl, Bruch), Einheit als Reference, untere/obere Schranke. Einheit und Schranken können ausgelassen werden (ABSENT `0x0000`) |
+| `0x07` | [FRACTION](/de/grammar/value/numeric/fraction/) | NUMERIC | Bruch, der die ursprüngliche Schreibweise wahrt: Zähler Ganzzahl oder Dezimalzahl, Nenner vorzeichenlose Ganzzahl oder Dezimalzahl. Nicht gekürzt |
+| `0x08`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/de/grammar/value/decimal/signed-decimal/) | DECIMAL | `C×10^E` aus vorzeichenbehaftetem Exponent `E` und Koeffizient `C` im Zweierkomplement mit minimaler WORD-Zahl |
 | `0x11` | [UNSIGNED-DECIMAL](/de/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C×10^E` aus vorzeichenbehaftetem Exponent `E` und vorzeichenlosem Koeffizient `C` mit minimaler WORD-Zahl |
 | `0x12`~`0x1F` | Reserved | DECIMAL |  |

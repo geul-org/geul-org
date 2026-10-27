@@ -2,7 +2,7 @@
 title: "Value"
 weight: 50
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
 summary: "Value היא רשומה שמכילה את הערך עצמו. שני הביטים העליונים של ה-Codec קובעים את המשפחה (מספרים ועשרוני, זמן, טקסט, בינארי). פורמטים נפוצים הם קודים ישירים, והשאר הם פורמטי Issuer לפי גוף התקינה."
 author: "ג'ונו פארק"
@@ -50,7 +50,8 @@ Payload
 | `0x03` | [BINARY-FLOAT](/he/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
 | `0x04` | [COORDINATE-EARTH](/he/grammar/value/numeric/coordinate-earth/) | NUMERIC | קו רוחב וקו אורך על כדור הארץ (WGS 84) ואי-ודאות (Reference של יחידה) |
 | `0x05` | [COORDINATE-GEO](/he/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference של גרם שמים, קו רוחב וקו אורך, ואי-ודאות (Reference של יחידה) |
-| `0x06` | [QUANTITY](/he/grammar/value/numeric/quantity/) | NUMERIC | כמות עשרונית, Reference של יחידה, גבול תחתון ועליון |
+| `0x06` | [QUANTITY](/he/grammar/value/numeric/quantity/) | NUMERIC | כמות מספרית (שלם, BINARY-FLOAT, עשרוני, שבר), Reference של יחידה, גבול תחתון ועליון |
+| `0x07` | [FRACTION](/he/grammar/value/numeric/fraction/) | NUMERIC | שבר ששומר על הכתיב שלו (רשומות מונה ומכנה, בלי צמצום) |
 | `0x10` | [SIGNED-DECIMAL](/he/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, מקדם חתום |
 | `0x11` | [UNSIGNED-DECIMAL](/he/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, מקדם בלי סימן |
 | `0x20` | [GREGORIAN-DATE](/he/grammar/value/time/gregorian-date/) | TIME | מספר ימים מאז 1970-01-01 (לוח גרגוריאני) |
@@ -97,7 +98,7 @@ Payload
 
 | קבוצה | משפחה | פורמטים |
 |---|---|---|
-| [numeric](/he/grammar/value/numeric/) | NUMERIC | BOOL, מספרים שלמים, נקודה צפה, קואורדינטות, QUANTITY |
+| [numeric](/he/grammar/value/numeric/) | NUMERIC | BOOL, מספרים שלמים, נקודה צפה, קואורדינטות, QUANTITY, FRACTION |
 | [decimal](/he/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL, UNSIGNED-DECIMAL, IEEE 754 decimal32/64/128 |
 | [time](/he/grammar/value/time/) | TIME | תאריך, שעה, חותמת זמן, זמן שחלף, EDTF, תאריך GEDCOM |
 | [text](/he/grammar/value/text/) | TEXT | טקסט UTF-8, טקסט עם שפה, URI, קוד שפה |
@@ -144,10 +145,10 @@ QUANTITY מכילה כמות, יחידה וגבולות כערך אחד.
 ```
 TAG WORD          0000 1LLL L000 0110
 [Length extension TAG]
-כמות              רשומת SIGNED-DECIMAL
+כמות              רשומת Value מספרית (שלם, BINARY-FLOAT, עשרוני, שבר)
 יחידה             רשומת Reference (פריט יחידה), 0x0000 אם אין יחידה
-גבול תחתון        רשומת SIGNED-DECIMAL, 0x0000 ABSENT אם הושמט
-גבול עליון        רשומת SIGNED-DECIMAL, 0x0000 ABSENT אם הושמט
+גבול תחתון        רשומת Value מספרית, 0x0000 ABSENT אם הושמט
+גבול עליון        רשומת Value מספרית, 0x0000 ABSENT אם הושמט
 ```
 
 - היחידה היא חלק מהערך. לא כותבים אותה בנפרד במקום אחר (בלעדיה אי אפשר לדעת אם `652` הוא ק"מ או מטר).
@@ -179,4 +180,4 @@ TAG WORD          0000 1LLL L000 0110
 
 - פורמטי מדיה פומביים (JPEG, PNG, MP4, MOV וכד') מוצבים כמספרי פורמט BINARY תחת ה-Issuer של IANA (`0x0021`). איך מנהלים את טבלת ההתאמה בין סוג מדיה למספר פורמט.
 - הרשימה הסופית של קודים ישירים ל-Value. נקבעת אחרי מדידת תדירות ה-Value במדגם של חקיקה ושיחות עסקיות (מועמדים: סכום כסף, אחוז, טווח תאריכים).
-- המפרט המפורט והמיקום של שבעה סקלרים קטנים (ADHOC BFLOAT16, ארבעה FP8 של ONNX, OCP FP8-E8M0FNU ו-FP4-E2M1FN). טרם הוחלט אם להעביר אותם לטווח השמור של קודים ישירים של NUMERIC (`0x07`~`0x0F`). כרגע הוקצו להם רק מספרי פורמט.
+- המפרט המפורט והמיקום של שבעה סקלרים קטנים (ADHOC BFLOAT16, ארבעה FP8 של ONNX, OCP FP8-E8M0FNU ו-FP4-E2M1FN). טרם הוחלט אם להעביר אותם לטווח השמור של קודים ישירים של NUMERIC (`0x08`~`0x0F`). כרגע הוקצו להם רק מספרי פורמט.

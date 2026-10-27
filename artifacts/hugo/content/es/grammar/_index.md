@@ -1,7 +1,7 @@
 ---
 title: "Gramática de GEUL"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "Especificación de la gramática de GEUL v1. Define los registros sobre palabras de 16 bits, los cuatro Kind y todos los Codec, la estructura del documento, el Issuer y las reglas de publicación."
 author: "Junwoo Park"
@@ -291,8 +291,9 @@ Los 2 bits superiores del Codec son la familia. NUMERIC/DECIMAL se subdividen co
 | `0x03` | [BINARY-FLOAT](/es/grammar/value/numeric/binary-float/) | NUMERIC | Escalar IEEE 754 binary16/32/64/128 con Payload de 1/2/4/8 WORD |
 | `0x04` | [COORDINATE-EARTH](/es/grammar/value/numeric/coordinate-earth/) | NUMERIC | Latitud y longitud binary64 de la Tierra (WGS 84), incertidumbre binary32 y el Reference de su unidad (ABSENT = desconocida) |
 | `0x05` | [COORDINATE-GEO](/es/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference de un cuerpo celeste, latitud y longitud binary64, incertidumbre binary32 y el Reference de su unidad |
-| `0x06` | [QUANTITY](/es/grammar/value/numeric/quantity/) | NUMERIC | amount SIGNED-DECIMAL, Reference de la unidad, límites inferior y superior. La unidad y los límites pueden omitirse (ABSENT `0x0000`) |
-| `0x07`~`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/es/grammar/value/numeric/quantity/) | NUMERIC | amount Value numérico (entero, BINARY-FLOAT, decimal, fracción), Reference de la unidad, límites inferior y superior. La unidad y los límites pueden omitirse (ABSENT `0x0000`) |
+| `0x07` | [FRACTION](/es/grammar/value/numeric/fraction/) | NUMERIC | Fracción que conserva la notación original: numerador entero o decimal, denominador entero o decimal sin signo. No se simplifica |
+| `0x08`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/es/grammar/value/decimal/signed-decimal/) | DECIMAL | `C×10^E` con exponente `E` signed y coefficient `C` en complemento a dos con el mínimo de WORD |
 | `0x11` | [UNSIGNED-DECIMAL](/es/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C×10^E` con exponente `E` signed y coefficient `C` unsigned con el mínimo de WORD |
 | `0x12`~`0x1F` | Reserved | DECIMAL |  |

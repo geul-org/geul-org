@@ -2,7 +2,7 @@
 title: "Value"
 weight: 50
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
 summary: "Value — запись, хранящая само значение. Старшие 2 бита Codec задают семейство (числа и десятичные числа, время, текст, бинарные данные); часто используемые форматы получают прямые коды, остальные — форматы Issuer по организациям-разработчикам стандартов."
 author: "Джунву Пак"
@@ -50,7 +50,8 @@ Payload
 | `0x03` | [BINARY-FLOAT](/ru/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
 | `0x04` | [COORDINATE-EARTH](/ru/grammar/value/numeric/coordinate-earth/) | NUMERIC | широта и долгота на Земле (WGS 84) и неопределённость (с Reference единицы) |
 | `0x05` | [COORDINATE-GEO](/ru/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference небесного тела, широта, долгота и неопределённость (с Reference единицы) |
-| `0x06` | [QUANTITY](/ru/grammar/value/numeric/quantity/) | NUMERIC | десятичная величина, Reference единицы, нижняя и верхняя границы |
+| `0x06` | [QUANTITY](/ru/grammar/value/numeric/quantity/) | NUMERIC | числовая величина (целое, BINARY-FLOAT, десятичное, дробь), Reference единицы, нижняя и верхняя границы |
+| `0x07` | [FRACTION](/ru/grammar/value/numeric/fraction/) | NUMERIC | Дробь с сохранением записи (записи числителя и знаменателя, без сокращения) |
 | `0x10` | [SIGNED-DECIMAL](/ru/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, коэффициент со знаком |
 | `0x11` | [UNSIGNED-DECIMAL](/ru/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, коэффициент без знака |
 | `0x20` | [GREGORIAN-DATE](/ru/grammar/value/time/gregorian-date/) | TIME | число дней с 1970-01-01 (григорианский календарь) |
@@ -97,7 +98,7 @@ Payload
 
 | Группа | Семейство | Форматы |
 |---|---|---|
-| [numeric](/ru/grammar/value/numeric/) | NUMERIC | BOOL, целые, числа с плавающей запятой, координаты, QUANTITY |
+| [numeric](/ru/grammar/value/numeric/) | NUMERIC | BOOL, целые, числа с плавающей запятой, координаты, QUANTITY, FRACTION |
 | [decimal](/ru/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL, UNSIGNED-DECIMAL, IEEE 754 decimal32/64/128 |
 | [time](/ru/grammar/value/time/) | TIME | дата, время суток, метка времени, длительность, EDTF, дата GEDCOM |
 | [text](/ru/grammar/value/text/) | TEXT | текст UTF-8, текст с языком, URI, коды языков |
@@ -144,10 +145,10 @@ QUANTITY объединяет величину, единицу и границы
 ```
 TAG WORD          0000 1LLL L000 0110
 [Length extension TAG]
-Величина          запись SIGNED-DECIMAL
+Величина          числовая запись Value (целое, BINARY-FLOAT, десятичное, дробь)
 Единица           запись Reference (элемент-единица), 0x0000 для безразмерной величины
-Нижняя граница    запись SIGNED-DECIMAL, 0x0000 ABSENT, если опущено
-Верхняя граница   запись SIGNED-DECIMAL, 0x0000 ABSENT, если опущено
+Нижняя граница    числовая запись Value, 0x0000 ABSENT, если опущено
+Верхняя граница   числовая запись Value, 0x0000 ABSENT, если опущено
 ```
 
 - Единица — часть значения. Её не отделяют и не записывают в другом месте (без неё нельзя понять, `652` — это км или м).
@@ -179,4 +180,4 @@ TAG WORD          0000 1LLL L000 0110
 
 - Открытые медиаформаты (JPEG, PNG, MP4, MOV и др.) размещаются номерами форматов BINARY в Issuer IANA (`0x0021`). Как вести таблицу соответствия медиатипов и номеров форматов.
 - Окончательный список прямых кодов Value. Определяется по измерению частоты Value в выборках законов и деловых диалогов (кандидаты: денежная сумма, процент, интервал дат).
-- Подробная спецификация и размещение семи малых скаляров (ADHOC BFLOAT16, четыре ONNX FP8, OCP FP8-E8M0FNU и FP4-E2M1FN). Не решено, переносить ли их в зарезервированный диапазон прямых кодов NUMERIC (`0x07`~`0x0F`). Пока назначены только номера форматов.
+- Подробная спецификация и размещение семи малых скаляров (ADHOC BFLOAT16, четыре ONNX FP8, OCP FP8-E8M0FNU и FP4-E2M1FN). Не решено, переносить ли их в зарезервированный диапазон прямых кодов NUMERIC (`0x08`~`0x0F`). Пока назначены только номера форматов.

@@ -1,7 +1,7 @@
 ---
 title: "GEUL 文法"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "GEUL v1 の文法仕様。16ビットワード上のレコード、四つの Kind とすべての Codec、ドキュメント構造、Issuer と公表規則を定義する。"
 author: "朴俊宇"
@@ -291,8 +291,9 @@ Codec の上位2ビットがファミリーだ。NUMERIC/DECIMAL は上位3ビ�
 | `0x03` | [BINARY-FLOAT](/ja/grammar/value/numeric/binary-float/) | NUMERIC | Payload 1/2/4/8 WORD の IEEE 754 binary16/32/64/128 scalar |
 | `0x04` | [COORDINATE-EARTH](/ja/grammar/value/numeric/coordinate-earth/) | NUMERIC | 地球(WGS 84)の緯度・経度 binary64、不確かさ binary32 とその単位 Reference(ABSENT = 不明) |
 | `0x05` | [COORDINATE-GEO](/ja/grammar/value/numeric/coordinate-geo/) | NUMERIC | 天体 Reference と緯度・経度 binary64、不確かさ binary32 とその単位 Reference |
-| `0x06` | [QUANTITY](/ja/grammar/value/numeric/quantity/) | NUMERIC | SIGNED-DECIMAL amount、単位 Reference、下限・上限。単位・境界は省略可(ABSENT `0x0000`) |
-| `0x07`~`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/ja/grammar/value/numeric/quantity/) | NUMERIC | 数値 Value amount(整数・BINARY-FLOAT・10進数・分数)、単位 Reference、下限・上限。単位・境界は省略可(ABSENT `0x0000`) |
+| `0x07` | [FRACTION](/ja/grammar/value/numeric/fraction/) | NUMERIC | 原文の表記を保存する分数: 整数・10進数の分子、符号なし整数・10進数の分母。約分しない |
+| `0x08`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/ja/grammar/value/decimal/signed-decimal/) | DECIMAL | signed exponent `E` と最小 WORD の2の補数 coefficient `C` による `C×10^E` |
 | `0x11` | [UNSIGNED-DECIMAL](/ja/grammar/value/decimal/unsigned-decimal/) | DECIMAL | signed exponent `E` と最小 WORD の unsigned coefficient `C` による `C×10^E` |
 | `0x12`~`0x1F` | Reserved | DECIMAL |  |

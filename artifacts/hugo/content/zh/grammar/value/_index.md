@@ -2,7 +2,7 @@
 title: "Value"
 weight: 50
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
 summary: "Value 是承载值本身的记录。Codec 高 2 位是系列（数·十进制数、时间、文本、二进制），常用格式作为直接码，其余按标准组织放在 Issuer 格式中。"
 author: "朴俊宇"
@@ -50,7 +50,8 @@ Codec 的高 2 位是系列。直接码（7 位）和 Issuer 格式编号（16 �
 | `0x03` | [BINARY-FLOAT](/zh/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
 | `0x04` | [COORDINATE-EARTH](/zh/grammar/value/numeric/coordinate-earth/) | NUMERIC | 地球（WGS 84）纬度·经度与不确定度（单位 Reference） |
 | `0x05` | [COORDINATE-GEO](/zh/grammar/value/numeric/coordinate-geo/) | NUMERIC | 天体 Reference 与纬度·经度、不确定度（单位 Reference） |
-| `0x06` | [QUANTITY](/zh/grammar/value/numeric/quantity/) | NUMERIC | 十进制数量、单位 Reference、下限·上限 |
+| `0x06` | [QUANTITY](/zh/grammar/value/numeric/quantity/) | NUMERIC | 数值数量（整数·BINARY-FLOAT·十进制数·分数）、单位 Reference、下限·上限 |
+| `0x07` | [FRACTION](/zh/grammar/value/numeric/fraction/) | NUMERIC | 保留写法的分数（分子·分母记录，不约分） |
 | `0x10` | [SIGNED-DECIMAL](/zh/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`，有符号系数 |
 | `0x11` | [UNSIGNED-DECIMAL](/zh/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`，无符号系数 |
 | `0x20` | [GREGORIAN-DATE](/zh/grammar/value/time/gregorian-date/) | TIME | 自 1970-01-01 起的天数（格里高利历） |
@@ -97,7 +98,7 @@ Codec 的高 2 位是系列。直接码（7 位）和 Issuer 格式编号（16 �
 
 | 分组 | 系列 | 格式 |
 |---|---|---|
-| [numeric](/zh/grammar/value/numeric/) | NUMERIC | BOOL、整数、浮点数、坐标、QUANTITY |
+| [numeric](/zh/grammar/value/numeric/) | NUMERIC | BOOL、整数、浮点数、坐标、QUANTITY、FRACTION |
 | [decimal](/zh/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL、UNSIGNED-DECIMAL、IEEE 754 decimal32/64/128 |
 | [time](/zh/grammar/value/time/) | TIME | 日期、时刻、时间戳、经过时间、EDTF、GEDCOM 日期 |
 | [text](/zh/grammar/value/text/) | TEXT | UTF-8 文本、带语言的文本、URI、语言码 |
@@ -144,10 +145,10 @@ QUANTITY 把数量、单位、边界作为一个值来承载。
 ```
 TAG WORD          0000 1LLL L000 0110
 [Length 扩展 TAG]
-数量              SIGNED-DECIMAL 记录
+数量              数值 Value 记录 (整数·BINARY-FLOAT·十进制数·分数)
 单位              Reference 记录 (单位条目)，无单位则为 0x0000
-下限              SIGNED-DECIMAL 记录，省略则为 0x0000 ABSENT
-上限              SIGNED-DECIMAL 记录，省略则为 0x0000 ABSENT
+下限              数值 Value 记录，省略则为 0x0000 ABSENT
+上限              数值 Value 记录，省略则为 0x0000 ABSENT
 ```
 
 - 单位是值的一部分。不要把单位拆下来写在别处（拆开后就无法知道 `652` 是 km 还是 m）。
@@ -179,4 +180,4 @@ TAG WORD          0000 1LLL L000 0110
 
 - 公开媒体格式（JPEG、PNG、MP4、MOV 等）放在 IANA Issuer（`0x0021`）的 BINARY 格式编号中。媒体类型与格式编号对应表的管理方式。
 - Value 直接码的最终列表。测量法令·业务对话样本中的 Value 频率后确定（金额、百分比、日期区间候选）。
-- 7 个小标量（ADHOC BFLOAT16、ONNX FP8 4 种、OCP FP8-E8M0FNU·FP4-E2M1FN）的详细规格与布置。是否移到 NUMERIC 直接码保留区间（`0x07`~`0x0F`）尚未确定。目前只分配了格式编号。
+- 7 个小标量（ADHOC BFLOAT16、ONNX FP8 4 种、OCP FP8-E8M0FNU·FP4-E2M1FN）的详细规格与布置。是否移到 NUMERIC 直接码保留区间（`0x08`~`0x0F`）尚未确定。目前只分配了格式编号。

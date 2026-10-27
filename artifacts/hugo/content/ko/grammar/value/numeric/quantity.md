@@ -2,41 +2,46 @@
 title: "QUANTITY"
 weight: 7
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
-summary: "QUANTITY는 수량 하나를 정확한 10진수 양, 단위 Reference, 하한·상한의 네 레코드로 담는 Value다."
+summary: "QUANTITY는 수량 하나를 수치 Value 레코드인 양(정수·BINARY-FLOAT·10진수·분수), 단위 Reference, 하한·상한의 네 레코드로 담는 Value다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-QUANTITY는 수량 하나를 정확한 10진수, 단위, 하한·상한으로 나타내는 Value다. Value 직접 코드 `0x06`, 계열 NUMERIC이다. 네 부분은 각각 완전한 레코드다. 단위와 경계는 [선택 필드](/ko/grammar/codec-spec/)라 생략하면 ABSENT(`0x0000`)를 쓴다.
+QUANTITY는 수량 하나를 수, 단위, 하한·상한으로 나타내는 Value다. Value 직접 코드 `0x06`, 계열 NUMERIC이다. 네 부분은 각각 완전한 레코드다. 단위와 경계는 [선택 필드](/ko/grammar/codec-spec/)라 생략하면 ABSENT(`0x0000`)를 쓴다.
 
 ## 레이아웃
 
 ```
 TAG WORD          0000 1LLL L000 0110      Codec 0x06
 [Length 확장 TAG] 전체 15 WORD 이상일 때
-amount            SIGNED-DECIMAL Value 레코드
+amount            수치 Value 레코드 (정수·BINARY-FLOAT·10진수·분수)
 unit              Reference 레코드 (단위 항목), 무단위면 0x0000
-lower             SIGNED-DECIMAL Value 레코드, 생략하면 0x0000 ABSENT
-upper             SIGNED-DECIMAL Value 레코드, 생략하면 0x0000 ABSENT
+lower             수치 Value 레코드, 생략하면 0x0000 ABSENT
+upper             수치 Value 레코드, 생략하면 0x0000 ABSENT
 ```
 
 ## 해석과 유효성
 
-- amount는 [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) `C×10^E`다. C와 E는 원래 표기의 자릿수를 그대로 담는다: `1.20` = `120×10^-2`, `1.2` = `12×10^-1`. 두 값은 같은 수지만 유효숫자가 다르므로 다른 Value다. coefficient 자릿수에 상한은 없다(최소 WORD 2의 보수, 가변 길이).
+- amount는 완전한 수치 Value 레코드 하나다. 받는 Codec은 [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/)(`0x01`), [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/)(`0x02`), [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/)(`0x03`), [FRACTION](/ko/grammar/value/numeric/fraction/)(`0x07`), [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/)(`0x10`), [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/)(`0x11`)의 여섯이다. 닫힌 목록이며 와일드카드가 아니다. BOOL, COORDINATE-EARTH·COORDINATE-GEO, QUANTITY 자신(중첩 금지, 깊이 고정), 그 밖의 Value는 받지 않는다. amount에는 자리 표지(`0x0000` 등)를 쓸 수 없다.
+- 안쪽 레코드도 각 Codec의 정규형을 따른다(정수·coefficient는 최소 WORD, BINARY-FLOAT은 1/2/4/8 WORD, FRACTION은 그 규칙). 비정규 안쪽 레코드가 있으면 QUANTITY 전체가 invalid다.
+- amount·lower·upper가 BINARY-FLOAT이면 유한한 값이어야 한다. NaN과 ±Infinity는 invalid다([COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/)의 위도·경도와 같은 규칙).
+- 수 형식은 원래 표기를 그대로 따른다. 정수 원문은 INTEGER, 소수 원문은 DECIMAL, 분수 원문은 FRACTION, IEEE 754 binary 값은 BINARY-FLOAT로 담고, 인코더가 형식을 바꾸어 정규화하지 않는다. DECIMAL의 C와 E는 원래 표기의 자릿수를 그대로 담는다: `1.20` = `120×10^-2`, `1.2` = `12×10^-1`. 두 값은 같은 수지만 유효숫자가 다르므로 다른 Value다. 정수와 coefficient 자릿수에 상한은 없다(최소 WORD, 가변 길이).
 - unit은 완전한 Reference 레코드 정확히 하나이거나 `0x0000`이다. 단위 항목을 가리키는 어떤 Reference든 쓸 수 있다(위키데이터 단위는 WIKIDATA-QID). `0x0000`은 무단위(개수, 비율, 인구 등)다.
-- lower·upper는 각각 SIGNED-DECIMAL 레코드이거나 `0x0000`이다. 둘 중 하나만 있어도 된다. 대칭 범위(`652 ± 1`)도 하한·상한 둘로 쓴다(`651`, `653`). 비대칭 범위가 있어 어차피 두 값이 필요하므로 ± 하나로 줄이는 형식은 두지 않는다.
+- lower·upper는 각각 amount와 같은 여섯 Codec 중 하나의 레코드이거나 `0x0000` ABSENT다. 자리 표지는 ABSENT 생략만 받는다. 둘 중 하나만 있어도 된다. 세 수의 Codec이 같을 필요는 없다.
+- lower ≤ amount ≤ upper는 바이트나 Codec이 아니라 수치 값으로 비교한다. 타입이 달라도 수로 비교한다(예: SIGNED-INTEGER `652`와 SIGNED-DECIMAL `651.5`). FRACTION은 정확한 유리수로 비교한다. 대칭 범위(`652 ± 1`)도 하한·상한 둘로 쓴다(`651`, `653`). 비대칭 범위가 있어 어차피 두 값이 필요하므로 ± 하나로 줄이는 형식은 두지 않는다.
 - 단위는 값의 일부다. 단위를 QUALIFIER 등으로 떼어 내지 않는다(떼면 `652`가 km인지 m인지 알 수 없다).
+- amount 레코드를 꺼내면 그대로 독립된 Value 레코드다. 단위를 뗀 수가 필요하면 다시 인코딩하지 않고 그 레코드를 쓴다.
 - SI 단위로 환산한 값은 담지 않는다. 단위와 환산표에서 계산할 수 있는 파생값이다.
 - 네 레코드를 읽은 커서는 Payload 끝과 정확히 맞아야 한다. 그 밖의 형태는 invalid다.
-- geul.org 규격 문서는 amount(`0810`), unit(`0780`·`0000`), lower·upper(`0810`·`0000`)의 레코드 필드 넷으로 적는다([Codec 규격 문서](/ko/grammar/codec-spec/)).
+- geul.org 규격 문서는 amount(`0801`·`0802`·`0803`·`0807`·`0810`·`0811`), unit(`0780`·`0000`), lower·upper(`0801`·`0802`·`0803`·`0807`·`0810`·`0811`·`0000`)의 레코드 필드 넷으로 적는다([Codec 규격 문서](/ko/grammar/codec-spec/)).
 
 ## 길이
 
-- 전체는 TAG 1 WORD + (Length 확장 TAG) + 네 레코드다. 10진수 레코드는 TAG 1 + 지수 2 + coefficient 1 WORD 이상이다.
-- 무단위·경계 없는 작은 수는 8 WORD다. 15 WORD 이상이면 확장 길이를 쓴다([레코드와 TAG WORD](/ko/grammar/record/)).
+- 전체는 TAG 1 WORD + (Length 확장 TAG) + 네 레코드다. 정수 레코드는 TAG 1 + Payload 1 WORD 이상, BINARY-FLOAT 레코드는 2·3·5·9 WORD, 10진수 레코드는 TAG 1 + 지수 2 + coefficient 1 WORD 이상, FRACTION 레코드는 5 WORD 이상이다.
+- 무단위·경계 없는 작은 정수는 6 WORD, 작은 10진수는 8 WORD다. 15 WORD 이상이면 확장 길이를 쓴다([레코드와 TAG WORD](/ko/grammar/record/)).
 
 ## 예시
 
@@ -47,6 +52,22 @@ upper             SIGNED-DECIMAL Value 레코드, 생략하면 0x0000 ABSENT
 ```
 
 - TAG `0B86`(Codec `0x06`, 8 WORD), amount `0990 FFFF FFFE 0078`(E = -2, C = 120), unit·lower·upper `0000`.
+
+무단위 정수 `42`:
+
+```
+0A86 0881 002A 0000 0000 0000
+```
+
+- TAG `0A86`(6 WORD), amount `0881 002A`(SIGNED-INTEGER 42), unit·lower·upper `0000`.
+
+무단위 분수 `2/3`(출석 의결권의 3분의 2):
+
+```
+0C06 0A07 0881 0002 0882 0003 0000 0000 0000
+```
+
+- TAG `0C06`(9 WORD), amount `0A07 0881 0002 0882 0003`([FRACTION](/ko/grammar/value/numeric/fraction/) 2/3), unit·lower·upper `0000`.
 
 `652 km`, 범위 `[651, 653]`(km = Q828224):
 
@@ -63,6 +84,7 @@ upper             SIGNED-DECIMAL Value 레코드, 생략하면 0x0000 ABSENT
 ## 위키데이터 대응
 
 - `quantity` datavalue `{"amount","unit","lowerBound","upperBound"}` → amount·unit·lower·upper. amount와 경계 문자열(`+1.20`, 지수 표기 포함)은 자릿수 그대로 C와 E로 옮긴다.
+- 위키데이터의 amount·경계는 10진 문자열이므로 정수 모양(`+652`)이어도 SIGNED-DECIMAL로 옮긴다. 위키데이터 변환은 다른 수치 Codec을 쓰지 않는다.
 - unit `"1"`은 무단위(`0x0000`), `http://www.wikidata.org/entity/Qn`은 WIKIDATA-QID다. 그 밖의 단위, 형식이 맞지 않는 수·경계는 변환하지 않고 원문을 UTF8-TEXT로 보존한다.
 - 위키데이터 표본(덤프 앞부분 quantity 약 4.2만 건): 무단위 61%, 경계 있음 13%(그중 대칭 93%), 가장 긴 amount 31자.
 

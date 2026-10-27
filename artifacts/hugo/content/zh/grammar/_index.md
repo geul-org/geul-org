@@ -1,7 +1,7 @@
 ---
 title: "GEUL 语法"
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "specification"]
 summary: "GEUL v1 语法规范。定义 16 位 WORD 之上的记录、四种 Kind 与全部 Codec、文档结构、Issuer 与公布规则。"
 author: "朴俊宇"
@@ -291,8 +291,9 @@ Codec 的高 2 位是系列。NUMERIC/DECIMAL 再用高 3 位的第 3 位区分�
 | `0x03` | [BINARY-FLOAT](/zh/grammar/value/numeric/binary-float/) | NUMERIC | Payload 1/2/4/8 WORD 的 IEEE 754 binary16/32/64/128 scalar |
 | `0x04` | [COORDINATE-EARTH](/zh/grammar/value/numeric/coordinate-earth/) | NUMERIC | 地球（WGS 84）纬度·经度 binary64，不确定度 binary32 及其单位 Reference（ABSENT = 未知） |
 | `0x05` | [COORDINATE-GEO](/zh/grammar/value/numeric/coordinate-geo/) | NUMERIC | 天体 Reference 与纬度·经度 binary64，不确定度 binary32 及其单位 Reference |
-| `0x06` | [QUANTITY](/zh/grammar/value/numeric/quantity/) | NUMERIC | SIGNED-DECIMAL amount、单位 Reference、下限·上限。单位·边界可省略（ABSENT `0x0000`） |
-| `0x07`~`0x0F` | Reserved | NUMERIC |  |
+| `0x06` | [QUANTITY](/zh/grammar/value/numeric/quantity/) | NUMERIC | 数值 Value amount（整数·BINARY-FLOAT·十进制数·分数）、单位 Reference、下限·上限。单位·边界可省略（ABSENT `0x0000`） |
+| `0x07` | [FRACTION](/zh/grammar/value/numeric/fraction/) | NUMERIC | 保留原文写法的分数：整数·十进制数分子，无符号整数·十进制数分母。不约分 |
+| `0x08`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/zh/grammar/value/decimal/signed-decimal/) | DECIMAL | signed exponent `E` 与最小 WORD 二进制补码 coefficient `C` 的 `C×10^E` |
 | `0x11` | [UNSIGNED-DECIMAL](/zh/grammar/value/decimal/unsigned-decimal/) | DECIMAL | signed exponent `E` 与最小 WORD unsigned coefficient `C` 的 `C×10^E` |
 | `0x12`~`0x1F` | Reserved | DECIMAL |  |

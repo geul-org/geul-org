@@ -2,7 +2,7 @@
 title: "Value"
 weight: 50
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
 summary: "Value adalah record yang memuat nilai itu sendiri. 2 bit atas Codec adalah keluarganya (bilangan·desimal, waktu, teks, biner), format yang sering dipakai adalah kode langsung, dan sisanya ditaruh sebagai format Issuer per lembaga standar."
 author: "Junwoo Park"
@@ -50,7 +50,8 @@ Payload
 | `0x03` | [BINARY-FLOAT](/id/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
 | `0x04` | [COORDINATE-EARTH](/id/grammar/value/numeric/coordinate-earth/) | NUMERIC | Lintang·bujur Bumi (WGS 84) dan ketidakpastian (Reference satuan) |
 | `0x05` | [COORDINATE-GEO](/id/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference benda langit, lintang·bujur, dan ketidakpastian (Reference satuan) |
-| `0x06` | [QUANTITY](/id/grammar/value/numeric/quantity/) | NUMERIC | Kuantitas desimal, Reference satuan, batas bawah·atas |
+| `0x06` | [QUANTITY](/id/grammar/value/numeric/quantity/) | NUMERIC | Kuantitas numerik (bilangan bulat·BINARY-FLOAT·desimal·pecahan), Reference satuan, batas bawah·atas |
+| `0x07` | [FRACTION](/id/grammar/value/numeric/fraction/) | NUMERIC | Pecahan yang mempertahankan notasinya (record pembilang·penyebut, tidak disederhanakan) |
 | `0x10` | [SIGNED-DECIMAL](/id/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, koefisien bertanda |
 | `0x11` | [UNSIGNED-DECIMAL](/id/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, koefisien tanpa tanda |
 | `0x20` | [GREGORIAN-DATE](/id/grammar/value/time/gregorian-date/) | TIME | Jumlah hari sejak 1970-01-01 (kalender Gregorian) |
@@ -97,7 +98,7 @@ Layout, interpretasi, validitas, dan contoh setiap format ada pada dokumen per k
 
 | Kelompok | Keluarga | Format |
 |---|---|---|
-| [numeric](/id/grammar/value/numeric/) | NUMERIC | BOOL, bilangan bulat, floating-point, koordinat, QUANTITY |
+| [numeric](/id/grammar/value/numeric/) | NUMERIC | BOOL, bilangan bulat, floating-point, koordinat, QUANTITY, FRACTION |
 | [decimal](/id/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL, UNSIGNED-DECIMAL, IEEE 754 decimal32/64/128 |
 | [time](/id/grammar/value/time/) | TIME | Tanggal, waktu, timestamp, waktu berlalu, EDTF, tanggal GEDCOM |
 | [text](/id/grammar/value/text/) | TEXT | Teks UTF-8, teks dengan bahasa, URI, kode bahasa |
@@ -144,10 +145,10 @@ QUANTITY memuat kuantitas, satuan, dan batas sebagai satu nilai.
 ```
 TAG WORD          0000 1LLL L000 0110
 [Length extension TAG]
-Kuantitas         record SIGNED-DECIMAL
+Kuantitas         record Value numerik (bilangan bulat·BINARY-FLOAT·desimal·pecahan)
 Satuan            record Reference (item satuan), 0x0000 jika tanpa satuan
-Batas bawah       record SIGNED-DECIMAL, 0x0000 ABSENT jika dihilangkan
-Batas atas        record SIGNED-DECIMAL, 0x0000 ABSENT jika dihilangkan
+Batas bawah       record Value numerik, 0x0000 ABSENT jika dihilangkan
+Batas atas        record Value numerik, 0x0000 ABSENT jika dihilangkan
 ```
 
 - Satuan adalah bagian dari nilai. Satuan tidak dilepas dan ditulis di tempat lain (jika dilepas, tidak diketahui apakah `652` itu km atau m).
@@ -179,4 +180,4 @@ Contoh: `652 km`, rentang `[651, 653]` (km = Wikidata Q828224)
 
 - Format media publik (JPEG, PNG, MP4, MOV, dan lain-lain) ditaruh sebagai nomor format BINARY Issuer IANA (`0x0021`). Cara mengelola tabel padanan media type dan nomor format.
 - Daftar akhir kode langsung Value. Ditetapkan dengan mengukur frekuensi Value pada sampel undang-undang·percakapan bisnis (kandidat: jumlah uang, persentase, interval tanggal).
-- Spesifikasi rinci dan penempatan tujuh scalar kecil (ADHOC BFLOAT16, ONNX FP8 4 jenis, OCP FP8-E8M0FNU·FP4-E2M1FN). Belum ditetapkan apakah dipindah ke rentang cadangan kode langsung NUMERIC (`0x07`~`0x0F`). Saat ini hanya nomor format yang dialokasikan.
+- Spesifikasi rinci dan penempatan tujuh scalar kecil (ADHOC BFLOAT16, ONNX FP8 4 jenis, OCP FP8-E8M0FNU·FP4-E2M1FN). Belum ditetapkan apakah dipindah ke rentang cadangan kode langsung NUMERIC (`0x08`~`0x0F`). Saat ini hanya nomor format yang dialokasikan.

@@ -2,7 +2,7 @@
 title: "Value"
 weight: 50
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
 summary: "Value es un registro que contiene un valor en sí. Los 2 bits superiores del Codec son la familia (números·decimales, tiempo, texto, binario); los formatos de uso frecuente son códigos directos y los demás son formatos Issuer por organismo de normalización."
 author: "Junwoo Park"
@@ -49,7 +49,8 @@ Los 2 bits superiores del Codec son la familia. El código directo (7 bits) y el
 | `0x03` | [BINARY-FLOAT](/es/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
 | `0x04` | [COORDINATE-EARTH](/es/grammar/value/numeric/coordinate-earth/) | NUMERIC | Latitud y longitud de la Tierra (WGS 84) e incertidumbre (Reference de unidad) |
 | `0x05` | [COORDINATE-GEO](/es/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference de un cuerpo celeste, latitud y longitud, e incertidumbre (Reference de unidad) |
-| `0x06` | [QUANTITY](/es/grammar/value/numeric/quantity/) | NUMERIC | Cantidad decimal, Reference de unidad, límites inferior y superior |
+| `0x06` | [QUANTITY](/es/grammar/value/numeric/quantity/) | NUMERIC | Cantidad numérica (entero, BINARY-FLOAT, decimal, fracción), Reference de unidad, límites inferior y superior |
+| `0x07` | [FRACTION](/es/grammar/value/numeric/fraction/) | NUMERIC | Fracción que conserva su notación (registros de numerador y denominador, sin simplificar) |
 | `0x10` | [SIGNED-DECIMAL](/es/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, coeficiente con signo |
 | `0x11` | [UNSIGNED-DECIMAL](/es/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, coeficiente sin signo |
 | `0x20` | [GREGORIAN-DATE](/es/grammar/value/time/gregorian-date/) | TIME | Número de días desde 1970-01-01 (calendario gregoriano) |
@@ -96,7 +97,7 @@ El layout, la interpretación, la validez y los ejemplos de cada formato están 
 
 | Conjunto | Familia | Formatos |
 |---|---|---|
-| [numeric](/es/grammar/value/numeric/) | NUMERIC | BOOL, enteros, punto flotante, coordenadas, QUANTITY |
+| [numeric](/es/grammar/value/numeric/) | NUMERIC | BOOL, enteros, punto flotante, coordenadas, QUANTITY, FRACTION |
 | [decimal](/es/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL, UNSIGNED-DECIMAL, IEEE 754 decimal32/64/128 |
 | [time](/es/grammar/value/time/) | TIME | Fechas, horas, marcas de tiempo, tiempo transcurrido, EDTF, fechas GEDCOM |
 | [text](/es/grammar/value/text/) | TEXT | Texto UTF-8, texto con idioma, URI, códigos de idioma |
@@ -143,10 +144,10 @@ QUANTITY contiene la cantidad, la unidad y los límites en un solo valor.
 ```
 TAG WORD          0000 1LLL L000 0110
 [TAG de extensión de Length]
-Cantidad          registro SIGNED-DECIMAL
+Cantidad          registro Value numérico (entero, BINARY-FLOAT, decimal, fracción)
 Unidad            registro Reference (elemento de unidad); si no hay unidad, 0x0000
-Límite inferior   registro SIGNED-DECIMAL; si se omite, 0x0000 ABSENT
-Límite superior   registro SIGNED-DECIMAL; si se omite, 0x0000 ABSENT
+Límite inferior   registro Value numérico; si se omite, 0x0000 ABSENT
+Límite superior   registro Value numérico; si se omite, 0x0000 ABSENT
 ```
 
 - La unidad forma parte del valor. No se anota aparte en otro lugar (si se separa, no se sabe si `652` son km o m).
@@ -178,4 +179,4 @@ Ejemplo: `652 km`, rango `[651, 653]` (km = Q828224 de Wikidata)
 
 - Los formatos de medios públicos (JPEG, PNG, MP4, MOV, etc.) se colocan con un número de formato BINARY del Issuer IANA (`0x0021`). Cómo gestionar la tabla de correspondencia entre tipo de medio y número de formato.
 - La lista final de códigos directos de Value. Se fijará midiendo la frecuencia de Value en muestras de leyes y conversaciones de negocio (candidatos: importes, porcentajes, intervalos de fechas).
-- La especificación detallada y la ubicación de los 7 escalares pequeños (ADHOC BFLOAT16, ONNX FP8 ×4, OCP FP8-E8M0FNU·FP4-E2M1FN). No se ha decidido si pasarlos al tramo reservado de códigos directos NUMERIC (`0x07`~`0x0F`). Por ahora solo tienen asignado el número de formato.
+- La especificación detallada y la ubicación de los 7 escalares pequeños (ADHOC BFLOAT16, ONNX FP8 ×4, OCP FP8-E8M0FNU·FP4-E2M1FN). No se ha decidido si pasarlos al tramo reservado de códigos directos NUMERIC (`0x08`~`0x0F`). Por ahora solo tienen asignado el número de formato.

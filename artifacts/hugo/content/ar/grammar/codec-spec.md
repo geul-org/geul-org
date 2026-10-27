@@ -2,7 +2,7 @@
 title: "مستند مواصفة Codec"
 weight: 90
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
 summary: "الـ codebook أيضاً مستند GEUL. تعلن أربعة Edge هي DECLARE وFIELD وENUM وCODEC تركيب Payload لـ Codec واحد، ويتولى هذا المستند الواحد التحقق والتفكيك والعرض معاً."
 author: "جونو بارك"
@@ -130,10 +130,10 @@ DECLARE           LOCAL (DECLARE الذي ينتمي إليه هذا الحقل)
 
 | الحقل | CODEC |
 |---|---|
-| `amount` | `0810` SIGNED-DECIMAL |
+| `amount` | `0801` SIGNED-INTEGER، `0802` UNSIGNED-INTEGER، `0803` BINARY-FLOAT (القيم المنتهية فقط)، `0807` FRACTION، `0810` SIGNED-DECIMAL، `0811` UNSIGNED-DECIMAL |
 | `unit` | `0780` أي Reference، `0000` اختياري |
-| `lower` | `0810` SIGNED-DECIMAL، `0000` اختياري |
-| `upper` | `0810` SIGNED-DECIMAL، `0000` اختياري |
+| `lower` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (مثل amount)، `0000` اختياري |
+| `upper` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (مثل amount)، `0000` اختياري |
 
 ## القواعد
 

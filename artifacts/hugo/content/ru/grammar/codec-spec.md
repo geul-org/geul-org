@@ -2,7 +2,7 @@
 title: "Спецификация Codec"
 weight: 90
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
 summary: "Кодекбук — тоже документ GEUL. Четыре Edge — DECLARE, FIELD, ENUM, CODEC — объявляют состав Payload одного Codec, и один такой документ служит и для проверки, и для разбора, и для отображения."
 author: "Джунву Пак"
@@ -130,10 +130,10 @@ BODY документа `0x0000/0x000000000000100A`.
 
 | Поле | CODEC |
 |---|---|
-| `amount` | `0810` SIGNED-DECIMAL |
+| `amount` | `0801` SIGNED-INTEGER, `0802` UNSIGNED-INTEGER, `0803` BINARY-FLOAT (только конечные значения), `0807` FRACTION, `0810` SIGNED-DECIMAL, `0811` UNSIGNED-DECIMAL |
 | `unit` | `0780` любой Reference, `0000` необязательное |
-| `lower` | `0810` SIGNED-DECIMAL, `0000` необязательное |
-| `upper` | `0810` SIGNED-DECIMAL, `0000` необязательное |
+| `lower` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (как у amount), `0000` необязательное |
+| `upper` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (как у amount), `0000` необязательное |
 
 ## Правила
 
