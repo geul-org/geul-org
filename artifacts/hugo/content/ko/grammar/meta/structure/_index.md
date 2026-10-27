@@ -15,6 +15,7 @@ Meta 구조 클래스(상위 3비트 `000`, Codec `0x00`~`0x0F`)는 문서의 �
 ```
 DOC-*                  ← HEAD 시작
   정의·출처·계보·검증·정책·IMPORT Meta
+  문서 전체의 SOURCE와 그 QUALIFIER
 BODY                   ← BODY 시작
   Reference, Value, Edge
 END                    ← 문서를 닫음
@@ -23,6 +24,6 @@ END                    ← 문서를 닫음
 - 모든 문서는 `DOC-1WORD/2WORD/4WORD`로 전체 길이를 지정해 연다. 디코더는 이 길이로 문서 전체를 한 번에 건너뛸 수 있다.
 - `BODY`와 `END`는 Payload가 없는 1 WORD 레코드다. `END`는 필수다.
 - 문서는 중첩하지 않는다. 다른 문서는 IMPORT로 가리킨다.
-- HEAD가 비어 있으면 `BODY`를 생략한다. `BODY`는 문서마다 한 번만 둘 수 있다.
+- HEAD(Meta, 문서 전체의 SOURCE와 그 QUALIFIER)가 비어 있으면 `BODY`를 생략한다. `BODY`는 문서마다 한 번만 둘 수 있다.
 
 문서 구조 전체는 [문서](/ko/grammar/document/)에 있다.

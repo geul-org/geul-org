@@ -38,12 +38,12 @@ LOCAL ID          가장 짧은 폭의 unsigned big-endian
 ## 식별자 할당
 
 - ID는 정수이며 인코더가 배정한다. 숫자의 크기와 할당 순서는 동일성 말고는 아무 뜻이 없다.
-- **UNIQUE(필수).** 한 문서에서 LOCAL ID 하나는 대상 하나만 가리킨다. Edge Id는 문서마다 한 번만 선언한다. 같은 Edge Id를 선언하는 Edge가 둘 이상이면 invalid다.
+- **UNIQUE(필수).** 한 문서에서 LOCAL ID 하나는 대상 하나만 가리킨다. Edge Id는 문서마다 한 번만 선언한다(HEAD Edge와 BODY Edge가 한 번호 공간). 같은 Edge Id를 선언하는 Edge가 둘 이상이면 invalid다.
 - **AUTO INCREMENT(권고).** 새 ID는 그 문서에서 지금까지 배정한 ID의 최댓값 + 1로 배정하고, 문서 순서대로 늘어나게 둔다. 버전을 넘어서도 같다(삭제한 ID보다 큰 값으로 새로 만든다). 권고일 뿐 유효성 조건이 아니며, 증가하지 않는 문서도 valid다. 디코더는 ID의 크기나 연속성에 기대지 않는다.
 - ID `0`은 배정하지 않는다. 어떤 대상도 가리키지 않으며 Edge Id로도 쓰지 않는다. 대상 ID는 `1`부터 배정한다.
 - 문서는 그 문서 안에서든 밖에서든 [DOC-POINTER](/ko/grammar/reference/doc-pointer/) 하나로만 가리킨다(자기 자신은 자기 `DOC-ID`의 DOC-POINTER). 문서에도 `BIND`·`LABEL`·판정 Edge를 붙일 수 있다.
 - Issuer 자신은 [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)로 가리킨다. 문서 ID `0`은 Issuer의 용어 정의 색인 문서다.
-- 구성요소 자리의 `0`을 "없음"으로 쓰는 Codec([TOULMIN](/ko/grammar/edge/toulmin/) REF, 실행 Edge)은 그 Codec 규칙을 따른다. 이것은 [자리 표지](/ko/grammar/reference/slot-marker/)와 다른, 그 Codec 안의 약속이다.
+- 구성요소 자리의 `0`에 뜻을 주는 Codec([TOULMIN](/ko/grammar/edge/toulmin/) REF·실행 Edge의 "없음", HEAD [SOURCE](/ko/grammar/edge/source/#문서-전체의-출처) Target의 "문서 전체")은 그 Codec 규칙을 따른다. 이것은 [자리 표지](/ko/grammar/reference/slot-marker/)와 다른, 그 Codec 안의 약속이다.
 - 한 번 할당한 ID는 같은 문서에서 재사용하지 않는다.
 - 항상 값을 표현할 수 있는 최소 폭을 쓴다.
 

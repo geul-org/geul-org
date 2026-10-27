@@ -26,5 +26,5 @@ Payload           Reference, 또는 SHA-256-DIGEST(내용 해시), 또는 URI Va
 
 ## 해석과 유효성
 
-- GEUL 문서에서 파생했으면 그 내용 해시([SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/))를, 외부 자료면 [SOURCE](/ko/grammar/meta/provenance/source/)처럼 [URI](/ko/grammar/value/text/uri/)(+다이제스트)를 둔다.
-- 레코드 단위 파생은 근거 Edge `RECORD-DERIVED-FROM`이 맡는다.
+- GEUL 문서에서 파생했으면 그 내용 해시([SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/))를, 외부 자료면 [URI](/ko/grammar/value/text/uri/)를 둔다. 외부 자료의 판본을 해시로 고정하려면 HEAD의 [SOURCE](/ko/grammar/edge/source/#문서-전체의-출처)에 원문 해시 QUALIFIER(P4092)를 붙인다.
+- 레코드 단위 원천은 근거 Edge [SOURCE](/ko/grammar/edge/source/)가, 이동·분할·통합 전의 옛 레코드는 대상 Edge의 QUALIFIER P1365(값은 옛 Edge Id)가 맡는다.

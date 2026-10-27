@@ -25,7 +25,7 @@ GEUL(General Encoding Unified Language)은 사람과 AI가 모호하지 않게 �
 | Edge | 다른 레코드를 묶어 서술한다 | "Q42는 사람이다", "Q42의 영어 이름은 Douglas Adams다" |
 | Meta | 문서에 관해 말한다 | 명세 판, 문서 ID, 작성자, 서명 |
 
-- 레코드들은 **문서** 하나에 담긴다. 문서는 HTML처럼 HEAD(Meta)와 BODY(Reference·Value·Edge)로 나뉜다.
+- 레코드들은 **문서** 하나에 담긴다. 문서는 HTML처럼 HEAD(Meta, 그리고 문서 전체의 출처 SOURCE와 그 QUALIFIER)와 BODY(Reference·Value·Edge)로 나뉜다.
 - 문서는 **Issuer**(발급 주체)가 내고, 버전마다 내용 해시로 고정된다. 공표한 버전은 바꾸지 않는다.
 
 ## 설계 원칙

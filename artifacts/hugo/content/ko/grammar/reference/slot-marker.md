@@ -23,7 +23,7 @@ TAG WORD          0000 0000 0000 0MMM
 
 | WORD | 이름 | 뜻 | 표기 |
 |---|---|---|---|
-| `0x0000` | ABSENT | 적지 않음 | `_` |
+| `0x0000` | ABSENT | 적지 않음 | `ABSENT` |
 | `0x0001` | UNKNOWN-VALUE | 알 수 없음: 값이 있다. 무엇인지 모른다 | `UNKNOWN` |
 | `0x0002` | NO-VALUE | 없음: 값이 없다 | `NONE` |
 | `0x0003`~`0x0007` | 예약 | | |
@@ -32,7 +32,7 @@ TAG WORD          0000 0000 0000 0MMM
 - 하위 3비트 `MMM`은 **Quantifier가 아니라 표지 번호**다. 다른 Reference Codec의 `QQQ`와 이름만 같은 자리일 뿐 뜻이 이어지지 않는다([Reference](/ko/grammar/reference/) Quantifier 예외).
 - Payload가 없다. 대상 ID도 없다.
 - 코덱북이 없는 디코더도 TAG WORD만 보고 Kind Reference, 1 WORD임을 알아 건너뛴다. "WORD 값이 `0`~`7`이면 자리 표지"는 비트 검사 하나(`w & 0xFFF8 == 0`)로 안다.
-- 표기 `_`·`UNKNOWN`·`NONE`은 `geul show`·`geul add`의 텍스트 표기다. 표기는 나중에 하나로 맞출 수 있다.
+- 표기 `ABSENT`·`UNKNOWN`·`NONE`은 `geul show`·`geul add`의 텍스트 표기다.
 
 ## 세 가지 구분
 
@@ -42,7 +42,7 @@ TAG WORD          0000 0000 0000 0MMM
 | 논리 | 아무것도 단언하지 않는다 | `∃x. P(s, x)`, x는 식별되지 않음 | `¬∃x. P(s, x)` |
 | 세계 가정 | 열린 세계 (정보 없음) | 존재는 닫힘, 정체는 열림 | (s, P, 한정 조건)에 대해 닫힌 세계 |
 | 위키데이터 | 해당 snak이 없음 | `somevalue` | `novalue` |
-| 어디에 쓰나 | CODEC 대상 `0000`을 둔 선택 필드 | CODEC 대상 `0001`을 둔 필드 (TRIPLE Object, QUALIFIER Value) | CODEC 대상 `0002`를 둔 필드 (같음) |
+| 어디에 쓰나 | CODEC 대상 `0000`을 둔 선택 필드 (SOURCE Origin 등) | CODEC 대상 `0001`을 둔 필드 (TRIPLE Object, QUALIFIER Value, SOURCE Origin) | CODEC 대상 `0002`를 둔 필드 (TRIPLE Object, QUALIFIER Value) |
 | "자녀(P40)는 몇인가" | 모름 | 1 이상 | 0 |
 | "종료 시점(P582)이 있나" | 모름 → 지금도 유효한지 모름 | 끝났다. 언제인지 모름 | 끝나지 않았다(단언) |
 
@@ -68,7 +68,7 @@ TAG WORD          0000 0000 0000 0MMM
    - 같은 Subject·Predicate에 NO-VALUE와 값 TRIPLE이 같은 rank로, 한정 조건이 구별되지 않은 채 함께 있으면 모순이다. 검사기는 경고를 낸다. 거부하지는 않는다. 위키데이터에도 있는 상태이고, 읽는 쪽이 rank로 고른다.
 3. **rank는 똑같이 적용된다.** 대표 값(truthy)을 고를 때 UNKNOWN-VALUE·NO-VALUE TRIPLE도 후보에 든다. preferred가 있으면 preferred만 남는다.
 4. **QUALIFIER 값으로 쓰이면 그 한정의 뜻을 바꾼다.** `P582 = UNKNOWN`이면 끝났고 시점을 모른다. 지금도 유효한 명제로 읽지 않는다. `P582 = NONE`이면 끝나지 않았다고 단언한다. P582 QUALIFIER가 아예 없으면 끝났는지 모른다.
-5. **ABSENT는 세계에 관해 아무 말도 하지 않는다.** UNKNOWN-VALUE나 NO-VALUE로 읽지 않는다. 반대로 변환기가 옮기지 못한 값(원천에는 있는 값)을 UNKNOWN-VALUE로 쓰는 것은 금지한다. 원천에서는 값을 알고 있기 때문이다.
+5. **ABSENT는 세계에 관해 아무 말도 하지 않는다.** UNKNOWN-VALUE나 NO-VALUE로 읽지 않는다. 반대로 변환기가 옮기지 못한 값(원천에는 있는 값)을 UNKNOWN-VALUE로 쓰는 것은 금지한다. 원천에서는 값을 알고 있기 때문이다. 원천이 말하지 않은 자리(예: 원천을 기술하지 않은 출처의 [SOURCE](/ko/grammar/edge/source/) Origin)도 변환기는 ABSENT로 쓴다. UNKNOWN-VALUE는 "있다"는 단언이라 원천이 그렇게 말할 때만 쓴다.
 
 ## 다른 "없음"과의 차이
 

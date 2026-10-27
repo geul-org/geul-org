@@ -28,7 +28,7 @@ Payload           TIME Value 하나
 
 - 없으면 공표 시각부터 시행한다.
 - [EFFECTIVE-UNTIL](/ko/grammar/meta/declaration/effective-until/)이 있으면 그보다 앞서야 한다.
-- 조문별로 시행일이 다르면 근거 Edge `RECORD-EFFECTIVE`로 따로 적는다.
+- 조문별로 시행일이 다르면 그 조문 Edge에 QUALIFIER P580(시작)·P582(끝)로 따로 적는다([SOURCE](/ko/grammar/edge/source/#다른-근거의-표현)).
 - 문서를 특정 시점 기준으로 해석할 때 이 값을 읽는다.
 
 ## 예시

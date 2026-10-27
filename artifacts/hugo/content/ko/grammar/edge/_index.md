@@ -35,7 +35,7 @@ Edge Id           LOCAL Reference 레코드
 | 상위 2비트 | 계열 | 직접 코드 | 하는 일 |
 |---|---|---|---|
 | `00` | 서술 | `0x00`~`0x1F` | 세계와 사건에 관한 내용을 구성한다 |
-| `01` | 근거 | `0x20`~`0x3F` | 개별 레코드가 어디서, 무엇에서, 얼마나 믿을 만하게 나왔는지 |
+| `01` | 근거 | `0x20`~`0x3F` | 레코드와 문서가 어디서 나왔는지([SOURCE](/ko/grammar/edge/source/)) |
 | `10` | 실행 | `0x40`~`0x5F` | 실행할 수 있는 프로그램 구조(AST) |
 | `11` | [TOULMIN](/ko/grammar/edge/toulmin/) | `0x60`~`0x7B` | 논증 그래프: 주장·반박·예외, 공격 관계, 실행, 판정 결과 |
 
@@ -149,22 +149,36 @@ Object            UTF8-LANGUAGE-TEXT
 
 ## 근거 Edge
 
-BODY 안의 개별 레코드에 근거를 붙인다. 문서 전체의 근거는 [Meta](/ko/grammar/meta/)가 맡는다.
+BODY 안의 개별 레코드, 또는 문서 전체(HEAD)에 근거를 붙인다. 근거 계열의 직접 코드는 [SOURCE](/ko/grammar/edge/source/)(`0x20`) 하나다.
 
-- 대상은 BODY 안의 Edge이고 Edge Id로 가리킨다. Reference·Value는 그것을 담은 Edge와 구성요소 위치로 가리킨다. 세부 배치는 각 Codec 문서가 정한다.
-- Edge마다 근거 Edge를 붙이면 길어지므로 자주 쓰는 조합은 축약형 Edge를 둘 수 있다.
-- 이름에는 `RECORD-` 접두어를 붙여 같은 뜻의 문서 단위 Meta(`SOURCE`, `CONFIDENCE` 등)와 구분한다.
+| Codec | 이름 | 구성요소 |
+|---|---|---|
+| `0x20` | [SOURCE](/ko/grammar/edge/source/) | Target(근거를 붙이는 BODY Edge의 Edge Id, HEAD에서는 `0` = 문서 전체), Origin(원천 Reference, ABSENT 또는 UNKNOWN-VALUE) |
+| `0x21`~`0x3F` | Reserved | |
+
+- 원천 자체의 성질(URL, 제목, 저자, 발행일 …)은 원천을 Subject로 하는 TRIPLE로, 인용의 성질(조회일, 원천 안의 위치 …)은 SOURCE의 Edge Id를 Target으로 하는 QUALIFIER로 쓴다.
+- 문서 전체의 원천은 HEAD에 Target `0`인 SOURCE로 쓰고, 그것을 Target으로 하는 QUALIFIER도 HEAD에 둔다. HEAD에 오는 Edge는 이 둘뿐이고, Edge Id는 HEAD와 BODY가 한 번호 공간을 쓴다([문서 전체의 출처](/ko/grammar/edge/source/#문서-전체의-출처)).
+- 다른 근거(원문 범위, 만든 주체, 신뢰도, 조문별 시행 기간, 옛 레코드)는 QUALIFIER로 쓰고, 처음 들어온 버전은 버전 이력에서 계산한다([SOURCE](/ko/grammar/edge/source/#다른-근거의-표현)).
 - 레코드 단위의 판정 결과는 TOULMIN `VERDICT`가 맡는다.
 
-| Codec | 이름 | 뜻 |
-|---|---|---|
-| `0x20` | RECORD-SOURCE-SPAN | 대상이 나온 원문 안의 범위 |
-| `0x21` | RECORD-SOURCE | 대상의 원천 자료 |
-| `0x22` | RECORD-DERIVED-FROM | 대상이 파생된 다른 레코드·자료 |
-| `0x23` | RECORD-GENERATED-BY | 대상을 만든 주체(사람, 모델, 규칙 엔진) |
-| `0x24` | RECORD-INTRODUCED-IN | 대상이 처음 들어온 버전의 내용 해시 |
-| `0x25` | RECORD-CONFIDENCE | 대상의 신뢰도 |
-| `0x26` | RECORD-EFFECTIVE | 대상의 시행 기간(조문별 시행일) |
+### SOURCE
+
+자세히: [SOURCE](/ko/grammar/edge/source/)
+
+```
+TAG WORD          0001 0LLL L010 0000
+[Length 확장 TAG]
+Edge Id           LOCAL Reference
+Target            LOCAL Reference (근거를 붙이는 BODY Edge의 Edge Id, HEAD에서는 0 = 문서 전체)
+Origin            Reference 또는 자리 표지 0x0000 ABSENT·0x0001 UNKNOWN-VALUE
+```
+
+예: Q42 P19 TRIPLE `#178`의 출처 브리태니커(Q5375741), 그 안의 식별자 P1417
+
+```
+SOURCE     #1347  #178   Q5375741
+QUALIFIER  #1348  P1417  #1347  "biography/Douglas-Adams"
+```
 
 ## 실행 Edge
 

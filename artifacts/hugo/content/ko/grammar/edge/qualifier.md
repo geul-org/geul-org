@@ -31,8 +31,10 @@ Value             Reference 또는 Value 레코드, 또는 자리 표지 0x0001 
 
 - Property, Target은 정확히 하나의 완전한 Reference 레코드이고, Target은 LOCAL Reference다. geul.org 규격 문서는 Target에 [CODEC](/ko/grammar/edge/codec/) LOCAL(`0008`)을 둔다. Value는 정확히 하나의 완전한 Reference 또는 Value 레코드, 또는 [자리 표지](/ko/grammar/reference/slot-marker/) `0x0001`(UNKNOWN-VALUE)·`0x0002`(NO-VALUE) 1 WORD다. 규격 문서는 Value에 CODEC `0780`, `0F80`, `0001`, `0002`를 둔다. ABSENT(`0x0000`)는 받지 않는다. Property·Target은 자리 표지를 받지 않는다. Value를 읽은 커서는 Edge 끝과 맞아야 한다.
 - Target은 같은 문서 안의 Edge Id다. QUALIFIER는 한정하는 Edge와 같은 문서에 둔다.
+- Target이 HEAD의 [SOURCE](/ko/grammar/edge/source/#문서-전체의-출처)(문서 전체의 원천)이면 QUALIFIER도 HEAD에, 그 SOURCE 뒤에 둔다. 그 밖의 QUALIFIER는 BODY에 둔다. HEAD SOURCE를 Target으로 하는 QUALIFIER가 BODY에 있으면 invalid다.
+- Target은 TRIPLE 말고 다른 Edge일 수 있다. [SOURCE](/ko/grammar/edge/source/)에 붙은 QUALIFIER는 인용 행위를 한정한다(조회일, 원천 안의 위치 등). SOURCE의 의미도 그것을 가리키는 QUALIFIER를 모두 모은 것이다.
 - **QUALIFIER는 명제의 일부다.** 명제에 관한 별도의 주장이 아니라, 명제가 참이 되는 조건을 한정한다. 대상 TRIPLE의 의미는 그것을 가리키는 QUALIFIER를 모두 모은 것이다.
-  - 명제에 관한 별도의 주장(누가 언제 주장했나, 출처 노드의 속성 등)은 TRIPLE로 쓴다.
+  - 명제의 출처는 [SOURCE](/ko/grammar/edge/source/)로 쓴다. 원천 노드의 속성(제목, 저자 등)은 원천을 Subject로 하는 TRIPLE로 쓴다.
 - 같은 Target에 같은 Property의 QUALIFIER가 여럿일 수 있다. 같은 Target의 QUALIFIER 순서는 문서 안 순서다(Edge 순서에 의미를 주는 예외).
 
 ## 알 수 없음과 없음
@@ -84,4 +86,4 @@ Q30 중앙은행(P1304) NO-VALUE TRIPLE `#3161`에 기간을 붙인다. 1811~181
 
 ## 관련 페이지
 
-- [Edge](/ko/grammar/edge/), [TRIPLE](/ko/grammar/edge/triple/), [WIKIDATA-PID](/ko/grammar/reference/wikidata-pid/), [EDTF](/ko/grammar/value/time/edtf/), [자리 표지](/ko/grammar/reference/slot-marker/)
+- [Edge](/ko/grammar/edge/), [TRIPLE](/ko/grammar/edge/triple/), [SOURCE](/ko/grammar/edge/source/), [WIKIDATA-PID](/ko/grammar/reference/wikidata-pid/), [EDTF](/ko/grammar/value/time/edtf/), [자리 표지](/ko/grammar/reference/slot-marker/)

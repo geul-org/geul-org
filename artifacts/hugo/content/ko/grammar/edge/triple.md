@@ -12,7 +12,7 @@ image: "/images/og-default.webp"
 
 TRIPLE은 명제 하나(Predicate, Subject, Object)와 그 등급(rank)을 담는 서술 Edge다. Codec `0x0A`.
 
-명제를 한정하는 조건(시작·종료 시점, 적용 범위 등)은 TRIPLE의 Edge Id를 가리키는 [QUALIFIER](/ko/grammar/edge/qualifier/)로 붙인다.
+명제를 한정하는 조건(시작·종료 시점, 적용 범위 등)은 TRIPLE의 Edge Id를 가리키는 [QUALIFIER](/ko/grammar/edge/qualifier/)로 붙인다. 출처(위키데이터 references)는 TRIPLE의 Edge Id를 가리키는 근거 Edge [SOURCE](/ko/grammar/edge/source/)로 붙인다.
 
 ## 레이아웃
 
@@ -85,11 +85,10 @@ Q30(미국) P1304(중앙은행) NO-VALUE, normal. 1811~1816년에는 중앙은�
 
 ## 열린 문제
 
-- 출처(references): 근거 Edge `RECORD-SOURCE`(`0x21`)로 TRIPLE의 Edge Id를 가리키는 안. 출처 묶음은 LOCAL 노드로 한 번 정의하고 그 항목은 TRIPLE로 쓴다.
 - scope(주장의 맥락: 세계, 관점): 쓰임새가 생길 때 정한다.
 - TRIPLE과 QUALIFIER를 한 레코드에 접는 축약형: 반복 필드 선언([DECLARE](/ko/grammar/edge/declare/) 열린 문제)이 생긴 뒤.
 
 ## 관련 페이지
 
-- [Edge](/ko/grammar/edge/), [QUALIFIER](/ko/grammar/edge/qualifier/), [LABEL](/ko/grammar/edge/label/), [ALIAS](/ko/grammar/edge/alias/), [자리 표지](/ko/grammar/reference/slot-marker/)
+- [Edge](/ko/grammar/edge/), [QUALIFIER](/ko/grammar/edge/qualifier/), [SOURCE](/ko/grammar/edge/source/), [LABEL](/ko/grammar/edge/label/), [ALIAS](/ko/grammar/edge/alias/), [자리 표지](/ko/grammar/reference/slot-marker/)
 - [WIKIDATA-PID](/ko/grammar/reference/wikidata-pid/), [WIKIDATA-QID](/ko/grammar/reference/wikidata-qid/)

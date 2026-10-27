@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Meta는 세계에 관한 내용이 아니라 문서에 관한 레코드다. 문서 구조 레코드(DOC·BODY·END)를 빼면 모두 문서의 HEAD에 둔다.
+Meta는 세계에 관한 내용이 아니라 문서에 관한 레코드다. 문서 구조 레코드(DOC·BODY·END)를 빼면 모두 문서의 HEAD에 둔다. HEAD에는 Meta 말고 문서 전체의 근거 Edge [SOURCE](/ko/grammar/edge/source/#문서-전체의-출처)와 그 QUALIFIER도 온다.
 
 ## 레이아웃
 
@@ -52,7 +52,7 @@ Codec의 상위 3비트가 클래스다.
 
 - **해석에 필요한 Meta**: 구조, 정의, IMPORT. 지우면 레코드를 읽을 수 없거나 해석이 바뀐다. 모든 디코더가 처리해야 한다. 이 Codec들은 **GEUL 핵심 코덱북**에 속한다.
 - **해석을 바꾸지 않는 Meta**: 출처, 계보, 검증, 정책. 지워도 서술 내용은 그대로다. 신뢰 판단과 취급의 재료만 사라진다.
-- 개별 레코드의 근거는 Meta가 아니라 BODY의 근거 Edge로 쓴다([Edge](/ko/grammar/edge/)).
+- 근거는 Meta가 아니라 근거 Edge [SOURCE](/ko/grammar/edge/source/)와 QUALIFIER로 쓴다. 개별 레코드의 근거는 BODY에, 문서 전체의 원천은 HEAD에 Target `0`인 SOURCE로 둔다([문서](/ko/grammar/document/#head와-body)).
 
 ## 구조
 
@@ -93,9 +93,9 @@ Codec의 상위 3비트가 클래스다.
 | `0x23` | [MODIFIED-AT](/ko/grammar/meta/provenance/modified-at/) | 수정 시각 |
 | `0x24` | [RECORDED-BY](/ko/grammar/meta/provenance/recorded-by/) | 기록한 주체 |
 | `0x25` | [RECORDED-AT](/ko/grammar/meta/provenance/recorded-at/) | 기록한 시각 |
-| `0x26` | [SOURCE](/ko/grammar/meta/provenance/source/) | 원천 자료. Reference 또는 URI·해시 |
-| `0x27` | [SOURCE-SPAN](/ko/grammar/meta/provenance/source-span/) | 원문 안의 대응 범위 |
-| `0x28` | [ACQUIRED-AT](/ko/grammar/meta/provenance/acquired-at/) | 원천 자료를 확보한 시각 |
+| `0x26`~`0x2F` | Reserved | |
+
+- 원천 자료는 Meta가 아니라 HEAD의 근거 Edge [SOURCE](/ko/grammar/edge/source/#문서-전체의-출처)(Target `0`)로 쓰고, 원문 범위·확보 시각·원문 해시는 그 SOURCE에 붙는 QUALIFIER로 쓴다.
 
 ## 계보
 

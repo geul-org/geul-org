@@ -163,13 +163,10 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 ISSUER 형식
 
 | Codec | 이름 | 하위 형식 | 설명 |
 |---|---|---|---|
-| `0x20` | RECORD-SOURCE-SPAN |  | 대상이 나온 원문 안의 범위. 예: 원문 문장의 10~25번째 글자 |
-| `0x21` | RECORD-SOURCE |  | 대상의 원천 자료 |
-| `0x22` | RECORD-DERIVED-FROM |  | 대상이 파생된 다른 레코드·자료 |
-| `0x23` | RECORD-GENERATED-BY |  | 대상을 만든 주체. 사람, 모델, 규칙 엔진 |
-| `0x24` | RECORD-INTRODUCED-IN |  | 대상이 처음 들어온 버전의 내용 해시 (git blame) |
-| `0x25` | RECORD-CONFIDENCE |  | 대상의 신뢰도 |
-| `0x26` | RECORD-EFFECTIVE |  | 대상의 시행 기간. 문서 시행일과 다를 때(부칙 "제X조는 …부터 시행"). 시작일, [끝일] |
+| `0x20` | [SOURCE](/ko/grammar/edge/source/) |  | 레코드 하나 또는 문서 전체를 그 원천에 잇는다. Target(BODY Edge Id, HEAD에서는 `0` = 문서 전체), Origin(Reference, ABSENT 또는 UNKNOWN-VALUE). 원천의 성질은 원천을 Subject로 하는 TRIPLE, 인용의 성질(조회일, 위치, 원문 해시)은 SOURCE에 붙는 QUALIFIER. 문서 전체의 SOURCE와 그 QUALIFIER는 HEAD에 둔다 |
+| `0x21`~`0x3F` | Reserved |  |  |
+
+- 원문 범위, 만든 주체, 신뢰도, 조문별 시행 기간, 옛 레코드는 QUALIFIER로 쓰고, 처음 들어온 버전은 버전 이력에서 계산한다([SOURCE](/ko/grammar/edge/source/#다른-근거의-표현)).
 
 ### 실행 (`10`)
 
@@ -292,8 +289,8 @@ Codec의 상위 2비트가 계열이다. NUMERIC/DECIMAL은 상위 3번째 비�
 | `0x01` | [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/) | NUMERIC | 최소 WORD 2의 보수 부호 있는 정수 |
 | `0x02` | [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/) | NUMERIC | 최소 WORD big-endian unsigned magnitude 정수 |
 | `0x03` | [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/) | NUMERIC | Payload 1/2/4/8 WORD의 IEEE 754 binary16/32/64/128 scalar |
-| `0x04` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도 binary64와 불확도 uint32 mm. 고정 11 WORD |
-| `0x05` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도 binary64, 불확도 uint32 mm |
+| `0x04` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도 binary64, 불확도 binary32와 그 단위 Reference(ABSENT = 미상) |
+| `0x05` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도 binary64, 불확도 binary32와 그 단위 Reference |
 | `0x06` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | SIGNED-DECIMAL amount, 단위 Reference, 하한·상한. 단위·경계는 없음 표지 `0x0000` 가능 |
 | `0x07`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) | DECIMAL | signed exponent `E`와 최소 WORD 2의 보수 coefficient `C`의 `C×10^E` |
@@ -434,17 +431,16 @@ Codec의 상위 3비트가 클래스다. Meta에는 ISSUER 코드가 없다.
 | `0x23` | [MODIFIED-AT](/ko/grammar/meta/provenance/modified-at/) | 수정 시각. TIME Value |
 | `0x24` | [RECORDED-BY](/ko/grammar/meta/provenance/recorded-by/) | 기록한 주체. Reference (git committer) |
 | `0x25` | [RECORDED-AT](/ko/grammar/meta/provenance/recorded-at/) | 기록한 시각. TIME Value (git commit date) |
-| `0x26` | [SOURCE](/ko/grammar/meta/provenance/source/) | 원천 자료. Reference 또는 URI·해시 Value |
-| `0x27` | [SOURCE-SPAN](/ko/grammar/meta/provenance/source-span/) | 원문 안의 대응 범위. 예: 원문 문장의 10~25번째 글자 |
-| `0x28` | [ACQUIRED-AT](/ko/grammar/meta/provenance/acquired-at/) | 원천 자료를 확보한 시각. TIME Value |
-| `0x29`~`0x2F` | Reserved |  |
+| `0x26`~`0x2F` | Reserved |  |
+
+- 원천 자료와 그 범위·확보 시각·해시는 Meta가 아니라 HEAD의 근거 Edge [SOURCE](/ko/grammar/edge/source/#문서-전체의-출처)(Target `0`)와 그 QUALIFIER로 쓴다.
 
 ### 계보 (`011`)
 
 | Codec | 이름 | 설명 |
 |---|---|---|
 | `0x30` | [PARENT](/ko/grammar/meta/lineage/parent/) | 직전 버전의 내용 해시 (git parent). 없으면 최초 버전이고, 여럿이면 병합이다(git merge commit). |
-| `0x31` | [DERIVED-FROM](/ko/grammar/meta/lineage/derived-from/) | 다른 계보의 레코드·자료에서 파생. 외부 자료의 특정 버전에 고정할 때는 `SOURCE`와 해시 Value를 함께 쓴다(git submodule). |
+| `0x31` | [DERIVED-FROM](/ko/grammar/meta/lineage/derived-from/) | 다른 계보의 레코드·자료에서 파생. 외부 자료의 특정 버전에 고정할 때는 HEAD의 [SOURCE](/ko/grammar/edge/source/#문서-전체의-출처)에 원문 해시 QUALIFIER(P4092)를 붙인다(git submodule). |
 | `0x32` | [GENERATED-BY](/ko/grammar/meta/lineage/generated-by/) | 생성 주체. 사람, 모델, 규칙 엔진 |
 | `0x33` | [TRANSFORMED-BY](/ko/grammar/meta/lineage/transformed-by/) | 변환 방법. 도구·규칙·버전 |
 | `0x34` | [CHERRY-PICKED-FROM](/ko/grammar/meta/lineage/cherry-picked-from/) | 다른 계보의 변경을 가져온 원 버전의 내용 해시 (git cherry-pick `-x`) |

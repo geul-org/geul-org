@@ -25,7 +25,7 @@ TAG WORD          0001 1LLL L000 1110      Codec 0x0E
 
 ## 해석과 유효성
 
-- HEAD가 비어 있으면 생략한다. `BODY`가 없는 문서는 전부 BODY다.
+- HEAD가 비어 있으면 생략한다. `BODY`가 없는 문서는 전부 BODY다. HEAD에 Meta나 HEAD Edge(문서 전체의 [SOURCE](/ko/grammar/edge/source/#문서-전체의-출처)와 그 QUALIFIER)가 있으면 둔다.
 - Payload가 없다. 전체 1 WORD다.
 
 ## 예시

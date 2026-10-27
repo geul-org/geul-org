@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-문서 전체의 신뢰도를 적는다. 레코드 단위 신뢰도는 근거 Edge `RECORD-CONFIDENCE`가 맡는다.
+문서 전체의 신뢰도를 적는다. 레코드 단위 신뢰도는 대상 Edge에 붙는 QUALIFIER로 쓴다(속성은 미정, [SOURCE](/ko/grammar/edge/source/#다른-근거의-표현)).
 
 ## 레이아웃
 

@@ -31,6 +31,7 @@ TAG WORD          0001 1LLL L011 1011      Codec 0x3B
 - 같은 diff의 BODY에 같은 Edge Id를 다시 두면 invalid다(삭제와 개정을 함께 할 수 없다).
 - 삭제한 LOCAL ID는 이후 버전에서 다른 대상에 다시 배정하지 않는다([개정](/ko/grammar/document/#개정)).
 - diff BODY에 레코드가 없다는 것은 "바뀌지 않음"이다. 그래서 삭제는 이 Meta로만 표현한다.
+- HEAD Edge(문서 전체의 [SOURCE](/ko/grammar/edge/source/#문서-전체의-출처)와 그 QUALIFIER)는 적지 않는다. HEAD는 diff의 HEAD로 통째로 바뀐다([diff 저장](/ko/grammar/document/#diff-저장)).
 
 ## 예시
 

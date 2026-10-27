@@ -48,8 +48,8 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 Issuer 형식
 | `0x01` | [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/) | NUMERIC | 최소 WORD 2의 보수 정수 |
 | `0x02` | [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/) | NUMERIC | 최소 WORD 부호 없는 정수 |
 | `0x03` | [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
-| `0x04` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도와 불확도 |
-| `0x05` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도, 불확도 |
+| `0x04` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도와 불확도(단위 Reference) |
+| `0x05` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도, 불확도(단위 Reference) |
 | `0x06` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | 10진수 양, 단위 Reference, 하한·상한 |
 | `0x10` | [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, 부호 있는 계수 |
 | `0x11` | [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, 부호 없는 계수 |
