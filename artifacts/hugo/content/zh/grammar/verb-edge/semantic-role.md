@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "participant", "semantic-role"]
 summary: "定义事件内部语义角色的16个Participant。通过4位编码表达从Agent、Theme、Recipient等核心角色到Cause、Purpose等附加角色。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

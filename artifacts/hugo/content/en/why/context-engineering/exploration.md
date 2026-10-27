@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:07+09:00
 tags: ["exploration", "search", "scale"]
 summary: "When the index exceeds the window, the search paradigm itself hits its limit"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:09+09:00
 tags: ["필터", "관련성", "신뢰도"]
 summary: "유효한 정보가 전부 필요한 정보는 아니다"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

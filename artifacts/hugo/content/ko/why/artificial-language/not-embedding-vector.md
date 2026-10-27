@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:18+09:00
 tags: ["임베딩", "벡터", "화이트박스"]
 summary: "임베딩 벡터를 정렬하면 모델이 부서진다. 부서지지 않게 하려면 모델을 다시 만들어야 한다. 블랙박스의 내부가 아니라 외부에 투명한 층이 필요하다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

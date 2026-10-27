@@ -6,7 +6,7 @@ lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "overview"]
 summary: "GEUL v1은 16비트 워드로 된 레코드의 연속이다. 레코드는 Reference, Value, Edge, Meta 네 가지이고, 레코드들은 문서 하나에 담긴다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

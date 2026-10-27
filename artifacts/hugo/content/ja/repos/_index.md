@@ -21,13 +21,13 @@ AIのための意味整列型人工言語およびバイナリストリームフ
 |---|---|
 | GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | 言語 | Go, Python |
-| ライセンス | MIT |
+| ライセンス | CC0 |
 
 ---
 
 ## 文法
 
-### geul-verb
+### wordnet-verb
 
 動詞SIDX 16ビットコードブック（WordNetベース）。
 
@@ -35,11 +35,11 @@ WordNetの動詞シンセットを16ビットコードにマッピングし、GE
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
 | 言語 | Python |
-| ライセンス | MIT |
+| ライセンス | CC0 · WordNet 3.0 License |
 
-### geul-entity
+### sidx
 
 エンティティSIDX 48ビットコードブック（Wikidataベース）。
 
@@ -47,9 +47,9 @@ Wikidataエンティティを48ビット構造化識別子にエンコードす�
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| GitHub | [geul-org/sidx](https://github.com/geul-org/sidx) |
 | 言語 | Python |
-| ライセンス | MIT |
+| ライセンス | CC0 |
 
 ### geul-quantities
 
@@ -105,4 +105,4 @@ SILK（Symbolic Index for LLM Knowledge）——ニューロシンボリック�
 |---|---|
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | 言語 | Hugo (Go Templates), CSS |
-| ライセンス | MIT |
+| ライセンス | CC0 |

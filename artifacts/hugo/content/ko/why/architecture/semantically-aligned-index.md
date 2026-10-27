@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:03+09:00
 tags: ["SIDX", "의미정렬", "인덱스"]
 summary: "비트에 의미를 새기면, 검색이 추론이 된다"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

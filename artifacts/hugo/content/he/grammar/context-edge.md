@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "context", "worldview", "modal-logic"]
 summary: "קשת קלת משקל בת 3 מילים המבטאת 'באיזו השקפת עולם/הקשר טענה זו אמיתית'. מקודדת תנאי אמת ב-64 סוגים הכוללים מקורות, השקפות, בדיון ונקודת מבט."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

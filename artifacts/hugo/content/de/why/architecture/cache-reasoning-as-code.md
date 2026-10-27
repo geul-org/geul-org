@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:02+09:00
 tags: ["Cache", "Schlussfolgerung", "Code"]
 summary: "Eine einzelne Inferenz in eine dauerhafte Prozedur verwandeln"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:19+09:00
 tags: ["язык программирования", "описание", "представление знаний"]
 summary: "Языки программирования описывают процедуры. Они не могут описать мир. JSON предоставляет структуру, но не смысл. Даже LISP лишь заимствует синтаксис."
 author: "Джунву Пак"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

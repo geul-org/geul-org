@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:11+09:00
 tags: ["RAG", "搜索", "嵌入"]
 summary: "看起来相关和真正相关是两回事"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

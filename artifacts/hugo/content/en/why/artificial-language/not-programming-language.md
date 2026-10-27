@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:19+09:00
 tags: ["programming language", "description", "knowledge representation"]
 summary: "Programming languages describe procedures. They cannot describe the world. JSON provides structure but no meaning. Even LISP merely borrows syntax."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

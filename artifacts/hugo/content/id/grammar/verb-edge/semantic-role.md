@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "participant", "semantic-role"]
 summary: "16 peran Participant yang mendefinisikan peran semantik dalam peristiwa. Encoding 4-bit mencakup peran inti Agent, Theme, Recipient hingga peran tambahan Cause dan Purpose."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

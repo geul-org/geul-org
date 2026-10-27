@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["محجوز", "قابلية-التوسع", "64-بت", "مبدأ-التصميم", "IPv4"]
 summary: "يترك GEUL 75% من مساحته ذات 64 بت فارغة. دروس IPv4 وUnicode وASCII تخبرنا — تكلفة الملء لا رجعة فيها، لكن تكلفة الترك فارغًا هي صفر."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

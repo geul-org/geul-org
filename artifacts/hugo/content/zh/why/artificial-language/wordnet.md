@@ -6,7 +6,7 @@ lastmod: 2026-03-01T14:00:00+09:00
 tags: ["WordNet", "动词", "语义原型", "同义词集"]
 summary: "从零构建动词体系会遗漏、主观、缺乏依据。WordNet是语言学家40年积累的13,767个动词同义词集数据库。借用词典，自建语法。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

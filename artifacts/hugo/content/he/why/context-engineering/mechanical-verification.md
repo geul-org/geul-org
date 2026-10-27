@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:10+09:00
 tags: ["אימות", "מפרט", "מהדר"]
 summary: "לשפה טבעית אין מושג של משפט לא תקין"
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

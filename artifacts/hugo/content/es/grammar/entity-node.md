@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "entity", "SIDX", "quantification"]
 summary: "Node de longitud fija de 4 palabras (64 bits) que identifica entidades como personas, lugares, objetos y organizaciones. Expresa cuantificación/número con 3 bits de Mode, clasifica 64 tipos superiores con 6 bits de EntityType y codifica atributos semánticos con 48 bits de Attributes."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

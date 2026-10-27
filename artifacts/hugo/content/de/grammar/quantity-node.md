@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "Node variabler Laenge von 4 bis 7 Woertern zur Darstellung physikalischer Groessen, Zahlenwerte, Waehrungen und Literale. 6 Bit Unit kodieren SI-Basis-/Ableitungseinheiten, Waehrungen und Sonderliterale, waehrend 4 Bit Scale die SI-Praefixe ausdruecken."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

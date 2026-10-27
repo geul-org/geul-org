@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["reserved", "ekstensibilitas", "64-bit", "prinsip-desain", "IPv4"]
 summary: "GEUL mengosongkan 75% ruang 64-bitnya. Pelajaran dari IPv4, Unicode, dan ASCII mengajarkan — biaya mengisi tidak dapat dikembalikan, tetapi biaya mengosongkan adalah nol."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "participant", "semantic-role"]
 summary: "16 Participants que definem papéis semânticos dentro de um evento. Codificação de 4 bits que abrange desde papéis essenciais como Agent, Theme e Recipient até papéis adicionais como Cause e Purpose."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

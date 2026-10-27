@@ -6,7 +6,7 @@ lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "record", "TAG"]
 summary: "모든 레코드는 TAG WORD 16비트로 시작한다. Prefix 3비트, Kind 2비트, Length 4비트, Codec 7비트로 레코드의 종류와 길이를 정한다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

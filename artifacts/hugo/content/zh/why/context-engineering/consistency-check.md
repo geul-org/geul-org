@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:08+09:00
 tags: ["一致性", "矛盾", "连贯性"]
 summary: "单独正确的信息放在一起可能是错误的"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

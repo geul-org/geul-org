@@ -6,7 +6,7 @@ lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "document", "version", "hash"]
 summary: "GEUL 데이터의 단위는 문서다. 문서는 길이를 지정해 열고 END로 닫으며, HEAD(Meta)와 BODY(Reference·Value·Edge)로 나뉜다. 버전마다 내용 해시로 고정된다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

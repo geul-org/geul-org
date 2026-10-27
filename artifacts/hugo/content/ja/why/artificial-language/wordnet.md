@@ -6,7 +6,7 @@ lastmod: 2026-03-01T14:00:00+09:00
 tags: ["WordNet", "動詞", "意味原型", "synset"]
 summary: "動詞体系をゼロから作れば、漏れが生じ、恣意的になり、根拠がない。WordNetは言語学者が40年かけて蓄積した13,767個の動詞synsetデータベースだ。辞書を借り、文法は自ら作る。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "participant", "semantic-role"]
 summary: "16 Participant zur Definition semantischer Rollen innerhalb eines Ereignisses. Die 4-Bit-Kodierung deckt Kernrollen wie Agent, Theme und Recipient sowie ergaenzende Rollen wie Cause und Purpose ab."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

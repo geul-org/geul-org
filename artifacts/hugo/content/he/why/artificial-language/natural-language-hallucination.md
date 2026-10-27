@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:16+09:00
 tags: ["שפה טבעית", "הזיה", "עמימות"]
 summary: "הזיה אינה באג של LLM — היא הכרח מבני הנובע מארבעה פגמים בשפה טבעית: עמימות, היעדר מקור, היעדר ודאות והיעדר זמן. מודלים גדולים יותר לא יפתרו זאת."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

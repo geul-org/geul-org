@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "context", "worldview", "modal-logic"]
 summary: "حافة خفيفة بـ 3 كلمات تعبّر عن 'في أي رؤية/سياق يكون هذا الادعاء صحيحاً'. تُشفّر شروط الحقيقة عبر 64 نوعاً تشمل المصادر، الرؤى، الخيال، والمنظور."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

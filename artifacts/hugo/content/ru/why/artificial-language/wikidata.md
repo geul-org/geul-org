@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:17+09:00
 tags: ["Викиданные", "Онтология", "SIDX"]
 summary: "GEUL не отвергает Викиданные. Он преобразует систему классификации и статистику частотности 100 миллионов сущностей в кодовые книги SIDX. Грамматика строится поверх словаря."
 author: "Джунву Пак"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

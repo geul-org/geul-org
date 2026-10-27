@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["SILK", "search", "SIDX", "neuro-symbolic"]
 summary: "64ビット整数で検索するニューロシンボリック検索アーキテクチャ。ベクトルDB、ANNグラフ、埋め込みモデルなしでWikidata1億エンティティをサブ秒検索。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 weight: 1
 aliases:

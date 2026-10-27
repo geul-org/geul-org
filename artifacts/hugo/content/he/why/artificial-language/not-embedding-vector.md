@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:18+09:00
 tags: ["הטמעה", "וקטור", "קופסה לבנה"]
 summary: "סידור מחדש של וקטורי הטמעה שובר את המודל. הימנעות מהשבירה פירושה בניית המודל מאפס. מה שנדרש הוא לא שקיפות בתוך הקופסה השחורה, אלא שכבה שקופה מחוצה לה."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

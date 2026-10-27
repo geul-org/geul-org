@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["índice", "anotación", "código", "AST", "patrón-de-diseño"]
 summary: "Los comentarios se escriben para humanos. Pero cuando hay 10.000 funciones, las máquinas también deben leerlos. Si convertimos los comentarios de narrativa a índice, el escaneo completo se convierte en búsqueda instantánea."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:16+09:00
 tags: ["lenguaje natural", "alucinacion", "ambiguedad"]
 summary: "La alucinacion no es un bug del LLM — es consecuencia estructural inevitable de cuatro defectos del lenguaje natural: ambiguedad, ausencia de fuente, de confianza y de tiempo. Modelos mas grandes no lo solucionan."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

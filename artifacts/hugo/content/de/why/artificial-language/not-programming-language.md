@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:19+09:00
 tags: ["Programmiersprache", "Beschreibung", "Wissensrepräsentation"]
 summary: "Programmiersprachen beschreiben Prozeduren. Sie können die Welt nicht beschreiben. JSON liefert Struktur, aber keine Bedeutung. Selbst LISP leiht sich nur die Syntax."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

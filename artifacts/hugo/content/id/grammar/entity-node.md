@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "entity", "SIDX", "quantification"]
 summary: "Node panjang tetap 4 word (64-bit) untuk mengidentifikasi entitas: orang, tempat, benda, dan organisasi. 3-bit Mode untuk kuantifikasi/bilangan, 6-bit EntityType untuk 64 tipe atas, dan 48-bit Attributes untuk atribut semantik per tipe."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

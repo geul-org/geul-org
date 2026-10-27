@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "AST", "programming", "PathGEUL"]
 summary: "Tipo de Edge que representa o AST de linguagens de programação como um grafo GEUL. Classifica 64 linguagens com 6 bits e codifica 256 tipos de nós AST com 8 bits. Inclui a linguagem de consulta PathGEUL."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "event6", "5W1H"]
 summary: "A variable-length event Edge expressing the 5W1H principle (Who, What, Whom, When, Where, Why) in one packet. Uses a Presence bitmask to achieve a 3-8 word variable structure."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

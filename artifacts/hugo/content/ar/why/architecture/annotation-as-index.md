@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["فهرس", "تعليق", "كود", "AST", "نمط-تصميم"]
 summary: "التعليقات تُكتب للبشر. لكن عندما يبلغ عدد الدوال 10,000 يجب أن تقرأها الآلات أيضاً. تحويل التعليقات من سرد إلى فهرس يحوّل المسح الشامل إلى بحث فوري."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

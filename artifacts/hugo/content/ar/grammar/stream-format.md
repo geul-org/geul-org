@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "stream", "TID"]
 summary: "تدفق GEUL هو سلسلة حزم تبدأ وتنتهي بـ Meta Node. يحدد نطاق TID، والمرجعية الأمامية، وقواعد ترتيب الحزم."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

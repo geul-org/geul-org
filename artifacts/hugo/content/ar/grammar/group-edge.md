@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "group", "set", "logic"]
 summary: "حافة متغيرة الطول تجمع عدة عقد في 7 أنواع: AND, OR, LIST, SET وغيرها. تدعم أعضاء بلا حد عبر Prefix من 13 بت وعلامة إنهاء (0x0000)."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["예약", "확장성", "64비트", "설계원칙", "IPv4"]
 summary: "GEUL은 64비트 중 75%를 비워둔다. IPv4, 유니코드, ASCII의 교훈 — 채우는 비용은 되돌릴 수 없지만 비워두는 비용은 0이다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

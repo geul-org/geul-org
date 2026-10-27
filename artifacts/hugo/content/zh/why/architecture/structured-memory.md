@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:05+09:00
 tags: ["记忆", "结构", "WMS"]
 summary: "没有记忆的智能每次都从零开始"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

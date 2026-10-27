@@ -21,13 +21,13 @@ AI를 위한 의미정렬 인공 언어이자 바이너리 스트림 포맷.
 |---|---|
 | GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | 언어 | Go, Python |
-| 라이선스 | MIT |
+| 라이선스 | CC0 |
 
 ---
 
 ## 문법
 
-### geul-verb
+### wordnet-verb
 
 동사 SIDX 16비트 코드북 (WordNet 기반).
 
@@ -35,11 +35,11 @@ WordNet 동사 synset을 16비트 코드로 매핑하여 GEUL Verb Edge 패킷�
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
 | 언어 | Python |
-| 라이선스 | MIT |
+| 라이선스 | CC0 · WordNet 3.0 License |
 
-### geul-entity
+### sidx
 
 엔티티 SIDX 48비트 코드북 (Wikidata 기반).
 
@@ -47,9 +47,9 @@ WordNet 동사 synset을 16비트 코드로 매핑하여 GEUL Verb Edge 패킷�
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| GitHub | [geul-org/sidx](https://github.com/geul-org/sidx) |
 | 언어 | Python |
-| 라이선스 | MIT |
+| 라이선스 | CC0 |
 
 ### geul-quantities
 
@@ -105,4 +105,4 @@ Hugo 정적 사이트 제너레이터로 12개 언어를 지원한다. S3 + Clou
 |---|---|
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | 언어 | Hugo (Go Templates), CSS |
-| 라이선스 | MIT |
+| 라이선스 | CC0 |

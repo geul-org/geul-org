@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "Node de longitud variable de 4 a 7 palabras que representa magnitudes físicas, valores numéricos, monedas y literales. Codifica unidades base/derivadas del SI, monedas y literales especiales con 6 bits de Unit, y prefijos SI con 4 bits de Scale."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

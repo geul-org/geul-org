@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "huffman", "WordNet"]
 summary: "将13,767个WordNet动词按10个Primitive → 68个Sub-primitive分类，通过Huffman编码生成16位码本。Tiny(2字)/Short(3字)/Full(5字)三种数据包实现平均2.16字的压缩。"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

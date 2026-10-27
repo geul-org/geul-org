@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["lenguaje artificial", "lenguaje natural", "alucinación", "LLVM IR"]
 summary: "El lenguaje natural evolucionó para la comunicación humana. La ambigüedad, la redundancia y la implicación son ventajas para los humanos, pero causas de alucinación para la IA. Ni los lenguajes de programación ni los marcos semánticos existentes son la respuesta. Se necesita un nuevo lenguaje artificial que satisfaga seis condiciones simultáneamente."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

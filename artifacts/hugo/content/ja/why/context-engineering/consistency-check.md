@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:08+09:00
 tags: ["整合性", "矛盾", "一貫性"]
 summary: "個別には正しい情報が、集合としては誤りになりうる"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

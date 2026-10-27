@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:06+09:00
 tags: ["主张", "事实", "置信度"]
 summary: "真相消逝得比光速还快"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

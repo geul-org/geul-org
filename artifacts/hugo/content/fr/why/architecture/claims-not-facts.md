@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:06+09:00
 tags: ["affirmations", "faits", "confiance"]
 summary: "La verite disparait plus vite que la lumiere"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

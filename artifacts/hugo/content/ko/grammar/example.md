@@ -6,7 +6,7 @@ lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "example", "wikidata"]
 summary: "위키데이터 Q42(Douglas Adams)의 이름 하나, 명제 둘, 한정 조건 하나를 담은 GEUL 문서 63 WORD를 처음부터 끝까지 읽는다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

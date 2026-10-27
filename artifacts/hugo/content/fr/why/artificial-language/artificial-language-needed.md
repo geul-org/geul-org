@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["langage artificiel", "langage naturel", "hallucination", "LLVM IR"]
 summary: "Le langage naturel a évolué pour la communication humaine. L'ambiguïté, la redondance et l'implicite sont des atouts pour les humains, mais des causes d'hallucination pour l'IA. Ni les langages de programmation ni les cadres sémantiques existants ne sont la réponse. Un nouveau langage artificiel satisfaisant six conditions simultanément est nécessaire."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

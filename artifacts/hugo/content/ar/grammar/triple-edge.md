@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "triple", "property"]
 summary: "نوع Edge يعبّر عن العلاقات والخصائص بصيغة (Subject, Property, Object). بنية مزدوجة من الوضع الأساسي 4 كلمات والوضع الموسع 5 كلمات لتحسين أعلى 63 خاصية تكراراً."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

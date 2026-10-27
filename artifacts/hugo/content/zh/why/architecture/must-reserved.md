@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["预留", "扩展性", "64位", "设计原则", "IPv4"]
 summary: "GEUL将64位空间的75%留空。IPv4、Unicode、ASCII的教训告诉我们——填满的代价不可逆转，而留空的代价为零。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

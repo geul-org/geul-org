@@ -6,7 +6,7 @@ lastmod: 2026-03-01T14:00:00+09:00
 tags: ["WordNet", "פעלים", "פרימיטיבים סמנטיים", "synset"]
 summary: "בניית מערכת פעלים מאפס פירושה פערים, בחירות שרירותיות והיעדר הצדקה. WordNet היא מסד נתונים לקסיקלי בן 40 שנה עם 13,767 סינסטים של פעלים שנבנו על ידי בלשנים. אנחנו שואלים את המילון ובונים את הדקדוק מעליו."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

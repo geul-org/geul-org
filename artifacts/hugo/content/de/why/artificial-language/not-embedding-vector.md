@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:18+09:00
 tags: ["Embedding", "Vektor", "Whitebox"]
 summary: "Das Umordnen von Embedding-Vektoren zerstört das Modell. Die Zerstörung zu vermeiden bedeutet, das Modell von Grund auf neu zu bauen. Was wir brauchen, ist nicht Transparenz innerhalb der Blackbox, sondern eine transparente Schicht außerhalb."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

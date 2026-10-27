@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:11+09:00
 tags: ["RAG", "검색", "임베딩"]
 summary: "RAG는 자연어를 자연어인 채로 검색한다. 임베딩 유사도의 세 가지 근본 한계와, 구조화된 의미 검색이 왜 필요한지 분석한다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

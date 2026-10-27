@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:16+09:00
 tags: ["natuerliche Sprache", "Halluzination", "Mehrdeutigkeit"]
 summary: "Halluzination ist kein LLM-Bug — sie ist eine strukturelle Unvermeidlichkeit aus vier Maengeln natuerlicher Sprache: Mehrdeutigkeit, fehlende Quelle, fehlende Konfidenz und fehlender Zeitkontext. Groessere Modelle loesen das nicht."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

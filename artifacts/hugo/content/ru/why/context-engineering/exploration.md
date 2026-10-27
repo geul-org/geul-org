@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:07+09:00
 tags: ["навигация", "поиск", "масштаб"]
 summary: "Когда индекс превышает окно, сама парадигма поиска упирается в предел"
 author: "Джунву Пак"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

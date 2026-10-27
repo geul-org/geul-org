@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:02+09:00
 tags: ["кэш", "рассуждения", "код"]
 summary: "Превратить одно умозаключение в постоянную процедуру"
 author: "Джунву Пак"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

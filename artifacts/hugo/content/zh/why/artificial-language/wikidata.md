@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:17+09:00
 tags: ["维基数据", "本体论", "SIDX"]
 summary: "GEUL不否定维基数据，而是将1亿个实体的分类体系和频率统计转化为SIDX码本。在词典之上构建语法。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

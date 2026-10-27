@@ -21,13 +21,13 @@ Un système linguistique de 2 octets (65 536 symboles) conçu pour une communica
 |---|---|
 | GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | Langage | Go, Python |
-| Licence | MIT |
+| Licence | CC0 |
 
 ---
 
 ## Grammaire
 
-### geul-verb
+### wordnet-verb
 
 Livre de codes des verbes SIDX 16 bits (basé sur WordNet).
 
@@ -35,11 +35,11 @@ Associe les synsets de verbes WordNet à des codes de 16 bits pour utilisation d
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
 | Langage | Python |
-| Licence | MIT |
+| Licence | CC0 · WordNet 3.0 License |
 
-### geul-entity
+### sidx
 
 Livre de codes des entités SIDX 48 bits (basé sur Wikidata).
 
@@ -47,9 +47,9 @@ Encode les entités Wikidata en identifiants structurés de 48 bits. Définit le
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| GitHub | [geul-org/sidx](https://github.com/geul-org/sidx) |
 | Langage | Python |
-| Licence | MIT |
+| Licence | CC0 |
 
 ### geul-quantities
 
@@ -105,4 +105,4 @@ Un générateur de sites statiques Hugo prenant en charge 12 langues. Déployé 
 |---|---|
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | Langage | Hugo (Go Templates), CSS |
-| Licence | MIT |
+| Licence | CC0 |

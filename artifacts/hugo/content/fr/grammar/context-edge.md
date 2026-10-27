@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "context", "worldview", "modal-logic"]
 summary: "Edge leger de 3 mots exprimant 'dans quelle vision du monde/contexte cette affirmation est-elle vraie'. 64 types couvrant source, vision du monde, fiction et point de vue encodent les conditions de verite."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

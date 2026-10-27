@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["인공언어", "자연어", "환각", "LLVM IR"]
 summary: "자연어는 인간 통신을 위해 진화했다. 모호함, 중복, 암시는 인간에게 장점이지만 AI에게는 환각의 원인이다. 프로그래밍 언어도, 기존 의미 표현 체계도 답이 아니다. 여섯 조건을 동시에 만족하는 새로운 인공언어가 필요하다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

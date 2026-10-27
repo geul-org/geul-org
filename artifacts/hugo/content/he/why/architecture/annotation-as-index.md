@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["אינדקס", "הערה", "קוד", "AST", "תבנית-עיצוב"]
 summary: "הערות נכתבות בשביל בני אדם. אבל כשיש 10,000 פונקציות, גם מכונות צריכות לקרוא אותן. אם הופכים הערות מסיפור לאינדקס, סריקה מלאה הופכת לחיפוש מיידי."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

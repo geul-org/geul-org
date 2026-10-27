@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:19+09:00
 tags: ["프로그래밍 언어", "서술", "지식 표현"]
 summary: "프로그래밍 언어는 절차를 기술한다. 세계를 서술하지 못한다. JSON은 구조를 제공하지만 의미가 없다. LISP조차 구문을 빌려 쓸 뿐이다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

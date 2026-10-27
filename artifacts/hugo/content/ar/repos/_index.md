@@ -21,13 +21,13 @@ image: "/images/og-default.webp"
 |---|---|
 | GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | اللغة | Go, Python |
-| الرخصة | MIT |
+| الرخصة | CC0 |
 
 ---
 
 ## القواعد
 
-### geul-verb
+### wordnet-verb
 
 دفتر شفرات الأفعال SIDX بـ 16 بت (مبني على WordNet).
 
@@ -35,11 +35,11 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
 | اللغة | Python |
-| الرخصة | MIT |
+| الرخصة | CC0 · WordNet 3.0 License |
 
-### geul-entity
+### sidx
 
 دفتر شفرات الكيانات SIDX بـ 48 بت (مبني على Wikidata).
 
@@ -47,9 +47,9 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| GitHub | [geul-org/sidx](https://github.com/geul-org/sidx) |
 | اللغة | Python |
-| الرخصة | MIT |
+| الرخصة | CC0 |
 
 ### geul-quantities
 
@@ -105,4 +105,4 @@ SILK (Symbolic Index for LLM Knowledge) — بنية بحث عصبية-رمزي�
 |---|---|
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | اللغة | Hugo (Go Templates), CSS |
-| الرخصة | MIT |
+| الرخصة | CC0 |

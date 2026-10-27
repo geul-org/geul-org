@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "clause", "RST", "discourse"]
 summary: "Edge tetap 4 word untuk relasi logis dan diskursif antar predikat, peristiwa, dan relasi. 16 tipe relasi berbasis RST meng-encode hubungan kausal, temporal, kontras, dan argumentatif."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "event6", "5W1H"]
 summary: "Edge panjang variabel untuk menyatakan peristiwa berdasarkan prinsip 5W1H (Who, What, Whom, When, Where, Why). Bitmask Presence mewujudkan struktur variabel 3~8 word."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

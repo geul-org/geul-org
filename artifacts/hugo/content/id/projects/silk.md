@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["SILK", "search", "SIDX", "neuro-symbolic"]
 summary: "Arsitektur pencarian neuro-simbolik menggunakan bilangan bulat 64-bit. Mencari 100 juta entitas Wikidata dalam waktu sub-detik dengan memori 1,3 GB, tanpa vector DB, graf ANN, atau model embedding."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 weight: 1
 aliases:

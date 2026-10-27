@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:18+09:00
 tags: ["embedding", "vetor", "caixa branca"]
 summary: "Reorganizar vetores de embedding quebra o modelo. Evitar a quebra significa reconstruir o modelo do zero. O que precisamos não é transparência dentro da caixa preta, mas uma camada transparente fora dela."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

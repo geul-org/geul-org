@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:16+09:00
 tags: ["natural language", "hallucination", "ambiguity"]
 summary: "Hallucination is not an LLM bug — it is a structural inevitability of natural language. Four flaws — ambiguity, absent sources, absent confidence, absent time — make it unfixable by scaling alone."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

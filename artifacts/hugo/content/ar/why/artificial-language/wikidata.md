@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:17+09:00
 tags: ["ويكي بيانات", "أنطولوجيا", "SIDX"]
 summary: "لا ترفض GEUL ويكي بيانات. إنها تحوّل نظام تصنيف 100 مليون كيان وإحصاءات تكرارها إلى دفاتر شفرات SIDX. تبني القواعد فوق القاموس."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

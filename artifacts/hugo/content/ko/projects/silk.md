@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["SILK", "search", "SIDX", "neuro-symbolic"]
 summary: "64비트 정수로 검색하는 뉴로-심볼릭 검색 아키텍처. 벡터 DB, ANN 그래프, 임베딩 모델 없이 위키데이터 1억 엔티티를 서브초 검색한다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 aliases:
   - /ko/silk/

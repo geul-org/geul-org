@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "clause", "RST", "discourse"]
 summary: "حافة ثابتة بـ 4 كلمات تعبّر عن العلاقات المنطقية والخطابية بين الأوصاف والأحداث والعلاقات. تُشفّر علاقات السببية والزمن والتضاد والحجاج عبر 16 نوع علاقة مبنياً على RST."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

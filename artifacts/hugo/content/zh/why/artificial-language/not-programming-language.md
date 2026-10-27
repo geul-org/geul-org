@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:19+09:00
 tags: ["编程语言", "描述", "知识表示"]
 summary: "编程语言描述过程，无法描述世界。JSON提供结构但没有语义。即使LISP也只是借用了语法。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

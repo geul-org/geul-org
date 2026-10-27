@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:17+09:00
 tags: ["위키데이터", "온톨로지", "SIDX"]
 summary: "GEUL은 위키데이터를 부정하지 않는다. 1억 개 엔티티의 분류 체계와 빈도 통계를 SIDX 코드북으로 변환한다. 사전 위에 문법을 얹는다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

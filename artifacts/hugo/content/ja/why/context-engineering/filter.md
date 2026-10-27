@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:09+09:00
 tags: ["フィルタ", "関連性", "信頼"]
 summary: "有効な情報が常に必要な情報とは限らない"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

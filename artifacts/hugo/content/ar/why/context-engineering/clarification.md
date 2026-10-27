@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:13+09:00
 tags: ["توضيح", "مدخل", "مخرج"]
 summary: "مدخل واضح ينتج مخرجاً واضحاً"
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

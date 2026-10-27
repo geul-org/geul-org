@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["reserviert", "Erweiterbarkeit", "64-Bit", "Designprinzip", "IPv4"]
 summary: "GEUL lässt 75% seines 64-Bit-Raums leer. Die Lehren aus IPv4, Unicode und ASCII zeigen: Die Kosten des Füllens sind unumkehrbar, aber die Kosten des Leerlassens sind null."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

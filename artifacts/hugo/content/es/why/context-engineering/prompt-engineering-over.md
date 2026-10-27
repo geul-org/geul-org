@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:12+09:00
 tags: ["prompt", "contexto", "ingenieria"]
 summary: "De como lo dices a que le muestras — el juego ha cambiado"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

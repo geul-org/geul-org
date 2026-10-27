@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "SIDX", "specification"]
 summary: "Especificación del formato de flujo binario basado en el identificador semántico global de 64 bits SIDX. Define los principios de diseño, el sistema de Prefix, los 9 tipos de paquetes y las reglas de codificación."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T14:00:00+09:00
 tags: ["WordNet", "kata kerja", "primitif semantik", "synset"]
 summary: "Membangun sistem kata kerja dari nol berarti ada yang terlewat, subjektif, dan tanpa dasar. WordNet adalah basis data leksikal 40 tahun berisi 13.767 synset kata kerja yang dibangun oleh ahli bahasa. Kami meminjam kamusnya dan membangun tata bahasa di atasnya."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "quantity", "SI", "currency"]
 summary: "Node panjang variabel 4~7 word untuk besaran fisik, bilangan, mata uang, dan literal. 6-bit Unit meng-encode satuan dasar/turunan SI, mata uang, dan literal khusus, serta 4-bit Scale mewakili prefiks SI."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

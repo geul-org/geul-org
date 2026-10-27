@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:17+09:00
 tags: ["Wikidata", "Ontology", "SIDX"]
 summary: "GEUL does not reject Wikidata. It transforms the classification system and frequency statistics of 100 million entities into SIDX codebooks. Grammar is built on top of a dictionary."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:03+09:00
 tags: ["SIDX", "alignement semantique", "index"]
 summary: "Quand le sens est grave dans les bits, la recherche devient raisonnement"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

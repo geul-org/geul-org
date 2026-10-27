@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:14+09:00
 tags: ["世界语", "人工语言", "历史"]
 summary: "为人类设计的人工语言失败了——为AI设计的人工语言则不同"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

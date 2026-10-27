@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["bahasa buatan", "bahasa alami", "halusinasi", "LLVM IR"]
 summary: "Bahasa alami berevolusi untuk komunikasi manusia. Ambiguitas, redundansi, dan implikasi adalah kelebihan bagi manusia tetapi penyebab halusinasi bagi AI. Bahasa pemrograman maupun kerangka semantik yang ada bukan jawabannya. Diperlukan bahasa buatan baru yang memenuhi enam syarat secara bersamaan."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

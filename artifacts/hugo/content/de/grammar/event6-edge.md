@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "event6", "5W1H"]
 summary: "Ereignis-Edge variabler Laenge, der die 5W1H (Who, What, Whom, When, Where, Why) auf einmal ausdrueckt. Die variable Struktur von 3 bis 8 Woertern wird durch eine Presence-Bitmaske realisiert."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

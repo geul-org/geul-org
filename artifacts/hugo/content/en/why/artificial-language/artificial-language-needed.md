@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["artificial language", "natural language", "hallucination", "LLVM IR"]
 summary: "Natural language evolved for human communication. Ambiguity, redundancy, and implication are strengths for humans but causes of hallucination for AI. Neither programming languages nor existing semantic frameworks are the answer. A new artificial language satisfying six conditions simultaneously is needed."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

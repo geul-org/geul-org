@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "AST", "programming", "PathGEUL"]
 summary: "プログラミング言語のASTをGEULグラフで表現するEdgeタイプ。6ビットで64言語を分類し、8ビットで256種のASTノードタイプをエンコードする。PathGEULクエリ言語を含む。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

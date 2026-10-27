@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["インデックス", "アノテーション", "コード", "AST", "デザインパターン"]
 summary: "注釈は人間のために書く。しかし関数が10,000個あるとき、機械も読まなければならない。注釈を叙述からインデックスに変えれば、フルスキャンが即座に検索になる。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

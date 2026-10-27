@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:05+09:00
 tags: ["memory", "structure", "WMS"]
 summary: "Intelligence without memory starts from scratch every time"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

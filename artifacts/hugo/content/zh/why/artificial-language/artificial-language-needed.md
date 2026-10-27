@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["人工语言", "自然语言", "幻觉", "LLVM IR"]
 summary: "自然语言为人类通信而进化。模糊性、冗余和暗示对人类是优势，但对AI却是幻觉的根源。编程语言和现有语义表示体系都不是答案。需要一种同时满足六个条件的新人工语言。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

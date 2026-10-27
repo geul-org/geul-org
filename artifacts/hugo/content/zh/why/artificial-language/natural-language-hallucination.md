@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:16+09:00
 tags: ["自然语言", "幻觉", "歧义"]
 summary: "幻觉不是LLM的bug——它是自然语言四大结构性缺陷的必然产物：歧义、来源缺失、置信度缺失、时间缺失。更大的模型无法修复它。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["indeks", "anotasi", "kode", "AST", "pola-desain"]
 summary: "Komentar ditulis untuk manusia. Tetapi ketika ada 10.000 fungsi, mesin juga perlu membacanya. Dengan mengubah komentar dari narasi menjadi indeks, full scan menjadi pencarian instan."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

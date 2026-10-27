@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "group", "set", "logic"]
 summary: "将多个Node以AND、OR、LIST、SET等7种类型组合的可变长度Edge。采用13位Prefix和终止标记(0x0000)方式支持无限数量成员。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

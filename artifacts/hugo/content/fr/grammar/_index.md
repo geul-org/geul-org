@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "SIDX", "specification"]
 summary: "Specification du format de flux binaire base sur l'identifiant semantique global SIDX 64 bits. Principes de conception, systeme de Prefix, 9 types de paquets et regles d'encodage."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

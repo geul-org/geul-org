@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "SIDX", "specification"]
 summary: "基于SIDX 64位全局语义标识符的二进制流格式规范。定义设计原则、Prefix体系、9种数据包类型及编码规则。"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

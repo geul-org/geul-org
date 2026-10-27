@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "triple", "property"]
 summary: "Tipo de Edge que expressa relações e propriedades no formato (Subject, Property, Object). Estrutura dual com modo básico de 4 palavras e modo estendido de 5 palavras que otimiza as Top 63 propriedades de alta frequência."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

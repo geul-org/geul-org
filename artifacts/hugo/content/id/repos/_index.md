@@ -21,13 +21,13 @@ Sistem bahasa 2 byte (65.536 simbol) yang dirancang untuk komunikasi tanpa ambig
 |---|---|
 | GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | Bahasa | Go, Python |
-| Lisensi | MIT |
+| Lisensi | CC0 |
 
 ---
 
 ## Tata Bahasa
 
-### geul-verb
+### wordnet-verb
 
 Buku kode kata kerja SIDX 16 bit (berbasis WordNet).
 
@@ -35,11 +35,11 @@ Memetakan synset kata kerja WordNet ke kode 16 bit untuk digunakan dalam paket G
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
 | Bahasa | Python |
-| Lisensi | MIT |
+| Lisensi | CC0 · WordNet 3.0 License |
 
-### geul-entity
+### sidx
 
 Buku kode entitas SIDX 48 bit (berbasis Wikidata).
 
@@ -47,9 +47,9 @@ Mengkodekan entitas Wikidata menjadi pengenal terstruktur 48 bit. Mendefinisikan
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| GitHub | [geul-org/sidx](https://github.com/geul-org/sidx) |
 | Bahasa | Python |
-| Lisensi | MIT |
+| Lisensi | CC0 |
 
 ### geul-quantities
 
@@ -105,4 +105,4 @@ Generator situs statis Hugo yang mendukung 12 bahasa. Di-deploy melalui S3 + Clo
 |---|---|
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | Bahasa | Hugo (Go Templates), CSS |
-| Lisensi | MIT |
+| Lisensi | CC0 |

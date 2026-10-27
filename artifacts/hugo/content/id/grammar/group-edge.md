@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "group", "set", "logic"]
 summary: "Edge panjang variabel untuk mengelompokkan beberapa Node ke dalam 7 tipe: AND, OR, LIST, SET, dll. 13-bit Prefix dan marker terminasi (0x0000) mendukung anggota tanpa batas."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T14:00:00+09:00
 tags: ["WordNet", "أفعال", "بدائيات دلالية", "synset"]
 summary: "بناء نظام أفعال من الصفر يعني ثغرات وقرارات تعسفية وانعدام الأساس. WordNet هي قاعدة بيانات معجمية بناها لغويون على مدار 40 عاماً تضم 13,767 مجموعة مترادفات للأفعال. نستعير القاموس ونبني القواعد فوقه."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

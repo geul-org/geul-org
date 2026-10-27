@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:18+09:00
 tags: ["embedding", "vector", "caja blanca"]
 summary: "Reordenar los vectores de embedding rompe el modelo. Evitar la rotura implica reconstruir el modelo desde cero. Lo que se necesita no es transparencia dentro de la caja negra, sino una capa transparente fuera de ella."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

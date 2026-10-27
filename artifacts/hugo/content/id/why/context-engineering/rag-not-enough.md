@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:11+09:00
 tags: ["RAG", "pencarian", "embedding"]
 summary: "Tampak relevan dan benar-benar relevan adalah dua hal yang berbeda"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

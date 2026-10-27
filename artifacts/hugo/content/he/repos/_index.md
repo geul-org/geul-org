@@ -21,13 +21,13 @@ image: "/images/og-default.webp"
 |---|---|
 | GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | שפה | Go, Python |
-| רישיון | MIT |
+| רישיון | CC0 |
 
 ---
 
 ## דקדוק
 
-### geul-verb
+### wordnet-verb
 
 ספר קודים של פעלים SIDX ב-16 ביט (מבוסס WordNet).
 
@@ -35,11 +35,11 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
 | שפה | Python |
-| רישיון | MIT |
+| רישיון | CC0 · WordNet 3.0 License |
 
-### geul-entity
+### sidx
 
 ספר קודים של ישויות SIDX ב-48 ביט (מבוסס Wikidata).
 
@@ -47,9 +47,9 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| GitHub | [geul-org/sidx](https://github.com/geul-org/sidx) |
 | שפה | Python |
-| רישיון | MIT |
+| רישיון | CC0 |
 
 ### geul-quantities
 
@@ -105,4 +105,4 @@ SILK (Symbolic Index for LLM Knowledge) — ארכיטקטורת חיפוש נו
 |---|---|
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | שפה | Hugo (Go Templates), CSS |
-| רישיון | MIT |
+| רישיון | CC0 |

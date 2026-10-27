@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:16+09:00
 tags: ["自然言語", "幻覚", "曖昧性"]
 summary: "幻覚はLLMのバグではない——自然言語の4つの構造的欠陥（曖昧性・出所不在・確信度不在・時点不在）から生じる必然だ。モデルを大きくしても解消できない。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

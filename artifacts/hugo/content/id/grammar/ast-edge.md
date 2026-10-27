@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "AST", "programming", "PathGEUL"]
 summary: "Tipe Edge untuk merepresentasikan AST bahasa pemrograman dalam graf GEUL. 6 bit meng-encode 64 bahasa, 8 bit meng-encode 256 tipe node AST. Termasuk bahasa kueri PathGEUL."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

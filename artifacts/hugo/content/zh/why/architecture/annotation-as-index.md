@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["索引", "注释", "代码", "AST", "设计模式"]
 summary: "注释是为人写的。但当函数多达10,000个时，机器也必须能读。将注释从叙述变为索引，全量扫描就变成了即时检索。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

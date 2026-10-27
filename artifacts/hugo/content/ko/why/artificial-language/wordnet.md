@@ -6,7 +6,7 @@ lastmod: 2026-03-01T14:00:00+09:00
 tags: ["워드넷", "동사", "의미 원형", "synset"]
 summary: "동사 체계를 직접 만들면 빠지고, 자의적이고, 근거가 없다. 워드넷은 40년간 언어학자들이 축적한 13,767개 동사 사전이다. 이 사전 위에 문법을 얹는다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

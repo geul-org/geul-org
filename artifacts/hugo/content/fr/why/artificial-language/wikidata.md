@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:17+09:00
 tags: ["Wikidata", "Ontologie", "SIDX"]
 summary: "GEUL ne rejette pas Wikidata. Il transforme le systeme de classification et les statistiques de frequence de 100 millions d'entites en livres de codes SIDX. La grammaire est construite par-dessus un dictionnaire."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

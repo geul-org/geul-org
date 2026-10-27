@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:18+09:00
 tags: ["embedding", "vecteur", "boîte blanche"]
 summary: "Réarranger les vecteurs d'embedding casse le modèle. Éviter la casse revient à reconstruire le modèle de zéro. Ce qu'il faut, ce n'est pas de la transparence à l'intérieur de la boîte noire, mais une couche transparente à l'extérieur."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

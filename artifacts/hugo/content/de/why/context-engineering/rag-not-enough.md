@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:11+09:00
 tags: ["RAG", "Suche", "Embedding"]
 summary: "Relevant aussehen und relevant sein sind nicht dasselbe"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

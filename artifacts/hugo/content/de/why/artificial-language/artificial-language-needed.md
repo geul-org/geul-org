@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["künstliche Sprache", "natürliche Sprache", "Halluzination", "LLVM IR"]
 summary: "Die natürliche Sprache hat sich für die menschliche Kommunikation entwickelt. Mehrdeutigkeit, Redundanz und Implikation sind Stärken für Menschen, aber Ursachen von Halluzinationen für KI. Weder Programmiersprachen noch bestehende semantische Frameworks sind die Antwort. Eine neue künstliche Sprache, die sechs Bedingungen gleichzeitig erfüllt, wird benötigt."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

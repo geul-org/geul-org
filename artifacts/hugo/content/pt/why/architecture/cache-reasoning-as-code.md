@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:02+09:00
 tags: ["cache", "raciocinio", "codigo"]
 summary: "Transformar uma unica inferencia em um procedimento permanente"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

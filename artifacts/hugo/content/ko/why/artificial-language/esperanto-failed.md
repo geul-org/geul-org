@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:14+09:00
 tags: ["에스페란토", "인공언어", "역사"]
 summary: "인간을 위한 인공언어는 실패했다, AI를 위한 인공언어는 다르다"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

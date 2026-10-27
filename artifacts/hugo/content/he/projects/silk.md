@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["SILK", "search", "SIDX", "neuro-symbolic"]
 summary: "ארכיטקטורת חיפוש נוירו-סמלית שמחפשת באמצעות מספרים שלמים של 64 סיביות. מחפשת ב-100 מיליון ישויות של Wikidata בפחות משנייה בזיכרון של 1.3GB, ללא מסד נתונים וקטורי, גרף ANN או מודל הטמעה."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 weight: 1
 aliases:

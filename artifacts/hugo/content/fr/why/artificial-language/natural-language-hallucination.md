@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:16+09:00
 tags: ["langage naturel", "hallucination", "ambiguite"]
 summary: "L'hallucination n'est pas un bug du LLM — c'est une inevitabilite structurelle causee par quatre defauts du langage naturel : ambiguite, absence de source, de confiance et de contexte temporel. Des modeles plus grands n'y remedient pas."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

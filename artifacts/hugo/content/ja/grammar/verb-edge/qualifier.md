@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "qualifier", "tense", "aspect"]
 summary: "Verb Edgeの意味限定子。証拠性・叙法・モダリティ・時制・アスペクト・丁寧さ・肯否定・意図性・確信性・反復性など14範疇で述語の文法的・語用的情報をエンコードする。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

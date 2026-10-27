@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "stream", "TID"]
 summary: "O fluxo GEUL é uma sequência de pacotes que começa e termina com um Meta Node. Define o escopo de TID, as referências diretas e as regras de ordem de pacotes."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

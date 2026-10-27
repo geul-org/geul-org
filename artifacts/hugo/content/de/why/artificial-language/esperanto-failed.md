@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:14+09:00
 tags: ["Esperanto", "kuenstliche Sprache", "Geschichte"]
 summary: "Kuenstliche Sprachen fuer Menschen scheiterten -- kuenstliche Sprachen fuer KI sind anders"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

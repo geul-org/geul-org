@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:09+09:00
 tags: ["filter", "relevansi", "kepercayaan"]
 summary: "Informasi yang valid tidak selalu merupakan informasi yang dibutuhkan"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

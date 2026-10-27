@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:06+09:00
 tags: ["주장", "사실", "신뢰도"]
 summary: "모든 문장은 누군가의 주장이다"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

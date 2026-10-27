@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "group", "set", "logic"]
 summary: "Edge a longueur variable regroupant plusieurs Nodes en 7 types : AND, OR, LIST, SET, etc. Un Prefix de 13 bits et un marqueur de fin (0x0000) permettent un nombre illimite de membres."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

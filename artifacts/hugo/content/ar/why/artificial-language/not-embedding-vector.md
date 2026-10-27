@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:18+09:00
 tags: ["تضمين", "متجه", "صندوق أبيض"]
 summary: "إعادة ترتيب متجهات التضمين تكسر النموذج. تجنّب الكسر يعني إعادة بناء النموذج من الصفر. ما نحتاجه ليس شفافية داخل الصندوق الأسود، بل طبقة شفافة خارجه."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

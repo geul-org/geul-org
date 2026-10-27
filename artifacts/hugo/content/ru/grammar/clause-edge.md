@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "clause", "RST", "discourse"]
 summary: "Фиксированный 4-словный Edge для логических и дискурсивных связей между предикатами, событиями и отношениями. 16 типов связей на основе RST кодируют причинно-следственные, временные, контрастные и аргументативные отношения."
 author: "Джунву Пак"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

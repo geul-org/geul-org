@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:14+09:00
 tags: ["Esperanto", "artificial language", "history"]
 summary: "Artificial languages for humans failed — artificial languages for AI are different"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

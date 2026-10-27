@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:16+09:00
 tags: ["자연어", "환각", "모호성"]
 summary: "자연어의 모호함, 출처 부재, 확신도 부재, 시점 부재라는 네 가지 구조적 결함이 AI 환각을 만든다. 더 큰 모델이 아니라 더 나은 언어가 답이다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

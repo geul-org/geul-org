@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:09+09:00
 tags: ["过滤", "相关性", "信任"]
 summary: "有效的信息不一定是需要的信息"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

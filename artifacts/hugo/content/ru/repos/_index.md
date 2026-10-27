@@ -21,13 +21,13 @@ image: "/images/og-default.webp"
 |---|---|
 | GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | Язык | Go, Python |
-| Лицензия | MIT |
+| Лицензия | CC0 |
 
 ---
 
 ## Грамматика
 
-### geul-verb
+### wordnet-verb
 
 Кодовая книга глаголов SIDX 16 бит (на основе WordNet).
 
@@ -35,11 +35,11 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
 | Язык | Python |
-| Лицензия | MIT |
+| Лицензия | CC0 · WordNet 3.0 License |
 
-### geul-entity
+### sidx
 
 Кодовая книга сущностей SIDX 48 бит (на основе Wikidata).
 
@@ -47,9 +47,9 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| GitHub | [geul-org/sidx](https://github.com/geul-org/sidx) |
 | Язык | Python |
-| Лицензия | MIT |
+| Лицензия | CC0 |
 
 ### geul-quantities
 
@@ -105,4 +105,4 @@ SILK (Symbolic Index for LLM Knowledge) — нейро-символическа�
 |---|---|
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | Язык | Hugo (Go Templates), CSS |
-| Лицензия | MIT |
+| Лицензия | CC0 |

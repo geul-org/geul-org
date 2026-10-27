@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "huffman", "WordNet"]
 summary: "13,767個のWordNet動詞を10個のPrimitive → 68個のSub-primitiveに分類し、ハフマン符号化で16ビットコードブックを生成する。Tiny(2ワード)/Short(3ワード)/Full(5ワード)の3種パケットで平均2.16ワード圧縮を達成する。"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

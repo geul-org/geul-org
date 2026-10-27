@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:08+09:00
 tags: ["konsistensi", "kontradiksi", "koherensi"]
 summary: "Informasi yang secara individual benar bisa secara kolektif salah"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

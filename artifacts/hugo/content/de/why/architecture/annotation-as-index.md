@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["Index", "Annotation", "Code", "AST", "Entwurfsmuster"]
 summary: "Annotationen werden für Menschen geschrieben. Aber wenn es 10.000 Funktionen gibt, müssen auch Maschinen sie lesen können. Wenn man Annotationen von Erzählung in Index verwandelt, wird ein Full-Scan zur sofortigen Suche."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

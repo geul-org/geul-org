@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:19+09:00
 tags: ["lenguaje de programación", "descripción", "representación del conocimiento"]
 summary: "Los lenguajes de programación describen procedimientos. No pueden describir el mundo. JSON ofrece estructura pero no significado. Incluso LISP solo toma prestada la sintaxis."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

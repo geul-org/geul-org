@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "AST", "programming", "PathGEUL"]
 summary: "Тип Edge для представления AST языков программирования в графе GEUL. 6 бит кодируют 64 языка, 8 бит — 256 типов AST-узлов. Включает язык запросов PathGEUL."
 author: "Джунву Пак"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

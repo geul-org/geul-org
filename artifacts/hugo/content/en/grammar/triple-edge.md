@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "triple", "property"]
 summary: "An Edge type expressing relationships and attributes in (Subject, Property, Object) form. Optimizes Top 63 high-frequency properties with a dual structure of basic mode (4 words) and extended mode (5 words)."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

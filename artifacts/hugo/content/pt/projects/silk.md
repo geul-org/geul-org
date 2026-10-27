@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["SILK", "search", "SIDX", "neuro-symbolic"]
 summary: "Arquitetura de busca neuro-simbolica baseada em inteiros de 64 bits. Pesquisa 100 milhoes de entidades do Wikidata em menos de um segundo sem vector DB, grafos ANN ou modelos de embedding."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 weight: 1
 aliases:

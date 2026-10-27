@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "event6", "5W1H"]
 summary: "六何原則（Who, What, Whom, When, Where, Why）を一度に表現する可変長イベントEdge。Presenceビットマスクで3~8ワードの可変構造を実現する。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

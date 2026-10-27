@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "entity", "SIDX", "quantification"]
 summary: "צומת באורך קבוע של 4 מילים (64 סיביות) לזיהוי ישויות כגון אנשים, מקומות, חפצים וארגונים. מבטא כימות ומספר ב-3 סיביות Mode, מסווג 64 סוגים עליונים ב-6 סיביות EntityType, ומקודד תכונות סמנטיות ב-48 סיביות Attributes."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

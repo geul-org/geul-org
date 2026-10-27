@@ -6,7 +6,7 @@ lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
 summary: "코덱북도 GEUL 문서다. DECLARE·FIELD·ENUM·CODEC 네 Edge로 Codec 하나의 Payload 구성을 선언하고, 그 문서 하나로 검증·분해·표시를 함께 한다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["зарезервировано", "расширяемость", "64-бит", "принцип-проектирования", "IPv4"]
 summary: "GEUL оставляет пустыми 75% своего 64-битного пространства. Уроки IPv4, Unicode и ASCII говорят нам: цена заполнения необратима, а цена пустоты — ноль."
 author: "Джунву Пак"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

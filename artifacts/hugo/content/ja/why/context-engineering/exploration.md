@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:07+09:00
 tags: ["探索", "検索", "スケール"]
 summary: "インデックスがウィンドウを超えると、検索パラダイムそのものが限界に達する"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

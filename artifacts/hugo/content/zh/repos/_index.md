@@ -21,13 +21,13 @@ image: "/images/og-default.webp"
 |---|---|
 | GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
 | 语言 | Go, Python |
-| 许可证 | MIT |
+| 许可证 | CC0 |
 
 ---
 
 ## 文法
 
-### geul-verb
+### wordnet-verb
 
 动词SIDX 16位码本（基于WordNet）。
 
@@ -35,11 +35,11 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-verb](https://github.com/geul-org/geul-verb) |
+| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
 | 语言 | Python |
-| 许可证 | MIT |
+| 许可证 | CC0 · WordNet 3.0 License |
 
-### geul-entity
+### sidx
 
 实体SIDX 48位码本（基于Wikidata）。
 
@@ -47,9 +47,9 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-entity](https://github.com/geul-org/geul-entity) |
+| GitHub | [geul-org/sidx](https://github.com/geul-org/sidx) |
 | 语言 | Python |
-| 许可证 | MIT |
+| 许可证 | CC0 |
 
 ### geul-quantities
 
@@ -105,4 +105,4 @@ SILK（Symbolic Index for LLM Knowledge）——神经符号搜索架构。
 |---|---|
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | 语言 | Hugo (Go Templates), CSS |
-| 许可证 | MIT |
+| 许可证 | CC0 |

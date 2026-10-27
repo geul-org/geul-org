@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["שמור", "הרחבה", "64-ביט", "עקרון-עיצוב", "IPv4"]
 summary: "GEUL משאיר 75% ממרחב 64 הביט שלו ריק. הלקחים של IPv4, Unicode ו-ASCII מלמדים אותנו — עלות המילוי בלתי הפיכה, אבל עלות ההשארה ריק היא אפס."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:19+09:00
 tags: ["שפת תכנות", "תיאור", "ייצוג ידע"]
 summary: "שפות תכנות מתארות פרוצדורות. הן אינן מסוגלות לתאר את העולם. JSON מספק מבנה אך ללא משמעות. אפילו LISP רק שואלת את התחביר."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

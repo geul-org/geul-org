@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["SILK", "search", "SIDX", "neuro-symbolic"]
 summary: "بنية بحث عصبية-رمزية تبحث بأعداد صحيحة 64 بت. تبحث في 100 مليون كيان من ويكي بيانات في أقل من ثانية بذاكرة 1.3 غيغابايت، دون قاعدة بيانات متجهية أو رسم بياني ANN أو نموذج تضمين."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 weight: 1
 aliases:

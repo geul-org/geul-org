@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:13+09:00
 tags: ["прояснение", "вход", "выход"]
 summary: "Ясный вход порождает ясный выход"
 author: "Джунву Пак"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

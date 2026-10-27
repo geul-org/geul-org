@@ -6,7 +6,7 @@ lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "issuer", "publication", "signature"]
 summary: "Issuer는 문서와 형식을 정의하는 주체다. 폭(1·2·4·16 WORD)에 따라 발급 방식이 다르다. 공표한 문서는 버전 목록과 서명으로 고정되고 고정 주소로 서비스된다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

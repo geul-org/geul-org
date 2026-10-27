@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "SIDX", "specification"]
 summary: "Spezifikation des binaeren Streamformats basierend auf dem globalen semantischen Identifikator SIDX mit 64 Bit. Designprinzipien, Prefix-System, 9 Pakettypen und Kodierungsregeln."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

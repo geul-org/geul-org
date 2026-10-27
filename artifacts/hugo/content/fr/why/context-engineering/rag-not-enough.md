@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:11+09:00
 tags: ["RAG", "recherche", "embedding"]
 summary: "Paraitre pertinent et etre pertinent ne sont pas la meme chose"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

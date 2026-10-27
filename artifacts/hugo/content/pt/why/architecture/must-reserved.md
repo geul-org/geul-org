@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["reservado", "extensibilidade", "64-bit", "princípio-de-design", "IPv4"]
 summary: "GEUL deixa vazio 75% do seu espaço de 64 bits. As lições do IPv4, Unicode e ASCII nos dizem — o custo de preencher é irreversível, mas o custo de deixar vazio é zero."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

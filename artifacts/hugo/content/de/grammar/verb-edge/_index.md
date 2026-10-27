@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "huffman", "WordNet"]
 summary: "Klassifizierung von 13.767 WordNet-Verben in 10 Primitive und 68 Sub-primitive mit Erzeugung eines 16-Bit-Codebuchs durch Huffman-Kodierung. Durchschnittliche Kompression von 2,16 Woertern mit 3 Pakettypen: Tiny (2 Woerter), Short (3 Woerter) und Full (5 Woerter)."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

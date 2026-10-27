@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["人工言語", "自然言語", "ハルシネーション", "LLVM IR"]
 summary: "自然言語は人間同士のコミュニケーションのために進化した。曖昧さ、冗長性、暗示は人間にとっては長所だが、AIにとっては幻覚の原因である。プログラミング言語も既存の意味表現体系も答えではない。六つの条件を同時に満たす新しい人工言語が必要だ。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

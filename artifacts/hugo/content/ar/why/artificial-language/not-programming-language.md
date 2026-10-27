@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:19+09:00
 tags: ["لغة برمجة", "وصف", "تمثيل المعرفة"]
 summary: "لغات البرمجة تصف الإجراءات. لا تستطيع وصف العالم. JSON يوفر البنية لكن بلا معنى. حتى LISP لا تفعل سوى استعارة الصياغة."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

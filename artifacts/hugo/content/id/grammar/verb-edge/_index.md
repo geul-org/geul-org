@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "huffman", "WordNet"]
 summary: "13.767 kata kerja WordNet diklasifikasikan ke dalam 10 Primitive → 68 Sub-primitive, dan pengkodean Huffman menghasilkan codebook 16-bit. Tiga varian paket Tiny(2)/Short(3)/Full(5 word) mencapai kompresi rata-rata 2,16 word."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

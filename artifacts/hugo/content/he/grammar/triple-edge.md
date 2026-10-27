@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "triple", "property"]
 summary: "סוג Edge המבטא יחסים ומאפיינים בצורת (Subject, Property, Object). מבנה כפול של מצב בסיסי 4 מילים ומצב מורחב 5 מילים לאופטימיזציה של 63 המאפיינים השכיחים ביותר."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

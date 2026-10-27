@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:05+09:00
 tags: ["기억", "구조화", "WMS"]
 summary: "기억 없는 지능은 매번 처음부터 시작한다"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

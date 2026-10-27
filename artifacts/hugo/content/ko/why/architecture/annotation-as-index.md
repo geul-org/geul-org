@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["인덱스", "주석", "코드", "AST", "디자인패턴"]
 summary: "주석은 사람을 위해 쓴다. 그러나 함수가 10,000개일 때 기계도 읽어야 한다. 주석을 서사에서 인덱스로 바꾸면, 풀스캔이 즉시 검색이 된다."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

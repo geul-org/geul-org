@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:02+09:00
 tags: ["캐시", "추론", "코드"]
 summary: "한 번의 추론을 영구적 절차로 전환한다"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

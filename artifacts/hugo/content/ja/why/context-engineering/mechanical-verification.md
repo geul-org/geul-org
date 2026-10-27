@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:10+09:00
 tags: ["検証", "仕様", "コンパイラ"]
 summary: "自然言語には「無効な文」という概念がない"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

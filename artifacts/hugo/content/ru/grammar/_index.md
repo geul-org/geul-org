@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "SIDX", "specification"]
 summary: "Спецификация бинарного потокового формата на основе SIDX — 64-битного глобального семантического идентификатора. Принципы проектирования, система Prefix, 9 типов пакетов и правила кодирования."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

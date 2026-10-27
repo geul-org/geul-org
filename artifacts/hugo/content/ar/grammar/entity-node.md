@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "entity", "SIDX", "quantification"]
 summary: "عقدة بطول ثابت 4 كلمات (64 بت) لتعريف الكيانات كالأشخاص والأماكن والأشياء والمنظمات. تعبّر عن التحديد والعدد بـ 3 بتات Mode، وتصنّف 64 نوعاً علوياً بـ 6 بتات EntityType، وتشفّر السمات الدلالية بـ 48 بت Attributes."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

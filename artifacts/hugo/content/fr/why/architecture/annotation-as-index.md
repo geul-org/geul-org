@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["index", "annotation", "code", "AST", "patron-de-conception"]
 summary: "Les annotations sont écrites pour les humains. Mais quand il y a 10 000 fonctions, les machines doivent aussi les lire. Si l'on transforme les annotations de récit en index, le scan complet devient une recherche instantanée."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:15+09:00
 tags: ["フォーマット", "JSON", "XML"]
 summary: "既存のフォーマットは意味を運べない"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:10+09:00
 tags: ["검증", "규격", "컴파일러"]
 summary: "자연어에는 유효하지 않은 문장이라는 개념이 없다"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

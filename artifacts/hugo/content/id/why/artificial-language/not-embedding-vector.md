@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:18+09:00
 tags: ["embedding", "vektor", "kotak putih"]
 summary: "Menata ulang vektor embedding akan merusak model. Menghindari kerusakan berarti membangun ulang model dari nol. Yang dibutuhkan bukan transparansi di dalam kotak hitam, melainkan lapisan transparan di luarnya."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

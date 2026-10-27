@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["índice", "anotação", "código", "AST", "padrão-de-design"]
 summary: "Comentarios sao escritos para pessoas. Mas quando ha 10.000 funcoes, as maquinas tambem precisam le-los. Ao transformar comentarios de narrativa em indice, uma varredura completa se torna uma busca instantanea."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

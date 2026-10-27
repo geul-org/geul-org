@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:13+09:00
 tags: ["명료화", "입력", "출력"]
 summary: "명확한 입력이 명확한 출력을 만든다"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

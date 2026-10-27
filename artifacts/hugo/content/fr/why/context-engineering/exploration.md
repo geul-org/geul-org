@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:07+09:00
 tags: ["exploration", "recherche", "echelle"]
 summary: "Quand l'index depasse la fenetre, le paradigme de recherche lui-meme atteint sa limite"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

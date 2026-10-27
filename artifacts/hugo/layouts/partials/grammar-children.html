@@ -1,0 +1,10 @@
+{{/* Child sections and pages of a grammar section, ordered by weight */}}
+{{ range .Pages.ByWeight }}
+<article class="post-item">
+  <div class="post-item-body">
+    {{ if and .IsSection (eq .Lang "ko") }}<span class="post-category-label">문서 {{ len .RegularPagesRecursive }}개</span>{{ end }}
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
+  </div>
+</article>
+{{ end }}

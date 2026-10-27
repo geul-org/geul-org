@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "qualifier", "tense", "aspect"]
 summary: "Qualificadores semânticos do Verb Edge. Codificam informação gramatical e pragmática do predicado em 14 categorias: evidencialidade, modo, modalidade, tempo, aspecto, cortesia, polaridade, intencionalidade, confiança e iteratividade."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

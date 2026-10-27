@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "clause", "RST", "discourse"]
 summary: "Fester 4-Woerter-Edge zur Darstellung logischer und diskursiver Beziehungen zwischen Praedikationen, Ereignissen und Relationen. 16 RST-basierte Beziehungstypen kodieren kausale, zeitliche, kontrastive und argumentative Beziehungen."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:08+09:00
 tags: ["정합성", "모순", "일관성"]
 summary: "개별적으로 옳은 정보가 모이면 집합적으로 틀릴 수 있다"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

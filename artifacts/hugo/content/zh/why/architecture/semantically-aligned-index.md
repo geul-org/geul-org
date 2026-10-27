@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:03+09:00
 tags: ["SIDX", "语义对齐", "索引"]
 summary: "当意义被刻入比特，搜索就变成了推理"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

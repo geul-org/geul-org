@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:07+09:00
 tags: ["eksplorasi", "pencarian", "skala"]
 summary: "Ketika indeks melebihi jendela, paradigma pencarian itu sendiri mencapai batasnya"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

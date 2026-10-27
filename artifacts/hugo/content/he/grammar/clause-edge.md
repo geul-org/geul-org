@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "clause", "RST", "discourse"]
 summary: "קשת קבועה בת 4 מילים המבטאת יחסים לוגיים ושיחיים בין תיאורים, אירועים ויחסים. מקודדת יחסי סיבה, זמן, ניגוד וטיעון ב-16 סוגי יחסים מבוססי RST."
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

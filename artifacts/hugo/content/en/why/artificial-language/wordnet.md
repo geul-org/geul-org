@@ -6,7 +6,7 @@ lastmod: 2026-03-01T14:00:00+09:00
 tags: ["WordNet", "verbs", "semantic primitives", "synset"]
 summary: "Building a verb system from scratch means gaps, arbitrary choices, and no justification. WordNet is a 40-year lexical database of 13,767 verb synsets built by linguists. We borrow the dictionary and build the grammar on top."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "stream", "TID"]
 summary: "Der GEUL-Stream ist eine Paketsequenz, die mit Meta Nodes beginnt und endet. Definiert TID-Scoping, Vorwaertsreferenzen und Paketreihenfolgeregeln."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

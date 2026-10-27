@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:03+09:00
 tags: ["SIDX", "alineacion semantica", "indice"]
 summary: "Cuando el significado se graba en bits, la busqueda se convierte en razonamiento"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

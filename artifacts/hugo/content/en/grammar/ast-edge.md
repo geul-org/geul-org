@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "AST", "programming", "PathGEUL"]
 summary: "An Edge type that represents programming language ASTs as GEUL graphs. Classifies 64 languages with 6 bits and encodes 256 AST node types with 8 bits. Includes the PathGEUL query language."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:14+09:00
 tags: ["إسبرانتو", "لغة اصطناعية", "تاريخ"]
 summary: "اللغات الاصطناعية للبشر فشلت -- اللغات الاصطناعية للذكاء الاصطناعي مختلفة"
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

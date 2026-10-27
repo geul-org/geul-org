@@ -6,7 +6,7 @@ lastmod: 2026-03-01T14:00:00+09:00
 tags: ["WordNet", "verbes", "primitifs sémantiques", "synset"]
 summary: "Construire un système de verbes à partir de zéro signifie des lacunes, des choix arbitraires et aucune justification. WordNet est une base de données lexicale de 40 ans avec 13 767 synsets de verbes créés par des linguistes. Nous empruntons le dictionnaire et construisons la grammaire par-dessus."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

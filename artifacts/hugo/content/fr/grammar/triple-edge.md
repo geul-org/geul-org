@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "triple", "property"]
 summary: "Type d'Edge exprimant les relations et proprietes sous la forme (Subject, Property, Object). Structure duale avec un mode de base a 4 mots et un mode etendu a 5 mots, optimisant les Top 63 proprietes a haute frequence."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

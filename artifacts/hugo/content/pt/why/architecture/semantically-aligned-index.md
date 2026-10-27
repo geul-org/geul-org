@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:03+09:00
 tags: ["SIDX", "alinhamento semantico", "indice"]
 summary: "Quando o significado e gravado nos bits, a busca se torna raciocinio"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

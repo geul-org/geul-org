@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "group", "set", "logic"]
 summary: "複数のNodeをAND、OR、LIST、SETなど7種のタイプでまとめる可変長Edge。13ビットPrefixと終結マーカー(0x0000)方式で無制限メンバーをサポートする。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

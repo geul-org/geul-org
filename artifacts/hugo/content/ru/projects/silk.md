@@ -5,7 +5,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["SILK", "search", "SIDX", "neuro-symbolic"]
 summary: "Нейро-символическая поисковая архитектура на 64-битных целых числах. Поиск по 100 миллионам сущностей Wikidata менее чем за секунду в 1,3 ГБ памяти — без векторной БД, ANN-графа или модели эмбеддингов."
 author: "Джунву Пак"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 weight: 1
 aliases:

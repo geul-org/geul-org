@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "qualifier", "tense", "aspect"]
 summary: "Semantische Qualifikatoren des Verb Edge. 14 Kategorien umfassen Evidentialitaet, Modus, Modalitaet, Tempus, Aspekt, Hoeflichkeit, Polaritaet, Intentionalitaet, Sicherheit und Iterativitaet zur Kodierung grammatischer und pragmatischer Informationen der Praedikation."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "verb", "huffman", "WordNet"]
 summary: "تصنيف 13,767 فعلاً من WordNet إلى 10 Primitive ثم 68 Sub-primitive وتوليد كتاب شفرات 16 بت بتشفير هوفمان. يحقق ضغطاً متوسطاً 2.16 كلمة عبر 3 أنواع حزم: Tiny (كلمتان) / Short (3 كلمات) / Full (5 كلمات)."
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

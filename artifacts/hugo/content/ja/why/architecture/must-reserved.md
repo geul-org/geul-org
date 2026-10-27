@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["予約", "拡張性", "64ビット", "設計原則", "IPv4"]
 summary: "GEULは64ビットの75%を空けておく。IPv4、Unicode、ASCIIの教訓が教えてくれる——埋めるコストは不可逆だが、空けておくコストはゼロだ。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

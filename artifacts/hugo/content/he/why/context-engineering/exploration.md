@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:07+09:00
 tags: ["חקירה", "חיפוש", "קנה מידה"]
 summary: "כשהאינדקס חורג מהחלון, פרדיגמת החיפוש עצמה פוגעת במגבלה"
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

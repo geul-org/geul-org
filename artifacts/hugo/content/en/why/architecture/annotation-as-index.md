@@ -6,7 +6,7 @@ lastmod: 2026-03-01T15:00:00+09:00
 tags: ["index", "annotation", "code", "AST", "design-pattern"]
 summary: "Annotations are written for humans. But when you have 10,000 functions, machines need to read them too. Turn annotations from narrative into indexes, and full scans become instant lookups."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

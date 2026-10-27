@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:12+09:00
 tags: ["프롬프트", "컨텍스트", "엔지니어링"]
 summary: "프롬프트를 넘어 맥락을 설계하는 시대"
 author: "박준우"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

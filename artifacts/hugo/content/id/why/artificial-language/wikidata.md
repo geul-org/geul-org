@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:17+09:00
 tags: ["Wikidata", "Ontologi", "SIDX"]
 summary: "GEUL tidak menolak Wikidata. GEUL mengubah sistem klasifikasi dan statistik frekuensi dari 100 juta entitas menjadi buku kode SIDX. Membangun tata bahasa di atas kamus."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

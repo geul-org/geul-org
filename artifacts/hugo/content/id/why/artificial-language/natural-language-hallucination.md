@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:16+09:00
 tags: ["bahasa alami", "halusinasi", "ambiguitas"]
 summary: "Halusinasi bukan bug LLM — ia adalah keniscayaan struktural dari empat cacat bahasa alami: ambiguitas, ketiadaan sumber, ketiadaan kepercayaan, dan ketiadaan waktu. Model yang lebih besar tidak bisa memperbaikinya."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

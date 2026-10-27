@@ -6,7 +6,7 @@ lastmod: 2026-03-01T14:00:00+09:00
 tags: ["WordNet", "Verben", "semantische Primitive", "Synset"]
 summary: "Ein Verbsystem von Grund auf zu erstellen bedeutet Lücken, willkürliche Entscheidungen und fehlende Begründung. WordNet ist eine 40 Jahre alte lexikalische Datenbank mit 13.767 Verb-Synsets, erstellt von Linguisten. Wir leihen das Wörterbuch und bauen die Grammatik darauf auf."
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

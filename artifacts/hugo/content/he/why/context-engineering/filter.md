@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:09+09:00
 tags: ["סינון", "רלוונטיות", "אמינות"]
 summary: "מידע תקין הוא לא תמיד מידע נדרש"
 author: "ג'ונו פארק"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

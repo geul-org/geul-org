@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:10+09:00
 tags: ["校验", "规范", "编译器"]
 summary: "自然语言没有'无效句子'的概念"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

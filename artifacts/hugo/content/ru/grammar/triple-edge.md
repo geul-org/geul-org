@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "triple", "property"]
 summary: "Тип Edge для представления связей и свойств в форме (Subject, Property, Object). Двойная структура из базового режима (4 слова) и расширенного (5 слов) оптимизирует Top 63 высокочастотных свойства."
 author: "Джунву Пак"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

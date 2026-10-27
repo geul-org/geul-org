@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "participant", "semantic-role"]
 summary: "イベント内部の意味的役割を定義する16個のParticipant。4ビットエンコードでAgent、Theme、Recipientなどの核心役割からCause、Purposeなどの付加役割まで表現する。"
 author: "朴俊宇"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

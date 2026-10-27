@@ -6,7 +6,7 @@ lastmod: 2026-03-01T12:00:00+09:00
 tags: ["grammar", "event6", "5W1H"]
 summary: "حافة حدث متغيرة الطول تعبّر عن الأسئلة الستة (مَن، ماذا، لِمَن، متى، أين، لماذا) دفعة واحدة. تحقق بنية متغيرة 3~8 كلمات عبر قناع Presence البتي."
 author: "جونو بارك"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

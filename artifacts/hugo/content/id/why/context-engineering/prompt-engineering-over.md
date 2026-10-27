@@ -6,7 +6,7 @@ lastmod: 2026-02-26T12:00:12+09:00
 tags: ["prompt", "konteks", "engineering"]
 summary: "Dari cara Anda mengatakannya ke apa yang Anda tunjukkan -- permainan telah berubah"
 author: "Junwoo Park"
-authorLink: "https://parkjunwoo.com/1/about"
+authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 

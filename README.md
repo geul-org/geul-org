@@ -16,4 +16,4 @@ English (default), 한국어, 中文, Español, العربية, Português, Baha
 
 ## License
 
-MIT
+우리 저작물(사이트 콘텐츠, 레이아웃, 스크립트, 이미지, `.well-known/geul` 아카이브)은 CC0 1.0이다([LICENSE](LICENSE)). 제3자 자료(웹 폰트)는 [NOTICE](NOTICE).
