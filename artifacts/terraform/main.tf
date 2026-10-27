@@ -33,7 +33,17 @@ data "aws_route53_zone" "main" {
   private_zone = false
 }
 
-# Google Search Console 도메인 인증
+# 메일: 이 도메인은 메일을 보내지 않는다(2026-10-27 결정, 의도적으로 발신 차단).
+# - apex TXT의 SPF "v=spf1 -all": 어떤 서버도 geul.org 명의로 발신 불가.
+# - _dmarc TXT "p=reject": SPF/DKIM 정렬 실패 메일은 수신 측이 거부. 보고 주소(rua/ruf) 없음.
+# - MX: Gmail MX가 이미 있어 null MX("0 .", RFC 7505)는 넣지 않았다(수신은 그대로).
+# 발신을 다시 켜려면(예: Google Workspace):
+#   1) SPF를 "v=spf1 include:_spf.google.com ~all"로 바꾸고 DKIM(google._domainkey) TXT 추가,
+#   2) DMARC를 p=none(+rua)으로 낮춰 관찰한 뒤 quarantine→reject로 올린다.
+# 메일을 아예 받지도 않으려면 mx_gmail을 지우고 records = ["0 ."]인 null MX로 바꾼다.
+
+# apex TXT RRset 전체(Google Search Console 도메인 인증 + SPF).
+# 이 리소스가 apex TXT를 통째로 관리하므로 apex TXT 값은 모두 여기에 둔다.
 resource "aws_route53_record" "txt_google_verification" {
   zone_id = local.zone_id
   name    = var.domain
@@ -41,7 +51,20 @@ resource "aws_route53_record" "txt_google_verification" {
   ttl     = 300
 
   records = [
-    "google-site-verification=PLACEHOLDER",
+    "google-site-verification=${var.google_site_verification}",
+    "v=spf1 -all",
+  ]
+}
+
+# DMARC: 메일 발신 없음 → 정렬 실패 전부 거부
+resource "aws_route53_record" "txt_dmarc" {
+  zone_id = local.zone_id
+  name    = "_dmarc.${var.domain}"
+  type    = "TXT"
+  ttl     = 300
+
+  records = [
+    "v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s",
   ]
 }
 

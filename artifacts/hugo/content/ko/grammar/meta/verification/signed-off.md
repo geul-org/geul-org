@@ -26,4 +26,4 @@ Payload           Reference 하나
 
 ## 해석과 유효성
 
-- geul.org 공표 문서에는 자연인을 가리키는 Reference를 두지 않는다(LICENSE-GEUL-ORG 제3조). 조직·Issuer를 가리킨다.
+- geul.org 공표 문서에는 자연인을 가리키는 Reference를 두지 않는다([Issuer와 공표](/ko/grammar/issuer/#geulorg-공표)). 조직·Issuer를 가리킨다. 예외로 [WIKIDATA-QID](/ko/grammar/reference/wikidata-qid/)로 자연인을 가리키는 것은 허용한다.

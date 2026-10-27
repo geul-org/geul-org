@@ -29,7 +29,7 @@ IMPORT ID         WW가 정한 폭 (00=1, 01=2, 10=4, 11=8 WORD)
 | `1011` | EXTERNAL-POINTER-8WORD | 8 WORD |
 
 - IMPORT ID 값이 들어가는 가장 좁은 Codec을 쓴다.
-- IMPORT ID는 이 문서의 `IMPORT-DOC`이 배정한 값이며 이 문서 안에서만 유효하다. Issuer와 문서 ID는 그 `IMPORT-DOC`에서 얻는다. 버전도 그 `IMPORT-DOC`이 정한다(고정 또는 최신).
+- IMPORT ID는 이 문서의 `IMPORT-DOC`이 배정한 값이며 이 문서 안에서만 유효하다. EXTERNAL-POINTER에는 Issuer를 적지 않는다. Issuer와 문서 ID는 그 `IMPORT-DOC`에서 얻는다. 버전도 그 `IMPORT-DOC`이 정한다(고정 또는 최신).
 - 가져온 문서의 같은 LOCAL ID면, 그 문서 안에서 LOCAL로 쓰든 여기서 EXTERNAL-POINTER로 쓰든 같은 대상이다.
 - Variable이면 가져온 문서의 LOCAL 변수다.
 

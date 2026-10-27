@@ -29,7 +29,8 @@ Payload
 
 - TAG WORD는 `000K KLLL LCCC CCCC`다.
 - 확장 TAG는 위 순서대로만 둔다. Length 확장 TAG는 항상 TAG WORD 바로 다음이다.
-- Codec별 TAG와 Payload의 구성은 각 Codec 규격이 정한다.
+- Codec별 TAG와 Payload의 구성은 각 Codec 규격이 정한다. Codec별 TAG의 길이는 TAG WORD에 적지 않는다. Payload를 해석하려면 어차피 코덱북이 필요하기 때문이다.
+- 하위 형식이 있는 Codec은 Codec별 TAG 1 WORD로 하위 형식을 지정한다(Edge WORLD 등).
 
 ## 바이트 순서
 
@@ -78,7 +79,8 @@ Length는 레코드가 차지하는 **전체 WORD 수**다. TAG WORD, 확장 TAG
 | `0x7F` | ISSUER-16WORD | Codec 확장 TAG에 Issuer 16 WORD와 형식 번호 1 WORD |
 
 - Codec 번호 공간은 Kind마다 따로 있다. 같은 번호라도 Kind가 다르면 다른 Codec이다.
-- 직접 코드가 아닌 Codec은 `(Issuer, 형식 번호)` 쌍이다. 형식 번호는 그 Issuer가 정의한다([Issuer와 공표](/ko/grammar/issuer/)).
+- 직접 코드가 아닌 Codec은 `(Issuer, 형식 번호)` 쌍이다. 형식 번호는 그 Issuer가 정의한다([Issuer와 공표](/ko/grammar/issuer/)). 확장 형식은 그 형식을 제정한 단체의 Issuer 아래에 둔다.
+- 직접 코드가 있는 Codec은 Issuer 형식으로 따로 등재하지 않는다.
 - Issuer 형식은 Value와 Edge에만 있다. Reference는 Codec 4비트를 쓰고, Meta는 GEUL만 정의하는 공통 규격이다.
 - Codec과 형식 번호의 상위 비트는 계열(Value·Edge) 또는 클래스(Meta)를 나타낸다. 코덱북 없이도 계열을 안다.
 - 직접 코드는 회수할 수 없다. 빈도가 확인된 형식만 직접 코드에 둔다.

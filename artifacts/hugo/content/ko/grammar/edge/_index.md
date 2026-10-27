@@ -25,8 +25,10 @@ Edge Id           LOCAL Reference 레코드
 - `LLLL`은 TAG WORD를 포함한 전체 WORD 수 − 1이다. 디코더는 Codec을 몰라도 Length만으로 다음 레코드로 건너뛴다.
 - **첫 구성요소는 항상 Edge Id(LOCAL Reference)다.** LOCAL Reference(`0088` + ID, Quantifier `000`)이므로 코덱을 몰라도 Edge Id를 읽을 수 있다.
 - 구성요소는 각자 자기 Length로 경계를 찾는다. 마지막 구성요소를 읽은 위치가 Edge의 끝과 정확히 맞아야 한다.
-- Edge 레코드 사이의 순서는 의미가 없다(Codec이 따로 정한 경우 제외).
-- 다른 Edge는 Edge Id로 가리킨다.
+- 구성요소의 구성(Payload)은 각 Edge Codec 문서가 정한다.
+- 하위 형식이 있는 Codec(WORLD, TIMELINE, SCENE)은 Codec별 TAG 1 WORD가 하위 형식을 지정한다.
+- Edge 레코드 사이의 순서는 의미가 없다(Codec이 따로 정한 경우 제외. 예: [TOULMIN](/ko/grammar/edge/toulmin/) 문서).
+- 다른 Edge는 Edge Id로 가리킨다. 이 문서의 Edge는 LOCAL로, 다른 문서의 Edge는 지시 Reference(`EXTERNAL-POINTER-*`, `EXTERNAL-ISSUER-*`)로 가리킨다.
 
 ## 계열
 
@@ -35,7 +37,7 @@ Edge Id           LOCAL Reference 레코드
 | `00` | 서술 | `0x00`~`0x1F` | 세계와 사건에 관한 내용을 구성한다 |
 | `01` | 근거 | `0x20`~`0x3F` | 개별 레코드가 어디서, 무엇에서, 얼마나 믿을 만하게 나왔는지 |
 | `10` | 실행 | `0x40`~`0x5F` | 실행할 수 있는 프로그램 구조(AST) |
-| `11` | TOULMIN | `0x60`~`0x7B` | 논증 그래프: 주장·반박·예외, 공격 관계, 실행, 판정 결과 |
+| `11` | [TOULMIN](/ko/grammar/edge/toulmin/) | `0x60`~`0x7B` | 논증 그래프: 주장·반박·예외, 공격 관계, 실행, 판정 결과 |
 
 ## 서술 Edge
 
@@ -52,8 +54,12 @@ Edge Id           LOCAL Reference 레코드
 | `0x0A` | [TRIPLE](/ko/grammar/edge/triple/) | 명제 하나(Predicate, Subject, Object)와 rank |
 | `0x0B` | [QUALIFIER](/ko/grammar/edge/qualifier/) | 다른 Edge의 명제를 한정하는 조건 하나 |
 | `0x10`~`0x12` | WORLD / TIMELINE / SCENE | 세계관, 사건 순서, 장면 구조 |
-| `0x18`~`0x1A` | [PUBLICATION](/ko/grammar/edge/publication/) / DEPRECATION / TOMBSTONE | 문서 버전의 공표·폐기 권고·삭제 ([Issuer와 공표](/ko/grammar/issuer/)) |
+| `0x18`~`0x1A` | [PUBLICATION](/ko/grammar/edge/publication/) / DEPRECATION / TOMBSTONE | 문서 버전의 공표·폐기 권고·삭제 ([공표 주소와 버전 목록](/ko/grammar/publishing/#버전-목록)) |
 | `0x1B`~`0x1E` | [DECLARE](/ko/grammar/edge/declare/) / [FIELD](/ko/grammar/edge/field/) / [ENUM](/ko/grammar/edge/enum/) / [CODEC](/ko/grammar/edge/codec/) | Codec 규격을 쓰는 어휘 ([Codec 규격 문서](/ko/grammar/codec-spec/)) |
+
+- `-SHORT`와 일반형은 짝수·홀수 짝으로 둔다(VERB-SHORT `0x08`/VERB `0x09`). LABEL은 언어를 Object(UTF8-LANGUAGE-TEXT) 안의 언어 레코드로 받으므로 `0x04` 하나만 쓴다.
+- PUBLICATION·DEPRECATION·TOMBSTONE은 버전 목록 문서가 쓴다. 버전 목록을 코덱북 없이 읽어야 하므로 디코더에 내장한다([공표 주소와 버전 목록](/ko/grammar/publishing/#층)의 0층).
+- DECLARE·FIELD·ENUM·CODEC은 Codec 규격을 쓰는 어휘다. 규격 문서를 코덱북 없이 읽어야 하므로 레이아웃을 디코더에 내장한다(0층). 그 어휘로 쓴 각 Codec 규격 문서는 일반 문서다.
 
 ### TRIPLE
 
@@ -143,7 +149,12 @@ Object            UTF8-LANGUAGE-TEXT
 
 ## 근거 Edge
 
-BODY 안의 개별 레코드에 근거를 붙인다. 대상은 Edge Id로 가리킨다. 문서 전체의 근거는 [Meta](/ko/grammar/meta/)가 맡는다.
+BODY 안의 개별 레코드에 근거를 붙인다. 문서 전체의 근거는 [Meta](/ko/grammar/meta/)가 맡는다.
+
+- 대상은 BODY 안의 Edge이고 Edge Id로 가리킨다. Reference·Value는 그것을 담은 Edge와 구성요소 위치로 가리킨다. 세부 배치는 각 Codec 문서가 정한다.
+- Edge마다 근거 Edge를 붙이면 길어지므로 자주 쓰는 조합은 축약형 Edge를 둘 수 있다.
+- 이름에는 `RECORD-` 접두어를 붙여 같은 뜻의 문서 단위 Meta(`SOURCE`, `CONFIDENCE` 등)와 구분한다.
+- 레코드 단위의 판정 결과는 TOULMIN `VERDICT`가 맡는다.
 
 | Codec | 이름 | 뜻 |
 |---|---|---|
@@ -166,22 +177,37 @@ BODY 안의 개별 레코드에 근거를 붙인다. 대상은 Edge Id로 가리
 | 문 | BLOCK, ASSIGN, IF, SWITCH, WHILE, FOREACH, JUMP, RETURN |
 | 오류 | RAISE, TRY |
 
-- 기호는 LOCAL ID이고, 이름은 BIND로 묶는다. 이름이 같아도 LOCAL ID가 다르면 다른 기호다.
-- 문서 안에 정의가 없는 기호는 바깥(호스트)이 제공한다.
+- 외부 언어의 코드를 그대로 담는 형식이 아니다. 외부 언어의 코드는 Issuer 형식으로 둔다.
+- 구성요소는 이 문서의 LOCAL ID(REF)로 가리킨다. 식 자리에는 식 Edge 또는 기호를 둔다. REF `0`은 없음이다.
+- 식은 값을 내고, 문은 값을 내지 않는다. 식은 BLOCK의 문 자리에 둘 수 있다(값은 버린다).
+- C식 `for`는 BLOCK(초기화, WHILE)으로, `else if`는 거짓 자리의 IF로 쓴다.
+- 기호는 LOCAL ID이고, 이름은 BIND로 묶는다. 다른 레코드는 이름이 아니라 LOCAL ID로 기호를 가리킨다. 이름이 같아도 LOCAL ID가 다르면 다른 기호다.
+- 기호가 무엇인지(변수, 매개변수, 함수, 타입)는 그 기호를 가리키는 레코드가 정한다. 문서 안에 정의가 없는 기호는 바깥(호스트)이 제공하며, CALL의 대상이면 호스트 함수다.
+
+열린 문제: 연산자 코드, 타입 표현, 각 Codec의 Payload 레이아웃.
 
 ## TOULMIN Edge
 
-툴민 논증 모델로 판정 그래프를 쓴다.
+자세히: [TOULMIN](/ko/grammar/edge/toulmin/)
+
+툴민 논증 모델로 판정·실행 그래프를 쓴다. GEUL이 자기 규칙을 GEUL로 서술하고 스스로 고치기 위한 핵심 계열이다.
 
 | 묶음 | Codec |
 |---|---|
-| 선언 | CASE-DECLARE(사안), PREDICATE-DECLARE(술어), SPEC-DECLARE(판단 기준), RULE-DECLARE(주장), COUNTER-DECLARE(반박), EXCEPT-DECLARE(예외) |
-| 관계 | ATTACKS(공격), SUPERSEDES(배제), SUPERSEDE-CHAIN(우선순위 사슬) |
-| 실행 | RUN, DO, DO-ONCE, UNDO, CHECKING, ENTRY, TRIGGER |
-| 결과 | VERDICT(판정 결과: Pass·Review·Fail), EVIDENCE(판정의 증거) |
+| 선언 | CASE-DECLARE(사안), [PREDICATE-DECLARE](/ko/grammar/edge/toulmin/expr/)(술어), SPEC-DECLARE(판단 기준), RULE-DECLARE(주장), COUNTER-DECLARE(반박), EXCEPT-DECLARE(예외) — [NODE](/ko/grammar/edge/toulmin/node/) |
+| 관계 | ATTACKS(공격), SUPERSEDES(배제) — [LINK](/ko/grammar/edge/toulmin/link/), SUPERSEDE-CHAIN(우선순위 사슬, 레이아웃 미정) |
+| 실행 | RUN, DO, DO-ONCE, UNDO, CHECKING — [LINK](/ko/grammar/edge/toulmin/link/), ENTRY, TRIGGER — [NODE](/ko/grammar/edge/toulmin/node/) |
+| 결과 | VERDICT(판정 결과: Pass·Review·Fail), EVIDENCE(판정의 증거) — 레이아웃 미정 |
 
+- 원문·구획·보조 노드와 관계는 GEUL Issuer의 ISSUER 형식(`0xC000`~`0xC029`)이다([SOURCE와 구획](/ko/grammar/edge/toulmin/source/)).
 - 판정 결과는 판정 대상과 다른 문서에 둔다. 결과 문서가 대상 문서를 가져와 가리킨다. 그래서 판정해도 대상 문서의 내용 해시는 바뀌지 않는다.
 
 ## Issuer 형식 Edge
 
-Issuer는 자기 Edge 형식을 정의해 쓸 수 있다(Codec `0x7C`~`0x7F`). 계열은 형식 번호의 상위 2비트로 정한다.
+Issuer는 자기 Edge 형식을 정의해 쓸 수 있다(Codec `0x7C`~`0x7F`). 직접 코드 `0x7C`~`0x7F`는 TOULMIN 구간 안에 있지만 공통 ISSUER 코드이며, 계열은 형식 번호의 상위 2비트로 정한다.
+
+| Issuer | 형식 번호 | 이름 | 계열 |
+|---|---|---|---|
+| `0x0000` GEUL | `0xC000`~`0xC005` | [SOURCE, TEXT, SECTION, CASE-BEGIN, CASE-END, PROSE](/ko/grammar/edge/toulmin/source/) | TOULMIN |
+| `0x0000` GEUL | `0xC010`~`0xC014` | [NAMESPACE, FUNC, FIELD, ALIAS, GROUP](/ko/grammar/edge/toulmin/node/) | TOULMIN |
+| `0x0000` GEUL | `0xC020`~`0xC029` | [REQUIRES … LABEL](/ko/grammar/edge/toulmin/link/) | TOULMIN |

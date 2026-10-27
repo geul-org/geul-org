@@ -27,5 +27,5 @@ Payload           Reference 레코드 하나 (EXTERNAL-ISSUER-*, GEUL, WIKIDATA-
 ## 해석과 유효성
 
 - Reference는 Codec을 가리지 않는다. 사람·조직·모델·규칙 엔진 모두 될 수 있다([EXTERNAL-ISSUER](/ko/grammar/reference/external-issuer/), [GEUL](/ko/grammar/reference/geul/), [WIKIDATA-QID](/ko/grammar/reference/wikidata-qid/), [LOCAL](/ko/grammar/reference/local/) 등).
-- geul.org 공표 문서에는 자연인을 가리키는 Reference를 두지 않는다(LICENSE-GEUL-ORG 제3조). 조직·Issuer를 가리킨다.
+- geul.org 공표 문서에는 자연인을 가리키는 Reference를 두지 않는다([Issuer와 공표](/ko/grammar/issuer/#geulorg-공표)). 조직·Issuer를 가리킨다. 예외로 [WIKIDATA-QID](/ko/grammar/reference/wikidata-qid/)로 자연인을 가리키는 것은 허용한다.
 - LOCAL이면 BODY에서 그 대상을 서술한다.

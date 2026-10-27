@@ -10,8 +10,9 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-NUMERIC 계열의 기본 수 형식이다. 직접 코드 `0x00`~`0x0F`(Codec 상위 3비트 `000`)에 둔다.
+NUMERIC 계열의 기본 수 형식이다. 직접 코드 `0x00`~`0x0F`(Codec 상위 3비트 `000`), Issuer 형식 번호 `0x0000`~`0x1FFF`에 둔다.
 
 - BOOL, 부호 있는·없는 정수, IEEE 754 binary 부동소수, 지구(WGS 84)·천체 좌표, 양·단위·경계를 묶은 QUANTITY가 있다.
 - 정수는 값이 들어가는 최소 WORD로 쓴다.
+- 작은 스칼라 Issuer 형식(BFLOAT16, FP8, FP4)은 형식 번호만 배정되어 있고 상세 규격이 없다([Value](/ko/grammar/value/#열린-문제) 열린 문제).
 - 벡터, 텐서, 복소수, 분수, 구간도 NUMERIC 계열이지만 Issuer 형식이라 [vector](/ko/grammar/value/vector/), [tensor](/ko/grammar/value/tensor/), [etc](/ko/grammar/value/etc/) 묶음에 둔다.

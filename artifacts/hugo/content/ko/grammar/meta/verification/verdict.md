@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-문서 전체의 판정 결과를 적는다. 노드·레코드 단위 판정은 TOULMIN `VERDICT`가 맡는다.
+문서 전체의 판정 결과를 적는다. 노드·레코드 단위 판정은 [TOULMIN](/ko/grammar/edge/toulmin/) `VERDICT`(Edge `0x78`)가 맡는다.
 
 ## 레이아웃
 

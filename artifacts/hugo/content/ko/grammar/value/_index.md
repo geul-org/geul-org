@@ -37,7 +37,8 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 Issuer 형식
 | `11` | BINARY | `0x60`~`0x7B` | `0xC000`~`0xFFFF` |
 
 - NUMERIC / DECIMAL은 세 번째 비트로 다시 나눈다. `000`은 NUMERIC, `001`은 DECIMAL이다.
-- 벡터, 텐서, 복소수, 분수, 구간 같은 수치 값은 NUMERIC이다. 언어 코드는 TEXT다.
+- 벡터, 텐서, 복소수, 분수, 구간 같은 수치 값은 NUMERIC이다. 예외로 BIT-VECTOR는 BINARY다. 언어 코드는 TEXT다.
+- Issuer 형식 레코드는 Codec 확장 TAG(Issuer와 형식 번호)가 붙는다. Payload가 길면(전체 15 WORD 이상) Length 확장 TAG를 쓴다.
 
 ## 직접 코드
 
@@ -136,7 +137,7 @@ TAG   언어 en    D o  u g  l a  s ␠  A d  a m  s (패딩)
 
 ## 10진수와 수량
 
-정확한 10진수는 `C × 10^E`로 쓴다. 지수 `E`는 32비트, 계수 `C`는 최소 WORD 2의 보수다. 원래 표기의 자릿수를 그대로 담는다: `1.20`은 `C=120, E=−2`, `1.2`는 `C=12, E=−1`이다. 두 값은 같은 수지만 유효숫자가 다르다.
+정확한 10진수는 `C × 10^E`로 쓴다. 지수 `E`는 32비트, 계수 `C`는 최소 WORD 2의 보수다. 원래 표기의 자릿수를 그대로 담는다: `1.20`은 `C=120, E=−2`, `1.2`는 `C=12, E=−1`이다. 두 표기는 같은 수를 나타내지만 바이트가 다른 별개의 레코드다. 인코더는 표기를 임의로 정규화하지 않는다. 두 레코드의 값 동등성과 quantum(유효숫자)의 의미는 열린 문제다([SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/#열린-문제)).
 
 QUANTITY는 양과 단위, 경계를 하나의 값으로 담는다.
 
@@ -173,3 +174,9 @@ TAG WORD          0000 1LLL L000 0110
 | 시각 | POSIX·TAI·GPS 타임스탬프 |
 
 - GREGORIAN-DATE로 쓸 수 있는 날짜는 EDTF로 쓰지 않는다.
+
+## 열린 문제
+
+- 공개 미디어 형식(JPEG, PNG, MP4, MOV 등)은 IANA Issuer(`0x0021`)의 BINARY 형식 번호로 둔다. 미디어 타입과 형식 번호의 대응표 관리 방식.
+- Value 직접 코드의 최종 목록. 법령·업무 대화 표본의 Value 빈도를 측정해 정한다(금액, 백분율, 날짜 구간 후보).
+- 작은 스칼라 7개(ADHOC BFLOAT16, ONNX FP8 4종, OCP FP8-E8M0FNU·FP4-E2M1FN)의 상세 규격과 배치. NUMERIC 직접 코드 예약 구간(`0x07`~`0x0F`)으로 옮길지 정하지 않았다. 지금은 형식 번호만 배정되어 있다.

@@ -32,7 +32,8 @@ Issuer            WW가 정한 폭 (00=1, 01=2, 10=4, 11=16 WORD)
 - Issuer ID는 정수값이다. 값이 같으면 같은 Issuer다. Issuer는 값이 들어가는 가장 짧은 폭으로 쓰고, 그 폭의 Codec을 고른다(값이 `0xFFFF`를 넘을 때만 2 WORD, `2^32` 이상일 때만 4 WORD, `2^64` 이상일 때만 16 WORD). 더 넓은 폭의 표기는 invalid다([Issuer](/ko/grammar/issuer/)).
 - Issuer 등록과 관리는 geul.org가 맡는다.
 - 버전은 적지 않으며 최신 버전을 따른다. 버전을 고정하려면 [IMPORT-DOC](/ko/grammar/meta/import/import-doc/)과 [EXTERNAL-POINTER](/ko/grammar/reference/external-pointer/)를 쓴다.
-- 위치는 geul.org의 위치 해석 규칙으로 찾는다([Issuer와 공표](/ko/grammar/issuer/)).
+- 위치는 공표 주소 규칙으로 찾는다([공표 주소와 버전 목록](/ko/grammar/publishing/)).
+- 그 문서의 같은 LOCAL ID면, 그 문서 안에서 LOCAL로 쓰든 다른 문서에서 EXTERNAL-ISSUER로 쓰든(또는 IMPORT 뒤 EXTERNAL-POINTER로 쓰든) 같은 대상이다.
 - 문서의 LOCAL만 가리킨다. 문서 자신은 [DOC-POINTER](/ko/grammar/reference/doc-pointer/), Issuer 자신은 [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)로 가리킨다. 그래서 대상 ID는 `0`이 아니다. 문서 ID `0`은 Issuer의 용어 정의 색인 문서다.
 
 ## 유효성

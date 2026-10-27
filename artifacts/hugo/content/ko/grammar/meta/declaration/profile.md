@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-문서에 적용한 프로파일을 선언한다. 같은 레코드를 프로파일이 정한 Codec 문서로 해석한다(예: `tangeul-1.0`이면 TOULMIN).
+문서에 적용한 프로파일을 선언한다. 같은 레코드를 프로파일이 정한 Codec 문서로 해석한다(예: `tangeul-1.0`이면 [TOULMIN](/ko/grammar/edge/toulmin/)).
 
 ## 레이아웃
 

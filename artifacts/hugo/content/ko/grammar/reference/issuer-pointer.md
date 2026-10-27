@@ -24,6 +24,7 @@ Issuer            1/2/4/16 WORD
 - Issuer가 16 WORD면 전체 17 WORD라 Length 확장 1 WORD가 붙는다.
 - Quantifier는 `000`(Identified)만 쓴다. 다른 값은 invalid다.
 - Issuer 값은 [Issuer](/ko/grammar/issuer/)의 배정을 따른다.
+- 쓰임: Issuer 이름 색인 `issuers.geul`의 BIND Subject([공표 주소와 버전 목록](/ko/grammar/publishing/#issuer-이름)), Issuer 표시 이름 LABEL, Issuer에 대한 판정, 서명자 등 Issuer 자신이 대상인 자리.
 - Issuer 자신을 가리키는 형식은 ISSUER-POINTER 하나다. `EXTERNAL-ISSUER-*`로 문서 ID `0`, 대상 ID `0`을 써서 Issuer를 가리키는 것은 invalid다.
 
 ## 예시

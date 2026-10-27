@@ -29,6 +29,28 @@ Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다. GEUL의
 
 디코더는 TAG WORD만 보고 규격 문서의 주소를 만든다. 모르는 Codec을 만나면 그 문서를 받아 읽으면 된다.
 
+- `<TAG>`는 대상 TAG WORD의 hex 4자리다. Length 자리는 `0000`이고, Reference는 Quantifier 비트를 `000`으로 둔다(LOCAL은 `0008`).
+- Reference Codec `0000`은 예약이라 대상 TAG WORD가 `0x0000`인 규격 문서는 없다. 그래서 규격 문서는 GEUL Issuer의 용어 정의 색인 문서(문서 ID `0`, [Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서))와 겹치지 않는다.
+- 규격 문서는 `DOC-ID`로 DOC-POINTER(`0x0000`, `0x000000000000<TAG>`, `0`)를 둔다. 버전 목록 레코드도 이 DOC-POINTER를 쓴다.
+- 규격 문서도 다른 문서처럼 GEUL Issuer의 이름 색인 `0x0000/documents.geul`에 소문자 슬러그 이름을 묶는다. 예: `publication` → `geul.org/publication/` = `0x0000/0x0000000000001018/`([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)).
+- 버전·정본 주소·서명 규칙은 일반 공표 문서와 같다.
+
+### GEUL Issuer의 문서 ID
+
+| 문서 ID | 쓰임 |
+|---|---|
+| `0x0000000000000000` | 용어 정의 색인 문서 |
+| `0x00000000 0000xxxx` | Codec 규격 문서. `xxxx`는 대상 TAG WORD |
+| `0x0001xxxx xxxxxxxx` | geul.org의 용어 정의 문서. 용어 하나에 문서 하나([Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)) |
+
+- `0x00000000 0000xxxx`는 Codec 규격 문서에 예약한다. GEUL Issuer의 다른 문서(직접 코드가 모자랄 때 두는 GEUL 고유 ISSUER 형식의 문서 등)는 이 구간을 쓰지 않는다.
+
+### 코덱북과 명세 판
+
+- 코덱북 문서는 `IMPORT-DOC`으로 가져오지 않는다. 문서 HEAD의 [SPEC-VERSION](/ko/grammar/meta/declaration/spec-version/)이 어느 코덱북을 따르는지 정한다.
+- 모든 디코더는 핵심 코덱북을 내장하거나 이 주소에서 받는다.
+- 제안(Prefix `000`)이 표준으로 채택되면 레이아웃은 그대로 두고 Prefix만 `001`로 바뀐다([개요](/ko/grammar/overview/#영역-구조)). 대상 TAG WORD가 달라지므로 채택본은 다른 문서 ID의 새 규격 문서가 되고, 제안 문서는 불변으로 남는다.
+
 ## 네 어휘
 
 | Edge | Codec | 하는 일 |
@@ -38,7 +60,7 @@ Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다. GEUL의
 | ENUM | `0x1D` | 날값 필드의 코드값 하나에 의미를 붙인다 |
 | CODEC | `0x1E` | 필드가 받는 Kind·Codec 하나를 지정한다 |
 
-- 네 Edge의 레이아웃은 디코더에 내장한다. 규격 문서를 읽는 데 다른 규격 문서가 필요 없다.
+- 네 Edge의 레이아웃은 디코더에 내장한다([0층](/ko/grammar/publishing/#층)). 규격 문서를 코덱북 없이 읽어야 하기 때문이다. 규격 문서를 읽는 데 다른 규격 문서가 필요 없다.
 - 이름(Codec 이름, 필드 이름, 코드값 이름)은 모두 BIND로 묶는다.
 
 ### FIELD
@@ -113,3 +135,7 @@ Value QUANTITY(`0806`)는 필드 네 개가 모두 레코드다.
 - 필드 구성이 다른 변형은 분기로 쓰지 않는다. Codec마다 따로 선언한다.
 - 가변 날값이 둘 이상이거나 날값의 폭이 다른 값에 따라 달라지는 레이아웃은 선언할 수 없다. 그런 부분은 레코드로 감싼다.
 - 규격 문서는 다른 문서처럼 버전으로 공표된다. 다만 Codec의 바이너리 레이아웃은 개정하지 않는다. 바꾸려면 새 Codec을 배정한다.
+
+## 열린 문제
+
+- `SPEC-VERSION` 값(v1은 `0x0001`)에서 코덱북 문서 버전으로 가는 대응. 채택본과 제안본을 잇는 계보 Meta.

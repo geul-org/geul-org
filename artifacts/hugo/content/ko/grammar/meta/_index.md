@@ -50,7 +50,7 @@ Codec의 상위 3비트가 클래스다.
 | `110` | IMPORT | `0x60`~`0x6F` | 외부 문서를 가져온다 |
 | `111` | 예약 | `0x70`~`0x7F` | |
 
-- **해석에 필요한 Meta**: 구조, 정의, IMPORT. 지우면 레코드를 읽을 수 없거나 해석이 바뀐다. 모든 디코더가 처리해야 한다.
+- **해석에 필요한 Meta**: 구조, 정의, IMPORT. 지우면 레코드를 읽을 수 없거나 해석이 바뀐다. 모든 디코더가 처리해야 한다. 이 Codec들은 **GEUL 핵심 코덱북**에 속한다.
 - **해석을 바꾸지 않는 Meta**: 출처, 계보, 검증, 정책. 지워도 서술 내용은 그대로다. 신뢰 판단과 취급의 재료만 사라진다.
 - 개별 레코드의 근거는 Meta가 아니라 BODY의 근거 Edge로 쓴다([Edge](/ko/grammar/edge/)).
 
@@ -79,7 +79,7 @@ Codec의 상위 3비트가 클래스다.
 | `0x14` | [EFFECTIVE-UNTIL](/ko/grammar/meta/declaration/effective-until/) | 이 버전의 유효기간 끝(한시법). 없으면 다음 버전이 시행될 때까지 |
 | `0x16` | [DEFAULT-LANGUAGE](/ko/grammar/meta/declaration/default-language/) | 기본 언어 |
 
-- 문서의 주소용 이름은 Meta로 두지 않는다. 공표처의 이름 색인이 BIND로 붙인다. 사람이 읽는 제목은 BODY의 LABEL로 붙인다.
+- 문서의 주소용 이름은 Meta로 두지 않는다. Issuer의 이름 색인 `documents.geul`이 BIND로 붙인다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)). 사람이 읽는 제목은 BODY의 LABEL로 붙인다.
 
 ## 출처
 

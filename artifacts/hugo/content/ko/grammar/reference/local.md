@@ -33,7 +33,7 @@ LOCAL ID          가장 짧은 폭의 unsigned big-endian
 ## Edge Id
 
 - Edge Payload의 첫 요소인 LOCAL이 그 Edge의 Edge Id 선언이다([Edge](/ko/grammar/edge/)). Edge Id를 선언하는 LOCAL의 Quantifier는 `000`만 쓴다.
-- Edge Payload의 그 밖의 자리에 있는 LOCAL은 언급이다. 이 문서의 대상은 언급할 때마다 LOCAL로 쓴다.
+- Edge Payload의 그 밖의 자리에 있는 LOCAL은 언급이다. 이 문서의 대상은 언급할 때마다 LOCAL로 쓴다. 이 문서의 대상을 가리키는 지시 코드는 따로 없다.
 
 ## 식별자 할당
 
@@ -43,7 +43,7 @@ LOCAL ID          가장 짧은 폭의 unsigned big-endian
 - ID `0`은 배정하지 않는다. 어떤 대상도 가리키지 않으며 Edge Id로도 쓰지 않는다. 대상 ID는 `1`부터 배정한다.
 - 문서는 그 문서 안에서든 밖에서든 [DOC-POINTER](/ko/grammar/reference/doc-pointer/) 하나로만 가리킨다(자기 자신은 자기 `DOC-ID`의 DOC-POINTER). 문서에도 `BIND`·`LABEL`·판정 Edge를 붙일 수 있다.
 - Issuer 자신은 [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)로 가리킨다. 문서 ID `0`은 Issuer의 용어 정의 색인 문서다.
-- 구성요소 자리의 `0`을 "없음"으로 쓰는 Codec(TOULMIN, 실행 Edge)은 그 Codec 규칙을 따른다.
+- 구성요소 자리의 `0`을 "없음"으로 쓰는 Codec([TOULMIN](/ko/grammar/edge/toulmin/) REF, 실행 Edge)은 그 Codec 규칙을 따른다.
 - 한 번 할당한 ID는 같은 문서에서 재사용하지 않는다.
 - 항상 값을 표현할 수 있는 최소 폭을 쓴다.
 

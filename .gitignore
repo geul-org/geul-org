@@ -24,3 +24,12 @@ CLAUDE.md
 files/
 specs/
 AGENTS.md
+
+# Secrets / Terraform state (global)
+*.tfstate
+*.tfstate.*
+*.tfvars
+crash.log
+.env*
+*.key
+*.pem

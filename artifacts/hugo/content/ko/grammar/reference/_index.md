@@ -51,7 +51,7 @@ TAG WORD          0000 0LLL LCCC CQQQ
 - **지시선언**은 IMPORT 없이 레코드 하나로 다른 문서와 그 안의 대상을 가리킨다.
 - 최상위 비트가 `0`이면 대상을 직접 식별하고(이 문서의 LOCAL, 발급 ID, Issuer·문서 자체), `1`이면 다른 문서의 LOCAL을 가리킨다.
 - WORD `0x0000`은 TAG가 아니다. 예외는 하나다: 규격 문서가 선택 필드로 선언한 자리의 `0x0000` 1 WORD는 그 필드를 생략했다는 없음 표지다([CODEC](/ko/grammar/edge/codec/) 선택 필드). HEAD·BODY 레코드 자리에서는 invalid다.
-- CC0가 아닌 식별 체계는 Reference Codec으로 두지 않는다.
+- CC0가 아닌 식별 체계(WordNet 등)는 Reference Codec으로 두지 않는다. Reference에는 ISSUER 코드도 없어 Issuer 형식으로 옮길 자리도 없다.
 
 ### 자주 쓰는 TAG
 
@@ -95,7 +95,7 @@ LOCAL은 이 문서가 발급한 ID다. 문서 안에서만 뜻이 있다.
 - 문서 자체는 그 문서 안에서든 밖에서든 DOC-POINTER 하나로만 가리킨다. 자기 자신은 자기 `DOC-ID`의 DOC-POINTER다.
 - EXTERNAL-ISSUER는 최신 버전을 따른다. 판본을 고정하려면 IMPORT를 쓴다.
 - Issuer는 값이 들어가는 가장 짧은 폭(1/2/4/16 WORD)으로 쓰고, 그 폭에 맞는 Codec을 고른다.
-- 각 Issuer의 문서 ID `0`은 그 Issuer가 정의한 용어(도구, 역할 등)의 색인 문서로 예약한다.
+- 각 Issuer의 문서 ID `0`은 그 Issuer가 정의한 용어(도구, 역할 등)의 색인 문서로 예약한다. 색인 문서는 모든 Issuer에 권고하며 필수가 아니다([Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)).
 
 예: Issuer `0x0001`의 문서 `0x0000000000000002` 안의 LOCAL 7
 
@@ -117,9 +117,11 @@ LOCAL은 이 문서가 발급한 ID다. 문서 안에서만 뜻이 있다.
 - Generic은 Universal과 달리 모든 개별 대상에 예외 없이 적용된다는 뜻이 아니다. `병사란 무엇인가` 같은 정의적 표현은 Generic으로 쓸 수 있다. 엄밀한 개념·분류 정의가 필요하면 별도의 관계로 구체화한다.
 - 양화의 적용 범위와 부정은 Reference가 아니라 그것을 쓰는 Edge가 정한다.
 - **Variable**은 종류는 알지만 아직 식별되지 않은 담화 속 대상이다.
-  - 이름 있는 변수는 LOCAL에 Variable을 붙인다. 같은 LOCAL ID면 같은 변수다.
-  - 익명 변수는 종류를 가리키는 선언 Codec에 Variable을 붙인다(예: 위키데이터 "대통령" + Variable). 다시 가리킬 수 없다.
+  - 이름 있는 변수는 LOCAL에 Variable을 붙인다. 같은 LOCAL ID면 같은 변수다. 종류는 Edge로 잇는다.
+  - 익명 변수는 종류를 가리키는 선언 Codec(GEUL, WIKIDATA-*)에 Variable을 붙인다(예: 위키데이터 "대통령" + Variable). 공참조를 추적하지 않으며 다시 가리킬 수 없다. 익명 변수끼리는 같은 변수로 보지 않는다.
   - 나중에 대상이 확인되면 변수를 그 대상과 `SAME-NODE`로 잇는다. 같은 변수를 가리키는 모든 표현이 함께 그 대상으로 해석된다.
   - 서로 다른 변수라도 실제 대상이 다르다는 뜻은 아니다. 같으면 `SAME-NODE`, 다르면 `DIFFERENT-NODE`로 잇는다.
   - 변수는 그 문서 안에서만 유효하며 영구 식별자로 쓰지 않는다.
+  - 외부 지시 Codec(EXTERNAL-POINTER-*, EXTERNAL-ISSUER-*)의 Variable은 가리키는 문서의 LOCAL 변수다.
+  - 예: `대통령이 연설했다`에서 인물이 확정되지 않았으면 '대통령' Variable을 쓴다. 다시 언급하려면 LOCAL Variable을 두고 종류 '대통령'을 Edge로 잇는다. 나중에 오바마로 확인되면 그 변수를 오바마 Identified와 `SAME-NODE`로 잇는다. 같은 변수를 가리키는 모든 표현이 함께 오바마로 해석된다.
 - 예: 위키데이터 Q5(사람)를 Generic으로 쓰면 `00A1 0005`("사람은 …")다.

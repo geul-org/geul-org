@@ -28,11 +28,12 @@ IMPORT ID         나머지 전부. 가장 짧은 폭의 unsigned
 ## 해석과 유효성
 
 - 문서는 정확히 하나의 DOC-POINTER 레코드다. 자기 Length로 끝나며, 나머지가 IMPORT ID다.
-- IMPORT ID는 1 WORD 이상, 가장 짧은 폭이다.
+- IMPORT ID는 1 WORD 이상, 가장 짧은 폭이다. IMPORT ID의 폭은 여기서는 레코드 길이로, [EXTERNAL-POINTER-*](/ko/grammar/reference/external-pointer/)에서는 Codec으로 정해진다. IMPORT ID는 그 문서 안에서만 유효하다.
 - 한 문서에서 같은 IMPORT ID를 두 번 배정하지 않는다.
 - 버전 ID를 적으면 그 판본에, `0`이면 해석 시점의 최신(또는 지정한 시점에 시행 중인) 판본에 바인딩된다([개정](/ko/grammar/document/#개정)).
 - BODY의 [EXTERNAL-POINTER-*](/ko/grammar/reference/external-pointer/)가 IMPORT ID로 가져온 문서의 LOCAL을 가리킨다. 가져온 문서 자신은 DOC-POINTER로 가리킨다.
 - 가져온 문서의 HEAD는 가져오지 않는다. 그 문서의 대상은 그 문서의 선언대로 해석한다.
+- IMPORT ID로는 문서를 건너 검색할 수 없다. 여러 문서를 적재하는 저장소는 IMPORT ID를 전체 경로(Issuer, 문서 ID, 버전 ID, LOCAL ID)로 풀어 저장한다.
 
 ## 예시
 

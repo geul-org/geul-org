@@ -16,9 +16,10 @@ GEUL v1 문법 명세다. 처음 읽는다면 아래 순서로 읽는다.
 2. [레코드와 TAG WORD](/ko/grammar/record/) — 16비트 TAG WORD, Kind, Length, Codec
 3. [문서](/ko/grammar/document/) — HEAD와 BODY, 내용 해시, 버전과 개정
 4. [Reference](/ko/grammar/reference/), [Value](/ko/grammar/value/), [Edge](/ko/grammar/edge/), [Meta](/ko/grammar/meta/) — 네 가지 Kind
-5. [Issuer와 공표](/ko/grammar/issuer/) — 문서를 내는 주체, 공표 주소, 버전 목록
-6. [Codec 규격 문서](/ko/grammar/codec-spec/) — Codec 레이아웃을 GEUL 문서로 쓰는 법
-7. [예시: 위키데이터 항목](/ko/grammar/example/) — 실제 문서 한 벌
+5. [Issuer와 공표](/ko/grammar/issuer/) — 문서와 형식을 내는 주체, 1 WORD 배정표, 공개 방식, 서명과 검증키
+6. [공표 주소와 버전 목록](/ko/grammar/publishing/) — ID 표기, 공표 주소, 형식 지정, 이름 색인, 버전 목록, 신뢰 층
+7. [Codec 규격 문서](/ko/grammar/codec-spec/) — Codec 레이아웃을 GEUL 문서로 쓰는 법
+8. [예시: 위키데이터 항목](/ko/grammar/example/) — 실제 문서 한 벌
 
 이 페이지는 모든 Codec의 색인이다. 이름을 누르면 그 Codec의 상세 문서로 간다. 링크가 없는 이름은 아직 상세 문서가 없다. 표에 없는 직접 코드는 예약이다.
 
@@ -83,7 +84,7 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 
 | Issuer 폭 | 발급 |
 |---|---|
-| 1 WORD | geul.org가 표준 제정 단체와 주요 기관에 배정한다([Issuer와 공표](/ko/grammar/issuer/)). |
+| 1 WORD | geul.org가 표준 제정 단체와 주요 기관에 배정한다([1 WORD 배정표](/ko/grammar/issuer/#1-word-배정표)). |
 | 2 WORD | geul.org 등록. 도메인 소유 증명(예: company.com)을 거친 Issuer |
 | 4 WORD | geul.org 등록. 소유 증명 없이 등록한 Issuer |
 | 16 WORD | 자체 발급. 등록 없이 공개키에서 계산한다. 아래 생성 규칙을 따른다. |
@@ -106,7 +107,7 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 ISSUER 형식
 | `00` | 서술 | `0x00`~`0x1F` | `0x0000`~`0x3FFF` |
 | `01` | 근거 | `0x20`~`0x3F` | `0x4000`~`0x7FFF` |
 | `10` | 실행 | `0x40`~`0x5F` | `0x8000`~`0xBFFF` |
-| `11` | TOULMIN | `0x60`~`0x7B` | `0xC000`~`0xFFFF` |
+| `11` | [TOULMIN](/ko/grammar/edge/toulmin/) | `0x60`~`0x7B` | `0xC000`~`0xFFFF` |
 
 ### 서술 (`00`)
 
@@ -194,29 +195,31 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 ISSUER 형식
 
 ### TOULMIN (`11`)
 
+자세히: [TOULMIN](/ko/grammar/edge/toulmin/)
+
 | CCCCC | Codec | 이름 | 설명 |
 |---|---|---|---|
-| `00000` | `0x60` | CASE-DECLARE | 사안 선언. 노드와 관계를 담는 판정 그래프 |
-| `00001` | `0x61` | PREDICATE-DECLARE | 술어 선언. 판정 함수·식, 판단 기준(Spec), 사실 계약(Ground) |
-| `00010` | `0x62` | SPEC-DECLARE | 판단 기준 선언. 상수·목록 (Backing) |
-| `00011` | `0x63` | RULE-DECLARE | 주장 선언. 사안 안에서 술어를 일반 규칙(Warrant)으로 둔다. 공격받을 수 있다. |
-| `00100` | `0x64` | COUNTER-DECLARE | 반박 선언. 자기 결론을 가지고 공격한다. 기본 Level은 Fail |
-| `00101` | `0x65` | EXCEPT-DECLARE | 예외 선언. 자기 결론 없이 공격한다. 기본 Level은 Review |
+| `00000` | `0x60` | [CASE-DECLARE](/ko/grammar/edge/toulmin/node/) | 사안 선언. 노드와 관계를 담는 판정 그래프 |
+| `00001` | `0x61` | [PREDICATE-DECLARE](/ko/grammar/edge/toulmin/expr/) | 술어 선언. 판정 함수·식, 판단 기준(Spec), 사실 계약(Ground) |
+| `00010` | `0x62` | [SPEC-DECLARE](/ko/grammar/edge/toulmin/node/) | 판단 기준 선언. 상수·목록 (Backing) |
+| `00011` | `0x63` | [RULE-DECLARE](/ko/grammar/edge/toulmin/node/) | 주장 선언. 사안 안에서 술어를 일반 규칙(Warrant)으로 둔다. 공격받을 수 있다. |
+| `00100` | `0x64` | [COUNTER-DECLARE](/ko/grammar/edge/toulmin/node/) | 반박 선언. 자기 결론을 가지고 공격한다. 기본 Level은 Fail |
+| `00101` | `0x65` | [EXCEPT-DECLARE](/ko/grammar/edge/toulmin/node/) | 예외 선언. 자기 결론 없이 공격한다. 기본 Level은 Review |
 | `00110`~`00111` | `0x66`~`0x67` | Reserved |  |
-| `01000` | `0x68` | ATTACKS | 공격 관계. 공격자의 판정이 대상의 판정을 점진적으로 깎는다. |
-| `01001` | `0x69` | SUPERSEDES | 배제 관계. 공격자가 Active이면 대상을 집계에서 결정적으로 뺀다. |
-| `01010` | `0x6A` | SUPERSEDE-CHAIN | 우선순위 사슬 `A > B > C`. 쌍별 SUPERSEDES의 축약 |
+| `01000` | `0x68` | [ATTACKS](/ko/grammar/edge/toulmin/link/) | 공격 관계. 공격자의 판정이 대상의 판정을 점진적으로 깎는다. |
+| `01001` | `0x69` | [SUPERSEDES](/ko/grammar/edge/toulmin/link/) | 배제 관계. 공격자가 Active이면 대상을 집계에서 결정적으로 뺀다. |
+| `01010` | `0x6A` | SUPERSEDE-CHAIN | 우선순위 사슬 `A > B > C`. 쌍별 SUPERSEDES의 축약. 레이아웃 미정 |
 | `01011`~`01111` | `0x6B`~`0x6F` | Reserved |  |
-| `10000` | `0x70` | RUN | 실행 합성. 노드가 Active이면 하위 사안을 실행한다(DAG). |
-| `10001` | `0x71` | DO | 노드가 Active이면 수행하는 동작 |
-| `10010` | `0x72` | DO-ONCE | 재시도해도 한 번만 수행하는 동작 |
-| `10011` | `0x73` | UNDO | DO의 보상 동작(saga). 이후 단계가 실패하면 역순으로 수행한다. |
-| `10100` | `0x74` | CHECKING | 부작용 없이 판정만 하는 연결 |
-| `10101` | `0x75` | ENTRY | 외부 진입점. 사안을 실행하거나 판정한다 |
-| `10110` | `0x76` | TRIGGER | 외부 호출 없는 이벤트·주기 진입점 |
+| `10000` | `0x70` | [RUN](/ko/grammar/edge/toulmin/link/) | 실행 합성. 노드가 Active이면 하위 사안을 실행한다(DAG). |
+| `10001` | `0x71` | [DO](/ko/grammar/edge/toulmin/link/) | 노드가 Active이면 수행하는 동작 |
+| `10010` | `0x72` | [DO-ONCE](/ko/grammar/edge/toulmin/link/) | 재시도해도 한 번만 수행하는 동작 |
+| `10011` | `0x73` | [UNDO](/ko/grammar/edge/toulmin/link/) | DO의 보상 동작(saga). 이후 단계가 실패하면 역순으로 수행한다. |
+| `10100` | `0x74` | [CHECKING](/ko/grammar/edge/toulmin/link/) | 부작용 없이 판정만 하는 연결 |
+| `10101` | `0x75` | [ENTRY](/ko/grammar/edge/toulmin/node/) | 외부 진입점. 사안을 실행하거나 판정한다 |
+| `10110` | `0x76` | [TRIGGER](/ko/grammar/edge/toulmin/node/) | 외부 호출 없는 이벤트·주기 진입점 |
 | `10111` | `0x77` | Reserved |  |
-| `11000` | `0x78` | [VERDICT](/ko/grammar/meta/verification/verdict/) | 노드·레코드의 판정 결과. 결과(Pass, Review, Fail), 판정값, Activated, Excluded, Level |
-| `11001` | `0x79` | EVIDENCE | 판정의 증거. 위치, 기대값, 실제값 (Fact) |
+| `11000` | `0x78` | VERDICT | 노드·레코드의 판정 결과. 결과(Pass, Review, Fail), 판정값, Activated, Excluded, Level. 레이아웃 미정. 문서 전체의 판정은 Meta [VERDICT](/ko/grammar/meta/verification/verdict/)(`0x44`) |
+| `11001` | `0x79` | EVIDENCE | 판정의 증거. 위치, 기대값, 실제값 (Fact). 레이아웃 미정 |
 | `11010`~`11011` | `0x7A`~`0x7B` | Reserved |  |
 | `111xx` | `0x7C`~`0x7F` | ISSUER-* | Issuer가 정의한 형식 |
 
@@ -226,6 +229,34 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 ISSUER 형식
 | `01` | 관계 |
 | `10` | 실행 |
 | `11` | 결과 (`0x7C`~`0x7F`는 ISSUER) |
+
+### Edge ISSUER 형식
+
+`0x7C`~`0x7F`(ISSUER-1/2/4/16WORD) 뒤 Codec 확장 TAG에 Issuer와 형식 번호를 둔다. 형식 번호의 상위 2비트가 계열이다. 형식 번호 공간은 Value와 따로다.
+
+| Issuer | 형식 번호 | 이름 | 계열 | 설명 |
+|---|---|---|---|---|
+| `0x0000` GEUL | `0xC000` | [SOURCE](/ko/grammar/edge/toulmin/source/) | TOULMIN | 저작 원문. SPAN 폭과 UTF8 Value |
+| `0x0000` GEUL | `0xC001` | [TEXT](/ko/grammar/edge/toulmin/source/) | TOULMIN | 이름·문자열 |
+| `0x0000` GEUL | `0xC002` | [SECTION](/ko/grammar/edge/toulmin/source/) | TOULMIN | 섹션 시작. 섹션 코드 |
+| `0x0000` GEUL | `0xC003` | [CASE-BEGIN](/ko/grammar/edge/toulmin/source/) | TOULMIN | 사안 범위 시작 |
+| `0x0000` GEUL | `0xC004` | [CASE-END](/ko/grammar/edge/toulmin/source/) | TOULMIN | 사안 범위 끝 |
+| `0x0000` GEUL | `0xC005` | [PROSE](/ko/grammar/edge/toulmin/source/) | TOULMIN | 서술 문단(SPAN) |
+| `0x0000` GEUL | `0xC010` | [NAMESPACE](/ko/grammar/edge/toulmin/node/) | TOULMIN | NODE. `this document is` |
+| `0x0000` GEUL | `0xC011` | [FUNC](/ko/grammar/edge/toulmin/node/) | TOULMIN | NODE. 함수 참조 |
+| `0x0000` GEUL | `0xC012` | [FIELD](/ko/grammar/edge/toulmin/node/) | TOULMIN | NODE. `is required` |
+| `0x0000` GEUL | `0xC013` | [ALIAS](/ko/grammar/edge/toulmin/node/) | TOULMIN | NODE. `see … from` |
+| `0x0000` GEUL | `0xC014` | [GROUP](/ko/grammar/edge/toulmin/node/) | TOULMIN | NODE. 순서 있는 실행 묶음 |
+| `0x0000` GEUL | `0xC020` | [REQUIRES](/ko/grammar/edge/toulmin/link/) | TOULMIN | LINK. 사안 → 필드 |
+| `0x0000` GEUL | `0xC021` | [MEANS](/ko/grammar/edge/toulmin/link/) | TOULMIN | LINK. 정의 항목 → 값·타입 |
+| `0x0000` GEUL | `0xC022` | [HAS](/ko/grammar/edge/toulmin/link/) | TOULMIN | LINK. 정의 항목 → 필드 |
+| `0x0000` GEUL | `0xC023` | [RUNS](/ko/grammar/edge/toulmin/link/) | TOULMIN | LINK. 진입점 → 사안, 실행 |
+| `0x0000` GEUL | `0xC024` | [EVALUATES](/ko/grammar/edge/toulmin/link/) | TOULMIN | LINK. 진입점 → 사안, 판정 |
+| `0x0000` GEUL | `0xC025` | [TRIGGERS](/ko/grammar/edge/toulmin/link/) | TOULMIN | LINK. 트리거 → 사안 |
+| `0x0000` GEUL | `0xC026` | [UNTIL](/ko/grammar/edge/toulmin/link/) | TOULMIN | LINK. 트리거 → 사안(`every … until`) |
+| `0x0000` GEUL | `0xC027` | [SAME-AS](/ko/grammar/edge/toulmin/link/) | TOULMIN | LINK. 노드 → 전역 식별자 |
+| `0x0000` GEUL | `0xC028` | [IMPORTED-FROM](/ko/grammar/edge/toulmin/link/) | TOULMIN | LINK. 별칭 → 경로(TEXT) |
+| `0x0000` GEUL | `0xC029` | [LABEL](/ko/grammar/edge/toulmin/link/) | TOULMIN | LINK. 노드 → TEXT, 이름 표기 |
 
 ## Value
 
@@ -277,9 +308,9 @@ Codec의 상위 2비트가 계열이다. NUMERIC/DECIMAL은 상위 3번째 비�
 | `0x61` | [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/) | BINARY | 고정 Payload 16 WORD의 SHA-256 결과 |
 | `0x62` | [SHA1-DIGEST](/ko/grammar/value/binary/sha1-digest/) | BINARY | 고정 Payload 10 WORD의 SHA-1 결과. git 객체 ID 같은 식별 용도로만 |
 | `0x63`~`0x7B` | Reserved | BINARY |  |
-| `0x7C`~`0x7F` | ISSUER-* |  | Issuer가 정의한 형식. 아래 ISSUER 형식 참조 |
+| `0x7C`~`0x7F` | ISSUER-* |  | Issuer가 정의한 형식. 아래 Value ISSUER 형식 참조 |
 
-### ISSUER 형식
+### Value ISSUER 형식
 
 `0x7C`~`0x7F`(ISSUER-1/2/4/16WORD) 뒤 Codec 확장 TAG에 Issuer와 형식 번호를 둔다. 형식 번호의 상위 2비트가 계열이다.
 
@@ -422,7 +453,7 @@ Codec의 상위 3비트가 클래스다. Meta에는 ISSUER 코드가 없다.
 | `0x41` | [SIGNATURE](/ko/grammar/meta/verification/signature/) | 대상에 대한 서명. 문서에 대한 서명은 내용 해시에 서명한다 (git 서명 커밋·태그) |
 | `0x42` | [SIGNED-OFF](/ko/grammar/meta/verification/signed-off/) | 기여 권리 확인. Reference (git `Signed-off-by`, DCO) |
 | `0x43` | [CONFIDENCE](/ko/grammar/meta/verification/confidence/) | 신뢰도 |
-| `0x44` | [VERDICT](/ko/grammar/meta/verification/verdict/) | 문서 전체의 판정 결과. Pass, Review, Fail. 노드·레코드 단위는 TOULMIN `VERDICT` |
+| `0x44` | [VERDICT](/ko/grammar/meta/verification/verdict/) | 문서 전체의 판정 결과. Pass, Review, Fail. 노드·레코드 단위는 [TOULMIN](/ko/grammar/edge/toulmin/) `VERDICT`(Edge `0x78`) |
 | `0x45`~`0x4F` | Reserved |  |
 
 ### 정책 (`101`)
