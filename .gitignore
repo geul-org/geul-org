@@ -10,6 +10,12 @@ artifacts/terraform/env/
 artifacts/terraform/tfplan
 artifacts/terraform/tfplan*
 
+# GEUL 공표 아카이브: 위키데이터 변환 결과(gogeulwiki)는 용량이 커서 git 관리에서 제외
+artifacts/geul/.well-known/geul/0x00010000/
+artifacts/geul/.well-known/geul/0x00010001/
+# h/는 규격 문서 사본만 git add -f로 추적한다(위키데이터 사본 제외)
+artifacts/geul/.well-known/geul/h/*
+
 # Claude
 .claude/
 CLAUDE.md
