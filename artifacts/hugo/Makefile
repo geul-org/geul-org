@@ -9,7 +9,8 @@ S3_BUCKET ?= geul-org-public-768075277121
 CF_DIST_ID ?= E2G25D5G8IOTHZ
 GSC_SITE := sc-domain%3Ageul.org
 GSC_SCOPE := https://www.googleapis.com/auth/webmasters
-# GEUL 공표 아카이브(/.well-known/geul/): git이 추적하는 파일만 geul build로 구워 올린다(위키데이터 변환 문서 제외)
+# GEUL 공표 아카이브(/.well-known/geul/): git 추적 파일 + 아직 커밋하지 않은 규격 문서와 그 h/ 사본만 geul build로 구워 올린다
+# (목록은 ../scripts/archive-files.sh, 위키데이터 변환 문서 제외)
 GEUL ?= geul
 ARCHIVE_REPO := ../geul
 ARCHIVE_TMP ?= $(CURDIR)/resources/geul-archive
@@ -36,7 +37,9 @@ deploy: build
 # <path>.geul = 원본 바이트(application/vnd.geul), 확장자 없는 <path>·index.html = 뷰어(text/html), index.json = 목록
 deploy-archive:
 	rm -rf $(ARCHIVE_TMP) && mkdir -p $(ARCHIVE_TMP)/src
-	cd $(ARCHIVE_REPO) && git ls-files -z .well-known/geul | xargs -0 cp --parents -t $(ARCHIVE_TMP)/src
+	GEUL=$(GEUL) ../scripts/archive-files.sh $(ARCHIVE_REPO) > $(ARCHIVE_TMP)/files.lst
+	cd $(ARCHIVE_REPO) && xargs -0 cp --parents -t $(ARCHIVE_TMP)/src < $(ARCHIVE_TMP)/files.lst
+	@if tr '\0' '\n' < $(ARCHIVE_TMP)/files.lst | grep -q '0x0001000[01]/'; then echo "wikidata documents in the archive list" >&2; exit 1; fi
 	$(GEUL) build -o $(ARCHIVE_TMP)/out $(ARCHIVE_TMP)/src
 	$(AWS) s3 sync $(ARCHIVE_TMP)/out/.well-known/geul/ $(ARCHIVE_DST) --delete --exclude "*" --include "*.geul" --content-type "application/vnd.geul"
 	$(AWS) s3 sync $(ARCHIVE_TMP)/out/.well-known/geul/ $(ARCHIVE_DST) --delete --exclude "*" --include "*.json" --content-type "application/json; charset=utf-8"
