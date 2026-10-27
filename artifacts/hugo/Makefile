@@ -1,7 +1,12 @@
 HUGO := /home/parkjunwoo/bin/hugo
 INDEXNOW_KEY := 0494350ef009402ca25b3468df03ca58
 DOMAIN := https://geul.org
-CF_DIST_ID ?= E2Z17ZOR6DJTRZ
+# AWS: geul-org 계정(768075277121), 리전 us-east-1(2026-10-27 개인 계정에서 이전)
+AWS_PROFILE ?= geul-org
+AWS_REGION ?= us-east-1
+AWS := aws --profile $(AWS_PROFILE) --region $(AWS_REGION)
+S3_BUCKET ?= geul-org-public-768075277121
+CF_DIST_ID ?= E2G25D5G8IOTHZ
 GSC_SITE := sc-domain%3Ageul.org
 GSC_SCOPE := https://www.googleapis.com/auth/webmasters
 
@@ -17,9 +22,9 @@ clean:
 	rm -rf public/
 
 deploy: build
-	aws s3 sync public/ s3://geul-org-public/ --delete --exact-timestamps
-	aws s3 cp s3://geul-org-public/ s3://geul-org-public/ --recursive --exclude "*" --include "*.xml" --content-type "application/xml; charset=utf-8" --metadata-directive REPLACE
-	aws cloudfront create-invalidation --distribution-id $(CF_DIST_ID) --paths "/*"
+	$(AWS) s3 sync public/ s3://$(S3_BUCKET)/ --delete --exact-timestamps
+	$(AWS) s3 cp s3://$(S3_BUCKET)/ s3://$(S3_BUCKET)/ --recursive --exclude "*" --include "*.xml" --content-type "application/xml; charset=utf-8" --metadata-directive REPLACE
+	$(AWS) cloudfront create-invalidation --distribution-id $(CF_DIST_ID) --paths "/*"
 	@$(MAKE) indexnow
 
 indexnow:

@@ -1,86 +1,59 @@
-# deployments/terraform/main.tf
+# artifacts/terraform/main.tf
+#
+# geul.org 인프라 — AWS 계정 geul-org(768075277121), 리전 us-east-1.
+# 2026-10-27 개인 계정(062163939859)에서 이전했다. 기존 리소스는 CLI로 만든 뒤
+# terraform import로 상태에 넣었다(plan = No changes 확인).
+#
+# 사용:
+#   terraform init
+#   terraform plan        # terraform.tfvars(git 제외)에 google_site_verification 필요
 
 terraform {
-  required_version = ">= 1.5.0"
+  required_version = ">= 1.10.0"
 
-  backend "s3" {}
+  # 상태: geul-org 계정 us-east-1 버킷(버전 관리·SSE·공개 차단). 잠금은 S3 lockfile.
+  # 이 버킷은 상태 저장소라 이 코드로 관리하지 않는다(닭과 달걀).
+  backend "s3" {
+    bucket       = "geul-org-tfstate-768075277121"
+    key          = "geul-org/terraform.tfstate"
+    region       = "us-east-1"
+    profile      = "geul-org"
+    encrypt      = true
+    use_lockfile = true
+  }
 
   required_providers {
-    aws = { source = "hashicorp/aws", version = "~> 5.95.0" }
+    aws = { source = "hashicorp/aws", version = "~> 6.0" }
   }
 }
 
 provider "aws" {
-  region = var.aws_region
+  region  = var.aws_region
+  profile = var.aws_profile
+
+  default_tags {
+    tags = {
+      Project = var.project
+    }
+  }
 }
 
+# ACM·CloudFront는 us-east-1이어야 한다. 기본 리전이 바뀌어도 고정되도록 별칭을 둔다.
 provider "aws" {
-  alias  = "us_east_1"
-  region = "us-east-1"
+  alias   = "us_east_1"
+  region  = "us-east-1"
+  profile = var.aws_profile
+
+  default_tags {
+    tags = {
+      Project = var.project
+    }
+  }
 }
+
+data "aws_caller_identity" "current" {}
 
 locals {
-  zone_id = data.aws_route53_zone.main.zone_id
-  tags = {
-    Project   = var.project
-    Workspace = terraform.workspace
-  }
-}
-
-# Route53 Hosted Zone (도메인 등록 시 자동 생성됨 — data source로 참조)
-data "aws_route53_zone" "main" {
-  name         = var.domain
-  private_zone = false
-}
-
-# 메일: Google Workspace(Gmail)로 주고받는다(2026-10-27 재개; 같은 날 잠시 전면 차단했다가 되돌림).
-# - 수신: Gmail MX 5개(TTL 3600; 원래 604800이었으나 변경 반영이 빠르도록 낮춤).
-# - 발신: apex TXT SPF "v=spf1 include:_spf.google.com ~all".
-# - DMARC: p=none(관찰). DKIM 미설정 상태라 정렬 실패 메일이 거부되지 않게 했다.
-# 남은 일:
-#   1) DKIM: Google 관리 콘솔에서 2048비트·선택자 google로 생성한 값을
-#      google._domainkey TXT로 추가하고 인증을 시작한다(아직 레코드 없음).
-#   2) 보고 수신함을 정하면 DMARC에 rua=mailto:<주소>@geul.org를 추가한다.
-#   3) DKIM 정상 확인 후 DMARC를 p=quarantine → p=reject로 올린다.
-
-# apex TXT RRset 전체(Google Search Console 도메인 인증 + SPF).
-# 이 리소스가 apex TXT를 통째로 관리하므로 apex TXT 값은 모두 여기에 둔다.
-resource "aws_route53_record" "txt_google_verification" {
-  zone_id = local.zone_id
-  name    = var.domain
-  type    = "TXT"
-  ttl     = 300
-
-  records = [
-    "google-site-verification=${var.google_site_verification}",
-    "v=spf1 include:_spf.google.com ~all",
-  ]
-}
-
-# DMARC: DKIM 설정 전까지 관찰만(p=none, 완화 정렬)
-resource "aws_route53_record" "txt_dmarc" {
-  zone_id = local.zone_id
-  name    = "_dmarc.${var.domain}"
-  type    = "TXT"
-  ttl     = 300
-
-  records = [
-    "v=DMARC1; p=none; adkim=r; aspf=r",
-  ]
-}
-
-# Gmail MX 레코드
-resource "aws_route53_record" "mx_gmail" {
-  zone_id = local.zone_id
-  name    = var.domain
-  type    = "MX"
-  ttl     = 3600
-
-  records = [
-    "1 ASPMX.L.GOOGLE.COM.",
-    "5 ALT1.ASPMX.L.GOOGLE.COM.",
-    "5 ALT2.ASPMX.L.GOOGLE.COM.",
-    "10 ALT3.ASPMX.L.GOOGLE.COM.",
-    "10 ALT4.ASPMX.L.GOOGLE.COM.",
-  ]
+  account_id = data.aws_caller_identity.current.account_id
+  zone_id    = aws_route53_zone.main.zone_id
 }
