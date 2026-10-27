@@ -9,8 +9,13 @@ S3_BUCKET ?= geul-org-public-768075277121
 CF_DIST_ID ?= E2G25D5G8IOTHZ
 GSC_SITE := sc-domain%3Ageul.org
 GSC_SCOPE := https://www.googleapis.com/auth/webmasters
+# GEUL 공표 아카이브(/.well-known/geul/): git이 추적하는 파일만 geul build로 구워 올린다(위키데이터 변환 문서 제외)
+GEUL ?= geul
+ARCHIVE_REPO := ../geul
+ARCHIVE_TMP ?= $(CURDIR)/resources/geul-archive
+ARCHIVE_DST := s3://$(S3_BUCKET)/.well-known/geul/
 
-.PHONY: serve build clean deploy indexnow archive sitemap-ping publish validate
+.PHONY: serve build clean deploy deploy-archive indexnow archive sitemap-ping publish validate
 
 serve:
 	$(HUGO) server -D
@@ -22,10 +27,22 @@ clean:
 	rm -rf public/
 
 deploy: build
-	$(AWS) s3 sync public/ s3://$(S3_BUCKET)/ --delete --exact-timestamps
-	$(AWS) s3 cp s3://$(S3_BUCKET)/ s3://$(S3_BUCKET)/ --recursive --exclude "*" --include "*.xml" --content-type "application/xml; charset=utf-8" --metadata-directive REPLACE
+	$(AWS) s3 sync public/ s3://$(S3_BUCKET)/ --delete --exact-timestamps --exclude ".well-known/*"
+	$(AWS) s3 cp s3://$(S3_BUCKET)/ s3://$(S3_BUCKET)/ --recursive --exclude "*" --include "*.xml" --exclude ".well-known/*" --content-type "application/xml; charset=utf-8" --metadata-directive REPLACE
 	$(AWS) cloudfront create-invalidation --distribution-id $(CF_DIST_ID) --paths "/*"
 	@$(MAKE) indexnow
+
+# 아카이브는 Hugo 동기화(deploy)와 따로 올린다. deploy의 --delete는 .well-known/*를 건드리지 않는다.
+# <path>.geul = 원본 바이트(application/vnd.geul), 확장자 없는 <path>·index.html = 뷰어(text/html), index.json = 목록
+deploy-archive:
+	rm -rf $(ARCHIVE_TMP) && mkdir -p $(ARCHIVE_TMP)/src
+	cd $(ARCHIVE_REPO) && git ls-files -z .well-known/geul | xargs -0 cp --parents -t $(ARCHIVE_TMP)/src
+	$(GEUL) build -o $(ARCHIVE_TMP)/out $(ARCHIVE_TMP)/src
+	$(AWS) s3 sync $(ARCHIVE_TMP)/out/.well-known/geul/ $(ARCHIVE_DST) --delete --exclude "*" --include "*.geul" --content-type "application/vnd.geul"
+	$(AWS) s3 sync $(ARCHIVE_TMP)/out/.well-known/geul/ $(ARCHIVE_DST) --delete --exclude "*" --include "*.json" --content-type "application/json; charset=utf-8"
+	$(AWS) s3 sync $(ARCHIVE_TMP)/out/.well-known/geul/ $(ARCHIVE_DST) --delete --exclude "*" --include "_static/*"
+	$(AWS) s3 sync $(ARCHIVE_TMP)/out/.well-known/geul/ $(ARCHIVE_DST) --delete --exclude "*.geul" --exclude "*.json" --exclude "_static/*" --content-type "text/html; charset=utf-8"
+	$(AWS) cloudfront create-invalidation --distribution-id $(CF_DIST_ID) --paths "/.well-known/geul/*"
 
 indexnow:
 	@echo "Submitting URLs to IndexNow..."
