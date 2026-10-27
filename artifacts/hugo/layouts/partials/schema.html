@@ -1,3 +1,6 @@
+{{- $personId := "https://www.parkjunwoo.com/about/#person" -}}
+{{- $personUrl := "https://www.parkjunwoo.com/about/" -}}
+{{- $sameAs := slice "https://github.com/park-jun-woo" "https://x.com/park_jun_woo" -}}
 {{ if .IsHome }}
 <script type="application/ld+json">
 {
@@ -8,7 +11,10 @@
   "inLanguage": "{{ .Lang }}",
   "author": {
     "@type": "Person",
-    "name": "{{ .Site.Params.author }}"
+    "@id": "{{ $personId }}",
+    "name": "{{ .Site.Params.author }}",
+    "url": "{{ $personUrl }}",
+    "sameAs": {{ $sameAs | jsonify | safeJS }}
   }
 }
 </script>
@@ -72,6 +78,7 @@
   "publisher": {
     "@type": "Organization",
     "name": "GEUL",
+    "founder": { "@id": "{{ $personId }}" },
     "logo": {
       "@type": "ImageObject",
       "url": "{{ "images/og-default.webp" | absURL }}"
@@ -80,7 +87,10 @@
   "inLanguage": "{{ .Lang }}",
   "author": {
     "@type": "Person",
-    "name": "{{ with .Params.author }}{{ . }}{{ else }}{{ .Site.Params.author }}{{ end }}"
+    "@id": "{{ $personId }}",
+    "name": "{{ with .Params.author }}{{ . }}{{ else }}{{ .Site.Params.author }}{{ end }}",
+    "url": "{{ $personUrl }}",
+    "sameAs": {{ $sameAs | jsonify | safeJS }}
   },
   {{ with .Params.image }}"image": "{{ . | absURL }}",{{ end }}
   "mainEntityOfPage": {
