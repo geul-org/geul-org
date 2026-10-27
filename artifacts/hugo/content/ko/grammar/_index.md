@@ -42,7 +42,7 @@ TAG WORD는 `000K KLLL LCCC CCCC`다. `KK`는 Kind, `LLLL`은 Length, `CCC CCCC`
 
 | CCCC | 이름 | 분류 | 대상 ID |
 |---|---|---|---|
-| `0000` | Reserved |  | 어떤 Reference도 쓰지 않는다. 그래서 WORD `0x0000`은 TAG가 아니다 |
+| `0000` | [자리 표지](/ko/grammar/reference/slot-marker/) | 예약 | 대상을 가리키지 않는 1 WORD 표지 묶음. 하위 3비트가 표지 번호다(아래 표) |
 | `0001` | [LOCAL](/ko/grammar/reference/local/) | 선언 | 이 문서가 발급한 ID |
 | `0010` | [GEUL](/ko/grammar/reference/geul/) | 선언 | geul.org가 CC0로 발급하는 엔티티. 작은 번호를 고빈도 엔티티에 배정한다 |
 | `0011` | [GEUL-SIDX](/ko/grammar/reference/geul-sidx/) | 선언 | GEUL SIDX(Semantic-aligned Index). 비트에 의미를 담은 식별자 |
@@ -59,6 +59,17 @@ TAG WORD는 `000K KLLL LCCC CCCC`다. `KK`는 Kind, `LLLL`은 Length, `CCC CCCC`
 | `1110` | [EXTERNAL-ISSUER-4WORD](/ko/grammar/reference/external-issuer/) | 지시선언 | 4 WORD Issuer 문서의 LOCAL ID |
 | `1111` | [EXTERNAL-ISSUER-16WORD](/ko/grammar/reference/external-issuer/) | 지시선언 | 16 WORD Issuer 문서의 LOCAL ID |
 
+### 자리 표지 (Codec `0000`)
+
+`0000 0000 0000 0MMM` — [자리 표지](/ko/grammar/reference/slot-marker/). 필드의 CODEC 목록이 그 WORD를 정확히 둘 때만 그 자리에 온다.
+
+| WORD | 이름 | 뜻 | 위키데이터 |
+|---|---|---|---|
+| `0x0000` | [ABSENT](/ko/grammar/reference/slot-marker/) | 적지 않음. 선택 필드를 생략했다. 세계에 관해 아무것도 단언하지 않는다 | snak 없음 |
+| `0x0001` | [UNKNOWN-VALUE](/ko/grammar/reference/slot-marker/) | 알 수 없음. 값이 있지만 무엇인지 모른다 | `somevalue` |
+| `0x0002` | [NO-VALUE](/ko/grammar/reference/slot-marker/) | 없음. 값이 없다 | `novalue` |
+| `0x0003`~`0x0007` | Reserved | | |
+
 ### Quantifier (`QQQ`)
 
 | QQQ | 이름 | 의미 | 예시 |
@@ -69,6 +80,8 @@ TAG WORD는 `000K KLLL LCCC CCCC`다. `KK`는 Kind, `LLLL`은 Length, `CCC CCCC`
 | `011` | Universal | 주어진 범위에 속하는 모든 대상 | 모든 병사 |
 | `100` | Variable | 담화 변수 | 그 사람, 이 여자 |
 | `101`~`111` | Reserved |  |  |
+
+- Codec `0000`(자리 표지)에서는 하위 3비트가 Quantifier가 아니라 표지 번호다.
 
 ## Issuer
 
@@ -123,8 +136,8 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 ISSUER 형식
 | `00111` | `0x07` | Reserved |  |  |
 | `01000` | `0x08` | VERB-SHORT |  | 동사 서술 축약 |
 | `01001` | `0x09` | VERB |  | 동사 서술 |
-| `01010` | `0x0A` | [TRIPLE](/ko/grammar/edge/triple/) |  | Predicate, Subject, Object 순서의 명제와 rank. 의미는 그 Edge Id를 가리키는 QUALIFIER를 모두 모은 것이다 |
-| `01011` | `0x0B` | [QUALIFIER](/ko/grammar/edge/qualifier/) |  | 다른 Edge의 명제를 한정하는 조건 하나. Property, Target(Edge Id), Value. 명제의 일부다 |
+| `01010` | `0x0A` | [TRIPLE](/ko/grammar/edge/triple/) |  | Predicate, Subject, Object 순서의 명제와 rank. Object는 값 또는 UNKNOWN-VALUE·NO-VALUE 표지. 의미는 그 Edge Id를 가리키는 QUALIFIER를 모두 모은 것이다 |
+| `01011` | `0x0B` | [QUALIFIER](/ko/grammar/edge/qualifier/) |  | 다른 Edge의 명제를 한정하는 조건 하나. Property, Target(Edge Id), Value(값 또는 UNKNOWN-VALUE·NO-VALUE 표지). 명제의 일부다 |
 | `01100`~`01111` | `0x0C`~`0x0F` | Reserved |  |  |
 | `10000` | `0x10` | WORLD | 있음 | 세계관 표현을 위한 구조 |
 | `10001` | `0x11` | TIMELINE | 있음 | 세계와 사건의 순서를 표현하는 구조 |
@@ -136,7 +149,7 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 ISSUER 형식
 | `11011` | `0x1B` | [DECLARE](/ko/grammar/edge/declare/) |  | Codec 하나의 Payload 구성 선언. 대상 Kind·Codec |
 | `11100` | `0x1C` | [FIELD](/ko/grammar/edge/field/) |  | Payload 필드 하나. 속한 DECLARE, 폭: 레코드(TAG의 Length) 또는 날값 n WORD |
 | `11101` | `0x1D` | [ENUM](/ko/grammar/edge/enum/) |  | 날값 필드의 코드값 하나. 필드, 코드값 |
-| `11110` | `0x1E` | [CODEC](/ko/grammar/edge/codec/) |  | 필드가 받는 Kind·Codec 하나. 필드, 대상 WORD(`000K KLLL LCCC CCCC`, LLLL 0000 정확·1111 와일드카드). 레코드 필드는 여러 개(닫힌 목록), 날값 필드는 하나(TAG 없는 그 Value) |
+| `11110` | `0x1E` | [CODEC](/ko/grammar/edge/codec/) |  | 필드가 받는 Kind·Codec 하나. 필드, 대상 WORD(`000K KLLL LCCC CCCC`, LLLL 0000 정확·1111 와일드카드, 자리 표지는 정확한 대상 `0000`~`0002`로만). 레코드 필드는 여러 개(닫힌 목록), 날값 필드는 하나(TAG 없는 그 Value) |
 | `11111` | `0x1F` | Reserved |  |  |
 
 | CCCCC 상위 2비트 | 묶음 |

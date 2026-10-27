@@ -40,6 +40,7 @@ Codec 규격으로 레코드를 읽고 표기하는 규칙이다.
 ## 유효성
 
 - 대상의 Kind는 Reference, Value, Edge, Meta 중 하나다. Reference의 Codec은 `CCCC` 자리이며 Quantifier는 0으로 둔다.
+- [자리 표지](/ko/grammar/reference/slot-marker/)(Reference Codec `0000`)는 DECLARE의 대상이 될 수 없다. 디코더에 내장한다(0층).
 - Edge의 Edge Id는 FIELD로 선언하지 않는다. 모든 Edge의 첫 요소라 암묵적이다([Edge](/ko/grammar/edge/)).
 - DECLARE의 필드는 그것을 가리키는 FIELD들이며, 0개일 수 있다. FIELD 하나는 DECLARE 하나에만 속한다. 같은 모양의 필드라도 DECLARE마다 FIELD를 따로 둔다.
 - DECLARE에는 대상(과 Issuer 형식 대상의 Issuer·형식 번호) 말고 아무것도 없다.

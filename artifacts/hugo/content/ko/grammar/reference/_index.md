@@ -4,7 +4,7 @@ weight: 40
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "reference", "LOCAL", "quantifier"]
-summary: "Reference는 대상을 가리키는 레코드다. Codec 4비트로 식별 체계(LOCAL, 위키데이터, 외부 문서 등)를, Quantifier 3비트로 양화(식별됨, 총칭, 전칭, 변수 등)를 정한다."
+summary: "Reference는 대상을 가리키는 레코드다. Codec 4비트로 식별 체계(LOCAL, 위키데이터, 외부 문서 등)를, Quantifier 3비트로 양화(식별됨, 총칭, 전칭, 변수 등)를 정한다. 예약 Codec 0000은 자리 표지 묶음이다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -35,7 +35,7 @@ TAG WORD          0000 0LLL LCCC CQQQ
 
 | CCCC | 이름 | 분류 | 대상 |
 |---|---|---|---|
-| `0000` | 예약 | | 쓰지 않는다. 그래서 WORD `0x0000`은 어떤 레코드의 TAG도 아니다 |
+| `0000` | [자리 표지](/ko/grammar/reference/slot-marker/) | 예약 | 대상을 가리키지 않는다. 하위 3비트가 표지 번호인 1 WORD 표지만 쓴다: `0x0000` ABSENT(적지 않음), `0x0001` UNKNOWN-VALUE(알 수 없음), `0x0002` NO-VALUE(없음) |
 | `0001` | [LOCAL](/ko/grammar/reference/local/) | 선언 | 이 문서가 발급한 ID |
 | `0010` | [GEUL](/ko/grammar/reference/geul/) | 선언 | geul.org가 발급하는 엔티티 |
 | `0011` | [GEUL-SIDX](/ko/grammar/reference/geul-sidx/) | 선언 | 비트에 의미를 담은 의미정렬 식별자 |
@@ -50,7 +50,7 @@ TAG WORD          0000 0LLL LCCC CQQQ
 - **지시**는 IMPORT ID로 가져온 문서 안의 LOCAL을 가리킨다. 하위 2비트가 IMPORT ID 폭이다(`00`=1, `01`=2, `10`=4, `11`=8 WORD).
 - **지시선언**은 IMPORT 없이 레코드 하나로 다른 문서와 그 안의 대상을 가리킨다.
 - 최상위 비트가 `0`이면 대상을 직접 식별하고(이 문서의 LOCAL, 발급 ID, Issuer·문서 자체), `1`이면 다른 문서의 LOCAL을 가리킨다.
-- WORD `0x0000`은 TAG가 아니다. 예외는 하나다: 규격 문서가 선택 필드로 선언한 자리의 `0x0000` 1 WORD는 그 필드를 생략했다는 없음 표지다([CODEC](/ko/grammar/edge/codec/) 선택 필드). HEAD·BODY 레코드 자리에서는 invalid다.
+- Codec `0000`은 예약이고, 대상을 가리키는 Reference로는 쓰지 않는다. 예외는 하나의 묶음이다: WORD `0x0000`~`0x0007`(Codec `0000`, 1 WORD)은 [자리 표지](/ko/grammar/reference/slot-marker/)다. 지금 셋을 쓴다(`0x0000` ABSENT, `0x0001` UNKNOWN-VALUE, `0x0002` NO-VALUE). 표지는 그 WORD를 CODEC 대상으로 정확히 둔 레코드 필드 자리에서만 유효하다. 와일드카드와 CODEC 없는 필드는 받지 않고, HEAD·BODY 레코드 자리와 Edge Id 자리에서는 invalid다. `0x0003`~`0x0007`과 Payload가 있는 Codec `0000`은 예약이다.
 - CC0가 아닌 식별 체계(WordNet 등)는 Reference Codec으로 두지 않는다. Reference에는 ISSUER 코드도 없어 Issuer 형식으로 옮길 자리도 없다.
 
 ### 자주 쓰는 TAG
@@ -62,6 +62,7 @@ TAG WORD          0000 0LLL LCCC CQQQ
 | 위키데이터 Q5 (사람) | `00A0 0005` |
 | 위키데이터 Q691283 | `0120 000a 8c53` |
 | 위키데이터 P31 (instance of) | `00A8 001f` |
+| 자리 표지 ABSENT / UNKNOWN-VALUE / NO-VALUE | `0000` / `0001` / `0002` |
 
 ## LOCAL
 
@@ -114,6 +115,7 @@ LOCAL은 이 문서가 발급한 ID다. 문서 안에서만 뜻이 있다.
 | `100` | Variable | 담화 변수 | 그 사람, 이 여자 |
 | `101`~`111` | 예약 | | |
 
+- **예외: Codec `0000`(자리 표지)에서는 하위 3비트가 Quantifier가 아니라 표지 번호다.** 표지 번호와 Quantifier의 뜻은 이어지지 않는다(`0x0001` UNKNOWN-VALUE는 Generic이 아니다). 이 표의 Quantifier는 Codec `0001`~`1111`에만 적용된다.
 - Generic은 Universal과 달리 모든 개별 대상에 예외 없이 적용된다는 뜻이 아니다. `병사란 무엇인가` 같은 정의적 표현은 Generic으로 쓸 수 있다. 엄밀한 개념·분류 정의가 필요하면 별도의 관계로 구체화한다.
 - 양화의 적용 범위와 부정은 Reference가 아니라 그것을 쓰는 Edge가 정한다.
 - **Variable**은 종류는 알지만 아직 식별되지 않은 담화 속 대상이다.

@@ -20,7 +20,7 @@ TOULMIN이 GEUL Codec인 이유는 GEUL이 자기 자신을 메타 인지하기 
 
 - 자기 서술은 자기 개선을 가능하게 하지만 순환 오류의 위험을 진다. 규칙이 자기 개정을 스스로 판정하면 판정 기준을 느슨하게 만드는 개정도 통과할 수 있다(통과율은 오르고 실제 정확도는 떨어진다).
 - 순환은 위험으로 받아들이되 구조로 끊는다.
-  - **고정 핵심**: 판정의 의미(Pass·Review·Fail, 공격·배제·우선순위)는 이 명세에 고정한다. TOULMIN 문서로 바꿀 수 없다. 디코더에 내장하는 규칙([공표 주소와 버전 목록](/ko/grammar/publishing/#층)의 0층)과 같은 자리다.
+  - **고정 핵심**: 판정의 의미(Pass·Review·Fail, 공격·배제·우선순위, 아래 [미상 위에서 판정하기](#미상-위에서-판정하기)의 3값 평가와 U → Review)는 이 명세에 고정한다. TOULMIN 문서로 바꿀 수 없다. 디코더에 내장하는 규칙([공표 주소와 버전 목록](/ko/grammar/publishing/#층)의 0층)과 같은 자리다.
   - **판본 분리**: 규칙 문서 v(n)의 개정은 v(n−1) 규칙과 외부 검사로 판정한다. 규칙은 자기 자신을 판정하지 않는다. 판정 결과는 대상과 다른 문서에 둔다(대상의 내용 해시가 바뀌지 않는다).
   - **불변 이력**: 개정은 새 버전으로 쌓인다(`PARENT`, 내용 해시, 서명). 옛 버전이 남으므로 순환 오류를 사후에 찾아 되돌릴 수 있다. 자기 개정의 안전망은 GEUL의 판본 모델이다([문서](/ko/grammar/document/#개정)).
   - **바깥 기준**: 개정 경로가 손댈 수 없는 시험 사례 묶음을 따로 둔다. 개정의 채택은 이 묶음의 결과로 확인한다.
@@ -155,6 +155,24 @@ END
 - 노드 선언(RULE·COUNTER·EXCEPT-DECLARE)은 역할(주장·반박·예외), Qualifier(0~1), Level(Unset, Fail, Review)을 가진다. 역할은 Codec과 NODE 헤더의 role이, Qualifier는 F_QUAL이, Level은 헤더의 level이 담는다([NODE](/ko/grammar/edge/toulmin/node/)).
 - 강도(Strict, Defeasible, Defeater)는 역할과 별개의 축이다. 강도의 배치는 아직 정하지 않았다.
 
+## 미상 위에서 판정하기
+
+판정 그래프가 GEUL 사실을 입력으로 받을 때 [자리 표지](/ko/grammar/reference/slot-marker/)의 세 개념(적지 않음, 알 수 없음, 없음)은 다르게 평가한다. [EXPR](/ko/grammar/edge/toulmin/expr/) 비교 연산자의 평가는 다음과 같다.
+
+| 입력 | `is empty` | `is not empty` | `equals` / `is in` / 크기 비교 |
+|---|---|---|---|
+| 값 v | 거짓 | 참 | v로 평가 |
+| NO-VALUE (없음) | **참** | 거짓 | 거짓 |
+| UNKNOWN-VALUE (알 수 없음) | 거짓 | **참** | **미정(U)** |
+| ABSENT (적지 않음) / 서술 없음 | U (열린 세계) | U | U |
+
+- 논리는 Kleene 강 3값을 쓴다. `NOT U = U`, `거짓 AND U = 거짓`, `참 OR U = 참`. 나머지 조합의 U는 U다.
+- `EXISTS any`는 원소 중 하나라도 참이면 참이다. 참은 없고 U가 있으면 U, 모두 거짓이면 거짓이다.
+- **술어가 U이면 그 노드의 판정은 Pass·Fail이 아니라 Review다.** 모르면 사람(또는 다음 단계)에게 넘긴다.
+- ABSENT를 U가 아니라 empty로 보려면 입력 쪽이 닫힌 세계를 **선언**해야 한다(판단 기준 SPEC으로 주입, 예: "이 사안의 입력은 완전하다"). 선언이 없으면 U다.
+- 이 표와 U → Review 대응은 판정의 의미라 **고정 핵심**이다. TOULMIN 문서로 바꿀 수 없다.
+- 예: "지금도 유효한 국경만 센다"(`P582 is empty`) 규칙은 P582 = UNKNOWN-VALUE면 거짓이라 제외하고, P582 = NO-VALUE면 참이라 포함하며, P582가 없으면 U라서 Review로 보낸다.
+
 ## 판정 결과
 
 - 판정 결과(`VERDICT`, `EVIDENCE`)는 판정 대상과 다른 문서에 둔다. 결과 문서가 대상 문서를 [IMPORT-DOC](/ko/grammar/meta/import/import-doc/)으로 가져와 [EXTERNAL-POINTER-*](/ko/grammar/reference/external-pointer/)로 가리킨다. 그래서 판정해도 대상 문서의 내용 해시는 바뀌지 않는다.
@@ -169,6 +187,7 @@ END
 - PROVENANCE(규칙 출처·전제) 레이아웃.
 - 백틱 이름을 TEXT + LABEL(`0xC029`) 대신 서술 [LABEL](/ko/grammar/edge/label/)·[BIND](/ko/grammar/edge/bind/)로 둘지.
 - Claim의 predicate·mode 코드값과 FuncRef의 VerbCode 코드값 표.
+- 닫힌 세계 선언(ABSENT를 empty로 읽기)을 판단 기준(SPEC)으로 할지 사안 단위로 할지.
 - TOULMIN Codec의 [Codec 규격 문서](/ko/grammar/codec-spec/). NODE·LINK의 조건부 필드와 SOURCE가 정하는 SPAN 폭은 FIELD로 선언할 수 없는 레이아웃이다.
 
 ## 관련 페이지

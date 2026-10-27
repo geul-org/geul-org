@@ -43,14 +43,14 @@ LOCAL ID          가장 짧은 폭의 unsigned big-endian
 - ID `0`은 배정하지 않는다. 어떤 대상도 가리키지 않으며 Edge Id로도 쓰지 않는다. 대상 ID는 `1`부터 배정한다.
 - 문서는 그 문서 안에서든 밖에서든 [DOC-POINTER](/ko/grammar/reference/doc-pointer/) 하나로만 가리킨다(자기 자신은 자기 `DOC-ID`의 DOC-POINTER). 문서에도 `BIND`·`LABEL`·판정 Edge를 붙일 수 있다.
 - Issuer 자신은 [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)로 가리킨다. 문서 ID `0`은 Issuer의 용어 정의 색인 문서다.
-- 구성요소 자리의 `0`을 "없음"으로 쓰는 Codec([TOULMIN](/ko/grammar/edge/toulmin/) REF, 실행 Edge)은 그 Codec 규칙을 따른다.
+- 구성요소 자리의 `0`을 "없음"으로 쓰는 Codec([TOULMIN](/ko/grammar/edge/toulmin/) REF, 실행 Edge)은 그 Codec 규칙을 따른다. 이것은 [자리 표지](/ko/grammar/reference/slot-marker/)와 다른, 그 Codec 안의 약속이다.
 - 한 번 할당한 ID는 같은 문서에서 재사용하지 않는다.
 - 항상 값을 표현할 수 있는 최소 폭을 쓴다.
 
 ## 동일성과 범위
 
 - 같은 문서에서 LOCAL ID의 정수값이 같으면 같은 대상이다. 인코딩 폭은 동일성의 일부가 아니다.
-- Identified LOCAL은 식별된 대상을 나타낸다. 익명·미지정·null·sentinel 용도로 쓰지 않는다.
+- Identified LOCAL은 식별된 대상을 나타낸다. 익명·미지정·null·sentinel 용도로 쓰지 않는다. 값이 있지만 모르거나(UNKNOWN-VALUE) 값이 없다(NO-VALUE)는 말은 그 표지를 받는 필드에 [자리 표지](/ko/grammar/reference/slot-marker/)로 쓴다.
 - 서로 다른 LOCAL ID는 서로 다른 Reference일 뿐, 현실의 대상까지 서로 다르다는 뜻은 아니다.
 - LOCAL의 동일성을 문서 밖으로 넓히지 않는다. 다른 문서의 같은 숫자는 무관하다.
 - Variable(`100`) LOCAL은 이름 있는 담화 변수다([Reference](/ko/grammar/reference/) Variable).

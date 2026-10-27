@@ -61,6 +61,7 @@ TAG WORD의 상위 비트는 영역을 나눈다.
 | Codec 번호 | 안다 | TAG WORD (Issuer 형식이면 확장 TAG의 Issuer와 형식 번호) |
 | 계열·클래스 | 안다 | Codec 번호 또는 형식 번호의 상위 비트 |
 | Edge의 Edge Id | 안다 | Edge의 첫 구성요소는 항상 LOCAL Reference |
+| 자리 표지(적지 않음·알 수 없음·없음) | 안다 | WORD 값이 `0`~`7`(Reference Codec `0000`, 1 WORD). [자리 표지](/ko/grammar/reference/slot-marker/) |
 | Codec별 TAG 길이, Payload 시작 위치 | 모른다 | 코덱북 |
 | Payload 해석, Edge 구성요소의 역할 | 모른다 | 코덱북 |
 
@@ -75,7 +76,7 @@ TAG WORD의 상위 비트는 영역을 나눈다.
 |---|---|
 | [레코드와 TAG WORD](/ko/grammar/record/) | TAG WORD 레이아웃, Length, Codec, 확장 TAG |
 | [문서](/ko/grammar/document/) | DOC·HEAD·BODY·END, 문서 ID, 내용 해시, 버전과 개정 |
-| [Reference](/ko/grammar/reference/) | 대상 식별, LOCAL, 외부 참조, Quantifier |
+| [Reference](/ko/grammar/reference/) | 대상 식별, LOCAL, 외부 참조, Quantifier, 자리 표지 |
 | [Value](/ko/grammar/value/) | 값 계열, 직접 코드, 텍스트·수량·날짜 |
 | [Edge](/ko/grammar/edge/) | 서술·근거·실행·TOULMIN 계열, TRIPLE·QUALIFIER·LABEL |
 | [Meta](/ko/grammar/meta/) | 구조·정의·출처·계보·검증·정책·IMPORT |

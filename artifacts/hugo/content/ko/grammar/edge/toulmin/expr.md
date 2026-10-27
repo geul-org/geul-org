@@ -94,6 +94,10 @@ ID                     LOCAL Reference 레코드 (Edge Id)
 |---|---|
 | `0x0321` | any |
 
+### 미상 입력의 평가
+
+비교 연산자는 입력이 자리 표지일 때 3값(참, 거짓, 미정 U)으로 평가한다. NO-VALUE는 `is empty`가 참이고 다른 비교는 거짓이다. UNKNOWN-VALUE는 `is not empty`가 참이고 `equals`·`is in`·크기 비교는 U다. ABSENT와 서술 없음은 모든 연산자가 U다. 논리 연산자는 Kleene 강 3값을 따르고, 술어가 U이면 노드 판정은 Review다. 이 평가는 고정 핵심이다([TOULMIN](/ko/grammar/edge/toulmin/#미상-위에서-판정하기)).
+
 ## 해석과 유효성
 
 - 노드 수는 펼친 식 레코드 수와 같아야 한다. 마지막 식 레코드를 읽은 위치가 레코드 끝과 정확히 맞아야 한다.

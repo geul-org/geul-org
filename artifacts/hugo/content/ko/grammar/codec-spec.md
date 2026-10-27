@@ -30,7 +30,7 @@ Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다. GEUL의
 디코더는 TAG WORD만 보고 규격 문서의 주소를 만든다. 모르는 Codec을 만나면 그 문서를 받아 읽으면 된다.
 
 - `<TAG>`는 대상 TAG WORD의 hex 4자리다. Length 자리는 `0000`이고, Reference는 Quantifier 비트를 `000`으로 둔다(LOCAL은 `0008`).
-- Reference Codec `0000`은 예약이라 대상 TAG WORD가 `0x0000`인 규격 문서는 없다. 그래서 규격 문서는 GEUL Issuer의 용어 정의 색인 문서(문서 ID `0`, [Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서))와 겹치지 않는다.
+- Reference Codec `0000`은 예약이라 대상 TAG WORD가 `0x0000`인 규격 문서는 없다. 그래서 규격 문서는 GEUL Issuer의 용어 정의 색인 문서(문서 ID `0`, [Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서))와 겹치지 않는다. Codec `0000`의 [자리 표지](/ko/grammar/reference/slot-marker/)(`0x0000`~`0x0002`)도 규격 문서가 없다. 디코더에 내장한다([0층](/ko/grammar/publishing/#층)).
 - 규격 문서는 `DOC-ID`로 DOC-POINTER(`0x0000`, `0x000000000000<TAG>`, `0`)를 둔다. 버전 목록 레코드도 이 DOC-POINTER를 쓴다.
 - 규격 문서도 다른 문서처럼 GEUL Issuer의 이름 색인 `0x0000/documents.geul`에 소문자 슬러그 이름을 묶는다. 예: `publication` → `geul.org/publication/` = `0x0000/0x0000000000001018/`([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)).
 - 버전·정본 주소·서명 규칙은 일반 공표 문서와 같다.
@@ -87,18 +87,24 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 | `0000` | 정확한 Codec | `0810` SIGNED-DECIMAL, `0008` LOCAL |
 | `1111` | 와일드카드: 0인 Codec 비트는 무엇이든 맞는다 | `0780` 아무 Reference, `0F80` 아무 Value, `07A0` 위키데이터 QID(양화 무관) |
 
-- 레코드 필드에 CODEC이 없으면 아무 레코드나 받는다. 하나 이상 있으면 그중 하나여야 한다(닫힌 목록).
+- 레코드 필드에 CODEC이 없으면 아무 레코드나 받는다(자리 표지는 빼고). 하나 이상 있으면 그중 하나여야 한다(닫힌 목록).
 - 날값 필드에 CODEC을 하나 두면 그 날값을 TAG 없는 그 Value로 해석한다.
 
-### 선택 필드
+### 선택 필드와 자리 표지
 
-레코드 필드의 CODEC 목록에 대상 `0000`을 두면 **선택 필드**다.
+[자리 표지](/ko/grammar/reference/slot-marker/)는 예약 Reference Codec `0000`의 1 WORD 레코드 묶음이다. 필드의 CODEC 목록이 그 WORD를 정확한 대상으로 둘 때만 그 자리에 올 수 있다.
 
-- 생략할 때는 그 자리에 WORD `0x0000` 하나를 쓴다(없음 표지).
-- 선택 필드도 자리는 항상 차지한다. 그래서 레코드 하나의 표기는 하나이고, 분해는 위치만으로 정해진다.
-- `0x0000`은 예약 Reference Codec이라 다른 레코드와 겹치지 않고, 규격을 모르는 디코더도 1 WORD 레코드로 건너뛴다.
-- 없음 표지는 선택 필드 자리에서만 유효하다. 문서의 레코드 자리나 필수 필드 자리에 오면 거부한다.
-- 생략은 "값이 없음"이 아니라 "적지 않음"이다.
+| CODEC 대상 | 표지 | 그 필드는 |
+|---|---|---|
+| `0000` | ABSENT, 적지 않음 | **선택 필드**다. 생략할 수 있다 |
+| `0001` | UNKNOWN-VALUE, 알 수 없음 | 값이 있지만 무엇인지 모른다는 단언을 받는다 |
+| `0002` | NO-VALUE, 없음 | 값이 없다는 단언을 받는다 |
+
+- **수용 규칙:** 표지는 그 필드의 CODEC 목록에 같은 WORD가 정확한 대상으로 있을 때만 유효하다. 와일드카드(`0780`, `0781`, `0F80` …)와 CODEC이 없는 필드("아무 레코드")는 표지를 받지 않는다. HEAD·BODY 레코드 자리, Edge Id 자리에서는 invalid다.
+- 선택 필드를 생략할 때는 그 자리에 WORD `0x0000` 하나(ABSENT)를 쓴다. 선택 필드도 자리는 항상 차지한다. 그래서 레코드 하나의 표기는 하나이고, 분해는 위치만으로 정해진다.
+- 표지는 예약 Reference Codec이라 다른 레코드와 겹치지 않고, 규격을 모르는 디코더도 1 WORD 레코드로 건너뛴다.
+- 세 표지는 다른 말이다. ABSENT는 문서에 관한 말(이 자리를 채우지 않았다)이라 세계에 관해 아무것도 단언하지 않는다. UNKNOWN-VALUE는 값이 있다는 단언(`∃x`), NO-VALUE는 값이 없다는 단언(`¬∃x`, 한정 조건 안에서)이다. 생략은 "값이 없음"이 아니라 "적지 않음"이다.
+- 표지가 무엇을 뜻하는지는 그 표지를 받는 Codec 규격이 정한다([TRIPLE](/ko/grammar/edge/triple/), [QUALIFIER](/ko/grammar/edge/qualifier/)).
 
 ## 예: TRIPLE 규격 문서
 
@@ -114,6 +120,7 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 | #6~#8 ENUM | #5의 코드값 0, 1, 2 | `normal`, `preferred`, `deprecated` |
 | #17 CODEC | #5는 UNSIGNED-INTEGER(`0802`)로 해석 | |
 | #18, #19 CODEC | #4는 아무 Reference(`0780`) 또는 아무 Value(`0F80`) | |
+| #20, #21 CODEC | #4는 UNKNOWN-VALUE(`0001`), NO-VALUE(`0002`)도 받는다 | |
 
 이 문서 하나로 디코더는 TRIPLE 레코드를 필드로 나누고, 필드 이름을 붙여 보여 주고, 형식이 맞는지 검사한다.
 

@@ -131,7 +131,7 @@ GEUL은 출처·메타·목록까지 GEUL 문서로 표현한다. 그것을 읽�
 
 | 층 | 내용 | 기대는 것 |
 |---|---|---|
-| 0층 | 디코더 내장 규칙: 프레이밍, 내용 해시, 서명 검증, 버전 목록 레코드 Codec(`PUBLICATION`·`DEPRECATION`·`TOMBSTONE`), Codec 규격 어휘(`DECLARE`·`FIELD`·`ENUM`·`CODEC`), 문서 밖에서 받는 신뢰 키 | 없음. 조회하지 않는다 |
+| 0층 | 디코더 내장 규칙: 프레이밍, 내용 해시, 서명 검증, 버전 목록 레코드 Codec(`PUBLICATION`·`DEPRECATION`·`TOMBSTONE`), Codec 규격 어휘(`DECLARE`·`FIELD`·`ENUM`·`CODEC`), [자리 표지](/ko/grammar/reference/slot-marker/)(`0x0000`~`0x0002`), 문서 밖에서 받는 신뢰 키 | 없음. 조회하지 않는다 |
 | 1층 | 버전 목록 문서 | 0층 |
 | 2층 | 일반 문서, 코덱북, Codec 규격 문서, Issuer 검증키 문서 | 1층으로 찾고 0층으로 검증한다 |
 
