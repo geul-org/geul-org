@@ -146,13 +146,13 @@ TAG WORD          0000 1LLL L000 0110
 [Length 확장 TAG]
 양                SIGNED-DECIMAL 레코드
 단위              Reference 레코드 (단위 항목), 무단위면 0x0000
-하한              SIGNED-DECIMAL 레코드, 없으면 0x0000
-상한              SIGNED-DECIMAL 레코드, 없으면 0x0000
+하한              SIGNED-DECIMAL 레코드, 생략하면 0x0000 ABSENT
+상한              SIGNED-DECIMAL 레코드, 생략하면 0x0000 ABSENT
 ```
 
 - 단위는 값의 일부다. 단위를 떼어 다른 곳에 적지 않는다(떼면 `652`가 km인지 m인지 알 수 없다).
 - SI 단위로 환산한 값은 담지 않는다. 단위와 환산표에서 계산할 수 있다.
-- `0x0000`은 선택 필드를 생략했다는 표지다([Codec 규격 문서](/ko/grammar/codec-spec/)).
+- `0x0000`은 선택 필드를 생략했다는 표지 ABSENT다([Codec 규격 문서](/ko/grammar/codec-spec/)).
 
 예: `652 km`, 범위 `[651, 653]` (km = 위키데이터 Q828224)
 

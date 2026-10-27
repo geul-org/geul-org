@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-QUANTITY는 수량 하나를 정확한 10진수, 단위, 하한·상한으로 나타내는 Value다. Value 직접 코드 `0x06`, 계열 NUMERIC이다. 네 부분은 각각 완전한 레코드다. 단위와 경계는 [선택 필드](/ko/grammar/codec-spec/)라 없으면 없음 표지 `0x0000`을 쓴다.
+QUANTITY는 수량 하나를 정확한 10진수, 단위, 하한·상한으로 나타내는 Value다. Value 직접 코드 `0x06`, 계열 NUMERIC이다. 네 부분은 각각 완전한 레코드다. 단위와 경계는 [선택 필드](/ko/grammar/codec-spec/)라 생략하면 ABSENT(`0x0000`)를 쓴다.
 
 ## 레이아웃
 
@@ -19,8 +19,8 @@ TAG WORD          0000 1LLL L000 0110      Codec 0x06
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 amount            SIGNED-DECIMAL Value 레코드
 unit              Reference 레코드 (단위 항목), 무단위면 0x0000
-lower             SIGNED-DECIMAL Value 레코드, 없으면 0x0000
-upper             SIGNED-DECIMAL Value 레코드, 없으면 0x0000
+lower             SIGNED-DECIMAL Value 레코드, 생략하면 0x0000 ABSENT
+upper             SIGNED-DECIMAL Value 레코드, 생략하면 0x0000 ABSENT
 ```
 
 ## 해석과 유효성

@@ -1,0 +1,48 @@
+---
+title: "DENSE-BINARY16-VECTOR"
+weight: 1007
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-27T12:00:00+09:00
+tags: ["grammar", "value", "vector"]
+summary: "DENSE-BINARY16-VECTOR متجه أحادي البعد من القيمة Value يحمل عناصر binary16 متتالية دون descriptor (صيغة ADHOC Issuer 0x0506)."
+author: "جونو بارك"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+DENSE-BINARY16-VECTOR يخزّن أنماط بتات تبادل IEEE 754 binary16 متتالية دون descriptor.
+
+## التخطيط
+
+- الرمز: Value `ISSUER-1WORD` (`0x7C`)، وIssuer `0x0001` ADHOC، ورقم الصيغة `0x0506`. العائلة NUMERIC.
+
+```
+TAG WORD          0000 1LLL LCCC CCCC      Codec 0x7C
+[Length ممتد TAG] عندما يبلغ المجموع 15 WORD فأكثر
+Issuer            1 WORD  0x0001 (ADHOC)
+رقم الصيغة        1 WORD  0x0506
+Payload: [binary16 bits 1st: 1 WORD] ... [binary16 bits Nth: 1 WORD]
+```
+
+## قواعد التفسير
+
+- عدد العناصر هو عدد WORD في Payload. تُحفظ أنماط البتات بما فيها NaN payload وsigned zero كما هي.
+- لا يوجد ABI padding بين العناصر ولا في النهاية.
+
+## الصلاحية
+
+- يجب ألا يقل Payload عن 1 WORD. هذه الصيغة التي لا descriptor فيها لا تسمح بمتجه فارغ.
+- يجب أن يكون حجم Payload مضاعفاً صحيحاً لعرض العنصر (1 WORD).
+
+## السند المعياري ووضع الصيغة
+
+- صيغة تبادل عناصر binary16 تتبع [IEEE 754, Standard for Floating-Point Arithmetic](https://standards.ieee.org/ieee/754/6210/).
+- التسلسل أحادي البعد المتصل بلا descriptor وتوزيع TAG/Length وWORD ذات 16 بت وفق big-endian في GEUL هي صيغة خاصة بـ GEUL. يفترض [DLPack `DLDataType`](https://dmlc.github.io/dlpack/latest/c_api.html) أن dtype بترتيب native-endian، فهذا Payload ليس تسلسل wire في DLPack أو Arrow أو ONNX.
+
+## الطول
+
+- المجموع هو عدد WORD لـ: TAG (1 WORD)، وLength ممتد TAG (إن وجد)، وIssuer (1 WORD)، ورقم الصيغة (1 WORD)، وPayload. الطول 14 WORD فأقل طول مباشر، و15 WORD فأكثر يستخدم الطول الممتد `1110`·`1111`، ويدخل الـ TAG الممتد في المجموع ([Length](/ar/grammar/record/)).
+
+## أمثلة
+
+- Payload `3c00 8000` هو binary16 `1.0` و`-0`، والسجل كله 5 WORD.

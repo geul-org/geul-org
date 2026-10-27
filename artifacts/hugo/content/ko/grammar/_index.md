@@ -291,7 +291,7 @@ Codec의 상위 2비트가 계열이다. NUMERIC/DECIMAL은 상위 3번째 비�
 | `0x03` | [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/) | NUMERIC | Payload 1/2/4/8 WORD의 IEEE 754 binary16/32/64/128 scalar |
 | `0x04` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도 binary64, 불확도 binary32와 그 단위 Reference(ABSENT = 미상) |
 | `0x05` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도 binary64, 불확도 binary32와 그 단위 Reference |
-| `0x06` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | SIGNED-DECIMAL amount, 단위 Reference, 하한·상한. 단위·경계는 없음 표지 `0x0000` 가능 |
+| `0x06` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | SIGNED-DECIMAL amount, 단위 Reference, 하한·상한. 단위·경계는 생략 가능(ABSENT `0x0000`) |
 | `0x07`~`0x0F` | Reserved | NUMERIC |  |
 | `0x10` | [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) | DECIMAL | signed exponent `E`와 최소 WORD 2의 보수 coefficient `C`의 `C×10^E` |
 | `0x11` | [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/) | DECIMAL | signed exponent `E`와 최소 WORD unsigned coefficient `C`의 `C×10^E` |

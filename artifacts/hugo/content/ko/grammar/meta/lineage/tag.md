@@ -28,7 +28,7 @@ TAG WORD          0001 1LLL L011 1001      Codec 0x39
 ## 해석과 유효성
 
 - 이름은 [UTF8-TEXT](/ko/grammar/value/text/utf8-text/), 대상은 [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/)다.
-- 대상을 생략하면(없음 표지 `0x0000`, [CODEC](/ko/grammar/edge/codec/) 선택 필드) 이 문서 자신에 붙인 이름이다. 자기 내용 해시는 자기 안에 적을 수 없다. geul.org 규격 `0x1839`는 name(`0840`·`0841`)과 target(`0861`·`0000`)의 두 레코드 필드다.
+- 대상을 생략하면(ABSENT `0x0000`, [CODEC](/ko/grammar/edge/codec/) 선택 필드) 이 문서 자신에 붙인 이름이다. 자기 내용 해시는 자기 안에 적을 수 없다. geul.org 규격 `0x1839`는 name(`0840`·`0841`)과 target(`0861`·`0000`)의 두 레코드 필드다.
 - 같은 이름을 다른 버전에 다시 쓰지 않는다.
 
 ## 예시

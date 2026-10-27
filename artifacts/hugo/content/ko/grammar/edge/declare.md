@@ -71,7 +71,7 @@ PUBLICATION(Edge `0x18`)의 규격 문서 `geul.org/publication`: Edge Id 다음
 
 - DECLARE: TAG 1 + Edge Id 2 + 대상 1 = 4 WORD, `LLLL = 0011`.
 - FIELD: TAG 1 + Edge Id 2 + DECLARE 2 + 폭 1 = 6 WORD(`LLLL = 0101`). 받는 Kind·Codec은 [CODEC](/ko/grammar/edge/codec/)으로 따로 둔다(`0038` = DOC-POINTER).
-- 선택 필드는 CODEC 대상 `0000`으로 선언한다. 생략한 자리에는 없음 표지 `0x0000`을 쓴다([CODEC](/ko/grammar/edge/codec/) 선택 필드).
+- 선택 필드는 CODEC 대상 `0000`으로 선언한다. 생략한 자리에는 ABSENT(`0x0000`)를 쓴다([CODEC](/ko/grammar/edge/codec/) 선택 필드).
 - 필드 순서는 FIELD #2, #4가 문서에 놓인 순서다. Edge Id는 이어지지 않아도 된다(LOCAL AUTO INCREMENT는 권고).
 
 ## 열린 문제
