@@ -17,7 +17,7 @@ Membuang hasil setiap kali AI bernalar adalah pemborosan komputasi. Mencatat pen
 Kalimat bahasa alami terlihat seperti fakta tetapi sebenarnya adalah klaim seseorang. Menyematkan sumber, waktu, dan tingkat keyakinan secara struktural mengurangi ruang untuk halusinasi.
 
 ### Mengapa Indeks yang Selaras Secara Semantik
-SIDX adalah pengenal 64-bit yang mengkodekan makna dalam bit itu sendiri. Tipe dapat ditentukan hanya dari bit atas, dan semakin sedikit bit yang diisi, semakin abstrak ekspresinya.
+SIDX adalah pengenal yang mengkodekan makna dalam bit itu sendiri. Lebarnya ditentukan dari statistik penggunaan (64-bit termasuk opsi yang sedang dipertimbangkan). Tipe dapat ditentukan hanya dari bit atas, dan semakin sedikit bit yang diisi, semakin abstrak ekspresinya.
 
 ### Mengapa Memori Terstruktur Diperlukan
 Jendela konteks LLM terbatas. Untuk memasukkan pengalaman tak terbatas ke dalam jendela terbatas, memori harus terstruktur.

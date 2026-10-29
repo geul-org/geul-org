@@ -1,49 +1,86 @@
 ---
 title: "Repositori"
 date: 2026-02-28T12:00:00+09:00
-summary: "Repositori GitHub yang membentuk proyek GEUL. Spesifikasi bahasa, buku kode tata bahasa, pencarian dan situs web."
+lastmod: 2026-10-29T12:00:00+09:00
+summary: "Repositori GitHub publik GEUL: pustaka Go dan CLI geul, pemuatan dan konversi Wikidata, mesin penelusuran SILK, codebook pra-v1, dan situs web ini."
 image: "/images/og-default.webp"
 ---
 
-Semua repositori berada di organisasi [geul-org](https://github.com/geul-org) GitHub.
+Repositori publik GEUL berada di organisasi [geul-org](https://github.com/geul-org) GitHub. Tata bahasa normatifnya adalah [Tata Bahasa GEUL](/id/grammar/) di situs ini.
+
+Dokumen GEUL adalah rangkaian WORD 16-bit. Satuan datanya adalah rekaman (record) yang diawali satu TAG WORD, dan rekaman-rekaman itu dimuat dalam satu dokumen. Dokumen diterbitkan oleh Issuer, dan setiap versinya dipatok dengan hash isi. Repositori di bawah ini adalah alat untuk menulis, membaca, mengonversi, dan menelusuri dokumen tersebut.
 
 ---
 
-## Bahasa
+## Pustaka
 
-### geul
+### gogeul
 
-Bahasa buatan yang selaras secara semantik dan format aliran biner untuk AI.
+Pustaka Go GEUL dan alat baris perintah `geul`.
 
-Sistem bahasa 2 byte (65.536 simbol) yang dirancang untuk komunikasi tanpa ambiguitas antara manusia dan AI. Setiap pernyataan membawa sumber, stempel waktu, dan tingkat kepercayaannya. Setiap entitas memiliki pengenal unik. Format aliran beroperasi dalam unit 16 bit, mendefinisikan 10 jenis paket (Verb Edge, Entity Node, Triple Edge, dll.) di bawah skema prefiks 10 bit.
+Menulis, membaca, memeriksa, dan menerbitkan dokumen GEUL (`.geul`). Paket-paketnya menyediakan pemeriksaan format, dekode rekaman melalui dokumen spesifikasi Codec, diff antarversi, resolusi dependensi IMPORT, dan Codec TOULMIN. CLI `geul` mencakup penyuntingan (`new`, `add`), penerbitan (`publish`), penelusuran (`ls`, `log`, `show`), penampil di peramban (`serve`, `build`), dan arsip pack (`pack build`, `pack unpack`). Arsip pack dapat menyimpan rekaman yang dikompresi dengan zstd.
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
-| Bahasa | Go, Python |
+| GitHub | [geul-org/gogeul](https://github.com/geul-org/gogeul) |
+| Bahasa | Go |
 | Lisensi | CC0 |
 
 ---
 
-## Tata Bahasa
+## Wikidata
 
-### wordnet-verb
+### wikigeul
 
-Buku kode kata kerja SIDX 16 bit (berbasis WordNet).
+Konversi Wikidata → GEUL (nama lama gogeulwiki).
 
-Memetakan synset kata kerja WordNet ke kode 16 bit untuk digunakan dalam paket GEUL Verb Edge. Menyediakan kosakata kata kerja yang dikonsumsi format aliran.
+Membaca dump Wikidata yang telah dimuat wikipg ke PostgreSQL dan menerbitkan satu dokumen GEUL per item atau properti, berisi label, deskripsi, alias, pernyataan beserta kualifikator dan referensinya, serta sitelink dalam semua bahasa. Semua dokumen diterbitkan di bawah Issuer `wikidata.geul.org` (`0x00010000`).
 
 | | |
 |---|---|
-| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
-| Bahasa | Python |
-| Lisensi | CC0 · WordNet 3.0 License |
+| GitHub | [geul-org/wikigeul](https://github.com/geul-org/wikigeul) |
+| Bahasa | Go |
+| Lisensi | CC0 |
+
+### wikipg
+
+Pemuatan dump JSON Wikidata ke PostgreSQL tanpa kehilangan data.
+
+Menyimpan entitas, label, deskripsi, alias, pernyataan, kualifikator, referensi, sitelink, dan Lexeme sesuai urutan dump, serta menyimpan setiap baris dump apa adanya. Dump itu sendiri (berkas, URL, ukuran, checksum, commit pemuat) juga dicatat. wikipg tidak bergantung pada GEUL.
+
+| | |
+|---|---|
+| GitHub | [geul-org/wikipg](https://github.com/geul-org/wikipg) |
+| Bahasa | Go |
+| Lisensi | CC0 |
+
+---
+
+## Penelusuran
+
+### silk
+
+[SILK](/id/projects/silk/) — mesin pengindeksan dan penelusuran khusus untuk GEUL.
+
+Membangun indeks terpartisi dan terurut dari rekaman dalam arsip pack GEUL dan menjawab kueri seperti "dokumen mana yang menyatakan bahwa pekerjaan (P106) seseorang adalah fisikawan (Q169470)?" tanpa mendekode semua dokumen. Ia memisahkan rekaman dan bidangnya hanya dari TAG WORD, tanpa codebook. Saat ini dalam tahap pengembangan awal untuk memvalidasi algoritme penelusurannya, dan formatnya dapat berubah sebelum rilis pertama.
+
+| | |
+|---|---|
+| GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
+| Bahasa | Go |
+| Lisensi | CC0 |
+
+---
+
+## Codebook (pra-v1)
+
+Dua repositori di bawah ini dirancang sebelum tata bahasa v1 saat ini. Sebagian isinya tidak sesuai dengannya.
 
 ### sidx
 
-Buku kode entitas SIDX 48 bit (berbasis Wikidata).
+Riset penetapan SIDX (Semantic-aligned Index).
 
-Mengkodekan entitas Wikidata menjadi pengenal terstruktur 48 bit. Mendefinisikan jenis entitas, mendesain skema atribut per jenis, dan membangun buku kode yang dikonsumsi oleh SILK.
+Bahan riset untuk menetapkan SIDX, alamat semantik yang memberi nomor berdekatan kepada entitas yang maknanya berdekatan, berdasarkan statistik penggunaan Wikidata. Berisi skema atribut Entity 48-bit lama, skrip encoder, dan codebook; belum ada hasil penetapan SIDX. Definisi normatif SIDX adalah [GEUL-SIDX](/id/grammar/reference/geul-sidx/) dalam tata bahasa.
 
 | | |
 |---|---|
@@ -51,45 +88,19 @@ Mengkodekan entitas Wikidata menjadi pengenal terstruktur 48 bit. Mendefinisikan
 | Bahasa | Python |
 | Lisensi | CC0 |
 
-### geul-quantities
+### wordnet-verb
 
-Buku kode node kuantitas.
+Edisi sementara codebook kata kerja 16-bit berbasis WordNet 3.0.
 
-Mendefinisikan skema encoding untuk nilai kuantitas — angka dengan satuan, rentang, dan presisi — yang digunakan dalam paket GEUL Quantity Node.
+Memberi satu kode 16-bit kepada masing-masing dari 13.767 synset kata kerja WordNet 3.0, dengan kode berdekatan untuk kata kerja yang maknanya berdekatan. Ini edisi sementara yang akan digantikan codebook tanpa WordNet, dan cara membawa kode-kode itu dalam rekaman GEUL belum diputuskan.
 
-| | |
-|---|---|
-| GitHub | [geul-org/geul-quantities](https://github.com/geul-org/geul-quantities) |
-| Bahasa | Python |
-| Lisensi | MIT |
-
-### geul-ast
-
-Buku kode edge AST.
-
-Mendefinisikan skema encoding untuk edge pohon sintaksis abstrak, memungkinkan representasi kode terstruktur dalam format aliran GEUL.
+Repositori ini memuat bahan turunan WordNet, sehingga **bukan keluaran CC0.** Bagian turunan WordNet mengikuti WordNet 3.0 License; hanya bagian milik proyek GEUL sendiri, seperti kode dan klasifikasinya, yang CC0.
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-ast](https://github.com/geul-org/geul-ast) |
+| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
 | Bahasa | Python |
-| Lisensi | MIT |
-
----
-
-## Pencarian
-
-### silk
-
-SILK (Symbolic Index for LLM Knowledge) — arsitektur pencarian neuro-simbolik.
-
-Mencari dengan bilangan bulat 64 bit. Tidak memerlukan database vektor, graf ANN, maupun model embedding. Satu operasi AND bitwise NumPy mencari 100 juta rekaman, dan klaim utamanya adalah Python saja mengalahkan pencarian vektor C++/Rust yang telah dioptimalkan. Menyediakan pipeline kueri hibrida yang menggabungkan pencarian buku kode dengan bantuan LLM.
-
-| | |
-|---|---|
-| GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
-| Bahasa | Python |
-| Lisensi | MIT |
+| Lisensi | WordNet 3.0 License (bagian turunan) · CC0 (bagian sendiri) |
 
 ---
 
@@ -97,12 +108,29 @@ Mencari dengan bilangan bulat 64 bit. Tidak memerlukan database vektor, graf ANN
 
 ### geul-org
 
-Kode sumber situs web ini.
+Sumber situs web ini, geul.org.
 
-Generator situs statis Hugo yang mendukung 12 bahasa. Di-deploy melalui S3 + CloudFront, dengan CloudFront Function untuk deteksi bahasa dan URL bersih.
+Situs statis Hugo dalam 12 bahasa, disebarkan dengan S3 + CloudFront.
 
 | | |
 |---|---|
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
-| Bahasa | Hugo (Go Templates), CSS |
+| Bahasa | Hugo |
 | Lisensi | CC0 |
+
+---
+
+## Repositori Terkait
+
+Repositori di luar organisasi geul-org.
+
+### toulmin
+
+Mesin aturan berbasis model argumentasi Toulmin (TypeScript, Python, Go, C).
+
+Aturan adalah fungsi, dan pengecualian adalah relasi serangan dalam graf. Edge [TOULMIN](/id/grammar/edge/toulmin/) dalam tata bahasa GEUL (kode langsung `0x60`–`0x7B`) menuliskan graf penilaian dan eksekusi ini sebagai dokumen GEUL.
+
+| | |
+|---|---|
+| GitHub | [park-jun-woo/toulmin](https://github.com/park-jun-woo/toulmin) |
+| Lisensi | MIT |

@@ -2,7 +2,7 @@
 title: "GEUL"
 image: "/images/og-default.webp"
 date: 2026-02-26T12:00:00+09:00
-summary: "GEUL ist eine semantisch ausgerichtete künstliche Sprache und ein binäres Streamformat für eindeutige Kommunikation zwischen Menschen und KI."
+summary: "GEUL ist eine semantisch ausgerichtete künstliche Sprache und ein Binärformat für eindeutige Kommunikation zwischen Menschen und KI."
 ---
 
 ## Warum GEUL
@@ -57,9 +57,9 @@ GEUL ist ein Versuch, diese Luecke zu fuellen.
 
 GEUL (General Encoding Unified Language) ist eine kuenstliche Sprache, die fuer AI entworfen wurde.
 
-Jede Aussage hat eine Quelle.
-Jede Aussage hat einen Zeitstempel.
-Jede Aussage hat einen Konfidenzgrad.
+Jede Aussage hat einen Platz fuer ihre Quelle.
+Jede Aussage hat einen Platz fuer ihren Zeitstempel.
+Jede Aussage hat einen Platz fuer ihren Konfidenzgrad.
 Jede Entitaet hat einen eindeutigen Bezeichner.
 Die Maschine weiss, dass "Samsung Electronics" und "Samsung Electronics" dasselbe sind.
 

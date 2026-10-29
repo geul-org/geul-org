@@ -17,7 +17,7 @@ Jeter les resultats a chaque fois qu'une IA raisonne est un gaspillage de calcul
 Les phrases en langage naturel ressemblent a des faits mais sont en realite les affirmations de quelqu'un. Integrer structurellement la source, le moment et le degre de confiance reduit la marge d'hallucination.
 
 ### Pourquoi un index semantiquement aligne
-SIDX est un identifiant de 64 bits qui encode le sens dans les bits eux-memes. Le type peut etre determine uniquement par les bits superieurs, et moins les bits sont remplis, plus l'expression est abstraite.
+SIDX est un identifiant qui encode le sens dans les bits eux-memes. Sa largeur sera fixee d'apres les statistiques d'usage (64 bits, entre autres options, a l'etude). Le type peut etre determine uniquement par les bits superieurs, et moins les bits sont remplis, plus l'expression est abstraite.
 
 ### Pourquoi la memoire structuree est necessaire
 La fenetre de contexte d'un LLM est finie. Pour faire tenir une experience infinie dans une fenetre finie, la memoire doit etre structuree.

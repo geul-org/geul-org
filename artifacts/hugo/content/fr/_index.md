@@ -2,7 +2,7 @@
 title: "GEUL"
 image: "/images/og-default.webp"
 date: 2026-02-26T12:00:00+09:00
-summary: "GEUL est un langage artificiel sémantiquement aligné et un format de flux binaire conçu pour une communication sans ambiguïté entre humains et IA."
+summary: "GEUL est un langage artificiel sémantiquement aligné et un format binaire conçu pour une communication sans ambiguïté entre humains et IA."
 ---
 
 ## Pourquoi GEUL
@@ -57,9 +57,9 @@ GEUL est une tentative de combler ce vide.
 
 GEUL (General Encoding Unified Language) est un langage artificiel concu pour l'AI.
 
-Chaque enonce a une source.
-Chaque enonce a une date.
-Chaque enonce a un degre de confiance.
+Chaque enonce a une place pour sa source.
+Chaque enonce a une place pour sa date.
+Chaque enonce a une place pour son degre de confiance.
 Chaque entite a un identifiant unique.
 La machine sait que "Samsung Electronics" et "Samsung Electronics" sont la meme chose.
 

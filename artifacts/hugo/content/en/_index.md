@@ -2,7 +2,7 @@
 title: "GEUL"
 image: "/images/og-default.webp"
 date: 2026-02-26T12:00:00+09:00
-summary: "GEUL is a semantically-aligned artificial language and binary stream format designed for unambiguous communication between humans and AI."
+summary: "GEUL is a semantically-aligned artificial language and binary format designed for unambiguous communication between humans and AI."
 ---
 
 ## Why GEUL
@@ -57,9 +57,9 @@ GEUL is an attempt to fill that gap.
 
 GEUL (General Encoding Unified Language) is an artificial language designed for AI.
 
-Every statement has a source.
-Every statement has a timestamp.
-Every statement has a confidence level.
+Every statement has a place for its source.
+Every statement has a place for its timestamp.
+Every statement has a place for its confidence level.
 Every entity has a unique identifier.
 The machine knows that "Samsung Electronics" and "Samsung Electronics" are the same thing.
 

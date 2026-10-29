@@ -2,7 +2,7 @@
 title: "GEUL"
 image: "/images/og-default.webp"
 date: 2026-02-26T12:00:00+09:00
-summary: "GEUL adalah bahasa buatan yang diselaraskan secara semantik dan format aliran biner yang dirancang untuk komunikasi tanpa ambiguitas antara manusia dan AI."
+summary: "GEUL adalah bahasa buatan yang diselaraskan secara semantik dan format biner yang dirancang untuk komunikasi tanpa ambiguitas antara manusia dan AI."
 ---
 
 ## Mengapa GEUL
@@ -57,9 +57,9 @@ GEUL adalah upaya untuk mengisi celah itu.
 
 GEUL (General Encoding Unified Language) adalah bahasa buatan yang dirancang untuk AI.
 
-Setiap pernyataan punya sumber.
-Setiap pernyataan punya waktu.
-Setiap pernyataan punya tingkat keyakinan.
+Setiap pernyataan punya tempat untuk sumbernya.
+Setiap pernyataan punya tempat untuk waktunya.
+Setiap pernyataan punya tempat untuk tingkat keyakinannya.
 Setiap entitas punya pengenal unik.
 Mesin tahu bahwa "Samsung Electronics" dan "Samsung Electronics" adalah hal yang sama.
 

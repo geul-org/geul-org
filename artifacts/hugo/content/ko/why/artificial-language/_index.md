@@ -5,8 +5,6 @@ image: "/images/og-default.webp"
 summary: "기존 포맷과 언어가 AI에 부족한 이유: 자연어, JSON/XML, 프로그래밍 언어, 임베딩 벡터의 한계."
 ---
 
-# 왜 인공언어인가
-
 ## 하위 주제 목록
 
 ---

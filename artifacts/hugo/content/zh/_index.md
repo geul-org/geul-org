@@ -2,7 +2,7 @@
 title: "GEUL"
 image: "/images/og-default.webp"
 date: 2026-02-26T12:00:00+09:00
-summary: "GEUL是一种语义对齐的人工语言和二进制流格式，旨在实现人类与AI之间无歧义的沟通。"
+summary: "GEUL是一种语义对齐的人工语言和二进制格式，旨在实现人类与AI之间无歧义的沟通。"
 ---
 
 ## 为什么选择 GEUL
@@ -57,9 +57,9 @@ GEUL 就是填补这个空白的尝试。
 
 GEUL（General Encoding Unified Language）是为 AI 设计的人工语言。
 
-每一条陈述都有来源。
-每一条陈述都有时间点。
-每一条陈述都有置信度。
+每一条陈述都有记录来源的位置。
+每一条陈述都有记录时间点的位置。
+每一条陈述都有记录置信度的位置。
 每一个实体都有唯一标识符。
 机器知道"三星电子"和"Samsung Electronics"是同一个东西。
 

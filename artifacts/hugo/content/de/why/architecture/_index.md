@@ -17,7 +17,7 @@ Ergebnisse jedes Mal zu verwerfen, wenn eine KI schlussfolgert, ist Rechenversch
 Satze in naturlicher Sprache sehen wie Fakten aus, sind aber tatsachlich Behauptungen von jemandem. Die strukturelle Einbettung von Quelle, Zeitpunkt und Konfidenz verringert den Spielraum fur Halluzinationen.
 
 ### Warum ein semantisch ausgerichteter Index
-SIDX ist ein 64-Bit-Bezeichner, der Bedeutung in den Bits selbst kodiert. Der Typ kann allein aus den oberen Bits bestimmt werden, und je weniger Bits gefullt sind, desto abstrakter wird der Ausdruck.
+SIDX ist ein Bezeichner, der Bedeutung in den Bits selbst kodiert. Seine Breite wird anhand von Nutzungsstatistiken festgelegt (64 Bit und andere Optionen werden geprueft). Der Typ kann allein aus den oberen Bits bestimmt werden, und je weniger Bits gefullt sind, desto abstrakter wird der Ausdruck.
 
 ### Warum strukturierter Speicher notwendig ist
 Das Kontextfenster eines LLM ist endlich. Um unendliche Erfahrung in ein endliches Fenster zu packen, muss der Speicher strukturiert sein.

@@ -1,79 +1,58 @@
 ---
 title: "Dépôts"
 date: 2026-02-28T12:00:00+09:00
-summary: "Les dépôts GitHub qui composent le projet GEUL. Spécification du langage, livres de codes grammaticaux, recherche et site web."
+lastmod: 2026-10-29T12:00:00+09:00
+summary: "Dépôts GitHub publics de GEUL : la bibliothèque Go et la CLI geul, le chargement et la conversion de Wikidata, le moteur de recherche SILK, des codebooks antérieurs à la v1 et ce site web."
 image: "/images/og-default.webp"
 ---
 
-Tous les dépôts se trouvent dans l'organisation [geul-org](https://github.com/geul-org) sur GitHub.
+Les dépôts publics de GEUL se trouvent dans l'organisation [geul-org](https://github.com/geul-org) sur GitHub. La grammaire normative est la [Grammaire GEUL](/fr/grammar/) de ce site.
+
+Un document GEUL est une suite de WORD de 16 bits. L'unité de données est l'enregistrement, qui commence par un TAG WORD, et les enregistrements sont contenus dans un document. Les documents sont publiés par un Issuer, et chaque version est figée par un hash de contenu. Les dépôts ci-dessous sont des outils pour écrire, lire, convertir et rechercher ces documents.
 
 ---
 
-## Langage
+## Bibliothèque
 
-### geul
+### gogeul
 
-Un langage artificiel sémantiquement aligné et un format de flux binaire pour l'IA.
+La bibliothèque Go de GEUL et l'outil en ligne de commande `geul`.
 
-Un système linguistique de 2 octets (65 536 symboles) conçu pour une communication sans ambiguïté entre humains et IA. Chaque énoncé porte sa source, son horodatage et son niveau de confiance. Chaque entité a un identifiant unique. Le format de flux opère en unités de 16 bits, définissant 10 types de paquets (Verb Edge, Entity Node, Triple Edge, etc.) sous un schéma de préfixe de 10 bits.
+Écrit, lit, vérifie et publie des documents GEUL (`.geul`). Ses paquets fournissent la vérification de format, le décodage des enregistrements à l'aide des documents de spécification de Codec, les différences entre versions, la résolution des dépendances IMPORT et le Codec TOULMIN. La CLI `geul` couvre l'édition (`new`, `add`), la publication (`publish`), la consultation (`ls`, `log`, `show`), une visionneuse dans le navigateur (`serve`, `build`) et les archives pack (`pack build`, `pack unpack`). Les archives pack peuvent stocker les enregistrements compressés avec zstd.
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul](https://github.com/geul-org/geul) |
-| Langage | Go, Python |
+| GitHub | [geul-org/gogeul](https://github.com/geul-org/gogeul) |
+| Langage | Go |
 | Licence | CC0 |
 
 ---
 
-## Grammaire
+## Wikidata
 
-### wordnet-verb
+### wikigeul
 
-Livre de codes des verbes SIDX 16 bits (basé sur WordNet).
+Conversion Wikidata → GEUL (anciennement gogeulwiki).
 
-Associe les synsets de verbes WordNet à des codes de 16 bits pour utilisation dans les paquets GEUL Verb Edge. Fournit le vocabulaire verbal consommé par le format de flux.
-
-| | |
-|---|---|
-| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
-| Langage | Python |
-| Licence | CC0 · WordNet 3.0 License |
-
-### sidx
-
-Livre de codes des entités SIDX 48 bits (basé sur Wikidata).
-
-Encode les entités Wikidata en identifiants structurés de 48 bits. Définit les types d'entités, conçoit des schémas d'attributs par type et construit les livres de codes consommés par SILK.
+Lit un dump Wikidata que wikipg a chargé dans PostgreSQL et publie un document GEUL par élément ou propriété, avec les libellés, descriptions, alias, déclarations avec leurs qualificatifs et références, et les liens de sites dans toutes les langues. Tous les documents sont publiés sous l'Issuer `wikidata.geul.org` (`0x00010000`).
 
 | | |
 |---|---|
-| GitHub | [geul-org/sidx](https://github.com/geul-org/sidx) |
-| Langage | Python |
+| GitHub | [geul-org/wikigeul](https://github.com/geul-org/wikigeul) |
+| Langage | Go |
 | Licence | CC0 |
 
-### geul-quantities
+### wikipg
 
-Livre de codes des nœuds de quantité.
+Chargement sans perte des dumps JSON de Wikidata dans PostgreSQL.
 
-Définit le schéma d'encodage pour les valeurs de quantité — nombres avec unités, intervalles et précision — utilisés dans les paquets GEUL Quantity Node.
-
-| | |
-|---|---|
-| GitHub | [geul-org/geul-quantities](https://github.com/geul-org/geul-quantities) |
-| Langage | Python |
-| Licence | MIT |
-
-### geul-ast
-
-Livre de codes des arêtes AST.
-
-Définit le schéma d'encodage pour les arêtes d'arbres de syntaxe abstraite, permettant la représentation structurée de code au sein du format de flux GEUL.
+Stocke entités, libellés, descriptions, alias, déclarations, qualificatifs, références, liens de sites et Lexemes dans l'ordre du dump, et conserve chaque ligne du dump telle quelle. Le dump lui-même (fichier, URL, taille, sommes de contrôle, commit du chargeur) est aussi enregistré. wikipg ne dépend pas de GEUL.
 
 | | |
 |---|---|
-| GitHub | [geul-org/geul-ast](https://github.com/geul-org/geul-ast) |
-| Langage | Python |
-| Licence | MIT |
+| GitHub | [geul-org/wikipg](https://github.com/geul-org/wikipg) |
+| Langage | Go |
+| Licence | CC0 |
 
 ---
 
@@ -81,15 +60,47 @@ Définit le schéma d'encodage pour les arêtes d'arbres de syntaxe abstraite, p
 
 ### silk
 
-SILK (Symbolic Index for LLM Knowledge) — une architecture de recherche neuro-symbolique.
+[SILK](/fr/projects/silk/) — un moteur d'indexation et de recherche conçu pour GEUL.
 
-Recherche avec des entiers de 64 bits. Pas besoin de base de données vectorielle, de graphe ANN ou de modèle d'embeddings. Une seule opération AND bit à bit NumPy recherche dans 100 millions d'enregistrements, et l'affirmation centrale est que Python seul surpasse la recherche vectorielle optimisée en C++/Rust. Fournit un pipeline de requêtes hybride combinant la recherche dans les livres de codes avec l'assistance d'un LLM.
+Construit des index partitionnés et triés des enregistrements d'une archive pack GEUL et répond à des requêtes comme « quels documents affirment que la profession (P106) de quelqu'un est physicien (Q169470) ? » sans décoder tous les documents. Il délimite les enregistrements et leurs champs à partir des seuls TAG WORD, sans codebook. Il est en début de développement, valide ses algorithmes de recherche, et ses formats peuvent changer avant une première version.
 
 | | |
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
+| Langage | Go |
+| Licence | CC0 |
+
+---
+
+## Codebooks (antérieurs à la v1)
+
+Les deux dépôts ci-dessous ont été conçus avant la grammaire v1 actuelle. Certaines parties ne lui correspondent pas.
+
+### sidx
+
+Recherche sur l'attribution des SIDX (Semantic-aligned Index).
+
+Matériel de recherche pour attribuer les SIDX, une adresse sémantique qui donne des numéros proches à des entités de sens proche, à partir des statistiques d'usage de Wikidata. Il contient l'ancien schéma d'attributs Entity sur 48 bits, des scripts d'encodage et des codebooks ; aucune attribution de SIDX n'a encore été produite. La définition normative des SIDX est [GEUL-SIDX](/fr/grammar/reference/geul-sidx/) dans la grammaire.
+
+| | |
+|---|---|
+| GitHub | [geul-org/sidx](https://github.com/geul-org/sidx) |
 | Langage | Python |
-| Licence | MIT |
+| Licence | CC0 |
+
+### wordnet-verb
+
+Édition provisoire d'un codebook de verbes sur 16 bits fondé sur WordNet 3.0.
+
+Attribue un code de 16 bits à chacun des 13 767 synsets verbaux de WordNet 3.0, avec des codes proches pour des verbes de sens proche. C'est une édition provisoire destinée à être remplacée par un codebook qui n'utilise pas WordNet, et la manière de porter ces codes dans les enregistrements GEUL n'est pas décidée.
+
+Il contient du matériel dérivé de WordNet ; ce n'est donc **pas un produit CC0.** Les parties dérivées de WordNet relèvent de la WordNet 3.0 License ; seules les parties propres au projet GEUL, comme les codes et la classification, sont en CC0.
+
+| | |
+|---|---|
+| GitHub | [geul-org/wordnet-verb](https://github.com/geul-org/wordnet-verb) |
+| Langage | Python |
+| Licence | WordNet 3.0 License (parties dérivées) · CC0 (parties propres) |
 
 ---
 
@@ -97,12 +108,29 @@ Recherche avec des entiers de 64 bits. Pas besoin de base de données vectoriell
 
 ### geul-org
 
-Le code source de ce site web.
+Source de ce site web, geul.org.
 
-Un générateur de sites statiques Hugo prenant en charge 12 langues. Déployé via S3 + CloudFront, avec une CloudFront Function pour la détection de la langue et les URL propres.
+Site statique Hugo en 12 langues, déployé avec S3 + CloudFront.
 
 | | |
 |---|---|
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
-| Langage | Hugo (Go Templates), CSS |
+| Langage | Hugo |
 | Licence | CC0 |
+
+---
+
+## Dépôts liés
+
+Dépôts hors de l'organisation geul-org.
+
+### toulmin
+
+Un moteur de règles fondé sur le modèle d'argumentation de Toulmin (TypeScript, Python, Go, C).
+
+Les règles sont des fonctions, et les exceptions sont des relations d'attaque dans un graphe. L'Edge [TOULMIN](/fr/grammar/edge/toulmin/) de la grammaire GEUL (codes directs `0x60`–`0x7B`) écrit ces graphes de jugement et d'exécution sous forme de documents GEUL.
+
+| | |
+|---|---|
+| GitHub | [park-jun-woo/toulmin](https://github.com/park-jun-woo/toulmin) |
+| Licence | MIT |

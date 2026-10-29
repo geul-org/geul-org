@@ -17,7 +17,7 @@ Descartar resultados toda vez que uma IA raciocina e desperdicio computacional. 
 Sentencas em linguagem natural parecem fatos, mas na verdade sao afirmacoes de alguem. Incorporar estruturalmente a fonte, o momento e a confianca reduz o espaco para alucinacao.
 
 ### Por que um indice semanticamente alinhado
-SIDX e um identificador de 64 bits que codifica o significado nos proprios bits. O tipo pode ser determinado apenas pelos bits superiores, e quanto menos bits preenchidos, mais abstrata e a expressao.
+SIDX e um identificador que codifica o significado nos proprios bits. A largura sera definida a partir das estatisticas de uso (64 bits estao entre as opcoes em estudo). O tipo pode ser determinado apenas pelos bits superiores, e quanto menos bits preenchidos, mais abstrata e a expressao.
 
 ### Por que a memoria estruturada e necessaria
 A janela de contexto de um LLM e finita. Para encaixar experiencia infinita em uma janela finita, a memoria deve ser estruturada.
