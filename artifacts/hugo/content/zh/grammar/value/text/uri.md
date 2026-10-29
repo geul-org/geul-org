@@ -2,7 +2,7 @@
 title: "URI"
 weight: 69
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "URI 是承载 RFC 3986 URI（含 scheme 的绝对 URI）语法的 ASCII 字节序列的 Value。使用偶数·奇数字节码对 0x44/0x45。"
 author: "朴俊宇"
@@ -49,7 +49,7 @@ Payload WORD 1st ... Nth          URI bytes / final zero padding
 
 ## GEUL Archive URI
 
-`archive.geul.org` 是供 GEUL 引用外部二进制·文档之类大型内容的不可变内容存储库。建议的地址格式是 `https://archive.geul.org/sha256/{digest}`。相同的字节序列必须有相同的 URI，发布之后不得更改同一 URI 的字节。
+`archive.geul.org` 是构想中的不可变内容存储库，供 GEUL 引用外部二进制·文档之类的大型内容，目前尚未运营。建议的地址格式是 `https://archive.geul.org/sha256/{digest}`。相同的字节序列必须有相同的 URI，发布之后不得更改同一 URI 的字节。
 
 URI Value 只表示外部内容的位置或地址字符串，并不保证对象本身的同一性或不可变性。超出内联 Value 最大范围的二进制和文本，可以用 archive URI 来引用。存储对象的元数据必须记录以下项目。
 

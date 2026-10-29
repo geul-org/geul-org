@@ -2,7 +2,7 @@
 title: "URI"
 weight: 69
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "URI is a Value that holds an ASCII byte sequence of the RFC 3986 URI grammar (an absolute URI including a scheme). It uses the even-odd byte code pair 0x44/0x45."
 author: "Junwoo Park"
@@ -49,7 +49,7 @@ Payload WORD 1st ... Nth          URI bytes / final zero padding
 
 ## GEUL Archive URI
 
-`archive.geul.org` is an immutable content store for referencing large content such as external binaries and documents from GEUL. The recommended address format is `https://archive.geul.org/sha256/{digest}`. The same byte sequence must have the same URI, and once published, the bytes of the same URI must not be changed.
+`archive.geul.org` is a planned immutable content store for referencing large content such as external binaries and documents from GEUL. It is not in operation yet. The recommended address format is `https://archive.geul.org/sha256/{digest}`. The same byte sequence must have the same URI, and once published, the bytes of the same URI must not be changed.
 
 A URI Value only represents the location or address string of external content, and does not guarantee the identity or immutability of the target itself. Binaries and text beyond the maximum range of an inline Value can be referenced with an archive URI. The metadata of a stored object must record the following.
 

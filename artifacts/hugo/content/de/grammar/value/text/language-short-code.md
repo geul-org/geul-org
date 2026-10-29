@@ -2,7 +2,7 @@
 title: "LANGUAGE-SHORT-CODE"
 weight: 73
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-SHORT-CODE ist ein GEUL-Sprachcode-Value, der nur den Primary-Language-Subtag auf 1 WORD komprimiert enthält (Codec 0x48)."
 author: "Junwoo Park"
@@ -32,15 +32,15 @@ Payload WORD 1st (16 Bit)           GEUL language code (uint16)
 - Neue Subtags mit `Type: language` werden später ohne Änderung bestehender Nummern am Ende angehängt (append-only).
 - Die IDs deprecated Language-Subtags werden nicht gelöscht oder wiederverwendet. Die Preferred-Value-Beziehung und der deprecated-Status werden als Registry-Metadaten bewahrt.
 - `0xffff` ist als Erweiterungs-Escape reserviert. Bis ein Erweiterungsformat eigens definiert ist, ist es in einem eigenständigen LANGUAGE-SHORT-CODE-Value invalid. Es wird nicht mit Bedeutungen wie `null`, `unknown` oder `und` verwendet.
-- Ein eigenes Schema wie ein künftiges Lemma-Edge kann Interpretationsregeln nach `0xffff` definieren. Das bedeutet aber nicht, dass diese Regel den Payload dieses Formats verlängert oder nachfolgenden Payload zulässt.
-- Manche Lemma-Edge-Schemas können denselben 1-WORD-Code ohne TAG als kompaktes Feld inline ablegen. Das ist eine Regel des Edge-Schemas, und die Wire-Form des eigenständigen Value ist stets TAG 1 WORD + Payload 1 WORD.
+- Eine andere Codec-Spezifikation kann künftig Interpretationsregeln nach `0xffff` definieren. Das bedeutet aber nicht, dass diese Regel den Payload dieses Formats verlängert oder nachfolgenden Payload zulässt.
+- Eine Codec-Spezifikation kann denselben 1-WORD-Code ohne TAG in einem Rohwert-Feld ablegen (ein [CODEC](/de/grammar/codec-spec/#codec) beim Rohwert-Feld). Das ist eine Regel dieser Codec-Spezifikation, und die Wire-Form des eigenständigen Value ist stets TAG 1 WORD + Payload 1 WORD.
 - Um die Bedeutung eines Wertes zu beurteilen, muss man die verwendete Version der GEUL Language Registry und das Datum des von dieser Version festgelegten IANA-Registry-Snapshots zusammen bewahren.
 
 ## Normgrundlage
 
 - Die Ursprungs-Registry der Primary-Language-Subtags und die deprecated-/Preferred-Value-Metadaten richten sich nach der [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry).
 - Die Grundbedeutung des BCP-47-Language-Subtag-Systems richtet sich nach [RFC 5646, Tags for Identifying Languages](https://www.rfc-editor.org/rfc/rfc5646).
-- ID-Vergabe nach ASCII-Sortierung (append-only), die Reservierung von `0xffff` und die Abgrenzung zur TAG-losen kompakten Einbettung im Lemma sind GEUL-Regeln.
+- ID-Vergabe nach ASCII-Sortierung (append-only), die Reservierung von `0xffff` und die Abgrenzung zur TAG-losen Einbettung in einem Rohwert-Feld sind GEUL-Regeln.
 
 ## Länge
 

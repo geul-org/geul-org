@@ -2,7 +2,7 @@
 title: "LANGUAGE-SHORT-CODE"
 weight: 73
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-SHORT-CODE — Value кода языка GEUL, сжимающий только primary language subtag в 1 WORD (Codec 0x48)."
 author: "Джунву Пак"
@@ -32,15 +32,15 @@ Payload WORD 1st (16 бит)           код языка GEUL (uint16)
 - Новые subtag `Type: language`, появляющиеся позже, добавляются в конец без изменения существующих номеров (append-only).
 - ID deprecated language subtag не удаляется и не используется повторно. Связь Preferred-Value и состояние deprecated сохраняются в metadata registry.
 - `0xffff` зарезервирован как escape расширения. Пока формат расширения не определён отдельно, в самостоятельном Value LANGUAGE-SHORT-CODE он недопустим. Его нельзя использовать в смысле `null`, `unknown` или `und`.
-- Отдельная схема, например Lemma Edge, в будущем может определить правило интерпретации после `0xffff`. Но это не значит, что такое правило увеличивает длину Payload этого формата или разрешает следующий за ним Payload.
-- Некоторые схемы Lemma Edge могут встраивать тот же 1-WORD код как compact field без TAG. Это правило схемы Edge; wire form самостоятельного Value всегда TAG 1 WORD + Payload 1 WORD.
+- Другая спецификация Codec в будущем может определить правило интерпретации после `0xffff`. Но это не значит, что такое правило увеличивает длину Payload этого формата или разрешает следующий за ним Payload.
+- Спецификация Codec может хранить тот же 1-WORD код в простом поле без TAG ([CODEC](/ru/grammar/codec-spec/#codec) у простого поля). Это правило этой спецификации Codec; wire form самостоятельного Value всегда TAG 1 WORD + Payload 1 WORD.
 - Чтобы определить смысл значения, нужно вместе с ним сохранять версию GEUL Language Registry и дату snapshot IANA registry, зафиксированного этой версией.
 
 ## Основание в стандартах
 
 - Исходный registry primary language subtag и metadata deprecated/Preferred-Value следуют [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry).
 - Базовый смысл системы language subtag BCP 47 следует [RFC 5646, Tags for Identifying Languages](https://www.rfc-editor.org/rfc/rfc5646).
-- Назначение ID append-only в порядке ASCII, резервирование `0xffff` и отличие от compact-встраивания Lemma без TAG — правила GEUL.
+- Назначение ID append-only в порядке ASCII, резервирование `0xffff` и отличие от встраивания без TAG в простое поле — правила GEUL.
 
 ## Длина
 

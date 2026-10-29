@@ -2,7 +2,7 @@
 title: "DOC-POINTER"
 weight: 8
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "reference"]
 summary: "DOC-POINTER — Reference-указатель-декларация, указывающий на одну версию документа, опубликованного Issuer. ID версии 0 означает последнюю версию."
 author: "Джунву Пак"
@@ -28,6 +28,7 @@ ID версии         2 WORD
 - ID версии не опускается. Если разрешить его опускать, ширину Issuer нельзя будет определить по одной длине Payload (Issuer 4 WORD без версии и Issuer 2 WORD с версией дают одинаковые 8 WORD).
 - ID версии `0` — последняя версия. Привязывается к действующей версии на момент интерпретации. Остальные значения фиксируются на этой версии ([PUBLICATION](/ru/grammar/edge/publication/)).
 - ID документа `0` — индексный документ определений терминов Issuer. На сам Issuer указывает [ISSUER-POINTER](/ru/grammar/reference/issuer-pointer/).
+- Quantifier — только `000` (Identified). Другие значения invalid.
 - Формат для указания на документы Issuer — только DOC-POINTER. Указывать на документ через `EXTERNAL-ISSUER-*` (Issuer, ID документа, ID объекта `0`) или `EXTERNAL-POINTER-*` (IMPORT ID, ID объекта `0`) — invalid.
 - Где используется: Meta [DOC-ID](/ru/grammar/meta/declaration/doc-id/)·[IMPORT-DOC](/ru/grammar/meta/import/import-doc/), PUBLICATION·DEPRECATION·TOMBSTONE в списке версий и Subject у BIND, Subject у BIND в индексе имён `documents.geul`.
 

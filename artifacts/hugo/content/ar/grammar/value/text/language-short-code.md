@@ -2,7 +2,7 @@
 title: "LANGUAGE-SHORT-CODE"
 weight: 73
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-SHORT-CODE قيمة Value لرمز لغة في GEUL تضغط primary language subtag فقط في 1 WORD (Codec 0x48)."
 author: "جونو بارك"
@@ -32,15 +32,15 @@ Payload WORD 1st (16 بت)            GEUL language code (uint16)
 - لاحقاً تُلحق subtag جديدة من `Type: language` في النهاية دون تغيير الأرقام الحالية (append-only).
 - معرّف deprecated language subtag لا يُمحى ولا يُعاد استخدامه. وتُحفظ علاقة Preferred-Value وحالة deprecated في بيانات السجل الوصفية.
 - `0xffff` محجوز كـ escape للتوسعة. وإلى أن تُعرَّف صيغة التوسعة بصورة مستقلة يكون invalid في قيمة LANGUAGE-SHORT-CODE المستقلة. ولا يُستخدم بمعنى `null` أو `unknown` أو `und` وما شابه.
-- يمكن مستقبلاً لـ schema مستقل مثل Lemma Edge أن يعرّف قواعد تفسير ما بعد `0xffff`. لكن ذلك لا يعني أن تلك القواعد تزيد طول Payload في هذه الصيغة أو تسمح بـ Payload لاحق.
-- بعض schemas في Lemma Edge يمكنها تضمين رمز الـ WORD الواحدة نفسه بلا TAG كحقل compact. وهذه قاعدة في Edge schema، أما الصيغة السلكية لقيمة Value المستقلة فهي دائماً TAG (1 WORD) + Payload (1 WORD).
+- يمكن مستقبلاً لمواصفة Codec أخرى أن تعرّف قواعد تفسير ما بعد `0xffff`. لكن ذلك لا يعني أن تلك القواعد تزيد طول Payload في هذه الصيغة أو تسمح بـ Payload لاحق.
+- يمكن لمواصفة Codec أن تضع رمز الـ WORD الواحدة نفسه في حقل قيمة خام بلا TAG ([CODEC](/ar/grammar/codec-spec/#codec) على حقل القيمة الخام). وهذه قاعدة في تلك المواصفة، أما الصيغة السلكية لقيمة Value المستقلة فهي دائماً TAG (1 WORD) + Payload (1 WORD).
 - لتحديد معنى القيمة يجب حفظ إصدار GEUL Language Registry المستخدم مع تاريخ snapshot الخاص بـ IANA registry الذي ثبّته ذلك الإصدار.
 
 ## السند المعياري
 
 - السجل الأصلي لـ primary language subtag وبيانات deprecated/Preferred-Value الوصفية تتبع [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry).
 - المعنى الأساسي لنظام language subtag في BCP 47 يتبع [RFC 5646, Tags for Identifying Languages](https://www.rfc-editor.org/rfc/rfc5646).
-- تخصيص المعرّفات بترتيب ASCII وبصيغة append-only وحجز `0xffff` والتمييز عن التضمين المضغوط لـ Lemma بلا TAG هي قواعد GEUL.
+- تخصيص المعرّفات بترتيب ASCII وبصيغة append-only وحجز `0xffff` والتمييز عن التضمين بلا TAG في حقل القيمة الخام هي قواعد GEUL.
 
 ## الطول
 

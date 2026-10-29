@@ -2,7 +2,7 @@
 title: "URI"
 weight: 69
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "URI adalah Value yang memuat deretan byte ASCII tata bahasa URI RFC 3986 (URI absolut dengan scheme). Memakai pasangan kode byte genap·ganjil 0x44/0x45."
 author: "Junwoo Park"
@@ -49,7 +49,7 @@ Payload WORD 1st ... Nth          URI bytes / final zero padding
 
 ## URI Arsip GEUL
 
-`archive.geul.org` adalah penyimpanan konten tak berubah untuk merujuk konten besar seperti biner·dokumen eksternal dari GEUL. Format alamat yang dianjurkan adalah `https://archive.geul.org/sha256/{digest}`. Deretan byte yang sama harus memiliki URI yang sama, dan setelah diterbitkan, byte pada URI yang sama tidak boleh diubah.
+`archive.geul.org` adalah rencana penyimpanan konten tak berubah untuk merujuk konten besar seperti biner·dokumen eksternal dari GEUL. Layanan ini belum beroperasi. Format alamat yang dianjurkan adalah `https://archive.geul.org/sha256/{digest}`. Deretan byte yang sama harus memiliki URI yang sama, dan setelah diterbitkan, byte pada URI yang sama tidak boleh diubah.
 
 Value URI hanya menyatakan lokasi atau string alamat konten eksternal, dan tidak menjamin identitas atau sifat tak berubah target itu sendiri. Biner dan teks yang melebihi rentang maksimum Value inline dapat dirujuk dengan URI arsip. Pada metadata objek tersimpan harus dicatat butir berikut.
 

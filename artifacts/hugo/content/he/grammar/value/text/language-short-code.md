@@ -2,7 +2,7 @@
 title: "LANGUAGE-SHORT-CODE"
 weight: 73
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-SHORT-CODE הוא Value של קוד שפה של GEUL שדוחס ל-WORD אחד רק את ה-primary language subtag (Codec 0x48)."
 author: "ג'ונו פארק"
@@ -32,15 +32,15 @@ Payload WORD 1st (16 ביט)           GEUL language code (uint16)
 - subtag חדש מסוג `Type: language` מצורף בסוף בלי לשנות מספרים קיימים (append-only).
 - ה-ID של language subtag שהוצא משימוש לא נמחק ולא משמש שוב. היחס ל-Preferred-Value והמצב deprecated נשמרים ב-metadata של ה-registry.
 - `0xffff` שמור כ-escape להרחבה. עד שיוגדר פורמט הרחבה נפרד, הוא invalid ב-Value עצמאי של LANGUAGE-SHORT-CODE. לא משתמשים בו במשמעות כמו `null`, `unknown` או `und`.
-- בעתיד schema נפרד כמו Lemma Edge יכול להגדיר כללי פירוש אחרי `0xffff`. עם זאת, אין פירוש הדבר שהכלל הזה מאריך את ה-Payload של הפורמט הזה או מתיר Payload שבא אחריו.
-- schema של Lemma Edge מסוימים יכולים להטמיע את אותו קוד של WORD אחד בלי TAG כשדה compact. זה כלל של ה-schema של ה-Edge, וה-wire form של Value עצמאי הוא תמיד TAG של WORD אחד + Payload של WORD אחד.
+- בעתיד מפרט Codec אחר יכול להגדיר כללי פירוש אחרי `0xffff`. עם זאת, אין פירוש הדבר שהכלל הזה מאריך את ה-Payload של הפורמט הזה או מתיר Payload שבא אחריו.
+- מפרט Codec יכול להחזיק את אותו קוד של WORD אחד בשדה גולמי בלי TAG ([CODEC](/he/grammar/codec-spec/#codec) בשדה גולמי). זה כלל של אותו מפרט Codec, וה-wire form של Value עצמאי הוא תמיד TAG של WORD אחד + Payload של WORD אחד.
 - כדי לקבוע את משמעות הערך, חייבים לשמור יחד גם את גרסת GEUL Language Registry שנעשה בה שימוש וגם את תאריך ה-snapshot של IANA registry שהגרסה הזו נועלת.
 
 ## בסיס בתקנים
 
 - ה-registry המקורי של ה-primary language subtag וה-metadata של deprecated/Preferred-Value הם לפי [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry).
 - המשמעות הבסיסית של מערכת language subtag של BCP 47 היא לפי [RFC 5646, Tags for Identifying Languages](https://www.rfc-editor.org/rfc/rfc5646).
-- הצמדת ID במיון ASCII ו-append-only, שמירת `0xffff`, וההבחנה מהטמעת Lemma compact בלי TAG הם כללי GEUL.
+- הצמדת ID במיון ASCII ו-append-only, שמירת `0xffff`, וההבחנה מהטמעה בלי TAG בשדה גולמי הם כללי GEUL.
 
 ## אורך
 

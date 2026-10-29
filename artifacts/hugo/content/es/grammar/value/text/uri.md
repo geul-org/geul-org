@@ -2,7 +2,7 @@
 title: "URI"
 weight: 69
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "URI es un Value que contiene los bytes ASCII de la gramática de URI de RFC 3986 (URI absoluto con scheme). Usa el par de códigos de bytes par/impar 0x44/0x45."
 author: "Junwoo Park"
@@ -48,7 +48,7 @@ Payload WORD 1.º ... N-ésimo          bytes del URI / relleno de ceros final
 
 ## GEUL Archive URI
 
-`archive.geul.org` es un almacén de contenido inmutable para referenciar desde GEUL contenidos grandes, como binarios y documentos externos. El formato de dirección recomendado es `https://archive.geul.org/sha256/{digest}`. Los mismos bytes deben tener el mismo URI, y una vez publicado no se deben cambiar los bytes de ese URI.
+`archive.geul.org` es un almacén de contenido inmutable previsto para referenciar desde GEUL contenidos grandes, como binarios y documentos externos. Todavía no está en funcionamiento. El formato de dirección recomendado es `https://archive.geul.org/sha256/{digest}`. Los mismos bytes deben tener el mismo URI, y una vez publicado no se deben cambiar los bytes de ese URI.
 
 El Value URI solo representa la ubicación o la cadena de dirección del contenido externo, y no garantiza la identidad ni la inmutabilidad del objeto en sí. Los binarios y textos que superen el rango máximo de un Value inline pueden referenciarse con un URI de archive. En los metadatos del objeto almacenado se deben registrar los siguientes elementos.
 

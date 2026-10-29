@@ -2,7 +2,7 @@
 title: "URI"
 weight: 69
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "URI は、RFC 3986 URI(scheme を含む絶対 URI)文法の ASCII バイト列を収める Value だ。偶数・奇数バイトのコードペア 0x44/0x45 を使う。"
 author: "朴俊宇"
@@ -49,7 +49,7 @@ Payload WORD 1st ... Nth          URI bytes / final zero padding
 
 ## GEUL Archive URI
 
-`archive.geul.org` は、GEUL で外部のバイナリ・ドキュメントのような大きなコンテンツを参照するための、不変のコンテンツストアだ。推奨するアドレス形式は `https://archive.geul.org/sha256/{digest}` だ。同じバイト列は同じ URI を持たなければならず、公開した後に同じ URI のバイトを変えてはならない。
+`archive.geul.org` は、GEUL で外部のバイナリ・ドキュメントのような大きなコンテンツを参照するための不変のコンテンツストアとして構想したもので、まだ運用していない。推奨するアドレス形式は `https://archive.geul.org/sha256/{digest}` だ。同じバイト列は同じ URI を持たなければならず、公開した後に同じ URI のバイトを変えてはならない。
 
 URI Value は、外部コンテンツの位置やアドレスの文字列を表すだけで、対象自体の同一性や不変性は保証しない。インライン Value の最大範囲を超えるバイナリとテキストは、archive URI で参照できる。保存オブジェクトの metadata には、次の項目を記録しなければならない。
 

@@ -2,7 +2,7 @@
 title: "URI"
 weight: 69
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "URI는 RFC 3986 URI(scheme 포함 절대 URI) 문법의 ASCII 바이트열을 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x44/0x45를 쓴다."
 author: "박준우"
@@ -49,7 +49,7 @@ Payload WORD 1st ... Nth          URI bytes / final zero padding
 
 ## GEUL Archive URI
 
-`archive.geul.org`는 GEUL에서 외부 바이너리·문서 같은 대형 콘텐츠를 참조하기 위한 불변 콘텐츠 저장소다. 권장 주소 형식은 `https://archive.geul.org/sha256/{digest}`다. 같은 바이트열은 같은 URI를 가져야 하며, 게시한 뒤 같은 URI의 바이트를 바꿔서는 안 된다.
+`archive.geul.org`는 GEUL에서 외부 바이너리·문서 같은 대형 콘텐츠를 참조하기 위한 불변 콘텐츠 저장소로 구상한 것이며, 아직 운영하지 않는다. 권장 주소 형식은 `https://archive.geul.org/sha256/{digest}`다. 같은 바이트열은 같은 URI를 가져야 하며, 게시한 뒤 같은 URI의 바이트를 바꿔서는 안 된다.
 
 URI Value는 외부 콘텐츠의 위치나 주소 문자열을 나타낼 뿐, 대상 자체의 동일성이나 불변성을 보장하지 않는다. 인라인 Value의 최대 범위를 넘는 바이너리와 텍스트는 archive URI로 참조할 수 있다. 저장 객체의 메타데이터에는 다음 항목을 기록해야 한다.
 
