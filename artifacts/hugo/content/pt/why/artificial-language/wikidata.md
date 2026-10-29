@@ -2,9 +2,9 @@
 title: "Por que Wikidata"
 weight: 13
 date: 2026-02-26T12:00:17+09:00
-lastmod: 2026-02-26T12:00:17+09:00
-tags: ["Wikidata", "Ontologia", "SIDX"]
-summary: "GEUL não rejeita o Wikidata. Transforma o sistema de classificação e as estatísticas de frequência de 100 milhões de entidades em livros de códigos SIDX. Constrói gramática sobre um dicionário."
+lastmod: 2026-10-29T12:00:00+09:00
+tags: ["Wikidata", "Ontologia", "wikigeul", "SIDX"]
+summary: "O GEUL não rejeita o Wikidata. Carrega o dump sem perdas e transforma cada uma das cerca de 120 milhões de entidades em um documento GEUL com todos os idiomas. Projetar um identificador semanticamente alinhado (SIDX) a partir da sua classificação e das estatísticas de frequência é pesquisa em andamento."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -66,13 +66,13 @@ O Wikidata foi lançado em 2012.
 
 Uma base de conhecimento estruturada operada pela Fundação Wikimedia.
 Qualquer pessoa pode editá-la.
-Em 2024, contém mais de 100 milhões de entidades.
-Mais de 10.000 propriedades.
-Bilhões de declarações.
-Rótulos em mais de 300 idiomas.
+Segundo o dump de 19 de outubro de 2026, cerca de 121,97 milhões de entidades.
+Delas, 13.991 são propriedades.
+Cerca de 1,78 bilhão de declarações.
+Rótulos em mais de 600 códigos de idioma.
 
 A escala que o CYC não conseguiu alcançar em 30 anos com uma equipe de especialistas,
-o Wikidata alcançou em 10 anos com uma comunidade.
+o Wikidata alcançou em 14 anos com uma comunidade.
 
 Veja o que o Wikidata oferece.
 
@@ -84,160 +84,234 @@ Veja o que o Wikidata oferece.
 
 **Rótulos multilíngues.** O rótulo coreano de Q20718 é "삼성전자", o rótulo em inglês é "Samsung Electronics", o rótulo em japonês é "サムスン電子". Um identificador, nomes diferentes para cada idioma.
 
-**Validação comunitária.** Milhões de editores. Detecção de vandalismo. Exigência de fontes. Não é perfeito, mas é mais escalável do que uma pequena equipe de especialistas.
+**Validação comunitária.** Editores do mundo todo. Detecção de vandalismo. Exigência de fontes. Não é perfeito, mas é mais escalável do que uma pequena equipe de especialistas.
 
 Não há razão para construir tudo isso do zero.
 
 ---
 
-## O vocabulário de GEUL vem do Wikidata
+## O GEUL traz o Wikidata como ele é
 
-O SIDX (Semantic-aligned Index) de GEUL é um identificador semanticamente alinhado de 64 bits.
-O significado está codificado nos próprios bits.
-Apenas examinando os bits superiores, é possível saber se algo é uma pessoa, um lugar ou uma organização.
+O GEUL não inventa identificadores novos para o Wikidata.
+Usa-os como são.
 
-O livro de códigos do SIDX — qual padrão de bits corresponde a qual significado — é extraído do Wikidata.
+A gramática do GEUL tem References dedicadas ao Wikidata.
+[WIKIDATA-QID](/pt/grammar/reference/wikidata-qid/) escreve o número de um Q-ID, e [WIKIDATA-PID](/pt/grammar/reference/wikidata-pid/) o de um P-ID, como inteiro sem sinal.
+Q42 é o inteiro 42. P31 é o inteiro 31.
+Como são inteiros e não strings, compará-los não exige normalização.
 
-O processo funciona assim.
+O caminho é este.
 
-**Etapa 1: Extração de tipos.**
-Extraem-se todos os Q-IDs usados como objetos de P31 (instance of) no Wikidata.
-Isso produz a lista de "tipos".
-"Humano (Q5)", "cidade (Q515)", "país (Q6256)", "empresa (Q4830453)"...
-Conta-se quantas vezes cada tipo é usado — o número de instâncias.
+**Passo 1: Carga sem perdas.**
+O [wikipg](/pt/repos/#wikipg) carrega o dump JSON do Wikidata no PostgreSQL.
+Guarda entidades, rótulos, descrições, apelidos, declarações, qualificadores, referências e links de sites na ordem do dump,
+e preserva cada linha do dump literalmente.
+Também registra o próprio arquivo do dump (URL, tamanho, checksums, commit do carregador).
+Só quando nada é descartado é possível verificar depois o que foi trazido e o que foi pulado.
 
-**Etapa 2: Construção da hierarquia.**
-Extraem-se as relações P279 (subclass of) entre tipos.
+**Passo 2: Um documento por entidade.**
+O [wikigeul](/pt/repos/#wikigeul) lê o dump carregado e produz um documento GEUL para cada item e cada propriedade.
+Ele contém rótulos, descrições, apelidos, declarações com seus qualificadores e referências, e links de sites.
+Todos os idiomas ficam no mesmo documento. Nada é dividido por idioma.
+
+Todos os documentos compartilham um único Issuer, `0x00010000` (wikidata.geul.org).
+Um ID de documento tem 64 bits. O byte superior é a letra do tipo de entidade, e os 56 bits inferiores são o seu número.
+O documento de Q42 é `0x510000000000002a`. `0x51` é `Q`, e `0x2a` é 42.
+O documento de P31 é `0x500000000000001f`.
+Basta o hexadecimal para saber de qual entidade é o documento.
+Um documento real pode ser lido do início ao fim em [Exemplo: item do Wikidata](/pt/grammar/example/).
+
+**Passo 3: Citar por inteiros.**
+Dentro das declarações, itens e propriedades são escritos como inteiros.
+"Q42 é um ser humano (Q5)" é um TRIPLE de três inteiros: P31, Q42 e Q5.
+Esse inteiro é o número do ID do documento.
+De qualquer declaração é possível ir direto ao documento daquilo que ela nomeia.
+
+As referências também são trazidas.
+Uma referência do Wikidata vira um SOURCE do GEUL.
+O cabeçalho de cada documento registra de qual dump ele veio e qual ferramenta (commit) o converteu.
+
+**Passo 4: Publicar como arquivos pack.**
+Não dá para publicar 120 milhões de entidades como 120 milhões de arquivos.
+Os documentos são agrupados em um arquivo pack por Issuer, e os registros são comprimidos com zstd.
+Quem lê busca só os documentos de que precisa, não o arquivo inteiro.
+
+Neste momento a conversão está sendo verificada no intervalo Q1–Q10000.
+A ida e volta pela conversão inversa, o arquivo e a completude são verificados exaustivamente.
+A conversão completa e a publicação vêm depois.
+
+---
+
+## O SIDX vem depois
+
+Um Q-ID é um número atribuído por ordem de registro.
+Números próximos não significam significados próximos.
+Q42 é Douglas Adams; Q41 é a Grécia, e Q43 é a Turquia.
+
+O GEUL também pesquisa outro tipo de identificador.
+O [SIDX](/pt/grammar/reference/geul-sidx/) (Semantic-aligned Index), um identificador semanticamente alinhado que dá valores próximos a coisas de significado próximo.
+O objetivo é colocar o significado nos próprios bits,
+de modo que os bits superiores bastem para dizer se algo é uma pessoa, um lugar ou uma organização.
+
+O SIDX ainda é pesquisa anterior à v1.
+A gramática só reserva um lugar para ele: a Reference GEUL-SIDX.
+A largura não está decidida. 64 bits, 256 bits e outras estão em estudo, e a escolha seguirá as estatísticas.
+Nenhum SIDX foi atribuído ainda.
+Por isso os documentos atuais do Wikidata são escritos com Q-IDs, sem SIDX.
+Quando valores SIDX forem atribuídos, o identificador existente e o SIDX da mesma coisa serão ligados com [SAME-NODE](/pt/grammar/edge/same-node/).
+
+É aqui que o Wikidata entra de novo.
+A pesquisa do SIDX parte do sistema de classificação e das estatísticas de frequência do Wikidata.
+A direção em estudo é esta.
+
+**Extração de tipos.**
+Reunir os Q-IDs usados como objeto de P31 (instance of).
+Essa é a lista de "tipos".
+"Ser humano (Q5)", "cidade (Q515)", "país (Q6256)", "empresa (Q4830453)"...
+Contar as instâncias de cada tipo.
+
+**Construção da hierarquia.**
+Construir uma árvore com as relações P279 (subclass of) entre tipos.
 "Cidade → assentamento humano → entidade geográfica → entidade."
-Isso forma a estrutura de árvore dos tipos.
-Identificam-se nós raiz, nós folha e nós intermediários.
-Detecta-se e trata-se a herança múltipla — casos em que um tipo pertence a vários tipos pai.
+Como tratar a herança múltipla, quando um tipo pertence a vários tipos superiores, é um problema em aberto.
 
-**Etapa 3: Atribuição de bits.**
-A estrutura da árvore determina as relações de prefixo dos padrões de bits.
-Subtipos sob o mesmo pai compartilham o mesmo prefixo.
+**Atribuição de bits.**
+A estrutura da árvore vira a relação de prefixos dos padrões de bits.
+Subtipos sob o mesmo tipo superior compartilham o mesmo prefixo.
 "Cidade" e "vila" compartilham o prefixo de "assentamento humano".
+Tipos com muitas instâncias recebem um prefixo mais curto, isto é, um espaço de números mais amplo.
+É a mesma ideia da codificação de Huffman.
 
-O número de instâncias influencia o comprimento dos bits.
-Tipos usados com frequência recebem códigos mais eficientes.
-O mesmo princípio da codificação de Huffman: códigos mais curtos para frequências mais altas.
+Isto ainda é uma hipótese.
+Restam problemas a resolver.
+Um SIDX já atribuído não deve se mover quando as estatísticas mudam.
+O mesmo valor nunca deve ser atribuído a duas coisas.
+Também é preciso decidir o formato em que o livro de códigos e o registro serão publicados.
 
 ---
 
 ## O que o Wikidata fornece
 
-Nesse processo, o Wikidata fornece três coisas.
+Neste caminho, o Wikidata fornece três coisas.
 
-**Um sistema de classificação.**
-Uma resposta a "Que tipos de coisas existem no mundo?"
-O CYC tinha uma equipe de especialistas projetando isso.
-GEUL o extrai do Wikidata.
-Um sistema de classificação construído por milhões de editores ao longo de 10 anos,
-transformado em uma árvore de bits.
+**Identificadores.**
+A resposta a "para o que no mundo estamos apontando?".
+Q-IDs e P-IDs viram, como são, References inteiras do GEUL.
+O conhecimento do Wikidata pode ser levado para documentos GEUL,
+e os identificadores do Wikidata podem ser lidos diretamente nos documentos GEUL.
+
+**Sistema de classificação.**
+A resposta a "que tipos de coisas existem no mundo?".
+O CYC fez uma equipe de especialistas projetar isso.
+O GEUL o toma do Wikidata.
+O objetivo da pesquisa é transformar o sistema de classificação que os editores acordaram ao longo de 14 anos
+na árvore de bits do SIDX.
 
 **Estatísticas de frequência.**
-Uma resposta a "Quantas de cada tipo existem no mundo?"
+A resposta a "quantas coisas de cada tipo existem no mundo?".
 Se há 9 milhões de entidades humanas e 1 milhão de asteroides,
-o tipo "humano" deve receber um código mais eficiente que "asteroide".
-A frequência de uso real determina o projeto do código.
-
-**Mapeamento de identificadores.**
-Um mapeamento entre os Q-IDs do Wikidata e os SIDX de GEUL.
-Qual padrão de bits no SIDX corresponde a Q20718 (Samsung Electronics)?
-Com esse mapeamento, o conhecimento do Wikidata pode ser convertido para GEUL,
-e as declarações de GEUL podem ser reconvertidas para o Wikidata.
+o tipo "ser humano" deveria receber um código mais eficiente que "asteroide".
+A frequência de uso real vira a base do projeto de códigos.
 
 ---
 
 ## O que o Wikidata não fornece
 
-O Wikidata é um dicionário. Um dicionário não é uma língua.
+O Wikidata é um dicionário. Um dicionário não é uma linguagem.
 
 Um dicionário fornece uma lista de palavras.
-Uma língua fornece a gramática para compor frases com palavras.
+Uma linguagem fornece a gramática para formar frases com palavras.
 
-O que o Wikidata não fornece é o que GEUL acrescenta.
+O que o Wikidata não fornece é o que o GEUL acrescenta.
 
-**De fatos a alegações.**
-A unidade básica do Wikidata é um fato (Fact).
-"A população de Seul é 9,74 milhões."
+**De fato a alegação.**
+A unidade básica do Wikidata é o fato (Fact).
+"A população de Seul é de 9,74 milhões."
 É verdadeiro ou falso.
 
-A unidade básica de GEUL é uma alegação (Claim).
-"Segundo A, a população de Seul é aproximadamente 9,74 milhões. (confiança 0,9, referência 2023)"
-Quem está alegando, com que nível de certeza e com base em que data — tudo isso está incorporado na declaração.
+A unidade básica do GEUL é a alegação (Claim).
+"Segundo A, a população de Seul é de aproximadamente 9,74 milhões. (confiança 0,9, referência 2023)"
+Quem alega, com que certeza e a partir de quando fazem parte da declaração.
 Essa diferença é discutida em detalhe em [Por que alegações, não fatos](/pt/why/claims-not-facts/).
 
 **Qualificadores verbais.**
-O Wikidata não tem um lugar para expressar as nuances dos verbos.
+O Wikidata não tem lugar para expressar as nuances dos verbos.
 Em "Yi Sun-sin venceu a Batalha de Myeongnyang",
-onde estão o tempo, o aspecto, a evidencialidade, o modo e a confiança?
-No Wikidata, estes são parcialmente expressos por meio de qualificadores,
-mas não existe um sistema sistemático de qualificação verbal.
+onde estão tempo, aspecto, evidencialidade, modo e confiança?
+No Wikidata, isso é expresso parcialmente por qualificadores,
+mas não há um sistema sistemático de qualificação verbal.
 
-GEUL tem um sistema de qualificadores verbais de 28 bits.
-Treze dimensões — tempo, aspecto, polaridade, evidencialidade, modo, volicionalidade, confiança e outros — são estruturalmente incorporadas em cada declaração.
+O GEUL está projetando um sistema de qualificação verbal que acrescenta a cada declaração, de forma estrutural,
+dimensões como tempo, aspecto, polaridade, evidencialidade, modo, volitividade e certeza.
+Isso também é trabalho anterior à v1.
 
-**Compressão de 16 bits.**
-A representação do Wikidata não foi projetada para janelas de contexto.
+**Palavras de 16 bits.**
+As representações do Wikidata não foram projetadas para janelas de contexto.
 JSON-LD, RDF, SPARQL.
-Legíveis por máquinas, mas não eficientes em tokens.
+Legíveis por máquina, mas não eficientes em tokens.
 
-GEUL é projetada em unidades de palavras de 16 bits.
-Mapeamento um para um com tokens de LLM.
-Um sistema de representação construído sobre a premissa de janelas de contexto finitas.
+O GEUL é uma sequência de palavras de 16 bits.
+A primeira palavra de um registro (a TAG WORD) informa o tipo e o comprimento desse registro.
+Registros podem ser filtrados e pulados mesmo sem livro de códigos.
+É uma representação construída sobre a premissa de que a janela de contexto é finita.
 Isso já foi discutido em [Por que não MD/JSON/XML](/pt/why/not-md-json-xml/).
 
 **Pipeline de contexto.**
-O Wikidata é um repositório. GEUL é parte de um pipeline.
-Clarificação, validação, filtragem, verificação de consistência, exploração — tudo o que foi discutido nesta série opera sobre a representação estruturada de GEUL.
+O Wikidata é um repositório. O GEUL é parte de um pipeline.
+Clarificação, verificação, filtragem, checagem de consistência, exploração — tudo o que foi discutido nesta série
+opera sobre a representação estruturada do GEUL.
 O Wikidata não tem esse pipeline.
-Nem precisa. O propósito do Wikidata é diferente.
+Nem precisa. O Wikidata tem outro propósito.
 
 ---
 
-## A relação entre um dicionário e uma língua
+## A relação entre dicionário e linguagem
 
 Em resumo:
 
 O Wikidata é o vocabulário do mundo.
-Quais entidades existem,
-quais relações existem,
-quais tipos existem e como são classificados.
-Milhões de pessoas construíram isso ao longo de 10 anos.
+Que entidades existem,
+que relações existem,
+que tipos há e como são classificados.
+Uma comunidade construiu isso ao longo de 14 anos.
 
-GEUL constrói gramática sobre esse vocabulário.
-O sistema de classificação do vocabulário → a árvore de bits do SIDX.
-As estatísticas de frequência do vocabulário → as prioridades de atribuição de bits.
-Os identificadores do vocabulário → o mapeamento com SIDX.
+O GEUL põe gramática sobre esse vocabulário.
+Os identificadores do vocabulário → References inteiras do GEUL.
+As entradas do vocabulário → um documento GEUL por entidade.
+O sistema de classificação e as estatísticas de frequência do vocabulário → material para a pesquisa do SIDX.
 
 E acrescenta o que falta ao vocabulário.
-Estrutura de alegações. Qualificação verbal. Compressão em nível de token. Pipeline de contexto.
+Estrutura de alegações. Qualificação verbal. Palavras de 16 bits. Um pipeline de contexto.
 
-Seria possível construir GEUL sem o Wikidata?
-Sim. Projetando a ontologia do zero, como fez o CYC.
-Mas isso foi tentado há 30 anos, e os resultados falam por si.
+Seria possível construir o GEUL sem o Wikidata?
+Sim. Seria possível projetar uma ontologia do zero, como fez o CYC.
+Mas isso foi tentado há 40 anos, e os resultados estão aí.
 
-Porque o Wikidata existe, GEUL não projeta uma ontologia.
-Transforma um consenso existente.
+Como o Wikidata existe, o GEUL não projeta uma ontologia.
+Traz um consenso que já existe.
 
 ---
 
 ## Resumo
 
-Uma língua artificial precisa de um vocabulário.
-Construir um do zero foi o que o CYC tentou, e 30 anos provaram os limites dessa abordagem.
+Uma linguagem artificial precisa de um vocabulário.
+Construí-lo do zero foi o que o CYC tentou, e 30 anos provaram os limites dessa abordagem.
 
-O Wikidata é o vocabulário do mundo, com mais de 100 milhões de entidades, mais de 10.000 propriedades e bilhões de declarações.
-Milhões de editores o construíram ao longo de 10 anos.
+O Wikidata é o vocabulário do mundo, com cerca de 120 milhões de entidades e cerca de 1,78 bilhão de declarações (dump de outubro de 2026).
+Uma comunidade o construiu ao longo de 14 anos.
 
-O livro de códigos SIDX de GEUL é extraído do Wikidata.
-As frequências de instâncias de P31 determinam a atribuição de bits,
-e a hierarquia de P279 forma o esqueleto da árvore de bits.
+O GEUL traz esse vocabulário como ele é.
+O wikipg carrega o dump no PostgreSQL sem perdas,
+e o wikigeul transforma cada entidade em um documento GEUL com todos os idiomas.
+Itens e propriedades são citados como inteiros, e os documentos são publicados como arquivos pack.
 
-O Wikidata é um dicionário; GEUL é uma língua.
-Um dicionário fornece palavras; uma língua fornece gramática.
-GEUL constrói estrutura de alegações, qualificação verbal, compressão de 16 bits e um pipeline de contexto sobre o vocabulário do Wikidata.
+O SIDX é a pesquisa que vem depois.
+Ele projeta um identificador semanticamente alinhado a partir das frequências de instâncias de P31 e da hierarquia de P279.
+Nem a largura nem as atribuições estão decididas ainda.
 
-GEUL não rejeita o Wikidata.
+O Wikidata é um dicionário; o GEUL é uma linguagem.
+Um dicionário fornece palavras; uma linguagem fornece gramática.
+O GEUL constrói estrutura de alegações, qualificação verbal, palavras de 16 bits e um pipeline de contexto sobre o vocabulário do Wikidata.
+
+O GEUL não rejeita o Wikidata.
 Ergue-se sobre ele.
