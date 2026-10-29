@@ -1,6 +1,6 @@
 # geul.org
 
-Official website for **GEUL (General Encoding Unified Language)** — a semantically-aligned artificial language and binary stream format designed for unambiguous communication between humans and AI.
+Official website for **GEUL (General Encoding Unified Language)** — an artificial language and binary format for exchanging information between people and AI without ambiguity.
 
 **https://geul.org**
 
@@ -10,9 +10,11 @@ English (default), 한국어, 中文, Español, العربية, Português, Baha
 
 ## Related Repositories
 
-- [geul](https://github.com/park-jun-woo/geul) — GEUL core
-- [geul-sidx](https://github.com/park-jun-woo/geul-sidx) — Semantic-aligned Index (SIDX)
-- [silk](https://github.com/park-jun-woo/silk) — Symbolic Index for LLM Knowledge
+- [gogeul](https://github.com/geul-org/gogeul) — GEUL Go library and `geul` CLI
+- [wikigeul](https://github.com/geul-org/wikigeul) — Wikidata → GEUL documents
+- [wikipg](https://github.com/geul-org/wikipg) — Wikidata dump → PostgreSQL, lossless
+- [silk](https://github.com/geul-org/silk) — query engine for GEUL archives
+- [sidx](https://github.com/geul-org/sidx) — SIDX (Semantic-aligned Index) research, pre-v1
 
 ## License
 
