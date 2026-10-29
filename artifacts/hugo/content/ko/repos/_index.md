@@ -18,7 +18,7 @@ GEUL 문서는 16비트 WORD의 연속이다. 데이터의 단위는 TAG WORD �
 
 GEUL Go 라이브러리와 `geul` 명령줄 도구.
 
-GEUL 문서(`.geul`)를 쓰고, 읽고, 검사하고, 공표한다. 형식 검사, Codec 규격 문서로 레코드 해석, 버전 diff, IMPORT 의존 해석, TOULMIN Codec을 패키지로 제공한다. `geul` CLI는 문서 편집(`new`, `add`)과 공표(`publish`), 조회(`ls`, `log`, `show`), 브라우저 뷰어(`serve`, `build`), pack 아카이브(`pack build`, `pack unpack`)를 다룬다. pack 아카이브는 레코드를 zstd로 압축해 저장할 수 있다.
+GEUL 문서(`.geul`)를 쓰고, 읽고, 검사하고, 공표한다. 형식 검사, Codec 규격 문서로 레코드 해석, 버전 diff, IMPORT 의존 해석, TOULMIN Codec을 패키지로 제공한다. `geul` CLI는 문서 편집(`new`, `add`)과 공표(`publish`), 조회(`ls`, `log`, `show`, `diff`, `check`), 브라우저 뷰어(`serve`, `build`), pack 아카이브(`pack build`, `pack unpack`)를 다룬다. pack 아카이브는 레코드를 zstd로 압축해 저장할 수 있다.
 
 | | |
 |---|---|
