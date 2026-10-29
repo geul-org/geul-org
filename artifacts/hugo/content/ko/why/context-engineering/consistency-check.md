@@ -2,9 +2,9 @@
 title: "왜 정합성 검사가 필요한가"
 weight: 6
 date: 2026-02-26T12:00:08+09:00
-lastmod: 2026-02-26T12:00:08+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["정합성", "모순", "일관성"]
-summary: "개별적으로 옳은 정보가 모이면 집합적으로 틀릴 수 있다"
+summary: "개별적으로 옳은 정보도 모이면 서로 모순될 수 있다. 시간·출처·추론의 세 가지 모순 유형과, 구조화된 표현에서 모순 감지가 필드 비교와 산술로 바뀌는 이유를 다룬다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,9 +2,9 @@
 title: "왜 탐색이 필요한가"
 weight: 7
 date: 2026-02-26T12:00:07+09:00
-lastmod: 2026-02-26T12:00:07+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["탐색", "검색", "규모"]
-summary: "색인이 윈도우를 넘기면, 검색이라는 패러다임 자체가 한계에 부딪힌다"
+summary: "지식이 커져 색인조차 컨텍스트 윈도우를 넘기면, 한 번에 찾는 검색은 한계에 부딪힌다. 계층적 지도를 따라 방향을 고르며 들어가는 탐색이 왜 필요한지 다룬다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

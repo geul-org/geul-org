@@ -2,9 +2,9 @@
 title: "왜 필터가 필요한가"
 weight: 5
 date: 2026-02-26T12:00:09+09:00
-lastmod: 2026-02-26T12:00:09+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["필터", "관련성", "신뢰도"]
-summary: "유효한 정보가 전부 필요한 정보는 아니다"
+summary: "유효한 정보가 전부 필요한 정보는 아니다. 관련성·신뢰도·최신성으로 지금 필요한 것만 고르는 필터와, 구조화된 표현에서 그 기준이 필드 연산이 되는 이유를 다룬다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,9 +2,9 @@
 title: "왜 구조화된 기억이 필요한가"
 weight: 18
 date: 2026-02-26T12:00:05+09:00
-lastmod: 2026-02-26T12:00:05+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["기억", "구조화", "WMS"]
-summary: "기억 없는 지능은 매번 처음부터 시작한다"
+summary: "AI는 파일을 잘 쓰지만 자기가 쓴 파일을 못 찾는다. 문제는 저장이 아니라 인출이다. 목차·색인처럼 어디에 무엇이 있는지 적어 두는 지도 한 장에서 구조화된 기억까지 가는 길을 다룬다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

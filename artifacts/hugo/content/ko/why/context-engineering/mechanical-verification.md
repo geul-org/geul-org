@@ -2,9 +2,9 @@
 title: "왜 기계적 검증이 필요한가"
 weight: 4
 date: 2026-02-26T12:00:10+09:00
-lastmod: 2026-02-26T12:00:10+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["검증", "규격", "컴파일러"]
-summary: "자연어에는 유효하지 않은 문장이라는 개념이 없다"
+summary: "자연어에는 \"유효하지 않은 문장\"이라는 개념이 없어 정보가 검사 없이 컨텍스트에 들어간다. 규격으로 형식을 거르는 기계적 검증이 왜 파이프라인에서 가장 먼저 와야 하는지 다룬다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
