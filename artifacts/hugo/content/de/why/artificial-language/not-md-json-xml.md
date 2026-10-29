@@ -2,9 +2,9 @@
 title: "Warum MD/JSON/XML nicht funktionieren"
 weight: 9
 date: 2026-02-26T12:00:15+09:00
-lastmod: 2026-02-26T12:00:15+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Format", "JSON", "XML"]
-summary: "Bestehende Formate koennen keine Bedeutung tragen"
+summary: "Markdown, JSON und XML wurden jeweils für eine andere Zeit und einen anderen Zweck geschaffen. Sie haben Struktur, aber keine einheitliche Bedeutung und keinen Platz für Quellen. Warum es ein eigenes Format braucht, um KI-Schlussfolgerungen festzuhalten und anzusammeln."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -164,54 +164,54 @@ XML ist weitschweifig, damit Menschen es leicht lesen koennen.
 Eine KI-Denksprache darf diese Verschwendung nicht haben.
 Fuer ein LLM ist das `<name>`-Tag Verschwendung.
 
-Und XML ist ein Design aus den fruehen 2000ern.
-Es wurde in einer Aera geschaffen, in der LLMs nicht existierten, fuer Menschen und traditionelle Software.
-Es wurde nie als KI-Denksprache konzipiert.
+Und XML ist ein Entwurf aus den späten 1990er-Jahren.
+Es entstand in einer Zeit, als es keine LLMs gab, für Menschen und herkömmliche Software.
+Es wurde nie als Sprache für KI-Schlussfolgerungen entworfen.
 
 ---
 
-## Die gemeinsame Einschraenkung
+## Die gemeinsame Grenze
 
 Markdown, JSON, XML.
-Jedes der drei Formate hat seine Staerken, aber sie teilen gemeinsame Einschraenkungen.
+Jedes der drei Formate hat seine Stärken, doch sie teilen gemeinsame Grenzen.
 
 **Sie sind textbasiert.**
-Alle werden in Zeichenketten serialisiert.
+Alle werden zu Zeichenketten serialisiert.
 Eine Maschine muss sie parsen, um sie zu verarbeiten.
-Parsen ist ein Kostenfaktor.
+Parsen kostet.
 
-Eine ideale Denksprache ist ein binaerer Stream.
-Eine Sequenz von 16-Bit-Woertern. Kein Parsen noetig.
-Sofort interpretierbar beim Lesen.
+GEUL ist eine Folge von 16-Bit-Wörtern.
+Das erste Wort jedes Datensatzes nennt Art und Länge,
+sodass die Grenzen der Datensätze sofort bekannt sind, ohne Zeichenketten zu interpretieren.
 
-**Sie wurden vor der LLM-Aera konzipiert.**
-Markdown stammt von 2004. JSON von 2001. XML von 1998.
-Sie wurden in einer Aera konzipiert, in der das Konzept von LLMs nicht existierte,
-fuer Menschen oder traditionelle Software.
+**Sie wurden vor der LLM-Ära entworfen.**
+Markdown stammt von 2004, JSON von 2001, XML von 1998.
+Sie wurden in einer Zeit entworfen, als es das Konzept LLM nicht gab,
+für Menschen oder herkömmliche Software.
 
-Eine KI-Denksprache muss in der LLM-Aera, fuer LLMs, konzipiert sein.
-Das Designprinzip "1 Wort = 1 Token"
+Eine Sprache für KI-Schlussfolgerungen muss in der LLM-Ära und für LLMs entworfen werden.
+Das 16-Bit-Wort auf LLM-Vokabulare zuzuschneiden,
 setzt die Existenz von LLMs voraus.
 
-**Ihr einheitliches semantisches System fehlt oder ist unvollstaendig.**
-Markdown hat ueberhaupt kein semantisches System.
+**Ein einheitliches Bedeutungssystem fehlt oder ist unvollständig.**
+Markdown hat überhaupt kein Bedeutungssystem.
 JSON hat Struktur, aber keine Bedeutung.
-XML kann Schemas definieren, aber sie sind nicht einheitlich.
+XML kann Schemata definieren, doch sie sind nicht vereinheitlicht.
 
-Ein semantisch ausgerichteter Index ist eine global einheitliche Bedeutungs-ID.
-Ueberall wo er verwendet wird, bedeutet derselbe SIDX dasselbe.
-Keine Konvertierung noetig. Der Konsens ist eingebaut.
+GEUL bezeichnet Ziele per ID, nicht per Name:
+References wie eine Wikidata-QID oder eine von einem Issuer vergebene Dokument-ID.
+Wo immer sie verwendet wird, ist dieselbe ID dasselbe Ziel. Keine Umwandlung nötig.
 
 ---
 
 ## Zusammenfassung
 
-| Format | Struktur | Bedeutung | LLM-freundlich | Binaer | Behauptungs-Support | Verb-Modifikatoren |
+| Format | Struktur | Bedeutung | LLM-freundlich | Binär | Platz für Quellen | Qualifikatoren |
 |--------|-----------|---------|---------------|--------|---------------|----------------|
 | Markdown | Schwach | Keine | Hoch | Nein | Keiner | Keine |
 | JSON | Ja | Keine | Mittel | Nein | Keiner | Keine |
 | XML | Ja | Teilweise | Niedrig | Nein | Keiner | Keine |
-| **Ideale Denksprache** | **Ja** | **Ja** | **Hoch** | **Ja** | **Ja** | **Ja** |
+| **Ideale Sprache für Schlussfolgerungen** | **Ja** | **Ja** | **Hoch** | **Ja** | **Ja** | **Ja** |
 
 Ein neues Format wird nicht gebraucht, weil bestehende Formate schlecht sind.
 Sondern weil bestehende Formate in einer anderen Aera, fuer einen anderen Zweck gemacht wurden.

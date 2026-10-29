@@ -2,9 +2,9 @@
 title: "Por que fracaso el esperanto"
 weight: 12
 date: 2026-02-26T12:00:14+09:00
-lastmod: 2026-02-26T12:00:14+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Esperanto", "lenguaje artificial", "historia"]
-summary: "Los lenguajes artificiales para humanos fracasaron — los lenguajes artificiales para IA son diferentes"
+summary: "El esperanto fracasó porque había que aprenderlo, intentó reemplazar a las lenguas existentes y existía para comunicar. Un lenguaje artificial para la IA toma otro camino: los humanos no necesitan aprenderlo, no reemplaza al lenguaje natural y su propósito es registrar y verificar."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -35,7 +35,7 @@ La pronunciacion coincide con la ortografia.
 Zamenhof reconocio la ineficiencia del lenguaje natural
 e intento resolverla con un lenguaje artificial deliberadamente disenado.
 
-137 anos despues, el esperanto tiene aproximadamente 2 millones de hablantes.
+139 anos despues, el esperanto tiene aproximadamente 2 millones de hablantes.
 0.025% de la poblacion mundial.
 El esperanto fracaso.
 
@@ -64,7 +64,7 @@ Porque nadie lo aprende, aun menos personas lo hablan.
 
 Un caso de libro de efectos de red inversos.
 El problema del huevo y la gallina.
-El esperanto ha estado atrapado en esta trampa durante 137 anos.
+El esperanto ha estado atrapado en esta trampa durante 139 anos.
 
 ### Causa 2: Tenia que reemplazar los idiomas existentes
 
@@ -175,6 +175,8 @@ Esto es leer un mapa.
 
 Asi como no necesitas estudiar topografia para leer Google Maps,
 no necesitas aprender gramatica binaria para usar el editor visual.
+
+El primer paso ya existe. `geul serve`, de gogeul, muestra un documento GEUL en el navegador como lista de registros y como grafo. Un editor para modificar el grafo directamente aún está por llegar.
 
 ---
 

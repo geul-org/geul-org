@@ -18,7 +18,7 @@ Um documento GEUL é uma sequência de WORDs de 16 bits. A unidade de dados é o
 
 A biblioteca Go do GEUL e a ferramenta de linha de comando `geul`.
 
-Escreve, lê, verifica e publica documentos GEUL (`.geul`). Seus pacotes oferecem verificação de formato, decodificação de registros por meio de documentos de especificação de Codec, diferenças entre versões, resolução de dependências IMPORT e o Codec TOULMIN. A CLI `geul` cobre edição (`new`, `add`), publicação (`publish`), consulta (`ls`, `log`, `show`), um visualizador no navegador (`serve`, `build`) e arquivos pack (`pack build`, `pack unpack`). Os arquivos pack podem guardar registros comprimidos com zstd.
+Escreve, lê, verifica e publica documentos GEUL (`.geul`). Seus pacotes oferecem verificação de formato, decodificação de registros por meio de documentos de especificação de Codec, diferenças entre versões, resolução de dependências IMPORT e o Codec TOULMIN. A CLI `geul` cobre edição (`new`, `add`), publicação (`publish`), consulta (`ls`, `log`, `show`, `diff`, `check`), um visualizador no navegador (`serve`, `build`) e arquivos pack (`pack build`, `pack unpack`). Os arquivos pack podem guardar registros comprimidos com zstd.
 
 | | |
 |---|---|

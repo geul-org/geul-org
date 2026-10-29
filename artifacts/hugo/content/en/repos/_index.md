@@ -18,7 +18,7 @@ A GEUL document is a sequence of 16-bit WORDs. The unit of data is the record, w
 
 The GEUL Go library and the `geul` command-line tool.
 
-Writes, reads, checks and publishes GEUL documents (`.geul`). Its packages provide format checks, record decoding through Codec spec documents, version diffs, IMPORT dependency resolution and the TOULMIN Codec. The `geul` CLI covers editing (`new`, `add`), publishing (`publish`), browsing (`ls`, `log`, `show`), a browser viewer (`serve`, `build`) and pack archives (`pack build`, `pack unpack`). Pack archives can store records compressed with zstd.
+Writes, reads, checks and publishes GEUL documents (`.geul`). Its packages provide format checks, record decoding through Codec spec documents, version diffs, IMPORT dependency resolution and the TOULMIN Codec. The `geul` CLI covers editing (`new`, `add`), publishing (`publish`), browsing (`ls`, `log`, `show`, `diff`, `check`), a browser viewer (`serve`, `build`) and pack archives (`pack build`, `pack unpack`). Pack archives can store records compressed with zstd.
 
 | | |
 |---|---|

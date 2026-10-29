@@ -2,9 +2,9 @@
 title: "Por Que Verificacoes de Consistencia Sao Necessarias"
 weight: 6
 date: 2026-02-26T12:00:08+09:00
-lastmod: 2026-02-26T12:00:08+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["consistencia", "contradicao", "coerencia"]
-summary: "Informacoes individualmente corretas podem ser coletivamente erradas"
+summary: "Informações corretas isoladamente podem se contradizer quando reunidas. Os três tipos de contradição (temporal, entre fontes, inferencial) e por que detectá-las vira comparação de campos e aritmética numa representação estruturada."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

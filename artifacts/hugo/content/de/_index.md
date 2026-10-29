@@ -2,7 +2,8 @@
 title: "GEUL"
 image: "/images/og-default.webp"
 date: 2026-02-26T12:00:00+09:00
-summary: "GEUL ist eine semantisch ausgerichtete künstliche Sprache und ein Binärformat für eindeutige Kommunikation zwischen Menschen und KI."
+lastmod: 2026-10-29T12:00:00+09:00
+summary: "GEUL ist eine künstliche Sprache und ein Binärformat für eindeutige Kommunikation zwischen Menschen und KI."
 ---
 
 ## Warum GEUL
@@ -63,9 +64,10 @@ Jede Aussage hat einen Platz fuer ihren Konfidenzgrad.
 Jede Entitaet hat einen eindeutigen Bezeichner.
 Die Maschine weiss, dass "Samsung Electronics" und "Samsung Electronics" dasselbe sind.
 
-In GEUL geschriebene Informationen koennen maschinell verifiziert werden.
-Ist das Format korrekt? Sind die Referenzen gueltig? Gibt es Widersprueche?
-Bevor die AI liest, bevor ein Mensch prueft, inspiziert die Maschine zuerst.
+In GEUL geschriebene Information lässt sich mechanisch prüfen.
+Ob die Form stimmt und ob Referenzen gültig sind, bestätigt eine Maschine sofort.
+Zu beurteilen, ob sich Aussagen widersprechen, ist der nächste Schritt.
+Bevor eine KI sie liest, bevor ein Mensch sie prüft, prüft zuerst eine Maschine.
 
 Warum ist das wichtig?
 
@@ -91,9 +93,9 @@ Das Publikum von GEUL ist AI.
 
 ---
 
-Diese Website erklaert, warum GEUL noetig ist.
-Wir verkaufen kein Produkt. Wir listen keine technischen Spezifikationen auf.
-Wir beantworten die Frage: "Warum?"
+Diese Website erklärt, warum GEUL gebraucht wird.
+Wir verkaufen kein Produkt. Die technische Spezifikation steht gesondert in der [Grammatik](/de/grammar/).
+Hier beantworten wir die Frage: „Warum?“
 
 Warum reicht natuerliche Sprache nicht aus?
 Warum funktionieren Programmiersprachen auch nicht?

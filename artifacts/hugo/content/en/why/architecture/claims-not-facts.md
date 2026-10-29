@@ -2,9 +2,9 @@
 title: "Why Claims, Not Facts?"
 weight: 15
 date: 2026-02-26T12:00:06+09:00
-lastmod: 2026-02-26T12:00:06+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["claims", "facts", "confidence"]
-summary: "Truth vanishes faster than the speed of light"
+summary: "Truth is inaccessible; all we are left with are someone's claims. Why a knowledge system should take claims, not facts, as its primary data, and give source, time, and confidence a place to be recorded."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -190,19 +190,23 @@ The key is this:
 Look at Wikidata.
 
 ```
-Q8492 (Yi Sun-sin)
+Q50184 (Yi Sun-sin)
   - instance of: human
   - occupation: naval commander
   - date of death: 1598-12-16
 ```
 
-There is no "who made this claim."
-There is no "how confident is this."
-There is no "are there conflicting claims."
+Wikidata is not unaware of this problem.
+Each statement can carry references, receive a rank, and sit next to conflicting values.
+
+But many statements have a value and no reference.
+There is no place to write "how confident is this."
+And those who take the data usually take only the values.
+The references and ranks fall away, and the value remains as if it were a fact.
 
 The assertion that Yi Sun-sin's date of death is December 16, 1598
 is the result of consensus among multiple historical records and scholars,
-yet Wikidata stores it as if it were a universal truth.
+yet in data pulled out this way it sits as if it were a universal truth.
 
 In most cases, this is not a problem.
 Because the confidence of the consensus is sufficiently high.
@@ -268,28 +272,31 @@ Structurally preserve sources, context, and confidence.
 
 A proper knowledge system must treat every narration as a claim.
 
-When a natural language sentence is converted into a structured representation, it must include:
+When a natural language sentence is turned into a structured representation, there must be a place for:
 
-**Who made the claim** --- Source entity
+**Who made the claim** --- Source
 **When was it claimed** --- Temporal context
 **In which world is this claim** --- World context
 **From which perspective** --- POV (Point of View)
 **How confident is it** --- Confidence level
 
-This is not optional.
-The structure of such a system demands this information.
-If a field is empty, it is explicitly marked as empty.
+GEUL has these places.
+A [SOURCE](/grammar/edge/source/) Edge links a statement to its origin.
+The time at which a proposition holds is narrowed with a [QUALIFIER](/grammar/edge/qualifier/).
+Worlds and scenes are handled by WORLD and SCENE Edges, and the confidence of a whole document by the [CONFIDENCE](/grammar/meta/verification/confidence/) Meta.
 
-When "Yi Sun-sin was great" is converted into a structured representation:
+Not all of them must be filled.
+But what is not written shows up as not written.
+A statement without a source appears as a statement without SOURCE, and a machine can pick it out.
+
+"Yi Sun-sin was great," turned into a structured representation, looks roughly like this:
 
 ```
-[Entity: Yi Sun-sin]
-[Verb: be great (evaluative verb)]
-[POV: Speaker (current conversation participant)]
-[Time: Present moment]
-[Confidence: Not specified]
-[Source: Speaker's direct utterance]
-[World: Real world]
+Statement   Yi Sun-sin (Q50184) — be great (evaluation)
+Source      speaker's direct utterance     SOURCE
+Time        current conversation            QUALIFIER
+World       real world                      WORLD
+Confidence  not written
 ```
 
 Even for the identical natural language sentence "Yi Sun-sin was great,"
@@ -341,7 +348,7 @@ Truth is physically inaccessible.
 4. Therefore, the primary data of a knowledge system cannot be facts. It must be claims.
 5. If you treat claims as facts, contradiction becomes error. If you treat them as claims, contradiction becomes data.
 6. LLM hallucination is the result of claims losing their sources.
-7. Such a system structurally embeds source, time, perspective, and confidence into every narration.
+7. GEUL gives every statement a place for source, time, world, and confidence. What is not written shows up as not written.
 
 We do not handle truth.
 We handle sentences about truth.

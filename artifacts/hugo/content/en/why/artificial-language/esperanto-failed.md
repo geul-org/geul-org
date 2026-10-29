@@ -2,9 +2,9 @@
 title: "Why Esperanto Failed"
 weight: 12
 date: 2026-02-26T12:00:14+09:00
-lastmod: 2026-02-26T12:00:14+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Esperanto", "artificial language", "history"]
-summary: "Artificial languages for humans failed — artificial languages for AI are different"
+summary: "Esperanto failed because it had to be learned, tried to replace existing languages, and existed for communication. An artificial language for AI takes a different path: humans need not learn it, it does not replace natural language, and its purpose is recording and verification."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -35,7 +35,7 @@ Pronunciation matches spelling.
 Zamenhof recognized the inefficiency of natural language
 and tried to solve it with a deliberately designed artificial language.
 
-137 years later, Esperanto has roughly 2 million speakers.
+139 years later, Esperanto has roughly 2 million speakers.
 0.025% of the world's population.
 Esperanto failed.
 
@@ -64,7 +64,7 @@ Because no one learns it, even fewer people speak it.
 
 A textbook case of reverse network effects.
 The chicken-and-egg problem.
-Esperanto has been stuck in this trap for 137 years.
+Esperanto has been stuck in this trap for 139 years.
 
 ### Cause 2: It Had to Replace Existing Languages
 
@@ -175,6 +175,8 @@ This is reading a map.
 
 Just as you do not need to study surveying to read Google Maps,
 you do not need to learn binary grammar to use the visual editor.
+
+The first step already exists. `geul serve` in gogeul shows a GEUL document in the browser as a list of records and as a graph. An editor for changing the graph directly is still ahead.
 
 ---
 

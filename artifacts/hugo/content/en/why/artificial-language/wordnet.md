@@ -2,9 +2,9 @@
 title: "Why WordNet?"
 weight: 14
 date: 2026-03-01T14:00:00+09:00
-lastmod: 2026-03-01T14:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["WordNet", "verbs", "semantic primitives", "synset"]
-summary: "Building a verb system from scratch means gaps, arbitrary choices, and no justification. WordNet is a 40-year lexical database of 13,767 verb synsets built by linguists. We borrow the dictionary and build the grammar on top."
+summary: "Build a verb system yourself and it has gaps, is arbitrary, and lacks grounding. GEUL learned the structure by building a provisional codebook from WordNet's 13,767 verbs, accumulated over 40 years. Because WordNet is not CC0 and is tied to English, this provisional edition will be replaced by a verb codebook without WordNet."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,7 +14,7 @@ We needed verbs.
 
 To let AI describe the world, you need verbs. In "Yi Sun-sin built the turtle ship," without "built" there is no sentence.
 
-For entity identification, there is Wikidata. Yi Sun-sin is Q28090. The turtle ship is Q249845. Identification is already done.
+For entity identification, there is Wikidata. Yi Sun-sin is Q50184. The turtle ship is Q695959. Identification is already done.
 
 For verbs, there is no equivalent. There is no ID for "build." Whether "build," "construct," and "manufacture" mean the same thing or different things — there is no agreed-upon standard.
 
@@ -64,7 +64,7 @@ If WordNet is the dictionary of verbs, how to use those verbs is a separate matt
 
 WordNet tells you what "give" means and how it relates to "donate." But it does not tell you how to use "give" in a sentence — who gives, what is given, to whom — that structure is not its job.
 
-This is the same relationship as with Wikidata. Wikidata tells you that Yi Sun-sin is Q28090. But how to compose a sentence about Yi Sun-sin is not Wikidata's responsibility.
+This is the same relationship as with Wikidata. Wikidata tells you that Yi Sun-sin is Q50184. But how to compose a sentence about Yi Sun-sin is not Wikidata's responsibility.
 
 Borrow the dictionary; build the grammar yourself.
 
@@ -120,7 +120,21 @@ WordNet's 13,767 verbs are the list of verbs humans have named. Comprehensive, b
 
 If WordNet is the standard library, the semantic atom system is the compiler. Just as a compiler can produce functions not in the standard library.
 
-This is a major research undertaking, something to attempt after a WordNet-based system is working. For now, the standard library is enough.
+This is a major research undertaking, something to attempt after a verb codebook has actually been put to work.
+
+---
+
+## Why it is provisional
+
+GEUL built a verb codebook on this structure: [wordnet-verb](/repos/#wordnet-verb), which gives each of WordNet 3.0's 13,767 verb synsets a 16-bit code, with close codes for close meanings. But it is a provisional edition, kept for reference. There are three reasons.
+
+**License.** WordNet is under the WordNet 3.0 License. GEUL's public outputs are CC0. Lists and definitions derived from WordNet cannot be carried over into a CC0 codebook.
+
+**English.** A synset is a sense unit of English words. GEUL needs a verb system that is not tied to any particular language.
+
+**Place.** How verb codes are carried in GEUL records has not been decided yet.
+
+So this provisional edition will be replaced by a pure verb codebook that does not use WordNet. What was learned from WordNet remains: coverage must be complete, criteria must be explicit, and the hierarchy must have grounds.
 
 ---
 
@@ -129,8 +143,9 @@ This is a major research undertaking, something to attempt after a WordNet-based
 Every project that tries to build a verb system faces the same question. Where do you get it?
 
 Build it yourself and there are gaps, arbitrariness, and no justification.
-Build it on WordNet and there are no gaps, consensus, and data-driven grounding.
+Start from WordNet and there are no gaps, consensus, and data-driven grounding.
 
-WordNet is humanity's verb dictionary, accumulated by linguists over 40 years.
-Borrow the words from this dictionary, but build the grammar yourself.
-This is why we use Wikidata for entities, and why we use WordNet for verbs.
+So GEUL started from WordNet. But it is only a starting point.
+Public outputs must be CC0, and a verb system must not be tied to English.
+Learn the structure from WordNet, then rebuild it from CC0 sources and real usage data.
+The principle stays the same: borrow the dictionary, build the grammar yourself.

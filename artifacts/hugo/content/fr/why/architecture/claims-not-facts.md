@@ -2,9 +2,9 @@
 title: "Pourquoi des affirmations, pas des faits ?"
 weight: 15
 date: 2026-02-26T12:00:06+09:00
-lastmod: 2026-02-26T12:00:06+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["affirmations", "faits", "confiance"]
-summary: "La verite disparait plus vite que la lumiere"
+summary: "La vérité est inaccessible ; il ne nous reste que les affirmations de quelqu'un. Pourquoi un système de connaissances doit prendre pour données primaires des affirmations et non des faits, et prévoir une place pour la source, le moment et le degré de confiance."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -190,19 +190,23 @@ Le point cle est le suivant :
 Regardez Wikidata.
 
 ```
-Q8492 (Yi Sun-sin)
+Q50184 (Yi Sun-sin)
   - instance of: human
   - occupation: naval commander
   - date of death: 1598-12-16
 ```
 
-Il n'y a pas de "qui a fait cette affirmation".
-Il n'y a pas de "quel est le niveau de confiance".
-Il n'y a pas de "y a-t-il des affirmations contradictoires".
+Wikidata n'ignore pas ce problème.
+Chaque déclaration peut porter des références, recevoir un rang (rank) et côtoyer des valeurs contradictoires.
 
-L'assertion que la date de deces de Yi Sun-sin est le 16 decembre 1598
-est le resultat d'un consensus entre de multiples archives historiques et chercheurs,
-pourtant Wikidata la stocke comme si c'etait une verite universelle.
+Mais beaucoup de déclarations ont une valeur et aucune référence.
+Il n'y a pas de place pour écrire « quel est le degré de certitude ».
+Et ceux qui prennent les données n'en prennent généralement que les valeurs.
+Les références et les rangs tombent, et la valeur reste comme si c'était un fait.
+
+L'affirmation selon laquelle Yi Sun-sin est mort le 16 décembre 1598
+est le fruit d'un consensus entre de nombreuses sources historiques et de nombreux chercheurs,
+mais dans des données extraites ainsi, elle se présente comme une vérité universelle.
 
 Dans la plupart des cas, ce n'est pas un probleme.
 Parce que la confiance du consensus est suffisamment elevee.
@@ -266,41 +270,44 @@ Preserver structurellement les sources, le contexte et la confiance.
 
 ## Une solution structurelle
 
-Un systeme de connaissances correct doit traiter chaque narration comme une affirmation.
+Un système de connaissances digne de ce nom doit traiter chaque narration comme une affirmation.
 
-Quand une phrase en langage naturel est convertie en representation structuree, elle doit inclure :
+Lorsqu'une phrase en langage naturel est transformée en représentation structurée, il doit y avoir une place pour :
 
-**Qui a fait l'affirmation** --- Entite source
-**Quand a-t-elle ete affirmee** --- Contexte temporel
-**Dans quel monde se situe cette affirmation** --- Contexte du monde
-**De quel point de vue** --- POV (Point de Vue)
-**Quel est le niveau de confiance** --- Niveau de confiance
+**Qui a fait l'affirmation** --- Source
+**Quand elle a été faite** --- Contexte temporel
+**Dans quel monde elle se situe** --- Contexte de monde
+**De quel point de vue** --- POV (Point of View)
+**Avec quel degré de certitude** --- Niveau de confiance
 
-Ce n'est pas optionnel.
-La structure d'un tel systeme exige ces informations.
-Si un champ est vide, il est explicitement marque comme vide.
+GEUL dispose de ces places.
+Une Edge [SOURCE](/fr/grammar/edge/source/) relie un énoncé à son origine.
+Le moment où une proposition vaut est précisé par un [QUALIFIER](/fr/grammar/edge/qualifier/).
+Les mondes et les scènes relèvent des Edge WORLD et SCENE, et la confiance d'un document entier de la Meta [CONFIDENCE](/fr/grammar/meta/verification/confidence/).
 
-Quand "Yi Sun-sin etait grand" est converti en representation structuree :
+Il n'est pas obligatoire de tout remplir.
+Mais ce qui n'est pas écrit apparaît comme non écrit.
+Un énoncé sans source apparaît comme un énoncé sans SOURCE, et une machine peut le repérer.
+
+« Yi Sun-sin était grand », transformé en représentation structurée, ressemble à peu près à ceci :
 
 ```
-[Entity: Yi Sun-sin]
-[Verb: be great (verbe evaluatif)]
-[POV: Locuteur (participant actuel de la conversation)]
-[Time: Moment present]
-[Confidence: Non specifie]
-[Source: Enonciation directe du locuteur]
-[World: Monde reel]
+Énoncé      Yi Sun-sin (Q50184) — être grand (évaluation)
+Source      propos direct du locuteur      SOURCE
+Moment      conversation en cours          QUALIFIER
+Monde       monde réel                     WORLD
+Confiance   non écrite
 ```
 
-Meme pour la phrase identique en langage naturel "Yi Sun-sin etait grand",
-la representation est entierement differente selon que
-c'est narre par un manuel d'histoire,
-prononce comme une impression personnelle d'un individu,
-ou dit par un personnage de roman.
+Même pour la même phrase en langage naturel « Yi Sun-sin était grand »,
+la représentation est entièrement différente selon
+qu'elle est rapportée par un manuel d'histoire,
+exprimée par quelqu'un comme impression personnelle,
+ou prononcée par un personnage de roman.
 
-L'ambiguite est structurellement eliminee.
-Les affirmations sont enregistrees comme des affirmations.
-Les fragments de verite sont preserves comme des fragments.
+L'ambiguïté est éliminée structurellement.
+Les affirmations sont enregistrées comme des affirmations.
+Les fragments de vérité sont préservés comme des fragments.
 
 ---
 
@@ -341,7 +348,7 @@ La verite est physiquement inaccessible.
 4. Par consequent, la donnee primaire d'un systeme de connaissances ne peut pas etre des faits. Ce doit etre des affirmations.
 5. Si vous traitez les affirmations comme des faits, la contradiction devient une erreur. Si vous les traitez comme des affirmations, la contradiction devient une donnee.
 6. L'hallucination des LLM est le resultat d'affirmations ayant perdu leurs sources.
-7. Un tel systeme integre structurellement la source, le temps, la perspective et la confiance dans chaque narration.
+7. GEUL donne à chaque énoncé une place pour la source, le moment, le monde et la confiance. Ce qui n'est pas écrit apparaît comme non écrit.
 
 Nous ne manipulons pas la verite.
 Nous manipulons des phrases sur la verite.

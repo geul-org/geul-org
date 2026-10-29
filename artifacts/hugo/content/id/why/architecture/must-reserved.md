@@ -2,24 +2,24 @@
 title: "Mengapa Harus Dibiarkan Kosong"
 weight: 21
 date: 2026-03-01T15:00:00+09:00
-lastmod: 2026-03-01T15:00:00+09:00
-tags: ["reserved", "ekstensibilitas", "64-bit", "prinsip-desain", "IPv4"]
-summary: "GEUL mengosongkan 75% ruang 64-bitnya. Pelajaran dari IPv4, Unicode, dan ASCII mengajarkan — biaya mengisi tidak dapat dikembalikan, tetapi biaya mengosongkan adalah nol."
+lastmod: 2026-10-29T12:00:00+09:00
+tags: ["reserved", "ekstensibilitas", "TAG WORD", "prinsip-desain", "IPv4"]
+summary: "GEUL mengosongkan 75% ruang TAG WORD 16-bit yang membuka setiap rekaman. Pelajaran dari IPv4, Unicode, dan ASCII: biaya mengisi tidak dapat dipulihkan, sedangkan biaya mengosongkan hanya tiga bit per rekaman."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-64 bit memiliki 18.446.744.073.709.551.616 alamat. 18,4 kuintiliun. GEUL mengosongkan 75% di antaranya.
+Setiap rekaman GEUL dimulai dengan satu TAG WORD 16-bit. Bit-bit terdepan TAG WORD membaginya menjadi wilayah. GEUL mengosongkan 75% dari ruang ini.
 
 ```
-bit1 = 1:    50%    masa depan jauh
-bit1-2 = 01: 25%    masa depan dekat
-bit1-3 = 001: 12,5% standar
-bit1-4 = 0001: 6,25% proposal saat ini
+1xx:  50%    Masa depan jauh
+01x:  25%    Masa depan dekat
+001:  12.5%  Standar
+000:  12.5%  Tata bahasa saat ini (bebas / usulan)
 ```
 
-Ruang yang saat ini digunakan adalah 6,25%. Dari 93,75% sisanya, 12,5% akan digunakan ketika standar ditetapkan, dan 75% dicadangkan untuk generasi yang belum lahir.
+Seluruh tata bahasa saat ini berada di wilayah `000`, di dalam 12.5%. Ketika standar resmi diluncurkan, tata letak yang diadopsi tetap seperti adanya dan hanya bit terdepannya yang dipindah ke `001`. Sisa 75% disisakan untuk generasi yang belum lahir.
 
 Mengapa?
 
@@ -103,49 +103,53 @@ Menyisakan 50% untuk masa depan jauh berarti menyerahkan separuh kemungkinan kep
 
 ---
 
-## Biaya mengosongkan
+## Biaya Mengosongkan
 
-Apakah mengosongkan memiliki biaya?
+Apakah mengosongkan ruang ada biayanya?
 
 ```
-75% dicadangkan dari 64 bit = 48 bit tidak digunakan.
-Sisa 16 bit (6,25%) = 1.152.921.504.606.846.976 alamat.
+TAG WORD 16 bit = wilayah 3 bit + 13 bit
 
-11,5 kuintiliun.
-10 juta kali lipat seluruh Wikidata (108 juta).
-Cukup untuk menampung semua data yang ada dan masih tersisa.
+13 bit di wilayah saat ini 000:
+  Kind    2 bit   Reference · Value · Edge · Meta
+  Length  4 bit   1–14 WORD, hingga 2³²−1 WORD bila diperluas
+  Codec   7 bit   124 kode langsung + 4 bentuk Issuer
 ```
 
-Mengosongkan tidak berarti kekurangan. 6,25% sudah cukup untuk kebutuhan saat ini. Biaya mengosongkan adalah 0.
+Apakah 13 bit tidak terlalu sedikit? Tidak. Format yang tidak mendapat kode langsung ditulis sebagai format Issuer. Setiap pihak yang mendefinisikan format (Issuer) punya nomor format 16-bit sendiri, sehingga praktis tidak ada batas jumlah format. Harganya beberapa WORD TAG perluasan. Format yang sering dipakai pendek; yang jarang sedikit lebih panjang.
 
-Biaya mengisi? IPv4 sudah menunjukkannya. Tidak bisa dikembalikan.
+Biaya mengosongkan adalah tiga bit TAG WORD per rekaman. Tiga bit itu menyisakan untuk masa depan enam kali ruang yang dipakai hari ini.
+
+Biaya mengisi? IPv4 sudah menunjukkannya. Tidak dapat dipulihkan.
 
 ---
 
-## Prinsip desain
+## Prinsip Desain
 
-Pasal 1 prinsip desain GEUL Grammar v0.11:
+Prinsip desain kelima dari [tata bahasa](/id/grammar/overview/) GEUL v1:
 
-> **Ekstensibilitas jangka panjang:** Bit yang dicadangkan tidak dialihkan untuk penggunaan sementara. Ruang dipertahankan agar generasi mendatang dapat menggunakannya.
+> **Biarkan kosong.** Sebagian besar ruang bit disimpan untuk masa depan. Kode langsung tidak dapat ditarik kembali, jadi hanya format yang frekuensinya sudah terbukti yang mendapatkannya.
 
-Ini bukan keputusan teknis, melainkan keputusan etis.
+Tata bahasa menetapkan prinsip ini sebagai aturan. Dekoder v1 menolak setiap TAG WORD yang bit terdepannya bukan `000`. Jalan untuk meminjam ruang kosong demi keperluan sementara sudah tertutup sejak awal.
 
-Tidak menggunakan ruang yang bisa digunakan sekarang adalah deklarasi bahwa kebebasan masa depan lebih penting daripada kenyamanan saat ini. Utang yang ditinggalkan generasi perancang IPv4 kepada kita, tidak akan kita tinggalkan kepada generasi berikutnya.
+Ini bukan keputusan teknis. Ini keputusan etis.
+
+Memilih untuk tidak menggunakan ruang yang bisa digunakan sekarang adalah deklarasi bahwa kebebasan masa depan lebih diutamakan daripada kenyamanan masa kini. Utang yang ditinggalkan generasi perancang IPv4 kepada kita tidak akan kita wariskan kepada generasi berikutnya.
 
 ---
 
-## Desain paling rendah hati
+## Desain Paling Rendah Hati
 
 ```
-"Saya tahu masa depan" → Gunakan seluruh 64 bit.
-"Saya tidak tahu masa depan" → Kosongkan 75%.
+"Saya tahu masa depan" -> Gunakan seluruh 16 bit.
+"Saya tidak tahu masa depan" -> Kosongkan 75%.
 ```
 
-Mengosongkan adalah kerendahan hati. Mengakui bahwa kita yang ada sekarang tidak bisa mengetahui masa depan. Dan kerendahan hati itulah yang menghasilkan desain paling kokoh.
+Mengosongkan ruang adalah kerendahan hati. Itu tindakan mengakui bahwa kita tidak bisa mengetahui masa depan. Dan kerendahan hati itulah yang menghasilkan desain paling kokoh.
 
-IPv4 adalah produk kepercayaan diri. 32 bit cukup. Ternyata tidak.
+IPv4 adalah produk kepercayaan diri. 32 bit sudah cukup. Ternyata tidak.
 
-GEUL adalah produk kerendahan hati. Kami tidak tahu apakah 6,25% dari 64 bit akan cukup. Tapi jika kami mengosongkan 75%, tidak apa-apa jika kami salah.
+GEUL adalah produk kerendahan hati. Kami tidak tahu apakah 12.5% yang dipakai hari ini cukup. Tetapi jika 75% dikosongkan, tidak apa-apa jika salah.
 
 ---
 

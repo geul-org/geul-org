@@ -2,24 +2,24 @@
 title: "Pourquoi il faut laisser vide"
 weight: 21
 date: 2026-03-01T15:00:00+09:00
-lastmod: 2026-03-01T15:00:00+09:00
-tags: ["réservé", "extensibilité", "64-bit", "principe-de-conception", "IPv4"]
-summary: "GEUL laisse vide 75% de son espace 64 bits. Les leçons d'IPv4, Unicode et ASCII nous enseignent : le coût de remplir est irréversible, mais le coût de laisser vide est zéro."
+lastmod: 2026-10-29T12:00:00+09:00
+tags: ["réservé", "extensibilité", "TAG WORD", "principe-de-conception", "IPv4"]
+summary: "GEUL laisse vide 75 % de l'espace de la TAG WORD de 16 bits qui ouvre chaque enregistrement. Les leçons d'IPv4, d'Unicode et d'ASCII : le coût du remplissage est irréversible, celui du vide n'est que de trois bits par enregistrement."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-64 bits, c'est 18 446 744 073 709 551 616 adresses. 18,4 trillions. GEUL en laisse 75 % vides.
+Chaque enregistrement GEUL commence par une seule TAG WORD de 16 bits. Les bits de tête de la TAG WORD la divisent en régions. GEUL laisse vide 75 % de cet espace.
 
 ```
-bit1 = 1:    50%    futur lointain
-bit1-2 = 01: 25%    futur proche
-bit1-3 = 001: 12.5% standard
-bit1-4 = 0001: 6.25% proposition actuelle
+1xx:  50%    Futur lointain
+01x:  25%    Futur proche
+001:  12.5%  Standard
+000:  12.5%  Grammaire actuelle (libre / proposition)
 ```
 
-L'espace actuellement utilisé est de 6,25 %. Des 93,75 % restants, 12,5 % seront utilisés quand le standard sera établi, et 75 % sont réservés pour les générations qui ne sont pas encore nées.
+Toute la grammaire actuelle se trouve dans la région `000`, à l'intérieur des 12,5 %. Lorsqu'un standard officiel sera lancé, les dispositions adoptées resteront telles quelles et seuls les bits de tête passeront à `001`. Les 75 % restants sont laissés aux générations qui ne sont pas encore nées.
 
 Pourquoi ?
 
@@ -107,49 +107,53 @@ Réserver 50 % pour le futur lointain, c'est céder la moitié des possibilités
 
 ---
 
-## Le coût de laisser vide
+## Le coût du vide
 
-Laisser vide a-t-il un coût ?
+Laisser de l'espace vide coûte-t-il quelque chose ?
 
 ```
-75 % réservés sur 64 bits = 48 bits inutilisés.
-Les 16 bits restants (6,25 %) = 1 152 921 504 606 846 976 adresses.
+TAG WORD de 16 bits = région de 3 bits + 13 bits
 
-11,5 trillions.
-10 millions de fois la totalité de Wikidata (108 millions d'entités).
-Largement suffisant pour contenir toutes les données existantes.
+Les 13 bits de la région actuelle 000 :
+  Kind    2 bits   Reference · Value · Edge · Meta
+  Length  4 bits   1–14 WORD, jusqu'à 2³²−1 WORD en extension
+  Codec   7 bits   124 codes directs + 4 formes d'Issuer
 ```
 
-Laisser vide ne crée aucune pénurie. 6,25 % suffisent pour les besoins actuels. Le coût de laisser vide est zéro.
+13 bits, n'est-ce pas trop peu ? Non. Un format qui n'obtient pas de code direct s'écrit comme format d'Issuer. Chaque entité qui définit des formats (Issuer) dispose de ses propres numéros de format de 16 bits ; le nombre de formats n'a donc pratiquement pas de limite. Le prix : quelques WORD de TAG d'extension. Les formats fréquents sont courts, les formats rares un peu plus longs.
 
-Le coût de remplir ? IPv4 l'a démontré. C'est irréversible.
+Le coût du vide, ce sont trois bits de la TAG WORD par enregistrement. Ces trois bits réservent pour l'avenir six fois l'espace utilisé aujourd'hui.
+
+Le coût du remplissage ? IPv4 nous l'a montré. Il est irréversible.
 
 ---
 
 ## Principe de conception
 
-Article premier des principes de conception de GEUL Grammar v0.11 :
+Le cinquième principe de conception de la [grammaire](/fr/grammar/overview/) GEUL v1 :
 
-> **Extensibilité à long terme :** ne pas détourner les bits réservés pour un usage temporaire. Préserver l'espace que les générations futures utiliseront.
+> **Laisser vide.** La plus grande partie de l'espace de bits est gardée pour l'avenir. Les codes directs ne peuvent pas être récupérés ; seuls les formats à fréquence confirmée en reçoivent un.
+
+La grammaire fixe ce principe en règle. Un décodeur v1 rejette toute TAG WORD dont les bits de tête ne sont pas `000`. Le chemin pour emprunter l'espace vide à des fins temporaires est fermé dès le départ.
 
 Ce n'est pas une décision technique. C'est une décision éthique.
 
-Ne pas utiliser un espace disponible aujourd'hui, c'est déclarer que la liberté future prime sur le confort présent. C'est refuser de transmettre aux générations suivantes la dette que les concepteurs d'IPv4 nous ont léguée.
+Choisir de ne pas utiliser l'espace qui pourrait l'être maintenant, c'est déclarer que la liberté du futur prime sur la commodité du présent. La dette que la génération qui a conçu IPv4 nous a laissée, nous ne la laisserons pas à la génération suivante.
 
 ---
 
 ## La conception la plus humble
 
 ```
-"Je connais l'avenir" → utiliser les 64 bits en entier.
-"Je ne connais pas l'avenir" → laisser 75 % vides.
+"Je connais l'avenir" -> Utiliser les 16 bits.
+"Je ne connais pas l'avenir" -> Laisser 75 % vide.
 ```
 
-Laisser vide, c'est de l'humilité. C'est admettre que nous, aujourd'hui, ne pouvons pas connaître l'avenir. Et cette humilité produit la conception la plus robuste.
+Laisser de l'espace vide, c'est de l'humilité. C'est reconnaître que nous ne pouvons pas connaître l'avenir. Et cette humilité produit la conception la plus robuste.
 
-IPv4 était le produit de la confiance. 32 bits suffisent. Ce n'était pas suffisant.
+IPv4 était le produit de la confiance. 32 bits suffisent. Ils n'ont pas suffi.
 
-GEUL est le produit de l'humilité. 6,25 % de 64 bits suffisent-ils ? Nous ne savons pas. Mais si nous laissons 75 % vides, même si nous nous trompons, ce n'est pas grave.
+GEUL est le produit de l'humilité. Nous ne savons pas si les 12,5 % utilisés aujourd'hui suffisent. Mais si nous laissons 75 % vide, il n'est pas grave de se tromper.
 
 ---
 

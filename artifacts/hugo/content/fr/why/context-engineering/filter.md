@@ -2,9 +2,9 @@
 title: "Pourquoi les filtres sont necessaires"
 weight: 5
 date: 2026-02-26T12:00:09+09:00
-lastmod: 2026-02-26T12:00:09+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["filtre", "pertinence", "confiance"]
-summary: "Une information valide n'est pas toujours une information necessaire"
+summary: "Toute information valide n'est pas une information nécessaire. Le filtre qui ne retient que ce qui est utile maintenant, selon la pertinence, la fiabilité et la fraîcheur, et pourquoi ces critères deviennent des opérations sur des champs dans une représentation structurée."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,9 +2,9 @@
 title: "为什么提示工程的时代结束了"
 weight: 1
 date: 2026-02-26T12:00:12+09:00
-lastmod: 2026-02-26T12:00:12+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["提示", "上下文", "工程"]
-summary: "从怎么说到给什么看——游戏变了"
+summary: "模型越聪明，决定结果的就越不是\"怎么说\"，而是\"给它看什么\"。本文讨论从提示到上下文的转变，以及上下文工程所需的七种基础设施。"
 author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

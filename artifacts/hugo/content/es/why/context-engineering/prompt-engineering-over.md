@@ -2,9 +2,9 @@
 title: "Por que la era de la ingenieria de prompts termino"
 weight: 1
 date: 2026-02-26T12:00:12+09:00
-lastmod: 2026-02-26T12:00:12+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["prompt", "contexto", "ingenieria"]
-summary: "De como lo dices a que le muestras — el juego ha cambiado"
+summary: "Cuanto más inteligentes son los modelos, más pesa \"qué les muestras\" frente a \"cómo se lo dices\". El paso del prompt al contexto y las siete piezas de infraestructura que necesita la ingeniería de contexto."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,9 +2,9 @@
 title: "Por que MD/JSON/XML no funcionan"
 weight: 9
 date: 2026-02-26T12:00:15+09:00
-lastmod: 2026-02-26T12:00:15+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["formato", "JSON", "XML"]
-summary: "Los formatos existentes no pueden transportar significado"
+summary: "Markdown, JSON y XML se crearon para épocas y propósitos distintos. Tienen estructura pero no un significado unificado, ni un lugar para las fuentes. Por qué hace falta un formato aparte para registrar y acumular el razonamiento de la IA."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -164,54 +164,54 @@ XML es verboso para que los humanos puedan leerlo facilmente.
 Un lenguaje de razonamiento de IA no debe tener este desperdicio.
 Para un LLM, la etiqueta `<name>` es desperdicio.
 
-Y XML es un diseno de principios de los 2000.
-Se creo en una era cuando los LLM no existian, para humanos y software tradicional.
-Nunca se diseno como un lenguaje de razonamiento de IA.
+Y XML es un diseño de finales de los años noventa.
+Se creó en una época en que los LLM no existían, para humanos y software tradicional.
+Nunca se diseñó como lenguaje de razonamiento para IA.
 
 ---
 
-## La limitacion compartida
+## La limitación compartida
 
 Markdown, JSON, XML.
-Cada uno de los tres formatos tiene sus fortalezas, pero comparten limitaciones comunes.
+Cada uno de los tres formatos tiene sus fortalezas, pero comparten limitaciones.
 
-**Son basados en texto.**
-Todos se serializan en cadenas.
-Una maquina debe parsearlos para procesarlos.
-El parseo es un costo.
+**Están basados en texto.**
+Todos se serializan como cadenas.
+Una máquina debe analizarlos para procesarlos.
+El análisis es un costo.
 
-Un lenguaje de razonamiento ideal es un flujo binario.
-Una secuencia de palabras de 16 bits. No se necesita parseo.
-Interpretable en el instante en que se lee.
+GEUL es una secuencia de palabras de 16 bits.
+La primera palabra de cada registro indica su tipo y su longitud,
+así que los límites de los registros se conocen de inmediato, sin interpretar cadenas.
 
-**Fueron disenados antes de la era LLM.**
-Markdown es de 2004. JSON es de 2001. XML es de 1998.
-Se disenaron en una era cuando el concepto de LLM no existia,
+**Se diseñaron antes de la era de los LLM.**
+Markdown es de 2004. JSON, de 2001. XML, de 1998.
+Se diseñaron en una época en que el concepto de LLM no existía,
 para humanos o software tradicional.
 
-Un lenguaje de razonamiento de IA debe disenarse en la era LLM, para LLM.
-El principio de diseno "1 palabra = 1 token"
-presupone la existencia de LLM.
+Un lenguaje de razonamiento para IA debe diseñarse en la era de los LLM, para los LLM.
+Dimensionar la palabra de 16 bits al vocabulario de los LLM
+presupone la existencia de los LLM.
 
-**Su sistema semantico unificado esta ausente o es incompleto.**
-Markdown no tiene sistema semantico en absoluto.
+**Su sistema semántico unificado falta o es incompleto.**
+Markdown no tiene ningún sistema semántico.
 JSON tiene estructura pero no significado.
-XML puede definir esquemas pero no estan unificados.
+XML puede definir esquemas, pero no están unificados.
 
-Un indice semanticamente alineado es un ID de significado unificado globalmente.
-Donde sea que se use, el mismo SIDX significa lo mismo.
-No se necesita conversion. El consenso esta integrado.
+GEUL apunta a los objetos por ID, no por nombre:
+Reference como un QID de Wikidata o un ID de documento emitido por un Issuer.
+Donde sea que se use, el mismo ID es el mismo objeto. No hace falta conversión.
 
 ---
 
 ## Resumen
 
-| Formato | Estructura | Significado | Amigable con LLM | Binario | Soporte de afirmaciones | Modificadores verbales |
+| Formato | Estructura | Significado | Apto para LLM | Binario | Lugar para fuentes | Calificadores |
 |--------|-----------|---------|---------------|--------|---------------|----------------|
-| Markdown | Debil | Ninguno | Alto | No | Ninguno | Ninguno |
-| JSON | Si | Ninguno | Medio | No | Ninguno | Ninguno |
-| XML | Si | Parcial | Bajo | No | Ninguno | Ninguno |
-| **Lenguaje de razonamiento ideal** | **Si** | **Si** | **Alto** | **Si** | **Si** | **Si** |
+| Markdown | Débil | Ninguno | Alto | No | Ninguno | Ninguno |
+| JSON | Sí | Ninguno | Medio | No | Ninguno | Ninguno |
+| XML | Sí | Parcial | Bajo | No | Ninguno | Ninguno |
+| **Lenguaje de razonamiento ideal** | **Sí** | **Sí** | **Alto** | **Sí** | **Sí** | **Sí** |
 
 Un nuevo formato se necesita no porque los formatos existentes sean malos.
 Es porque los formatos existentes fueron hechos en una era diferente, para un proposito diferente.

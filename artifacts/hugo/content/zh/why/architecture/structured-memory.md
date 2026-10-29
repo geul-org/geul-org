@@ -2,9 +2,9 @@
 title: "为什么需要结构化记忆?"
 weight: 18
 date: 2026-02-26T12:00:05+09:00
-lastmod: 2026-02-26T12:00:05+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["记忆", "结构", "WMS"]
-summary: "没有记忆的智能每次都从零开始"
+summary: "AI很会写文件，却找不到自己写过的文件。问题不在存储，而在提取。本文讨论从一张\"什么在哪里\"的地图（如目录和索引）走向结构化记忆的道路。"
 author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

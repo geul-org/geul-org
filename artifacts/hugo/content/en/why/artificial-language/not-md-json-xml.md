@@ -2,9 +2,9 @@
 title: "Why MD/JSON/XML Won't Work"
 weight: 9
 date: 2026-02-26T12:00:15+09:00
-lastmod: 2026-02-26T12:00:15+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["format", "JSON", "XML"]
-summary: "Existing formats cannot carry meaning"
+summary: "Markdown, JSON, and XML were each made for a different era and purpose. They have structure but no unified meaning, and no place for sources. Why a separate format is needed to record and accumulate AI reasoning."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -164,7 +164,7 @@ XML is verbose so that humans can read it easily.
 An AI reasoning language must not have this waste.
 For an LLM, the `<name>` tag is waste.
 
-And XML is a design from the early 2000s.
+And XML is a design from the late 1990s.
 It was created in an era when LLMs did not exist, for humans and traditional software.
 It was never designed as an AI reasoning language.
 
@@ -180,9 +180,9 @@ All of them serialize into strings.
 A machine must parse them to process them.
 Parsing is a cost.
 
-An ideal reasoning language is a binary stream.
-A sequence of 16-bit words. No parsing needed.
-Interpretable the instant it is read.
+GEUL is a sequence of 16-bit words.
+The first word of every record gives its kind and length,
+so record boundaries are known at once, without interpreting strings.
 
 **They were designed before the LLM era.**
 Markdown is from 2004. JSON is from 2001. XML is from 1998.
@@ -190,7 +190,7 @@ They were designed in an era when the concept of LLMs did not exist,
 for humans or traditional software.
 
 An AI reasoning language must be designed in the LLM era, for LLMs.
-The design principle "1 word = 1 token"
+Sizing the 16-bit word to LLM vocabularies
 presupposes the existence of LLMs.
 
 **Their unified semantic system is absent or incomplete.**
@@ -198,15 +198,15 @@ Markdown has no semantic system at all.
 JSON has structure but no meaning.
 XML can define schemas but they are not unified.
 
-A semantically-aligned index is a globally unified meaning ID.
-Wherever it is used, the same SIDX means the same thing.
-No conversion needed. Consensus is built in.
+GEUL points to targets by ID, not by name:
+References such as a Wikidata QID or a document ID issued by an Issuer.
+Wherever it is used, the same ID means the same target. No conversion needed.
 
 ---
 
 ## Summary
 
-| Format | Structure | Meaning | LLM-Friendly | Binary | Claim Support | Verb Modifiers |
+| Format | Structure | Meaning | LLM-Friendly | Binary | Place for Sources | Qualifiers |
 |--------|-----------|---------|---------------|--------|---------------|----------------|
 | Markdown | Weak | None | High | No | None | None |
 | JSON | Yes | None | Medium | No | None | None |

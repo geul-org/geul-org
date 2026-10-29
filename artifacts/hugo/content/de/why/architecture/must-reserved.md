@@ -2,24 +2,24 @@
 title: "Warum wir es leer lassen müssen"
 weight: 21
 date: 2026-03-01T15:00:00+09:00
-lastmod: 2026-03-01T15:00:00+09:00
-tags: ["reserviert", "Erweiterbarkeit", "64-Bit", "Designprinzip", "IPv4"]
-summary: "GEUL lässt 75% seines 64-Bit-Raums leer. Die Lehren aus IPv4, Unicode und ASCII zeigen: Die Kosten des Füllens sind unumkehrbar, aber die Kosten des Leerlassens sind null."
+lastmod: 2026-10-29T12:00:00+09:00
+tags: ["reserviert", "Erweiterbarkeit", "TAG WORD", "Designprinzip", "IPv4"]
+summary: "GEUL lässt 75 % des Raums des 16-Bit-TAG-WORD, mit dem jeder Datensatz beginnt, leer. Die Lehren aus IPv4, Unicode und ASCII: Die Kosten des Füllens sind irreversibel, die Kosten des Leerlassens betragen drei Bit pro Datensatz."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-64 Bit bedeuten 18.446.744.073.709.551.616 Adressen. 18,4 Trillionen. GEUL lässt davon 75 % leer.
+Jeder GEUL-Datensatz beginnt mit genau einem 16-Bit-TAG-WORD. Die führenden Bits des TAG WORD teilen es in Bereiche. GEUL lässt 75 % dieses Raums leer.
 
 ```
-bit1 = 1:    50%    ferne Zukunft
-bit1-2 = 01: 25%    nahe Zukunft
-bit1-3 = 001: 12.5% Standard
-bit1-4 = 0001: 6.25% aktueller Vorschlag
+1xx:  50%    Ferne Zukunft
+01x:  25%    Nahe Zukunft
+001:  12.5%  Standard
+000:  12.5%  Aktuelle Grammatik (frei / Vorschlag)
 ```
 
-Der aktuell genutzte Raum beträgt 6,25 %. Von den verbleibenden 93,75 % werden 12,5 % verwendet, wenn der Standard festgelegt wird, und 75 % bleiben für Generationen reserviert, die noch nicht geboren sind.
+Die gesamte aktuelle Grammatik liegt im Bereich `000`, innerhalb von 12,5 %. Wenn ein offizieller Standard startet, bleiben die übernommenen Layouts unverändert, und nur die führenden Bits wandern nach `001`. Die übrigen 75 % bleiben Generationen vorbehalten, die noch nicht geboren sind.
 
 Warum?
 
@@ -113,47 +113,51 @@ Dritte Gelegenheit: 1 (ferne Zukunft)
 
 ## Die Kosten des Leerlassens
 
-Kostet das Leerlassen etwas?
+Kostet es etwas, Raum leer zu lassen?
 
 ```
-75 % reserviert bei 64 Bit = 48 Bit ungenutzt.
-Die verbleibenden 16 Bit (6,25 %) = 1.152.921.504.606.846.976 Adressen.
+TAG WORD 16 Bit = 3-Bit-Bereich + 13 Bit
 
-11,5 Trillionen.
-Das 10-Millionenfache von ganz Wikidata (108 Millionen Einträge).
-Genug, um alle existierenden Daten aufzunehmen und noch Platz übrig zu haben.
+Die 13 Bit des aktuellen Bereichs 000:
+  Kind    2 Bit   Reference · Value · Edge · Meta
+  Length  4 Bit   1–14 WORD, erweitert bis 2³²−1 WORD
+  Codec   7 Bit   124 Direktcodes + 4 Issuer-Formen
 ```
 
-Leerlassen verursacht keinen Mangel. 6,25 % reichen für den aktuellen Bedarf. Die Kosten des Leerlassens sind null.
+Sind 13 Bit nicht zu wenig? Nein. Ein Format, das keinen Direktcode bekommt, wird als Issuer-Format geschrieben. Jede Stelle, die Formate definiert (Issuer), hat eigene 16-Bit-Formatnummern; die Zahl der Formate ist damit praktisch unbegrenzt. Der Preis sind ein paar WORD Erweiterungs-TAG. Häufige Formate sind kurz, seltene etwas länger.
 
-Die Kosten des Füllens? IPv4 hat es gezeigt. Unumkehrbar.
+Die Kosten des Leerlassens sind drei Bit des TAG WORD pro Datensatz. Diese drei Bit halten der Zukunft das Sechsfache des heute genutzten Raums frei.
+
+Die Kosten des Füllens? IPv4 hat es gezeigt. Sie sind irreversibel.
 
 ---
 
 ## Designprinzip
 
-Artikel 1 der Designprinzipien von GEUL Grammar v0.11:
+Das fünfte Designprinzip der GEUL-v1-[Grammatik](/de/grammar/overview/):
 
-> **Langfristige Erweiterbarkeit:** Reservierte Bits nicht für temporäre Zwecke zweckentfremden. Den Raum bewahren, den künftige Generationen nutzen werden.
+> **Leer lassen.** Der größte Teil des Bitraums bleibt der Zukunft vorbehalten. Direktcodes lassen sich nicht zurücknehmen, daher bekommen nur Formate mit bestätigter Häufigkeit einen.
 
-Das ist keine technische Entscheidung. Es ist eine ethische Entscheidung.
+Die Grammatik schreibt dieses Prinzip als Regel fest. Ein v1-Decoder weist jedes TAG WORD zurück, dessen führende Bits nicht `000` sind. Der Weg, den leeren Raum vorübergehend zu borgen, ist von Anfang an versperrt.
 
-Verfügbaren Raum heute nicht zu nutzen bedeutet, die Freiheit der Zukunft über den Komfort der Gegenwart zu stellen. Es bedeutet, die Schuld, die uns die IPv4-Generation hinterlassen hat, nicht an die nächste Generation weiterzugeben.
+Dies ist keine technische Entscheidung. Es ist eine ethische.
+
+Raum, der jetzt genutzt werden könnte, bewusst ungenutzt zu lassen, ist eine Erklärung, dass die Freiheit der Zukunft Vorrang vor der Bequemlichkeit der Gegenwart hat. Die Schuld, die uns die Generation hinterlassen hat, die IPv4 entworfen hat, werden wir der nächsten Generation nicht hinterlassen.
 
 ---
 
 ## Das bescheidenste Design
 
 ```
-"Ich kenne die Zukunft" → alle 64 Bit verwenden.
-"Ich kenne die Zukunft nicht" → 75 % leer lassen.
+"Ich kenne die Zukunft" -> Alle 16 Bit nutzen.
+"Ich kenne die Zukunft nicht" -> 75 % leer lassen.
 ```
 
-Leerlassen ist Bescheidenheit. Es ist das Eingeständnis, dass wir heute die Zukunft nicht kennen können. Und diese Bescheidenheit erzeugt das robusteste Design.
+Raum leer zu lassen ist Bescheidenheit. Es ist das Eingeständnis, dass wir die Zukunft nicht kennen können. Und diese Bescheidenheit erzeugt das robusteste Design.
 
-IPv4 war ein Produkt des Selbstvertrauens. 32 Bit reichen. Sie reichten nicht.
+IPv4 war ein Produkt der Zuversicht. 32 Bit reichen. Sie reichten nicht.
 
-GEUL ist ein Produkt der Bescheidenheit. Reichen 6,25 % von 64 Bit? Wir wissen es nicht. Aber wenn wir 75 % leer lassen, ist es nicht schlimm, selbst wenn wir falsch liegen.
+GEUL ist ein Produkt der Bescheidenheit. Wir wissen nicht, ob die heute genutzten 12,5 % ausreichen. Aber wenn wir 75 % leer lassen, ist es in Ordnung, sich zu irren.
 
 ---
 

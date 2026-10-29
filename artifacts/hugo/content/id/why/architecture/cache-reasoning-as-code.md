@@ -2,9 +2,9 @@
 title: "Mengapa Cache Penalaran sebagai Kode?"
 weight: 19
 date: 2026-02-26T12:00:02+09:00
-lastmod: 2026-02-26T12:00:02+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["cache", "penalaran", "kode"]
-summary: "Mengubah satu inferensi menjadi prosedur permanen"
+summary: "Alih-alih LLM bernalar dari nol setiap kali, setiap inferensi dikristalkan menjadi kode dan di-cache. Struktur mirip kompiler JIT yang hanya memanggil LLM saat cache miss, dan hasilnya dari waktu ke waktu."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -34,7 +34,7 @@ Dan kecerdasan yang tidak mengakumulasi pengalaman tidak pernah bisa tumbuh.
 
 ## LLM Adalah Kompiler, Bukan Mesin Runtime
 
-SEGLAM menawarkan jawaban yang secara fundamental berbeda untuk masalah ini.
+Cache penalaran yang dituju GEUL menawarkan jawaban yang secara fundamental berbeda untuk masalah ini.
 
 **LLM bukan mesin runtime yang mengeksekusi setiap permintaan --
 ia adalah kompiler yang mengkristalkan penalaran menjadi kode.**
@@ -55,24 +55,24 @@ Arsitektur ini adalah penemuan kembali pola yang sudah terbukti dalam ilmu kompu
 
 Pertimbangkan kompiler JIT (Just-In-Time). Mesin Java dan JavaScript awalnya mengeksekusi kode baris per baris melalui interpreter. Lambat, tetapi fungsional. Ketika jalur kode yang sama dieksekusi berulang kali -- "ini adalah hot path" -- mesin mengompilasi jalur itu menjadi kode mesin native. Sejak saat itu, ia berjalan langsung tanpa melalui interpreter.
 
-Dalam SEGLAM:
+Dalam cache penalaran:
 
 - **Interpreter = LLM.** Lambat, mahal, dan probabilistik, tetapi mampu menangani permintaan apa pun.
 - **Kode native = kode penalaran yang di-cache.** Cepat, murah, dan deterministik.
 - **Kompilasi JIT = proses LLM menghasilkan kode saat cache miss.** Mahal, tetapi hanya perlu terjadi sekali.
 
 Seperti kompiler JIT mengoptimalkan "hot path,"
-SEGLAM mengkristalkan "hot reasoning" menjadi kode.
+cache penalaran mengkristalkan "hot reasoning" menjadi kode.
 
 ---
 
 ## Mengapa Cache "Kode" dan Bukan "Jawaban"?
 
-Inilah intinya. Cache respons sederhana dan cache penalaran SEGLAM secara fundamental berbeda.
+Inilah intinya. Cache respons sederhana dan cache penalaran secara fundamental berbeda.
 
 **Cache respons** menyimpan "T: Apa ibu kota Korea? -> J: Seoul." Ia hanya hit ketika pertanyaan cocok persis. Tanyakan "Apa ibu kota Republik Korea?" dan ia miss. Ini kamus, bukan kecerdasan.
 
-**Cache penalaran SEGLAM** menyimpan kode yang mengatakan "untuk jenis pertanyaan ini, bangun jawaban melalui prosedur ini." Ia mengkristalkan bukan nilai spesifik, tetapi jalur penalaran itu sendiri. Oleh karena itu, bahkan ketika input berubah, pertanyaan dengan tipe yang sama tetap hit. Ini adalah pemahaman. Ini adalah pertumbuhan.
+**Cache penalaran** menyimpan kode yang mengatakan "untuk jenis pertanyaan ini, bangun jawaban melalui prosedur ini." Ia mengkristalkan bukan nilai spesifik, tetapi jalur penalaran itu sendiri. Oleh karena itu, bahkan ketika input berubah, pertanyaan dengan tipe yang sama tetap hit. Ini adalah pemahaman. Ini adalah pertumbuhan.
 
 Analogi: cache respons menghafal tabel perkalian; cache penalaran belajar cara mengalikan.
 
@@ -116,7 +116,7 @@ tetapi kecerdasan yang terakumulasi di kotak putih. Itulah visi AI yang layak di
 
 ## Ringkasan
 
-| LLM Konvensional | SEGLAM |
+| LLM Konvensional | Cache penalaran |
 |-----------|--------|
 | Bernalar dari nol pada setiap permintaan | Mengeksekusi kode yang di-cache saat hit |
 | Hasil penalaran menguap | Penalaran mengkristal menjadi kode dan terakumulasi |
@@ -127,4 +127,4 @@ tetapi kecerdasan yang terakumulasi di kotak putih. Itulah visi AI yang layak di
 Memanggil LLM untuk setiap permintaan seperti naik pesawat ke rumah sebelah.
 Begitu Anda membangun jalan, Anda bisa berjalan kaki selanjutnya.
 
-SEGLAM adalah sistem yang membangun jalan.
+Cache penalaran adalah sistem yang membangun jalan.

@@ -2,9 +2,9 @@
 title: "Warum Exploration notwendig ist"
 weight: 7
 date: 2026-02-26T12:00:07+09:00
-lastmod: 2026-02-26T12:00:07+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Exploration", "Suche", "Skalierung"]
-summary: "Wenn der Index das Fenster uebersteigt, stoesst das Suchparadigma selbst an seine Grenzen"
+summary: "Wird das Wissen so groß, dass schon der Index das Kontextfenster sprengt, stößt die Suche in einem Schritt an ihre Grenze. Warum Exploration nötig ist: auf jeder Ebene einer hierarchischen Karte eine Richtung wählen."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

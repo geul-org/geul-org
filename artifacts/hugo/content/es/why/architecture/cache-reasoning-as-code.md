@@ -2,9 +2,9 @@
 title: "Por que cachear el razonamiento como codigo?"
 weight: 19
 date: 2026-02-26T12:00:02+09:00
-lastmod: 2026-02-26T12:00:02+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["cache", "razonamiento", "codigo"]
-summary: "Transformar una sola inferencia en un procedimiento permanente"
+summary: "En lugar de que un LLM razone desde cero cada vez, cada inferencia se cristaliza en código y se almacena en caché. Una estructura similar a un compilador JIT que solo llama al LLM ante un fallo de caché, y lo que logra con el tiempo."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -34,7 +34,7 @@ Y la inteligencia que no acumula experiencia nunca puede crecer.
 
 ## El LLM es un compilador, no un motor de ejecucion
 
-SEGLAM ofrece una respuesta fundamentalmente diferente a este problema.
+La caché de razonamiento a la que apunta GEUL ofrece una respuesta fundamentalmente diferente a este problema.
 
 **El LLM no es un motor de ejecucion que ejecuta cada solicitud --
 es un compilador que cristaliza el razonamiento en codigo.**
@@ -55,24 +55,24 @@ Esta arquitectura es un redescubrimiento de un patron ya probado en informatica.
 
 Consideremos el compilador JIT (Just-In-Time). Los motores de Java y JavaScript inicialmente ejecutan codigo linea por linea a traves de un interprete. Lento, pero funcional. Cuando el mismo camino de codigo se ejecuta repetidamente -- "este es un camino caliente" -- el motor compila ese camino en codigo maquina nativo. A partir de entonces, se ejecuta directamente sin pasar por el interprete.
 
-En SEGLAM:
+En una caché de razonamiento:
 
 - **Interprete = LLM.** Lento, costoso y probabilistico, pero capaz de manejar cualquier solicitud.
 - **Codigo nativo = codigo de razonamiento en cache.** Rapido, economico y deterministico.
 - **Compilacion JIT = el proceso del LLM generando codigo en un fallo de cache.** Costoso, pero solo necesita ocurrir una vez.
 
 Asi como un compilador JIT optimiza "caminos calientes",
-SEGLAM cristaliza "razonamiento caliente" en codigo.
+una caché de razonamiento cristaliza "razonamiento caliente" en codigo.
 
 ---
 
 ## Por que cachear "codigo" en lugar de "respuestas"?
 
-Este es el punto crucial. Una cache de respuestas simple y la cache de razonamiento de SEGLAM son fundamentalmente diferentes.
+Este es el punto crucial. Una cache de respuestas simple y una caché de razonamiento son fundamentalmente diferentes.
 
 **Una cache de respuestas** almacena "P: Cual es la capital de Corea? -> R: Seul." Solo acierta cuando la pregunta coincide exactamente. Pregunta "Cual es la capital de la Republica de Corea?" y falla. Esto es un diccionario, no inteligencia.
 
-**La cache de razonamiento de SEGLAM** almacena codigo que dice "para este tipo de pregunta, construye una respuesta a traves de este procedimiento." Cristaliza no el valor especifico, sino el camino de razonamiento mismo. Por lo tanto, incluso cuando la entrada cambia, el mismo tipo de pregunta sigue acertando. Esto es comprension. Esto es crecimiento.
+**Una caché de razonamiento** almacena codigo que dice "para este tipo de pregunta, construye una respuesta a traves de este procedimiento." Cristaliza no el valor especifico, sino el camino de razonamiento mismo. Por lo tanto, incluso cuando la entrada cambia, el mismo tipo de pregunta sigue acertando. Esto es comprension. Esto es crecimiento.
 
 Una analogia: una cache de respuestas memoriza la tabla de multiplicar; una cache de razonamiento aprende a multiplicar.
 
@@ -116,7 +116,7 @@ sino inteligencia que se acumula en una caja blanca. Esa es la vision de IA que 
 
 ## Resumen
 
-| LLM convencional | SEGLAM |
+| LLM convencional | Caché de razonamiento |
 |-----------|--------|
 | Razona desde cero en cada solicitud | Ejecuta codigo en cache en acierto de cache |
 | Los resultados del razonamiento se evaporan | El razonamiento se cristaliza en codigo y se acumula |
@@ -127,4 +127,4 @@ sino inteligencia que se acumula en una caja blanca. Esa es la vision de IA que 
 Llamar al LLM para cada solicitud es como tomar un avion a la casa de al lado.
 Una vez que pavimentas un camino, puedes caminar desde entonces.
 
-SEGLAM es el sistema que pavimenta caminos.
+Una caché de razonamiento es el sistema que pavimenta caminos.

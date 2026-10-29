@@ -2,9 +2,9 @@
 title: "Mengapa Memori Terstruktur Diperlukan?"
 weight: 18
 date: 2026-02-26T12:00:05+09:00
-lastmod: 2026-02-26T12:00:05+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["memori", "struktur", "WMS"]
-summary: "Kecerdasan tanpa memori selalu mulai dari nol"
+summary: "AI pandai menulis file, tetapi tidak bisa menemukan file yang ditulisnya sendiri. Masalahnya bukan penyimpanan, melainkan pengambilan. Jalan dari satu peta tentang apa ada di mana, seperti daftar isi atau indeks, menuju memori terstruktur."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

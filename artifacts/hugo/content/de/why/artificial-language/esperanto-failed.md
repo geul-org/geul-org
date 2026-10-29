@@ -2,9 +2,9 @@
 title: "Warum Esperanto scheiterte"
 weight: 12
 date: 2026-02-26T12:00:14+09:00
-lastmod: 2026-02-26T12:00:14+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Esperanto", "kuenstliche Sprache", "Geschichte"]
-summary: "Kuenstliche Sprachen fuer Menschen scheiterten -- kuenstliche Sprachen fuer KI sind anders"
+summary: "Esperanto scheiterte, weil man es lernen musste, weil es bestehende Sprachen ersetzen wollte und weil es der Verständigung diente. Eine künstliche Sprache für KI geht einen anderen Weg: Menschen müssen sie nicht lernen, sie ersetzt keine natürliche Sprache, und ihr Zweck ist Aufzeichnung und Überprüfung."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -35,7 +35,7 @@ Die Aussprache entspricht der Rechtschreibung.
 Zamenhof erkannte die Ineffizienz der natuerlichen Sprache
 und versuchte, sie mit einer bewusst gestalteten kuenstlichen Sprache zu loesen.
 
-137 Jahre spaeter hat Esperanto etwa 2 Millionen Sprecher.
+139 Jahre spaeter hat Esperanto etwa 2 Millionen Sprecher.
 0,025% der Weltbevoelkerung.
 Esperanto scheiterte.
 
@@ -64,7 +64,7 @@ Weil es niemand lernt, sprechen noch weniger es.
 
 Ein Lehrbuchbeispiel fuer umgekehrte Netzwerkeffekte.
 Das Henne-Ei-Problem.
-Esperanto steckt seit 137 Jahren in dieser Falle.
+Esperanto steckt seit 139 Jahren in dieser Falle.
 
 ### Ursache 2: Es musste bestehende Sprachen ersetzen
 
@@ -175,6 +175,8 @@ Das ist Kartenlesen.
 
 So wie man keine Vermessungskunde studieren muss, um Google Maps zu lesen,
 muss man keine binaere Grammatik lernen, um den visuellen Editor zu benutzen.
+
+Der erste Schritt existiert schon: `geul serve` aus gogeul zeigt ein GEUL-Dokument im Browser als Liste von Datensätzen und als Graph. Ein Editor, mit dem man den Graphen direkt ändern kann, steht noch aus.
 
 ---
 

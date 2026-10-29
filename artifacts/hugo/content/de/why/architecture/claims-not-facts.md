@@ -2,9 +2,9 @@
 title: "Warum Behauptungen, nicht Fakten?"
 weight: 15
 date: 2026-02-26T12:00:06+09:00
-lastmod: 2026-02-26T12:00:06+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Behauptungen", "Fakten", "Konfidenz"]
-summary: "Die Wahrheit verschwindet schneller als das Licht"
+summary: "Wahrheit ist unzugänglich; uns bleiben nur die Behauptungen von jemandem. Warum ein Wissenssystem Behauptungen statt Fakten als Primärdaten nehmen und Quelle, Zeitpunkt und Konfidenz einen Platz geben sollte."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -190,19 +190,23 @@ Der Schluessel ist:
 Schauen Sie sich Wikidata an.
 
 ```
-Q8492 (Yi Sun-sin)
+Q50184 (Yi Sun-sin)
   - instance of: human
   - occupation: naval commander
   - date of death: 1598-12-16
 ```
 
-Es gibt kein "wer hat diese Behauptung aufgestellt".
-Es gibt kein "wie hoch ist die Konfidenz".
-Es gibt kein "gibt es widerspruechliche Behauptungen".
+Wikidata kennt dieses Problem durchaus.
+Jede Aussage kann Belege tragen, einen Rang (rank) erhalten und neben widersprüchlichen Werten stehen.
+
+Doch viele Aussagen haben einen Wert und keinen Beleg.
+Es gibt keinen Platz, um „wie sicher ist das“ festzuhalten.
+Und wer die Daten übernimmt, nimmt meist nur die Werte.
+Belege und Ränge fallen weg, und der Wert bleibt, als wäre er eine Tatsache.
 
 Die Behauptung, dass Yi Sun-sins Todesdatum der 16. Dezember 1598 ist,
 ist das Ergebnis eines Konsenses zwischen mehreren historischen Aufzeichnungen und Gelehrten,
-doch Wikidata speichert es, als waere es eine universelle Wahrheit.
+doch in so herausgelösten Daten steht sie da wie eine universelle Wahrheit.
 
 In den meisten Faellen ist das kein Problem.
 Weil die Konfidenz des Konsenses ausreichend hoch ist.
@@ -264,42 +268,45 @@ Quellen, Kontext und Konfidenz strukturell bewahren.
 
 ---
 
-## Eine strukturelle Loesung
+## Eine strukturelle Lösung
 
-Ein korrektes Wissenssystem muss jede Narration als Behauptung behandeln.
+Ein richtiges Wissenssystem muss jede Darstellung als Behauptung behandeln.
 
-Wenn ein natuerlichsprachlicher Satz in eine strukturierte Darstellung umgewandelt wird, muss er enthalten:
+Wird ein Satz in natürlicher Sprache in eine strukturierte Darstellung überführt, muss es einen Platz geben für:
 
-**Wer hat die Behauptung aufgestellt** --- Quell-Entitaet
-**Wann wurde sie behauptet** --- Zeitlicher Kontext
-**In welcher Welt gilt diese Behauptung** --- Welt-Kontext
+**Wer hat die Behauptung aufgestellt** --- Quelle
+**Wann wurde sie aufgestellt** --- Zeitlicher Kontext
+**In welcher Welt gilt sie** --- Weltkontext
 **Aus welcher Perspektive** --- POV (Point of View)
-**Wie hoch ist die Konfidenz** --- Konfidenzniveau
+**Wie sicher ist sie** --- Konfidenzniveau
 
-Das ist nicht optional.
-Die Struktur eines solchen Systems verlangt diese Informationen.
-Wenn ein Feld leer ist, wird es explizit als leer markiert.
+GEUL hat diese Plätze.
+Eine [SOURCE](/de/grammar/edge/source/)-Edge verknüpft eine Aussage mit ihrem Ursprung.
+Der Zeitpunkt, zu dem eine Proposition gilt, wird mit einem [QUALIFIER](/de/grammar/edge/qualifier/) eingegrenzt.
+Welten und Szenen übernehmen die Edges WORLD und SCENE, die Konfidenz eines ganzen Dokuments die Meta [CONFIDENCE](/de/grammar/meta/verification/confidence/).
 
-Wenn "Yi Sun-sin war grossartig" in eine strukturierte Darstellung umgewandelt wird:
+Nicht alle müssen ausgefüllt sein.
+Aber was nicht geschrieben ist, zeigt sich als nicht geschrieben.
+Eine Aussage ohne Quelle erscheint als Aussage ohne SOURCE, und eine Maschine kann sie herausfiltern.
+
+„Yi Sun-sin war groß“, in eine strukturierte Darstellung überführt, sieht etwa so aus:
 
 ```
-[Entity: Yi Sun-sin]
-[Verb: be great (bewertendes Verb)]
-[POV: Sprecher (aktueller Gespraechsteilnehmer)]
-[Time: Gegenwaertiger Moment]
-[Confidence: Nicht angegeben]
-[Source: Direkte Aeusserung des Sprechers]
-[World: Reale Welt]
+Aussage     Yi Sun-sin (Q50184) — groß sein (Bewertung)
+Quelle      direkte Äußerung des Sprechers   SOURCE
+Zeitpunkt   aktuelles Gespräch               QUALIFIER
+Welt        reale Welt                       WORLD
+Konfidenz   nicht angegeben
 ```
 
-Selbst fuer den identischen natuerlichsprachlichen Satz "Yi Sun-sin war grossartig"
-ist die Darstellung voellig verschieden, je nachdem ob
-er von einem Geschichtslehrbuch erzaehlt wird,
-als persoenlicher Eindruck einer Einzelperson gesprochen wird
-oder von einer Romanfigur geaeussert wird.
+Selbst für denselben Satz „Yi Sun-sin war groß“
+ist die Darstellung völlig verschieden, je nachdem,
+ob ein Geschichtsbuch ihn erzählt,
+ein Einzelner ihn als persönlichen Eindruck äußert
+oder eine Romanfigur ihn spricht.
 
-Mehrdeutigkeit wird strukturell eliminiert.
-Behauptungen werden als Behauptungen aufgezeichnet.
+Mehrdeutigkeit wird strukturell beseitigt.
+Behauptungen werden als Behauptungen festgehalten.
 Fragmente der Wahrheit werden als Fragmente bewahrt.
 
 ---
@@ -341,7 +348,7 @@ Die Wahrheit ist physisch unzugaenglich.
 4. Daher koennen die Primaerdaten eines Wissenssystems keine Fakten sein. Es muessen Behauptungen sein.
 5. Wenn man Behauptungen als Fakten behandelt, wird Widerspruch zum Fehler. Wenn man sie als Behauptungen behandelt, wird Widerspruch zu Daten.
 6. LLM-Halluzination ist das Ergebnis davon, dass Behauptungen ihre Quellen verlieren.
-7. Ein solches System bettet Quelle, Zeit, Perspektive und Konfidenz strukturell in jede Narration ein.
+7. GEUL gibt jeder Aussage einen Platz für Quelle, Zeitpunkt, Welt und Konfidenz. Was nicht geschrieben ist, zeigt sich als nicht geschrieben.
 
 Wir handhaben nicht die Wahrheit.
 Wir handhaben Saetze ueber die Wahrheit.

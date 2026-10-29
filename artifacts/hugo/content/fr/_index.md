@@ -2,7 +2,8 @@
 title: "GEUL"
 image: "/images/og-default.webp"
 date: 2026-02-26T12:00:00+09:00
-summary: "GEUL est un langage artificiel sémantiquement aligné et un format binaire conçu pour une communication sans ambiguïté entre humains et IA."
+lastmod: 2026-10-29T12:00:00+09:00
+summary: "GEUL est un langage artificiel et un format binaire conçu pour une communication sans ambiguïté entre humains et IA."
 ---
 
 ## Pourquoi GEUL
@@ -63,9 +64,10 @@ Chaque enonce a une place pour son degre de confiance.
 Chaque entite a un identifiant unique.
 La machine sait que "Samsung Electronics" et "Samsung Electronics" sont la meme chose.
 
-L'information ecrite en GEUL peut etre verifiee mecaniquement.
-Le format est-il correct ? Les references sont-elles valides ? Y a-t-il des contradictions ?
-Avant que l'AI lise, avant qu'un humain verifie, la machine inspecte d'abord.
+L'information écrite en GEUL peut être vérifiée mécaniquement.
+La forme est-elle correcte, les références sont-elles valides : une machine le confirme aussitôt.
+Juger si des énoncés se contredisent est l'étape suivante.
+Avant que l'IA ne la lise, avant qu'un humain ne la vérifie, une machine l'inspecte d'abord.
 
 Pourquoi est-ce important ?
 
@@ -91,9 +93,9 @@ Le public de GEUL, c'est l'AI.
 
 ---
 
-Ce site explique pourquoi GEUL est necessaire.
-Nous ne vendons pas un produit. Nous ne listons pas des specifications techniques.
-Nous repondons a la question : "Pourquoi ?"
+Ce site explique pourquoi GEUL est nécessaire.
+Nous ne vendons pas de produit. La spécification technique se trouve à part, dans la [Grammaire](/fr/grammar/).
+Ici, nous répondons à la question : « Pourquoi ? »
 
 Pourquoi le langage naturel ne suffit-il pas ?
 Pourquoi les langages de programmation ne marchent-ils pas non plus ?

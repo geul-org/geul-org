@@ -2,9 +2,9 @@
 title: "为什么探索是必要的"
 weight: 7
 date: 2026-02-26T12:00:07+09:00
-lastmod: 2026-02-26T12:00:07+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["探索", "搜索", "规模"]
-summary: "当索引超过窗口时，搜索范式本身就到了极限"
+summary: "当知识大到连索引都超出上下文窗口时，一次性的检索就会碰壁。本文说明为什么需要探索：沿着层级地图，在每一层选择方向深入。"
 author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,7 +2,7 @@
 title: "Mengapa Bahasa Alami Menciptakan Halusinasi?"
 weight: 8
 date: 2026-02-26T12:00:16+09:00
-lastmod: 2026-02-26T12:00:16+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["bahasa alami", "halusinasi", "ambiguitas"]
 summary: "Halusinasi bukan bug LLM — ia adalah keniscayaan struktural dari empat cacat bahasa alami: ambiguitas, ketiadaan sumber, ketiadaan kepercayaan, dan ketiadaan waktu. Model yang lebih besar tidak bisa memperbaikinya."
 author: "Junwoo Park"
@@ -134,7 +134,7 @@ LLM mengisi semua ambiguitas ini dengan "urutan token yang paling masuk akal." M
 
 ## Mengapa Model Lebih Besar Tidak Bisa Menyelesaikan Ini
 
-"Bukankah halusinasi akan berkurang ketika GPT-5 keluar?"
+"Bukankah halusinasi akan berkurang ketika generasi model berikutnya keluar?"
 
 Akan berkurang. Tetapi tidak akan hilang.
 
@@ -158,17 +158,32 @@ Jika Anda ingin warna, Anda butuh film berwarna. Jika Anda ingin menghilangkan h
 
 Untuk menyelesaikan keempat cacat ini, struktur bahasa itu sendiri harus berbeda.
 
-**Ambiguitas --> Strukturisasi eksplisit.** Ketika "He went to the bank" diubah ke bahasa terstruktur, "he" diselesaikan ke SIDX entitas spesifik, dan "bank" diselesaikan ke SIDX lembaga keuangan atau tepi sungai. Jika tidak bisa diselesaikan, "belum terselesaikan" dinyatakan secara eksplisit. Selesaikan ambiguitas, atau catat fakta bahwa ia ambigu.
+**Ambiguitas --> Penstrukturan eksplisit.**
+Ketika "Dia pergi ke bank" dimasukkan ke bahasa terstruktur,
+"dia" ditetapkan menjadi Reference yang menunjuk target tertentu (misalnya QID Wikidata),
+dan "bank" menjadi Reference yang menunjuk lembaga keuangan atau tepi sungai.
+Jika tidak bisa ditetapkan, tulis "tidak diketahui" secara eksplisit.
+Hilangkan ambiguitasnya, atau catat bahwa ia ambigu.
 
-**Ketiadaan sumber --> Sumber tertanam.** Setiap narasi secara struktural menyertakan entitas sumber. "Siapa yang membuat klaim ini" adalah bagian dari narasi. Ini bukan opsional. Jika field kosong, ditandai sebagai kosong.
+**Ketiadaan sumber --> Tempat untuk sumber.**
+Setiap pernyataan punya tempat yang menautkannya ke sumbernya (Edge SOURCE).
+"Siapa yang mengklaim ini" melekat di samping pernyataan.
+Boleh dibiarkan kosong. Tetapi bila kosong, pernyataan itu tampak sebagai pernyataan tanpa sumber.
 
-**Ketiadaan kepercayaan --> Kepercayaan tertanam.** Setiap edge kata kerja memiliki field kepercayaan. "Pasti," "estimasi," "hipotetis" ditentukan secara struktural sebagai modifier kata kerja.
+**Ketiadaan keyakinan --> Tempat untuk keyakinan.**
+Ada tempat untuk menulis tingkat keyakinan.
+Keyakinan seluruh dokumen ditulis di Meta CONFIDENCE,
+dan penilaian atas satu proposisi ditambahkan sebagai pernyataan lain yang menunjuk proposisi itu.
 
-**Ketiadaan konteks temporal --> Konteks temporal tertanam.** Setiap narasi menyertakan konteks waktu. "Per kapan narasi ini" selalu ditentukan.
+**Ketiadaan konteks waktu --> Tempat untuk waktu.**
+Rentang waktu berlakunya proposisi ditulis dengan QUALIFIER (waktu mulai dan selesai),
+dan waktu penulisan dokumen dengan Meta CREATED-AT.
+Ada tempat untuk menyatakan "per kapan pernyataan ini berlaku".
 
 Yang dihilangkan dalam bahasa alami ada sebagai bagian dari struktur dalam bahasa terstruktur.
 
-Ketika penghilangan tidak mungkin, ruang untuk halusinasi menyempit. [Mengapa Klarifikasi Diperlukan](/id/why/clarification/) menjelaskan prinsip ini. Ketika Anda tidak bisa berbicara tanpa basis, pernyataan tanpa basis tidak diproduksi.
+Ketika penghilangan tampak sebagai penghilangan, ruang bagi halusinasi menyempit. [Mengapa Klarifikasi Diperlukan](/id/why/clarification/) menjelaskan prinsip ini.
+Pernyataan tanpa dasar terlihat tanpa dasar.
 
 ---
 

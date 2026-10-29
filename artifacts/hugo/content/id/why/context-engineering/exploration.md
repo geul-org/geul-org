@@ -2,9 +2,9 @@
 title: "Mengapa Eksplorasi Diperlukan"
 weight: 7
 date: 2026-02-26T12:00:07+09:00
-lastmod: 2026-02-26T12:00:07+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["eksplorasi", "pencarian", "skala"]
-summary: "Ketika indeks melebihi jendela, paradigma pencarian itu sendiri mencapai batasnya"
+summary: "Ketika pengetahuan tumbuh begitu besar sehingga indeksnya pun melampaui jendela konteks, pencarian sekali jalan mencapai batasnya. Mengapa eksplorasi diperlukan: memilih arah di setiap tingkat peta hierarkis."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

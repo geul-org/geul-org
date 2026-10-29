@@ -2,9 +2,9 @@
 title: "Pourquoi l'exploration est necessaire"
 weight: 7
 date: 2026-02-26T12:00:07+09:00
-lastmod: 2026-02-26T12:00:07+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["exploration", "recherche", "echelle"]
-summary: "Quand l'index depasse la fenetre, le paradigme de recherche lui-meme atteint sa limite"
+summary: "Quand le savoir devient si vaste que même l'index dépasse la fenêtre de contexte, la recherche en une passe atteint sa limite. Pourquoi l'exploration est nécessaire : choisir une direction à chaque niveau d'une carte hiérarchique."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

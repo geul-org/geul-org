@@ -2,9 +2,9 @@
 title: "Por que WordNet?"
 weight: 14
 date: 2026-03-01T14:00:00+09:00
-lastmod: 2026-03-01T14:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["WordNet", "verbos", "primitivos semânticos", "synset"]
-summary: "Construir um sistema de verbos do zero significa lacunas, escolhas arbitrárias e falta de fundamento. WordNet é um banco de dados lexical de 40 anos com 13.767 synsets de verbos criados por linguistas. Emprestamos o dicionário e construímos a gramática por cima."
+summary: "Construir um sistema de verbos por conta própria deixa lacunas, é arbitrário e carece de fundamento. O GEUL aprendeu a estrutura construindo um livro de códigos provisório com os 13.767 verbos do WordNet, acumulados ao longo de 40 anos. Como o WordNet não é CC0 e está preso ao inglês, essa edição provisória será substituída por um livro de códigos de verbos sem WordNet."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,7 +14,7 @@ Verbos eram necessários.
 
 Para que a IA descreva o mundo, é preciso haver verbos. Na frase "O almirante coreano Yi Sun-sin construiu o navio-tartaruga", sem "construiu" não há frase.
 
-Para identificação de entidades existe a Wikidata. Yi Sun-sin é Q28090. O navio-tartaruga é Q249845. A identificação já está feita.
+Para identificação de entidades existe a Wikidata. Yi Sun-sin é Q50184. O navio-tartaruga é Q695959. A identificação já está feita.
 
 Para verbos não existe equivalente. Não há um ID para "construir". Não há critério consensual que determine se "construir", "fabricar" e "produzir" têm o mesmo sentido ou sentidos diferentes.
 
@@ -64,7 +64,7 @@ Se WordNet é o dicionário de verbos, como usar esses verbos é uma questão se
 
 WordNet nos diz qual é o significado de "give" e qual sua relação com "donate". Mas não nos diz a estrutura de uso de "give" numa frase — quem dá, o que é dado, a quem é dado.
 
-Isso é análogo à relação com Wikidata. Wikidata nos diz que Yi Sun-sin é Q28090. Mas como compor uma frase sobre Yi Sun-sin não é responsabilidade da Wikidata.
+Isso é análogo à relação com Wikidata. Wikidata nos diz que Yi Sun-sin é Q50184. Mas como compor uma frase sobre Yi Sun-sin não é responsabilidade da Wikidata.
 
 Emprestamos o dicionário, mas construímos a gramática nós mesmos.
 
@@ -114,23 +114,38 @@ O importante é a ordem. Primeiro incluir tudo, rodar na prática, observar os d
 
 ## Além: átomos semânticos
 
-Os 13.767 verbos da WordNet são a lista de verbos nomeados por humanos. Abrangente, mas não é tudo.
+Os 13.767 verbos do WordNet são a lista de verbos que os humanos nomearam. Abrangente, mas não é tudo.
 
-"give" pode ser decomposto ainda mais: CAUSE + HAVE + MOVE. Decomposição em átomos semânticos (semantic primitive). Quando essa decomposição estiver completa, verbos que não constam na lista poderão ser expressos por combinação de átomos.
+"give" pode ser decomposto ainda mais: CAUSE + HAVE + MOVE. Trata-se de decompor em primitivas semânticas (semantic primitives). Concluída essa decomposição, até verbos que não estão na lista podem ser expressos como combinações de átomos.
 
-Se WordNet é uma biblioteca padrão, o sistema de átomos semânticos é o compilador. Assim como o compilador pode criar funções que não existem na biblioteca padrão.
+Se o WordNet é a biblioteca padrão, o sistema de átomos semânticos é o compilador. Assim como um compilador pode produzir funções que não estão na biblioteca padrão.
 
-Isso é um grande desafio de pesquisa, a ser tentado depois que o sistema baseado em WordNet estiver funcionando. Por enquanto, a biblioteca padrão é suficiente.
+É uma grande tarefa de pesquisa, a tentar depois que um livro de códigos de verbos tiver sido posto para funcionar de fato.
+
+---
+
+## Por que é provisório
+
+O GEUL construiu um livro de códigos de verbos sobre essa estrutura: o [wordnet-verb](/pt/repos/#wordnet-verb), que dá a cada um dos 13.767 synsets verbais do WordNet 3.0 um código de 16 bits, com códigos próximos para significados próximos. Mas é uma edição provisória, de referência. São três os motivos.
+
+**Licença.** O WordNet segue a WordNet 3.0 License. Os resultados públicos do GEUL são CC0. Listas e definições derivadas do WordNet não podem ser levadas para um livro de códigos CC0.
+
+**Inglês.** Um synset é uma unidade de sentido de palavras inglesas. O GEUL precisa de um sistema de verbos que não esteja preso a nenhum idioma específico.
+
+**Lugar.** Ainda não foi decidido como os códigos de verbos serão levados nos registros GEUL.
+
+Por isso, essa edição provisória será substituída por um livro de códigos de verbos puro, que não use o WordNet. O que se aprendeu com o WordNet permanece: a cobertura deve ser completa, os critérios explícitos e a hierarquia fundamentada.
 
 ---
 
 ## Resumo
 
-Todo projeto que busca construir um sistema de verbos encontra a mesma pergunta: de onde trazê-lo?
+Todo projeto que tenta construir um sistema de verbos enfrenta a mesma pergunta: de onde tirá-lo?
 
-Construir do zero significa lacunas, arbitrariedade e falta de fundamento.
-Construir sobre WordNet significa sem lacunas, consenso e base em dados.
+Construindo por conta própria, há lacunas, arbitrariedade e falta de fundamento.
+Partindo do WordNet, não há lacunas, há consenso e fundamento nos dados.
 
-WordNet é o dicionário de verbos da humanidade, acumulado por linguistas durante 40 anos.
-Emprestamos as palavras desse dicionário, mas construímos a gramática nós mesmos.
-É por isso que usamos Wikidata para entidades e WordNet para verbos.
+Por isso o GEUL partiu do WordNet. Mas é só um ponto de partida.
+Os resultados públicos devem ser CC0, e um sistema de verbos não deve ficar preso ao inglês.
+Aprender a estrutura com o WordNet e reconstruí-la a partir de fontes CC0 e dados reais de uso.
+O princípio continua o mesmo: emprestar o dicionário e construir a gramática por conta própria.

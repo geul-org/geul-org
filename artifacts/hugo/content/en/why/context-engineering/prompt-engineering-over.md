@@ -2,9 +2,9 @@
 title: "Why the Age of Prompt Engineering Is Over"
 weight: 1
 date: 2026-02-26T12:00:12+09:00
-lastmod: 2026-02-26T12:00:12+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["prompt", "context", "engineering"]
-summary: "From how you say it to what you show — the game has changed"
+summary: "As models get smarter, \"what you show\" matters more than \"how you say it.\" The shift from prompts to context, and the seven pieces of infrastructure context engineering needs."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,9 +2,9 @@
 title: "Por que es necesaria la memoria estructurada?"
 weight: 18
 date: 2026-02-26T12:00:05+09:00
-lastmod: 2026-02-26T12:00:05+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["memoria", "estructura", "WMS"]
-summary: "La inteligencia sin memoria empieza desde cero cada vez"
+summary: "La IA escribe bien archivos, pero no encuentra los que ella misma escribió. El problema no es el almacenamiento sino la recuperación. El camino desde un simple mapa de qué está dónde, como un índice o una tabla de contenidos, hasta una memoria estructurada."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

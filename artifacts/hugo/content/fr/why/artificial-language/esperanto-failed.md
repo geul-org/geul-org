@@ -2,9 +2,9 @@
 title: "Pourquoi l'esperanto a echoue"
 weight: 12
 date: 2026-02-26T12:00:14+09:00
-lastmod: 2026-02-26T12:00:14+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["esperanto", "langue artificielle", "histoire"]
-summary: "Les langues artificielles pour les humains ont echoue -- les langues artificielles pour l'IA sont differentes"
+summary: "L'espéranto a échoué parce qu'il fallait l'apprendre, qu'il cherchait à remplacer les langues existantes et qu'il servait à communiquer. Un langage artificiel pour l'IA suit une autre voie : les humains n'ont pas à l'apprendre, il ne remplace pas le langage naturel, et son but est d'enregistrer et de vérifier."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -35,7 +35,7 @@ La prononciation correspond a l'orthographe.
 Zamenhof a reconnu l'inefficacite du langage naturel
 et a tente de la resoudre avec une langue artificielle deliberement concue.
 
-137 ans plus tard, l'esperanto compte environ 2 millions de locuteurs.
+139 ans plus tard, l'esperanto compte environ 2 millions de locuteurs.
 0,025% de la population mondiale.
 L'esperanto a echoue.
 
@@ -64,7 +64,7 @@ Parce que personne ne l'apprend, encore moins de gens le parlent.
 
 Un cas d'ecole d'effets de reseau inverses.
 Le probleme de la poule et de l'oeuf.
-L'esperanto est pris dans ce piege depuis 137 ans.
+L'esperanto est pris dans ce piege depuis 139 ans.
 
 ### Cause 2 : Il devait remplacer les langues existantes
 
@@ -175,6 +175,8 @@ C'est lire une carte.
 
 Tout comme vous n'avez pas besoin d'etudier la topographie pour lire Google Maps,
 vous n'avez pas besoin d'apprendre la grammaire binaire pour utiliser l'editeur visuel.
+
+Le premier pas existe déjà : `geul serve`, dans gogeul, affiche un document GEUL dans le navigateur sous forme de liste d'enregistrements et de graphe. Un éditeur permettant de modifier directement le graphe reste à venir.
 
 ---
 

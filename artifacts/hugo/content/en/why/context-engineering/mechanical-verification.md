@@ -2,9 +2,9 @@
 title: "Why Mechanical Verification Is Necessary"
 weight: 4
 date: 2026-02-26T12:00:10+09:00
-lastmod: 2026-02-26T12:00:10+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["verification", "specification", "compiler"]
-summary: "Natural language has no concept of an invalid sentence"
+summary: "Natural language has no concept of an \"invalid sentence,\" so information enters the context unchecked. Why mechanical verification, filtering form against a specification, must come first in the pipeline."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

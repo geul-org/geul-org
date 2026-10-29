@@ -18,7 +18,7 @@ Dokumen GEUL adalah rangkaian WORD 16-bit. Satuan datanya adalah rekaman (record
 
 Pustaka Go GEUL dan alat baris perintah `geul`.
 
-Menulis, membaca, memeriksa, dan menerbitkan dokumen GEUL (`.geul`). Paket-paketnya menyediakan pemeriksaan format, dekode rekaman melalui dokumen spesifikasi Codec, diff antarversi, resolusi dependensi IMPORT, dan Codec TOULMIN. CLI `geul` mencakup penyuntingan (`new`, `add`), penerbitan (`publish`), penelusuran (`ls`, `log`, `show`), penampil di peramban (`serve`, `build`), dan arsip pack (`pack build`, `pack unpack`). Arsip pack dapat menyimpan rekaman yang dikompresi dengan zstd.
+Menulis, membaca, memeriksa, dan menerbitkan dokumen GEUL (`.geul`). Paket-paketnya menyediakan pemeriksaan format, dekode rekaman melalui dokumen spesifikasi Codec, diff antarversi, resolusi dependensi IMPORT, dan Codec TOULMIN. CLI `geul` mencakup penyuntingan (`new`, `add`), penerbitan (`publish`), penelusuran (`ls`, `log`, `show`, `diff`, `check`), penampil di peramban (`serve`, `build`), dan arsip pack (`pack build`, `pack unpack`). Arsip pack dapat menyimpan rekaman yang dikompresi dengan zstd.
 
 | | |
 |---|---|

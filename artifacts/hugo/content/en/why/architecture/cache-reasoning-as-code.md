@@ -2,9 +2,9 @@
 title: "Why Cache Reasoning as Code?"
 weight: 19
 date: 2026-02-26T12:00:02+09:00
-lastmod: 2026-02-26T12:00:02+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["cache", "reasoning", "code"]
-summary: "Transform a single inference into a permanent procedure"
+summary: "Instead of having an LLM reason from scratch every time, crystallize each inference into code and cache it. A JIT-compiler-like structure that calls the LLM only on a cache miss, and what it achieves over time."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -34,7 +34,7 @@ And intelligence that does not accumulate experience can never grow.
 
 ## The LLM Is a Compiler, Not a Runtime Engine
 
-SEGLAM offers a fundamentally different answer to this problem.
+The reasoning cache that GEUL aims for offers a fundamentally different answer to this problem.
 
 **The LLM is not a runtime engine that executes every request --
 it is a compiler that crystallizes reasoning into code.**
@@ -55,24 +55,24 @@ This architecture is a rediscovery of a pattern already proven in computer scien
 
 Consider the JIT (Just-In-Time) compiler. Java and JavaScript engines initially execute code line by line through an interpreter. Slow, but functional. When the same code path is executed repeatedly -- "this is a hot path" -- the engine compiles that path into native machine code. From then on, it runs directly without going through the interpreter.
 
-In SEGLAM:
+In a reasoning cache:
 
 - **Interpreter = LLM.** Slow, expensive, and probabilistic, but capable of handling any request.
 - **Native code = cached reasoning code.** Fast, cheap, and deterministic.
 - **JIT compilation = the process of the LLM generating code on a cache miss.** Costly, but only needs to happen once.
 
 Just as a JIT compiler optimizes "hot paths,"
-SEGLAM crystallizes "hot reasoning" into code.
+a reasoning cache crystallizes "hot reasoning" into code.
 
 ---
 
 ## Why Cache "Code" Instead of "Answers"?
 
-This is the crux. A simple response cache and SEGLAM's reasoning cache are fundamentally different.
+This is the crux. A simple response cache and a reasoning cache are fundamentally different.
 
 **A response cache** stores "Q: What is the capital of Korea? -> A: Seoul." It only hits when the question matches exactly. Ask "What is the capital of the Republic of Korea?" and it misses. This is a dictionary, not intelligence.
 
-**SEGLAM's reasoning cache** stores code that says "for this type of question, construct an answer through this procedure." It crystallizes not the specific value, but the reasoning path itself. Therefore, even when the input changes, the same type of question still hits. This is understanding. This is growth.
+**A reasoning cache** stores code that says "for this type of question, construct an answer through this procedure." It crystallizes not the specific value, but the reasoning path itself. Therefore, even when the input changes, the same type of question still hits. This is understanding. This is growth.
 
 An analogy: a response cache memorizes the multiplication table; a reasoning cache learns how to multiply.
 
@@ -116,7 +116,7 @@ but intelligence that accumulates on a white box. That is the vision of AI worth
 
 ## Summary
 
-| Conventional LLM | SEGLAM |
+| Conventional LLM | Reasoning cache |
 |-----------|--------|
 | Reasons from scratch on every request | Executes cached code on cache hit |
 | Reasoning results evaporate | Reasoning crystallizes into code and accumulates |
@@ -127,4 +127,4 @@ but intelligence that accumulates on a white box. That is the vision of AI worth
 Calling the LLM for every request is like taking a plane to the house next door.
 Once you pave a road, you can walk from then on.
 
-SEGLAM is the system that paves roads.
+A reasoning cache is the system that paves roads.

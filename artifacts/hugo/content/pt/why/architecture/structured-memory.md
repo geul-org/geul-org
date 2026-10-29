@@ -2,9 +2,9 @@
 title: "Por Que a Memoria Estruturada e Necessaria?"
 weight: 18
 date: 2026-02-26T12:00:05+09:00
-lastmod: 2026-02-26T12:00:05+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["memoria", "estrutura", "WMS"]
-summary: "Inteligencia sem memoria comeca do zero toda vez"
+summary: "A IA escreve bem arquivos, mas não encontra os que ela mesma escreveu. O problema não é armazenar, é recuperar. O caminho de um simples mapa do que está onde, como um sumário ou um índice, até uma memória estruturada."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

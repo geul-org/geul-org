@@ -2,7 +2,7 @@
 title: "Pourquoi un langage artificiel est-il nécessaire ?"
 weight: 7
 date: 2026-03-01T12:00:00+09:00
-lastmod: 2026-03-01T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["langage artificiel", "langage naturel", "hallucination", "LLVM IR"]
 summary: "Le langage naturel a évolué pour la communication humaine. L'ambiguïté, la redondance et l'implicite sont des atouts pour les humains, mais des causes d'hallucination pour l'IA. Ni les langages de programmation ni les cadres sémantiques existants ne sont la réponse. Un nouveau langage artificiel satisfaisant six conditions simultanément est nécessaire."
 author: "Junwoo Park"
@@ -177,11 +177,13 @@ LLVM IR travaille dans l'ombre.
 
 GEUL est le LLVM IR pour l'IA.
 
-Tous les langages naturels sont traduits en GEUL.
-GEUL est stocke dans le WMS, utilise pour le raisonnement, puis retraduit en langage naturel.
-Les utilisateurs ne voient pas GEUL.
-Ils posent des questions en langage naturel et recoivent des reponses en langage naturel.
-GEUL travaille dans l'ombre.
+Tel est l'objectif.
+Le langage naturel est transformé en GEUL. Le texte original est conservé tel quel, et GEUL devient l'index qui y ramène.
+GEUL est stocké, utilisé pour raisonner, puis retraduit en langage naturel.
+Les utilisateurs ne voient jamais GEUL.
+Ils posent leurs questions en langage naturel et reçoivent les réponses en langage naturel.
+GEUL travaille là où personne ne le voit.
+Un interpréteur qui transforme le langage naturel (d'abord le coréen) en GEUL est en cours de développement.
 
 ---
 
@@ -200,9 +202,9 @@ Aucune dependance a l'implicite.
 
 **2. Metadonnees integrees**
 
-Pour chaque description, la source, le moment, le degre de confiance et le point de vue (POV)
-doivent etre inclus non pas comme annotations separees, mais dans la structure meme de la description.
-Sans cela, une IA boite blanche est impossible.
+Chaque énoncé doit avoir une place pour la source, le moment, la confiance et le point de vue (POV)
+dans la structure même de l'énoncé, et non dans une annotation séparée.
+Sans cela, une IA en boîte blanche est impossible.
 
 **3. Compatibilite LLM**
 
@@ -243,10 +245,11 @@ Logiquement rigoureux, mais concu avant l'ere des LLM.
 La conversion depuis/vers le langage naturel est difficile, et l'expression est verbeuse.
 Et, de maniere fatale, c'est lent. Le raisonnement a grande echelle n'est pas realiste.
 
-**Les graphes de connaissances (Wikidata, Freebase)** ont represente le monde sous forme de graphe.
-Mais ils stockent des "faits", pas des "descriptions".
-Ils stockent "Napoleon etait empereur" sous forme de triplet,
-mais ne contiennent pas qui l'a affirme ni avec quel degre de certitude.
+**Les graphes de connaissances (Wikidata, Freebase)** ont représenté le monde sous forme de graphe.
+Les déclarations peuvent porter des références et recevoir un rang (rank).
+Mais l'unité de base reste la déclaration en tant que « fait ».
+Ils stockent « Yi Sun-sin est un général » sous forme de triplet,
+mais les références restent facilement vides, et il n'y a pas de place pour le degré de certitude.
 
 **Chain-of-Thought** enregistre le processus de raisonnement du LLM en langage naturel.
 C'est une bonne direction, mais comme le medium d'enregistrement est le langage naturel,
@@ -261,12 +264,12 @@ mais aucune ne satisfait les six simultanement.
 
 GEUL se situe a l'intersection de ces six conditions.
 
-Un format de flux base sur des mots de 16 bits.
-Le contexte, la source et le degre de certitude sont structurellement integres dans chaque description.
-Les graphes sont serialises sous forme de paquets de noeuds et d'aretes.
-Il suit un motif fixe pouvant etre mappe 1:1 avec les tokens du LLM.
-Il traite les descriptions (Claims) comme donnees primaires, pas les faits.
-50% de l'espace d'adressage total est reserve pour l'avenir.
+Un format d'enregistrements bâti sur des mots de 16 bits.
+Chaque énoncé a une place pour la source, le moment et la confiance. Ce qui est laissé vide apparaît vide.
+Les Reference portent les cibles et les Edge les relations, sérialisant le graphe.
+L'unité de mot est dimensionnée sur les vocabulaires des LLM, et chaque enregistrement suit un motif fixe qui commence par une TAG WORD.
+Il prend les énoncés (claims), et non les faits, comme données primaires.
+Il réserve pour l'avenir 75 % de l'espace de la TAG WORD qui ouvre chaque enregistrement.
 
 GEUL n'est pas visible pour l'utilisateur.
 L'utilisateur parle en langage naturel et recoit des reponses en langage naturel.

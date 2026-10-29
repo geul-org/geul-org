@@ -2,9 +2,9 @@
 title: "Why Consistency Checks Are Necessary"
 weight: 6
 date: 2026-02-26T12:00:08+09:00
-lastmod: 2026-02-26T12:00:08+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["consistency", "contradiction", "coherence"]
-summary: "Individually correct information can be collectively wrong"
+summary: "Information that is correct on its own can contradict itself once gathered. The three kinds of contradiction (temporal, between sources, inferential), and why detection becomes field comparison and arithmetic in a structured representation."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

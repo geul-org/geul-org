@@ -2,9 +2,9 @@
 title: "Por Que a Era da Engenharia de Prompt Acabou"
 weight: 1
 date: 2026-02-26T12:00:12+09:00
-lastmod: 2026-02-26T12:00:12+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["prompt", "contexto", "engenharia"]
-summary: "De como voce diz para o que voce mostra — o jogo mudou"
+summary: "Quanto mais inteligentes os modelos, mais pesa \"o que você mostra\" do que \"como você diz\". A passagem do prompt para o contexto e as sete peças de infraestrutura de que a engenharia de contexto precisa."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

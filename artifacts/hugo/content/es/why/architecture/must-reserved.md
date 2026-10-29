@@ -2,24 +2,24 @@
 title: "Por qué debemos dejarlo vacío"
 weight: 21
 date: 2026-03-01T15:00:00+09:00
-lastmod: 2026-03-01T15:00:00+09:00
-tags: ["reservado", "extensibilidad", "64-bit", "principio-de-diseño", "IPv4"]
-summary: "GEUL deja vacío el 75% de su espacio de 64 bits. Las lecciones de IPv4, Unicode y ASCII nos enseñan: el costo de llenar es irreversible, pero el costo de dejar vacío es cero."
+lastmod: 2026-10-29T12:00:00+09:00
+tags: ["reservado", "extensibilidad", "TAG WORD", "principio-de-diseño", "IPv4"]
+summary: "GEUL deja vacío el 75% del espacio de la TAG WORD de 16 bits que abre cada registro. Las lecciones de IPv4, Unicode y ASCII: el costo de llenar es irreversible, mientras que el de dejar vacío es de tres bits por registro."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-64 bits contienen 18.446.744.073.709.551.616 direcciones. 18,4 trillones. GEUL deja vacío el 75% de ellas.
+Todo registro GEUL comienza con una sola TAG WORD de 16 bits. Los bits iniciales de la TAG WORD la dividen en regiones. GEUL deja vacío el 75% de este espacio.
 
 ```
-bit1 = 1:    50%    futuro lejano
-bit1-2 = 01: 25%    futuro cercano
-bit1-3 = 001: 12,5% estándar
-bit1-4 = 0001: 6,25% propuesta actual
+1xx:  50%    Futuro lejano
+01x:  25%    Futuro cercano
+001:  12.5%  Estándar
+000:  12.5%  Gramática actual (libre / propuesta)
 ```
 
-El espacio actualmente en uso es el 6,25%. Del 93,75% restante, el 12,5% se usará cuando se establezcan los estándares, y el 75% se reserva para generaciones que aún no han nacido.
+Toda la gramática actual vive en la región `000`, dentro del 12.5%. Cuando se lance un estándar oficial, los diseños adoptados se quedarán como están y solo los bits iniciales pasarán a `001`. El 75% restante se deja para generaciones que aún no han nacido.
 
 ¿Por qué?
 
@@ -105,47 +105,51 @@ Reservar el 50% para el futuro lejano significa ceder la mitad de las posibilida
 
 ## El costo de dejar vacío
 
-¿Tiene algún costo dejar vacío?
+¿Cuesta algo dejar espacio vacío?
 
 ```
-75% reservado de 64 bits = 48 bits sin usar.
-Los 16 bits restantes (6,25%) = 1.152.921.504.606.846.976 direcciones.
+TAG WORD de 16 bits = región de 3 bits + 13 bits
 
-11,5 trillones.
-10 millones de veces el total de Wikidata (108 millones).
-Suficiente para contener todos los datos existentes y mucho más.
+Los 13 bits de la región actual 000:
+  Kind    2 bits   Reference · Value · Edge · Meta
+  Length  4 bits   1–14 WORD, hasta 2³²−1 WORD si se extiende
+  Codec   7 bits   124 códigos directos + 4 formas de Issuer
 ```
 
-Dejarlo vacío no significa quedarse corto. El 6,25% es suficiente para las necesidades actuales. El costo de dejarlo vacío es 0.
+¿No son pocos 13 bits? No. Un formato que no obtiene código directo se escribe como formato de Issuer. Cada entidad que define formatos (Issuer) tiene sus propios números de formato de 16 bits, así que en la práctica no hay límite al número de formatos. El precio son unas pocas WORD de TAG de extensión. Los formatos frecuentes son cortos; los raros, un poco más largos.
 
-¿El costo de llenarlo? IPv4 lo demostró. Es irreversible.
+El costo de dejar vacío son tres bits de la TAG WORD por registro. Esos tres bits reservan para el futuro seis veces el espacio que se usa hoy.
+
+¿El costo de llenar? IPv4 nos lo mostró. Es irreversible.
 
 ---
 
 ## Principio de diseño
 
-El artículo 1 de los principios de diseño de GEUL Grammar v0.11:
+El quinto principio de diseño de la [gramática](/es/grammar/overview/) GEUL v1:
 
-> **Extensibilidad a largo plazo:** Los bits reservados no se reasignan a usos temporales. Se preserva el espacio para que las generaciones futuras puedan utilizarlo.
+> **Dejarlo vacío.** La mayor parte del espacio de bits se guarda para el futuro. Los códigos directos no se pueden recuperar, así que solo los reciben formatos de frecuencia comprobada.
 
-Esta no es una decisión técnica, sino una decisión ética.
+La gramática fija este principio como regla. Un decodificador v1 rechaza toda TAG WORD cuyos bits iniciales no sean `000`. El camino para tomar prestado el espacio vacío para usos temporales está cerrado desde el principio.
 
-Dejar sin usar un espacio que podría usarse ahora es una declaración de que la libertad del futuro importa más que la conveniencia del presente. La deuda que la generación que diseñó IPv4 nos dejó, nosotros no se la dejaremos a la siguiente generación.
+Esta no es una decisión técnica. Es una decisión ética.
+
+Elegir no usar espacio que podría usarse ahora es una declaración de que la libertad del futuro tiene prioridad sobre la conveniencia del presente. La deuda que la generación que diseñó IPv4 nos dejó, no la dejaremos a la siguiente generación.
 
 ---
 
 ## El diseño más humilde
 
 ```
-"Conozco el futuro" → Uso los 64 bits completos.
-"No conozco el futuro" → Dejo vacío el 75%.
+"Conozco el futuro" -> Usar los 16 bits.
+"No conozco el futuro" -> Dejar el 75% vacío.
 ```
 
-Dejar vacío es humildad. Es reconocer que quienes estamos aquí ahora no podemos conocer el futuro. Y esa humildad produce el diseño más robusto.
+Dejar espacio vacío es humildad. Es el acto de reconocer que no podemos conocer el futuro. Y esa humildad produce el diseño más robusto.
 
 IPv4 fue producto de la confianza. 32 bits son suficientes. No lo fueron.
 
-GEUL es producto de la humildad. No sabemos si el 6,25% de 64 bits será suficiente. Pero si dejamos vacío el 75%, no pasa nada si nos equivocamos.
+GEUL es producto de la humildad. No sabemos si el 12.5% que se usa hoy es suficiente. Pero si dejamos el 75% vacío, está bien equivocarse.
 
 ---
 

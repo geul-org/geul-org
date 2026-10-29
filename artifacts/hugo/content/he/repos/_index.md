@@ -18,7 +18,7 @@ image: "/images/og-default.webp"
 
 ספריית Go של GEUL וכלי שורת הפקודה `geul`.
 
-כותבת, קוראת, בודקת ומפרסמת מסמכי GEUL (`.geul`). החבילות שלה מספקות בדיקת פורמט, פענוח רשומות באמצעות מסמכי מפרט Codec, הבדלים בין גרסאות, פתרון תלויות IMPORT ואת Codec TOULMIN. ה-CLI `geul` מכסה עריכה (`new`, `add`), פרסום (`publish`), עיון (`ls`, `log`, `show`), מציג בדפדפן (`serve`, `build`) וארכיוני pack (`pack build`, `pack unpack`). ארכיוני pack יכולים לשמור רשומות דחוסות ב-zstd.
+כותבת, קוראת, בודקת ומפרסמת מסמכי GEUL (`.geul`). החבילות שלה מספקות בדיקת פורמט, פענוח רשומות באמצעות מסמכי מפרט Codec, הבדלים בין גרסאות, פתרון תלויות IMPORT ואת Codec TOULMIN. ה-CLI `geul` מכסה עריכה (`new`, `add`), פרסום (`publish`), עיון (`ls`, `log`, `show`, `diff`, `check`), מציג בדפדפן (`serve`, `build`) וארכיוני pack (`pack build`, `pack unpack`). ארכיוני pack יכולים לשמור רשומות דחוסות ב-zstd.
 
 | | |
 |---|---|

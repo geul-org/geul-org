@@ -2,9 +2,9 @@
 title: "Warum Konsistenzpruefungen notwendig sind"
 weight: 6
 date: 2026-02-26T12:00:08+09:00
-lastmod: 2026-02-26T12:00:08+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Konsistenz", "Widerspruch", "Kohaerenz"]
-summary: "Einzeln korrekte Informationen koennen gemeinsam falsch sein"
+summary: "Einzeln korrekte Informationen können sich widersprechen, sobald sie zusammenkommen. Die drei Arten von Widersprüchen (zeitlich, zwischen Quellen, inferenziell) und warum ihre Erkennung in einer strukturierten Darstellung zu Feldvergleich und Arithmetik wird."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,9 +2,9 @@
 title: "Warum Filter notwendig sind"
 weight: 5
 date: 2026-02-26T12:00:09+09:00
-lastmod: 2026-02-26T12:00:09+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Filter", "Relevanz", "Vertrauen"]
-summary: "Gueltige Informationen sind nicht immer benoetigte Informationen"
+summary: "Nicht jede gültige Information ist eine benötigte Information. Der Filter, der nach Relevanz, Verlässlichkeit und Aktualität nur das jetzt Nötige auswählt, und warum diese Kriterien in einer strukturierten Darstellung zu Feldoperationen werden."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

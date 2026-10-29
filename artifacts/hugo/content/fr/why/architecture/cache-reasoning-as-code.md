@@ -2,9 +2,9 @@
 title: "Pourquoi mettre le raisonnement en cache sous forme de code ?"
 weight: 19
 date: 2026-02-26T12:00:02+09:00
-lastmod: 2026-02-26T12:00:02+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["cache", "raisonnement", "code"]
-summary: "Transformer une seule inference en une procedure permanente"
+summary: "Au lieu qu'un LLM raisonne à partir de zéro à chaque fois, chaque inférence est cristallisée en code et mise en cache. Une structure semblable à un compilateur JIT, qui n'appelle le LLM qu'en cas d'échec de cache, et ce qu'elle produit avec le temps."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -34,7 +34,7 @@ Et une intelligence qui n'accumule pas l'experience ne pourra jamais grandir.
 
 ## Le LLM est un compilateur, pas un moteur d'execution
 
-SEGLAM offre une reponse fondamentalement differente a ce probleme.
+Le cache de raisonnement que vise GEUL offre une reponse fondamentalement differente a ce probleme.
 
 **Le LLM n'est pas un moteur d'execution qui traite chaque requete --
 c'est un compilateur qui cristallise le raisonnement en code.**
@@ -55,24 +55,24 @@ Cette architecture est une redecouverte d'un modele deja prouve en informatique.
 
 Considerons le compilateur JIT (Just-In-Time). Les moteurs Java et JavaScript executent initialement le code ligne par ligne via un interpreteur. Lent, mais fonctionnel. Quand le meme chemin de code est execute a repetition -- "c'est un chemin critique" -- le moteur compile ce chemin en code machine natif. A partir de la, il s'execute directement sans passer par l'interpreteur.
 
-Dans SEGLAM :
+Dans un cache de raisonnement :
 
 - **Interpreteur = LLM.** Lent, couteux et probabiliste, mais capable de traiter n'importe quelle requete.
 - **Code natif = code de raisonnement en cache.** Rapide, economique et deterministe.
 - **Compilation JIT = le processus du LLM generant du code lors d'un cache miss.** Couteux, mais n'a besoin de se produire qu'une seule fois.
 
 Tout comme un compilateur JIT optimise les "chemins critiques",
-SEGLAM cristallise le "raisonnement critique" en code.
+un cache de raisonnement cristallise le "raisonnement critique" en code.
 
 ---
 
 ## Pourquoi mettre en cache du "code" plutot que des "reponses" ?
 
-C'est le coeur du sujet. Un simple cache de reponses et le cache de raisonnement de SEGLAM sont fondamentalement differents.
+C'est le coeur du sujet. Un simple cache de reponses et un cache de raisonnement sont fondamentalement differents.
 
 **Un cache de reponses** stocke "Q : Quelle est la capitale de la Coree ? -> R : Seoul." Il ne fonctionne que quand la question correspond exactement. Demandez "Quelle est la capitale de la Republique de Coree ?" et c'est un miss. C'est un dictionnaire, pas de l'intelligence.
 
-**Le cache de raisonnement de SEGLAM** stocke du code qui dit "pour ce type de question, construire une reponse selon cette procedure". Il cristallise non pas la valeur specifique, mais le chemin de raisonnement lui-meme. Par consequent, meme quand l'entree change, le meme type de question correspond toujours. C'est de la comprehension. C'est de la croissance.
+**Un cache de raisonnement** stocke du code qui dit "pour ce type de question, construire une reponse selon cette procedure". Il cristallise non pas la valeur specifique, mais le chemin de raisonnement lui-meme. Par consequent, meme quand l'entree change, le meme type de question correspond toujours. C'est de la comprehension. C'est de la croissance.
 
 Une analogie : un cache de reponses memorise la table de multiplication ; un cache de raisonnement apprend a multiplier.
 
@@ -116,7 +116,7 @@ mais une intelligence qui s'accumule sur une boite blanche. C'est la vision d'IA
 
 ## Resume
 
-| LLM conventionnel | SEGLAM |
+| LLM conventionnel | Cache de raisonnement |
 |-----------|--------|
 | Raisonne de zero a chaque requete | Execute le code en cache lors d'un cache hit |
 | Les resultats du raisonnement s'evaporent | Le raisonnement se cristallise en code et s'accumule |
@@ -127,4 +127,4 @@ mais une intelligence qui s'accumule sur une boite blanche. C'est la vision d'IA
 Appeler le LLM pour chaque requete, c'est comme prendre l'avion pour aller chez le voisin.
 Une fois la route goudronnee, on peut marcher desormais.
 
-SEGLAM est le systeme qui goudronne les routes.
+Un cache de raisonnement est le système qui goudronne les routes.

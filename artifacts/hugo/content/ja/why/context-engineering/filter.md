@@ -2,9 +2,9 @@
 title: "なぜフィルタリングが必要なのか"
 weight: 5
 date: 2026-02-26T12:00:09+09:00
-lastmod: 2026-02-26T12:00:09+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["フィルタ", "関連性", "信頼"]
-summary: "有効な情報が常に必要な情報とは限らない"
+summary: "有効な情報がすべて必要な情報とは限らない。関連性・信頼性・新しさで今必要なものだけを選ぶフィルタと、構造化された表現ではその基準がフィールド演算になる理由を扱う。"
 author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

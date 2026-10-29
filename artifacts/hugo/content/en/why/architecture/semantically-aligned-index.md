@@ -2,9 +2,9 @@
 title: "Why a Semantically-Aligned Index?"
 weight: 16
 date: 2026-02-26T12:00:03+09:00
-lastmod: 2026-02-26T12:00:03+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["SIDX", "semantic alignment", "index"]
-summary: "When meaning is engraved in bits, search becomes reasoning"
+summary: "If an ID were knowledge rather than an address, a single bitwise operation could narrow the candidates without any JOIN. This essay covers SIDX, the semantically-aligned identifier GEUL is researching, and why its width will be set from usage statistics."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -18,17 +18,17 @@ image: "/images/og-default.webp"
 
 To find Yi Sun-sin in a database, you need an ID.
 
-In Wikidata, Yi Sun-sin's ID is `Q8492`.
+In Wikidata, Yi Sun-sin's ID is `Q50184`.
 
 This number points to Yi Sun-sin.
-But the string `Q8492` itself knows nothing.
+But the string `Q50184` itself knows nothing.
 
 It does not know whether this is a person or a building.
 It does not know whether this is a Korean or a French citizen.
 It does not know whether this is a 16th-century figure or a 21st-century one.
 It does not know whether they are alive or dead.
 
-`Q8492` is an address.
+`Q50184` is an address.
 A letter carrier delivering mail has no idea what is written inside the envelope.
 They simply look at the address on the envelope and deliver.
 
@@ -64,7 +64,7 @@ With a billion records, this process takes seconds to tens of seconds.
 Why is it so complex?
 
 Because the ID knows nothing.
-Looking at `Q8492`, you cannot tell whether this is a German or a Korean,
+Looking at `Q50184`, you cannot tell whether this is a German or a Korean,
 so you must go to another table to retrieve that information.
 
 For every question, you must follow where the ID points.
@@ -94,9 +94,12 @@ This is the core idea behind the Semantically-Aligned Index.
 
 ## Aligning Meaning into the ID
 
-SIDX (Semantically-Aligned Index) is a 64-bit identifier.
+SIDX (Semantically-Aligned Index) is research into building such an ID.
+The GEUL grammar already has a Reference slot that points to a target by SIDX ([GEUL-SIDX](/grammar/reference/geul-sidx/)).
+But its width and assignment method are not decided yet. They will be set from accumulated usage statistics.
+Below, 64 bits is used as an example for explanation.
 
-These 64 bits are not random numbers.
+The bits of a SIDX are not random numbers.
 Meaning is assigned to the position of each bit.
 
 The upper bits hold the most important information.
@@ -123,15 +126,14 @@ This is a design philosophy.
 
 The practical power of SIDX shows itself in the numbers.
 
-WMS holds one billion entities.
-Each entity's SIDX is 64 bits.
+Suppose there are one billion entities, each with a 64-bit SIDX.
 Total size: 1 billion x 8 bytes = 8 GB.
 
 This 8 GB fits entirely in memory.
 
 You want to find "entities that are human and originate from East Asia."
-The upper bits contain a "human" flag and an "East Asia" code,
-so you can filter with a single bitmask.
+If the upper bits contain a "human" flag and an "East Asia" code,
+you can filter with a single bitmask.
 
 ```
 mask   = 0xFF00_0000_0000_0000  (upper 8 bits: type + region)
@@ -143,10 +145,9 @@ for each sidx in 1_billion:
 ```
 
 This operation parallelizes with SIMD.
-With AVX-512, you compare 8 SIDXs simultaneously in a single instruction.
-Scanning 1 billion entries: approximately 12 milliseconds.
-
-On a GPU? Under 1 millisecond.
+The limit is not computation but memory bandwidth.
+In a preliminary measurement for [SILK](/projects/silk/), scanning 100 million 128-bit signatures (1.6 GB) with a mask took about 27 milliseconds on 8 Go threads.
+At the same rate, a billion 64-bit SIDXs (8 GB) would take a little over 0.1 seconds.
 
 A billion records narrowed to ten thousand.
 Filtering the remaining ten thousand in detail is instantaneous.
@@ -157,7 +158,7 @@ Just one bitwise AND.
 
 ---
 
-## Why 64 Bits Is Enough
+## How Wide Should It Be?
 
 At first, I thought a larger space was needed.
 
@@ -170,22 +171,24 @@ But then I realized something.
 **The ID does not need to know everything.**
 
 It only needs to narrow a billion records down to ten thousand.
-WMS handles the rest.
+Precise verification handles the rest.
 
 Think of it as a checkpoint.
 At a highway tollgate, to determine that
 "this vehicle is heading toward Gyeonggi Province" from the license plate,
 you do not need to know what is loaded in the trunk.
 
-64 bits is enough.
+So 64 bits might be enough.
 Use the upper bits to capture type and broad classification,
-and the lower bits for finer classification.
-64 bits is more than sufficient to narrow a billion records to ten thousand.
+and the lower bits for finer classification,
+and narrowing a billion records to ten thousand looks comfortably within reach.
+64 bits = four 16-bit words. Light even inside a stream.
 
-And 64 bits = four 16-bit words.
-They flow naturally within a stream.
-A 32-byte ID would make a stream heavy,
-but a 64-bit SIDX is light and fast.
+But this is still a hypothesis.
+GEUL does not decide the width at a desk.
+With candidates such as 4 WORDs (64 bits) and 16 WORDs, it will decide from real usage statistics.
+Until then, targets are referenced by IDs assigned in sequence,
+and once a SIDX is assigned, the two IDs are linked as the same target.
 
 ---
 
@@ -221,8 +224,9 @@ Partial understanding is better than complete failure.
 
 ## A Query Becomes an ID
 
-The most intriguing possibility that semantically-aligned indexing opens up
-is this: a natural language query can be converted into a temporary SIDX.
+The most intriguing possibility that semantically-aligned indexing opens up:
+
+What if a natural language query could be turned into a temporary SIDX?
 
 A user asks: "Who was the general that defeated the Japanese navy during the Imjin War?"
 
@@ -230,16 +234,16 @@ The encoder analyzes this question.
 Human. East Asia. 16th century. Military-related.
 Assembling these attributes into bits produces a temporary SIDX.
 
-This temporary SIDX scans the billion SIDXs in WMS.
+This temporary SIDX scans a billion SIDXs.
 Entities whose bit patterns are most similar rise as candidates.
 Yi Sun-sin, Won Gyun, Gwon Yul, Yi Eok-gi...
 
 Cross-referencing detailed information against these candidates yields the final answer.
 
-This unifies search and entity linking into a single mechanism.
-No separate search engine required.
-No separate NER (Named Entity Recognition) pipeline required.
-A single SIDX comparison is all it takes.
+Search and entity linking could become a single mechanism.
+Without a separate search engine,
+without a separate NER (Named Entity Recognition) pipeline,
+with a single SIDX comparison.
 
 ---
 
@@ -248,7 +252,7 @@ A single SIDX comparison is all it takes.
 Traditional databases use B-Tree indexes.
 
 B-Trees excel at finding a specific value in sorted data in O(log n).
-For "find Q8492," they are optimal.
+For "find Q50184," they are optimal.
 
 But for "find all entities that are human and originate from East Asia," they are weak.
 Compound condition searches require intersecting multiple indexes,
@@ -265,13 +269,13 @@ The nature of the question differs, and so does the optimal data structure.
 |-----------|--------|-----------|
 | Lookup by specific ID | O(log n), optimal | Unnecessary (use a hash) |
 | Compound condition filtering | Requires JOINs, slow | One bitwise AND, fast |
-| Similar entity search | Not possible | Possible via vector similarity |
+| Similar entity search | Not possible | Possible via bit similarity |
 | Insertion | O(log n), rebalancing | O(1), append |
 | Implementation complexity | High | Low |
 
-WMS does not use B-Trees.
-It loads a billion SIDXs into memory
-and performs an exhaustive scan with SIMD bitmasks.
+The two divide the work rather than compete.
+Today SILK answers exact queries such as "documents whose predicate is P106 and whose object is Q169470" with sorted runs and binary search.
+A bit-signature scan, as a first-pass filter in front of that, is planned as a next step.
 
 Simple. Brute-force. Fast.
 
@@ -279,7 +283,7 @@ Simple. Brute-force. Fast.
 
 ## Huffman's Wisdom
 
-The bit allocation structure of SIDX follows the principle of Huffman coding.
+The bit allocation of SIDX follows the principle of Huffman coding.
 
 In Huffman coding, frequently occurring symbols receive shorter codes,
 and rarely occurring symbols receive longer codes.
@@ -287,13 +291,12 @@ and rarely occurring symbols receive longer codes.
 In SIDX, the most frequently needed classification information occupies the upper bits,
 and rarely needed details occupy the lower bits.
 
-The same principle governs the packet type prefixes of this language.
-The highest-frequency Tiny Verb Edge gets the shortest prefix.
-The low-frequency Event6 Edge gets a longer prefix.
+Codec assignment in the GEUL grammar follows the same principle.
+Formats with confirmed frequency get a short direct code inside the TAG WORD,
+and rare formats go to Issuer formats with an extension TAG.
 
-Huffman's wisdom runs through every layer of this design.
-Not a single bit is wasted.
-The lowest cost for the most important thing.
+Huffman's wisdom runs through this whole design.
+The lowest cost for what is used most.
 
 ---
 
@@ -303,11 +306,11 @@ A traditional ID is an address. An address knows nothing.
 
 1. When the ID does not carry meaning, you must follow it to the data every time. That is a JOIN.
 2. Four JOINs across a billion records is slow.
-3. SIDX encodes meaning directly into the ID through semantic alignment.
-4. A single bitmask AND narrows a billion records to ten thousand. Zero JOINs.
-5. 64 bits is enough. The ID does not need to know everything -- it only needs to narrow the candidates.
+3. SIDX is research into encoding meaning directly into the ID through semantic alignment.
+4. A single bitmask AND can narrow a billion records to ten thousand. Zero JOINs.
+5. The ID does not need to know everything -- it only needs to narrow the candidates. The width will be set from usage statistics.
 6. Because the most important information occupies the upper bits, the core meaning survives even when bits are truncated.
-7. Converting a natural language query into a temporary SIDX turns search into a vector operation.
+7. If a natural language query can be turned into a temporary SIDX, search becomes a bitwise operation.
 
 The moment an ID stops being an address and becomes knowledge,
 the rules of the database change.

@@ -2,9 +2,9 @@
 title: "Pourquoi WordNet ?"
 weight: 14
 date: 2026-03-01T14:00:00+09:00
-lastmod: 2026-03-01T14:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["WordNet", "verbes", "primitifs sémantiques", "synset"]
-summary: "Construire un système de verbes à partir de zéro signifie des lacunes, des choix arbitraires et aucune justification. WordNet est une base de données lexicale de 40 ans avec 13 767 synsets de verbes créés par des linguistes. Nous empruntons le dictionnaire et construisons la grammaire par-dessus."
+summary: "Construire soi-même un système de verbes, c'est accepter des lacunes, de l'arbitraire et l'absence de fondement. GEUL en a appris la structure en bâtissant un livre de codes provisoire à partir des 13 767 verbes de WordNet, accumulés en 40 ans. WordNet n'étant ni CC0 ni indépendant de l'anglais, cette édition provisoire sera remplacée par un livre de codes de verbes sans WordNet."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,7 +14,7 @@ Nous avions besoin de verbes.
 
 Pour qu'une IA puisse décrire le monde, il lui faut des verbes. Dans la phrase « Yi Sun-sin a construit le bateau-tortue » — l'amiral coréen du XVIe siècle et son célèbre navire blindé —, sans « a construit », il n'y a pas de phrase.
 
-Pour l'identification des entités, il y a Wikidata. Yi Sun-sin est Q28090. Le bateau-tortue est Q249845. L'identification est déjà faite.
+Pour l'identification des entités, il y a Wikidata. Yi Sun-sin est Q50184. Le bateau-tortue est Q695959. L'identification est déjà faite.
 
 Pour les verbes, il n'existe rien d'équivalent. « construire » n'a pas d'identifiant. Savoir si « construire », « fabriquer » et « produire » ont le même sens ou un sens différent — il n'y a pas de critère consensuel.
 
@@ -64,7 +64,7 @@ Si WordNet est le dictionnaire des verbes, comment les utiliser est une question
 
 WordNet indique le sens de « give » et sa relation avec « donate ». Mais il ne précise pas comment utiliser « give » dans une phrase — qui donne, quoi, à qui — cette structure n'y figure pas.
 
-C'est la même relation qu'avec Wikidata. Wikidata indique que Yi Sun-sin est Q28090. Mais comment composer une phrase à propos de Yi Sun-sin n'est pas du ressort de Wikidata.
+C'est la même relation qu'avec Wikidata. Wikidata indique que Yi Sun-sin est Q50184. Mais comment composer une phrase à propos de Yi Sun-sin n'est pas du ressort de Wikidata.
 
 On emprunte le dictionnaire, mais on construit la grammaire soi-même.
 
@@ -114,23 +114,38 @@ Ce qui compte, c'est l'ordre. D'abord tout inclure, puis faire tourner le systè
 
 ## Au-delà : les atomes sémantiques
 
-Les 13 767 verbes de WordNet sont la liste des verbes nommés par les humains. Exhaustive, mais pas la totalité.
+Les 13 767 verbes de WordNet sont la liste des verbes que les humains ont nommés. Elle est exhaustive, mais ce n'est pas tout.
 
-On peut décomposer « give » davantage. CAUSE + HAVE + MOVE. Une décomposition en atomes sémantiques (semantic primitive). Une fois cette décomposition achevée, même les verbes absents de la liste peuvent s'exprimer par combinaison d'atomes.
+« give » peut être décomposé davantage : CAUSE + HAVE + MOVE. C'est la décomposition en primitives sémantiques (semantic primitives). Une fois cette décomposition achevée, même les verbes absents de la liste peuvent s'exprimer comme des combinaisons d'atomes.
 
-Si WordNet est la bibliothèque standard, le système d'atomes sémantiques est le compilateur. Tout comme un compilateur peut créer des fonctions absentes de la bibliothèque standard.
+Si WordNet est la bibliothèque standard, le système d'atomes sémantiques est le compilateur. Tout comme un compilateur peut produire des fonctions absentes de la bibliothèque standard.
 
-C'est un vaste sujet de recherche, à aborder une fois le système basé sur WordNet opérationnel. Pour l'instant, la bibliothèque standard suffit.
+C'est un vaste chantier de recherche, à entreprendre après avoir réellement mis en service un livre de codes de verbes.
 
 ---
 
-## Synthèse
+## Pourquoi c'est provisoire
 
-Tout projet qui cherche à établir un système de verbes rencontre la même question. D'où le tirer.
+GEUL a bâti sur cette structure un livre de codes de verbes : [wordnet-verb](/fr/repos/#wordnet-verb), qui attribue à chacun des 13 767 synsets verbaux de WordNet 3.0 un code de 16 bits, avec des codes proches pour des sens proches. Mais c'est une édition provisoire, de référence. Il y a trois raisons.
 
-Construire soi-même : des lacunes, de l'arbitraire, pas de justification.
-Construire sur WordNet : pas de lacunes, un consensus, des données comme fondement.
+**Licence.** WordNet relève de la WordNet 3.0 License. Les productions publiques de GEUL sont en CC0. Des listes et définitions dérivées de WordNet ne peuvent pas être reprises dans un livre de codes CC0.
 
-WordNet est le dictionnaire des verbes de l'humanité, accumulé par des linguistes pendant 40 ans.
-Emprunter les mots de ce dictionnaire, mais construire la grammaire soi-même.
-C'est la raison pour laquelle on utilise Wikidata pour les entités, et WordNet pour les verbes.
+**Anglais.** Un synset est une unité de sens de mots anglais. GEUL a besoin d'un système de verbes qui ne soit lié à aucune langue particulière.
+
+**Place.** La manière de porter les codes de verbes dans les enregistrements GEUL n'est pas encore décidée.
+
+Cette édition provisoire sera donc remplacée par un livre de codes de verbes pur, sans WordNet. Ce que WordNet nous a appris demeure : la couverture doit être complète, les critères explicites, la hiérarchie fondée.
+
+---
+
+## Résumé
+
+Tout projet qui cherche à bâtir un système de verbes se heurte à la même question : où le trouver ?
+
+Le construire soi-même, c'est accepter des lacunes, de l'arbitraire et l'absence de fondement.
+Partir de WordNet, c'est n'avoir pas de lacunes, un consensus et un ancrage dans les données.
+
+GEUL est donc parti de WordNet. Mais ce n'est qu'un point de départ.
+Les productions publiques doivent être en CC0, et un système de verbes ne doit pas être lié à l'anglais.
+Apprendre la structure avec WordNet, puis la reconstruire à partir de sources CC0 et de données d'usage réelles.
+Le principe reste le même : emprunter le dictionnaire, construire la grammaire soi-même.

@@ -2,9 +2,9 @@
 title: "Warum das Zeitalter des Prompt Engineering vorbei ist"
 weight: 1
 date: 2026-02-26T12:00:12+09:00
-lastmod: 2026-02-26T12:00:12+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Prompt", "Kontext", "Engineering"]
-summary: "Von wie man es sagt zu was man zeigt -- das Spiel hat sich geaendert"
+summary: "Je klüger die Modelle, desto mehr entscheidet „was man zeigt“ statt „wie man es sagt“. Der Wechsel vom Prompt zum Kontext und die sieben Infrastrukturbausteine, die Context Engineering braucht."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

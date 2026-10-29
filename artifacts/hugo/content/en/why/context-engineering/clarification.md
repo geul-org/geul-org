@@ -2,9 +2,9 @@
 title: "Why Clarification Is Necessary"
 weight: 3
 date: 2026-02-26T12:00:13+09:00
-lastmod: 2026-02-26T12:00:13+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["clarification", "input", "output"]
-summary: "Clear input produces clear output"
+summary: "Natural language has to grow longer to resolve ambiguity. In a structure with identifiers and typed places, the trade-off between clarity and brevity breaks, and clarity becomes the precondition for indexing, validation, and consistency checking."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -138,14 +138,14 @@ In a structured representation, the entity's identifier points to the financial 
 Ambiguity is blocked at the source by the structure.
 
 In natural language, specifying a timestamp requires writing "Monday, January 15, 2024."
-In a structured representation, a value goes into the time field.
-Because the field exists, omission is impossible.
+In a structured representation, a value goes into the place for time.
+Because the place exists, an omission shows as an omission.
 Because the value is typed, there is no interpretive ambiguity.
 
 In structural clarity,
 the cost of disambiguation converges to zero.
 Identifiers are unambiguous, so modifiers are unnecessary.
-Fields exist, so omission is impossible.
+Places exist, so omissions show.
 Values are typed, so interpretation is deterministic.
 
 ---
@@ -191,8 +191,8 @@ For a single sentence, a structured representation can be longer than natural la
 "Yi Sun-sin was great."
 
 In natural language, this is done in 7 tokens.
-Convert it to a structured representation —
-entity node, attribute node, verb edge, tense, confidence field —
+Turn it into a structured representation —
+a Reference pointing to the target, an Edge binding the statement, records attaching source and time —
 and the structural overhead can be larger than the sentence itself.
 
 This is true.
@@ -212,11 +212,12 @@ In a structured representation, the metadata is bound once.
 As statements accumulate, node sharing rates rise.
 As node sharing rates rise, the gains from structural clarity grow.
 
-In practice, the reversal begins at roughly 20 statements.
-In context engineering, it is rare for the information placed in the window
-to be fewer than 20 statements.
+How many statements it takes for the reversal depends on the shape of the statements.
+But in context engineering, what goes into the window
+is rarely one or two sentences; it is usually a bundle of statements sharing the same targets and sources.
 
-In practical terms, structured representation is always clear and always shorter.
+And there is something more important than length.
+The value of a structured representation lies less in being short than in being findable.
 
 ---
 
@@ -227,7 +228,7 @@ Clarification does not only produce compression.
 **Indexing becomes possible.**
 When there are unambiguous identifiers, precise search becomes possible.
 Searching for "Apple revenue" does not pull up "apple nutrition facts."
-If the identifier encodes meaning, a single bitmask narrows the candidates.
+Identifiers are integers, so search is integer comparison and range lookup, with no string matching.
 
 **Validation becomes possible.**
 When the structure is typed, "is this a valid expression?" can be judged mechanically.
@@ -239,7 +240,7 @@ When statements about the same entity are unambiguous,
 "do these two statements contradict each other?" can be judged mechanically.
 In natural language, determining whether "the CEO is A" and "the CEO is B" are contradictory
 requires AI to read both sentences and reason.
-In a clear structure — same entity, same relation, different values — it is auto-detected.
+In a clear structure — same entity, same relation, different values — a machine finds it.
 
 Clarity is the precondition for the entire context engineering pipeline.
 Indexing, validation, filtering, consistency checking —
@@ -261,7 +262,7 @@ Resolving ambiguity inflates token counts and wastes the window.
 
 A structurally clear representation breaks this trade-off.
 Unique identifiers block ambiguity at the source.
-Typed fields make omission impossible.
+Typed places make omissions visible.
 When disambiguation cost disappears, compression follows as a byproduct.
 
 Clarification is the precondition for context engineering.

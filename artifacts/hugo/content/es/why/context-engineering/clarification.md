@@ -2,9 +2,9 @@
 title: "Por que es necesaria la clarificacion"
 weight: 3
 date: 2026-02-26T12:00:13+09:00
-lastmod: 2026-02-26T12:00:13+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["clarificacion", "entrada", "salida"]
-summary: "Una entrada clara produce una salida clara"
+summary: "El lenguaje natural tiene que alargarse para resolver la ambigüedad. En una estructura con identificadores y lugares tipados, se rompe el compromiso entre claridad y brevedad, y la claridad se vuelve la condición previa para indexar, validar y comprobar la consistencia."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -137,16 +137,16 @@ requiere escribir "Banco Shinhan, sucursal de Gangnam."
 En una representacion estructurada, el identificador de la entidad apunta a la institucion financiera.
 La ambiguedad se bloquea en la fuente por la estructura.
 
-En lenguaje natural, especificar una marca de tiempo requiere escribir "lunes, 15 de enero de 2024."
-En una representacion estructurada, un valor va en el campo de tiempo.
-Porque el campo existe, la omision es imposible.
-Porque el valor esta tipado, no hay ambiguedad interpretativa.
+En lenguaje natural, precisar un momento exige escribir "lunes 15 de enero de 2024".
+En una representación estructurada, un valor va en el lugar reservado al tiempo.
+Como el lugar existe, una omisión se ve como omisión.
+Como el valor está tipado, no hay ambigüedad interpretativa.
 
-En claridad estructural,
-el costo de desambiguacion converge a cero.
-Los identificadores son inequivocos, asi que los modificadores son innecesarios.
-Los campos existen, asi que la omision es imposible.
-Los valores estan tipados, asi que la interpretacion es deterministica.
+Con claridad estructural,
+el costo de desambiguar tiende a cero.
+Los identificadores no son ambiguos, así que sobran los modificadores.
+Los lugares existen, así que las omisiones se ven.
+Los valores están tipados, así que la interpretación es determinista.
 
 ---
 
@@ -190,10 +190,10 @@ Para una sola frase, una representacion estructurada puede ser mas larga que el 
 
 "Yi Sun-sin fue grandioso."
 
-En lenguaje natural, esto se hace en 7 tokens.
-Convertirlo a una representacion estructurada —
-nodo de entidad, nodo de atributo, arista de verbo, tiempo, campo de confianza —
-y la sobrecarga estructural puede ser mayor que la frase misma.
+En lenguaje natural, esto se dice en 7 tokens.
+Al convertirlo en representación estructurada
+—una Reference que apunta al objeto, una Edge que une la afirmación, registros que añaden fuente y tiempo—
+la sobrecarga estructural puede ser mayor que la propia oración.
 
 Esto es cierto.
 Hay un costo fijo al incrustar claridad en la estructura.
@@ -212,11 +212,12 @@ En una representacion estructurada, los metadatos se vinculan una vez.
 A medida que los enunciados se acumulan, las tasas de comparticion de nodos suben.
 A medida que las tasas de comparticion de nodos suben, las ganancias de la claridad estructural crecen.
 
-En la practica, la inversion comienza con aproximadamente 20 enunciados.
-En ingenieria de contexto, es raro que la informacion colocada en la ventana
-sea menor a 20 enunciados.
+Cuántas afirmaciones hacen falta para la inversión depende de la forma de las afirmaciones.
+Pero en ingeniería de contexto, lo que entra en la ventana
+rara vez es una o dos oraciones: suele ser un conjunto de afirmaciones que comparten los mismos objetos y las mismas fuentes.
 
-En terminos practicos, la representacion estructurada siempre es clara y siempre es mas corta.
+Y hay algo más importante que la longitud.
+El valor de una representación estructurada está menos en ser corta que en poder encontrarse.
 
 ---
 
@@ -224,22 +225,22 @@ En terminos practicos, la representacion estructurada siempre es clara y siempre
 
 La clarificacion no solo produce compresion.
 
-**La indexacion se hace posible.**
-Cuando hay identificadores inequivocos, la busqueda precisa se hace posible.
-Buscar "ingresos de Apple" no trae "informacion nutricional de la manzana."
-Si el identificador codifica significado, una sola mascara de bits reduce los candidatos.
+**La indexación se vuelve posible.**
+Con identificadores no ambiguos, la búsqueda precisa se vuelve posible.
+Buscar "ingresos de Apple" no trae "datos nutricionales de la manzana".
+Los identificadores son enteros, así que se busca por comparación de enteros y búsqueda por rangos, sin comparar cadenas.
 
 **La validacion se hace posible.**
 Cuando la estructura esta tipada, "es esta una expresion valida?" puede juzgarse mecanicamente.
 En lenguaje natural, el concepto de una "frase invalida" no existe.
 En una estructura clara, si un campo requerido esta vacio, es invalido.
 
-**La verificacion de consistencia se hace posible.**
-Cuando los enunciados sobre la misma entidad son inequivocos,
-"estos dos enunciados se contradicen?" puede juzgarse mecanicamente.
-En lenguaje natural, determinar si "el CEO es A" y "el CEO es B" son contradictorios
-requiere que la IA lea ambas frases y razone.
-En una estructura clara — misma entidad, misma relacion, diferentes valores — se auto-detecta.
+**La comprobación de consistencia se vuelve posible.**
+Cuando las afirmaciones sobre la misma entidad no son ambiguas,
+"¿se contradicen estas dos afirmaciones?" puede juzgarse mecánicamente.
+En lenguaje natural, saber si "el CEO es A" y "el CEO es B" se contradicen
+exige que la IA lea ambas oraciones y razone.
+En una estructura clara —misma entidad, misma relación, valores distintos— una máquina lo encuentra.
 
 La claridad es la precondicion para todo el pipeline de ingenieria de contexto.
 Indexacion, validacion, filtrado, verificacion de consistencia —
@@ -259,10 +260,10 @@ La IA no tiene contexto compartido.
 La ambiguedad del lenguaje natural se convierte en materia prima para la alucinacion.
 Resolver la ambiguedad infla el recuento de tokens y desperdicia la ventana.
 
-Una representacion estructuralmente clara rompe este trade-off.
-Los identificadores unicos bloquean la ambiguedad en la fuente.
-Los campos tipados hacen la omision imposible.
-Cuando el costo de desambiguacion desaparece, la compresion sigue como subproducto.
+Una representación estructuralmente clara rompe este compromiso.
+Los identificadores únicos bloquean la ambigüedad en origen.
+Los lugares tipados hacen visibles las omisiones.
+Cuando desaparece el costo de desambiguar, la compresión llega como subproducto.
 
 La clarificacion es la precondicion para la ingenieria de contexto.
 Si la informacion no es clara, la indexacion, validacion y verificacion de consistencia no funcionan.

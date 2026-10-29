@@ -2,9 +2,9 @@
 title: "Pourquoi MD/JSON/XML ne suffisent pas"
 weight: 9
 date: 2026-02-26T12:00:15+09:00
-lastmod: 2026-02-26T12:00:15+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["format", "JSON", "XML"]
-summary: "Les formats existants ne peuvent pas porter le sens"
+summary: "Markdown, JSON et XML ont chacun été conçus pour une époque et un but différents. Ils ont une structure, mais pas de sens unifié ni de place pour les sources. Pourquoi il faut un format à part pour enregistrer et accumuler le raisonnement de l'IA."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -164,54 +164,54 @@ XML est verbeux pour que les humains puissent le lire facilement.
 Un langage de raisonnement pour l'IA ne doit pas avoir ce gaspillage.
 Pour un LLM, la balise `<name>` est du gaspillage.
 
-Et XML est une conception du debut des annees 2000.
-Il a ete cree a une epoque ou les LLM n'existaient pas, pour les humains et les logiciels traditionnels.
-Il n'a jamais ete concu comme un langage de raisonnement pour l'IA.
+Et XML est une conception de la fin des années 1990.
+Il a été créé à une époque où les LLM n'existaient pas, pour les humains et les logiciels traditionnels.
+Il n'a jamais été conçu comme langage de raisonnement pour l'IA.
 
 ---
 
-## La limitation partagee
+## La limite commune
 
 Markdown, JSON, XML.
-Chacun des trois formats a ses forces, mais ils partagent des limitations communes.
+Chacun des trois formats a ses points forts, mais ils partagent des limites.
 
-**Ils sont bases sur le texte.**
-Tous se serialisent en chaines de caracteres.
+**Ils sont textuels.**
+Tous se sérialisent en chaînes de caractères.
 Une machine doit les analyser pour les traiter.
-L'analyse est un cout.
+L'analyse a un coût.
 
-Un langage de raisonnement ideal est un flux binaire.
-Une sequence de mots de 16 bits. Pas d'analyse necessaire.
-Interpretable a l'instant ou il est lu.
+GEUL est une suite de mots de 16 bits.
+Le premier mot de chaque enregistrement indique son type et sa longueur ;
+les frontières des enregistrements sont donc connues immédiatement, sans interpréter de chaînes.
 
-**Ils ont ete concus avant l'ere des LLM.**
+**Ils ont été conçus avant l'ère des LLM.**
 Markdown date de 2004. JSON de 2001. XML de 1998.
-Ils ont ete concus a une epoque ou le concept de LLM n'existait pas,
+Ils ont été conçus à une époque où la notion de LLM n'existait pas,
 pour les humains ou les logiciels traditionnels.
 
-Un langage de raisonnement pour l'IA doit etre concu a l'ere des LLM, pour les LLM.
-Le principe de conception "1 mot = 1 token"
-presuppose l'existence des LLM.
+Un langage de raisonnement pour l'IA doit être conçu à l'ère des LLM, pour les LLM.
+Dimensionner le mot de 16 bits sur les vocabulaires des LLM
+présuppose l'existence des LLM.
 
-**Leur systeme semantique unifie est absent ou incomplet.**
-Markdown n'a aucun systeme semantique.
-JSON a de la structure mais pas de sens.
-XML peut definir des schemas mais ils ne sont pas unifies.
+**Leur système sémantique unifié est absent ou incomplet.**
+Markdown n'a aucun système sémantique.
+JSON a une structure mais pas de sens.
+XML peut définir des schémas, mais ils ne sont pas unifiés.
 
-Un index semantiquement aligne est un identifiant de sens unifie a l'echelle mondiale.
-Partout ou il est utilise, le meme SIDX signifie la meme chose.
-Aucune conversion necessaire. Le consensus est integre.
+GEUL désigne les cibles par identifiant, et non par nom :
+des Reference comme un QID de Wikidata ou un identifiant de document émis par un Issuer.
+Où qu'il soit utilisé, le même identifiant désigne la même cible. Aucune conversion nécessaire.
 
 ---
 
 ## Resume
 
-| Format | Structure | Sens | Adapte aux LLM | Binaire | Support des affirmations | Modificateurs de verbe |
+| Format | Structure | Sens | Adapté aux LLM | Binaire | Place pour les sources | Qualificatifs |
 |--------|-----------|---------|---------------|--------|---------------|----------------|
-| Markdown | Faible | Aucun | Eleve | Non | Aucun | Aucun |
-| JSON | Oui | Aucun | Moyen | Non | Aucun | Aucun |
-| XML | Oui | Partiel | Faible | Non | Aucun | Aucun |
-| **Langage de raisonnement ideal** | **Oui** | **Oui** | **Eleve** | **Oui** | **Oui** | **Oui** |
+| Markdown | Faible | Aucun | Élevé | Non | Aucune | Aucun |
+| JSON | Oui | Aucun | Moyen | Non | Aucune | Aucun |
+| XML | Oui | Partiel | Faible | Non | Aucune | Aucun |
+| **Langage de raisonnement idéal** | **Oui** | **Oui** | **Élevé** | **Oui** | **Oui** | **Oui** |
 
 Un nouveau format est necessaire non pas parce que les formats existants sont mauvais.
 C'est parce que les formats existants ont ete faits a une epoque differente, pour un objectif different.

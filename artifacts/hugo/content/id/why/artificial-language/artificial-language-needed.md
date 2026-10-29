@@ -2,7 +2,7 @@
 title: "Mengapa Bahasa Buatan Diperlukan?"
 weight: 7
 date: 2026-03-01T12:00:00+09:00
-lastmod: 2026-03-01T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["bahasa buatan", "bahasa alami", "halusinasi", "LLVM IR"]
 summary: "Bahasa alami berevolusi untuk komunikasi manusia. Ambiguitas, redundansi, dan implikasi adalah kelebihan bagi manusia tetapi penyebab halusinasi bagi AI. Bahasa pemrograman maupun kerangka semantik yang ada bukan jawabannya. Diperlukan bahasa buatan baru yang memenuhi enam syarat secara bersamaan."
 author: "Junwoo Park"
@@ -177,11 +177,13 @@ LLVM IR bekerja di balik layar.
 
 GEUL adalah LLVM IR untuk AI.
 
-Semua bahasa alami diterjemahkan ke GEUL.
-GEUL disimpan di WMS, digunakan untuk penalaran, lalu diterjemahkan kembali ke bahasa alami.
-Pengguna tidak melihat GEUL.
-Bertanya dalam bahasa alami, menerima jawaban dalam bahasa alami.
-GEUL bekerja di balik layar.
+Itulah tujuannya.
+Bahasa alami diubah menjadi GEUL. Teks aslinya disimpan apa adanya, dan GEUL menjadi indeks yang menuntun kembali ke sana.
+GEUL disimpan, dipakai dalam penalaran, lalu diterjemahkan kembali ke bahasa alami.
+Pengguna tidak pernah melihat GEUL.
+Mereka bertanya dalam bahasa alami dan menerima jawaban dalam bahasa alami.
+GEUL bekerja di tempat yang tidak terlihat.
+Penerjemah yang mengubah bahasa alami (pertama bahasa Korea) menjadi GEUL sedang dikembangkan.
 
 ---
 
@@ -199,9 +201,9 @@ Tidak bergantung pada implikasi.
 
 **2. Metadata tertanam**
 
-Setiap deskripsi harus menyertakan sumber, waktu, tingkat kepercayaan, dan sudut pandang (POV)
-bukan sebagai anotasi terpisah melainkan sebagai bagian dari struktur deskripsi itu sendiri.
-Tanpa ini, AI White-box tidak mungkin.
+Setiap pernyataan harus punya tempat untuk sumber, waktu, keyakinan, dan perspektif (POV)
+di dalam struktur pernyataan itu sendiri, bukan sebagai anotasi terpisah.
+Tanpa ini, AI kotak putih mustahil.
 
 **3. Kecocokan dengan LLM**
 
@@ -243,10 +245,11 @@ Ketat secara logika, tetapi dirancang di era pra-LLM.
 Sulit dikonversi dari dan ke bahasa alami, dan ekspresinya bertele-tele.
 Dan yang fatal, sangat lambat. Penalaran skala besar tidak realistis.
 
-**Knowledge graph (Wikidata, Freebase)** merepresentasikan dunia sebagai graf.
-Tetapi menyimpan "fakta", bukan "narasi".
-Menyimpan "Soekarno adalah presiden" sebagai triple,
-tetapi tidak mencakup siapa yang mengklaim itu, atau dengan keyakinan seberapa.
+**Graf pengetahuan (Wikidata, Freebase)** merepresentasikan dunia sebagai graf.
+Pernyataan bisa diberi referensi dan peringkat (rank).
+Tetapi unit dasarnya tetap pernyataan sebagai "fakta".
+Mereka menyimpan "Yi Sun-sin adalah jenderal" sebagai triple,
+tetapi referensinya mudah kosong, dan tidak ada tempat untuk tingkat keyakinan.
 
 **Chain-of-Thought** mencatat proses penalaran LLM dalam bahasa alami.
 Arah yang benar, tetapi karena medium catatannya bahasa alami,
@@ -261,12 +264,12 @@ tetapi tidak ada yang memenuhi keenamnya secara bersamaan.
 
 GEUL berdiri di titik temu keenam syarat ini.
 
-Format stream berbasis word 16-bit.
-Setiap deskripsi secara struktural menyertakan konteks, sumber, dan tingkat keyakinan.
-Menserialisasi graf melalui paket node dan edge.
-Mengikuti pola tetap yang bisa dipetakan 1:1 dengan token LLM.
-Memperlakukan narasi (Claim), bukan fakta, sebagai data primer.
-Mereservasi 50% dari total ruang alamat untuk masa depan.
+Format rekaman yang dibangun di atas word 16-bit.
+Setiap pernyataan punya tempat untuk sumber, waktu, dan keyakinan. Yang dibiarkan kosong tampak kosong.
+Reference membawa target dan Edge membawa relasi, menserialisasi graf.
+Unit word disesuaikan dengan ukuran kosakata LLM, dan setiap rekaman mengikuti pola tetap yang dimulai dengan TAG WORD.
+Menjadikan pernyataan (klaim), bukan fakta, sebagai data primer.
+Mencadangkan untuk masa depan 75% ruang TAG WORD yang membuka setiap rekaman.
 
 GEUL tidak terlihat oleh pengguna.
 Pengguna berbicara dalam bahasa alami dan menerima jawaban dalam bahasa alami.

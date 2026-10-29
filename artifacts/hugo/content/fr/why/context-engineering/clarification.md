@@ -2,9 +2,9 @@
 title: "Pourquoi la clarification est necessaire"
 weight: 3
 date: 2026-02-26T12:00:13+09:00
-lastmod: 2026-02-26T12:00:13+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["clarification", "entree", "sortie"]
-summary: "Une entree claire produit une sortie claire"
+summary: "Le langage naturel doit s'allonger pour lever l'ambiguïté. Dans une structure dotée d'identifiants et de places typées, le compromis entre clarté et concision se brise, et la clarté devient la condition préalable de l'indexation, de la validation et du contrôle de cohérence."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -137,16 +137,16 @@ exige d'ecrire "Shinhan Bank, succursale de Gangnam".
 Dans une representation structuree, l'identifiant de l'entite pointe vers l'institution financiere.
 L'ambiguite est bloquee a la source par la structure.
 
-En langage naturel, specifier un horodatage exige d'ecrire "le lundi 15 janvier 2024".
-Dans une representation structuree, une valeur entre dans le champ temporel.
-Parce que le champ existe, l'omission est impossible.
-Parce que la valeur est typee, il n'y a pas d'ambiguite d'interpretation.
+En langage naturel, préciser un moment oblige à écrire « lundi 15 janvier 2024 ».
+Dans une représentation structurée, une valeur se place à l'endroit réservé au temps.
+Comme la place existe, une omission apparaît comme une omission.
+Comme la valeur est typée, il n'y a pas d'ambiguïté d'interprétation.
 
-Dans la clarte structurelle,
-le cout de la desambiguisation converge vers zero.
-Les identifiants sont non ambigus, donc les modificateurs sont inutiles.
-Les champs existent, donc l'omission est impossible.
-Les valeurs sont typees, donc l'interpretation est deterministe.
+Avec la clarté structurelle,
+le coût de la désambiguïsation tend vers zéro.
+Les identifiants ne sont pas ambigus, donc les qualificatifs sont inutiles.
+Les places existent, donc les omissions se voient.
+Les valeurs sont typées, donc l'interprétation est déterministe.
 
 ---
 
@@ -190,10 +190,10 @@ Pour une seule phrase, une representation structuree peut etre plus longue que l
 
 "Yi Sun-sin etait grand."
 
-En langage naturel, c'est fait en 7 tokens.
-Convertissez-le en representation structuree --
-noeud d'entite, noeud d'attribut, arete de verbe, temps, champ de confiance --
-et le surcout structurel peut etre plus grand que la phrase elle-meme.
+En langage naturel, cela tient en 7 tokens.
+Transformez-la en représentation structurée
+— une Reference qui désigne la cible, une Edge qui relie l'énoncé, des enregistrements qui ajoutent la source et le moment —
+et le surcoût structurel peut dépasser la phrase elle-même.
 
 C'est vrai.
 Il y a un cout fixe a integrer la clarte dans la structure.
@@ -212,11 +212,12 @@ Dans une representation structuree, les metadonnees sont liees une seule fois.
 A mesure que les enonces s'accumulent, les taux de partage de noeuds augmentent.
 A mesure que les taux de partage augmentent, les gains de la clarte structurelle croissent.
 
-En pratique, l'inversion commence a environ 20 enonces.
-En context engineering, il est rare que les informations placees dans la fenetre
-comptent moins de 20 enonces.
+Le nombre d'énoncés nécessaire pour que la tendance s'inverse dépend de leur forme.
+Mais en ingénierie du contexte, ce qui entre dans la fenêtre
+est rarement une ou deux phrases : c'est généralement un ensemble d'énoncés partageant les mêmes cibles et les mêmes sources.
 
-En termes pratiques, la representation structuree est toujours claire et toujours plus courte.
+Et il y a plus important que la longueur.
+La valeur d'une représentation structurée tient moins à sa brièveté qu'au fait qu'on puisse la retrouver.
 
 ---
 
@@ -225,21 +226,21 @@ En termes pratiques, la representation structuree est toujours claire et toujour
 La clarification ne produit pas seulement de la compression.
 
 **L'indexation devient possible.**
-Quand il y a des identifiants non ambigus, une recherche precise devient possible.
-Chercher "chiffre d'affaires Apple" ne ramene pas "valeurs nutritives de la pomme".
-Si l'identifiant encode le sens, un seul masque de bits reduit les candidats.
+Avec des identifiants non ambigus, la recherche précise devient possible.
+Chercher « chiffre d'affaires d'Apple » ne fait pas remonter « valeurs nutritionnelles de la pomme ».
+Les identifiants sont des entiers : la recherche se fait par comparaison d'entiers et par plages, sans comparaison de chaînes.
 
 **La validation devient possible.**
 Quand la structure est typee, "est-ce une expression valide ?" peut etre juge mecaniquement.
 En langage naturel, le concept de "phrase invalide" n'existe pas.
 Dans une structure claire, si un champ obligatoire est vide, c'est invalide.
 
-**La verification de coherence devient possible.**
-Quand les enonces sur la meme entite sont non ambigus,
-"ces deux enonces se contredisent-ils ?" peut etre juge mecaniquement.
-En langage naturel, determiner si "le PDG est A" et "le PDG est B" sont contradictoires
-necessite que l'IA lise les deux phrases et raisonne.
-Dans une structure claire -- meme entite, meme relation, valeurs differentes -- c'est auto-detecte.
+**Le contrôle de cohérence devient possible.**
+Quand les énoncés sur une même entité ne sont pas ambigus,
+« ces deux énoncés se contredisent-ils ? » peut être jugé mécaniquement.
+En langage naturel, savoir si « le PDG est A » et « le PDG est B » se contredisent
+exige que l'IA lise les deux phrases et raisonne.
+Dans une structure claire — même entité, même relation, valeurs différentes — une machine le trouve.
 
 La clarte est la precondition de l'ensemble du pipeline de context engineering.
 Indexation, validation, filtrage, verification de coherence --
@@ -259,10 +260,10 @@ L'IA n'a pas de contexte partage.
 L'ambiguite du langage naturel devient la matiere premiere de l'hallucination.
 Resoudre l'ambiguite fait exploser le nombre de tokens et gaspille la fenetre.
 
-Une representation structurellement claire brise ce compromis.
-Les identifiants uniques bloquent l'ambiguite a la source.
-Les champs types rendent l'omission impossible.
-Quand le cout de desambiguisation disparait, la compression suit comme sous-produit.
+Une représentation structurellement claire brise ce compromis.
+Les identifiants uniques bloquent l'ambiguïté à la source.
+Les places typées rendent les omissions visibles.
+Quand le coût de la désambiguïsation disparaît, la compression suit comme sous-produit.
 
 La clarification est la precondition du context engineering.
 Si l'information n'est pas claire, l'indexation, la validation et la verification de coherence ne fonctionnent pas.

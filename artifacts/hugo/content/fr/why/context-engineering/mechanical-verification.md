@@ -2,9 +2,9 @@
 title: "Pourquoi la verification mecanique est necessaire"
 weight: 4
 date: 2026-02-26T12:00:10+09:00
-lastmod: 2026-02-26T12:00:10+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["verification", "specification", "compilateur"]
-summary: "Le langage naturel n'a pas de concept de phrase invalide"
+summary: "Le langage naturel ne connaît pas la notion de « phrase invalide » : l'information entre donc dans le contexte sans contrôle. Pourquoi la vérification mécanique, qui filtre la forme selon une spécification, doit venir en premier dans la chaîne."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

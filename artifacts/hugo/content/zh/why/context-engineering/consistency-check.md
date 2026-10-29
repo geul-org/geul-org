@@ -2,9 +2,9 @@
 title: "为什么一致性检查是必要的"
 weight: 6
 date: 2026-02-26T12:00:08+09:00
-lastmod: 2026-02-26T12:00:08+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["一致性", "矛盾", "连贯性"]
-summary: "单独正确的信息放在一起可能是错误的"
+summary: "单独看都正确的信息，汇集在一起也可能相互矛盾。本文讨论三类矛盾（时间、出处之间、推理），以及为什么在结构化表示中矛盾检测会变成字段比较和算术。"
 author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

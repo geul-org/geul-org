@@ -2,9 +2,9 @@
 title: "Por que la exploracion es necesaria"
 weight: 7
 date: 2026-02-26T12:00:07+09:00
-lastmod: 2026-02-26T12:00:07+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["exploracion", "busqueda", "escala"]
-summary: "Cuando el indice supera la ventana, el paradigma de busqueda alcanza su limite"
+summary: "Cuando el conocimiento crece tanto que hasta el índice desborda la ventana de contexto, la búsqueda de una sola vez llega a su límite. Por qué hace falta la exploración: elegir una dirección en cada nivel de un mapa jerárquico."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

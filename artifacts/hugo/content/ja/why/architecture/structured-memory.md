@@ -2,9 +2,9 @@
 title: "なぜ構造化された記憶が必要なのか?"
 weight: 18
 date: 2026-02-26T12:00:05+09:00
-lastmod: 2026-02-26T12:00:05+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["記憶", "構造", "WMS"]
-summary: "記憶のない知能は毎回ゼロから始まる"
+summary: "AIはファイルを書くのは得意だが、自分が書いたファイルを見つけられない。問題は保存ではなく取り出しだ。目次や索引のように「どこに何があるか」を記した一枚の地図から、構造化された記憶までの道を扱う。"
 author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,9 +2,9 @@
 title: "Por Que Filtros Sao Necessarios"
 weight: 5
 date: 2026-02-26T12:00:09+09:00
-lastmod: 2026-02-26T12:00:09+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["filtro", "relevancia", "confianca"]
-summary: "Informacao valida nem sempre e informacao necessaria"
+summary: "Nem toda informação válida é informação necessária. O filtro que escolhe só o que é preciso agora por relevância, confiabilidade e atualidade, e por que esses critérios viram operações sobre campos numa representação estruturada."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

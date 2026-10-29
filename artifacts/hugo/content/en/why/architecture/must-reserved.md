@@ -2,24 +2,24 @@
 title: "Why We Must Leave It Empty"
 weight: 21
 date: 2026-03-01T15:00:00+09:00
-lastmod: 2026-03-01T15:00:00+09:00
-tags: ["reserved", "extensibility", "64-bit", "design-principle", "IPv4"]
-summary: "GEUL leaves 75% of its 64-bit space empty. The lessons of IPv4, Unicode, and ASCII tell us — the cost of filling is irreversible, but the cost of leaving empty is zero."
+lastmod: 2026-10-29T12:00:00+09:00
+tags: ["reserved", "extensibility", "TAG WORD", "design-principle", "IPv4"]
+summary: "GEUL leaves 75% of the 16-bit TAG WORD space that opens every record empty. The lessons of IPv4, Unicode, and ASCII — the cost of filling is irreversible, while the cost of leaving empty is three bits per record."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-64 bits yield 18,446,744,073,709,551,616 addresses. 18.4 quintillion. GEUL leaves 75% of them empty.
+Every GEUL record begins with a single 16-bit TAG WORD. The leading bits of the TAG WORD divide it into regions. GEUL leaves 75% of this space empty.
 
 ```
-bit1 = 1:    50%    Far future
-bit1-2 = 01: 25%    Near future
-bit1-3 = 001: 12.5% Standard
-bit1-4 = 0001: 6.25% Current proposal
+1xx:  50%    Far future
+01x:  25%    Near future
+001:  12.5%  Standard
+000:  12.5%  Current grammar (free / proposal)
 ```
 
-The space currently in use is 6.25%. Of the remaining 93.75%, 12.5% is reserved for when standards are established, and 75% is left for generations not yet born.
+The entire current grammar lives in the `000` region, inside 12.5%. When an official standard is launched, adopted layouts stay as they are and only the leading bits move to `001`. The remaining 75% is left for generations not yet born.
 
 Why?
 
@@ -108,15 +108,17 @@ Leaving 50% for the far future means yielding half of all possibility to "what w
 Does leaving space empty cost anything?
 
 ```
-75% of 64 bits reserved = 48 bits unused.
-Remaining 16 bits (6.25%) = 1,152,921,504,606,846,976 addresses.
+TAG WORD 16 bits = 3-bit region + 13 bits
 
-1.15 quintillion.
-Ten million times the entirety of Wikidata (108 million items).
-More than enough to hold all data that currently exists.
+The 13 bits of the current region 000:
+  Kind    2 bits   Reference · Value · Edge · Meta
+  Length  4 bits   1–14 WORDs, up to 2³²−1 WORDs when extended
+  Codec   7 bits   124 direct codes + 4 Issuer forms
 ```
 
-Leaving space empty does not create scarcity. 6.25% is sufficient for current needs. The cost of leaving empty is zero.
+Are 13 bits not too few? They are not. A format that does not get a direct code is written as an Issuer format. Every format-defining party (Issuer) has its own 16-bit format numbers, so there is practically no limit on the number of formats. The price is a few WORDs of extension TAG. Frequent formats are short; rare formats are a little longer.
+
+The cost of leaving empty is three bits of the TAG WORD per record. Those three bits keep six times the space in use today for the future.
 
 The cost of filling? IPv4 showed us. It is irreversible.
 
@@ -124,9 +126,11 @@ The cost of filling? IPv4 showed us. It is irreversible.
 
 ## Design Principle
 
-Article 1 of the design principles of GEUL Grammar v0.11:
+The fifth design principle of the GEUL v1 [grammar](/grammar/overview/):
 
-> **Long-term extensibility:** Reserved bits shall not be repurposed for temporary use. Space for future generations shall be preserved.
+> **Leave it empty.** Most of the bit space is kept for the future. Direct codes cannot be reclaimed, so only formats with confirmed frequency get one.
+
+The grammar nails this principle down as a rule. A v1 decoder rejects any TAG WORD whose leading bits are not `000`. The path to borrowing the empty space for temporary use is closed from the start.
 
 This is not a technical decision. It is an ethical one.
 
@@ -137,7 +141,7 @@ Choosing not to use space that could be used now is a declaration that the freed
 ## The Most Humble Design
 
 ```
-"I know the future" -> Use all 64 bits.
+"I know the future" -> Use all 16 bits.
 "I don't know the future" -> Leave 75% empty.
 ```
 
@@ -145,7 +149,7 @@ Leaving space empty is humility. It is the act of acknowledging that we cannot k
 
 IPv4 was a product of confidence. 32 bits is enough. It wasn't.
 
-GEUL is a product of humility. We don't know if 6.25% of 64 bits is enough. But if we leave 75% empty, it's okay to be wrong.
+GEUL is a product of humility. We don't know if the 12.5% in use today is enough. But if we leave 75% empty, it's okay to be wrong.
 
 ---
 

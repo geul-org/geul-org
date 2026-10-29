@@ -2,7 +2,7 @@
 title: "Why Is an Artificial Language Needed?"
 weight: 7
 date: 2026-03-01T12:00:00+09:00
-lastmod: 2026-03-01T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["artificial language", "natural language", "hallucination", "LLVM IR"]
 summary: "Natural language evolved for human communication. Ambiguity, redundancy, and implication are strengths for humans but causes of hallucination for AI. Neither programming languages nor existing semantic frameworks are the answer. A new artificial language satisfying six conditions simultaneously is needed."
 author: "Junwoo Park"
@@ -177,11 +177,13 @@ LLVM IR works behind the scenes.
 
 GEUL is the LLVM IR for AI.
 
-Every natural language is translated into GEUL.
-GEUL is stored in WMS, used for reasoning, and translated back into natural language.
+That is the goal.
+Natural language is turned into GEUL. The original text is preserved as is, and GEUL becomes the index that leads back to it.
+GEUL is stored, used in reasoning, and translated back into natural language.
 Users never see GEUL.
-They ask in natural language and receive answers in natural language.
-GEUL works behind the scenes.
+They ask questions in natural language and receive answers in natural language.
+GEUL works where no one can see.
+An interpreter that turns natural language (Korean first) into GEUL is now under development.
 
 ---
 
@@ -200,8 +202,8 @@ No reliance on implication.
 
 **2. Built-in metadata**
 
-Every statement must include source, timestamp, confidence, and point of view (POV)
-as part of the statement's own structure, not as separate annotations.
+Every statement must have a place for source, time, confidence, and perspective (POV)
+within the structure of the statement itself, not as a separate annotation.
 Without this, white-box AI is impossible.
 
 **3. LLM compatibility**
@@ -244,9 +246,10 @@ Translation to and from natural language is difficult, and expressions are verbo
 And fatally slow -- large-scale reasoning is not practical.
 
 **Knowledge graphs (Wikidata, Freebase)** represented the world as a graph.
-But they store "facts," not "narrations."
-They store "Admiral Yi was a general" as a triple,
-but not who claimed it or how confident they were.
+Statements can carry references and be given a rank.
+But the basic unit is still a statement as a "fact."
+They store "Yi Sun-sin is a general" as a triple,
+but references are easily left empty, and there is no place for how confident anyone is.
 
 **Chain-of-Thought** records an LLM's reasoning process in natural language.
 A good direction, but since the recording medium is natural language,
@@ -261,12 +264,12 @@ but none satisfies all six simultaneously.
 
 GEUL stands at the intersection of these six conditions.
 
-A 16-bit word-based stream format.
-Context, source, and confidence are structurally built into every statement.
-Graphs are serialized through node and edge packets.
-It follows fixed patterns that map 1:1 with LLM tokens.
-It treats narration (Claim), not fact, as the primary data.
-It reserves 50% of the total address space for the future.
+A record format built on 16-bit words.
+Every statement has a place for source, time, and confidence. What is left empty shows as empty.
+References carry targets and Edges carry relations, serializing the graph.
+The word unit is sized to LLM vocabularies, and every record follows a fixed pattern that starts with a TAG WORD.
+It treats statements (claims), not facts, as primary data.
+It reserves 75% of the TAG WORD space that opens every record for the future.
 
 GEUL is invisible to users.
 Users speak in natural language and receive answers in natural language.

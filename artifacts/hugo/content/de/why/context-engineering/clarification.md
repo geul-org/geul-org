@@ -2,9 +2,9 @@
 title: "Warum Klaerung notwendig ist"
 weight: 3
 date: 2026-02-26T12:00:13+09:00
-lastmod: 2026-02-26T12:00:13+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Klaerung", "Eingabe", "Ausgabe"]
-summary: "Klare Eingabe erzeugt klare Ausgabe"
+summary: "Natürliche Sprache muss länger werden, um Mehrdeutigkeit aufzulösen. In einer Struktur mit Bezeichnern und typisierten Plätzen bricht der Zielkonflikt zwischen Klarheit und Kürze auf, und Klarheit wird zur Voraussetzung für Indexierung, Validierung und Konsistenzprüfung."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -137,16 +137,16 @@ das Schreiben von "Shinhan Bank, Gangnam-Filiale".
 In einer strukturierten Darstellung zeigt der Identifikator der Entitaet auf das Finanzinstitut.
 Mehrdeutigkeit wird an der Quelle durch die Struktur blockiert.
 
-In natuerlicher Sprache erfordert die Angabe eines Zeitstempels das Schreiben von "Montag, 15. Januar 2024".
-In einer strukturierten Darstellung geht ein Wert in das Zeitfeld.
-Weil das Feld existiert, ist Auslassung unmoeglich.
-Weil der Wert typisiert ist, gibt es keine Interpretations-Mehrdeutigkeit.
+In natürlicher Sprache muss man für einen Zeitpunkt „Montag, 15. Januar 2024“ schreiben.
+In einer strukturierten Darstellung kommt ein Wert an den Platz für die Zeit.
+Weil der Platz existiert, zeigt sich eine Auslassung als Auslassung.
+Weil der Wert typisiert ist, gibt es keine Deutungsspielräume.
 
-In struktureller Klarheit
-konvergieren die Kosten der Disambiguierung gegen null.
-Identifikatoren sind eindeutig, also sind Modifikatoren unnoetig.
-Felder existieren, also ist Auslassung unmoeglich.
-Werte sind typisiert, also ist die Interpretation deterministisch.
+Bei struktureller Klarheit
+gehen die Kosten der Disambiguierung gegen null.
+Bezeichner sind eindeutig, also braucht es keine Zusätze.
+Plätze existieren, also zeigen sich Auslassungen.
+Werte sind typisiert, also ist die Deutung deterministisch.
 
 ---
 
@@ -190,10 +190,10 @@ Fuer einen einzelnen Satz kann eine strukturierte Darstellung laenger sein als n
 
 "Yi Sun-sin war grossartig."
 
-In natuerlicher Sprache ist das in 7 Tokens erledigt.
-In eine strukturierte Darstellung umwandeln --
-Entitaetsknoten, Attributknoten, Verb-Kante, Tempus, Konfidenzfeld --
-und der strukturelle Overhead kann groesser sein als der Satz selbst.
+In natürlicher Sprache genügen dafür 7 Token.
+Überführt man das in eine strukturierte Darstellung –
+eine Reference auf das Ziel, eine Edge, die die Aussage bindet, Datensätze, die Quelle und Zeitpunkt anfügen –,
+kann der strukturelle Aufwand größer sein als der Satz selbst.
 
 Das stimmt.
 Es gibt Fixkosten fuer das Einbetten von Klarheit in die Struktur.
@@ -212,11 +212,12 @@ In einer strukturierten Darstellung werden die Metadaten einmal gebunden.
 Mit der Akkumulation von Aussagen steigen die Knotenteilungsraten.
 Mit steigenden Knotenteilungsraten wachsen die Gewinne aus struktureller Klarheit.
 
-In der Praxis beginnt die Umkehr bei etwa 20 Aussagen.
-Im Context Engineering ist es selten, dass die im Fenster platzierten Informationen
-weniger als 20 Aussagen umfassen.
+Ab wie vielen Aussagen sich das Verhältnis umkehrt, hängt von der Form der Aussagen ab.
+Doch beim Context Engineering landen im Fenster
+selten ein oder zwei Sätze, sondern meist ein Bündel von Aussagen, die dieselben Ziele und Quellen teilen.
 
-In praktischen Begriffen ist strukturierte Darstellung immer klar und immer kuerzer.
+Und es gibt Wichtigeres als die Länge.
+Der Wert einer strukturierten Darstellung liegt weniger darin, kurz zu sein, als darin, auffindbar zu sein.
 
 ---
 
@@ -224,22 +225,22 @@ In praktischen Begriffen ist strukturierte Darstellung immer klar und immer kuer
 
 Klaerung erzeugt nicht nur Kompression.
 
-**Indexierung wird moeglich.**
-Wenn es eindeutige Identifikatoren gibt, wird praezise Suche moeglich.
-Die Suche nach "Apple Umsatz" liefert nicht "Apfel Naehrwerte".
-Wenn der Identifikator Bedeutung kodiert, reduziert eine einzige Bitmaske die Kandidaten.
+**Indexierung wird möglich.**
+Mit eindeutigen Bezeichnern wird präzise Suche möglich.
+Die Suche nach „Apple-Umsatz“ liefert keine „Nährwerte von Äpfeln“.
+Bezeichner sind ganze Zahlen; gesucht wird per Zahlenvergleich und Bereichsabfrage, ohne Zeichenkettenvergleich.
 
 **Validierung wird moeglich.**
 Wenn die Struktur typisiert ist, kann "ist das ein gueltiger Ausdruck?" mechanisch beurteilt werden.
 In natuerlicher Sprache existiert das Konzept eines "ungueltigen Satzes" nicht.
 In einer klaren Struktur: Wenn ein Pflichtfeld leer ist, ist es ungueltig.
 
-**Konsistenzpruefung wird moeglich.**
-Wenn Aussagen ueber dieselbe Entitaet eindeutig sind,
-kann "widersprechen sich diese beiden Aussagen?" mechanisch beurteilt werden.
-In natuerlicher Sprache erfordert die Bestimmung, ob "der CEO ist A" und "der CEO ist B" sich widersprechen,
-dass die KI beide Saetze liest und denkt.
-In einer klaren Struktur -- selbe Entitaet, selbe Relation, verschiedene Werte -- wird es automatisch erkannt.
+**Konsistenzprüfung wird möglich.**
+Sind Aussagen über dieselbe Entität eindeutig,
+lässt sich mechanisch beurteilen, ob sich zwei Aussagen widersprechen.
+In natürlicher Sprache muss eine KI, um zu wissen, ob „der CEO ist A“ und „der CEO ist B“ sich widersprechen,
+beide Sätze lesen und schlussfolgern.
+In einer klaren Struktur – gleiche Entität, gleiche Relation, verschiedene Werte – findet es eine Maschine.
 
 Klarheit ist die Voraussetzung fuer die gesamte Context-Engineering-Pipeline.
 Indexierung, Validierung, Filterung, Konsistenzpruefung --
@@ -259,10 +260,10 @@ KI hat keinen geteilten Kontext.
 Die Mehrdeutigkeit natuerlicher Sprache wird Rohmaterial fuer Halluzination.
 Mehrdeutigkeit aufzuloesen laesst Token-Zahlen anschwellen und verschwendet das Fenster.
 
-Eine strukturell klare Darstellung bricht diesen Zielkonflikt.
-Eindeutige Identifikatoren blockieren Mehrdeutigkeit an der Quelle.
-Typisierte Felder machen Auslassung unmoeglich.
-Wenn Disambiguierungskosten verschwinden, folgt Kompression als Nebenprodukt.
+Eine strukturell klare Darstellung bricht diesen Zielkonflikt auf.
+Eindeutige Bezeichner blockieren Mehrdeutigkeit an der Quelle.
+Typisierte Plätze machen Auslassungen sichtbar.
+Wenn die Kosten der Disambiguierung verschwinden, folgt Kompression als Nebenprodukt.
 
 Klaerung ist die Voraussetzung fuer Context Engineering.
 Wenn Information nicht klar ist, funktionieren Indexierung, Validierung und Konsistenzpruefung nicht.

@@ -2,9 +2,9 @@
 title: "Mengapa MD/JSON/XML Tidak Bisa"
 weight: 9
 date: 2026-02-26T12:00:15+09:00
-lastmod: 2026-02-26T12:00:15+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["format", "JSON", "XML"]
-summary: "Format yang ada tidak bisa membawa makna"
+summary: "Markdown, JSON, dan XML masing-masing dibuat untuk zaman dan tujuan yang berbeda. Mereka punya struktur tetapi tidak punya makna yang seragam, dan tidak ada tempat untuk sumber. Mengapa dibutuhkan format tersendiri untuk mencatat dan mengakumulasi penalaran AI."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -131,35 +131,54 @@ Jendela konteks LLM terbatas. Jika menyampaikan informasi yang sama membutuhkan 
 
 XML verbose agar manusia bisa membacanya dengan mudah. Bahasa penalaran AI tidak boleh punya pemborosan ini. Bagi LLM, tag `<name>` adalah pemborosan.
 
-Dan XML adalah desain awal 2000-an. Ia dibuat di era ketika LLM tidak ada, untuk manusia dan perangkat lunak tradisional. Ia tidak pernah dirancang sebagai bahasa penalaran AI.
+Dan XML adalah desain dari akhir 1990-an.
+Ia dibuat di zaman ketika LLM belum ada, untuk manusia dan perangkat lunak tradisional.
+Ia tidak pernah dirancang sebagai bahasa penalaran AI.
 
 ---
 
 ## Keterbatasan Bersama
 
-Markdown, JSON, XML. Masing-masing dari tiga format punya kekuatannya, tetapi mereka berbagi keterbatasan umum.
+Markdown, JSON, XML.
+Ketiga format punya kekuatan masing-masing, tetapi berbagi keterbatasan yang sama.
 
-**Mereka berbasis teks.** Semuanya diserialisasi menjadi string. Mesin harus mem-parse-nya untuk memprosesnya. Parsing adalah biaya.
+**Berbasis teks.**
+Semuanya diserialisasi menjadi string.
+Mesin harus mem-parse-nya untuk memprosesnya.
+Parsing adalah biaya.
 
-Bahasa penalaran ideal adalah binary stream. Urutan kata 16-bit. Tidak perlu parsing. Dapat diinterpretasikan saat dibaca.
+GEUL adalah deretan word 16-bit.
+Word pertama setiap rekaman memberi tahu jenis dan panjangnya,
+sehingga batas rekaman langsung diketahui tanpa menafsirkan string.
 
-**Mereka dirancang sebelum era LLM.** Markdown dari 2004. JSON dari 2001. XML dari 1998. Mereka dirancang di era ketika konsep LLM tidak ada, untuk manusia atau perangkat lunak tradisional.
+**Dirancang sebelum era LLM.**
+Markdown dari 2004. JSON dari 2001. XML dari 1998.
+Mereka dirancang di zaman ketika konsep LLM belum ada,
+untuk manusia atau perangkat lunak tradisional.
 
-Bahasa penalaran AI harus dirancang di era LLM, untuk LLM. Prinsip desain "1 kata = 1 token" mengandaikan keberadaan LLM.
+Bahasa penalaran AI harus dirancang di era LLM, untuk LLM.
+Menyesuaikan word 16-bit dengan ukuran kosakata LLM
+mengandaikan keberadaan LLM.
 
+**Sistem makna yang seragam tidak ada atau tidak lengkap.**
+Markdown sama sekali tidak punya sistem makna.
+JSON punya struktur tetapi tidak punya makna.
+XML bisa mendefinisikan skema, tetapi tidak seragam.
 
-Indeks yang selaras secara semantik adalah ID makna yang terpadu secara global. Di mana pun ia digunakan, SIDX yang sama berarti hal yang sama. Tidak perlu konversi. Konsensus sudah built-in.
+GEUL menunjuk target dengan ID, bukan nama:
+Reference seperti QID Wikidata atau ID dokumen yang diterbitkan Issuer.
+Di mana pun dipakai, ID yang sama adalah target yang sama. Tidak perlu konversi.
 
 ---
 
 ## Ringkasan
 
-| Format | Struktur | Makna | Ramah LLM | Biner | Dukungan Klaim | Modifier Kata Kerja |
+| Format | Struktur | Makna | Ramah LLM | Biner | Tempat sumber | Kualifikasi |
 |--------|-----------|---------|---------------|--------|---------------|----------------|
-| Markdown | Lemah | Tidak | Tinggi | Tidak | Tidak | Tidak |
-| JSON | Ya | Tidak | Sedang | Tidak | Tidak | Tidak |
-| XML | Ya | Sebagian | Rendah | Tidak | Tidak | Tidak |
-| **Bahasa Penalaran Ideal** | **Ya** | **Ya** | **Tinggi** | **Ya** | **Ya** | **Ya** |
+| Markdown | Lemah | Tidak ada | Tinggi | Tidak | Tidak ada | Tidak ada |
+| JSON | Ada | Tidak ada | Sedang | Tidak | Tidak ada | Tidak ada |
+| XML | Ada | Sebagian | Rendah | Tidak | Tidak ada | Tidak ada |
+| **Bahasa Penalaran Ideal** | **Ada** | **Ada** | **Tinggi** | **Ya** | **Ada** | **Ada** |
 
 Format baru diperlukan bukan karena format yang ada buruk. Tetapi karena format yang ada dibuat di era berbeda, untuk tujuan berbeda.
 

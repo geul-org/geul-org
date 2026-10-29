@@ -2,9 +2,9 @@
 title: "なぜ機械的検証が必要なのか"
 weight: 4
 date: 2026-02-26T12:00:10+09:00
-lastmod: 2026-02-26T12:00:10+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["検証", "仕様", "コンパイラ"]
-summary: "自然言語には「無効な文」という概念がない"
+summary: "自然言語には「無効な文」という概念がないため、情報が検査なしにコンテキストへ入る。規格で形式をふるい分ける機械的検証が、なぜパイプラインの最初に来るべきなのかを扱う。"
 author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

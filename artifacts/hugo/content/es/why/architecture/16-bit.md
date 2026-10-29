@@ -2,9 +2,9 @@
 title: "Por que 16 bits?"
 weight: 17
 date: 2026-02-26T12:00:04+09:00
-lastmod: 2026-02-26T12:00:04+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["16-bit", "binario", "flujo"]
-summary: "Una sola palabra penetra tres mundos"
+summary: "Una sola palabra de 16 bits está diseñada para ser la unidad de tres mundos: el flujo de red, el formato de archivo y el vocabulario del LLM. Por qué 16 bits y no 8, 32 ni longitud variable."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -74,58 +74,63 @@ Este es el precio de que tres mundos hablen idiomas diferentes.
 
 ---
 
-## Y si una sola unidad penetrara los tres mundos?
+## ¿Y si una sola unidad atravesara los tres mundos?
 
 En este lenguaje, una palabra son 16 bits (2 bytes).
 
-Una sola palabra de 16 bits es simultaneamente tres cosas.
+Una sola palabra de 16 bits está diseñada para cumplir tres funciones a la vez.
 
-**Una unidad del flujo de bytes.**
-Las palabras de 16 bits llegan en un flujo continuo por la red.
-Big Endian. Alineadas en limites de 2 bytes. No se necesita parseo adicional.
-Simplemente se leen en el orden en que llegan.
+**Unidad del flujo de bytes.**
+Las palabras de 16 bits llegan en flujo continuo por la red.
+Big Endian. Alineadas a 2 bytes.
+Basta con leerlas en el orden en que llegan.
 
-**Una unidad del formato de archivo.**
-Escribe el flujo directamente en disco y eso es tu archivo.
-Lee los bytes directamente del disco y envialos por la red, y eso es tu flujo.
-Sin serializacion. Sin deserializacion.
+**Unidad del formato de archivo.**
+Escribe el flujo tal cual en disco y eso es tu archivo.
+Lee los bytes del disco y envíalos tal cual por la red, y eso es tu flujo.
+Sin serialización. Sin deserialización.
 
-**Una unidad del token del LLM.**
-16 bits = 65,536 simbolos distintos.
-Los tamanos de vocabulario de los LLM modernos generalmente van de 50,000 a 100,000.
-Los modelos de la familia GPT usan aproximadamente 50,000; los modelos especializados en coreano alrededor de 100,000.
-65,536 se situa justo en el centro de ese rango.
-Una palabra de 16 bits se convierte en un token del LLM.
+**Unidad del vocabulario del LLM.**
+16 bits = 65.536 símbolos distintos.
+El tamaño de vocabulario de los LLM modernos va de decenas de miles a cientos de miles.
+GPT-2 usa unos 50.000; los modelos recientes, entre 100.000 y 200.000.
+65.536 cae dentro de ese rango.
+Una palabra de 16 bits es una unidad de un tamaño que un LLM puede aprender como vocabulario.
 
-Tres mundos compartiendo la misma unidad.
-La traduccion desaparece.
+Tres mundos comparten la misma unidad.
+La traducción se reduce.
 
 ---
 
-## Cero conversion, cero perdida, cero sobrecarga
+## El flujo es el archivo
 
-Veamos que significa esto concretamente.
+Veamos qué significa esto en concreto.
 
 **Enfoque convencional: 9 pasos**
 
 ```
-[Archivo] -> Leer -> Parsear -> Extraer texto -> Tokenizar -> [LLM]
+[Archivo] -> Leer -> Analizar -> Extraer texto -> Tokenizar -> [LLM]
 [LLM] -> Decodificar -> Serializar -> Escribir -> [Archivo]
 ```
 
-**Enfoque de flujo binario: 1 paso**
+**El enfoque GEUL**
 
 ```
-[Archivo/Flujo] -> [LLM]
-[LLM] -> [Archivo/Flujo]
+[Flujo] = [Archivo]                            mismos bytes
+[Archivo] -> leer registro a registro, saltando   sin libro de códigos
 ```
 
-Lee un archivo y ya es una secuencia de tokens.
-Escribe la secuencia de tokens que produce el LLM y ya es un archivo.
-Toma un flujo de la red y alimentalo directamente al LLM.
+Escribe un flujo tal cual y es un archivo. Envía un archivo tal cual y es un flujo.
+Sin serialización ni deserialización.
+La primera palabra de cada registro (la TAG WORD) indica su tipo y su longitud,
+así que los registros que no necesitas se saltan sin interpretarlos.
 
-Cero conversion. Cero parseo. Cero tokenizacion.
-Cero perdida. Cero sobrecarga.
+El lado del LLM sigue siendo una meta.
+Una palabra no equivale a un token.
+Un registro ocupa varias palabras, y el texto va como cadena de bytes.
+Aun así, cuando la unidad está fija en 16 bits,
+el tokenizador no tiene que adivinar los límites; sigue límites que ya están dados.
+"Yi Sun-sin" no se parte en un lugar arbitrario, porque es un único registro Reference que apunta a Wikidata Q50184.
 
 ---
 
@@ -146,23 +151,24 @@ pero insuficiente como unidad de token.
 
 ---
 
-## Por que no 32 bits?
+## ¿Por qué no 32 bits?
 
-32 bits te dan aproximadamente 4,300 millones de simbolos distintos.
+32 bits dan unos 4.300 millones de símbolos distintos.
 
-El poder expresivo es mas que suficiente -- vastamente mas de lo necesario.
+El poder expresivo sobra.
 Pero el problema es la eficiencia.
 
-El paquete mas frecuente en este formato es el Tiny Verb Edge, de 2 palabras.
-A 16 bits por palabra, eso son 4 bytes. A 32 bits por palabra, se convierte en 8 bytes.
-El paquete mas comun duplica su tamano.
+El registro más pequeño de este lenguaje ocupa 1 palabra: marcadores como BODY y END, que constan de una sola TAG WORD.
+Una Reference a Wikidata Q42 ocupa 2 palabras,
+y un TRIPLE que dice "Q42 es un ser humano" ocupa 10.
+Con palabras de 16 bits, ese TRIPLE son 20 bytes. Con palabras de 32 bits, serían 40.
+El mismo registro duplica su tamaño.
 
-Desde la perspectiva del LLM, tambien hay un problema.
-Si un solo token es de 32 bits, solo cabe la mitad de tokens en la misma ventana de contexto.
-Dado que la longitud de contexto del LLM es un recurso escaso hoy en dia,
-el espacio que ocupa un token se vuelve ineficiente en relacion con la informacion que transporta.
+Desde la perspectiva del LLM también hay un problema.
+Un vocabulario de 32 bits, con 4.300 millones de símbolos, es decenas de miles de veces mayor que cualquier vocabulario de LLM.
+No hay datos ni modelos para aprender un vocabulario tan grande.
 
-Una palabra de 32 bits es excesiva como token para este lenguaje.
+Una palabra de 32 bits es excesiva como unidad de este lenguaje.
 
 ---
 
@@ -184,32 +190,31 @@ El acceso aleatorio es O(1).
 SIMD puede comparar multiples palabras en una sola instruccion.
 Las GPU pueden escanear miles de millones de palabras en paralelo.
 
-Sin embargo, a nivel de paquete, la longitud variable sigue siendo permitida.
-Un Tiny Verb Edge tiene 2 palabras; un Event6 Edge puede tener hasta 8 palabras.
-La unidad de palabra es fija, pero la unidad de paquete es flexible.
+Aun así, a nivel de registro se permite la longitud variable.
+Los registros van de 1 palabra a 2³²−1 palabras, y la longitud está escrita en la primera palabra.
+La unidad de palabra es fija, pero la unidad de registro es flexible.
 
 La eficiencia de procesamiento del ancho fijo combinada con la expresividad de la longitud variable.
 La palabra de 16 bits logra ambas simultaneamente.
 
 ---
 
-## El camino que Unicode demostro
+## El camino que Unicode demostró
 
-Unicode es el estandar de codificacion mas exitoso que la humanidad ha creado jamas.
+Unicode es el estándar de codificación más exitoso que ha creado la humanidad.
 
-La unidad basica de UTF-16 es 16 bits (2 bytes).
-Representa los 65,536 caracteres del Plano Multilingue Basico (BMP) en una sola palabra,
-y se extiende a caracteres mas alla usando pares sustitutos (2 palabras = 4 bytes).
+La unidad básica de UTF-16 son 16 bits (2 bytes).
+Representa los caracteres del Plano Multilingüe Básico (BMP) en una sola palabra
+y extiende los demás con pares sustitutos (2 palabras = 4 bytes).
 
-Simplemente seguimos esta estructura probada.
+GEUL sigue la misma estructura.
+Los formatos frecuentes van como código directo dentro de una sola TAG WORD,
+y los raros se amplían con TAG de extensión.
 
-Representar 65,536 primitivos semanticos basicos en una sola palabra,
-y extender paquetes compuestos a traves de multiples palabras.
-
-Asi como Unicode expresa cada caracter del mundo
-sobre la unidad basica de "un caracter = 2 bytes",
-este lenguaje expresa cada elemento del razonamiento de IA
-sobre la unidad basica de "una palabra = 2 bytes".
+Así como Unicode expresa todos los caracteres del mundo
+sobre la unidad básica "un carácter = 2 bytes",
+GEUL expresa afirmaciones, sus fuentes y sus fundamentos
+sobre la unidad básica "una palabra = 2 bytes".
 
 ---
 
@@ -243,26 +248,26 @@ pero la alineacion multiple de 16 bits garantiza compatibilidad con cualquier ta
 
 Resumamos.
 
-Una sola palabra de 16 bits es simultaneamente tres cosas.
+Una sola palabra de 16 bits está diseñada para ser la unidad de tres mundos.
 
-| Mundo | Rol de una palabra |
+| Mundo | Papel de una palabra |
 |-------|---------------------|
 | Red | Unidad del flujo de bytes |
 | Almacenamiento | Unidad del formato de archivo |
-| IA | Unidad del token del LLM |
+| IA | Unidad del vocabulario del LLM (meta) |
 
-Una sola unidad penetra los tres mundos.
+Una sola unidad atraviesa los tres mundos.
 
-Almacena un flujo tal cual y es un archivo.
-Lee un archivo tal cual y son tokens.
-Envia tokens tal cual y es un flujo.
+Guarda un flujo tal cual y es un archivo.
+Envía un archivo tal cual y es un flujo.
+Hacer que encaje con los LLM palabra a palabra es el siguiente paso.
 
-Sin conversion.
-Sin traduccion.
-Sin perdida.
+Menos conversión.
+Menos traducción.
+Menos pérdida.
 
-Es por esto que 16 bits.
-No 8 bits, no 32 bits, no longitud variable.
-El numero que se situa precisamente en la interseccion de tres mundos.
+Por eso 16 bits.
+Ni 8, ni 32, ni longitud variable.
+El número que está justo en la intersección de tres mundos.
 
 16.

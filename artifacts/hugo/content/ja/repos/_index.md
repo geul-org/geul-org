@@ -18,7 +18,7 @@ GEUL文書は16ビットWORDの連続である。データの単位はTAG WORD�
 
 GEUL GoライブラリとCLIツール`geul`。
 
-GEUL文書（`.geul`）を書き、読み、検査し、公表する。形式検査、Codec規格文書によるレコードの解釈、バージョン差分、IMPORT依存の解決、TOULMIN Codecをパッケージとして提供する。`geul` CLIは文書編集（`new`、`add`）、公表（`publish`）、閲覧（`ls`、`log`、`show`）、ブラウザビューア（`serve`、`build`）、packアーカイブ（`pack build`、`pack unpack`）を扱う。packアーカイブはレコードをzstdで圧縮して保存できる。
+GEUL文書（`.geul`）を書き、読み、検査し、公表する。形式検査、Codec規格文書によるレコードの解釈、バージョン差分、IMPORT依存の解決、TOULMIN Codecをパッケージとして提供する。`geul` CLIは文書編集（`new`、`add`）、公表（`publish`）、閲覧（`ls`、`log`、`show`、`diff`、`check`）、ブラウザビューア（`serve`、`build`）、packアーカイブ（`pack build`、`pack unpack`）を扱う。packアーカイブはレコードをzstdで圧縮して保存できる。
 
 | | |
 |---|---|

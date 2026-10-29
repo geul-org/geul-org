@@ -18,7 +18,7 @@ image: "/images/og-default.webp"
 
 مكتبة GEUL بلغة Go وأداة سطر الأوامر `geul`.
 
-تكتب مستندات GEUL (`.geul`) وتقرؤها وتفحصها وتنشرها. توفر حزمها فحص التنسيق، وفك ترميز السجلات عبر مستندات مواصفات Codec، والفروق بين النسخ، وحل تبعيات IMPORT، وCodec TOULMIN. تغطي أداة `geul` CLI التحرير (`new`، `add`)، والنشر (`publish`)، والاستعراض (`ls`، `log`، `show`)، وعارضًا في المتصفح (`serve`، `build`)، وأرشيفات pack (`pack build`، `pack unpack`). يمكن لأرشيفات pack تخزين السجلات مضغوطة بـ zstd.
+تكتب مستندات GEUL (`.geul`) وتقرؤها وتفحصها وتنشرها. توفر حزمها فحص التنسيق، وفك ترميز السجلات عبر مستندات مواصفات Codec، والفروق بين النسخ، وحل تبعيات IMPORT، وCodec TOULMIN. تغطي أداة `geul` CLI التحرير (`new`، `add`)، والنشر (`publish`)، والاستعراض (`ls`، `log`، `show`، `diff`، `check`)، وعارضًا في المتصفح (`serve`، `build`)، وأرشيفات pack (`pack build`، `pack unpack`). يمكن لأرشيفات pack تخزين السجلات مضغوطة بـ zstd.
 
 | | |
 |---|---|

@@ -2,7 +2,7 @@
 title: "Warum wird eine künstliche Sprache benötigt?"
 weight: 7
 date: 2026-03-01T12:00:00+09:00
-lastmod: 2026-03-01T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["künstliche Sprache", "natürliche Sprache", "Halluzination", "LLVM IR"]
 summary: "Die natürliche Sprache hat sich für die menschliche Kommunikation entwickelt. Mehrdeutigkeit, Redundanz und Implikation sind Stärken für Menschen, aber Ursachen von Halluzinationen für KI. Weder Programmiersprachen noch bestehende semantische Frameworks sind die Antwort. Eine neue künstliche Sprache, die sechs Bedingungen gleichzeitig erfüllt, wird benötigt."
 author: "Junwoo Park"
@@ -177,11 +177,13 @@ LLVM IR arbeitet im Verborgenen.
 
 GEUL ist das LLVM IR fuer KI.
 
-Alle natuerlichen Sprachen werden in GEUL uebersetzt.
-GEUL wird im WMS gespeichert, zum Denken verwendet und zurueck in natuerliche Sprache uebersetzt.
-Benutzer sehen GEUL nicht.
-Sie stellen Fragen in natuerlicher Sprache und erhalten Antworten in natuerlicher Sprache.
-GEUL arbeitet im Verborgenen.
+Das ist das Ziel.
+Natürliche Sprache wird in GEUL überführt. Der Originaltext bleibt unverändert erhalten, und GEUL wird zum Index, der zu ihm zurückführt.
+GEUL wird gespeichert, zum Schlussfolgern genutzt und wieder in natürliche Sprache übersetzt.
+Nutzer sehen GEUL nie.
+Sie fragen in natürlicher Sprache und erhalten Antworten in natürlicher Sprache.
+GEUL arbeitet dort, wo es niemand sieht.
+Ein Interpreter, der natürliche Sprache (zunächst Koreanisch) in GEUL überführt, ist in Entwicklung.
 
 ---
 
@@ -200,9 +202,9 @@ Keine Abhaengigkeit von Implikation.
 
 **2. Eingebettete Metadaten**
 
-Fuer jede Beschreibung muessen Quelle, Zeitpunkt, Vertrauensgrad und Perspektive (POV)
-nicht als separate Annotationen, sondern als Teil der Beschreibungsstruktur selbst enthalten sein.
-Ohne das ist Whitebox-KI unmoeglich.
+Jede Aussage muss einen Platz für Quelle, Zeitpunkt, Konfidenz und Perspektive (POV) haben,
+und zwar in der Struktur der Aussage selbst, nicht in einer separaten Anmerkung.
+Ohne das ist White-Box-KI unmöglich.
 
 **3. LLM-Kompatibilitaet**
 
@@ -243,10 +245,11 @@ Logisch streng, aber aus der Zeit vor LLMs.
 Die Umwandlung von und zu natuerlicher Sprache ist schwierig, und der Ausdruck ist weitschweifig.
 Und fataler Weise langsam. Grossangelegtes Denken ist nicht realistisch.
 
-**Wissensgraphen (Wikidata, Freebase)** stellten die Welt als Graph dar.
-Aber sie speichern "Fakten", nicht "Beschreibungen".
-Sie speichern "Friedrich der Grosse war Koenig" als Tripel,
-aber nicht, wer das behauptet hat oder mit welchem Sicherheitsgrad.
+**Wissensgraphen (Wikidata, Freebase)** haben die Welt als Graph dargestellt.
+Aussagen können Belege tragen und einen Rang (rank) erhalten.
+Doch die Grundeinheit bleibt die Aussage als „Fakt“.
+Sie speichern „Yi Sun-sin ist ein General“ als Tripel,
+aber Belege bleiben leicht leer, und für die Konfidenz gibt es keinen Platz.
 
 **Chain-of-Thought** zeichnet den Denkprozess des LLM in natuerlicher Sprache auf.
 Eine gute Richtung, aber da das Aufzeichnungsmedium natuerliche Sprache ist,
@@ -261,12 +264,12 @@ aber keiner erfuellt alle sechs gleichzeitig.
 
 GEUL steht am Schnittpunkt dieser sechs Bedingungen.
 
-Ein Stromformat auf Basis von 16-Bit-Woertern.
-In jeder Beschreibung sind Kontext, Quelle und Sicherheitsgrad strukturell eingebettet.
-Graphen werden als Knoten- und Kantenpakete serialisiert.
-Es folgt einem festen Muster, das 1:1 auf LLM-Tokens abbildbar ist.
-Es behandelt Beschreibungen (Claims) als Primaerdaten, nicht Fakten.
-50% des gesamten Adressraums sind fuer die Zukunft reserviert.
+Ein Datensatzformat auf Basis von 16-Bit-Wörtern.
+Jede Aussage hat einen Platz für Quelle, Zeitpunkt und Konfidenz. Was leer bleibt, zeigt sich als leer.
+References tragen Ziele, Edges tragen Relationen und serialisieren so den Graphen.
+Die Worteinheit ist auf LLM-Vokabulare zugeschnitten, und jeder Datensatz folgt einem festen Muster, das mit einem TAG WORD beginnt.
+Es behandelt Aussagen (Claims), nicht Fakten, als Primärdaten.
+Es reserviert 75 % des TAG-WORD-Raums, mit dem jeder Datensatz beginnt, für die Zukunft.
 
 GEUL ist fuer den Benutzer nicht sichtbar.
 Der Benutzer spricht in natuerlicher Sprache und erhaelt Antworten in natuerlicher Sprache.

@@ -2,9 +2,9 @@
 title: "Pourquoi l'ere du prompt engineering est terminee"
 weight: 1
 date: 2026-02-26T12:00:12+09:00
-lastmod: 2026-02-26T12:00:12+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["prompt", "contexte", "ingenierie"]
-summary: "De comment le dire a ce qu'on montre -- le jeu a change"
+summary: "Plus les modèles sont intelligents, plus « ce qu'on leur montre » compte davantage que « la façon de le dire ». Le passage du prompt au contexte, et les sept briques d'infrastructure dont l'ingénierie du contexte a besoin."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

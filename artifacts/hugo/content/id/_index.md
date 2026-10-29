@@ -2,7 +2,8 @@
 title: "GEUL"
 image: "/images/og-default.webp"
 date: 2026-02-26T12:00:00+09:00
-summary: "GEUL adalah bahasa buatan yang diselaraskan secara semantik dan format biner yang dirancang untuk komunikasi tanpa ambiguitas antara manusia dan AI."
+lastmod: 2026-10-29T12:00:00+09:00
+summary: "GEUL adalah bahasa buatan dan format biner yang dirancang untuk komunikasi tanpa ambiguitas antara manusia dan AI."
 ---
 
 ## Mengapa GEUL
@@ -63,9 +64,10 @@ Setiap pernyataan punya tempat untuk tingkat keyakinannya.
 Setiap entitas punya pengenal unik.
 Mesin tahu bahwa "Samsung Electronics" dan "Samsung Electronics" adalah hal yang sama.
 
-Informasi yang ditulis dalam GEUL bisa diverifikasi secara mekanis.
-Apakah formatnya benar? Apakah referensinya valid? Apakah ada kontradiksi?
-Sebelum AI membacanya, sebelum manusia memeriksanya, mesin memeriksanya terlebih dahulu.
+Informasi yang ditulis dalam GEUL dapat diperiksa secara mekanis.
+Apakah bentuknya benar dan apakah rujukannya valid, mesin memastikannya seketika.
+Menilai apakah pernyataan saling bertentangan adalah langkah berikutnya.
+Sebelum AI membacanya, sebelum manusia memeriksanya, mesin memeriksanya lebih dulu.
 
 Mengapa ini penting?
 
@@ -91,9 +93,9 @@ Pembaca GEUL adalah AI.
 
 ---
 
-Situs ini menjelaskan mengapa GEUL diperlukan.
-Kami tidak menjual produk. Tidak mendaftar spesifikasi teknis.
-Kami menjawab pertanyaan: "Mengapa?"
+Situs ini menjelaskan mengapa GEUL dibutuhkan.
+Kami tidak menjual produk. Spesifikasi teknis ada tersendiri di [Tata Bahasa](/id/grammar/).
+Di sini kami menjawab pertanyaan: "Mengapa?"
 
 Mengapa bahasa alami tidak cukup?
 Mengapa bahasa pemrograman juga tidak bisa?

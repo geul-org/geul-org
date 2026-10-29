@@ -2,9 +2,9 @@
 title: "Why Is Structured Memory Necessary?"
 weight: 18
 date: 2026-02-26T12:00:05+09:00
-lastmod: 2026-02-26T12:00:05+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["memory", "structure", "WMS"]
-summary: "Intelligence without memory starts from scratch every time"
+summary: "AI writes files well but cannot find the files it wrote. The problem is retrieval, not storage. The path from a single map of what is where, like a table of contents or an index, to structured memory."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

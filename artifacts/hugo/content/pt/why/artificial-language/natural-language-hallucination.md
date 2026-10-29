@@ -2,7 +2,7 @@
 title: "Por Que a Linguagem Natural Cria Alucinacoes?"
 weight: 8
 date: 2026-02-26T12:00:16+09:00
-lastmod: 2026-02-26T12:00:16+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["linguagem natural", "alucinacao", "ambiguidade"]
 summary: "A alucinacao nao e um bug do LLM — e uma consequencia estrutural inevitavel de quatro falhas da linguagem natural: ambiguidade, ausencia de fonte, de confianca e de tempo. Modelos maiores nao resolvem."
 author: "Junwoo Park"
@@ -186,7 +186,7 @@ A lacuna entre as duas e alucinacao.
 
 ## Por Que Modelos Maiores Nao Podem Resolver Isso
 
-"A alucinacao nao vai diminuir quando o GPT-5 sair?"
+"A alucinação não vai diminuir quando sair a próxima geração de modelos?"
 
 Vai diminuir. Mas nao vai desaparecer.
 
@@ -219,32 +219,33 @@ Se voce quer eliminar a alucinacao, precisa de uma linguagem diferente.
 
 Para resolver essas quatro falhas, a estrutura da linguagem em si deve ser diferente.
 
-**Ambiguidade --> Estruturacao explicita.**
-Quando "Ele foi ao banco" e convertido em uma linguagem estruturada,
-"ele" e resolvido para um SIDX de entidade especifica,
-e "banco" e resolvido para o SIDX de uma instituicao financeira ou margem de rio.
-Se nao pode ser resolvido, "nao resolvido" e explicitamente declarado.
-Ou resolva a ambiguidade, ou registre o fato de que e ambiguo.
+**Ambiguidade --> Estruturação explícita.**
+Quando "Ele foi ao banco" é passado para uma linguagem estruturada,
+"ele" é resolvido numa Reference que aponta para um alvo específico (por exemplo, um QID do Wikidata),
+e "banco" numa Reference que aponta para uma instituição financeira ou para um assento.
+Se não for possível resolver, escreve-se "desconhecido" explicitamente.
+Ou se resolve a ambiguidade, ou se registra o fato de que ela é ambígua.
 
-**Ausencia de fonte --> Fonte incorporada.**
-Cada narracao inclui estruturalmente uma entidade fonte.
-"Quem fez essa afirmacao" faz parte da narracao.
-Nao e opcional. Se o campo esta vazio, e marcado como vazio.
+**Ausência de fonte --> Um lugar para a fonte.**
+Toda afirmação tem um lugar que a liga à sua fonte (uma Edge SOURCE).
+"Quem fez esta afirmação" vai junto da afirmação.
+Pode ficar vazio. Mas, se ficar, a afirmação aparece como uma sem fonte.
 
-**Ausencia de confianca --> Confianca incorporada.**
-Cada verb edge tem um campo de confianca.
-"Certo", "estimado", "hipotetico"
-sao especificados estruturalmente como modificadores verbais.
+**Ausência de confiança --> Um lugar para a confiança.**
+Há um lugar para escrever a confiança.
+A confiança de um documento inteiro vai na Meta CONFIDENCE,
+e a avaliação de uma proposição específica é acrescentada como outra afirmação que aponta para ela.
 
-**Ausencia de contexto temporal --> Contexto temporal incorporado.**
-Cada narracao inclui um contexto temporal.
-"A partir de quando e esta narracao" e sempre especificado.
+**Ausência de contexto temporal --> Um lugar para o tempo.**
+O período em que uma proposição vale é escrito com QUALIFIER (momento de início e fim),
+e o momento em que o documento foi escrito, com a Meta CREATED-AT.
+Há um lugar para dizer "a partir de quando vale esta afirmação".
 
 O que e omitido na linguagem natural
 existe como parte da estrutura em uma linguagem estruturada.
 
-Quando a omissao e impossivel, o espaco para alucinacao encolhe. [Por Que a Clarificacao e Necessaria](/pt/why/clarification/) explica esse principio.
-Quando voce nao pode falar sem base, declaracoes sem base nao sao produzidas.
+Quando uma omissão aparece como omissão, o espaço para a alucinação diminui. [Por que a clarificação é necessária](/pt/why/clarification/) explica esse princípio.
+Uma afirmação sem base parece sem base.
 
 ---
 

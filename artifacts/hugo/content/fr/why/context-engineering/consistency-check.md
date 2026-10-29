@@ -2,9 +2,9 @@
 title: "Pourquoi les verifications de coherence sont necessaires"
 weight: 6
 date: 2026-02-26T12:00:08+09:00
-lastmod: 2026-02-26T12:00:08+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["coherence", "contradiction", "consistance"]
-summary: "Des informations individuellement correctes peuvent etre collectivement fausses"
+summary: "Des informations justes prises isolément peuvent se contredire une fois réunies. Les trois types de contradiction (temporelle, entre sources, inférentielle), et pourquoi leur détection devient comparaison de champs et arithmétique dans une représentation structurée."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

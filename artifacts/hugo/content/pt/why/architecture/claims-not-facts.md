@@ -2,9 +2,9 @@
 title: "Por Que Afirmacoes, Nao Fatos?"
 weight: 15
 date: 2026-02-26T12:00:06+09:00
-lastmod: 2026-02-26T12:00:06+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["afirmacoes", "fatos", "confianca"]
-summary: "A verdade desaparece mais rapido que a velocidade da luz"
+summary: "A verdade é inacessível; o que nos resta são afirmações de alguém. Por que um sistema de conhecimento deve tomar afirmações, e não fatos, como dados primários, e dar um lugar para registrar fonte, tempo e confiança."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -190,19 +190,23 @@ O ponto chave e este:
 Veja o Wikidata.
 
 ```
-Q8492 (Yi Sun-sin)
+Q50184 (Yi Sun-sin)
   - instancia de: humano
   - ocupacao: comandante naval
   - data de morte: 1598-12-16
 ```
 
-Nao ha "quem fez essa afirmacao".
-Nao ha "qual a confianca disso".
-Nao ha "existem afirmacoes conflitantes".
+O Wikidata não ignora esse problema.
+Cada declaração pode ter referências, receber uma classificação (rank) e conviver com valores conflitantes.
 
-A assercao de que a data de morte de Yi Sun-sin e 16 de dezembro de 1598
-e o resultado de consenso entre multiplos registros historicos e academicos,
-mas o Wikidata armazena isso como se fosse uma verdade universal.
+Mas muitas declarações têm um valor e nenhuma referência.
+Não há lugar para escrever "qual o grau de certeza".
+E quem usa os dados costuma levar só os valores.
+As referências e as classificações caem, e o valor fica como se fosse um fato.
+
+A afirmação de que Yi Sun-sin morreu em 16 de dezembro de 1598
+é resultado do consenso entre vários registros históricos e estudiosos,
+mas nos dados extraídos assim ela aparece como se fosse uma verdade universal.
 
 Na maioria dos casos, isso nao e um problema.
 Porque a confianca do consenso e suficientemente alta.
@@ -264,43 +268,46 @@ Preservar estruturalmente fontes, contexto e confianca.
 
 ---
 
-## Uma Solucao Estrutural
+## Uma solução estrutural
 
-Um sistema de conhecimento adequado deve tratar cada narracao como uma afirmacao.
+Um sistema de conhecimento adequado deve tratar toda narração como uma afirmação.
 
-Quando uma frase em linguagem natural e convertida em uma representacao estruturada, deve incluir:
+Quando uma frase em linguagem natural é convertida em representação estruturada, deve haver lugar para:
 
-**Quem fez a afirmacao** --- Entidade fonte
+**Quem fez a afirmação** --- Fonte
 **Quando foi afirmado** --- Contexto temporal
-**Em qual mundo esta essa afirmacao** --- Contexto de mundo
-**De qual perspectiva** --- POV (Ponto de Vista)
-**Qual a confianca** --- Nivel de confianca
+**Em que mundo a afirmação vale** --- Contexto de mundo
+**De qual perspectiva** --- POV (Point of View)
+**Com que grau de certeza** --- Nível de confiança
 
-Isso nao e opcional.
-A estrutura de tal sistema exige essa informacao.
-Se um campo esta vazio, ele e explicitamente marcado como vazio.
+O GEUL tem esses lugares.
+Uma Edge [SOURCE](/pt/grammar/edge/source/) liga uma afirmação à sua origem.
+O momento em que uma proposição vale é delimitado com um [QUALIFIER](/pt/grammar/edge/qualifier/).
+Mundos e cenas ficam com as Edges WORLD e SCENE, e a confiança do documento inteiro com a Meta [CONFIDENCE](/pt/grammar/meta/verification/confidence/).
 
-Quando "Yi Sun-sin foi grande" e convertido em uma representacao estruturada:
+Não é preciso preencher todos.
+Mas o que não é escrito aparece como não escrito.
+Uma afirmação sem fonte aparece como uma afirmação sem SOURCE, e uma máquina consegue identificá-la.
+
+"Yi Sun-sin foi grande", convertida em representação estruturada, fica mais ou menos assim:
 
 ```
-[Entidade: Yi Sun-sin]
-[Verbo: ser grande (verbo avaliativo)]
-[POV: Falante (participante da conversa atual)]
-[Tempo: Momento presente]
-[Confianca: Nao especificada]
-[Fonte: Pronunciamento direto do falante]
-[Mundo: Mundo real]
+Afirmação   Yi Sun-sin (Q50184) — ser grande (avaliação)
+Fonte       enunciado direto do falante    SOURCE
+Tempo       conversa atual                 QUALIFIER
+Mundo       mundo real                     WORLD
+Confiança   não escrita
 ```
 
-Mesmo para a frase identica em linguagem natural "Yi Sun-sin foi grande",
-a representacao e inteiramente diferente dependendo de ser
-narrada por um livro didatico de historia,
-falada como impressao pessoal de um individuo,
-ou dita por um personagem em um romance.
+Mesmo para a mesma frase em linguagem natural "Yi Sun-sin foi grande",
+a representação é completamente diferente conforme
+seja narrada por um livro didático de história,
+dita por alguém como impressão pessoal,
+ou falada por um personagem de romance.
 
-A ambiguidade e estruturalmente eliminada.
-Afirmacoes sao registradas como afirmacoes.
-Fragmentos da verdade sao preservados como fragmentos.
+A ambiguidade é eliminada estruturalmente.
+Afirmações são registradas como afirmações.
+Fragmentos da verdade são preservados como fragmentos.
 
 ---
 
@@ -341,7 +348,7 @@ A verdade e fisicamente inacessivel.
 4. Portanto, os dados primarios de um sistema de conhecimento nao podem ser fatos. Devem ser afirmacoes.
 5. Se voce trata afirmacoes como fatos, contradicao se torna erro. Se voce as trata como afirmacoes, contradicao se torna dado.
 6. Alucinacao de LLM e o resultado de afirmacoes perdendo suas fontes.
-7. Tal sistema estruturalmente incorpora fonte, tempo, perspectiva e confianca em cada narracao.
+7. O GEUL dá a cada afirmação um lugar para fonte, tempo, mundo e confiança. O que não é escrito aparece como não escrito.
 
 Nos nao lidamos com a verdade.
 Nos lidamos com frases sobre a verdade.

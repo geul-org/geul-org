@@ -2,9 +2,9 @@
 title: "为什么过滤是必要的"
 weight: 5
 date: 2026-02-26T12:00:09+09:00
-lastmod: 2026-02-26T12:00:09+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["过滤", "相关性", "信任"]
-summary: "有效的信息不一定是需要的信息"
+summary: "有效的信息并不都是需要的信息。本文讨论按相关性、可信度、时效性只挑选当下所需信息的过滤器，以及为什么在结构化表示中这些标准会变成字段运算。"
 author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

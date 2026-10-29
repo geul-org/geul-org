@@ -2,9 +2,9 @@
 title: "Por que la verificacion mecanica es necesaria"
 weight: 4
 date: 2026-02-26T12:00:10+09:00
-lastmod: 2026-02-26T12:00:10+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["verificacion", "especificacion", "compilador"]
-summary: "El lenguaje natural no tiene el concepto de oracion invalida"
+summary: "El lenguaje natural no tiene el concepto de \"oración inválida\", así que la información entra al contexto sin revisar. Por qué la verificación mecánica, que filtra la forma según una especificación, debe ir primero en la canalización."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

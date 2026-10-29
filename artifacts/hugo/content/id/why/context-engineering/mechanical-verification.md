@@ -2,9 +2,9 @@
 title: "Mengapa Verifikasi Mekanis Diperlukan"
 weight: 4
 date: 2026-02-26T12:00:10+09:00
-lastmod: 2026-02-26T12:00:10+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["verifikasi", "spesifikasi", "kompiler"]
-summary: "Bahasa alami tidak mengenal konsep kalimat yang tidak valid"
+summary: "Bahasa alami tidak mengenal konsep \"kalimat tidak valid\", sehingga informasi masuk ke konteks tanpa diperiksa. Mengapa verifikasi mekanis, yang menyaring bentuk berdasarkan spesifikasi, harus datang paling awal dalam pipeline."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

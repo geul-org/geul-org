@@ -2,9 +2,9 @@
 title: "Mengapa Klaim, Bukan Fakta?"
 weight: 15
 date: 2026-02-26T12:00:06+09:00
-lastmod: 2026-02-26T12:00:06+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["klaim", "fakta", "kepercayaan"]
-summary: "Kebenaran menghilang lebih cepat dari kecepatan cahaya"
+summary: "Kebenaran tidak dapat dijangkau; yang tersisa bagi kita hanyalah klaim seseorang. Mengapa sistem pengetahuan harus menjadikan klaim, bukan fakta, sebagai data primer, dan menyediakan tempat untuk mencatat sumber, waktu, dan tingkat keyakinan."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -124,15 +124,23 @@ Kuncinya adalah:
 Lihat Wikidata.
 
 ```
-Q8492 (Yi Sun-sin)
+Q50184 (Yi Sun-sin)
   - instance of: human
   - occupation: naval commander
   - date of death: 1598-12-16
 ```
 
-Tidak ada "siapa yang membuat klaim ini." Tidak ada "seberapa yakin ini." Tidak ada "apakah ada klaim yang bertentangan."
+Wikidata bukannya tidak menyadari masalah ini.
+Setiap pernyataan bisa diberi referensi, diberi peringkat (rank), dan disandingkan dengan nilai yang bertentangan.
 
-Pernyataan bahwa tanggal kematian Yi Sun-sin adalah 16 Desember 1598 adalah hasil konsensus dari beberapa catatan sejarah dan sarjana, namun Wikidata menyimpannya seolah-olah itu kebenaran universal.
+Namun banyak pernyataan hanya berisi nilai tanpa referensi.
+Tidak ada tempat untuk menulis "seberapa yakin".
+Dan pihak yang mengambil data biasanya hanya mengambil nilainya.
+Referensi dan peringkat terlepas, dan nilainya tertinggal seolah-olah fakta.
+
+Pernyataan bahwa Yi Sun-sin wafat pada 16 Desember 1598
+adalah hasil konsensus di antara banyak catatan sejarah dan sarjana,
+tetapi dalam data yang diambil dengan cara itu ia tampil seolah-olah kebenaran universal.
 
 Dalam sebagian besar kasus, ini bukan masalah. Karena kepercayaan konsensus cukup tinggi.
 
@@ -174,31 +182,42 @@ Solusinya jelas. Perlakukan fragmen sebagai fragmen. Catat klaim sebagai klaim. 
 
 Sistem pengetahuan yang tepat harus memperlakukan setiap narasi sebagai klaim.
 
-Ketika kalimat bahasa alami diubah menjadi representasi terstruktur, ia harus menyertakan:
+Saat kalimat bahasa alami diubah menjadi representasi terstruktur, harus ada tempat untuk:
 
-**Siapa yang membuat klaim** --- Entitas sumber
-**Kapan diklaim** --- Konteks temporal
+**Siapa yang membuat klaim** --- Sumber
+**Kapan diklaim** --- Konteks waktu
 **Di dunia mana klaim ini** --- Konteks dunia
 **Dari perspektif mana** --- POV (Point of View)
-**Seberapa yakin** --- Tingkat kepercayaan
+**Seberapa yakin** --- Tingkat keyakinan
 
-Ini bukan opsional. Struktur sistem seperti itu menuntut informasi ini. Jika field kosong, ia secara eksplisit ditandai sebagai kosong.
+GEUL memiliki tempat-tempat itu.
+Edge [SOURCE](/id/grammar/edge/source/) menautkan pernyataan ke asalnya.
+Waktu berlakunya proposisi dibatasi dengan [QUALIFIER](/id/grammar/edge/qualifier/).
+Dunia dan adegan ditangani Edge WORLD dan SCENE, dan tingkat keyakinan seluruh dokumen oleh Meta [CONFIDENCE](/id/grammar/meta/verification/confidence/).
 
-Ketika "Yi Sun-sin itu hebat" diubah menjadi representasi terstruktur:
+Tidak semuanya wajib diisi.
+Tetapi yang tidak ditulis tampak sebagai tidak ditulis.
+Pernyataan tanpa sumber tampak sebagai pernyataan tanpa SOURCE, dan mesin bisa memilahnya.
+
+"Yi Sun-sin itu agung", diubah menjadi representasi terstruktur, kira-kira seperti ini:
 
 ```
-[Entitas: Yi Sun-sin]
-[Kata kerja: hebat (kata kerja evaluatif)]
-[POV: Pembicara (peserta percakapan saat ini)]
-[Waktu: Momen sekarang]
-[Kepercayaan: Tidak ditentukan]
-[Sumber: Ucapan langsung pembicara]
-[Dunia: Dunia nyata]
+Pernyataan  Yi Sun-sin (Q50184) — agung (penilaian)
+Sumber      ucapan langsung penutur       SOURCE
+Waktu       percakapan saat ini            QUALIFIER
+Dunia       dunia nyata                    WORLD
+Keyakinan   tidak ditulis
 ```
 
-Bahkan untuk kalimat bahasa alami yang identik "Yi Sun-sin itu hebat," representasinya sepenuhnya berbeda tergantung apakah itu dinarasikan oleh buku teks sejarah, diucapkan sebagai kesan pribadi seseorang, atau diucapkan oleh karakter dalam novel.
+Bahkan untuk kalimat bahasa alami yang sama, "Yi Sun-sin itu agung,"
+representasinya sama sekali berbeda tergantung apakah
+dinarasikan oleh buku pelajaran sejarah,
+diucapkan sebagai kesan pribadi seseorang,
+atau dilontarkan tokoh dalam novel.
 
-Ambiguitas dieliminasi secara struktural. Klaim dicatat sebagai klaim. Fragmen kebenaran dilestarikan sebagai fragmen.
+Ambiguitas dihilangkan secara struktural.
+Klaim dicatat sebagai klaim.
+Serpihan kebenaran dipertahankan sebagai serpihan.
 
 ---
 
@@ -230,6 +249,6 @@ Kebenaran secara fisik tidak dapat diakses.
 4. Oleh karena itu, data primer sistem pengetahuan tidak bisa berupa fakta. Harus berupa klaim.
 5. Jika Anda memperlakukan klaim sebagai fakta, kontradiksi menjadi kesalahan. Jika memperlakukannya sebagai klaim, kontradiksi menjadi data.
 6. Halusinasi LLM adalah hasil dari klaim yang kehilangan sumbernya.
-7. Sistem seperti ini secara struktural menyematkan sumber, waktu, perspektif, dan kepercayaan ke dalam setiap narasi.
+7. GEUL menyediakan tempat bagi setiap pernyataan untuk sumber, waktu, dunia, dan tingkat keyakinan. Yang tidak ditulis tampak sebagai tidak ditulis.
 
 Kita tidak menangani kebenaran. Kita menangani kalimat tentang kebenaran. Ini bukan kerendahan hati. Ini fisika.

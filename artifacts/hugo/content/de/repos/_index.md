@@ -18,7 +18,7 @@ Ein GEUL-Dokument ist eine Folge von 16-Bit-WORDs. Die Dateneinheit ist der Date
 
 Die Go-Bibliothek von GEUL und das Kommandozeilenwerkzeug `geul`.
 
-Schreibt, liest, prüft und veröffentlicht GEUL-Dokumente (`.geul`). Die Pakete bieten Formatprüfung, Dekodierung von Datensätzen anhand von Codec-Spezifikationsdokumenten, Versionsdiffs, Auflösung von IMPORT-Abhängigkeiten und den TOULMIN-Codec. Die CLI `geul` deckt Bearbeiten (`new`, `add`), Veröffentlichen (`publish`), Ansehen (`ls`, `log`, `show`), einen Browser-Viewer (`serve`, `build`) und Pack-Archive (`pack build`, `pack unpack`) ab. Pack-Archive können Datensätze mit zstd komprimiert speichern.
+Schreibt, liest, prüft und veröffentlicht GEUL-Dokumente (`.geul`). Die Pakete bieten Formatprüfung, Dekodierung von Datensätzen anhand von Codec-Spezifikationsdokumenten, Versionsdiffs, Auflösung von IMPORT-Abhängigkeiten und den TOULMIN-Codec. Die CLI `geul` deckt Bearbeiten (`new`, `add`), Veröffentlichen (`publish`), Ansehen (`ls`, `log`, `show`, `diff`, `check`), einen Browser-Viewer (`serve`, `build`) und Pack-Archive (`pack build`, `pack unpack`) ab. Pack-Archive können Datensätze mit zstd komprimiert speichern.
 
 | | |
 |---|---|

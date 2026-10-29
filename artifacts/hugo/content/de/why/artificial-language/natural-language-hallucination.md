@@ -2,7 +2,7 @@
 title: "Warum erzeugt natuerliche Sprache Halluzinationen?"
 weight: 8
 date: 2026-02-26T12:00:16+09:00
-lastmod: 2026-02-26T12:00:16+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["natuerliche Sprache", "Halluzination", "Mehrdeutigkeit"]
 summary: "Halluzination ist kein LLM-Bug — sie ist eine strukturelle Unvermeidlichkeit aus vier Maengeln natuerlicher Sprache: Mehrdeutigkeit, fehlende Quelle, fehlende Konfidenz und fehlender Zeitkontext. Groessere Modelle loesen das nicht."
 author: "Junwoo Park"
@@ -186,7 +186,7 @@ Die Luecke zwischen beiden ist Halluzination.
 
 ## Warum groessere Modelle das nicht loesen koennen
 
-"Wird Halluzination nicht abnehmen, wenn GPT-5 herauskommt?"
+„Werden Halluzinationen nicht abnehmen, wenn die nächste Modellgeneration erscheint?“
 
 Sie wird abnehmen. Aber sie wird nicht verschwinden.
 
@@ -220,31 +220,32 @@ Wenn man Halluzination eliminieren will, braucht man eine andere Sprache.
 Um diese vier Maengel zu loesen, muss die Struktur der Sprache selbst anders sein.
 
 **Mehrdeutigkeit --> Explizite Strukturierung.**
-Wenn "He went to the bank" in eine strukturierte Sprache umgewandelt wird,
-wird "he" zu einem bestimmten Entitaets-SIDX aufgeloest,
-und "bank" wird zum SIDX entweder eines Finanzinstituts oder eines Flussufers aufgeloest.
-Wenn es nicht aufgeloest werden kann, wird "ungeloest" explizit angegeben.
-Entweder die Mehrdeutigkeit aufloesen oder die Tatsache aufzeichnen, dass sie mehrdeutig ist.
+Wird „Er ging zur Bank“ in eine strukturierte Sprache überführt,
+wird „er“ zu einer Reference auf ein bestimmtes Ziel (etwa eine Wikidata-QID) aufgelöst
+und „Bank“ zu einer Reference entweder auf ein Kreditinstitut oder auf eine Sitzbank.
+Lässt es sich nicht auflösen, wird ausdrücklich „unbekannt“ geschrieben.
+Entweder wird die Mehrdeutigkeit aufgelöst, oder es wird festgehalten, dass sie mehrdeutig ist.
 
-**Fehlende Quelle --> Eingebettete Quelle.**
-Jede Narration schliesst strukturell eine Quell-Entitaet ein.
-"Wer hat diese Behauptung aufgestellt" ist Teil der Narration.
-Es ist nicht optional. Wenn das Feld leer ist, wird es als leer markiert.
+**Fehlende Quelle --> Ein Platz für die Quelle.**
+Jede Aussage hat einen Platz, der sie mit ihrer Quelle verknüpft (eine SOURCE-Edge).
+„Wer behauptet das“ steht direkt neben der Aussage.
+Der Platz darf leer bleiben. Dann aber erscheint die Aussage als Aussage ohne Quelle.
 
-**Fehlende Konfidenz --> Eingebettete Konfidenz.**
-Jede Verb-Kante hat ein Konfidenzfeld.
-"Sicher", "geschaetzt", "hypothetisch"
-werden strukturell als Verb-Modifikatoren angegeben.
+**Fehlende Konfidenz --> Ein Platz für die Konfidenz.**
+Es gibt einen Platz, um die Konfidenz festzuhalten.
+Die Konfidenz eines ganzen Dokuments steht in der Meta CONFIDENCE,
+die Bewertung einer einzelnen Proposition wird als weitere Aussage angefügt, die auf sie zeigt.
 
-**Fehlender zeitlicher Kontext --> Eingebetteter zeitlicher Kontext.**
-Jede Narration schliesst einen Zeitkontext ein.
-"Stand wann ist diese Narration" wird immer angegeben.
+**Fehlender Zeitkontext --> Ein Platz für die Zeit.**
+Der Zeitraum, in dem eine Proposition gilt, wird mit QUALIFIERs (Beginn und Ende) geschrieben,
+der Zeitpunkt, zu dem das Dokument entstand, mit der Meta CREATED-AT.
+Es gibt einen Platz für „Stand wann gilt diese Aussage“.
 
 Was in natuerlicher Sprache weggelassen wird,
 existiert als Teil der Struktur in einer strukturierten Sprache.
 
-Wenn Weglassen unmoeglich ist, schrumpft der Raum fuer Halluzination. [Warum Klaerung notwendig ist](/de/why/clarification/) erlaeutert dieses Prinzip.
-Wenn man nicht ohne Grundlage sprechen kann, werden grundlose Aussagen nicht produziert.
+Wenn sich eine Auslassung als Auslassung zeigt, schrumpft der Spielraum für Halluzinationen. [Warum Klärung notwendig ist](/de/why/clarification/) erklärt dieses Prinzip.
+Eine unbegründete Aussage sieht unbegründet aus.
 
 ---
 

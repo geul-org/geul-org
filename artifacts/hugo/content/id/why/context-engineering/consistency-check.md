@@ -2,9 +2,9 @@
 title: "Mengapa Pemeriksaan Konsistensi Diperlukan"
 weight: 6
 date: 2026-02-26T12:00:08+09:00
-lastmod: 2026-02-26T12:00:08+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["konsistensi", "kontradiksi", "koherensi"]
-summary: "Informasi yang secara individual benar bisa secara kolektif salah"
+summary: "Informasi yang benar secara terpisah bisa saling bertentangan ketika dikumpulkan. Tiga jenis kontradiksi (waktu, antarsumber, inferensial), dan mengapa deteksinya menjadi perbandingan field dan aritmetika dalam representasi terstruktur."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,9 +2,9 @@
 title: "Why 16-Bit?"
 weight: 17
 date: 2026-02-26T12:00:04+09:00
-lastmod: 2026-02-26T12:00:04+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["16-bit", "binary", "stream"]
-summary: "A single word penetrates three worlds"
+summary: "A single 16-bit word is designed to be the unit of three worlds: the network stream, the file format, and the LLM vocabulary. Why 16 bits, and not 8, 32, or variable length."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -78,11 +78,11 @@ This is the price of three worlds speaking different languages.
 
 In this language, one word is 16 bits (2 bytes).
 
-A single 16-bit word is simultaneously three things.
+A single 16-bit word is designed to play three roles at once.
 
 **A unit of the byte stream.**
 16-bit words arrive in a continuous flow over the network.
-Big Endian. Aligned on 2-byte boundaries. No additional parsing needed.
+Big Endian. Aligned on 2-byte boundaries.
 Just read them in the order they arrive.
 
 **A unit of the file format.**
@@ -90,19 +90,19 @@ Write the stream straight to disk, and that is your file.
 Read the bytes straight from disk and send them over the network, and that is your stream.
 No serialization. No deserialization.
 
-**A unit of the LLM token.**
+**A unit of the LLM vocabulary.**
 16 bits = 65,536 distinct symbols.
-Modern LLM vocabulary sizes generally range from 50,000 to 100,000.
-GPT-family models use roughly 50,000; Korean-specialized models around 100,000.
-65,536 sits squarely in the center of that range.
-One 16-bit word becomes one LLM token.
+Modern LLM vocabulary sizes range from tens of thousands to hundreds of thousands.
+GPT-2 uses roughly 50,000; recent models around 100,000 to 200,000.
+65,536 sits within that range.
+A 16-bit word is a unit of a size an LLM can learn as vocabulary.
 
 Three worlds sharing the same unit.
-Translation disappears.
+Translation shrinks.
 
 ---
 
-## Zero Conversion, Zero Loss, Zero Overhead
+## The Stream Is the File
 
 Let us see what this concretely means.
 
@@ -113,19 +113,24 @@ Let us see what this concretely means.
 [LLM] -> Decode -> Serialize -> Write -> [File]
 ```
 
-**Binary stream approach: 1 step**
+**The GEUL approach**
 
 ```
-[File/Stream] -> [LLM]
-[LLM] -> [File/Stream]
+[Stream] = [File]                          same bytes
+[File] -> read record by record, skipping  no codebook needed
 ```
 
-Read a file, and it is already a token sequence.
-Write out the token sequence the LLM produces, and it is already a file.
-Take a stream from the network and feed it directly to the LLM.
+Write a stream as-is, and it is a file. Send a file as-is, and it is a stream.
+No serialization, no deserialization.
+The first word of every record (the TAG WORD) gives its kind and length,
+so records you do not need are skipped without being interpreted.
 
-Zero conversion. Zero parsing. Zero tokenization.
-Zero loss. Zero overhead.
+The LLM side is still a goal.
+One word is not the same as one token.
+A record spans several words, and text is carried as a byte string.
+Still, when the unit is fixed at 16 bits,
+a tokenizer does not have to guess boundaries; it follows boundaries that are already given.
+"Yi Sun-sin" is not split in some arbitrary place, because it is a single Reference record pointing to Wikidata Q50184.
 
 ---
 
@@ -153,16 +158,17 @@ but insufficient as a token unit.
 Expressive power is more than sufficient -- vastly more than needed.
 But the problem is efficiency.
 
-The most frequently occurring packet in this format is the Tiny Verb Edge, at 2 words.
-At 16 bits per word, that is 4 bytes. At 32 bits per word, it becomes 8 bytes.
-The most common packet doubles in size.
+The smallest record in this language is 1 word: markers such as BODY and END that consist of a single TAG WORD.
+A Reference to Wikidata Q42 is 2 words,
+and a single TRIPLE saying "Q42 is a human" is 10 words.
+At 16 bits per word, that TRIPLE is 20 bytes. With 32-bit words, it would be 40 bytes.
+The same record doubles in size.
 
 From the LLM's perspective, there is also a problem.
-If a single token is 32 bits, only half as many tokens fit in the same context window.
-Given that LLM context length is a scarce resource today,
-the space a token occupies becomes inefficient relative to the information it carries.
+A 32-bit vocabulary of 4.3 billion symbols is tens of thousands of times larger than any LLM vocabulary.
+There is neither the data nor the model to learn a vocabulary that large.
 
-A 32-bit word is overkill as a token for this language.
+A 32-bit word is overkill as the unit of this language.
 
 ---
 
@@ -184,9 +190,9 @@ Random access is O(1).
 SIMD can compare multiple words in a single instruction.
 GPUs can scan billions of words in parallel.
 
-Yet at the packet level, variable length is still permitted.
-A Tiny Verb Edge is 2 words; an Event6 Edge can be up to 8 words.
-The word unit is fixed, but the packet unit is flexible.
+Yet at the record level, variable length is still permitted.
+Records range from 1 word to 2³²−1 words, and the length is written in the first word.
+The word unit is fixed, but the record unit is flexible.
 
 The processing efficiency of fixed width combined with the expressiveness of variable length.
 The 16-bit word achieves both simultaneously.
@@ -198,17 +204,16 @@ The 16-bit word achieves both simultaneously.
 Unicode is the most successful encoding standard humanity has ever created.
 
 The basic unit of UTF-16 is 16 bits (2 bytes).
-It represents the 65,536 characters of the Basic Multilingual Plane (BMP) in a single word,
+It represents the characters of the Basic Multilingual Plane (BMP) in a single word,
 and extends to characters beyond it using surrogate pairs (2 words = 4 bytes).
 
-We simply follow this proven structure.
-
-Represent 65,536 basic semantic primitives in a single word,
-and extend compound packets across multiple words.
+GEUL follows the same structure.
+Frequent formats are carried as a direct code inside a single TAG WORD,
+and rare formats are extended with extension TAGs.
 
 Just as Unicode expresses every character in the world
 on top of the basic unit of "one character = 2 bytes,"
-this language expresses every element of AI reasoning
+GEUL expresses statements, their sources and their grounds
 on top of the basic unit of "one word = 2 bytes."
 
 ---
@@ -243,23 +248,23 @@ but the multiple alignment of 16 bits guarantees compatibility with any size.
 
 Let us summarize.
 
-A single 16-bit word is simultaneously three things.
+A single 16-bit word is designed to be the unit of three worlds.
 
 | World | Role of One Word |
 |-------|---------------------|
 | Network | Unit of the byte stream |
 | Storage | Unit of the file format |
-| AI | Unit of the LLM token |
+| AI | Unit of the LLM vocabulary (goal) |
 
 A single unit penetrates all three worlds.
 
 Store a stream as-is, and it is a file.
-Read a file as-is, and it is tokens.
-Send tokens as-is, and it is a stream.
+Send a file as-is, and it is a stream.
+Making it mesh with LLMs word by word is the next step.
 
-No conversion.
-No translation.
-No loss.
+Less conversion.
+Less translation.
+Less loss.
 
 This is why 16-bit.
 Not 8-bit, not 32-bit, not variable length.

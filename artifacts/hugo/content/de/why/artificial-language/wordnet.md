@@ -2,9 +2,9 @@
 title: "Warum WordNet?"
 weight: 14
 date: 2026-03-01T14:00:00+09:00
-lastmod: 2026-03-01T14:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["WordNet", "Verben", "semantische Primitive", "Synset"]
-summary: "Ein Verbsystem von Grund auf zu erstellen bedeutet Lücken, willkürliche Entscheidungen und fehlende Begründung. WordNet ist eine 40 Jahre alte lexikalische Datenbank mit 13.767 Verb-Synsets, erstellt von Linguisten. Wir leihen das Wörterbuch und bauen die Grammatik darauf auf."
+summary: "Wer ein Verbsystem selbst baut, hat Lücken, Willkür und keine Begründung. GEUL hat die Struktur gelernt, indem es aus den 13.767 Verben von WordNet, gesammelt über 40 Jahre, ein vorläufiges Codebuch baute. Da WordNet nicht CC0 und an das Englische gebunden ist, wird diese vorläufige Ausgabe durch ein Verb-Codebuch ohne WordNet ersetzt."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,7 +14,7 @@ Wir brauchten Verben.
 
 Damit eine KI die Welt beschreiben kann, braucht sie Verben. Im Satz „Yi Sun-sin baute das Schildkrötenschiff" — der koreanische Admiral des 16. Jahrhunderts und sein berühmtes gepanzertes Kriegsschiff — gibt es ohne „baute" keinen Satz.
 
-Für die Identifikation von Entitäten gibt es Wikidata. Yi Sun-sin ist Q28090. Das Schildkrötenschiff ist Q249845. Die Identifikation ist abgeschlossen.
+Für die Identifikation von Entitäten gibt es Wikidata. Yi Sun-sin ist Q50184. Das Schildkrötenschiff ist Q695959. Die Identifikation ist abgeschlossen.
 
 Für Verben gibt es nichts Vergleichbares. „bauen" hat keine ID. Ob „bauen", „herstellen" und „produzieren" dasselbe oder Verschiedenes bedeuten — dafür gibt es keinen anerkannten Maßstab.
 
@@ -64,7 +64,7 @@ Wenn WordNet das Wörterbuch der Verben ist, dann ist die Frage, wie man diese V
 
 WordNet zeigt, welche Bedeutung „give" hat und wie es sich zu „donate" verhält. Aber wie „give" in einem Satz verwendet wird — wer gibt, was gegeben wird, wem gegeben wird — diese Struktur liefert WordNet nicht.
 
-Das ist dieselbe Beziehung wie bei Wikidata. Wikidata zeigt, dass Yi Sun-sin Q28090 ist. Aber wie man einen Satz über Yi Sun-sin formuliert, ist nicht die Aufgabe von Wikidata.
+Das ist dieselbe Beziehung wie bei Wikidata. Wikidata zeigt, dass Yi Sun-sin Q50184 ist. Aber wie man einen Satz über Yi Sun-sin formuliert, ist nicht die Aufgabe von Wikidata.
 
 Das Wörterbuch leihen, aber die Grammatik selbst bauen.
 
@@ -114,23 +114,38 @@ Entscheidend ist die Reihenfolge. Zuerst alles aufnehmen, dann laufen lassen, di
 
 ## Darüber hinaus: semantische Atome
 
-Die 13.767 Verben von WordNet sind die Liste der von Menschen benannten Verben. Umfassend, aber nicht vollständig.
+Die 13.767 Verben von WordNet sind die Liste der Verben, denen Menschen Namen gegeben haben. Umfassend, aber nicht alles.
 
-„give" lässt sich weiter zerlegen. CAUSE + HAVE + MOVE. Eine Zerlegung in semantische Atome (semantic primitive). Ist diese Zerlegung abgeschlossen, lassen sich auch Verben, die nicht in der Liste stehen, als Kombination von Atomen ausdrücken.
+„give“ lässt sich weiter zerlegen: CAUSE + HAVE + MOVE. Das ist die Zerlegung in semantische Primitive (semantic primitives). Ist diese Zerlegung abgeschlossen, lassen sich auch Verben, die nicht auf der Liste stehen, als Kombination von Atomen ausdrücken.
 
-Wenn WordNet die Standardbibliothek ist, dann ist das System der semantischen Atome der Compiler. So wie ein Compiler Funktionen erzeugen kann, die nicht in der Standardbibliothek enthalten sind.
+Ist WordNet die Standardbibliothek, so ist das System semantischer Atome der Compiler. So wie ein Compiler Funktionen erzeugen kann, die nicht in der Standardbibliothek stehen.
 
-Das ist ein großes Forschungsvorhaben, anzugehen, nachdem das WordNet-basierte System funktioniert. Vorerst genügt die Standardbibliothek.
+Das ist ein großes Forschungsvorhaben, das man angehen sollte, nachdem ein Verb-Codebuch tatsächlich im Einsatz war.
+
+---
+
+## Warum vorläufig
+
+GEUL hat auf dieser Struktur ein Verb-Codebuch gebaut: [wordnet-verb](/de/repos/#wordnet-verb), das jedem der 13.767 Verb-Synsets von WordNet 3.0 einen 16-Bit-Code gibt, mit nahen Codes für nahe Bedeutungen. Es ist aber eine vorläufige Ausgabe zum Nachschlagen. Dafür gibt es drei Gründe.
+
+**Lizenz.** WordNet steht unter der WordNet 3.0 License. Die öffentlichen Ergebnisse von GEUL sind CC0. Aus WordNet abgeleitete Listen und Definitionen können nicht in ein CC0-Codebuch übernommen werden.
+
+**Englisch.** Ein Synset ist eine Bedeutungseinheit englischer Wörter. GEUL braucht ein Verbsystem, das an keine bestimmte Sprache gebunden ist.
+
+**Platz.** Wie Verb-Codes in GEUL-Datensätzen getragen werden, ist noch nicht entschieden.
+
+Deshalb wird diese vorläufige Ausgabe durch ein reines Verb-Codebuch ohne WordNet ersetzt. Was wir von WordNet gelernt haben, bleibt: Die Abdeckung muss vollständig, die Kriterien müssen explizit und die Hierarchie muss begründet sein.
 
 ---
 
 ## Zusammenfassung
 
-Jedes Projekt, das ein Verbsystem aufbauen will, trifft auf dieselbe Frage. Woher es nehmen.
+Jedes Projekt, das ein Verbsystem aufbauen will, steht vor derselben Frage: Woher nehmen?
 
-Selbst erstellen: Lücken, Willkür, keine Begründung.
-Auf WordNet aufbauen: keine Lücken, Konsens, datenbasiert.
+Selbst gebaut: Lücken, Willkür, keine Begründung.
+Von WordNet ausgehend: keine Lücken, Konsens, datengestützte Begründung.
 
-WordNet ist das Verb-Wörterbuch der Menschheit, 40 Jahre lang von Linguisten aufgebaut.
-Die Wörter dieses Wörterbuchs leihen, aber die Grammatik selbst bauen.
-Das ist der Grund, warum wir Wikidata für Entitäten verwenden und WordNet für Verben.
+Deshalb ist GEUL von WordNet ausgegangen. Aber das ist nur ein Ausgangspunkt.
+Öffentliche Ergebnisse müssen CC0 sein, und ein Verbsystem darf nicht an das Englische gebunden sein.
+Die Struktur von WordNet lernen und sie dann aus CC0-Quellen und echten Nutzungsdaten neu aufbauen.
+Das Prinzip bleibt: das Wörterbuch leihen, die Grammatik selbst bauen.

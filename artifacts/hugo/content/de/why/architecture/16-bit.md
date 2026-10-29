@@ -2,9 +2,9 @@
 title: "Warum 16-Bit?"
 weight: 17
 date: 2026-02-26T12:00:04+09:00
-lastmod: 2026-02-26T12:00:04+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["16-Bit", "binaer", "Stream"]
-summary: "Ein einziges Wort durchdringt drei Welten"
+summary: "Ein einzelnes 16-Bit-Wort ist als Einheit dreier Welten entworfen: des Netzwerkstroms, des Dateiformats und des LLM-Vokabulars. Warum 16 Bit und nicht 8, 32 oder variable Länge."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -74,58 +74,64 @@ Dies ist der Preis dafuer, dass drei Welten unterschiedliche Sprachen sprechen.
 
 ---
 
-## Was waere, wenn eine einzige Einheit alle drei Welten durchdringen wuerde?
+## Was wäre, wenn eine einzige Einheit alle drei Welten durchdringen würde?
 
-In dieser Sprache ist ein Wort 16 Bit (2 Bytes).
+In dieser Sprache ist ein Wort 16 Bit (2 Byte) groß.
 
-Ein einziges 16-Bit-Wort ist gleichzeitig drei Dinge.
+Ein einzelnes 16-Bit-Wort ist so entworfen, dass es drei Rollen zugleich übernimmt.
 
-**Eine Einheit des Byte-Streams.**
-16-Bit-Woerter kommen in einem kontinuierlichen Fluss ueber das Netzwerk.
-Big Endian. Auf 2-Byte-Grenzen ausgerichtet. Kein zusaetzliches Parsen erforderlich.
-Einfach in der Reihenfolge lesen, in der sie ankommen.
+**Einheit des Bytestroms.**
+16-Bit-Wörter treffen in einem kontinuierlichen Strom über das Netzwerk ein.
+Big Endian. Auf 2 Byte ausgerichtet.
+Man liest sie einfach in der Reihenfolge ihres Eintreffens.
 
-**Eine Einheit des Dateiformats.**
-Den Stream direkt auf die Festplatte schreiben, und das ist die Datei.
-Die Bytes direkt von der Festplatte lesen und ueber das Netzwerk senden, und das ist der Stream.
+**Einheit des Dateiformats.**
+Schreiben Sie den Strom unverändert auf die Festplatte – das ist Ihre Datei.
+Lesen Sie die Bytes von der Festplatte und senden Sie sie unverändert über das Netzwerk – das ist Ihr Strom.
 Keine Serialisierung. Keine Deserialisierung.
 
-**Eine Einheit des LLM-Tokens.**
+**Einheit des LLM-Vokabulars.**
 16 Bit = 65.536 verschiedene Symbole.
-Moderne LLM-Vokabulargroessen liegen generell zwischen 50.000 und 100.000.
-Modelle der GPT-Familie verwenden etwa 50.000; koreanisch-spezialisierte Modelle etwa 100.000.
-65.536 liegt genau in der Mitte dieses Bereichs.
-Ein 16-Bit-Wort wird ein LLM-Token.
+Die Vokabulargröße moderner LLMs reicht von Zehntausenden bis zu Hunderttausenden.
+GPT-2 nutzt etwa 50.000, neuere Modelle etwa 100.000 bis 200.000.
+65.536 liegt innerhalb dieses Bereichs.
+Ein 16-Bit-Wort ist eine Einheit in einer Größe, die ein LLM als Vokabular lernen kann.
 
 Drei Welten teilen dieselbe Einheit.
-Die Uebersetzung verschwindet.
+Übersetzung nimmt ab.
 
 ---
 
-## Null Konvertierung, null Verlust, null Overhead
+## Der Strom ist die Datei
 
-Sehen wir, was das konkret bedeutet.
+Sehen wir uns an, was das konkret bedeutet.
 
-**Konventioneller Ansatz: 9 Schritte**
+**Herkömmlicher Ansatz: 9 Schritte**
 
 ```
 [Datei] -> Lesen -> Parsen -> Text extrahieren -> Tokenisieren -> [LLM]
 [LLM] -> Dekodieren -> Serialisieren -> Schreiben -> [Datei]
 ```
 
-**Binaer-Stream-Ansatz: 1 Schritt**
+**Der GEUL-Ansatz**
 
 ```
-[Datei/Stream] -> [LLM]
-[LLM] -> [Datei/Stream]
+[Strom] = [Datei]                              dieselben Bytes
+[Datei] -> Datensatz für Datensatz lesen,      ohne Codebuch
+           überspringen
 ```
 
-Eine Datei lesen, und es ist bereits eine Token-Sequenz.
-Die vom LLM erzeugte Token-Sequenz ausgeben, und es ist bereits eine Datei.
-Einen Stream aus dem Netzwerk nehmen und direkt in das LLM einspeisen.
+Einen Strom unverändert schreiben – das ist eine Datei. Eine Datei unverändert senden – das ist ein Strom.
+Weder Serialisierung noch Deserialisierung.
+Das erste Wort jedes Datensatzes (das TAG WORD) nennt Art und Länge,
+sodass nicht benötigte Datensätze ohne Interpretation übersprungen werden.
 
-Null Konvertierung. Null Parsen. Null Tokenisierung.
-Null Verlust. Null Overhead.
+Die LLM-Seite ist noch ein Ziel.
+Ein Wort ist nicht dasselbe wie ein Token.
+Ein Datensatz umfasst mehrere Wörter, und Text wird als Bytefolge getragen.
+Doch wenn die Einheit auf 16 Bit festgelegt ist,
+muss ein Tokenizer keine Grenzen erraten, sondern folgt bereits gegebenen Grenzen.
+„Yi Sun-sin“ wird nicht an einer beliebigen Stelle zerteilt, denn es ist ein einziger Reference-Datensatz, der auf Wikidata Q50184 zeigt.
 
 ---
 
@@ -150,19 +156,20 @@ aber als Token-Einheit unzureichend.
 
 32 Bit ergeben etwa 4,3 Milliarden verschiedene Symbole.
 
-Die Ausdruckskraft ist mehr als ausreichend -- weit mehr als noetig.
-Aber das Problem ist die Effizienz.
+Die Ausdruckskraft ist mehr als ausreichend.
+Das Problem ist die Effizienz.
 
-Das am haeufigsten vorkommende Paket in diesem Format ist der Tiny Verb Edge mit 2 Woertern.
-Bei 16 Bit pro Wort sind das 4 Bytes. Bei 32 Bit pro Wort werden es 8 Bytes.
-Das haeufigste Paket verdoppelt sich in der Groesse.
+Der kleinste Datensatz dieser Sprache ist 1 Wort groß: Markierungen wie BODY und END, die aus einem einzigen TAG WORD bestehen.
+Eine Reference auf Wikidata Q42 umfasst 2 Wörter,
+ein einzelnes TRIPLE „Q42 ist ein Mensch“ 10 Wörter.
+Bei 16-Bit-Wörtern belegt dieses TRIPLE 20 Byte, bei 32-Bit-Wörtern wären es 40.
+Derselbe Datensatz wird doppelt so groß.
 
-Aus Sicht des LLM gibt es ebenfalls ein Problem.
-Wenn ein einzelner Token 32 Bit hat, passt nur die Haelfte der Tokens in dasselbe Kontextfenster.
-Angesichts der Tatsache, dass die LLM-Kontextlaenge heute eine knappe Ressource ist,
-wird der Platz, den ein Token einnimmt, im Verhaeltnis zur getragenen Information ineffizient.
+Auch aus Sicht des LLM gibt es ein Problem.
+Ein 32-Bit-Vokabular mit 4,3 Milliarden Symbolen ist zehntausendfach größer als jedes LLM-Vokabular.
+Es gibt weder die Daten noch die Modelle, um ein so großes Vokabular zu lernen.
 
-Ein 32-Bit-Wort ist als Token fuer diese Sprache ueberdimensioniert.
+Ein 32-Bit-Wort ist als Einheit dieser Sprache überdimensioniert.
 
 ---
 
@@ -184,9 +191,9 @@ Wahlfreier Zugriff ist O(1).
 SIMD kann mehrere Woerter in einer einzigen Instruktion vergleichen.
 GPUs koennen Milliarden von Woertern parallel scannen.
 
-Dennoch ist auf Paketebene variable Laenge weiterhin erlaubt.
-Ein Tiny Verb Edge hat 2 Woerter; ein Event6 Edge kann bis zu 8 Woerter haben.
-Die Wort-Einheit ist fest, aber die Paket-Einheit ist flexibel.
+Dennoch ist auf Datensatzebene variable Länge erlaubt.
+Datensätze reichen von 1 Wort bis 2³²−1 Wörter, und die Länge steht im ersten Wort.
+Die Wort-Einheit ist fest, die Datensatz-Einheit flexibel.
 
 Die Verarbeitungseffizienz fester Breite kombiniert mit der Ausdruckskraft variabler Laenge.
 Das 16-Bit-Wort erreicht beides gleichzeitig.
@@ -195,21 +202,20 @@ Das 16-Bit-Wort erreicht beides gleichzeitig.
 
 ## Der Weg, den Unicode bewiesen hat
 
-Unicode ist der erfolgreichste Kodierungsstandard, den die Menschheit je geschaffen hat.
+Unicode ist der erfolgreichste Kodierungsstandard, den die Menschheit geschaffen hat.
 
-Die Grundeinheit von UTF-16 ist 16 Bit (2 Bytes).
-Sie stellt die 65.536 Zeichen der Basic Multilingual Plane (BMP) in einem einzigen Wort dar
-und erweitert auf Zeichen darueber hinaus durch Surrogatpaare (2 Woerter = 4 Bytes).
+Die Grundeinheit von UTF-16 sind 16 Bit (2 Byte).
+Die Zeichen der Basic Multilingual Plane (BMP) werden in einem einzigen Wort dargestellt,
+alle anderen über Surrogatpaare (2 Wörter = 4 Byte) erweitert.
 
-Wir folgen einfach dieser bewaehrten Struktur.
+GEUL folgt derselben Struktur.
+Häufige Formate werden als Direktcode innerhalb eines einzigen TAG WORD getragen,
+seltene Formate über Erweiterungs-TAGs verlängert.
 
-65.536 grundlegende semantische Primitive in einem einzigen Wort darstellen
-und zusammengesetzte Pakete ueber mehrere Woerter erweitern.
-
-So wie Unicode jedes Zeichen der Welt
-auf der Grundeinheit "ein Zeichen = 2 Bytes" ausdrueckt,
-drueckt diese Sprache jedes Element des KI-Denkens
-auf der Grundeinheit "ein Wort = 2 Bytes" aus.
+So wie Unicode alle Schriftzeichen der Welt
+auf der Grundeinheit „ein Zeichen = 2 Byte“ ausdrückt,
+drückt GEUL Aussagen, ihre Quellen und ihre Begründungen
+auf der Grundeinheit „ein Wort = 2 Byte“ aus.
 
 ---
 
@@ -243,26 +249,26 @@ aber das Vielfach-Alignment von 16 Bit garantiert Kompatibilitaet mit jeder Groe
 
 Fassen wir zusammen.
 
-Ein einziges 16-Bit-Wort ist gleichzeitig drei Dinge.
+Ein einzelnes 16-Bit-Wort ist als Einheit dreier Welten entworfen.
 
 | Welt | Rolle eines Wortes |
 |-------|---------------------|
-| Netzwerk | Einheit des Byte-Streams |
+| Netzwerk | Einheit des Bytestroms |
 | Speicher | Einheit des Dateiformats |
-| KI | Einheit des LLM-Tokens |
+| KI | Einheit des LLM-Vokabulars (Ziel) |
 
 Eine einzige Einheit durchdringt alle drei Welten.
 
-Einen Stream unveraendert speichern, und es ist eine Datei.
-Eine Datei unveraendert lesen, und es sind Tokens.
-Tokens unveraendert senden, und es ist ein Stream.
+Einen Strom unverändert speichern – das ist eine Datei.
+Eine Datei unverändert senden – das ist ein Strom.
+Sie Wort für Wort mit LLMs ineinandergreifen zu lassen, ist der nächste Schritt.
 
-Keine Konvertierung.
-Keine Uebersetzung.
-Kein Verlust.
+Weniger Konvertierung.
+Weniger Übersetzung.
+Weniger Verlust.
 
-Deshalb 16-Bit.
-Nicht 8-Bit, nicht 32-Bit, nicht variable Laenge.
-Die Zahl, die praezise an der Schnittstelle dreier Welten liegt.
+Deshalb 16 Bit.
+Nicht 8, nicht 32, keine variable Länge.
+Die Zahl, die genau am Schnittpunkt dreier Welten liegt.
 
 16.

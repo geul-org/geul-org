@@ -2,9 +2,9 @@
 title: "Pourquoi la memoire structuree est-elle necessaire ?"
 weight: 18
 date: 2026-02-26T12:00:05+09:00
-lastmod: 2026-02-26T12:00:05+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["memoire", "structure", "WMS"]
-summary: "L'intelligence sans memoire repart de zero a chaque fois"
+summary: "L'IA écrit bien des fichiers, mais ne retrouve pas ceux qu'elle a écrits. Le problème n'est pas le stockage mais la récupération. Le chemin qui mène d'une simple carte de ce qui se trouve où, comme une table des matières ou un index, à une mémoire structurée."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

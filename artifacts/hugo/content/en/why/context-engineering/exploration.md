@@ -2,9 +2,9 @@
 title: "Why Exploration Is Necessary"
 weight: 7
 date: 2026-02-26T12:00:07+09:00
-lastmod: 2026-02-26T12:00:07+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["exploration", "search", "scale"]
-summary: "When the index exceeds the window, the search paradigm itself hits its limit"
+summary: "When knowledge grows so large that even the index exceeds the context window, one-shot search hits its limit. Why exploration, choosing a direction at each level of a hierarchical map, is needed."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

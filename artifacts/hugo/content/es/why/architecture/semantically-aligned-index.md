@@ -2,9 +2,9 @@
 title: "Por que un indice semanticamente alineado?"
 weight: 16
 date: 2026-02-26T12:00:03+09:00
-lastmod: 2026-02-26T12:00:03+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["SIDX", "alineacion semantica", "indice"]
-summary: "Cuando el significado se graba en bits, la busqueda se convierte en razonamiento"
+summary: "Si un ID fuera conocimiento y no una dirección, una sola operación de bits podría acotar los candidatos sin ningún JOIN. Este ensayo presenta SIDX, el identificador semánticamente alineado que GEUL está investigando, y por qué su anchura se fijará con estadísticas de uso."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -18,17 +18,17 @@ image: "/images/og-default.webp"
 
 Para encontrar a Yi Sun-sin en una base de datos, necesitas un ID.
 
-En Wikidata, el ID de Yi Sun-sin es `Q8492`.
+En Wikidata, el ID de Yi Sun-sin es `Q50184`.
 
 Este numero apunta a Yi Sun-sin.
-Pero la cadena `Q8492` en si misma no sabe nada.
+Pero la cadena `Q50184` en si misma no sabe nada.
 
 No sabe si se trata de una persona o un edificio.
 No sabe si es coreano o ciudadano frances.
 No sabe si es una figura del siglo XVI o del siglo XXI.
 No sabe si esta vivo o muerto.
 
-`Q8492` es una direccion.
+`Q50184` es una direccion.
 Un cartero que entrega correo no tiene idea de lo que esta escrito dentro del sobre.
 Simplemente mira la direccion en el sobre y lo entrega.
 
@@ -64,7 +64,7 @@ Con mil millones de registros, este proceso toma de segundos a decenas de segund
 Por que es tan complejo?
 
 Porque el ID no sabe nada.
-Mirando `Q8492`, no puedes decir si es aleman o coreano,
+Mirando `Q50184`, no puedes decir si es aleman o coreano,
 asi que debes ir a otra tabla para obtener esa informacion.
 
 Para cada pregunta, hay que seguir a donde apunta el ID.
@@ -94,98 +94,101 @@ Esta es la idea central detras del Indice Semanticamente Alineado.
 
 ## Alinear el significado en el ID
 
-SIDX (Semantically-Aligned Index) es un identificador de 64 bits.
+SIDX (Semantically-Aligned Index) es la investigación para construir un ID así.
+La gramática GEUL ya tiene un espacio de Reference que apunta a un objeto mediante SIDX ([GEUL-SIDX](/es/grammar/reference/geul-sidx/)).
+Pero su anchura y su método de asignación aún no están decididos. Se fijarán a partir de estadísticas de uso acumuladas.
+A continuación, se usan 64 bits como ejemplo para la explicación.
 
-Estos 64 bits no son numeros aleatorios.
-Se asigna significado a la posicion de cada bit.
+Los bits de un SIDX no son números aleatorios.
+A la posición de cada bit se le asigna un significado.
 
-Los bits superiores contienen la informacion mas importante.
-Que tipo de entidad es? Una persona, un lugar, un evento, un concepto?
+Los bits superiores contienen la información más importante.
+¿Qué tipo de entidad es? ¿Una persona, un lugar, un evento, un concepto?
 
-Los siguientes bits contienen informacion de clasificacion.
-Si es una persona, de que epoca? De que region?
+Los siguientes bits contienen información de clasificación.
+Si es una persona, ¿de qué época? ¿De qué región?
 
-Los bits inferiores llevan informacion cada vez mas especifica.
+Los bits inferiores llevan información cada vez más específica.
 
 El principio clave es este:
 
-> El orden de los bits es el orden de importancia de la informacion.
+> El orden de los bits es el orden de importancia de la información.
 
-La clasificacion mas fundamental arriba,
-las distinciones mas granulares abajo.
+La clasificación más fundamental arriba,
+las distinciones más finas abajo.
 
-Esto no es mera ordenacion.
-Es una filosofia de diseno.
+Esto no es un simple ordenamiento.
+Es una filosofía de diseño.
 
 ---
 
 ## De mil millones a diez mil, en una sola pasada
 
-El poder practico de SIDX se muestra en los numeros.
+El poder práctico de SIDX se ve en los números.
 
-WMS contiene mil millones de entidades.
-El SIDX de cada entidad es de 64 bits.
-Tamano total: mil millones x 8 bytes = 8 GB.
+Supongamos mil millones de entidades, cada una con un SIDX de 64 bits.
+Tamaño total: mil millones × 8 bytes = 8 GB.
 
-Estos 8 GB caben completamente en memoria.
+Estos 8 GB caben enteros en memoria.
 
-Quieres encontrar "entidades que son humanas y originarias de Asia Oriental".
-Los bits superiores contienen una bandera "humano" y un codigo "Asia Oriental",
-asi que puedes filtrar con una sola mascara de bits.
+Quieres encontrar "entidades que son humanas y proceden de Asia oriental".
+Si los bits superiores contienen una marca de "humano" y un código de "Asia oriental",
+puedes filtrar con una sola máscara de bits.
 
 ```
-mask   = 0xFF00_0000_0000_0000  (8 bits superiores: tipo + region)
-target = 0x8100_0000_0000_0000  (humano + Asia Oriental)
+mask   = 0xFF00_0000_0000_0000  (8 bits superiores: tipo + región)
+target = 0x8100_0000_0000_0000  (humano + Asia oriental)
 
-for each sidx in 1_billion:
+for each sidx in mil_millones:
     if (sidx & mask) == target:
-        add to candidates
+        añadir a candidatos
 ```
 
-Esta operacion se paraleliza con SIMD.
-Con AVX-512, comparas 8 SIDX simultaneamente en una sola instruccion.
-Escanear mil millones de entradas: aproximadamente 12 milisegundos.
-
-En una GPU? Menos de 1 milisegundo.
+Esta operación se paraleliza con SIMD.
+El límite no es el cálculo sino el ancho de banda de memoria.
+En una medición preliminar para [SILK](/es/projects/silk/), escanear con una máscara 100 millones de firmas de 128 bits (1,6 GB) llevó unos 27 milisegundos con 8 hilos de Go.
+Al mismo ritmo, mil millones de SIDX de 64 bits (8 GB) tomarían algo más de 0,1 segundos.
 
 Mil millones de registros reducidos a diez mil.
-Filtrar los diez mil restantes en detalle es instantaneo.
+Filtrar en detalle los diez mil restantes es instantáneo.
 
 Cero JOIN.
-Cero recorridos de arbol de indices.
-Solo un AND a nivel de bits.
+Cero recorridos de árbol de índices.
+Solo un AND de bits.
 
 ---
 
-## Por que 64 bits es suficiente
+## ¿Qué anchura debería tener?
 
-Al principio, pense que se necesitaba un espacio mayor.
+Al principio pensé que hacía falta un espacio mayor.
 
 32 bytes (256 bits). Un vector FP16 de 32 dimensiones.
-Intente meter cada atributo clave de una entidad en el ID.
-Si es humano, su genero, nacionalidad, epoca, ocupacion, region, si esta vivo, ruta de clasificacion...
+Intenté meter en el ID todos los atributos clave de una entidad.
+Si es humano, sexo, nacionalidad, época, ocupación, región, si vive, ruta de clasificación...
 
-Pero entonces me di cuenta de algo.
+Pero me di cuenta de algo.
 
 **El ID no necesita saberlo todo.**
 
 Solo necesita reducir mil millones de registros a diez mil.
-WMS se encarga del resto.
+La verificación precisa se encarga del resto.
 
-Piensalo como un punto de control.
-En un peaje de autopista, para determinar que
-"este vehiculo se dirige hacia la provincia de Gyeonggi" por la matricula,
-no necesitas saber que hay cargado en el maletero.
+Es como un puesto de control.
+En un peaje de autopista, para determinar por la matrícula
+que "este vehículo va hacia la provincia de Gyeonggi",
+no hace falta saber qué lleva en el maletero.
 
-64 bits es suficiente.
-Usa los bits superiores para capturar tipo y clasificacion amplia,
-y los bits inferiores para clasificacion mas fina.
-64 bits es mas que suficiente para reducir mil millones de registros a diez mil.
+Entonces quizá basten 64 bits.
+Con los bits superiores para el tipo y la clasificación general,
+y los inferiores para la clasificación fina,
+reducir mil millones de registros a diez mil parece holgadamente posible.
+64 bits = cuatro palabras de 16 bits. Ligero incluso dentro de un flujo.
 
-Y 64 bits = cuatro palabras de 16 bits.
-Fluyen naturalmente dentro de un flujo.
-Un ID de 32 bytes haria pesado el flujo,
-pero un SIDX de 64 bits es ligero y rapido.
+Pero esto sigue siendo una hipótesis.
+GEUL no decide la anchura en un escritorio.
+Con candidatos como 4 WORD (64 bits) y 16 WORD, la decidirá a partir de estadísticas de uso reales.
+Hasta entonces, los objetos se referencian con ID asignados en secuencia,
+y una vez asignado un SIDX, ambos ID se enlazan como el mismo objeto.
 
 ---
 
@@ -221,93 +224,93 @@ La comprension parcial es mejor que el fallo completo.
 
 ## Una consulta se convierte en un ID
 
-La posibilidad mas intrigante que abre la indexacion semanticamente alineada
-es esta: una consulta en lenguaje natural puede convertirse en un SIDX temporal.
+La posibilidad más fascinante que abre la indexación semánticamente alineada:
 
-Un usuario pregunta: "Quien fue el general que derroto a la armada japonesa durante la Guerra Imjin?"
+¿Y si una consulta en lenguaje natural pudiera convertirse en un SIDX temporal?
 
-El codificador analiza esta pregunta.
-Humano. Asia Oriental. Siglo XVI. Relacionado con lo militar.
-Ensamblar estos atributos en bits produce un SIDX temporal.
+Un usuario pregunta: "¿Quién fue el general que derrotó a la armada japonesa durante la guerra de Imjin?"
 
-Este SIDX temporal escanea los mil millones de SIDX en WMS.
-Las entidades cuyos patrones de bits son mas similares emergen como candidatas.
+El codificador analiza la pregunta.
+Humano. Asia oriental. Siglo XVI. Relacionado con lo militar.
+Al ensamblar estos atributos en bits se obtiene un SIDX temporal.
+
+Este SIDX temporal escanea mil millones de SIDX.
+Las entidades con patrones de bits más parecidos surgen como candidatas.
 Yi Sun-sin, Won Gyun, Gwon Yul, Yi Eok-gi...
 
-Cruzar informacion detallada con estos candidatos produce la respuesta final.
+Contrastando la información detallada con estos candidatos se obtiene la respuesta final.
 
-Esto unifica busqueda y vinculacion de entidades en un solo mecanismo.
-No se requiere motor de busqueda separado.
-No se requiere pipeline de NER (Named Entity Recognition) separado.
-Una sola comparacion SIDX es todo lo que se necesita.
+La búsqueda y la vinculación de entidades (entity linking) podrían convertirse en un único mecanismo.
+Sin un motor de búsqueda aparte,
+sin una canalización de NER (reconocimiento de entidades nombradas) aparte,
+con una sola comparación de SIDX.
 
 ---
 
-## Por que no un B-Tree?
+## ¿Por qué no un B-Tree?
 
-Las bases de datos tradicionales usan indices B-Tree.
+Las bases de datos tradicionales usan índices B-Tree.
 
-Los B-Tree sobresalen encontrando un valor especifico en datos ordenados en O(log n).
-Para "encontrar Q8492", son optimos.
+Los B-Tree destacan al encontrar un valor concreto en datos ordenados en O(log n).
+Para "encontrar Q50184", son óptimos.
 
-Pero para "encontrar todas las entidades que son humanas y originarias de Asia Oriental", son debiles.
-Las busquedas por condiciones compuestas requieren intersectar multiples indices,
-y el costo de la interseccion crece drasticamente con la escala de datos.
+Pero para "encontrar todas las entidades humanas originarias de Asia oriental", son débiles.
+Las búsquedas con condiciones compuestas exigen intersecar varios índices,
+y el costo de la intersección crece bruscamente con la escala de los datos.
 
-SIDX + escaneo exhaustivo SIMD toma un enfoque fundamentalmente diferente.
+El escaneo exhaustivo SIDX + SIMD es otro enfoque.
 
-Si un B-Tree es una guia telefonica que responde rapidamente "quien vive en esta direccion",
-un escaneo SIDX es un perfilado que responde rapidamente "quien tiene estas caracteristicas".
+Si un B-Tree es una guía telefónica que responde rápido "quién vive en esta dirección",
+un escaneo SIDX es un perfilado que responde rápido "quién tiene estas características".
 
-La naturaleza de la pregunta difiere, y tambien lo hace la estructura de datos optima.
+El tipo de pregunta es distinto, y por eso también lo es la estructura de datos óptima.
 
 | Tipo de consulta | B-Tree | Escaneo SIDX |
 |-----------|--------|-----------|
-| Busqueda por ID especifico | O(log n), optimo | Innecesario (usar hash) |
-| Filtrado por condiciones compuestas | Requiere JOIN, lento | Un AND a nivel de bits, rapido |
-| Busqueda de entidades similares | No es posible | Posible via similitud vectorial |
-| Insercion | O(log n), rebalanceo | O(1), append |
-| Complejidad de implementacion | Alta | Baja |
+| Búsqueda por ID concreto | O(log n), óptimo | Innecesario (se resuelve con hash) |
+| Filtrado por condiciones compuestas | Requiere JOIN, lento | Un AND de bits, rápido |
+| Búsqueda de entidades similares | Imposible | Posible por similitud de bits |
+| Inserción | O(log n), rebalanceo | O(1), anexar |
+| Complejidad de implementación | Alta | Baja |
 
-WMS no usa B-Tree.
-Carga mil millones de SIDX en memoria
-y realiza un escaneo exhaustivo con mascaras de bits SIMD.
+No compiten: se reparten el trabajo.
+Hoy SILK resuelve consultas exactas como "documentos cuyo predicado es P106 y cuyo objeto es Q169470" con corridas ordenadas y búsqueda binaria.
+El escaneo de firmas de bits, como primer filtro delante de eso, está planeado como siguiente paso.
 
-Simple. Fuerza bruta. Rapido.
+Simple. A fuerza bruta. Rápido.
 
 ---
 
-## La sabiduria de Huffman
+## La sabiduría de Huffman
 
-La estructura de asignacion de bits de SIDX sigue el principio de la codificacion de Huffman.
+La asignación de bits de SIDX sigue el principio de la codificación de Huffman.
 
-En la codificacion de Huffman, los simbolos que ocurren con frecuencia reciben codigos mas cortos,
-y los simbolos que ocurren raramente reciben codigos mas largos.
+En la codificación de Huffman, los símbolos frecuentes reciben códigos cortos
+y los raros, códigos largos.
 
-En SIDX, la informacion de clasificacion mas frecuentemente necesitada ocupa los bits superiores,
-y los detalles raramente necesitados ocupan los bits inferiores.
+En SIDX, la información de clasificación más necesaria ocupa los bits superiores,
+y los detalles poco necesarios, los inferiores.
 
-El mismo principio gobierna los prefijos de tipo de paquete de este lenguaje.
-El Tiny Verb Edge de mayor frecuencia obtiene el prefijo mas corto.
-El Event6 Edge de baja frecuencia obtiene un prefijo mas largo.
+La asignación de Codec en la gramática GEUL sigue el mismo principio.
+Los formatos de frecuencia comprobada reciben un código directo corto dentro de la TAG WORD,
+y los raros pasan a formatos de Issuer con TAG de extensión.
 
-La sabiduria de Huffman recorre cada capa de este diseno.
-Ni un solo bit se desperdicia.
-El menor costo para lo mas importante.
+La sabiduría de Huffman atraviesa todo este diseño.
+El menor costo para lo que más se usa.
 
 ---
 
 ## Resumen
 
-Un ID tradicional es una direccion. Una direccion no sabe nada.
+Un ID tradicional es una dirección. Una dirección no sabe nada.
 
-1. Cuando el ID no lleva significado, debes seguirlo hasta los datos cada vez. Eso es un JOIN.
-2. Cuatro JOIN a traves de mil millones de registros es lento.
-3. SIDX codifica significado directamente en el ID a traves de la alineacion semantica.
-4. Un solo AND con mascara de bits reduce mil millones de registros a diez mil. Cero JOIN.
-5. 64 bits es suficiente. El ID no necesita saberlo todo -- solo necesita reducir los candidatos.
-6. Porque la informacion mas importante ocupa los bits superiores, el significado central sobrevive incluso cuando los bits se truncan.
-7. Convertir una consulta en lenguaje natural a un SIDX temporal convierte la busqueda en una operacion vectorial.
+1. Si el ID no lleva significado, hay que seguirlo hasta los datos cada vez. Eso es un JOIN.
+2. Cuatro JOIN sobre mil millones de registros son lentos.
+3. SIDX es la investigación para codificar el significado en el propio ID mediante alineación semántica.
+4. Un solo AND con máscara de bits puede reducir mil millones de registros a diez mil. Cero JOIN.
+5. El ID no necesita saberlo todo; solo tiene que acotar los candidatos. La anchura se fijará con estadísticas de uso.
+6. Como la información más importante está en los bits superiores, el núcleo del significado sobrevive aunque se trunquen bits.
+7. Si una consulta en lenguaje natural puede convertirse en un SIDX temporal, la búsqueda se vuelve una operación de bits.
 
-El momento en que un ID deja de ser una direccion y se convierte en conocimiento,
+En el momento en que un ID deja de ser una dirección y se convierte en conocimiento,
 las reglas de la base de datos cambian.

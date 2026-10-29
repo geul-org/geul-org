@@ -2,9 +2,9 @@
 title: "Mengapa 16-Bit?"
 weight: 17
 date: 2026-02-26T12:00:04+09:00
-lastmod: 2026-02-26T12:00:04+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["16-bit", "biner", "stream"]
-summary: "Satu kata menembus tiga dunia"
+summary: "Satu word 16-bit dirancang menjadi unit bagi tiga dunia: aliran jaringan, format file, dan kosakata LLM. Mengapa 16 bit, bukan 8, 32, atau panjang variabel."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -76,56 +76,61 @@ Inilah harga dari tiga dunia yang berbicara bahasa berbeda.
 
 ## Bagaimana Jika Satu Unit Menembus Ketiga Dunia?
 
-Dalam bahasa ini, satu kata adalah 16 bit (2 byte).
+Dalam bahasa ini, satu word berukuran 16 bit (2 byte).
 
-Satu kata 16-bit secara bersamaan adalah tiga hal.
+Satu word 16-bit ini dirancang untuk memainkan tiga peran sekaligus.
 
-**Unit dari byte stream.**
-Kata 16-bit datang dalam aliran kontinu melalui jaringan.
-Big Endian. Disejajarkan pada batas 2-byte. Tidak perlu parsing tambahan.
-Cukup baca sesuai urutan kedatangan.
+**Unit aliran byte.**
+Word 16-bit mengalir berurutan melalui jaringan.
+Big Endian. Selaras per 2 byte.
+Cukup dibaca sesuai urutan kedatangannya.
 
-**Unit dari format file.**
-Tulis stream langsung ke disk, dan itulah file Anda.
-Baca byte langsung dari disk dan kirimkan melalui jaringan, dan itulah stream Anda.
+**Unit format file.**
+Tulis aliran apa adanya ke disk, itulah file Anda.
+Baca byte dari disk dan kirim apa adanya ke jaringan, itulah aliran Anda.
 Tanpa serialisasi. Tanpa deserialisasi.
 
-**Unit dari token LLM.**
-16 bit = 65.536 simbol berbeda.
-Ukuran kosakata LLM modern umumnya berkisar dari 50.000 hingga 100.000.
-Model keluarga GPT menggunakan sekitar 50.000; model khusus bahasa Korea sekitar 100.000.
-65.536 tepat di tengah rentang tersebut.
-Satu kata 16-bit menjadi satu token LLM.
+**Unit kosakata LLM.**
+16 bit = 65.536 simbol.
+Ukuran kosakata LLM modern berkisar dari puluhan ribu hingga ratusan ribu.
+GPT-2 memakai sekitar 50.000; model terbaru sekitar 100.000 hingga 200.000.
+65.536 berada di dalam rentang itu.
+Word 16-bit adalah unit dengan ukuran yang bisa dipelajari LLM sebagai kosakata.
 
 Tiga dunia berbagi unit yang sama.
-Penerjemahan menghilang.
+Penerjemahan berkurang.
 
 ---
 
-## Nol Konversi, Nol Kehilangan, Nol Overhead
+## Aliran Adalah File
 
-Mari kita lihat apa artinya secara konkret.
+Mari lihat apa artinya secara konkret.
 
 **Pendekatan konvensional: 9 langkah**
 
 ```
 [File] -> Baca -> Parse -> Ekstrak teks -> Tokenisasi -> [LLM]
-[LLM] -> Decode -> Serialisasi -> Tulis -> [File]
+[LLM] -> Dekode -> Serialisasi -> Tulis -> [File]
 ```
 
-**Pendekatan binary stream: 1 langkah**
+**Pendekatan GEUL**
 
 ```
-[File/Stream] -> [LLM]
-[LLM] -> [File/Stream]
+[Aliran] = [File]                             byte yang sama
+[File] -> baca per rekaman, lompati           tanpa codebook
 ```
 
-Baca file, dan itu sudah menjadi urutan token.
-Tulis urutan token yang dihasilkan LLM, dan itu sudah menjadi file.
-Ambil stream dari jaringan dan masukkan langsung ke LLM.
+Tulis aliran apa adanya, itu file. Kirim file apa adanya, itu aliran.
+Tanpa serialisasi maupun deserialisasi.
+Word pertama setiap rekaman (TAG WORD) memberi tahu jenis dan panjangnya,
+sehingga rekaman yang tidak diperlukan dilompati tanpa ditafsirkan.
 
-Nol konversi. Nol parsing. Nol tokenisasi.
-Nol kehilangan. Nol overhead.
+Sisi LLM masih merupakan tujuan.
+Satu word tidak sama dengan satu token.
+Satu rekaman terdiri dari beberapa word, dan teks dibawa sebagai deretan byte.
+Meski begitu, bila unitnya tetap 16 bit,
+tokenizer tidak perlu menebak batas; cukup mengikuti batas yang sudah ditentukan.
+"Yi Sun-sin" tidak terpotong di tempat sembarangan, karena ia adalah satu rekaman Reference yang menunjuk Wikidata Q50184.
 
 ---
 
@@ -148,21 +153,22 @@ tetapi tidak cukup sebagai unit token.
 
 ## Mengapa Bukan 32-Bit?
 
-32 bit memberikan sekitar 4,3 miliar simbol berbeda.
+32 bit memberi sekitar 4,3 miliar simbol.
 
-Daya ekspresif lebih dari cukup -- jauh lebih dari yang diperlukan.
+Daya ekspresinya lebih dari cukup.
 Tetapi masalahnya adalah efisiensi.
 
-Paket paling sering muncul dalam format ini adalah Tiny Verb Edge, berukuran 2 kata.
-Pada 16 bit per kata, itu 4 byte. Pada 32 bit per kata, menjadi 8 byte.
-Paket paling umum berlipat ganda ukurannya.
+Rekaman terkecil dalam bahasa ini berukuran 1 word: penanda seperti BODY dan END yang hanya berupa satu TAG WORD.
+Reference ke Wikidata Q42 berukuran 2 word,
+dan satu TRIPLE yang menyatakan "Q42 adalah manusia" berukuran 10 word.
+Dengan word 16-bit, TRIPLE itu 20 byte. Dengan word 32-bit, menjadi 40 byte.
+Rekaman yang sama membengkak dua kali lipat.
 
-Dari perspektif LLM, juga ada masalah.
-Jika satu token adalah 32 bit, hanya setengah jumlah token yang muat di jendela konteks yang sama.
-Mengingat panjang konteks LLM adalah sumber daya langka saat ini,
-ruang yang ditempati token menjadi tidak efisien relatif terhadap informasi yang dibawanya.
+Dari sudut pandang LLM pun ada masalah.
+Kosakata 32-bit dengan 4,3 miliar simbol puluhan ribu kali lebih besar daripada kosakata LLM mana pun.
+Tidak ada data maupun model untuk mempelajari kosakata sebesar itu.
 
-Kata 32-bit terlalu berlebihan sebagai token untuk bahasa ini.
+Word 32-bit berlebihan sebagai unit bahasa ini.
 
 ---
 
@@ -184,9 +190,9 @@ Akses acak O(1).
 SIMD dapat membandingkan beberapa kata dalam satu instruksi.
 GPU dapat memindai miliaran kata secara paralel.
 
-Namun di tingkat paket, panjang variabel tetap diizinkan.
-Tiny Verb Edge adalah 2 kata; Event6 Edge bisa hingga 8 kata.
-Unit kata tetap, tetapi unit paket fleksibel.
+Namun, pada tingkat rekaman, panjang variabel tetap diizinkan.
+Panjang rekaman berkisar dari 1 word hingga 2³²−1 word, dan panjangnya tertulis di word pertama.
+Unit word tetap, tetapi unit rekaman fleksibel.
 
 Efisiensi pemrosesan lebar tetap dikombinasikan dengan daya ekspresif panjang variabel.
 Kata 16-bit mencapai keduanya secara bersamaan.
@@ -195,21 +201,20 @@ Kata 16-bit mencapai keduanya secara bersamaan.
 
 ## Jalur yang Dibuktikan Unicode
 
-Unicode adalah standar encoding paling sukses yang pernah diciptakan umat manusia.
+Unicode adalah standar pengodean paling sukses yang pernah dibuat manusia.
 
 Unit dasar UTF-16 adalah 16 bit (2 byte).
-Ia merepresentasikan 65.536 karakter Basic Multilingual Plane (BMP) dalam satu kata,
-dan memperluas ke karakter di luarnya menggunakan surrogate pair (2 kata = 4 byte).
+Karakter Basic Multilingual Plane (BMP) direpresentasikan dalam satu word,
+dan karakter lainnya diperluas dengan pasangan surrogate (2 word = 4 byte).
 
-Kita cukup mengikuti struktur yang telah terbukti ini.
+GEUL mengikuti struktur yang sama.
+Format yang sering dipakai dimuat sebagai kode langsung di dalam satu TAG WORD,
+dan format yang jarang diperluas dengan TAG perluasan.
 
-Merepresentasikan 65.536 primitif semantik dasar dalam satu kata,
-dan memperluas paket gabungan ke beberapa kata.
-
-Seperti halnya Unicode mengekspresikan setiap karakter di dunia
-di atas unit dasar "satu karakter = 2 byte,"
-bahasa ini mengekspresikan setiap elemen penalaran AI
-di atas unit dasar "satu kata = 2 byte."
+Sebagaimana Unicode mengekspresikan semua karakter di dunia
+di atas unit dasar "satu karakter = 2 byte",
+GEUL mengekspresikan pernyataan, sumbernya, dan dasarnya
+di atas unit dasar "satu word = 2 byte".
 
 ---
 
@@ -241,28 +246,28 @@ tetapi alignment kelipatan 16 bit menjamin kompatibilitas dengan ukuran apa pun.
 
 ## Struktur Tiga Rangkap
 
-Mari kita ringkaskan.
+Mari kita rangkum.
 
-Satu kata 16-bit secara bersamaan adalah tiga hal.
+Satu word 16-bit dirancang menjadi unit bagi tiga dunia.
 
-| Dunia | Peran Satu Kata |
+| Dunia | Peran satu word |
 |-------|---------------------|
-| Jaringan | Unit dari byte stream |
-| Penyimpanan | Unit dari format file |
-| AI | Unit dari token LLM |
+| Jaringan | Unit aliran byte |
+| Penyimpanan | Unit format file |
+| AI | Unit kosakata LLM (tujuan) |
 
-Satu unit menembus ketiga dunia.
+Satu unit menembus ketiga dunia itu.
 
-Simpan stream apa adanya, dan itu adalah file.
-Baca file apa adanya, dan itu adalah token.
-Kirim token apa adanya, dan itu adalah stream.
+Simpan aliran apa adanya, itu file.
+Kirim file apa adanya, itu aliran.
+Membuatnya bertaut dengan LLM per word adalah langkah berikutnya.
 
-Tanpa konversi.
-Tanpa penerjemahan.
-Tanpa kehilangan.
+Konversi berkurang.
+Penerjemahan berkurang.
+Kehilangan berkurang.
 
-Inilah mengapa 16-bit.
-Bukan 8-bit, bukan 32-bit, bukan panjang variabel.
+Inilah alasan 16 bit.
+Bukan 8, bukan 32, bukan panjang variabel.
 Angka yang terletak tepat di persimpangan tiga dunia.
 
 16.

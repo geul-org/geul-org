@@ -2,9 +2,9 @@
 title: "Mengapa Esperanto Gagal"
 weight: 12
 date: 2026-02-26T12:00:14+09:00
-lastmod: 2026-02-26T12:00:14+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Esperanto", "bahasa buatan", "sejarah"]
-summary: "Bahasa buatan untuk manusia gagal -- bahasa buatan untuk AI berbeda"
+summary: "Esperanto gagal karena harus dipelajari, berusaha menggantikan bahasa yang sudah ada, dan bertujuan untuk komunikasi. Bahasa buatan untuk AI menempuh jalan lain: manusia tidak perlu mempelajarinya, ia tidak menggantikan bahasa alami, dan tujuannya adalah pencatatan dan verifikasi."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -26,7 +26,7 @@ Esperanto dirancang dengan indah. Tata bahasanya lengkap dalam 16 aturan. Tanpa 
 
 Zamenhof menyadari ketidakefisienan bahasa alami dan mencoba menyelesaikannya dengan bahasa buatan yang dirancang secara sengaja.
 
-137 tahun kemudian, Esperanto memiliki sekitar 2 juta penutur. 0,025% populasi dunia. Esperanto gagal.
+139 tahun kemudian, Esperanto memiliki sekitar 2 juta penutur. 0,025% populasi dunia. Esperanto gagal.
 
 Mengapa?
 
@@ -44,7 +44,7 @@ Katakanlah penutur bahasa Indonesia butuh 100 jam untuk mempelajari Esperanto. 1
 
 Tetapi sedikit orang berbicara Esperanto. Karena sedikit yang berbicara, tidak ada motivasi untuk belajar. Karena tidak ada yang belajar, lebih sedikit lagi yang berbicara.
 
-Contoh klasik efek jaringan terbalik. Masalah ayam dan telur. Esperanto terjebak dalam jebakan ini selama 137 tahun.
+Contoh klasik efek jaringan terbalik. Masalah ayam dan telur. Esperanto terjebak dalam jebakan ini selama 139 tahun.
 
 ### Penyebab 2: Harus Mengganti Bahasa yang Ada
 
@@ -119,6 +119,8 @@ Anda tidak membaca kata biner 16-bit. Grafnya divisualisasikan. Klik simpul dan 
 Ini bukan mempelajari bahasa. Ini membaca peta.
 
 Seperti Anda tidak perlu belajar survei untuk membaca Google Maps, Anda tidak perlu belajar tata bahasa biner untuk menggunakan editor visual.
+
+Langkah pertama sudah ada. `geul serve` di gogeul menampilkan dokumen GEUL di peramban sebagai daftar rekaman dan sebagai graf. Editor untuk mengubah graf secara langsung masih di depan.
 
 ---
 

@@ -2,9 +2,9 @@
 title: "Mengapa Indeks yang Selaras Secara Semantik?"
 weight: 16
 date: 2026-02-26T12:00:03+09:00
-lastmod: 2026-02-26T12:00:03+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["SIDX", "penyelarasan semantik", "indeks"]
-summary: "Ketika makna diukir dalam bit, pencarian menjadi penalaran"
+summary: "Jika ID adalah pengetahuan, bukan alamat, satu operasi bit dapat mempersempit kandidat tanpa JOIN apa pun. Esai ini membahas SIDX, pengenal yang diselaraskan secara semantik yang sedang diteliti GEUL, dan mengapa lebarnya akan ditentukan dari statistik penggunaan."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -18,17 +18,17 @@ image: "/images/og-default.webp"
 
 Untuk menemukan Yi Sun-sin dalam database, Anda membutuhkan ID.
 
-Di Wikidata, ID Yi Sun-sin adalah `Q8492`.
+Di Wikidata, ID Yi Sun-sin adalah `Q50184`.
 
 Angka ini menunjuk ke Yi Sun-sin.
-Tetapi string `Q8492` itu sendiri tidak tahu apa-apa.
+Tetapi string `Q50184` itu sendiri tidak tahu apa-apa.
 
 Ia tidak tahu apakah ini orang atau gedung.
 Ia tidak tahu apakah ini warga Korea atau warga Prancis.
 Ia tidak tahu apakah ini tokoh abad ke-16 atau abad ke-21.
 Ia tidak tahu apakah mereka hidup atau mati.
 
-`Q8492` adalah alamat.
+`Q50184` adalah alamat.
 Tukang pos yang mengantar surat tidak tahu apa yang tertulis di dalam amplop.
 Mereka hanya melihat alamat pada amplop dan mengantarkannya.
 
@@ -64,7 +64,7 @@ Dengan satu miliar rekaman, proses ini memakan waktu detik hingga puluhan detik.
 Mengapa begitu kompleks?
 
 Karena ID tidak tahu apa-apa.
-Melihat `Q8492`, Anda tidak bisa tahu apakah ini orang Jerman atau Korea,
+Melihat `Q50184`, Anda tidak bisa tahu apakah ini orang Jerman atau Korea,
 sehingga Anda harus pergi ke tabel lain untuk mengambil informasi itu.
 
 Untuk setiap pertanyaan, Anda harus mengikuti ke mana ID menunjuk.
@@ -94,98 +94,101 @@ Inilah ide inti di balik Indeks yang Selaras Secara Semantik.
 
 ## Menyelaraskan Makna ke dalam ID
 
-SIDX (Semantically-Aligned Index) adalah pengidentifikasi 64-bit.
+SIDX (Semantically-Aligned Index) adalah penelitian untuk membangun ID seperti itu.
+Tata bahasa GEUL sudah memiliki tempat Reference yang menunjuk target lewat SIDX ([GEUL-SIDX](/id/grammar/reference/geul-sidx/)).
+Namun lebar dan cara penetapannya belum diputuskan. Keduanya akan ditentukan dari statistik penggunaan yang terkumpul.
+Di bawah ini, 64 bit dipakai sebagai contoh untuk penjelasan.
 
-64 bit ini bukan angka acak.
-Makna ditetapkan pada posisi setiap bit.
+Bit-bit SIDX bukan angka acak.
+Setiap posisi bit diberi makna.
 
-Bit atas menyimpan informasi paling penting.
-Jenis entitas apa ini? Orang, tempat, peristiwa, konsep?
+Bit atas memuat informasi paling penting.
+Entitas jenis apa ini? Orang, tempat, peristiwa, atau konsep?
 
-Bit berikutnya menyimpan informasi klasifikasi.
-Jika itu orang, dari era apa? Dari wilayah mana?
+Bit berikutnya memuat informasi klasifikasi.
+Jika orang, dari era mana? Dari wilayah mana?
 
-Bit bawah membawa informasi yang semakin spesifik.
+Semakin ke bit bawah, informasinya semakin spesifik.
 
-Prinsip kuncinya adalah:
+Prinsip utamanya:
 
 > Urutan bit adalah urutan kepentingan informasi.
 
-Klasifikasi paling fundamental di atas,
-pembedaan paling halus di bawah.
+Klasifikasi paling mendasar di puncak,
+pembedaan paling rinci di dasar.
 
-Ini bukan sekadar penyortiran.
-Ini adalah filosofi desain.
+Ini bukan sekadar pengurutan.
+Ini filosofi desain.
 
 ---
 
 ## Dari Satu Miliar ke Sepuluh Ribu, dalam Satu Kali Lewat
 
-Kekuatan praktis SIDX terlihat dalam angka-angka.
+Kekuatan praktis SIDX terlihat dari angka.
 
-WMS menyimpan satu miliar entitas.
-SIDX setiap entitas adalah 64 bit.
-Total ukuran: 1 miliar x 8 byte = 8 GB.
+Misalkan ada satu miliar entitas, masing-masing dengan SIDX 64-bit.
+Ukuran total: 1 miliar × 8 byte = 8 GB.
 
-8 GB ini muat sepenuhnya di memori.
+8 GB ini muat seluruhnya di memori.
 
-Anda ingin menemukan "entitas yang merupakan manusia dan berasal dari Asia Timur."
-Bit atas mengandung flag "manusia" dan kode "Asia Timur,"
-sehingga Anda bisa memfilter dengan satu bitmask.
+Anda ingin menemukan "entitas manusia yang berasal dari Asia Timur".
+Jika bit atas memuat penanda "manusia" dan kode "Asia Timur",
+satu bitmask cukup untuk menyaring.
 
 ```
 mask   = 0xFF00_0000_0000_0000  (8 bit atas: tipe + wilayah)
 target = 0x8100_0000_0000_0000  (manusia + Asia Timur)
 
-for each sidx in 1_billion:
+for each sidx in 1_miliar:
     if (sidx & mask) == target:
-        add to candidates
+        tambahkan ke kandidat
 ```
 
-Operasi ini dapat diparalelkan dengan SIMD.
-Dengan AVX-512, Anda membandingkan 8 SIDX sekaligus dalam satu instruksi.
-Memindai 1 miliar entri: sekitar 12 milidetik.
+Operasi ini diparalelkan dengan SIMD.
+Batasnya bukan komputasi, melainkan bandwidth memori.
+Dalam pengukuran awal untuk [SILK](/id/projects/silk/), memindai 100 juta tanda tangan 128-bit (1,6 GB) dengan mask memakan sekitar 27 milidetik dengan 8 thread Go.
+Pada laju yang sama, satu miliar SIDX 64-bit (8 GB) butuh sedikit di atas 0,1 detik.
 
-Di GPU? Kurang dari 1 milidetik.
-
-Satu miliar rekaman dipersempit menjadi sepuluh ribu.
-Memfilter sepuluh ribu sisanya secara detail bersifat instan.
+Satu miliar rekaman menyempit menjadi sepuluh ribu.
+Menyaring sepuluh ribu sisanya secara rinci berlangsung seketika.
 
 Nol JOIN.
 Nol penelusuran pohon indeks.
-Hanya satu bitwise AND.
+Hanya satu AND bit.
 
 ---
 
-## Mengapa 64 Bit Cukup
+## Seberapa Lebar Seharusnya?
 
-Awalnya, saya pikir ruang yang lebih besar diperlukan.
+Awalnya saya kira dibutuhkan ruang yang lebih besar.
 
-32 byte (256 bit). Vektor FP16 32-dimensi.
-Saya mencoba memasukkan setiap atribut kunci entitas ke dalam ID.
-Apakah mereka manusia, gender, kewarganegaraan, era, pekerjaan, wilayah, status hidup, jalur klasifikasi...
+32 byte (256 bit). Vektor FP16 32 dimensi.
+Saya mencoba menjejalkan semua atribut kunci entitas ke dalam ID.
+Manusia atau bukan, jenis kelamin, kewarganegaraan, era, pekerjaan, wilayah, hidup atau mati, jalur klasifikasi...
 
-Tetapi kemudian saya menyadari sesuatu.
+Tetapi saya menyadari sesuatu.
 
 **ID tidak perlu tahu segalanya.**
 
-Ia hanya perlu mempersempit satu miliar rekaman menjadi sepuluh ribu.
-WMS menangani sisanya.
+Cukup mempersempit satu miliar rekaman menjadi sepuluh ribu.
+Sisanya diurus oleh verifikasi presisi.
 
-Bayangkan ini sebagai pos pemeriksaan.
-Di gerbang tol jalan tol, untuk menentukan bahwa
-"kendaraan ini menuju ke Provinsi Gyeonggi" dari plat nomor,
-Anda tidak perlu tahu apa yang dimuat di bagasi.
+Ini seperti pos pemeriksaan.
+Di gerbang tol jalan tol, untuk menyimpulkan dari pelat nomor
+bahwa "kendaraan ini menuju Provinsi Gyeonggi",
+tidak perlu tahu isi bagasinya.
 
-64 bit cukup.
-Gunakan bit atas untuk menangkap tipe dan klasifikasi luas,
-dan bit bawah untuk klasifikasi lebih halus.
-64 bit lebih dari cukup untuk mempersempit satu miliar rekaman menjadi sepuluh ribu.
+Jadi 64 bit mungkin cukup.
+Dengan bit atas untuk tipe dan klasifikasi besar,
+dan bit bawah untuk klasifikasi rinci,
+mempersempit satu miliar menjadi sepuluh ribu tampak sangat mungkin.
+64 bit = empat word 16-bit. Ringan bahkan di dalam aliran.
 
-Dan 64 bit = empat kata 16-bit.
-Mereka mengalir secara natural dalam stream.
-ID 32-byte akan membuat stream berat,
-tetapi SIDX 64-bit ringan dan cepat.
+Tetapi ini masih hipotesis.
+GEUL tidak menentukan lebar di atas meja.
+Dengan kandidat seperti 4 WORD (64 bit) dan 16 WORD, lebar akan diputuskan dari statistik penggunaan nyata.
+Sampai saat itu, target dirujuk dengan ID yang diberikan berurutan,
+dan setelah SIDX ditetapkan, kedua ID itu dihubungkan sebagai target yang sama.
 
 ---
 
@@ -221,79 +224,79 @@ Pemahaman parsial lebih baik dari kegagalan total.
 
 ## Kueri Menjadi ID
 
-Kemungkinan paling menarik yang dibuka oleh pengindeksan yang selaras secara semantik
-adalah ini: kueri bahasa alami dapat diubah menjadi SIDX sementara.
+Kemungkinan paling menarik yang dibuka oleh indeks yang diselaraskan secara semantik:
 
-Pengguna bertanya: "Siapa jenderal yang mengalahkan angkatan laut Jepang selama Perang Imjin?"
+Bagaimana jika kueri bahasa alami bisa diubah menjadi SIDX sementara?
 
-Encoder menganalisis pertanyaan ini.
-Manusia. Asia Timur. Abad ke-16. Berkaitan dengan militer.
-Merakit atribut-atribut ini ke dalam bit menghasilkan SIDX sementara.
+Seorang pengguna bertanya: "Siapa jenderal yang mengalahkan angkatan laut Jepang dalam Perang Imjin?"
 
-SIDX sementara ini memindai satu miliar SIDX di WMS.
-Entitas yang pola bitnya paling mirip muncul sebagai kandidat.
+Encoder menganalisis pertanyaan itu.
+Manusia. Asia Timur. Abad ke-16. Terkait militer.
+Merangkai atribut ini menjadi bit menghasilkan SIDX sementara.
+
+SIDX sementara ini memindai satu miliar SIDX.
+Entitas dengan pola bit paling mirip muncul sebagai kandidat.
 Yi Sun-sin, Won Gyun, Gwon Yul, Yi Eok-gi...
 
-Merujuk silang informasi detail terhadap kandidat-kandidat ini menghasilkan jawaban akhir.
+Mencocokkan informasi rinci dengan kandidat ini menghasilkan jawaban akhir.
 
-Ini menyatukan pencarian dan penghubungan entitas dalam satu mekanisme.
-Tidak perlu mesin pencari terpisah.
-Tidak perlu pipeline NER (Named Entity Recognition) terpisah.
-Satu perbandingan SIDX sudah cukup.
+Pencarian dan penautan entitas (entity linking) bisa menjadi satu mekanisme.
+Tanpa mesin pencari terpisah,
+tanpa pipeline NER (Named Entity Recognition) terpisah,
+cukup dengan satu perbandingan SIDX.
 
 ---
 
 ## Mengapa Bukan B-Tree?
 
-Database tradisional menggunakan indeks B-Tree.
+Basis data tradisional memakai indeks B-Tree.
 
-B-Tree unggul dalam menemukan nilai spesifik dalam data terurut dalam O(log n).
-Untuk "temukan Q8492," mereka optimal.
+B-Tree unggul dalam menemukan nilai tertentu pada data terurut dalam O(log n).
+Untuk "temukan Q50184", ia optimal.
 
-Tetapi untuk "temukan semua entitas yang merupakan manusia dan berasal dari Asia Timur," mereka lemah.
-Pencarian kondisi gabungan membutuhkan perpotongan beberapa indeks,
-dan biaya perpotongan meningkat tajam dengan skala data.
+Tetapi untuk "temukan semua entitas manusia dari Asia Timur", ia lemah.
+Pencarian kondisi gabungan membutuhkan irisan beberapa indeks,
+dan biaya irisan itu melonjak seiring skala data.
 
-SIDX + pemindaian menyeluruh SIMD mengambil pendekatan yang secara fundamental berbeda.
+Pemindaian menyeluruh SIDX + SIMD adalah pendekatan lain.
 
-Jika B-Tree adalah buku telepon yang cepat menjawab "siapa yang tinggal di alamat ini,"
-pemindaian SIDX adalah profiling yang cepat menjawab "siapa yang memiliki karakteristik ini."
+Jika B-Tree adalah buku telepon yang cepat menjawab "siapa yang tinggal di alamat ini",
+pemindaian SIDX adalah profiling yang cepat menjawab "siapa yang memiliki ciri-ciri ini".
 
-Sifat pertanyaannya berbeda, dan demikian pula struktur data optimalnya.
+Jenis pertanyaannya berbeda, maka struktur data optimalnya pun berbeda.
 
-| Tipe Kueri | B-Tree | Pemindaian SIDX |
+| Jenis kueri | B-Tree | Pemindaian SIDX |
 |-----------|--------|-----------|
-| Pencarian berdasarkan ID spesifik | O(log n), optimal | Tidak diperlukan (gunakan hash) |
-| Penyaringan kondisi gabungan | Membutuhkan JOIN, lambat | Satu bitwise AND, cepat |
-| Pencarian entitas serupa | Tidak mungkin | Mungkin melalui kesamaan vektor |
-| Penyisipan | O(log n), rebalancing | O(1), append |
+| Pencarian ID tertentu | O(log n), optimal | Tidak perlu (diselesaikan dengan hash) |
+| Penyaringan kondisi gabungan | Butuh JOIN, lambat | Satu AND bit, cepat |
+| Pencarian entitas serupa | Tidak mungkin | Mungkin lewat kemiripan bit |
+| Penyisipan | O(log n), penyeimbangan ulang | O(1), append |
 | Kompleksitas implementasi | Tinggi | Rendah |
 
-WMS tidak menggunakan B-Tree.
-Ia memuat satu miliar SIDX ke memori
-dan melakukan pemindaian menyeluruh dengan bitmask SIMD.
+Keduanya berbagi tugas, bukan bersaing.
+Kini SILK menjawab kueri tepat seperti "dokumen dengan predikat P106 dan objek Q169470" dengan run terurut dan pencarian biner.
+Pemindaian tanda tangan bit, sebagai saringan pertama di depannya, direncanakan sebagai langkah berikutnya.
 
-Sederhana. Brute-force. Cepat.
+Sederhana. Brute force. Cepat.
 
 ---
 
 ## Kebijaksanaan Huffman
 
-Struktur alokasi bit SIDX mengikuti prinsip pengodean Huffman.
+Alokasi bit SIDX mengikuti prinsip pengodean Huffman.
 
-Dalam pengodean Huffman, simbol yang sering muncul menerima kode lebih pendek,
-dan simbol yang jarang muncul menerima kode lebih panjang.
+Dalam pengodean Huffman, simbol yang sering muncul mendapat kode pendek,
+dan simbol yang jarang mendapat kode panjang.
 
 Dalam SIDX, informasi klasifikasi yang paling sering dibutuhkan menempati bit atas,
 dan detail yang jarang dibutuhkan menempati bit bawah.
 
-Prinsip yang sama mengatur prefix tipe paket bahasa ini.
-Tiny Verb Edge berfrekuensi tertinggi mendapat prefix terpendek.
-Event6 Edge berfrekuensi rendah mendapat prefix lebih panjang.
+Penetapan Codec dalam tata bahasa GEUL mengikuti prinsip yang sama.
+Format yang frekuensinya terbukti mendapat kode langsung pendek di dalam TAG WORD,
+dan format yang jarang masuk ke format Issuer dengan TAG perluasan.
 
-Kebijaksanaan Huffman mengalir melalui setiap lapisan desain ini.
-Tidak satu bit pun terbuang.
-Biaya terendah untuk hal terpenting.
+Kebijaksanaan Huffman menjiwai seluruh desain ini.
+Biaya terendah untuk yang paling sering dipakai.
 
 ---
 
@@ -301,13 +304,13 @@ Biaya terendah untuk hal terpenting.
 
 ID tradisional adalah alamat. Alamat tidak tahu apa-apa.
 
-1. Ketika ID tidak membawa makna, Anda harus mengikutinya ke data setiap kali. Itulah JOIN.
-2. Empat JOIN melintasi satu miliar rekaman itu lambat.
-3. SIDX mengodekan makna langsung ke dalam ID melalui penyelarasan semantik.
-4. Satu bitmask AND mempersempit satu miliar rekaman menjadi sepuluh ribu. Nol JOIN.
-5. 64 bit cukup. ID tidak perlu tahu segalanya -- ia hanya perlu mempersempit kandidat.
-6. Karena informasi terpenting menempati bit atas, makna inti bertahan bahkan ketika bit terpotong.
-7. Mengubah kueri bahasa alami menjadi SIDX sementara mengubah pencarian menjadi operasi vektor.
+1. Jika ID tidak membawa makna, Anda harus menelusurinya ke data setiap kali. Itulah JOIN.
+2. Empat JOIN atas satu miliar rekaman itu lambat.
+3. SIDX adalah penelitian untuk menyandikan makna langsung ke dalam ID lewat penyelarasan semantik.
+4. Satu AND bitmask dapat mempersempit satu miliar rekaman menjadi sepuluh ribu. Nol JOIN.
+5. ID tidak perlu tahu segalanya; cukup mempersempit kandidat. Lebarnya ditentukan dari statistik penggunaan.
+6. Karena informasi terpenting ada di bit atas, inti makna tetap bertahan meski bit terpotong.
+7. Jika kueri bahasa alami bisa diubah menjadi SIDX sementara, pencarian menjadi operasi bit.
 
 Saat ID berhenti menjadi alamat dan menjadi pengetahuan,
-aturan database berubah.
+aturan basis data berubah.

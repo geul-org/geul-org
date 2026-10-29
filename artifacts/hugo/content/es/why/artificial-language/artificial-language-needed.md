@@ -2,7 +2,7 @@
 title: "¿Por qué se necesita un lenguaje artificial?"
 weight: 7
 date: 2026-03-01T12:00:00+09:00
-lastmod: 2026-03-01T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["lenguaje artificial", "lenguaje natural", "alucinación", "LLVM IR"]
 summary: "El lenguaje natural evolucionó para la comunicación humana. La ambigüedad, la redundancia y la implicación son ventajas para los humanos, pero causas de alucinación para la IA. Ni los lenguajes de programación ni los marcos semánticos existentes son la respuesta. Se necesita un nuevo lenguaje artificial que satisfaga seis condiciones simultáneamente."
 author: "Junwoo Park"
@@ -178,11 +178,13 @@ LLVM IR trabaja tras bambalinas.
 
 GEUL es el LLVM IR para la IA.
 
-Todos los lenguajes naturales se traducen a GEUL.
-GEUL se almacena en WMS, se usa para el razonamiento y se traduce de vuelta al lenguaje natural.
+Esa es la meta.
+El lenguaje natural se convierte en GEUL. El texto original se conserva tal cual, y GEUL se vuelve el índice que lleva de vuelta a él.
+GEUL se almacena, se usa en el razonamiento y se traduce de nuevo a lenguaje natural.
 Los usuarios nunca ven GEUL.
 Preguntan en lenguaje natural y reciben respuestas en lenguaje natural.
-GEUL trabaja tras bambalinas.
+GEUL trabaja donde nadie lo ve.
+Un intérprete que convierte lenguaje natural (primero el coreano) en GEUL está ahora en desarrollo.
 
 ---
 
@@ -201,8 +203,8 @@ Sin dependencia de la implicación.
 
 **2. Metadatos integrados**
 
-Cada enunciado debe incluir fuente, marca temporal, grado de confianza y punto de vista (POV)
-como parte de la estructura del propio enunciado, no como anotaciones separadas.
+Toda afirmación debe tener un lugar para la fuente, el tiempo, la confianza y la perspectiva (POV)
+dentro de la propia estructura de la afirmación, no como anotación aparte.
 Sin esto, la IA de caja blanca es imposible.
 
 **3. Compatibilidad con LLM**
@@ -245,9 +247,10 @@ La traducción desde y hacia el lenguaje natural es difícil, y las expresiones 
 Y fatalmente lento: el razonamiento a gran escala no es práctico.
 
 **Los grafos de conocimiento (Wikidata, Freebase)** representaron el mundo como un grafo.
-Pero almacenan "hechos", no "narraciones."
-Almacenan "Yi Sun-sin fue un general" como un triple,
-pero no quién lo afirmó ni con qué grado de confianza.
+Las declaraciones pueden llevar referencias y recibir un rango (rank).
+Pero la unidad básica sigue siendo la declaración como "hecho".
+Guardan "Yi Sun-sin es un general" como una tripleta,
+pero las referencias suelen quedar vacías y no hay lugar para el grado de certeza.
 
 **Chain-of-Thought** registra el proceso de razonamiento de un LLM en lenguaje natural.
 Una buena dirección, pero dado que el medio de registro es el lenguaje natural,
@@ -262,12 +265,12 @@ pero ninguno satisface las seis simultáneamente.
 
 GEUL se sitúa en la intersección de estas seis condiciones.
 
-Un formato de flujo basado en palabras de 16 bits.
-El contexto, la fuente y la confianza están estructuralmente integrados en cada enunciado.
-Los grafos se serializan mediante paquetes de nodos y aristas.
-Sigue patrones fijos que se mapean 1:1 con los tokens del LLM.
-Trata la narración (Claim), no el hecho, como dato primario.
-Reserva el 50% del espacio total de direcciones para el futuro.
+Un formato de registros construido sobre palabras de 16 bits.
+Cada afirmación tiene un lugar para la fuente, el tiempo y la confianza. Lo que queda vacío se ve vacío.
+Las Reference llevan los objetos y las Edge las relaciones, serializando el grafo.
+La unidad de palabra está dimensionada al vocabulario de los LLM, y cada registro sigue un patrón fijo que empieza con una TAG WORD.
+Trata las afirmaciones (claims), no los hechos, como datos primarios.
+Reserva para el futuro el 75% del espacio de la TAG WORD que abre cada registro.
 
 GEUL es invisible para los usuarios.
 Los usuarios hablan en lenguaje natural y reciben respuestas en lenguaje natural.

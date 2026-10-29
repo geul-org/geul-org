@@ -2,9 +2,9 @@
 title: "Por Que Cachear Raciocinio como Codigo?"
 weight: 19
 date: 2026-02-26T12:00:02+09:00
-lastmod: 2026-02-26T12:00:02+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["cache", "raciocinio", "codigo"]
-summary: "Transformar uma unica inferencia em um procedimento permanente"
+summary: "Em vez de o LLM raciocinar do zero toda vez, cada inferência é cristalizada em código e guardada em cache. Uma estrutura semelhante a um compilador JIT, que só chama o LLM quando há falha de cache, e o que ela alcança com o tempo."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -34,7 +34,7 @@ E inteligencia que nao acumula experiencia nunca pode crescer.
 
 ## O LLM e um Compilador, Nao um Motor de Execucao
 
-O SEGLAM oferece uma resposta fundamentalmente diferente para esse problema.
+O cache de raciocínio que o GEUL busca oferece uma resposta fundamentalmente diferente para esse problema.
 
 **O LLM nao e um motor de execucao que processa cada requisicao --
 e um compilador que cristaliza raciocinio em codigo.**
@@ -55,24 +55,24 @@ Essa arquitetura e uma redescoberta de um padrao ja comprovado na ciencia da com
 
 Considere o compilador JIT (Just-In-Time). Engines de Java e JavaScript inicialmente executam codigo linha por linha atraves de um interpretador. Lento, mas funcional. Quando o mesmo caminho de codigo e executado repetidamente -- "esse e um hot path" -- o engine compila esse caminho em codigo de maquina nativo. Dali em diante, ele roda diretamente sem passar pelo interpretador.
 
-No SEGLAM:
+Num cache de raciocínio:
 
 - **Interpretador = LLM.** Lento, caro e probabilistico, mas capaz de lidar com qualquer requisicao.
 - **Codigo nativo = codigo de raciocinio cacheado.** Rapido, barato e deterministico.
 - **Compilacao JIT = o processo do LLM gerando codigo em um cache miss.** Custoso, mas so precisa acontecer uma vez.
 
 Assim como um compilador JIT otimiza "hot paths",
-o SEGLAM cristaliza "raciocinio frequente" em codigo.
+um cache de raciocínio cristaliza "raciocinio frequente" em codigo.
 
 ---
 
 ## Por Que Cachear "Codigo" em Vez de "Respostas"?
 
-Esse e o ponto crucial. Um simples cache de respostas e o cache de raciocinio do SEGLAM sao fundamentalmente diferentes.
+Esse e o ponto crucial. Um simples cache de respostas e um cache de raciocínio são fundamentalmente diferentes.
 
 **Um cache de respostas** armazena "P: Qual e a capital da Coreia? -> R: Seul." So acerta quando a pergunta coincide exatamente. Pergunte "Qual e a capital da Republica da Coreia?" e ele nao acerta. Isso e um dicionario, nao inteligencia.
 
-**O cache de raciocinio do SEGLAM** armazena codigo que diz "para esse tipo de pergunta, construa uma resposta atraves deste procedimento." Ele cristaliza nao o valor especifico, mas o caminho de raciocinio em si. Portanto, mesmo quando a entrada muda, o mesmo tipo de pergunta ainda acerta. Isso e compreensao. Isso e crescimento.
+**Um cache de raciocínio** armazena codigo que diz "para esse tipo de pergunta, construa uma resposta atraves deste procedimento." Ele cristaliza nao o valor especifico, mas o caminho de raciocinio em si. Portanto, mesmo quando a entrada muda, o mesmo tipo de pergunta ainda acerta. Isso e compreensao. Isso e crescimento.
 
 Uma analogia: um cache de respostas memoriza a tabuada; um cache de raciocinio aprende como multiplicar.
 
@@ -116,7 +116,7 @@ mas inteligencia que se acumula em uma caixa branca. Essa e a visao de IA que va
 
 ## Resumo
 
-| LLM Convencional | SEGLAM |
+| LLM Convencional | Cache de raciocínio |
 |-----------|--------|
 | Raciocina do zero a cada requisicao | Executa codigo cacheado no cache hit |
 | Resultados de raciocinio evaporam | Raciocinio cristaliza em codigo e se acumula |
@@ -127,4 +127,4 @@ mas inteligencia que se acumula em uma caixa branca. Essa e a visao de IA que va
 Chamar o LLM para cada requisicao e como pegar um aviao para a casa ao lado.
 Uma vez que voce pavimente uma estrada, pode caminhar dali em diante.
 
-O SEGLAM e o sistema que pavimenta estradas.
+Um cache de raciocínio é o sistema que pavimenta estradas.

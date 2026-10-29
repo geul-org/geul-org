@@ -18,7 +18,7 @@ GEUL文档是16位WORD的序列。数据的单位是以一个TAG WORD开头的�
 
 GEUL Go库与`geul`命令行工具。
 
-编写、读取、检查并发布GEUL文档（`.geul`）。以包的形式提供格式检查、借助Codec规格文档解码记录、版本差异、IMPORT依赖解析以及TOULMIN Codec。`geul` CLI涵盖文档编辑（`new`、`add`）、发布（`publish`）、浏览（`ls`、`log`、`show`）、浏览器查看器（`serve`、`build`）和pack归档（`pack build`、`pack unpack`）。pack归档可以用zstd压缩存储记录。
+编写、读取、检查并发布GEUL文档（`.geul`）。以包的形式提供格式检查、借助Codec规格文档解码记录、版本差异、IMPORT依赖解析以及TOULMIN Codec。`geul` CLI涵盖文档编辑（`new`、`add`）、发布（`publish`）、浏览（`ls`、`log`、`show`、`diff`、`check`）、浏览器查看器（`serve`、`build`）和pack归档（`pack build`、`pack unpack`）。pack归档可以用zstd压缩存储记录。
 
 | | |
 |---|---|

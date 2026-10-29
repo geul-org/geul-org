@@ -2,7 +2,7 @@
 title: "Pourquoi le langage naturel cree-t-il des hallucinations ?"
 weight: 8
 date: 2026-02-26T12:00:16+09:00
-lastmod: 2026-02-26T12:00:16+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["langage naturel", "hallucination", "ambiguite"]
 summary: "L'hallucination n'est pas un bug du LLM — c'est une inevitabilite structurelle causee par quatre defauts du langage naturel : ambiguite, absence de source, de confiance et de contexte temporel. Des modeles plus grands n'y remedient pas."
 author: "Junwoo Park"
@@ -186,7 +186,7 @@ L'ecart entre les deux est l'hallucination.
 
 ## Pourquoi des modeles plus grands ne peuvent pas resoudre cela
 
-"L'hallucination ne diminuera-t-elle pas quand GPT-5 sortira ?"
+« Les hallucinations ne vont-elles pas diminuer avec la prochaine génération de modèles ? »
 
 Elle diminuera. Mais elle ne disparaitra pas.
 
@@ -219,32 +219,33 @@ Si vous voulez eliminer l'hallucination, il faut un langage different.
 
 Pour resoudre ces quatre defauts, la structure du langage elle-meme doit etre differente.
 
-**Ambiguite --> Structuration explicite.**
-Quand "He went to the bank" est converti en langage structure,
-"he" est resolu en un SIDX d'entite specifique,
-et "bank" est resolu en le SIDX d'une institution financiere ou d'une berge de riviere.
-Si cela ne peut pas etre resolu, "non resolu" est explicitement declare.
-Soit resoudre l'ambiguite, soit enregistrer le fait qu'elle est ambigue.
+**Ambiguïté --> Structuration explicite.**
+Quand « Il est allé à la banque » est transposé dans un langage structuré,
+« il » est résolu en une Reference qui désigne une cible précise (par exemple un QID de Wikidata),
+et « banque » en une Reference qui désigne soit un établissement financier, soit un banc.
+Si la résolution est impossible, « inconnu » est écrit explicitement.
+Soit on lève l'ambiguïté, soit on consigne le fait qu'elle est ambiguë.
 
-**Absence de source --> Source integree.**
-Chaque narration inclut structurellement une entite source.
-"Qui a fait cette affirmation" fait partie de la narration.
-Ce n'est pas optionnel. Si le champ est vide, il est marque comme vide.
+**Absence de source --> Une place pour la source.**
+Chaque énoncé a une place qui le relie à sa source (une Edge SOURCE).
+« Qui affirme cela » est attaché à côté de l'énoncé.
+On peut la laisser vide. Mais alors l'énoncé apparaît comme un énoncé sans source.
 
-**Absence de confiance --> Confiance integree.**
-Chaque arete de verbe a un champ de confiance.
-"Certain", "estime", "hypothetique"
-sont specifies structurellement comme modificateurs de verbe.
+**Absence de confiance --> Une place pour la confiance.**
+Il y a une place pour écrire la confiance.
+La confiance d'un document entier va dans la Meta CONFIDENCE,
+et l'évaluation d'une proposition précise s'ajoute comme un autre énoncé qui la désigne.
 
-**Absence de contexte temporel --> Contexte temporel integre.**
-Chaque narration inclut un contexte temporel.
-"En date de quand est cette narration" est toujours specifie.
+**Absence de contexte temporel --> Une place pour le temps.**
+La période pendant laquelle une proposition vaut s'écrit avec des QUALIFIER (début et fin),
+et le moment où le document a été écrit avec la Meta CREATED-AT.
+Il y a une place pour dire « à quelle date vaut cet énoncé ».
 
 Ce qui est omis en langage naturel
 existe comme partie de la structure dans un langage structure.
 
-Quand l'omission est impossible, l'espace pour l'hallucination se reduit. [Pourquoi la clarification est necessaire](/fr/why/clarification/) explique ce principe.
-Quand on ne peut pas parler sans base, les declarations sans fondement ne sont pas produites.
+Quand une omission apparaît comme une omission, la marge laissée à l'hallucination se réduit. [Pourquoi la clarification est nécessaire](/fr/why/clarification/) explique ce principe.
+Un propos sans fondement paraît sans fondement.
 
 ---
 

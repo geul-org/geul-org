@@ -2,9 +2,9 @@
 title: "Warum Schlussfolgerungen als Code cachen?"
 weight: 19
 date: 2026-02-26T12:00:02+09:00
-lastmod: 2026-02-26T12:00:02+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Cache", "Schlussfolgerung", "Code"]
-summary: "Eine einzelne Inferenz in eine dauerhafte Prozedur verwandeln"
+summary: "Statt ein LLM jedes Mal von vorn schlussfolgern zu lassen, wird jede Inferenz zu Code kristallisiert und zwischengespeichert. Eine JIT-Compiler-ähnliche Struktur, die das LLM nur bei einem Cache-Miss aufruft, und was sie mit der Zeit bewirkt."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -34,7 +34,7 @@ Und Intelligenz, die keine Erfahrung akkumuliert, kann nie wachsen.
 
 ## Das LLM ist ein Compiler, keine Laufzeitumgebung
 
-SEGLAM bietet eine grundlegend andere Antwort auf dieses Problem.
+Der Reasoning-Cache, den GEUL anstrebt, bietet eine grundlegend andere Antwort auf dieses Problem.
 
 **Das LLM ist keine Laufzeitumgebung, die jede Anfrage ausfuehrt --
 es ist ein Compiler, der Denken in Code kristallisiert.**
@@ -55,24 +55,24 @@ Diese Architektur ist eine Wiederentdeckung eines in der Informatik bereits bewi
 
 Betrachten wir den JIT-Compiler (Just-In-Time). Java- und JavaScript-Engines fuehren Code anfangs Zeile fuer Zeile durch einen Interpreter aus. Langsam, aber funktional. Wenn derselbe Codepfad wiederholt ausgefuehrt wird -- "das ist ein Hot Path" -- kompiliert die Engine diesen Pfad in nativen Maschinencode. Von da an wird er direkt ausgefuehrt, ohne den Interpreter zu durchlaufen.
 
-In SEGLAM:
+In einem Reasoning-Cache:
 
 - **Interpreter = LLM.** Langsam, teuer und probabilistisch, aber in der Lage, jede Anfrage zu bearbeiten.
 - **Nativer Code = gecachter Reasoning-Code.** Schnell, guenstig und deterministisch.
 - **JIT-Kompilierung = der Prozess, bei dem das LLM bei einem Cache Miss Code generiert.** Kostspielig, muss aber nur einmal geschehen.
 
 So wie ein JIT-Compiler "Hot Paths" optimiert,
-kristallisiert SEGLAM "heisses Denken" in Code.
+kristallisiert ein Reasoning-Cache "heisses Denken" in Code.
 
 ---
 
 ## Warum "Code" statt "Antworten" cachen?
 
-Das ist der Kern. Ein einfacher Antwort-Cache und SEGLAMs Reasoning-Cache sind grundlegend verschieden.
+Das ist der Kern. Ein einfacher Antwort-Cache und ein Reasoning-Cache sind grundlegend verschieden.
 
 **Ein Antwort-Cache** speichert "F: Was ist die Hauptstadt von Korea? -> A: Seoul." Er trifft nur, wenn die Frage exakt uebereinstimmt. Fragen Sie "Was ist die Hauptstadt der Republik Korea?" und es ist ein Miss. Das ist ein Woerterbuch, keine Intelligenz.
 
-**SEGLAMs Reasoning-Cache** speichert Code, der sagt "fuer diesen Fragetyp die Antwort durch diese Prozedur konstruieren". Er kristallisiert nicht den spezifischen Wert, sondern den Denkpfad selbst. Daher trifft derselbe Fragetyp auch bei geaenderter Eingabe. Das ist Verstehen. Das ist Wachstum.
+**Ein Reasoning-Cache** speichert Code, der sagt "fuer diesen Fragetyp die Antwort durch diese Prozedur konstruieren". Er kristallisiert nicht den spezifischen Wert, sondern den Denkpfad selbst. Daher trifft derselbe Fragetyp auch bei geaenderter Eingabe. Das ist Verstehen. Das ist Wachstum.
 
 Eine Analogie: Ein Antwort-Cache merkt sich das Einmaleins; ein Reasoning-Cache lernt, wie man multipliziert.
 
@@ -116,7 +116,7 @@ sondern Intelligenz, die sich auf einer White Box ansammelt. Das ist die Vision 
 
 ## Zusammenfassung
 
-| Konventionelles LLM | SEGLAM |
+| Konventionelles LLM | Reasoning-Cache |
 |-----------|--------|
 | Denkt bei jeder Anfrage von Grund auf | Fuehrt bei Cache Hit gecachten Code aus |
 | Denkergebnisse verdampfen | Denken kristallisiert in Code und akkumuliert sich |
@@ -127,4 +127,4 @@ sondern Intelligenz, die sich auf einer White Box ansammelt. Das ist die Vision 
 Das LLM fuer jede Anfrage aufzurufen ist, als wuerde man ein Flugzeug zum Nachbarhaus nehmen.
 Einmal die Strasse asphaltiert, kann man fortan laufen.
 
-SEGLAM ist das System, das Strassen asphaltiert.
+Ein Reasoning-Cache ist das System, das Strassen asphaltiert.

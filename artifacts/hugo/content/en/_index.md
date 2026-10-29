@@ -2,7 +2,8 @@
 title: "GEUL"
 image: "/images/og-default.webp"
 date: 2026-02-26T12:00:00+09:00
-summary: "GEUL is a semantically-aligned artificial language and binary format designed for unambiguous communication between humans and AI."
+lastmod: 2026-10-29T12:00:00+09:00
+summary: "GEUL is an artificial language and binary format designed for unambiguous communication between humans and AI."
 ---
 
 ## Why GEUL
@@ -63,9 +64,10 @@ Every statement has a place for its confidence level.
 Every entity has a unique identifier.
 The machine knows that "Samsung Electronics" and "Samsung Electronics" are the same thing.
 
-Information written in GEUL can be verified mechanically.
-Is the format correct? Are the references valid? Are there contradictions?
-Before AI reads it, before a human checks it, the machine inspects it first.
+Information written in GEUL can be checked mechanically.
+Whether the form is correct and whether references are valid, a machine confirms at once.
+Judging whether statements contradict one another is the next step.
+Before AI reads it, before a human checks it, a machine inspects it first.
 
 Why does this matter?
 
@@ -92,8 +94,8 @@ GEUL's audience is AI.
 ---
 
 This site explains why GEUL is needed.
-We're not selling a product. We're not listing technical specs.
-We're answering the question: "Why?"
+We're not selling a product. The technical specification lives separately in the [Grammar](/grammar/).
+Here we answer the question: "Why?"
 
 Why is natural language not enough?
 Why don't programming languages work either?

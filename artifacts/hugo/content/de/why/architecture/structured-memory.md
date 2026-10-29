@@ -2,9 +2,9 @@
 title: "Warum ist strukturierter Speicher notwendig?"
 weight: 18
 date: 2026-02-26T12:00:05+09:00
-lastmod: 2026-02-26T12:00:05+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["Speicher", "Struktur", "WMS"]
-summary: "Intelligenz ohne Gedaechtnis faengt jedes Mal bei null an"
+summary: "KI schreibt Dateien gut, findet aber die eigenen nicht wieder. Das Problem ist nicht die Speicherung, sondern der Abruf. Der Weg von einer einfachen Karte, was wo liegt – wie ein Inhaltsverzeichnis oder Register –, zu strukturiertem Gedächtnis."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

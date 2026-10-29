@@ -2,7 +2,7 @@
 title: "Why Does Natural Language Create Hallucinations?"
 weight: 8
 date: 2026-02-26T12:00:16+09:00
-lastmod: 2026-02-26T12:00:16+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["natural language", "hallucination", "ambiguity"]
 summary: "Hallucination is not an LLM bug — it is a structural inevitability of natural language. Four flaws — ambiguity, absent sources, absent confidence, absent time — make it unfixable by scaling alone."
 author: "Junwoo Park"
@@ -186,7 +186,7 @@ The gap between the two is hallucination.
 
 ## Why Bigger Models Cannot Solve This
 
-"Won't hallucination decrease when GPT-5 comes out?"
+"Won't hallucination decrease when the next generation of models comes out?"
 
 It will decrease. But it will not disappear.
 
@@ -220,31 +220,32 @@ If you want to eliminate hallucination, you need a different language.
 To solve these four flaws, the structure of the language itself must be different.
 
 **Ambiguity --> Explicit structuring.**
-When "He went to the bank" is converted into a structured language,
-"he" is resolved to a specific entity SIDX,
-and "bank" is resolved to the SIDX of either a financial institution or a riverbank.
-If it cannot be resolved, "unresolved" is explicitly stated.
+When "He went to the bank" is put into a structured language,
+"he" is resolved to a Reference pointing to a specific target (for example, a Wikidata QID),
+and "bank" to a Reference pointing to either a financial institution or a riverbank.
+If it cannot be resolved, "unknown" is written explicitly.
 Either resolve the ambiguity, or record the fact that it is ambiguous.
 
-**Absence of source --> Embedded source.**
-Every narration structurally includes a source entity.
-"Who made this claim" is part of the narration.
-It is not optional. If the field is empty, it is marked as empty.
+**Absence of source --> A place for the source.**
+Every statement has a place that links it to its source (a SOURCE Edge).
+"Who made this claim" is attached right next to the statement.
+It can be left empty. But if it is, the statement shows up as one without a source.
 
-**Absence of confidence --> Embedded confidence.**
-Every verb edge has a confidence field.
-"Certain," "estimated," "hypothetical"
-are structurally specified as verb modifiers.
+**Absence of confidence --> A place for confidence.**
+There is a place to write confidence.
+The confidence of a whole document goes in the CONFIDENCE Meta,
+and an assessment of a single proposition is added as another statement pointing to it.
 
-**Absence of temporal context --> Embedded temporal context.**
-Every narration includes a time context.
-"As of when is this narration" is always specified.
+**Absence of temporal context --> A place for time.**
+The period in which a proposition holds is written with QUALIFIERs (start and end time),
+and the time the document was written with the CREATED-AT Meta.
+There is a place to say "as of when is this statement."
 
 What is omitted in natural language
 exists as part of the structure in a structured language.
 
-When omission is impossible, the room for hallucination shrinks. [Why Clarification Is Necessary](/why/clarification/) explains this principle.
-When you cannot speak without basis, baseless statements are not produced.
+When an omission shows as an omission, the room for hallucination shrinks. [Why Clarification Is Necessary](/why/clarification/) explains this principle.
+A baseless statement looks baseless.
 
 ---
 

@@ -2,9 +2,9 @@
 title: "Mengapa Filter Diperlukan"
 weight: 5
 date: 2026-02-26T12:00:09+09:00
-lastmod: 2026-02-26T12:00:09+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["filter", "relevansi", "kepercayaan"]
-summary: "Informasi yang valid tidak selalu merupakan informasi yang dibutuhkan"
+summary: "Tidak semua informasi yang valid adalah informasi yang diperlukan. Filter yang hanya memilih yang dibutuhkan sekarang berdasarkan relevansi, keandalan, dan kebaruan, serta mengapa kriteria itu menjadi operasi field dalam representasi terstruktur."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

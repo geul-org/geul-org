@@ -2,9 +2,9 @@
 title: "Why Filters Are Necessary"
 weight: 5
 date: 2026-02-26T12:00:09+09:00
-lastmod: 2026-02-26T12:00:09+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["filter", "relevance", "trust"]
-summary: "Valid information is not always needed information"
+summary: "Not all valid information is needed information. The filter that picks only what is needed now by relevance, reliability, and recency, and why those criteria become field operations in a structured representation."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

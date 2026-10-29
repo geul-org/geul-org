@@ -2,9 +2,9 @@
 title: "Pourquoi 16 bits ?"
 weight: 17
 date: 2026-02-26T12:00:04+09:00
-lastmod: 2026-02-26T12:00:04+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["16-bit", "binaire", "flux"]
-summary: "Un seul mot traverse trois mondes"
+summary: "Un seul mot de 16 bits est conçu pour être l'unité de trois mondes : le flux réseau, le format de fichier et le vocabulaire du LLM. Pourquoi 16 bits, et non 8, 32 ou une longueur variable."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -74,58 +74,64 @@ Tel est le prix de trois mondes qui parlent des langues differentes.
 
 ---
 
-## Et si une seule unite traversait les trois mondes ?
+## Et si une seule unité traversait les trois mondes ?
 
 Dans ce langage, un mot fait 16 bits (2 octets).
 
-Un seul mot de 16 bits est simultanement trois choses.
+Un seul mot de 16 bits est conçu pour jouer trois rôles à la fois.
 
-**Une unite du flux d'octets.**
-Les mots de 16 bits arrivent en flux continu sur le reseau.
-Big Endian. Alignes sur des frontieres de 2 octets. Aucune analyse supplementaire n'est necessaire.
-Il suffit de les lire dans l'ordre d'arrivee.
+**Unité du flux d'octets.**
+Les mots de 16 bits arrivent en flux continu sur le réseau.
+Big Endian. Alignés sur 2 octets.
+Il suffit de les lire dans l'ordre d'arrivée.
 
-**Une unite du format de fichier.**
-Ecrivez le flux directement sur le disque, et voila votre fichier.
-Lisez les octets directement depuis le disque et envoyez-les sur le reseau, et voila votre flux.
-Pas de serialisation. Pas de deserialisation.
+**Unité du format de fichier.**
+Écrivez le flux tel quel sur le disque : c'est votre fichier.
+Lisez les octets du disque et envoyez-les tels quels sur le réseau : c'est votre flux.
+Pas de sérialisation. Pas de désérialisation.
 
-**Une unite du token LLM.**
+**Unité du vocabulaire du LLM.**
 16 bits = 65 536 symboles distincts.
-Les tailles de vocabulaire des LLM modernes vont generalement de 50 000 a 100 000.
-Les modeles de la famille GPT utilisent environ 50 000 ; les modeles specialises pour le coreen environ 100 000.
-65 536 se situe exactement au centre de cette plage.
-Un mot de 16 bits devient un token LLM.
+La taille du vocabulaire des LLM modernes va de quelques dizaines à quelques centaines de milliers.
+GPT-2 en utilise environ 50 000 ; les modèles récents, entre 100 000 et 200 000 environ.
+65 536 se situe dans cette fourchette.
+Un mot de 16 bits est une unité d'une taille qu'un LLM peut apprendre comme vocabulaire.
 
-Trois mondes partageant la meme unite.
-La traduction disparait.
+Trois mondes partagent la même unité.
+La traduction diminue.
 
 ---
 
-## Zero conversion, zero perte, zero surcharge
+## Le flux est le fichier
 
-Voyons ce que cela signifie concretement.
+Voyons concrètement ce que cela signifie.
 
-**Approche conventionnelle : 9 etapes**
+**Approche conventionnelle : 9 étapes**
 
 ```
 [Fichier] -> Lire -> Analyser -> Extraire le texte -> Tokeniser -> [LLM]
-[LLM] -> Decoder -> Serialiser -> Ecrire -> [Fichier]
+[LLM] -> Décoder -> Sérialiser -> Écrire -> [Fichier]
 ```
 
-**Approche flux binaire : 1 etape**
+**L'approche GEUL**
 
 ```
-[Fichier/Flux] -> [LLM]
-[LLM] -> [Fichier/Flux]
+[Flux] = [Fichier]                                mêmes octets
+[Fichier] -> lecture enregistrement par           sans livre de codes
+             enregistrement, avec sauts
 ```
 
-Lire un fichier, et c'est deja une sequence de tokens.
-Ecrire la sequence de tokens produite par le LLM, et c'est deja un fichier.
-Prendre un flux du reseau et l'injecter directement dans le LLM.
+Écrivez un flux tel quel : c'est un fichier. Envoyez un fichier tel quel : c'est un flux.
+Ni sérialisation ni désérialisation.
+Le premier mot de chaque enregistrement (la TAG WORD) donne son type et sa longueur ;
+les enregistrements inutiles sont donc sautés sans être interprétés.
 
-Zero conversion. Zero analyse. Zero tokenisation.
-Zero perte. Zero surcharge.
+Côté LLM, c'est encore un objectif.
+Un mot n'est pas un token.
+Un enregistrement s'étend sur plusieurs mots, et le texte est porté comme suite d'octets.
+Mais lorsque l'unité est fixée à 16 bits,
+le tokeniseur n'a pas à deviner les frontières : il suit des frontières déjà données.
+« Yi Sun-sin » n'est pas coupé à un endroit arbitraire, car c'est un unique enregistrement Reference qui pointe vers Wikidata Q50184.
 
 ---
 
@@ -150,19 +156,20 @@ mais insuffisant comme unite de token.
 
 32 bits donnent environ 4,3 milliards de symboles distincts.
 
-La puissance d'expression est plus que suffisante -- bien au-dela du necessaire.
-Mais le probleme est l'efficacite.
+La puissance expressive est plus que suffisante.
+Mais le problème, c'est l'efficacité.
 
-Le paquet le plus frequent dans ce format est le Tiny Verb Edge, a 2 mots.
-A 16 bits par mot, cela fait 4 octets. A 32 bits par mot, cela devient 8 octets.
-Le paquet le plus courant double de taille.
+Le plus petit enregistrement de ce langage fait 1 mot : des marqueurs comme BODY et END, constitués d'une seule TAG WORD.
+Une Reference vers Wikidata Q42 fait 2 mots,
+et un TRIPLE disant « Q42 est un être humain » en fait 10.
+Avec des mots de 16 bits, ce TRIPLE occupe 20 octets. Avec des mots de 32 bits, il en occuperait 40.
+Le même enregistrement double de taille.
 
-Du point de vue du LLM, il y a aussi un probleme.
-Si un seul token fait 32 bits, seule la moitie des tokens tient dans la meme fenetre de contexte.
-Etant donne que la longueur de contexte des LLM est une ressource rare aujourd'hui,
-l'espace qu'un token occupe devient inefficace par rapport a l'information qu'il porte.
+Du point de vue du LLM, il y a aussi un problème.
+Un vocabulaire de 32 bits, soit 4,3 milliards de symboles, est des dizaines de milliers de fois plus grand que n'importe quel vocabulaire de LLM.
+Il n'existe ni les données ni les modèles pour apprendre un vocabulaire aussi vaste.
 
-Un mot de 32 bits est surdimensionne comme token pour ce langage.
+Un mot de 32 bits est excessif comme unité de ce langage.
 
 ---
 
@@ -184,32 +191,31 @@ L'acces aleatoire est O(1).
 SIMD peut comparer plusieurs mots en une seule instruction.
 Les GPU peuvent analyser des milliards de mots en parallele.
 
-Pourtant, au niveau du paquet, la longueur variable reste autorisee.
-Un Tiny Verb Edge fait 2 mots ; un Event6 Edge peut aller jusqu'a 8 mots.
-L'unite de mot est fixe, mais l'unite de paquet est flexible.
+Pourtant, au niveau de l'enregistrement, la longueur variable reste permise.
+Les enregistrements vont de 1 mot à 2³²−1 mots, et la longueur est écrite dans le premier mot.
+L'unité de mot est fixe, mais l'unité d'enregistrement est flexible.
 
 L'efficacite de traitement de la largeur fixe combinee a l'expressivite de la longueur variable.
 Le mot de 16 bits realise les deux simultanement.
 
 ---
 
-## Le chemin prouve par Unicode
+## Le chemin prouvé par Unicode
 
-Unicode est la norme d'encodage la plus reussie que l'humanite ait jamais creee.
+Unicode est la norme d'encodage la plus réussie que l'humanité ait créée.
 
-L'unite de base d'UTF-16 est 16 bits (2 octets).
-Elle represente les 65 536 caracteres du Plan Multilingue de Base (BMP) en un seul mot,
-et s'etend aux caracteres au-dela grace aux paires de substitution (2 mots = 4 octets).
+L'unité de base d'UTF-16 est de 16 bits (2 octets).
+Les caractères du plan multilingue de base (BMP) tiennent dans un seul mot,
+et les autres sont étendus par des paires de substitution (2 mots = 4 octets).
 
-Nous suivons simplement cette structure eprouvee.
+GEUL suit la même structure.
+Les formats fréquents sont portés par un code direct à l'intérieur d'une seule TAG WORD,
+et les formats rares sont étendus par des TAG d'extension.
 
-Representer 65 536 primitives semantiques de base en un seul mot,
-et etendre les paquets composes sur plusieurs mots.
-
-Tout comme Unicode exprime chaque caractere du monde
-sur la base de "un caractere = 2 octets",
-ce langage exprime chaque element du raisonnement de l'IA
-sur la base de "un mot = 2 octets".
+De même qu'Unicode exprime tous les caractères du monde
+sur l'unité de base « un caractère = 2 octets »,
+GEUL exprime des énoncés, leurs sources et leurs fondements
+sur l'unité de base « un mot = 2 octets ».
 
 ---
 
@@ -241,28 +247,28 @@ mais l'alignement multiple de 16 bits garantit la compatibilite avec toute taill
 
 ## La triple structure
 
-Resumons.
+Résumons.
 
-Un seul mot de 16 bits est simultanement trois choses.
+Un seul mot de 16 bits est conçu pour être l'unité de trois mondes.
 
-| Monde | Role d'un mot |
+| Monde | Rôle d'un mot |
 |-------|---------------------|
-| Reseau | Unite du flux d'octets |
-| Stockage | Unite du format de fichier |
-| IA | Unite du token LLM |
+| Réseau | Unité du flux d'octets |
+| Stockage | Unité du format de fichier |
+| IA | Unité du vocabulaire du LLM (objectif) |
 
-Une seule unite traverse les trois mondes.
+Une seule unité traverse les trois mondes.
 
-Stocker un flux tel quel, et c'est un fichier.
-Lire un fichier tel quel, et ce sont des tokens.
-Envoyer des tokens tels quels, et c'est un flux.
+Stockez un flux tel quel : c'est un fichier.
+Envoyez un fichier tel quel : c'est un flux.
+L'engrener mot à mot avec les LLM est la prochaine étape.
 
-Aucune conversion.
-Aucune traduction.
-Aucune perte.
+Moins de conversion.
+Moins de traduction.
+Moins de perte.
 
-Voila pourquoi 16 bits.
-Ni 8 bits, ni 32 bits, ni longueur variable.
-Le nombre qui se situe precisement a l'intersection des trois mondes.
+Voilà pourquoi 16 bits.
+Ni 8, ni 32, ni une longueur variable.
+Le nombre qui se trouve exactement à l'intersection de trois mondes.
 
 16.

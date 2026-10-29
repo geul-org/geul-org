@@ -2,9 +2,9 @@
 title: "为什么机械校验是必要的"
 weight: 4
 date: 2026-02-26T12:00:10+09:00
-lastmod: 2026-02-26T12:00:10+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["校验", "规范", "编译器"]
-summary: "自然语言没有'无效句子'的概念"
+summary: "自然语言没有\"无效句子\"的概念，信息因此未经检查就进入上下文。本文说明为什么按规范过滤形式的机械验证必须在流水线中排在最前面。"
 author: "朴俊宇"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,9 +2,9 @@
 title: "Mengapa Era Prompt Engineering Berakhir"
 weight: 1
 date: 2026-02-26T12:00:12+09:00
-lastmod: 2026-02-26T12:00:12+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["prompt", "konteks", "engineering"]
-summary: "Dari cara Anda mengatakannya ke apa yang Anda tunjukkan -- permainan telah berubah"
+summary: "Semakin cerdas model, semakin \"apa yang ditunjukkan\" menentukan hasil, bukan \"bagaimana mengatakannya\". Peralihan dari prompt ke konteks, dan tujuh infrastruktur yang dibutuhkan rekayasa konteks."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"

@@ -2,9 +2,9 @@
 title: "Por Que Exploracao e Necessaria"
 weight: 7
 date: 2026-02-26T12:00:07+09:00
-lastmod: 2026-02-26T12:00:07+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["exploracao", "busca", "escala"]
-summary: "Quando o indice excede a janela, o proprio paradigma de busca atinge seu limite"
+summary: "Quando o conhecimento cresce tanto que até o índice estoura a janela de contexto, a busca de uma só vez chega ao limite. Por que a exploração é necessária: escolher uma direção em cada nível de um mapa hierárquico."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
