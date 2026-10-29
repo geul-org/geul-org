@@ -311,7 +311,7 @@ Issuer הוא הגורם שמגדיר מסמכים ופורמטים — [Issuer 
 | `0x45` | [URI-ODD](/he/grammar/value/text/uri/) | TEXT | כמו לעיל. מספר אי-זוגי של בייטים |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/he/grammar/value/text/language-bcp47-code/) | TEXT | רצף בייטים ASCII של language tag מלא לפי BCP 47 באותיות קנוניות. מספר זוגי של בייטים |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/he/grammar/value/text/language-bcp47-code/) | TEXT | כמו לעיל. מספר אי-זוגי של בייטים |
-| `0x48` | [LANGUAGE-SHORT-CODE](/he/grammar/value/text/language-short-code/) | TEXT | קוד דחוס של שפה ראשית ב-GEUL, Payload קבוע של WORD אחד |
+| `0x48` | [LANGUAGE-SHORT-CODE](/he/grammar/value/text/language-short-code/) | TEXT | tag של BCP 47 שנכתב במספר שלו ב-GEUL Language Registry ‏(Payload ‏1 WORD) |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/he/grammar/value/text/utf8-language-text/) | TEXT | טקסט עם שפה. רשומת Value של שפה (LANGUAGE-SHORT-CODE או LANGUAGE-BCP47-CODE) ובייטים של UTF-8. זוגי·אי-זוגי לפי בייטי הטקסט |
 | `0x4C`~`0x5F` | Reserved | TEXT |  |

@@ -2,7 +2,7 @@
 title: "LABEL"
 weight: 5
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "LABEL هو Edge وصف يربط اسماً واحداً بحسب اللغة لهدف Subject بـ Object من نوع UTF8-LANGUAGE-TEXT (Codec 0x04)."
 author: "جونو بارك"
@@ -43,7 +43,7 @@ Object            قيمة UTF8-LANGUAGE-TEXT أو سجل Reference واحد م�
 
 ## أمثلة (غير معيارية)
 
-رمز اللغة `0784` لـ `en` هو الرقم الوارد في مسودة GEUL Language Registry (draft-0). ولأن السجل لم يُختم بعد، فهو قيمة غير معيارية وليس رمزاً نهائياً.
+رمز اللغة `0784` لـ `en` هو رقمها في GEUL Language Registry v2 (مستند المواصفة `0x0000/0x0000000000000848` الإصدار 2).
 
 ### LANGUAGE-SHORT-CODE
 

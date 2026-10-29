@@ -311,7 +311,7 @@ The upper 2 bits of the Codec are the family. NUMERIC and DECIMAL are divided ag
 | `0x45` | [URI-ODD](/grammar/value/text/uri/) | TEXT | Same as above. Odd bytes |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/grammar/value/text/language-bcp47-code/) | TEXT | An ASCII byte sequence of a complete BCP 47 language tag in canonical casing. Even bytes |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/grammar/value/text/language-bcp47-code/) | TEXT | Same as above. Odd bytes |
-| `0x48` | [LANGUAGE-SHORT-CODE](/grammar/value/text/language-short-code/) | TEXT | A GEUL compressed code for a primary language, with a fixed Payload of 1 WORD |
+| `0x48` | [LANGUAGE-SHORT-CODE](/grammar/value/text/language-short-code/) | TEXT | A BCP 47 tag written as its GEUL Language Registry number (Payload 1 WORD) |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/grammar/value/text/utf8-language-text/) | TEXT | Text with a language. A language Value record (LANGUAGE-SHORT-CODE or LANGUAGE-BCP47-CODE) and UTF-8 bytes. Even or odd text bytes |
 | `0x4C`-`0x5F` | Reserved | TEXT |  |

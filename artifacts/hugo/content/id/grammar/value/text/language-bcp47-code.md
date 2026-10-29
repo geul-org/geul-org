@@ -2,7 +2,7 @@
 title: "LANGUAGE-BCP47-CODE"
 weight: 71
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-BCP47-CODE adalah Value yang memuat language tag BCP 47 lengkap sebagai deretan byte ASCII. Memakai pasangan kode byte genap·ganjil 0x46/0x47."
 author: "Junwoo Park"
@@ -48,9 +48,9 @@ Payload WORD 1st ... Nth          BCP 47 tag bytes / final zero padding
 
 ## Hubungan dengan LANGUAGE-SHORT-CODE
 
-- Untuk memuat hanya primary language subtag secara ringkas, pakai [LANGUAGE-SHORT-CODE](/id/grammar/value/text/language-short-code/).
-- Jika diperlukan script, region, variant, extension, atau private-use, pakai LANGUAGE-BCP47-CODE.
-- Juga dipakai LANGUAGE-BCP47-CODE untuk bahasa yang belum dialokasikan pada registri LANGUAGE-SHORT-CODE, kasus yang memerlukan escape `0xffff`, dan kasus yang memerlukan pelestarian teks asli full tag.
+- Tag yang punya nomor di GEUL Language Registry dapat ditulis dalam 1 WORD sebagai [LANGUAGE-SHORT-CODE](/id/grammar/value/text/language-short-code/).
+- Tag yang tidak punya nomor di registri (termasuk tag yang memuat extension atau private-use) ditulis sebagai LANGUAGE-BCP47-CODE. LANGUAGE-BCP47-CODE juga dipakai bila teks asli full tag perlu dilestarikan.
+- SHORT-CODE `n` dan LANGUAGE-BCP47-CODE dari tag yang diikat registri ke `n` (tanpa membedakan huruf besar-kecil) adalah bahasa yang sama.
 
 ## Contoh
 

@@ -2,55 +2,87 @@
 title: "LANGUAGE-SHORT-CODE"
 weight: 73
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-29T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
-summary: "LANGUAGE-SHORT-CODE — Value кода языка GEUL, сжимающий только primary language subtag в 1 WORD (Codec 0x48)."
+summary: "LANGUAGE-SHORT-CODE — Value языкового кода GEUL, хранящий в 1 WORD один тег BCP 47, которому присвоен номер в GEUL Language Registry (Codec 0x48). Реестр — это ENUM документа спецификации этого Codec."
 author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-LANGUAGE-SHORT-CODE — сжатый код языка GEUL, который хранит не полный тег BCP 47, а только primary language subtag. Payload — ровно 1 WORD.
+LANGUAGE-SHORT-CODE — сжатый языковой код GEUL, хранящий в 1 WORD один тег BCP 47, которому присвоен номер в GEUL Language Registry. Payload — ровно 1 WORD.
 
 ## Раскладка
 
 - Код: прямой код Value `0x48`. Семейство TEXT.
-- Payload — ровно 1 WORD, беззнаковый 16-битный код.
+- Payload — ровно 1 WORD, unsigned 16-битный код.
 
 ```
 TAG WORD          0x08C8 (0000 1000 1100 1000)  всего 2 WORD
-Payload WORD 1st (16 бит)           код языка GEUL (uint16)
+Payload WORD 1st (16 бит)           номер GEUL Language Registry (uint16)
 ```
 
 ## Интерпретация и допустимость
 
-- 1 WORD Payload читается как беззнаковое 16-битное целое.
-- Это значение — сжатый код primary language subtag. Script, region, variant, extension и private-use в него не входят. Если такая информация нужна, используйте [LANGUAGE-BCP47-CODE](/ru/grammar/value/text/language-bcp47-code/) (`0x46`, `0x47`).
-- `0x0000..0xfffe` — диапазон назначений GEUL Language Registry. Даже внутри этого диапазона значение, фактически не назначенное в данной версии registry, недопустимо.
-- Начальные назначения получают открытые записи `Type: language` конкретного snapshot IANA Language Subtag Registry, кроме `Scope: private-use`. Collections, macrolanguage и special не исключаются.
-- При начальном назначении эти открытые записи сортируются по ASCII subtag и получают ID. Физический порядок файла IANA правилом для ID не является.
-- Новые subtag `Type: language`, появляющиеся позже, добавляются в конец без изменения существующих номеров (append-only).
-- ID deprecated language subtag не удаляется и не используется повторно. Связь Preferred-Value и состояние deprecated сохраняются в metadata registry.
-- `0xffff` зарезервирован как escape расширения. Пока формат расширения не определён отдельно, в самостоятельном Value LANGUAGE-SHORT-CODE он недопустим. Его нельзя использовать в смысле `null`, `unknown` или `und`.
-- Другая спецификация Codec в будущем может определить правило интерпретации после `0xffff`. Но это не значит, что такое правило увеличивает длину Payload этого формата или разрешает следующий за ним Payload.
-- Спецификация Codec может хранить тот же 1-WORD код в простом поле без TAG ([CODEC](/ru/grammar/codec-spec/#codec) у простого поля). Это правило этой спецификации Codec; wire form самостоятельного Value всегда TAG 1 WORD + Payload 1 WORD.
-- Чтобы определить смысл значения, нужно вместе с ним сохранять версию GEUL Language Registry и дату snapshot IANA registry, зафиксированного этой версией.
+- 1 WORD Payload читается как unsigned 16-битное целое.
+- Это значение — один тег, назначенный GEUL Language Registry. Нормативная форма реестра — документ спецификации этого Codec `0x0000/0x0000000000000848`. Для каждого значения кода в FIELD `code` есть один [ENUM](/ru/grammar/edge/enum/), а имя, привязанное через [BIND](/ru/grammar/edge/bind/) к Edge Id этого ENUM, — тег BCP 47 в каноническом регистре.
+- Реестр — закрытый список. Значение без ENUM в документе спецификации недопустимо (invalid). Это правило Codec имеет приоритет над общим правилом ENUM («необъявленное значение кода — не ошибка»).
+- Номера получают три вида тегов.
+  - Записи `Type: language` из IANA Language Subtag Registry, кроме `Scope: private-use` (`qaa..qtz`). Collection, macrolanguage и special (`mul`, `und`, `zxx`, `mis`) не исключаются.
+  - Теги, которые IANA регистрирует целиком: grandfathered и redundant (`zh-Hans`, `sr-Latn`, `zh-min-nan` и т. п.).
+  - Допустимые составные теги, наблюдаемые в открытых источниках CC0 (`pt-BR`, `en-GB`, `be-tarask` и т. п.). Они состоят только из subtag language, extlang, script, region и variant. Теги с extension (`-u-`, `-t-`) или private-use (`-x-`) не принимаются.
+- Тег без номера нельзя записать в этом формате. Его пишут как [LANGUAGE-BCP47-CODE](/ru/grammar/value/text/language-bcp47-code/) (`0x46`, `0x47`). В SHORT-CODE нет пути escape.
+- `0x0000` и `0xffff` никогда не назначаются. Оба недопустимы в этом Value. Ни одно из них не используется в смысле `null`, `unknown` или `und`.
+- Диапазоны значений — соглашение о назначении. Декодер не выводит вид тега из диапазона значения. Смысл значения берётся только из документа спецификации.
+
+| Диапазон | Назначение |
+|---|---|
+| `0x0000` | Не назначается (invalid) |
+| `0x0001`–`0x3fff` | Теги из одного language subtag |
+| `0x4000`–`0x7fff` | Теги из двух и более subtag (целые теги IANA, наблюдаемые составные теги) |
+| `0x8000`–`0xfffe` | Переполнение. Когда блок выше заполнен, назначение продолжается здесь |
+| `0xffff` | Не назначается (invalid) |
+
+- Начальное издание нумерует теги внутри блока в порядке ASCII нижнего регистра. В блоке `0x4000` сначала идут целые теги IANA (grandfathered и redundant вперемешку, в порядке ASCII), затем наблюдаемые составные теги (в порядке ASCII). Ни физический порядок файла IANA, ни частота использования не являются правилами нумерации.
+- Назначение только дописывает (append-only). Новый тег дописывается в конец своего блока, а если блок заполнен, — в диапазон переполнения. Тег (без учёта регистра) однажды выданного номера не меняется, не удаляется и не используется повторно.
+- Новый тег вносится добавлением ENUM и BIND в новую версию документа спецификации. Существующие ENUM и BIND не изменяются. Поэтому любая версия — надмножество предыдущей.
+- Когда все 65 534 номера заняты, назначение прекращается. Последующие новые теги пишутся как LANGUAGE-BCP47-CODE. Выразительность не уменьшается, теряется лишь выигрыш от сжатия.
+- Один и тот же язык: SHORT-CODE `n` и LANGUAGE-BCP47-CODE тега, который реестр привязал к `n` (без учёта регистра), обозначают один и тот же язык.
+- Издание реестра — это версия документа спецификации. Каждое издание записывает файл реестра IANA, на котором основано (File-Date, SHA-256), как [SOURCE](/ru/grammar/edge/source/) в HEAD документа спецификации. Если нужно указать издание, по которому интерпретировано значение, вместе с ним сохраняют эту версию (`0x0000/0x0000000000000848@n`).
+- Спецификация Codec может хранить тот же 1-WORD код в поле сырого значения без TAG ([CODEC](/ru/grammar/codec-spec/#codec) для поля сырого значения). Это правило той спецификации Codec; wire form самостоятельного Value всегда TAG 1 WORD + Payload 1 WORD.
 
 ## Основание в стандартах
 
-- Исходный registry primary language subtag и metadata deprecated/Preferred-Value следуют [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry).
-- Базовый смысл системы language subtag BCP 47 следует [RFC 5646, Tags for Identifying Languages](https://www.rfc-editor.org/rfc/rfc5646).
-- Назначение ID append-only в порядке ASCII, резервирование `0xffff` и отличие от встраивания без TAG в простое поле — правила GEUL.
+- Смысл тегов и допустимость subtag определяются [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) и [RFC 5646, Tags for Identifying Languages](https://www.rfc-editor.org/rfc/rfc5646). IANA и IETF передают свои права на реестры протоколов под CC0 1.0 ([IANA Licensing Terms](https://www.iana.org/help/licensing-terms)).
+- Номера реестра (append-only назначение в порядке ASCII, состав блоков, неназначаемые `0x0000` и `0xffff`, закрытый список), то, что нормативной формой являются ENUM документа спецификации, и отличие от встраивания без TAG в поле сырого значения — правила GEUL.
 
 ## Длина
 
-- Всего — ровно 2 WORD (TAG 1 WORD и Payload 1 WORD), используется прямая длина `LLLL=0001`. Length extension TAG, descriptor и padding нет.
-- Если Payload не равен ровно 1 WORD, значение отклоняется.
+- Всего ровно 2 WORD: TAG 1 WORD и Payload 1 WORD, прямая длина `LLLL=0001`. Нет TAG расширения Length, descriptor и padding.
+- Если Payload не ровно 1 WORD, запись отклоняется.
 
 ## Примеры
 
-- Snapshot registry и реальная таблица кодов ещё не определены, поэтому числовых ID конкретных языков здесь нет.
+Номера реестра v2 (документ спецификации `0x0000/0x0000000000000848`, версия 2, IANA File-Date 2026-09-17). Назначено 8 678 тегов (language 8 275, grandfathered 26, redundant 67, наблюдаемые составные 310).
+
+| тег | Код | Все WORD |
+|---|---|---|
+| `en` | `0x0784` | `08C8 0784` |
+| `ko` | `0x0d06` | `08C8 0D06` |
+| `zh-Hans` | `0x404c` | `08C8 404C` |
+| `pt-BR` | `0x4130` | `08C8 4130` |
+
+- В документе спецификации `en` — это `ENUM #2 0x0784` и `BIND "en"` на его Edge Id.
+- У `de-x-formal` (private-use) и `nl-u-sd-bebru` (extension) номера нет, поэтому они пишутся как LANGUAGE-BCP47-CODE.
 
 ## Открытые вопросы
 
-- Дата начального snapshot IANA, название версии GEUL Language Registry и полная таблица соответствий. Пока они не определены, конкретные числовые примеры и таблица кодов не фиксируются.
+- Чтение между изданиями: отбрасывать ли номер, более новый, чем издание у читателя, как invalid или сохранять сырое значение как «неизвестный код». Поскольку назначение append-only, последнего издания всегда достаточно, но офлайн-декодерам нужно правило.
+- Каноническая форма: должен ли (SHOULD/MUST) тег с номером записываться как SHORT-CODE. При MUST написание единственно, но новое издание сделает неканоническими документы, написанные раньше.
+- Как выражать deprecated-теги и Preferred-Value в документе спецификации (в текущем издании их нет).
+- Порядок добавления наблюдаемых составных тегов (источники, порог наблюдения).
+
+## Связанные страницы
+
+- [LANGUAGE-BCP47-CODE](/ru/grammar/value/text/language-bcp47-code/), [UTF8-LANGUAGE-TEXT](/ru/grammar/value/text/utf8-language-text/), [LABEL](/ru/grammar/edge/label/)
+- [документ спецификации Codec](/ru/grammar/codec-spec/), [ENUM](/ru/grammar/edge/enum/), [BIND](/ru/grammar/edge/bind/), [SOURCE](/ru/grammar/edge/source/)

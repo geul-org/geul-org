@@ -2,7 +2,7 @@
 title: "DESCRIPTION"
 weight: 7
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "DESCRIPTION היא Edge תיאורית שמקשרת תיאור קצר אחד בשפה מסוימת ליעד ה-Subject (Codec 0x06). הפריסה זהה ל-LABEL."
 author: "ג'ונו פארק"
@@ -43,7 +43,7 @@ Object            Value מסוג UTF8-LANGUAGE-TEXT או רשומת LOCAL Refere
 
 ## דוגמה (לא נורמטיבית)
 
-Edge Id `0009`, Subject Q64 (`00A0 0040`), Object `capital and largest city of Germany` (en). השפה היא LANGUAGE-BCP47-CODE כי הרישום עוד לא קיים.
+Edge Id `0009`, Subject Q64 (`00A0 0040`), Object `capital and largest city of Germany` (en). השפה היא דוגמה לפורמט LANGUAGE-BCP47-CODE (ל-`en` יש מספר רישום `0x0784`, ולכן אפשר לכתוב אותה גם כ-SHORT-CODE).
 
 - ה-Object הוא שפה `08C6 656E` (BCP47 `en`, 2 WORD) + טקסט של 35 בייטים (אי-זוגי, 18 WORD), ולכן `0x4B`, TAG 1 + extension TAG 1 + 20 = 22 WORD, כלומר `0F4B 0016 …`.
 - ה-Edge היא TAG 1 + extension TAG 1 + Edge Id 2 + Subject 2 + Object 22 = 28 WORD, כלומר `LLLL=1110`, TAG `1706`, extension TAG `001C`.

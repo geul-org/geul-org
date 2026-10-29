@@ -311,7 +311,7 @@ Issuer هو الجهة التي تعرّف المستندات والصيغ — [
 | `0x45` | [URI-ODD](/ar/grammar/value/text/uri/) | TEXT | مثل ما سبق. عدد بايتات فردي |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/ar/grammar/value/text/language-bcp47-code/) | TEXT | سلسلة بايتات ASCII لوسم لغة BCP 47 كامل بحالة الأحرف القياسية. عدد بايتات زوجي |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/ar/grammar/value/text/language-bcp47-code/) | TEXT | مثل ما سبق. عدد بايتات فردي |
-| `0x48` | [LANGUAGE-SHORT-CODE](/ar/grammar/value/text/language-short-code/) | TEXT | رمز GEUL مضغوط لـ primary language في Payload ثابت من 1 WORD |
+| `0x48` | [LANGUAGE-SHORT-CODE](/ar/grammar/value/text/language-short-code/) | TEXT | وسم BCP 47 مكتوب برقمه في GEUL Language Registry ‏(Payload ‏1 WORD) |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/ar/grammar/value/text/utf8-language-text/) | TEXT | نص مرفق بلغة. سجل Value للغة (LANGUAGE-SHORT-CODE أو LANGUAGE-BCP47-CODE) وبايتات UTF-8. زوجية/فردية بايتات النص |
 | `0x4C`~`0x5F` | Reserved | TEXT |  |

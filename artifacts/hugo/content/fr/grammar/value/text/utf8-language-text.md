@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT est un texte accompagné d'une langue, qui contient dans une seule Value un enregistrement Value de langue et un texte UTF-8 (Codec 0x4A/0x4B)."
 author: "Junwoo Park"
@@ -29,7 +29,7 @@ Text WORD 1er ... Nème             UTF-8 bytes / si impair, dernier 0x00
 
 - Le Payload commence par l'enregistrement de langue. On lit le premier WORD du Payload comme un TAG, la Length de ce TAG donne l'enregistrement de langue, et le reste est les octets du texte. L'enregistrement de langue est obligatoire. Sans langue, on emploie non ce format mais UTF8-TEXT.
 - L'enregistrement de langue est exactement un enregistrement complet [LANGUAGE-SHORT-CODE](/fr/grammar/value/text/language-short-code/) (`0x48`) ou [LANGUAGE-BCP47-CODE](/fr/grammar/value/text/language-bcp47-code/) (`0x46`, `0x47`). Si c'est un autre Codec ou s'il est incomplet, invalid. La validité de l'enregistrement de langue suit les règles de ce format.
-- Les deux formats de langue sont admis. La règle de comparaison pour savoir si c'est la même langue est celle de [LABEL](/fr/grammar/edge/label/). Un SHORT-CODE et la balise BCP 47 correspondante qui n'a qu'une seule sous-balise primaire sont la même langue.
+- Les deux formats de langue sont admis. La règle de comparaison pour savoir si c'est la même langue est celle de [LABEL](/fr/grammar/edge/label/). Un SHORT-CODE et la balise BCP 47 que le registre lie à son numéro sont la même langue.
 - On n'emploie pas `zxx` (aucun contenu linguistique). Une telle chaîne est UTF8-TEXT. `und` (langue indéterminée) et `mul` (plusieurs langues) sont des textes avec langue et peuvent s'employer.
 - Les octets du texte suivent les mêmes règles qu'UTF8-TEXT. UTF-8 well-formed, BOM de tête interdit, pas de normalisation imposée et conservation du texte d'origine tel quel. Celui qui compare ou indexe aligne sur NFC pour comparer.
 - Le nombre d'octets du texte est `2 × (nombre de WORD du Payload − nombre de WORD de l'enregistrement de langue) − P`. P (bit de poids faible du Codec) n'indique que la parité des octets du texte. S'il est impair, l'octet de poids faible du dernier WORD doit être `00`.
@@ -46,7 +46,7 @@ Text WORD 1er ... Nème             UTF-8 bytes / si impair, dernier 0x00
 - Les codes de langue de Wikidata et Wikimedia ne sont pas tous du BCP 47 (par ex. `simple`, `map-bms`). On les transcrit en balises BCP 47 par une table de correspondance. Les codes qu'on ne peut pas transcrire se traitent différemment selon l'usage.
   - Valeurs (monolingualtext) : on conserve le texte d'origine du datavalue en UTF8-TEXT. Une valeur faisant partie de la proposition, la jeter changerait la proposition.
   - Labels, descriptions, alias : on les saute et on les consigne dans le rapport. Ces Edge n'existent que s'il y a une langue (un texte sans langue est invalid), et le texte d'origine reste dans les données sources.
-- Tant que le GEUL Language Registry n'existe pas, on emploie LANGUAGE-BCP47-CODE.
+- Si la balise obtenue a un numéro dans le GEUL Language Registry, on emploie LANGUAGE-SHORT-CODE ; sinon LANGUAGE-BCP47-CODE.
 
 ## Longueur
 
@@ -55,7 +55,7 @@ Text WORD 1er ... Nème             UTF-8 bytes / si impair, dernier 0x00
 
 ## Exemple
 
-Les langues sont toutes en LANGUAGE-BCP47-CODE, faute de registre pour l'instant.
+Les langues sont toutes des exemples du format LANGUAGE-BCP47-CODE. `fr`, `ko` et `de` ont un numéro de registre et peuvent donc aussi s'écrire en SHORT-CODE (2 WORD).
 
 | Valeur | Octets du texte | WORD au total |
 |---|---|---|

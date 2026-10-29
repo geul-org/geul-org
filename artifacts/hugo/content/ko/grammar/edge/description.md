@@ -2,7 +2,7 @@
 title: "DESCRIPTION"
 weight: 7
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "DESCRIPTION은 Subject 대상의 언어별 짧은 설명 하나를 연결하는 서술 Edge다(Codec 0x06). 레이아웃은 LABEL과 같다."
 author: "박준우"
@@ -43,7 +43,7 @@ Object            UTF8-LANGUAGE-TEXT Value 또는 LOCAL Reference 레코드 1개
 
 ## 예시 (비규범)
 
-Edge Id `0009`, Subject Q64(`00A0 0040`), Object `capital and largest city of Germany`(en). 언어는 레지스트리 전이라 LANGUAGE-BCP47-CODE다.
+Edge Id `0009`, Subject Q64(`00A0 0040`), Object `capital and largest city of Germany`(en). 언어는 LANGUAGE-BCP47-CODE 형식의 예다(`en`은 레지스트리 번호 `0x0784`가 있어 SHORT-CODE로도 쓸 수 있다).
 
 - Object는 언어 `08C6 656E`(BCP47 `en`, 2 WORD) + 텍스트 35 byte(홀수, 18 WORD)라 `0x4B`, TAG 1 + 확장 TAG 1 + 20 = 22 WORD, `0F4B 0016 …`이다.
 - Edge는 TAG 1 + 확장 TAG 1 + Edge Id 2 + Subject 2 + Object 22 = 28 WORD라 `LLLL=1110`, TAG `1706`, 확장 TAG `001C`다.

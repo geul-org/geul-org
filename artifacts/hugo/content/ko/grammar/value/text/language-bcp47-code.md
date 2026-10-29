@@ -2,7 +2,7 @@
 title: "LANGUAGE-BCP47-CODE"
 weight: 71
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-BCP47-CODE는 완전한 BCP 47 language tag를 ASCII 바이트열로 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x46/0x47을 쓴다."
 author: "박준우"
@@ -48,9 +48,9 @@ Payload WORD 1st ... Nth          BCP 47 tag bytes / final zero padding
 
 ## LANGUAGE-SHORT-CODE와의 관계
 
-- primary language subtag만 짧게 담으려면 [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/)를 쓴다.
-- script, region, variant, extension, private-use가 필요하면 LANGUAGE-BCP47-CODE를 쓴다.
-- LANGUAGE-SHORT-CODE registry에 아직 배정되지 않은 언어, `0xffff` escape가 필요한 경우, full tag의 원문 보존이 필요한 경우에도 LANGUAGE-BCP47-CODE를 쓴다.
+- GEUL Language Registry에 번호가 있는 tag는 [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/) 1 WORD로 쓸 수 있다.
+- 레지스트리에 번호가 없는 tag(extension·private-use가 든 tag 포함)는 LANGUAGE-BCP47-CODE로 쓴다. full tag의 원문 보존이 필요한 경우에도 LANGUAGE-BCP47-CODE를 쓴다.
+- SHORT-CODE `n`과, 레지스트리가 `n`에 묶은 tag의 LANGUAGE-BCP47-CODE(대소문자 무시)는 같은 언어다.
 
 ## 예시
 

@@ -311,7 +311,7 @@ Les 2 bits de poids fort du Codec forment la famille. NUMERIC/DECIMAL se subdivi
 | `0x45` | [URI-ODD](/fr/grammar/value/text/uri/) | TEXT | Idem. Nombre d'octets impair |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/fr/grammar/value/text/language-bcp47-code/) | TEXT | Octets ASCII d'une balise de langue BCP 47 complète en casse canonique. Nombre d'octets pair |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/fr/grammar/value/text/language-bcp47-code/) | TEXT | Idem. Nombre d'octets impair |
-| `0x48` | [LANGUAGE-SHORT-CODE](/fr/grammar/value/text/language-short-code/) | TEXT | Code compressé de langue primaire GEUL, Payload fixe de 1 WORD |
+| `0x48` | [LANGUAGE-SHORT-CODE](/fr/grammar/value/text/language-short-code/) | TEXT | Balise BCP 47 écrite par son numéro dans le GEUL Language Registry (Payload 1 WORD) |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/fr/grammar/value/text/utf8-language-text/) | TEXT | Texte accompagné d'une langue. Enregistrement Value de langue (LANGUAGE-SHORT-CODE ou LANGUAGE-BCP47-CODE) et octets UTF-8. Parité du nombre d'octets du texte |
 | `0x4C`~`0x5F` | Reserved | TEXT |  |

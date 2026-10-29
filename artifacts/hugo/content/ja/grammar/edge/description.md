@@ -2,7 +2,7 @@
 title: "DESCRIPTION"
 weight: 7
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "DESCRIPTION は Subject 対象の言語別の短い説明一つを結びつける記述 Edge だ(Codec 0x06)。レイアウトは LABEL と同じ。"
 author: "朴俊宇"
@@ -43,7 +43,7 @@ Object            UTF8-LANGUAGE-TEXT Value または LOCAL Reference レコー�
 
 ## 例 (非規範)
 
-Edge Id `0009`、Subject Q64(`00A0 0040`)、Object `capital and largest city of Germany`(en)。言語はレジストリ前なので LANGUAGE-BCP47-CODE だ。
+Edge Id `0009`、Subject Q64(`00A0 0040`)、Object `capital and largest city of Germany`(en)。言語は LANGUAGE-BCP47-CODE 形式の例だ(`en` はレジストリ番号 `0x0784` があるので SHORT-CODE でも書ける)。
 
 - Object は言語 `08C6 656E`(BCP47 `en`、2 WORD)+ テキスト 35 byte(奇数、18 WORD)なので `0x4B`、TAG 1 + 拡張 TAG 1 + 20 = 22 WORD、`0F4B 0016 …` だ。
 - Edge は TAG 1 + 拡張 TAG 1 + Edge Id 2 + Subject 2 + Object 22 = 28 WORD なので `LLLL=1110`、TAG `1706`、拡張 TAG `001C` だ。

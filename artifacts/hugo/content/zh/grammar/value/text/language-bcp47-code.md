@@ -2,7 +2,7 @@
 title: "LANGUAGE-BCP47-CODE"
 weight: 71
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-BCP47-CODE 是以 ASCII 字节序列承载完整 BCP 47 language tag 的 Value。使用偶数·奇数字节码对 0x46/0x47。"
 author: "朴俊宇"
@@ -48,9 +48,9 @@ Payload WORD 1st ... Nth          BCP 47 tag bytes / final zero padding
 
 ## 与 LANGUAGE-SHORT-CODE 的关系
 
-- 只想简短承载 primary language subtag 时，使用 [LANGUAGE-SHORT-CODE](/zh/grammar/value/text/language-short-code/)。
-- 需要 script、region、variant、extension、private-use 时，使用 LANGUAGE-BCP47-CODE。
-- LANGUAGE-SHORT-CODE registry 中尚未分配的语言、需要 `0xffff` escape 的情形、需要保留完整 tag 原文的情形，也使用 LANGUAGE-BCP47-CODE。
+- 在 GEUL Language Registry 中有编号的 tag 可以用 [LANGUAGE-SHORT-CODE](/zh/grammar/value/text/language-short-code/) 以 1 WORD 书写。
+- 注册表中没有编号的 tag（包括含 extension·private-use 的 tag）用 LANGUAGE-BCP47-CODE 书写。需要保留完整 tag 原文时也用 LANGUAGE-BCP47-CODE。
+- SHORT-CODE `n` 与注册表绑定到 `n` 的 tag 的 LANGUAGE-BCP47-CODE（不区分大小写）是同一种语言。
 
 ## 示例
 

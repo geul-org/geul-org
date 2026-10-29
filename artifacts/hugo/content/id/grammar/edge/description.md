@@ -2,7 +2,7 @@
 title: "DESCRIPTION"
 weight: 7
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "DESCRIPTION adalah Edge pernyataan yang menghubungkan satu deskripsi singkat per bahasa untuk target Subject (Codec 0x06). Layout sama dengan LABEL."
 author: "Junwoo Park"
@@ -43,7 +43,7 @@ Total = 1 + N_len + N_id + N_subject + N_object WORD
 
 ## Contoh (non-normatif)
 
-Edge Id `0009`, Subject Q64 (`00A0 0040`), Object `capital and largest city of Germany` (en). Bahasa memakai LANGUAGE-BCP47-CODE karena belum ada registri.
+Edge Id `0009`, Subject Q64 (`00A0 0040`), Object `capital and largest city of Germany` (en). Bahasa ini contoh format LANGUAGE-BCP47-CODE (`en` punya nomor registri `0x0784` sehingga dapat juga ditulis sebagai SHORT-CODE).
 
 - Object adalah record bahasa `08C6 656E` (BCP47 `en`, 2 WORD) + teks 35 byte (ganjil, 18 WORD) sehingga `0x4B`, TAG 1 + extension TAG 1 + 20 = 22 WORD, `0F4B 0016 …`.
 - Edge adalah TAG 1 + extension TAG 1 + Edge Id 2 + Subject 2 + Object 22 = 28 WORD sehingga `LLLL=1110`, TAG `1706`, extension TAG `001C`.

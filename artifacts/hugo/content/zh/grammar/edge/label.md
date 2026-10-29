@@ -2,7 +2,7 @@
 title: "LABEL"
 weight: 5
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "LABEL 是把 Subject 目标的一个分语言名称，以 UTF8-LANGUAGE-TEXT Object 连接的叙述 Edge（Codec 0x04）。"
 author: "朴俊宇"
@@ -43,7 +43,7 @@ Object            UTF8-LANGUAGE-TEXT Value 或 LOCAL Reference 记录 1 个
 
 ## 示例（非规范）
 
-`en` 的语言码 `0784` 是 GEUL Language Registry 草案（draft-0）中的编号。注册表尚未封版，所以它不是确定的码，而是非规范值。
+`en` 的语言码 `0784` 是 GEUL Language Registry v2（规格文档 `0x0000/0x0000000000000848` 版本 2）中的编号。
 
 ### LANGUAGE-SHORT-CODE
 

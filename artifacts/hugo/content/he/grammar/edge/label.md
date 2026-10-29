@@ -2,7 +2,7 @@
 title: "LABEL"
 weight: 5
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "LABEL היא Edge תיאורית שמקשרת שם אחד בשפה מסוימת של יעד ה-Subject כ-Object מסוג UTF8-LANGUAGE-TEXT (Codec 0x04)."
 author: "ג'ונו פארק"
@@ -43,7 +43,7 @@ Object            Value מסוג UTF8-LANGUAGE-TEXT או רשומת LOCAL Refere
 
 ## דוגמה (לא נורמטיבית)
 
-קוד השפה `0784` של `en` הוא המספר מטיוטת GEUL Language Registry (draft-0). הרישום טרם ננעל, ולכן זהו ערך לא נורמטיבי ולא קוד סופי.
+קוד השפה `0784` של `en` הוא המספר ב-GEUL Language Registry v2 (מסמך המפרט `0x0000/0x0000000000000848` גרסה 2).
 
 ### LANGUAGE-SHORT-CODE
 

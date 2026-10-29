@@ -2,7 +2,7 @@
 title: "LANGUAGE-BCP47-CODE"
 weight: 71
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-BCP47-CODE is a Value that holds a complete BCP 47 language tag as an ASCII byte sequence. It uses the even-odd byte code pair 0x46/0x47."
 author: "Junwoo Park"
@@ -48,9 +48,9 @@ Payload WORD 1st ... Nth          BCP 47 tag bytes / final zero padding
 
 ## Relation to LANGUAGE-SHORT-CODE
 
-- To hold only the primary language subtag in a short form, use [LANGUAGE-SHORT-CODE](/grammar/value/text/language-short-code/).
-- If script, region, variant, extension, or private-use is needed, use LANGUAGE-BCP47-CODE.
-- Use LANGUAGE-BCP47-CODE also for a language not yet assigned in the LANGUAGE-SHORT-CODE registry, when the `0xffff` escape would be needed, and when the original of the full tag must be preserved.
+- A tag that has a number in the GEUL Language Registry can be written in 1 WORD as [LANGUAGE-SHORT-CODE](/grammar/value/text/language-short-code/).
+- A tag without a number in the registry (including tags with an extension or private-use) is written as LANGUAGE-BCP47-CODE. Use LANGUAGE-BCP47-CODE also when the original of the full tag must be preserved.
+- SHORT-CODE `n` and the LANGUAGE-BCP47-CODE of the tag the registry binds to `n` (case-insensitive) are the same language.
 
 ## Example
 

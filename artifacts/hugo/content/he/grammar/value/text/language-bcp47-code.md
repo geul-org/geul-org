@@ -2,7 +2,7 @@
 title: "LANGUAGE-BCP47-CODE"
 weight: 71
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-BCP47-CODE הוא Value שמכיל language tag מלא של BCP 47 כרצף בייטים ASCII. הוא משתמש בזוג הקודים הזוגי-אי-זוגי 0x46/0x47."
 author: "ג'ונו פארק"
@@ -48,9 +48,9 @@ Payload WORD 1st ... Nth          BCP 47 tag bytes / final zero padding
 
 ## הקשר ל-LANGUAGE-SHORT-CODE
 
-- כדי לכתוב בקצרה רק את ה-primary language subtag, משתמשים ב-[LANGUAGE-SHORT-CODE](/he/grammar/value/text/language-short-code/).
-- כשדרושים script, region, variant, extension או private-use, משתמשים ב-LANGUAGE-BCP47-CODE.
-- גם בשפה שעדיין לא הוקצתה בפנקס LANGUAGE-SHORT-CODE, כשדרוש escape של `0xffff`, וכשצריך לשמור את הטקסט המקורי של ה-tag המלא, משתמשים ב-LANGUAGE-BCP47-CODE.
+- tag שיש לו מספר ב-GEUL Language Registry אפשר לכתוב ב-WORD אחד כ-[LANGUAGE-SHORT-CODE](/he/grammar/value/text/language-short-code/).
+- tag שאין לו מספר ברישום (כולל tag עם extension או private-use) נכתב כ-LANGUAGE-BCP47-CODE. גם כשצריך לשמור את הטקסט המקורי של ה-tag המלא, משתמשים ב-LANGUAGE-BCP47-CODE.
+- SHORT-CODE ‏`n` ו-LANGUAGE-BCP47-CODE של ה-tag שהרישום קשר ל-`n` (בלי הבחנה בין אותיות גדולות לקטנות) הם אותה שפה.
 
 ## דוגמה
 

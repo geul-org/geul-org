@@ -2,7 +2,7 @@
 title: "DESCRIPTION"
 weight: 7
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "DESCRIPTION -- описательный Edge, который связывает с Subject одно короткое описание на конкретном языке (Codec 0x06). Раскладка та же, что у LABEL."
 author: "Джунву Пак"
@@ -43,7 +43,7 @@ Object            Value UTF8-LANGUAGE-TEXT или 1 запись LOCAL Reference
 
 ## Пример (ненормативный)
 
-Edge Id `0009`, Subject Q64 (`00A0 0040`), Object `capital and largest city of Germany` (en). Язык до реестра -- LANGUAGE-BCP47-CODE.
+Edge Id `0009`, Subject Q64 (`00A0 0040`), Object `capital and largest city of Germany` (en). Язык -- пример формата LANGUAGE-BCP47-CODE (у `en` есть номер в реестре `0x0784`, поэтому его можно записать и как SHORT-CODE).
 
 - Object -- язык `08C6 656E` (BCP47 `en`, 2 WORD) + текст 35 байт (нечётное, 18 WORD), то есть `0x4B`, TAG 1 + TAG расширения 1 + 20 = 22 WORD, `0F4B 0016 …`.
 - Edge -- TAG 1 + TAG расширения 1 + Edge Id 2 + Subject 2 + Object 22 = 28 WORD, поэтому `LLLL=1110`, TAG `1706`, TAG расширения `001C`.

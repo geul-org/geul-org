@@ -311,7 +311,7 @@ Issuer — субъект, определяющий документы и фор
 | `0x45` | [URI-ODD](/ru/grammar/value/text/uri/) | TEXT | То же. Нечётное число байт |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/ru/grammar/value/text/language-bcp47-code/) | TEXT | ASCII-последовательность байт полного language tag BCP 47 в canonical регистре. Чётное число байт |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/ru/grammar/value/text/language-bcp47-code/) | TEXT | То же. Нечётное число байт |
-| `0x48` | [LANGUAGE-SHORT-CODE](/ru/grammar/value/text/language-short-code/) | TEXT | Сжатый код primary language GEUL, фиксированно 1 WORD Payload |
+| `0x48` | [LANGUAGE-SHORT-CODE](/ru/grammar/value/text/language-short-code/) | TEXT | Тег BCP 47, записанный номером GEUL Language Registry (Payload 1 WORD) |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/ru/grammar/value/text/utf8-language-text/) | TEXT | Текст с языком. Запись языкового Value (LANGUAGE-SHORT-CODE или LANGUAGE-BCP47-CODE) и байты UTF-8. Чётность по байтам текста |
 | `0x4C`~`0x5F` | Reserved | TEXT |  |

@@ -2,7 +2,7 @@
 title: "DESCRIPTION"
 weight: 7
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "DESCRIPTION ist ein Beschreibungs-Edge (Codec 0x06), das eine kurze Sprachbeschreibung des Subject verbindet. Das Layout ist wie bei LABEL."
 author: "Junwoo Park"
@@ -43,7 +43,7 @@ Gesamt = 1 + N_len + N_id + N_subject + N_object WORD
 
 ## Beispiel (nicht normativ)
 
-Edge Id `0009`, Subject Q64 (`00A0 0040`), Object `capital and largest city of Germany` (en). Da das Sprachregister noch fehlt, ist die Sprache LANGUAGE-BCP47-CODE.
+Edge Id `0009`, Subject Q64 (`00A0 0040`), Object `capital and largest city of Germany` (en). Die Sprache ist ein Beispiel für das Format LANGUAGE-BCP47-CODE (`en` hat die Registry-Nummer `0x0784` und kann daher auch als SHORT-CODE geschrieben werden).
 
 - Das Object besteht aus der Sprache `08C6 656E` (BCP47 `en`, 2 WORD) + Text 35 Byte (ungerade, 18 WORD), also `0x4B`, TAG 1 + Erweiterungs-TAG 1 + 20 = 22 WORD, `0F4B 0016 …`.
 - Das Edge hat TAG 1 + Erweiterungs-TAG 1 + Edge Id 2 + Subject 2 + Object 22 = 28 WORD, also `LLLL=1110`, TAG `1706`, Erweiterungs-TAG `001C`.

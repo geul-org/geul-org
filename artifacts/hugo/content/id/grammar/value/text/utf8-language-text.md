@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT adalah teks dengan bahasa yang memuat satu record Value bahasa dan teks UTF-8 dalam satu Value (Codec 0x4A/0x4B)."
 author: "Junwoo Park"
@@ -29,7 +29,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 0x00 terakhir jika ganjil
 
 - Payload dimulai dengan record bahasa. WORD pertama Payload dibaca sebagai TAG dan sepanjang Length-nya adalah record bahasa, dan sisanya adalah byte teks. Record bahasa wajib. Jika tidak ada bahasa, pakai UTF8-TEXT, bukan format ini.
 - Record bahasa adalah tepat satu record [LANGUAGE-SHORT-CODE](/id/grammar/value/text/language-short-code/) (`0x48`) atau [LANGUAGE-BCP47-CODE](/id/grammar/value/text/language-bcp47-code/) (`0x46`·`0x47`) yang lengkap. Jika Codec lain atau tidak lengkap, invalid. Validitas record bahasa mengikuti aturan format itu.
-- Kedua format bahasa dapat dipakai. Aturan membandingkan apakah bahasa sama sama dengan [LABEL](/id/grammar/edge/label/). SHORT-CODE dan tag BCP 47 yang hanya satu primary subtag yang berpadanan dengannya adalah bahasa yang sama.
+- Kedua format bahasa dapat dipakai. Aturan membandingkan apakah bahasa sama sama dengan [LABEL](/id/grammar/edge/label/). SHORT-CODE dan tag BCP 47 yang diikat registri ke nomornya adalah bahasa yang sama.
 - `zxx` (tanpa konten bahasa) tidak dipakai. String seperti itu adalah UTF8-TEXT. `und` (bahasa belum ditentukan) dan `mul` (beberapa bahasa) adalah teks dengan bahasa sehingga dapat dipakai.
 - Byte teks mengikuti aturan yang sama dengan UTF8-TEXT. Harus UTF-8 well-formed, BOM di depan dilarang, normalisasi tidak dipaksakan dan teks asli dipertahankan apa adanya. Pihak yang membandingkan·mengindeks menyamakan dengan NFC saat membandingkan.
 - Jumlah byte teks adalah `2 × (jumlah WORD Payload − jumlah WORD record bahasa) − P`. P (bit paling tidak signifikan Codec) hanya menyatakan genap-ganjilnya byte teks. Jika ganjil, byte bawah WORD terakhir harus `00`.
@@ -46,7 +46,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 0x00 terakhir jika ganjil
 - Kode bahasa Wikidata·Wikimedia tidak semuanya BCP 47 (contoh: `simple`, `map-bms`). Dipindahkan ke tag BCP 47 dengan tabel padanan. Kode yang tidak dapat dipindahkan ditangani berbeda menurut pemakaian.
   - Nilai (monolingualtext): teks asli datavalue dipertahankan sebagai UTF8-TEXT. Nilai adalah bagian proposisi sehingga jika dibuang proposisi berubah.
   - Label·deskripsi·alias: dilewati dan dicatat dalam laporan. Edge ini hanya berdiri jika ada bahasa (teks tanpa bahasa adalah invalid), dan teks aslinya tetap ada di data sumber.
-- Sampai GEUL Language Registry terbentuk, dipakai LANGUAGE-BCP47-CODE.
+- Jika tag hasil padanan punya nomor di GEUL Language Registry, dipakai LANGUAGE-SHORT-CODE; jika tidak, LANGUAGE-BCP47-CODE.
 
 ## Panjang
 
@@ -55,7 +55,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 0x00 terakhir jika ganjil
 
 ## Contoh
 
-Karena registri bahasa belum ada, semuanya LANGUAGE-BCP47-CODE.
+Semua bahasa di sini adalah contoh format LANGUAGE-BCP47-CODE. `fr`, `ko`, dan `de` punya nomor registri sehingga dapat juga ditulis sebagai SHORT-CODE (2 WORD).
 
 | Nilai | Byte teks | WORD total |
 |---|---|---|

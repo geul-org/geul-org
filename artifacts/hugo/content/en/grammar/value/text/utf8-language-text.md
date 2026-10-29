@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT is text with a language, holding one language Value record and UTF-8 text in one Value (Codec 0x4A/0x4B)."
 author: "Junwoo Park"
@@ -29,7 +29,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / a trailing 0x00 if odd
 
 - The Payload starts with the language record. Read the first Payload WORD as a TAG; the language record is that Length, and the rest is the text bytes. The language record is required. If there is no language, use UTF8-TEXT, not this format.
 - The language record is exactly one complete [LANGUAGE-SHORT-CODE](/grammar/value/text/language-short-code/) (`0x48`) or [LANGUAGE-BCP47-CODE](/grammar/value/text/language-bcp47-code/) (`0x46`, `0x47`) record. If it is another Codec or incomplete, it is invalid. The validity of the language record follows the rules of that format.
-- Both language formats can be used. The rule for comparing whether languages are the same is the same as [LABEL](/grammar/edge/label/). A SHORT-CODE and the corresponding BCP 47 tag with only one primary subtag are the same language.
+- Both language formats can be used. The rule for comparing whether languages are the same is the same as [LABEL](/grammar/edge/label/). A SHORT-CODE and the BCP 47 tag the registry binds to its number are the same language.
 - `zxx` (no linguistic content) is not used. Such a string is UTF8-TEXT. `und` (undetermined language) and `mul` (multiple languages) are text with a language, so they can be used.
 - The text bytes follow the same rules as UTF8-TEXT. They must be well-formed UTF-8, a leading BOM is forbidden, no normalization is enforced, and the original is preserved as it is. The side that compares and indexes aligns to NFC to compare.
 - The text byte count is `2 × (Payload WORD count − language record WORD count) − P`. P (the lowest bit of the Codec) only indicates whether the text bytes are odd or even. If odd, the lower byte of the last WORD must be `00`.
@@ -46,7 +46,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / a trailing 0x00 if odd
 - Not all Wikidata and Wikimedia language codes are BCP 47 (for example, `simple`, `map-bms`). They are carried over to BCP 47 tags with a mapping table. Codes that cannot be carried over are handled differently depending on use.
   - Values (monolingualtext): preserve the datavalue original as UTF8-TEXT. A value is part of the proposition, so dropping it changes the proposition.
   - Labels, descriptions, aliases: skip them and note them in the report. These Edges hold only with a language (text with no language is invalid), and the original remains in the source data.
-- Until the GEUL Language Registry exists, LANGUAGE-BCP47-CODE is used.
+- If the mapped tag has a number in the GEUL Language Registry, LANGUAGE-SHORT-CODE is used; otherwise LANGUAGE-BCP47-CODE.
 
 ## Length
 
@@ -55,7 +55,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / a trailing 0x00 if odd
 
 ## Examples
 
-The languages are all LANGUAGE-BCP47-CODE because the registry does not exist yet.
+The languages are all examples of the LANGUAGE-BCP47-CODE format. `fr`, `ko` and `de` have registry numbers, so they can also be written as SHORT-CODE (2 WORDs).
 
 | Value | Text bytes | Whole WORDs |
 |---|---|---|

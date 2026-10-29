@@ -2,7 +2,7 @@
 title: "LANGUAGE-BCP47-CODE"
 weight: 71
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-BCP47-CODE は、完全な BCP 47 language tag を ASCII バイト列で収める Value だ。偶数・奇数バイトのコードペア 0x46/0x47 を使う。"
 author: "朴俊宇"
@@ -48,9 +48,9 @@ Payload WORD 1st ... Nth          BCP 47 tag bytes / final zero padding
 
 ## LANGUAGE-SHORT-CODE との関係
 
-- primary language subtag だけを短く収めるには、[LANGUAGE-SHORT-CODE](/ja/grammar/value/text/language-short-code/) を使う。
-- script、region、variant、extension、private-use が必要なら、LANGUAGE-BCP47-CODE を使う。
-- LANGUAGE-SHORT-CODE registry にまだ割り当てられていない言語、`0xffff` escape が必要な場合、full tag の原文保存が必要な場合も、LANGUAGE-BCP47-CODE を使う。
+- GEUL Language Registry に番号のある tag は、[LANGUAGE-SHORT-CODE](/ja/grammar/value/text/language-short-code/) で 1 WORD に書ける。
+- レジストリに番号のない tag(extension・private-use を含む tag も)は LANGUAGE-BCP47-CODE で書く。full tag の原文保存が必要な場合も LANGUAGE-BCP47-CODE を使う。
+- SHORT-CODE `n` と、レジストリが `n` に結んだ tag の LANGUAGE-BCP47-CODE(大文字小文字を区別しない)は同じ言語だ。
 
 ## 例
 

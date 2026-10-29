@@ -2,7 +2,7 @@
 title: "LANGUAGE-BCP47-CODE"
 weight: 71
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-BCP47-CODE est une Value qui contient une balise de langue BCP 47 complète sous forme de suite d'octets ASCII. Elle emploie la paire de codes d'octets pair/impair 0x46/0x47."
 author: "Junwoo Park"
@@ -48,9 +48,9 @@ Payload WORD 1er ... Nème          BCP 47 tag bytes / final zero padding
 
 ## Relation avec LANGUAGE-SHORT-CODE
 
-- Pour ne contenir que la sous-balise de langue primaire sous forme courte, on emploie [LANGUAGE-SHORT-CODE](/fr/grammar/value/text/language-short-code/).
-- Si l'on a besoin de script, région, variante, extension ou private-use, on emploie LANGUAGE-BCP47-CODE.
-- On emploie aussi LANGUAGE-BCP47-CODE pour une langue pas encore attribuée dans le registre LANGUAGE-SHORT-CODE, quand l'échappement `0xffff` serait nécessaire, et quand il faut conserver le texte d'origine de la balise complète.
+- Une balise qui a un numéro dans le GEUL Language Registry peut s'écrire en 1 WORD en [LANGUAGE-SHORT-CODE](/fr/grammar/value/text/language-short-code/).
+- Une balise sans numéro dans le registre (y compris les balises avec extension ou private-use) s'écrit en LANGUAGE-BCP47-CODE. On emploie aussi LANGUAGE-BCP47-CODE quand il faut conserver le texte d'origine de la balise complète.
+- Le SHORT-CODE `n` et le LANGUAGE-BCP47-CODE de la balise que le registre lie à `n` (sans tenir compte de la casse) sont la même langue.
 
 ## Exemple
 

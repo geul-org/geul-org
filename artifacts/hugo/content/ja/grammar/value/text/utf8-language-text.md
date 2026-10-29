@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT は、言語 Value レコード一つと UTF-8 テキストを一つの Value に収める、言語付きテキストだ(Codec 0x4A/0x4B)。"
 author: "朴俊宇"
@@ -29,7 +29,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 奇数なら最後に 0x00
 
 - Payload は言語レコードで始まる。Payload の最初の WORD を TAG として読み、その Length だけが言語レコードで、残りがテキストバイトだ。言語レコードは必須だ。言語がなければ、この形式ではなく UTF8-TEXT を使う。
 - 言語レコードは、完全な [LANGUAGE-SHORT-CODE](/ja/grammar/value/text/language-short-code/)(`0x48`)または [LANGUAGE-BCP47-CODE](/ja/grammar/value/text/language-bcp47-code/)(`0x46`・`0x47`)レコードがちょうど一つだ。他の Codec だったり不完全であれば invalid だ。言語レコードの有効性は、その形式の規則に従う。
-- 二つの言語形式のどちらも使える。同じ言語かを比較する規則は [LABEL](/ja/grammar/edge/label/) と同じだ。SHORT-CODE と、それに対応する primary subtag だけの BCP 47 tag は、同じ言語だ。
+- 二つの言語形式のどちらも使える。同じ言語かを比較する規則は [LABEL](/ja/grammar/edge/label/) と同じだ。SHORT-CODE と、レジストリがその番号に結んだ BCP 47 tag は、同じ言語だ。
 - `zxx`(言語内容なし)は使わない。そのような文字列は UTF8-TEXT だ。`und`(言語未定)と `mul`(複数言語)は言語のあるテキストなので、使える。
 - テキストバイトは UTF8-TEXT と同じ規則に従う。well-formed な UTF-8 でなければならず、先頭の BOM は禁止し、正規化を強制せずに原文のまま保存する。比較・インデックスする側が NFC に揃えて比較する。
 - テキストのバイト数は `2 × (Payload WORD 数 − 言語レコードの WORD 数) − P` だ。P(Codec の最下位ビット)は、テキストバイトの偶奇だけを表す。奇数なら、最後の WORD の下位 byte は `00` でなければならない。
@@ -46,7 +46,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 奇数なら最後に 0x00
 - Wikidata・Wikimedia の言語コードがすべて BCP 47 なわけではない(例: `simple`、`map-bms`)。対応表で BCP 47 tag に移す。移せないコードは、用途によって異なる扱いをする。
   - 値(monolingualtext): datavalue の原文を UTF8-TEXT で保存する。値は命題の一部なので、捨てると命題が変わる。
   - ラベル・説明・別名: 読み飛ばして、レポートに残す。これらの Edge は言語があって成り立ち(言語のないテキストは invalid)、原文は原典データに残る。
-- GEUL Language Registry ができるまでは、LANGUAGE-BCP47-CODE を使う。
+- 対応させた tag が GEUL Language Registry に番号を持てば LANGUAGE-SHORT-CODE で、持たなければ LANGUAGE-BCP47-CODE で書く。
 
 ## 長さ
 
@@ -55,7 +55,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 奇数なら最後に 0x00
 
 ## 例
 
-言語は、レジストリができる前なので、すべて LANGUAGE-BCP47-CODE だ。
+言語はすべて LANGUAGE-BCP47-CODE 形式の例だ。`fr`・`ko`・`de` はレジストリ番号があるので SHORT-CODE(2 WORD)でも書ける。
 
 | 値 | テキストバイト | 全体 WORD |
 |---|---|---|

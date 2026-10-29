@@ -2,7 +2,7 @@
 title: "DESCRIPTION"
 weight: 7
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "DESCRIPTION 是连接 Subject 目标的一个分语言简短说明的叙述 Edge（Codec 0x06）。布局与 LABEL 相同。"
 author: "朴俊宇"
@@ -43,7 +43,7 @@ Object            UTF8-LANGUAGE-TEXT Value 或 LOCAL Reference 记录 1 个
 
 ## 示例（非规范）
 
-Edge Id `0009`，Subject Q64（`00A0 0040`），Object `capital and largest city of Germany`（en）。语言因为在注册表之前，所以是 LANGUAGE-BCP47-CODE。
+Edge Id `0009`，Subject Q64（`00A0 0040`），Object `capital and largest city of Germany`（en）。语言是 LANGUAGE-BCP47-CODE 格式的示例（`en` 有注册表编号 `0x0784`，也可以写成 SHORT-CODE）。
 
 - Object 是语言 `08C6 656E`（BCP47 `en`，2 WORD）+ 文本 35 byte（奇数，18 WORD），所以是 `0x4B`，TAG 1 + 扩展 TAG 1 + 20 = 22 WORD，`0F4B 0016 …`。
 - Edge 是 TAG 1 + 扩展 TAG 1 + Edge Id 2 + Subject 2 + Object 22 = 28 WORD，所以 `LLLL=1110`，TAG `1706`，扩展 TAG `001C`。

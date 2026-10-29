@@ -2,7 +2,7 @@
 title: "LANGUAGE-BCP47-CODE"
 weight: 71
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-BCP47-CODE قيمة Value تحمل وسم لغة BCP 47 كاملاً كسلسلة بايتات ASCII. تستخدم زوج الرموز الزوجي/الفردي 0x46/0x47."
 author: "جونو بارك"
@@ -48,9 +48,9 @@ Payload WORD 1st ... Nth          BCP 47 tag bytes / final zero padding
 
 ## العلاقة مع LANGUAGE-SHORT-CODE
 
-- لحمل primary language subtag فقط بصورة مختصرة يُستخدم [LANGUAGE-SHORT-CODE](/ar/grammar/value/text/language-short-code/).
-- إذا لزم script أو region أو variant أو extension أو private-use فيُستخدم LANGUAGE-BCP47-CODE.
-- ويُستخدم LANGUAGE-BCP47-CODE أيضاً للغة لم تُخصَّص بعد في سجل LANGUAGE-SHORT-CODE، أو عند الحاجة إلى escape `0xffff`، أو عند الحاجة إلى حفظ النص الأصلي للوسم الكامل.
+- الوسم الذي له رقم في GEUL Language Registry يمكن كتابته في 1 WORD بصيغة [LANGUAGE-SHORT-CODE](/ar/grammar/value/text/language-short-code/).
+- الوسم الذي ليس له رقم في السجل (ومنه الوسوم التي فيها extension أو private-use) يُكتب بصيغة LANGUAGE-BCP47-CODE. ويُستخدم LANGUAGE-BCP47-CODE أيضاً عند الحاجة إلى حفظ النص الأصلي للوسم الكامل.
+- SHORT-CODE ‏`n` وLANGUAGE-BCP47-CODE للوسم الذي يربطه السجل بـ `n` (دون تمييز حالة الأحرف) هما اللغة نفسها.
 
 ## أمثلة
 

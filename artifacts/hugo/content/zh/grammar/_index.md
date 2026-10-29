@@ -311,7 +311,7 @@ Codec 的高 2 位是系列。NUMERIC/DECIMAL 再用高 3 位的第 3 位区分�
 | `0x45` | [URI-ODD](/zh/grammar/value/text/uri/) | TEXT | 同上。奇数字节 |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/zh/grammar/value/text/language-bcp47-code/) | TEXT | canonical casing 的完整 BCP 47 language tag ASCII 字节序列。偶数字节 |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/zh/grammar/value/text/language-bcp47-code/) | TEXT | 同上。奇数字节 |
-| `0x48` | [LANGUAGE-SHORT-CODE](/zh/grammar/value/text/language-short-code/) | TEXT | 固定 Payload 1 WORD 的 GEUL primary language 压缩码 |
+| `0x48` | [LANGUAGE-SHORT-CODE](/zh/grammar/value/text/language-short-code/) | TEXT | 以 GEUL Language Registry 编号书写的 BCP 47 tag（Payload 1 WORD） |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/zh/grammar/value/text/utf8-language-text/) | TEXT | 带语言的文本。语言 Value 记录（LANGUAGE-SHORT-CODE 或 LANGUAGE-BCP47-CODE）与 UTF-8 字节。文本字节的偶数·奇数 |
 | `0x4C`~`0x5F` | Reserved | TEXT |  |

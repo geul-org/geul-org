@@ -311,7 +311,7 @@ Los 2 bits superiores del Codec son la familia. NUMERIC/DECIMAL se subdividen co
 | `0x45` | [URI-ODD](/es/grammar/value/text/uri/) | TEXT | Igual que el anterior. Bytes impares |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/es/grammar/value/text/language-bcp47-code/) | TEXT | Secuencia de bytes ASCII de una etiqueta de idioma BCP 47 completa con mayúsculas canónicas. Bytes pares |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/es/grammar/value/text/language-bcp47-code/) | TEXT | Igual que el anterior. Bytes impares |
-| `0x48` | [LANGUAGE-SHORT-CODE](/es/grammar/value/text/language-short-code/) | TEXT | Código comprimido de idioma primario de GEUL, con Payload fijo de 1 WORD |
+| `0x48` | [LANGUAGE-SHORT-CODE](/es/grammar/value/text/language-short-code/) | TEXT | Tag BCP 47 escrita con su número del GEUL Language Registry (Payload 1 WORD) |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/es/grammar/value/text/utf8-language-text/) | TEXT | Texto con idioma. Un registro Value de idioma (LANGUAGE-SHORT-CODE o LANGUAGE-BCP47-CODE) y bytes UTF-8. Paridad pares/impares de los bytes del texto |
 | `0x4C`~`0x5F` | Reserved | TEXT |  |

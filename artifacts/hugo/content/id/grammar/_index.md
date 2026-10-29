@@ -311,7 +311,7 @@ Issuer dan nomor format ditaruh pada Codec extension TAG setelah `0x7C`~`0x7F` (
 | `0x45` | [URI-ODD](/id/grammar/value/text/uri/) | TEXT | Sama dengan di atas. Byte ganjil |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/id/grammar/value/text/language-bcp47-code/) | TEXT | Deretan byte ASCII language tag BCP 47 lengkap dengan canonical casing. Byte genap |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/id/grammar/value/text/language-bcp47-code/) | TEXT | Sama dengan di atas. Byte ganjil |
-| `0x48` | [LANGUAGE-SHORT-CODE](/id/grammar/value/text/language-short-code/) | TEXT | Kode kompresi bahasa primer GEUL dengan Payload tetap 1 WORD |
+| `0x48` | [LANGUAGE-SHORT-CODE](/id/grammar/value/text/language-short-code/) | TEXT | Tag BCP 47 yang ditulis dengan nomor GEUL Language Registry (Payload 1 WORD) |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/id/grammar/value/text/utf8-language-text/) | TEXT | Teks dengan bahasa. Record Value bahasa (LANGUAGE-SHORT-CODE atau LANGUAGE-BCP47-CODE) dan byte UTF-8. Genap·ganjil byte teks |
 | `0x4C`~`0x5F` | Reserved | TEXT |  |

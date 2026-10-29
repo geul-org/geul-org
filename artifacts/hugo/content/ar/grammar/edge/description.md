@@ -2,7 +2,7 @@
 title: "DESCRIPTION"
 weight: 7
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "DESCRIPTION هو Edge وصف يربط وصفاً قصيراً واحداً بحسب اللغة لهدف Subject (Codec 0x06). تخطيطه مثل LABEL."
 author: "جونو بارك"
@@ -43,7 +43,7 @@ Object            قيمة UTF8-LANGUAGE-TEXT أو سجل Reference واحد م�
 
 ## أمثلة (غير معيارية)
 
-Edge Id `0009`، وSubject Q64 (`00A0 0040`)، وObject `capital and largest city of Germany` (en). اللغة هي LANGUAGE-BCP47-CODE لأن السجل لم يوجد بعد.
+Edge Id `0009`، وSubject Q64 (`00A0 0040`)، وObject `capital and largest city of Germany` (en). اللغة مثال على صيغة LANGUAGE-BCP47-CODE (لـ `en` رقم السجل `0x0784`، فيمكن كتابتها أيضاً بصيغة SHORT-CODE).
 
 - Object هو اللغة `08C6 656E` (BCP47 `en`، 2 WORD) + نص من 35 byte (فردي، 18 WORD) فهو `0x4B`، وTAG (1) + TAG ممتد (1) + 20 = 22 WORD، `0F4B 0016 …`.
 - Edge هو TAG (1) + TAG ممتد (1) + Edge Id (2) + Subject (2) + Object (22) = 28 WORD فـ `LLLL=1110`، وTAG هو `1706`، وTAG الممتد `001C`.

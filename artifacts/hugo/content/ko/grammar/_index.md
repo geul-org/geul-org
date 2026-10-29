@@ -311,7 +311,7 @@ Codec의 상위 2비트가 계열이다. NUMERIC/DECIMAL은 상위 3번째 비�
 | `0x45` | [URI-ODD](/ko/grammar/value/text/uri/) | TEXT | 위와 같음. 홀수 바이트 |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/ko/grammar/value/text/language-bcp47-code/) | TEXT | canonical casing의 완전한 BCP 47 language tag ASCII 바이트열. 짝수 바이트 |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/ko/grammar/value/text/language-bcp47-code/) | TEXT | 위와 같음. 홀수 바이트 |
-| `0x48` | [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/) | TEXT | 고정 Payload 1 WORD의 GEUL primary language 압축 코드 |
+| `0x48` | [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/) | TEXT | GEUL Language Registry 번호로 쓴 BCP 47 tag(Payload 1 WORD) |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/ko/grammar/value/text/utf8-language-text/) | TEXT | 언어가 붙은 텍스트. 언어 Value 레코드(LANGUAGE-SHORT-CODE 또는 LANGUAGE-BCP47-CODE)와 UTF-8 바이트. 텍스트 바이트의 짝수·홀수 |
 | `0x4C`~`0x5F` | Reserved | TEXT |  |

@@ -2,7 +2,7 @@
 title: "LANGUAGE-BCP47-CODE"
 weight: 71
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-BCP47-CODE es un Value que contiene como bytes ASCII una etiqueta de idioma BCP 47 completa. Usa el par de códigos de bytes par/impar 0x46/0x47."
 author: "Junwoo Park"
@@ -47,9 +47,9 @@ Payload WORD 1.º ... N-ésimo          bytes de la tag BCP 47 / relleno de cero
 
 ## Relación con LANGUAGE-SHORT-CODE
 
-- Para contener de forma corta solo el primary language subtag, se usa [LANGUAGE-SHORT-CODE](/es/grammar/value/text/language-short-code/).
-- Si hacen falta script, region, variant, extension o private-use, se usa LANGUAGE-BCP47-CODE.
-- LANGUAGE-BCP47-CODE también se usa para un idioma aún no asignado en el registro de LANGUAGE-SHORT-CODE, cuando haría falta el escape `0xffff` y cuando hay que conservar el original de la full tag.
+- Una tag que tiene número en el GEUL Language Registry puede escribirse en 1 WORD como [LANGUAGE-SHORT-CODE](/es/grammar/value/text/language-short-code/).
+- Una tag sin número en el registro (incluidas las tags con extension o private-use) se escribe como LANGUAGE-BCP47-CODE. También se usa LANGUAGE-BCP47-CODE cuando hay que conservar el original de la full tag.
+- El SHORT-CODE `n` y el LANGUAGE-BCP47-CODE de la tag que el registro liga a `n` (sin distinguir mayúsculas) son el mismo idioma.
 
 ## Ejemplo
 

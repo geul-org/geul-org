@@ -311,7 +311,7 @@ Die oberen 2 Bit des Codec bilden die Familie. NUMERIC/DECIMAL werden über das 
 | `0x45` | [URI-ODD](/de/grammar/value/text/uri/) | TEXT | Wie oben. Ungerade Bytezahl |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/de/grammar/value/text/language-bcp47-code/) | TEXT | ASCII-Bytefolge eines vollständigen BCP-47-Language-Tags in kanonischer Schreibung. Gerade Bytezahl |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/de/grammar/value/text/language-bcp47-code/) | TEXT | Wie oben. Ungerade Bytezahl |
-| `0x48` | [LANGUAGE-SHORT-CODE](/de/grammar/value/text/language-short-code/) | TEXT | Komprimierter GEUL-Primary-Language-Code mit festem Payload 1 WORD |
+| `0x48` | [LANGUAGE-SHORT-CODE](/de/grammar/value/text/language-short-code/) | TEXT | BCP-47-Tag, geschrieben als Nummer der GEUL Language Registry (Payload 1 WORD) |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/de/grammar/value/text/utf8-language-text/) | TEXT | Text mit Sprache. Sprach-Value-Record (LANGUAGE-SHORT-CODE oder LANGUAGE-BCP47-CODE) und UTF-8-Bytes. Gerade/ungerade Bytezahl des Textes |
 | `0x4C`~`0x5F` | Reserved | TEXT |  |

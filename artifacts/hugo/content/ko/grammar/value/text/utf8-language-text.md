@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT는 언어 Value 레코드 하나와 UTF-8 텍스트를 한 Value에 담는, 언어가 붙은 텍스트다(Codec 0x4A/0x4B)."
 author: "박준우"
@@ -29,7 +29,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 홀수면 마지막 0x00
 
 - Payload는 언어 레코드로 시작한다. Payload 첫 WORD를 TAG로 읽어 그 Length만큼이 언어 레코드이고, 나머지가 텍스트 바이트다. 언어 레코드는 필수다. 언어가 없으면 이 형식이 아니라 UTF8-TEXT를 쓴다.
 - 언어 레코드는 정확히 하나의 완전한 [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/)(`0x48`) 또는 [LANGUAGE-BCP47-CODE](/ko/grammar/value/text/language-bcp47-code/)(`0x46`·`0x47`) 레코드다. 다른 Codec이거나 불완전하면 invalid다. 언어 레코드의 유효성은 그 형식의 규칙을 따른다.
-- 두 언어 형식 모두 쓸 수 있다. 같은 언어인지 비교하는 규칙은 [LABEL](/ko/grammar/edge/label/)과 같다. SHORT-CODE와, 그에 대응하는 primary subtag 하나뿐인 BCP 47 tag는 같은 언어다.
+- 두 언어 형식 모두 쓸 수 있다. 같은 언어인지 비교하는 규칙은 [LABEL](/ko/grammar/edge/label/)과 같다. SHORT-CODE와, 레지스트리가 그 번호에 묶은 BCP 47 tag는 같은 언어다.
 - `zxx`(언어 내용 없음)는 쓰지 않는다. 그런 문자열은 UTF8-TEXT다. `und`(언어 미정)와 `mul`(여러 언어)은 언어가 있는 텍스트이므로 쓸 수 있다.
 - 텍스트 바이트는 UTF8-TEXT와 같은 규칙을 따른다. well-formed UTF-8이어야 하고, 선두 BOM은 금지하며, 정규화를 강제하지 않고 원문 그대로 보존한다. 비교·색인하는 쪽이 NFC로 맞춰 비교한다.
 - 텍스트 바이트 수는 `2 × (Payload WORD 수 − 언어 레코드 WORD 수) − P`다. P(Codec 최하위 비트)는 텍스트 바이트의 홀짝만 나타낸다. 홀수면 마지막 WORD의 하위 byte는 `00`이어야 한다.
@@ -46,7 +46,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 홀수면 마지막 0x00
 - 위키데이터·위키미디어 언어 코드가 모두 BCP 47은 아니다(예: `simple`, `map-bms`). 대응표로 BCP 47 tag로 옮긴다. 옮길 수 없는 코드는 쓰임에 따라 다르게 다룬다.
   - 값(monolingualtext): datavalue 원문을 UTF8-TEXT로 보존한다. 값은 명제의 일부라 버리면 명제가 바뀐다.
   - 레이블·설명·별칭: 건너뛰고 보고서에 남긴다. 이 Edge들은 언어가 있어야 성립하고(언어 없는 텍스트는 invalid), 원문은 원천 데이터에 남는다.
-- GEUL Language Registry가 생기기 전까지는 LANGUAGE-BCP47-CODE를 쓴다.
+- 옮긴 tag가 GEUL Language Registry에 번호가 있으면 LANGUAGE-SHORT-CODE로, 없으면 LANGUAGE-BCP47-CODE로 쓴다.
 
 ## 길이
 
@@ -55,7 +55,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 홀수면 마지막 0x00
 
 ## 예시
 
-언어는 레지스트리가 생기기 전이라 모두 LANGUAGE-BCP47-CODE다.
+언어는 모두 LANGUAGE-BCP47-CODE 형식의 예다. `fr`·`ko`·`de`는 레지스트리 번호가 있어 SHORT-CODE(2 WORD)로도 쓸 수 있다.
 
 | 값 | 텍스트 바이트 | 전체 WORD |
 |---|---|---|

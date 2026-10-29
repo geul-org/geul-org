@@ -2,7 +2,7 @@
 title: "LABEL"
 weight: 5
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "LABEL es un Edge de afirmación que conecta un nombre por idioma del objeto Subject mediante un Object UTF8-LANGUAGE-TEXT (Codec 0x04)."
 author: "Junwoo Park"
@@ -43,7 +43,7 @@ total = 1 + N_len + N_id + N_subject + N_object WORD
 
 ## Ejemplo (no normativo)
 
-El código de idioma `0784` de `en` es el número del borrador del GEUL Language Registry (draft-0). El registro aún no está sellado, así que es un valor no normativo y no un código definitivo.
+El código de idioma `0784` de `en` es el número en el GEUL Language Registry v2 (documento de especificación `0x0000/0x0000000000000848` versión 2).
 
 ### LANGUAGE-SHORT-CODE
 

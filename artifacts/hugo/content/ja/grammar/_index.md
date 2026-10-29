@@ -311,7 +311,7 @@ Codec の上位2ビットがファミリーだ。NUMERIC/DECIMAL は上位3ビ�
 | `0x45` | [URI-ODD](/ja/grammar/value/text/uri/) | TEXT | 上と同じ。奇数バイト |
 | `0x46` | [LANGUAGE-BCP47-CODE-EVEN](/ja/grammar/value/text/language-bcp47-code/) | TEXT | canonical casing の完全な BCP 47 language tag の ASCII バイト列。偶数バイト |
 | `0x47` | [LANGUAGE-BCP47-CODE-ODD](/ja/grammar/value/text/language-bcp47-code/) | TEXT | 上と同じ。奇数バイト |
-| `0x48` | [LANGUAGE-SHORT-CODE](/ja/grammar/value/text/language-short-code/) | TEXT | 固定 Payload 1 WORD の GEUL primary language 圧縮コード |
+| `0x48` | [LANGUAGE-SHORT-CODE](/ja/grammar/value/text/language-short-code/) | TEXT | GEUL Language Registry の番号で書いた BCP 47 tag(Payload 1 WORD) |
 | `0x49` | Reserved | TEXT |  |
 | `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/ja/grammar/value/text/utf8-language-text/) | TEXT | 言語付きテキスト。言語 Value レコード(LANGUAGE-SHORT-CODE または LANGUAGE-BCP47-CODE)と UTF-8 バイト。テキストバイトの偶数・奇数 |
 | `0x4C`~`0x5F` | Reserved | TEXT |  |

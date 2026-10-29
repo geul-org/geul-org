@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT ist Text mit Sprache, der einen Sprach-Value-Record und UTF-8-Text in einem Value enthält (Codec 0x4A/0x4B)."
 author: "Junwoo Park"
@@ -29,7 +29,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / bei ungerader Zahl zuletzt 0x00
 
 - Der Payload beginnt mit dem Sprach-Record. Das erste WORD des Payloads wird als TAG gelesen, dessen Length ist der Sprach-Record, und der Rest sind die Textbytes. Der Sprach-Record ist Pflicht. Gibt es keine Sprache, verwendet man nicht dieses Format, sondern UTF8-TEXT.
 - Der Sprach-Record ist genau ein vollständiger [LANGUAGE-SHORT-CODE](/de/grammar/value/text/language-short-code/)- (`0x48`) oder [LANGUAGE-BCP47-CODE](/de/grammar/value/text/language-bcp47-code/)- (`0x46`/`0x47`) Record. Bei einem anderen Codec oder unvollständig ist es invalid. Die Gültigkeit des Sprach-Records folgt den Regeln dieses Formats.
-- Beide Sprachformate sind zulässig. Die Regel zum Vergleich, ob es dieselbe Sprache ist, ist wie bei [LABEL](/de/grammar/edge/label/). Ein SHORT-CODE und der entsprechende BCP-47-Tag, der nur aus einem Primary-Subtag besteht, sind dieselbe Sprache.
+- Beide Sprachformate sind zulässig. Die Regel zum Vergleich, ob es dieselbe Sprache ist, ist wie bei [LABEL](/de/grammar/edge/label/). Ein SHORT-CODE und der BCP-47-Tag, den die Registry an seine Nummer bindet, sind dieselbe Sprache.
 - `zxx` (kein Sprachinhalt) wird nicht verwendet. Eine solche Zeichenkette ist UTF8-TEXT. `und` (Sprache unbestimmt) und `mul` (mehrere Sprachen) sind Text mit Sprache und können verwendet werden.
 - Die Textbytes folgen denselben Regeln wie UTF8-TEXT. Sie müssen wohlgeformtes UTF-8 sein, eine führende BOM ist verboten, eine Normalisierung wird nicht erzwungen und der Originaltext bleibt unverändert erhalten. Wer vergleicht oder indiziert, gleicht auf NFC ab.
 - Die Textbytezahl ist `2 × (Anzahl der Payload-WORD − WORD-Zahl des Sprach-Records) − P`. P (niederwertigstes Bit des Codec) gibt nur die Parität der Textbytes an. Bei ungerader Zahl muss das untere Byte des letzten WORD `00` sein.
@@ -46,7 +46,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / bei ungerader Zahl zuletzt 0x00
 - Nicht alle Sprachcodes von Wikidata und Wikimedia sind BCP 47 (z. B. `simple`, `map-bms`). Sie werden über eine Zuordnungstabelle in BCP-47-Tags übertragen. Codes, die sich nicht übertragen lassen, werden je nach Verwendung unterschiedlich behandelt.
   - Wert (monolingualtext): Der Originaltext des datavalue wird als UTF8-TEXT bewahrt. Ein Wert ist Teil der Proposition, und wirft man ihn weg, ändert sich die Proposition.
   - Label, Beschreibung, Alias: Sie werden übersprungen und im Bericht festgehalten. Diese Edges bestehen nur mit Sprache (Text ohne Sprache ist invalid), und der Originaltext bleibt in den Ausgangsdaten erhalten.
-- Bis es eine GEUL Language Registry gibt, wird LANGUAGE-BCP47-CODE verwendet.
+- Hat der zugeordnete Tag eine Nummer in der GEUL Language Registry, wird LANGUAGE-SHORT-CODE verwendet, sonst LANGUAGE-BCP47-CODE.
 
 ## Länge
 
@@ -55,7 +55,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / bei ungerader Zahl zuletzt 0x00
 
 ## Beispiel
 
-Die Sprache ist hier stets LANGUAGE-BCP47-CODE, da es noch keine Registry gibt.
+Die Sprachen sind hier alle Beispiele für das Format LANGUAGE-BCP47-CODE. `fr`, `ko` und `de` haben Registry-Nummern und können daher auch als SHORT-CODE (2 WORD) geschrieben werden.
 
 | Wert | Textbytes | Gesamt-WORD |
 |---|---|---|

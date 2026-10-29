@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT 是把一条语言 Value 记录和 UTF-8 文本放入一个 Value 的带语言文本（Codec 0x4A/0x4B）。"
 author: "朴俊宇"
@@ -29,7 +29,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 奇数则末尾为 0x00
 
 - Payload 以语言记录开头。把 Payload 的第一个 WORD 读作 TAG，其 Length 范围是语言记录，其余是文本字节。语言记录是必需的。没有语言就不用本格式，而用 UTF8-TEXT。
 - 语言记录恰好是一条完整的 [LANGUAGE-SHORT-CODE](/zh/grammar/value/text/language-short-code/)（`0x48`）或 [LANGUAGE-BCP47-CODE](/zh/grammar/value/text/language-bcp47-code/)（`0x46`·`0x47`）记录。其他 Codec 或不完整则 invalid。语言记录的有效性遵循该格式的规则。
-- 两种语言格式都可以使用。比较是否同一语言的规则与 [LABEL](/zh/grammar/edge/label/) 相同。SHORT-CODE 与对应的只有一个 primary subtag 的 BCP 47 tag 是同一种语言。
+- 两种语言格式都可以使用。比较是否同一语言的规则与 [LABEL](/zh/grammar/edge/label/) 相同。SHORT-CODE 与注册表绑定到该编号的 BCP 47 tag 是同一种语言。
 - 不使用 `zxx`（无语言内容）。这样的字符串是 UTF8-TEXT。`und`（语言未定）和 `mul`（多种语言）是有语言的文本，所以可以使用。
 - 文本字节遵循与 UTF8-TEXT 相同的规则。必须是 well-formed UTF-8，禁止开头的 BOM，不强制规范化，原样保留原文。由比较·索引的一方对齐为 NFC 后比较。
 - 文本字节数是 `2 × (Payload WORD 数 − 语言记录 WORD 数) − P`。P（Codec 最低位）只表示文本字节的奇偶。为奇数时，最后一个 WORD 的低 byte 必须是 `00`。
@@ -46,7 +46,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 奇数则末尾为 0x00
 - Wikidata·Wikimedia 的语言码并不全是 BCP 47（例：`simple`、`map-bms`）。通过对应表转换为 BCP 47 tag。无法转换的码根据用途分别处理。
   - 值（monolingualtext）：把 datavalue 原文以 UTF8-TEXT 保留。值是命题的一部分，丢弃则命题会改变。
   - 标签·说明·别名：跳过并记入报告。这些 Edge 必须有语言才成立（没有语言的文本 invalid），原文保留在来源数据中。
-- 在 GEUL Language Registry 出现之前，使用 LANGUAGE-BCP47-CODE。
+- 对应后的 tag 若在 GEUL Language Registry 中有编号，用 LANGUAGE-SHORT-CODE 书写，否则用 LANGUAGE-BCP47-CODE。
 
 ## 长度
 
@@ -55,7 +55,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 奇数则末尾为 0x00
 
 ## 示例
 
-语言在注册表出现之前，全部是 LANGUAGE-BCP47-CODE。
+语言都是 LANGUAGE-BCP47-CODE 格式的示例。`fr`·`ko`·`de` 有注册表编号，也可以写成 SHORT-CODE（2 WORD）。
 
 | 值 | 文本字节 | 总计 WORD |
 |---|---|---|

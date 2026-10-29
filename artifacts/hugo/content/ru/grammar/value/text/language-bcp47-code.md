@@ -2,7 +2,7 @@
 title: "LANGUAGE-BCP47-CODE"
 weight: 71
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "LANGUAGE-BCP47-CODE — Value, хранящий полный language tag BCP 47 как ASCII-последовательность байт. Использует пару кодов чётных/нечётных байт 0x46/0x47."
 author: "Джунву Пак"
@@ -48,9 +48,9 @@ Payload WORD 1st ... Nth          байты тега BCP 47 / нулевой pa
 
 ## Связь с LANGUAGE-SHORT-CODE
 
-- Чтобы кратко записать только primary language subtag, используйте [LANGUAGE-SHORT-CODE](/ru/grammar/value/text/language-short-code/).
-- Если нужны script, region, variant, extension или private-use, используйте LANGUAGE-BCP47-CODE.
-- LANGUAGE-BCP47-CODE также используется для языков, ещё не назначенных в registry LANGUAGE-SHORT-CODE, при необходимости escape `0xffff` и когда нужно сохранить исходную запись полного тега.
+- Тег, у которого есть номер в GEUL Language Registry, можно записать в 1 WORD как [LANGUAGE-SHORT-CODE](/ru/grammar/value/text/language-short-code/).
+- Тег без номера в реестре (включая теги с extension или private-use) записывается как LANGUAGE-BCP47-CODE. LANGUAGE-BCP47-CODE используется и тогда, когда нужно сохранить исходную запись полного тега.
+- SHORT-CODE `n` и LANGUAGE-BCP47-CODE тега, который реестр привязал к `n` (без учёта регистра), обозначают один и тот же язык.
 
 ## Пример
 

@@ -2,7 +2,7 @@
 title: "LABEL"
 weight: 5
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "LABEL -- описательный Edge, который связывает с Subject одно имя на конкретном языке через Object UTF8-LANGUAGE-TEXT (Codec 0x04)."
 author: "Джунву Пак"
@@ -43,7 +43,7 @@ Object            Value UTF8-LANGUAGE-TEXT или 1 запись LOCAL Reference
 
 ## Пример (ненормативный)
 
-Код языка `0784` для `en` -- номер из черновика GEUL Language Registry (draft-0). Реестр ещё не запечатан, поэтому это ненормативное значение, а не окончательный код.
+Код языка `0784` для `en` -- номер в GEUL Language Registry v2 (документ спецификации `0x0000/0x0000000000000848`, версия 2).
 
 ### LANGUAGE-SHORT-CODE
 

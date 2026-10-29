@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT é um texto com idioma, que contém num só Value um registro Value de idioma e um texto UTF-8 (Codec 0x4A/0x4B)."
 author: "Junwoo Park"
@@ -29,7 +29,7 @@ Text WORD 1st ... Nth             bytes UTF-8 / se ímpar, 0x00 no final
 
 - O Payload começa com o registro de idioma. A primeira WORD do Payload é lida como TAG, e o trecho desse Length é o registro de idioma; o restante são os bytes do texto. O registro de idioma é obrigatório. Sem idioma, usa-se UTF8-TEXT, e não este formato.
 - O registro de idioma é exatamente um registro completo de [LANGUAGE-SHORT-CODE](/pt/grammar/value/text/language-short-code/) (`0x48`) ou [LANGUAGE-BCP47-CODE](/pt/grammar/value/text/language-bcp47-code/) (`0x46`, `0x47`). Se for outro Codec ou estiver incompleto, é invalid. A validade do registro de idioma segue as regras desse formato.
-- Podem-se usar os dois formatos de idioma. A regra para comparar se é o mesmo idioma é a de [LABEL](/pt/grammar/edge/label/). O SHORT-CODE e a tag BCP 47 correspondente, com um único primary subtag, são o mesmo idioma.
+- Podem-se usar os dois formatos de idioma. A regra para comparar se é o mesmo idioma é a de [LABEL](/pt/grammar/edge/label/). O SHORT-CODE e a tag BCP 47 que o registry liga ao seu número são o mesmo idioma.
 - Não se usa `zxx` (sem conteúdo de idioma). Essa cadeia é UTF8-TEXT. `und` (idioma indefinido) e `mul` (vários idiomas) são textos com idioma e, por isso, podem ser usados.
 - Os bytes do texto seguem as mesmas regras de UTF8-TEXT. Devem ser UTF-8 bem formado, proíbe-se o BOM inicial e preserva-se o texto original tal como está, sem impor normalização. Quem compara e indexa os ajusta para NFC ao comparar.
 - O número de bytes do texto é `2 × (número de WORD do Payload − número de WORD do registro de idioma) − P`. O P (bit menos significativo do Codec) indica apenas a paridade dos bytes do texto. Se for ímpar, o byte inferior da última WORD deve ser `00`.
@@ -46,7 +46,7 @@ Text WORD 1st ... Nth             bytes UTF-8 / se ímpar, 0x00 no final
 - Nem todos os códigos de idioma do Wikidata e da Wikimedia são BCP 47 (por exemplo, `simple`, `map-bms`). Transcrevem-se para tags BCP 47 por uma tabela de correspondência. Os códigos que não se podem transcrever tratam-se de modo diferente conforme o uso.
   - Valores (monolingualtext): preserva-se o texto original do datavalue como UTF8-TEXT. Como o valor faz parte da proposição, descartá-lo muda a proposição.
   - Labels, descrições e aliases: pulam-se e deixa-se registro no relatório. Esses Edges só se sustentam com idioma (texto sem idioma é invalid), e o texto original permanece nos dados de origem.
-- Até existir o GEUL Language Registry, usa-se LANGUAGE-BCP47-CODE.
+- Se a tag resultante tiver número no GEUL Language Registry, usa-se LANGUAGE-SHORT-CODE; caso contrário, LANGUAGE-BCP47-CODE.
 
 ## Comprimento
 
@@ -55,7 +55,7 @@ Text WORD 1st ... Nth             bytes UTF-8 / se ímpar, 0x00 no final
 
 ## Exemplo
 
-Os idiomas são todos LANGUAGE-BCP47-CODE, pois o registry ainda não existe.
+Os idiomas são todos exemplos do formato LANGUAGE-BCP47-CODE. `fr`, `ko` e `de` têm número no registry, então também podem ser escritos como SHORT-CODE (2 WORD).
 
 | Valor | Bytes do texto | Total de WORD |
 |---|---|---|
