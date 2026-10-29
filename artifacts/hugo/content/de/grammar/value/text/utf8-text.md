@@ -2,7 +2,7 @@
 title: "UTF8-TEXT"
 weight: 65
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-TEXT ist ein Value, der eine UTF-8-Zeichenkette ohne Sprache enthält. Es wird das Codepaar 0x40/0x41 für gerade/ungerade Bytezahl verwendet."
 author: "Junwoo Park"
@@ -26,15 +26,15 @@ Payload WORD 1st ... Nth          UTF-8 bytes / final zero padding
 ## Interpretation und Gültigkeit
 
 - Die Bytefolge muss wohlgeformtes UTF-8 in kürzester Form (shortest-form) nach der Grammatik von RFC 3629 sein. Das Dekodierungsergebnis enthält nur Unicode-Skalarwerte im Bereich `U+0000..U+10FFFF` und nicht den Surrogatbereich `U+D800..U+DFFF`.
-- RFC 3629 beschreibt die kontextabhängige Behandlung einer führenden U+FEFF-Signatur. Das kanonische GEUL-Profil verbietet darüber hinaus die UTF-8-BOM-Bytefolge `EF BB BF` am Anfang des Payloads. Ein U+FEFF an anderer Stelle ist keine BOM, sondern ein Zeichen, und wird von dieser Regel nicht verboten.
+- Ein U+FEFF am Anfang des Payloads (UTF-8-Bytes `EF BB BF`) ist erlaubt und ein Zeichen, genau wie ein U+FEFF an jeder anderen Stelle. Die in RFC 3629 beschriebene Behandlung einer führenden U+FEFF-Signatur (BOM) wird nicht angewendet: Es wird weder entfernt noch als Signatur gelesen, und der Originaltext bleibt unverändert erhalten.
 - Eine Unicode-Normalisierung wird nicht erzwungen. Die dekodierte Skalarsequenz des Originals bleibt unverändert erhalten.
 - Eine gültige UTF-8-Bytefolge wird ohne Umwandlung im Payload abgelegt. Innerhalb eines WORD steht das obere Byte zuerst. Bei ungerader Bytezahl (ungerader Code) muss das nicht verwendete untere Byte des letzten WORD `00` sein.
 - Die Zahl der Payload-WORD ist `ceil(Bytezahl/2)`. Ist es ein ungerader Code und das untere Byte des letzten WORD nicht `00`, wird abgelehnt.
 
 ## Normgrundlage
 
-- Skalarbereich, wohlgeformte Bytefolge und die Bedeutung der BOM-Behandlung von UTF-8 richten sich nach [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
-- BOM-Verbot, Codepaar aus gerade/ungerade, Zero-Padding sowie GEUL-TAG/Length und die 16-Bit-WORD-Anordnung sind kanonische Framing-Regeln dieses Formats.
+- Skalarbereich und wohlgeformte Bytefolge von UTF-8 richten sich nach [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
+- Codepaar aus gerade/ungerade, Zero-Padding sowie GEUL-TAG/Length und die 16-Bit-WORD-Anordnung sind kanonische Framing-Regeln dieses Formats.
 
 ## Länge
 

@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-29T23:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT ist Text mit Sprache, der einen Sprach-Value-Record und UTF-8-Text in einem Value enthält (Codec 0x4A/0x4B)."
 author: "Junwoo Park"
@@ -31,7 +31,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / bei ungerader Zahl zuletzt 0x00
 - Der Sprach-Record ist genau ein vollständiger [LANGUAGE-SHORT-CODE](/de/grammar/value/text/language-short-code/)- (`0x48`) oder [LANGUAGE-BCP47-CODE](/de/grammar/value/text/language-bcp47-code/)- (`0x46`/`0x47`) Record. Bei einem anderen Codec oder unvollständig ist es invalid. Die Gültigkeit des Sprach-Records folgt den Regeln dieses Formats.
 - Beide Sprachformate sind zulässig. Die Regel zum Vergleich, ob es dieselbe Sprache ist, ist wie bei [LABEL](/de/grammar/edge/label/). Ein SHORT-CODE und der BCP-47-Tag, den die Registry an seine Nummer bindet, sind dieselbe Sprache.
 - `zxx` (kein Sprachinhalt) wird nicht verwendet. Eine solche Zeichenkette ist UTF8-TEXT. `und` (Sprache unbestimmt) und `mul` (mehrere Sprachen) sind Text mit Sprache und können verwendet werden.
-- Die Textbytes folgen denselben Regeln wie UTF8-TEXT. Sie müssen wohlgeformtes UTF-8 sein, eine führende BOM ist verboten, eine Normalisierung wird nicht erzwungen und der Originaltext bleibt unverändert erhalten. Wer vergleicht oder indiziert, gleicht auf NFC ab.
+- Die Textbytes folgen denselben Regeln wie UTF8-TEXT. Sie müssen wohlgeformtes UTF-8 sein, ein führendes U+FEFF ist als Zeichen erlaubt, eine Normalisierung wird nicht erzwungen und der Originaltext bleibt unverändert erhalten. Wer vergleicht oder indiziert, gleicht auf NFC ab.
 - Die Textbytezahl ist `2 × (Anzahl der Payload-WORD − WORD-Zahl des Sprach-Records) − P`. P (niederwertigstes Bit des Codec) gibt nur die Parität der Textbytes an. Bei ungerader Zahl muss das untere Byte des letzten WORD `00` sein.
 - Ein leerer Text (0 Byte) besteht bei geradem Codec nur aus dem Sprach-Record.
 

@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-29T23:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT は、言語 Value レコード一つと UTF-8 テキストを一つの Value に収める、言語付きテキストだ(Codec 0x4A/0x4B)。"
 author: "朴俊宇"
@@ -31,7 +31,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 奇数なら最後に 0x00
 - 言語レコードは、完全な [LANGUAGE-SHORT-CODE](/ja/grammar/value/text/language-short-code/)(`0x48`)または [LANGUAGE-BCP47-CODE](/ja/grammar/value/text/language-bcp47-code/)(`0x46`・`0x47`)レコードがちょうど一つだ。他の Codec だったり不完全であれば invalid だ。言語レコードの有効性は、その形式の規則に従う。
 - 二つの言語形式のどちらも使える。同じ言語かを比較する規則は [LABEL](/ja/grammar/edge/label/) と同じだ。SHORT-CODE と、レジストリがその番号に結んだ BCP 47 tag は、同じ言語だ。
 - `zxx`(言語内容なし)は使わない。そのような文字列は UTF8-TEXT だ。`und`(言語未定)と `mul`(複数言語)は言語のあるテキストなので、使える。
-- テキストバイトは UTF8-TEXT と同じ規則に従う。well-formed な UTF-8 でなければならず、先頭の BOM は禁止し、正規化を強制せずに原文のまま保存する。比較・インデックスする側が NFC に揃えて比較する。
+- テキストバイトは UTF8-TEXT と同じ規則に従う。well-formed な UTF-8 でなければならず、先頭の U+FEFF も文字として許可し、正規化を強制せずに原文のまま保存する。比較・インデックスする側が NFC に揃えて比較する。
 - テキストのバイト数は `2 × (Payload WORD 数 − 言語レコードの WORD 数) − P` だ。P(Codec の最下位ビット)は、テキストバイトの偶奇だけを表す。奇数なら、最後の WORD の下位 byte は `00` でなければならない。
 - 空のテキスト(0 byte)は、偶数コードに言語レコードだけを置く。
 

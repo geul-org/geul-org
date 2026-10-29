@@ -2,7 +2,7 @@
 title: "UTF8-TEXT"
 weight: 65
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-TEXT قيمة Value تحمل سلسلة UTF-8 بلا لغة. تستخدم زوج الرموز الزوجي/الفردي 0x40/0x41."
 author: "جونو بارك"
@@ -26,15 +26,15 @@ Payload WORD 1st ... Nth          UTF-8 bytes / final zero padding
 ## التفسير والصلاحية
 
 - يجب أن تكون سلسلة البايتات UTF-8 سليمة التكوين وبأقصر صيغة (shortest-form) وفق نحو RFC 3629. ولا تتضمن نتيجة فك الترميز إلا Unicode scalar value ضمن النطاق `U+0000..U+10FFFF`، ولا تتضمن نطاق surrogate `U+D800..U+DFFF`.
-- يصف RFC 3629 معالجة signature في بداية النص U+FEFF بحسب السياق. ويحظر profile القياسي في GEUL فوق ذلك سلسلة بايتات UTF-8 BOM `EF BB BF` في بداية Payload. أما U+FEFF في موضع آخر فهو محرف لا BOM فلا تحظره هذه القاعدة.
+- يُسمح بـ U+FEFF في بداية Payload (بايتات UTF-8 `EF BB BF`) وهو محرف، مثل U+FEFF في أي موضع آخر. لا تُطبَّق معالجة signature في بداية النص U+FEFF (BOM) التي يصفها RFC 3629: فلا يُحذف ولا يُفسَّر على أنه signature، ويُحفظ النص الأصلي كما هو.
 - لا يُفرض تطبيع Unicode. يُحفظ تسلسل scalar الأصلي بعد فك الترميز كما هو.
 - تُوضع سلسلة بايتات UTF-8 الصالحة في Payload دون تحويل. في WORD يأتي byte الأعلى أولاً. إذا كان عدد البايتات فردياً (رمز فردي) فيجب أن يكون byte الأدنى غير المستخدم في آخر WORD هو `00`.
 - عدد WORD في Payload هو `ceil(عدد البايتات/2)`. يُرفض ما كان الرمز فيه فردياً لكن byte الأدنى في آخر WORD ليس `00`.
 
 ## السند المعياري
 
-- نطاق scalar في UTF-8 وسلاسل البايتات سليمة التكوين ومعنى معالجة BOM تتبع [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
-- حظر BOM وزوج الرموز زوجي/فردي وzero padding وتوزيع TAG/Length في GEUL على WORD ذات 16 بت هي قواعد canonical framing في هذه الصيغة.
+- نطاق scalar في UTF-8 وسلاسل البايتات سليمة التكوين تتبع [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
+- زوج الرموز زوجي/فردي وzero padding وتوزيع TAG/Length في GEUL على WORD ذات 16 بت هي قواعد canonical framing في هذه الصيغة.
 
 ## الطول
 

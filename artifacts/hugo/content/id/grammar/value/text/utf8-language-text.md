@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-29T23:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT adalah teks dengan bahasa yang memuat satu record Value bahasa dan teks UTF-8 dalam satu Value (Codec 0x4A/0x4B)."
 author: "Junwoo Park"
@@ -31,7 +31,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 0x00 terakhir jika ganjil
 - Record bahasa adalah tepat satu record [LANGUAGE-SHORT-CODE](/id/grammar/value/text/language-short-code/) (`0x48`) atau [LANGUAGE-BCP47-CODE](/id/grammar/value/text/language-bcp47-code/) (`0x46`·`0x47`) yang lengkap. Jika Codec lain atau tidak lengkap, invalid. Validitas record bahasa mengikuti aturan format itu.
 - Kedua format bahasa dapat dipakai. Aturan membandingkan apakah bahasa sama sama dengan [LABEL](/id/grammar/edge/label/). SHORT-CODE dan tag BCP 47 yang diikat registri ke nomornya adalah bahasa yang sama.
 - `zxx` (tanpa konten bahasa) tidak dipakai. String seperti itu adalah UTF8-TEXT. `und` (bahasa belum ditentukan) dan `mul` (beberapa bahasa) adalah teks dengan bahasa sehingga dapat dipakai.
-- Byte teks mengikuti aturan yang sama dengan UTF8-TEXT. Harus UTF-8 well-formed, BOM di depan dilarang, normalisasi tidak dipaksakan dan teks asli dipertahankan apa adanya. Pihak yang membandingkan·mengindeks menyamakan dengan NFC saat membandingkan.
+- Byte teks mengikuti aturan yang sama dengan UTF8-TEXT. Harus UTF-8 well-formed, U+FEFF di depan diizinkan sebagai karakter, normalisasi tidak dipaksakan dan teks asli dipertahankan apa adanya. Pihak yang membandingkan·mengindeks menyamakan dengan NFC saat membandingkan.
 - Jumlah byte teks adalah `2 × (jumlah WORD Payload − jumlah WORD record bahasa) − P`. P (bit paling tidak signifikan Codec) hanya menyatakan genap-ganjilnya byte teks. Jika ganjil, byte bawah WORD terakhir harus `00`.
 - Teks kosong (0 byte) menaruh hanya record bahasa pada kode genap.
 

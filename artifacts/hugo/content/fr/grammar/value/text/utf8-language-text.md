@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-29T23:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT est un texte accompagné d'une langue, qui contient dans une seule Value un enregistrement Value de langue et un texte UTF-8 (Codec 0x4A/0x4B)."
 author: "Junwoo Park"
@@ -31,7 +31,7 @@ Text WORD 1er ... Nème             UTF-8 bytes / si impair, dernier 0x00
 - L'enregistrement de langue est exactement un enregistrement complet [LANGUAGE-SHORT-CODE](/fr/grammar/value/text/language-short-code/) (`0x48`) ou [LANGUAGE-BCP47-CODE](/fr/grammar/value/text/language-bcp47-code/) (`0x46`, `0x47`). Si c'est un autre Codec ou s'il est incomplet, invalid. La validité de l'enregistrement de langue suit les règles de ce format.
 - Les deux formats de langue sont admis. La règle de comparaison pour savoir si c'est la même langue est celle de [LABEL](/fr/grammar/edge/label/). Un SHORT-CODE et la balise BCP 47 que le registre lie à son numéro sont la même langue.
 - On n'emploie pas `zxx` (aucun contenu linguistique). Une telle chaîne est UTF8-TEXT. `und` (langue indéterminée) et `mul` (plusieurs langues) sont des textes avec langue et peuvent s'employer.
-- Les octets du texte suivent les mêmes règles qu'UTF8-TEXT. UTF-8 well-formed, BOM de tête interdit, pas de normalisation imposée et conservation du texte d'origine tel quel. Celui qui compare ou indexe aligne sur NFC pour comparer.
+- Les octets du texte suivent les mêmes règles qu'UTF8-TEXT. UTF-8 well-formed, U+FEFF de tête permis comme caractère, pas de normalisation imposée et conservation du texte d'origine tel quel. Celui qui compare ou indexe aligne sur NFC pour comparer.
 - Le nombre d'octets du texte est `2 × (nombre de WORD du Payload − nombre de WORD de l'enregistrement de langue) − P`. P (bit de poids faible du Codec) n'indique que la parité des octets du texte. S'il est impair, l'octet de poids faible du dernier WORD doit être `00`.
 - Un texte vide (0 octet) place seulement l'enregistrement de langue sous le code pair.
 

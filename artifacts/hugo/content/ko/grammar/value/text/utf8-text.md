@@ -2,7 +2,7 @@
 title: "UTF8-TEXT"
 weight: 65
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-TEXT는 언어가 없는 UTF-8 문자열을 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x40/0x41을 쓴다."
 author: "박준우"
@@ -26,15 +26,15 @@ Payload WORD 1st ... Nth          UTF-8 bytes / final zero padding
 ## 해석과 유효성
 
 - 바이트열은 RFC 3629 문법에 맞는 well-formed shortest-form UTF-8이어야 한다. 디코딩 결과는 `U+0000..U+10FFFF` 범위의 Unicode scalar value만 포함하며, surrogate 범위 `U+D800..U+DFFF`는 포함하지 않는다.
-- RFC 3629는 문맥에 따른 선두 U+FEFF signature 처리를 설명한다. GEUL canonical profile은 여기에 더해 Payload 선두의 UTF-8 BOM 바이트열 `EF BB BF`를 금지한다. 다른 위치의 U+FEFF는 BOM이 아니라 문자이므로 이 규칙으로 금지하지 않는다.
+- Payload 선두의 U+FEFF(UTF-8 바이트열 `EF BB BF`)도 다른 위치의 U+FEFF와 같은 문자로 보고 허용한다. RFC 3629가 설명하는 선두 U+FEFF signature(BOM) 처리는 하지 않는다. 떼어 내거나 signature로 해석하지 않고 원문 그대로 보존한다.
 - Unicode normalization은 강제하지 않는다. 디코딩한 원문 scalar sequence를 그대로 보존한다.
 - 유효한 UTF-8 바이트열을 변환 없이 Payload에 둔다. WORD 안에서는 상위 byte가 먼저 온다. 바이트 수가 홀수(홀수 코드)이면 마지막 WORD의 사용하지 않는 하위 byte는 `00`이어야 한다.
 - Payload WORD 수는 `ceil(바이트 수/2)`다. 홀수 코드인데 마지막 WORD의 하위 byte가 `00`이 아니면 거부한다.
 
 ## 표준 근거
 
-- UTF-8의 scalar 범위, well-formed 바이트열, BOM 처리 의미는 [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629)를 따른다.
-- BOM 금지, 홀짝 코드 쌍, zero padding, GEUL TAG/Length와 16비트 WORD 배치는 이 형식의 canonical framing 규칙이다.
+- UTF-8의 scalar 범위와 well-formed 바이트열은 [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629)를 따른다.
+- 홀짝 코드 쌍, zero padding, GEUL TAG/Length와 16비트 WORD 배치는 이 형식의 canonical framing 규칙이다.
 
 ## 길이
 

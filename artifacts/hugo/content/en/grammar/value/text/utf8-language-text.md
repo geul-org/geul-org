@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-29T23:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT is text with a language, holding one language Value record and UTF-8 text in one Value (Codec 0x4A/0x4B)."
 author: "Junwoo Park"
@@ -31,7 +31,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / a trailing 0x00 if odd
 - The language record is exactly one complete [LANGUAGE-SHORT-CODE](/grammar/value/text/language-short-code/) (`0x48`) or [LANGUAGE-BCP47-CODE](/grammar/value/text/language-bcp47-code/) (`0x46`, `0x47`) record. If it is another Codec or incomplete, it is invalid. The validity of the language record follows the rules of that format.
 - Both language formats can be used. The rule for comparing whether languages are the same is the same as [LABEL](/grammar/edge/label/). A SHORT-CODE and the BCP 47 tag the registry binds to its number are the same language.
 - `zxx` (no linguistic content) is not used. Such a string is UTF8-TEXT. `und` (undetermined language) and `mul` (multiple languages) are text with a language, so they can be used.
-- The text bytes follow the same rules as UTF8-TEXT. They must be well-formed UTF-8, a leading BOM is forbidden, no normalization is enforced, and the original is preserved as it is. The side that compares and indexes aligns to NFC to compare.
+- The text bytes follow the same rules as UTF8-TEXT. They must be well-formed UTF-8, a leading U+FEFF is allowed as a character, no normalization is enforced, and the original is preserved as it is. The side that compares and indexes aligns to NFC to compare.
 - The text byte count is `2 × (Payload WORD count − language record WORD count) − P`. P (the lowest bit of the Codec) only indicates whether the text bytes are odd or even. If odd, the lower byte of the last WORD must be `00`.
 - Empty text (0 bytes) places only the language record, with the even code.
 

@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-29T23:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT es un texto con idioma que contiene en un solo Value un registro Value de idioma y texto UTF-8 (Codec 0x4A/0x4B)."
 author: "Junwoo Park"
@@ -30,7 +30,7 @@ Text WORD 1.º ... N-ésimo             bytes UTF-8 / si es impar, el último 0x
 - El registro de idioma es exactamente un registro completo [LANGUAGE-SHORT-CODE](/es/grammar/value/text/language-short-code/) (`0x48`) o [LANGUAGE-BCP47-CODE](/es/grammar/value/text/language-bcp47-code/) (`0x46`·`0x47`). Si es otro Codec o está incompleto, es invalid. La validez del registro de idioma sigue las reglas de ese formato.
 - Se pueden usar ambos formatos de idioma. La regla para comparar si es el mismo idioma es la misma que la de [LABEL](/es/grammar/edge/label/). Un SHORT-CODE y la tag BCP 47 que el registro liga a su número son el mismo idioma.
 - `zxx` (sin contenido lingüístico) no se usa. Tal cadena es UTF8-TEXT. `und` (idioma sin determinar) y `mul` (varios idiomas) son textos con idioma, así que se pueden usar.
-- Los bytes del texto siguen las mismas reglas que UTF8-TEXT. Deben ser UTF-8 well-formed, se prohíbe un BOM inicial, no se impone normalización y se conserva tal cual el original. Quien compara o indexa lo equipara en NFC para comparar.
+- Los bytes del texto siguen las mismas reglas que UTF8-TEXT. Deben ser UTF-8 well-formed, se permite un U+FEFF inicial como carácter, no se impone normalización y se conserva tal cual el original. Quien compara o indexa lo equipara en NFC para comparar.
 - El número de bytes del texto es `2 × (número de WORD del Payload − número de WORD del registro de idioma) − P`. P (el bit menos significativo del Codec) indica solo la paridad de los bytes del texto. Si es impar, el byte inferior del último WORD debe ser `00`.
 - Un texto vacío (0 bytes) lleva solo el registro de idioma, con el código par.
 

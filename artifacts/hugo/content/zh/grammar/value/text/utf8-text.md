@@ -2,7 +2,7 @@
 title: "UTF8-TEXT"
 weight: 65
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-TEXT 是承载没有语言的 UTF-8 字符串的 Value。使用偶数·奇数字节码对 0x40/0x41。"
 author: "朴俊宇"
@@ -26,15 +26,15 @@ Payload WORD 1st ... Nth          UTF-8 bytes / final zero padding
 ## 解读与有效性
 
 - 字节序列必须是符合 RFC 3629 语法的 well-formed shortest-form UTF-8。解码结果只包含 `U+0000..U+10FFFF` 范围的 Unicode scalar value，不包含 surrogate 范围 `U+D800..U+DFFF`。
-- RFC 3629 说明了依上下文处理开头 U+FEFF signature 的方式。GEUL canonical profile 在此基础上，另外禁止 Payload 开头的 UTF-8 BOM 字节序列 `EF BB BF`。其他位置的 U+FEFF 不是 BOM 而是字符，所以不受此规则禁止。
+- Payload 开头的 U+FEFF（UTF-8 字节序列 `EF BB BF`）与其他位置的 U+FEFF 一样视为字符并允许。不适用 RFC 3629 所述的开头 U+FEFF signature（BOM）处理：既不去除，也不解释为 signature，原样保留原文。
 - 不强制 Unicode normalization。原样保留解码出的原文 scalar sequence。
 - 把有效的 UTF-8 字节序列不经转换地放入 Payload。WORD 内高 byte 在前。字节数为奇数（奇数码）时，最后一个 WORD 中未使用的低 byte 必须是 `00`。
 - Payload WORD 数是 `ceil(字节数/2)`。奇数码而最后一个 WORD 的低 byte 不是 `00` 则拒绝。
 
 ## 标准依据
 
-- UTF-8 的 scalar 范围、well-formed 字节序列、BOM 处理含义遵循 [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629)。
-- BOM 禁止、奇偶码对、zero padding、GEUL TAG/Length 与 16 位 WORD 布局是本格式的 canonical framing 规则。
+- UTF-8 的 scalar 范围与 well-formed 字节序列遵循 [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629)。
+- 奇偶码对、zero padding、GEUL TAG/Length 与 16 位 WORD 布局是本格式的 canonical framing 规则。
 
 ## 长度
 

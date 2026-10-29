@@ -2,7 +2,7 @@
 title: "UTF8-LANGUAGE-TEXT"
 weight: 75
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-29T23:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-LANGUAGE-TEXT 是把一条语言 Value 记录和 UTF-8 文本放入一个 Value 的带语言文本（Codec 0x4A/0x4B）。"
 author: "朴俊宇"
@@ -31,7 +31,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 奇数则末尾为 0x00
 - 语言记录恰好是一条完整的 [LANGUAGE-SHORT-CODE](/zh/grammar/value/text/language-short-code/)（`0x48`）或 [LANGUAGE-BCP47-CODE](/zh/grammar/value/text/language-bcp47-code/)（`0x46`·`0x47`）记录。其他 Codec 或不完整则 invalid。语言记录的有效性遵循该格式的规则。
 - 两种语言格式都可以使用。比较是否同一语言的规则与 [LABEL](/zh/grammar/edge/label/) 相同。SHORT-CODE 与注册表绑定到该编号的 BCP 47 tag 是同一种语言。
 - 不使用 `zxx`（无语言内容）。这样的字符串是 UTF8-TEXT。`und`（语言未定）和 `mul`（多种语言）是有语言的文本，所以可以使用。
-- 文本字节遵循与 UTF8-TEXT 相同的规则。必须是 well-formed UTF-8，禁止开头的 BOM，不强制规范化，原样保留原文。由比较·索引的一方对齐为 NFC 后比较。
+- 文本字节遵循与 UTF8-TEXT 相同的规则。必须是 well-formed UTF-8，开头的 U+FEFF 也作为字符允许，不强制规范化，原样保留原文。由比较·索引的一方对齐为 NFC 后比较。
 - 文本字节数是 `2 × (Payload WORD 数 − 语言记录 WORD 数) − P`。P（Codec 最低位）只表示文本字节的奇偶。为奇数时，最后一个 WORD 的低 byte 必须是 `00`。
 - 空文本（0 byte）在偶数码上只放语言记录。
 

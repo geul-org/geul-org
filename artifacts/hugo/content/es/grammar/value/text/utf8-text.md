@@ -2,7 +2,7 @@
 title: "UTF8-TEXT"
 weight: 65
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-TEXT es un Value que contiene una cadena UTF-8 sin idioma. Usa el par de códigos de bytes par/impar 0x40/0x41."
 author: "Junwoo Park"
@@ -25,15 +25,15 @@ Payload WORD 1.º ... N-ésimo          bytes UTF-8 / relleno de ceros final
 ## Interpretación y validez
 
 - Los bytes deben ser UTF-8 well-formed shortest-form que se ajuste a la gramática de RFC 3629. El resultado de la decodificación contiene solo Unicode scalar value en el rango `U+0000..U+10FFFF` y no contiene el rango de surrogates `U+D800..U+DFFF`.
-- RFC 3629 describe el tratamiento de la signature U+FEFF inicial según el contexto. El canonical profile de GEUL añade a esto la prohibición de la secuencia de bytes UTF-8 de BOM `EF BB BF` al principio del Payload. Un U+FEFF en otra posición es un carácter y no un BOM, por lo que esta regla no lo prohíbe.
+- Un U+FEFF al principio del Payload (bytes UTF-8 `EF BB BF`) se permite y es un carácter, igual que un U+FEFF en cualquier otra posición. No se aplica el tratamiento de la signature U+FEFF inicial (BOM) que describe RFC 3629: no se elimina ni se interpreta como signature, y se conserva tal cual el original.
 - No se impone la normalización Unicode. Se conserva tal cual la secuencia de scalar del original decodificado.
 - Los bytes UTF-8 válidos se colocan en el Payload sin conversión. Dentro de un WORD, el byte superior va primero. Si el número de bytes es impar (código impar), el byte inferior no usado del último WORD debe ser `00`.
 - El número de WORD del Payload es `ceil(número de bytes/2)`. Si el código es impar y el byte inferior del último WORD no es `00`, se rechaza.
 
 ## Base estándar
 
-- El rango de scalar de UTF-8, los bytes well-formed y el significado del tratamiento del BOM siguen [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
-- La prohibición del BOM, el par de códigos par/impar, el relleno de ceros, el TAG/Length de GEUL y la disposición en WORD de 16 bits son reglas de canonical framing de este formato.
+- El rango de scalar de UTF-8 y los bytes well-formed siguen [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
+- El par de códigos par/impar, el relleno de ceros, el TAG/Length de GEUL y la disposición en WORD de 16 bits son reglas de canonical framing de este formato.
 
 ## Longitud
 

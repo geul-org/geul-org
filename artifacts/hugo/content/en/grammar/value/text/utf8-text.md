@@ -2,7 +2,7 @@
 title: "UTF8-TEXT"
 weight: 65
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-TEXT is a Value that holds a UTF-8 string with no language. It uses the even-odd byte code pair 0x40/0x41."
 author: "Junwoo Park"
@@ -26,15 +26,15 @@ Payload WORD 1st ... Nth          UTF-8 bytes / final zero padding
 ## Interpretation and Validity
 
 - The byte sequence must be well-formed shortest-form UTF-8 that matches the RFC 3629 grammar. The decoded result contains only Unicode scalar values in the range `U+0000..U+10FFFF`, and does not contain the surrogate range `U+D800..U+DFFF`.
-- RFC 3629 describes handling of a leading U+FEFF signature depending on context. In addition, the GEUL canonical profile forbids the UTF-8 BOM byte sequence `EF BB BF` at the start of the Payload. A U+FEFF in another position is a character, not a BOM, so it is not forbidden by this rule.
+- A U+FEFF at the start of the Payload (UTF-8 bytes `EF BB BF`) is allowed and is a character, the same as a U+FEFF in any other position. The leading U+FEFF signature (BOM) handling that RFC 3629 describes is not applied: it is neither stripped nor read as a signature, and the original is preserved as it is.
 - Unicode normalization is not enforced. The decoded original scalar sequence is preserved as it is.
 - A valid UTF-8 byte sequence is put in the Payload without conversion. Within a WORD, the upper byte comes first. If the byte count is odd (odd code), the unused lower byte of the last WORD must be `00`.
 - The Payload WORD count is `ceil(byte count/2)`. If it is an odd code but the lower byte of the last WORD is not `00`, reject.
 
 ## Standards Basis
 
-- The scalar range of UTF-8, well-formed byte sequences, and the meaning of BOM handling follow [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
-- The BOM prohibition, the even-odd code pair, zero padding, and the GEUL TAG/Length and 16-bit WORD placement are the canonical framing rules of this format.
+- The scalar range of UTF-8 and well-formed byte sequences follow [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
+- The even-odd code pair, zero padding, and the GEUL TAG/Length and 16-bit WORD placement are the canonical framing rules of this format.
 
 ## Length
 

@@ -2,7 +2,7 @@
 title: "UTF8-TEXT"
 weight: 65
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-TEXT adalah Value yang memuat string UTF-8 tanpa bahasa. Memakai pasangan kode byte genap·ganjil 0x40/0x41."
 author: "Junwoo Park"
@@ -26,15 +26,15 @@ Payload WORD 1st ... Nth          UTF-8 bytes / final zero padding
 ## Interpretasi dan validitas
 
 - Deretan byte harus UTF-8 well-formed shortest-form yang sesuai dengan tata bahasa RFC 3629. Hasil dekode hanya memuat Unicode scalar value dalam rentang `U+0000..U+10FFFF`, dan tidak memuat rentang surrogate `U+D800..U+DFFF`.
-- RFC 3629 menjelaskan penanganan signature U+FEFF di depan menurut konteks. Profil kanonik GEUL di samping itu melarang deretan byte BOM UTF-8 `EF BB BF` di awal Payload. U+FEFF di posisi lain adalah karakter, bukan BOM, sehingga tidak dilarang oleh aturan ini.
+- U+FEFF di awal Payload (byte UTF-8 `EF BB BF`) diizinkan dan merupakan karakter, sama seperti U+FEFF di posisi lain. Penanganan signature U+FEFF di depan (BOM) yang dijelaskan RFC 3629 tidak diterapkan: tidak dibuang dan tidak ditafsirkan sebagai signature, dan teks asli dipertahankan apa adanya.
 - Normalisasi Unicode tidak dipaksakan. Urutan scalar teks asli hasil dekode dipertahankan apa adanya.
 - Deretan byte UTF-8 yang valid ditaruh pada Payload tanpa konversi. Dalam WORD, byte atas datang lebih dulu. Jika jumlah byte ganjil (kode ganjil), byte bawah WORD terakhir yang tidak dipakai harus `00`.
 - Jumlah WORD Payload adalah `ceil(jumlah byte/2)`. Jika kodenya ganjil tetapi byte bawah WORD terakhir bukan `00`, ditolak.
 
 ## Dasar standar
 
-- Rentang scalar UTF-8, deretan byte well-formed, dan makna penanganan BOM mengikuti [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
-- Larangan BOM, pasangan kode genap·ganjil, zero padding, serta TAG/Length GEUL dan penataan WORD 16 bit adalah aturan framing kanonik format ini.
+- Rentang scalar UTF-8 dan deretan byte well-formed mengikuti [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
+- Pasangan kode genap·ganjil, zero padding, serta TAG/Length GEUL dan penataan WORD 16 bit adalah aturan framing kanonik format ini.
 
 ## Panjang
 

@@ -2,7 +2,7 @@
 title: "UTF8-TEXT"
 weight: 65
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
 summary: "UTF8-TEXT est une Value qui contient une chaîne UTF-8 sans langue. Elle emploie la paire de codes d'octets pair/impair 0x40/0x41."
 author: "Junwoo Park"
@@ -26,15 +26,15 @@ Payload WORD 1er ... Nème          UTF-8 bytes / final zero padding
 ## Interprétation et validité
 
 - La suite d'octets doit être de l'UTF-8 well-formed à forme la plus courte conforme à la grammaire de la RFC 3629. Le résultat du décodage ne contient que des Unicode scalar value de `U+0000..U+10FFFF`, sans la plage des surrogates `U+D800..U+DFFF`.
-- La RFC 3629 décrit le traitement de la signature U+FEFF de tête selon le contexte. Le profil canonique de GEUL y ajoute l'interdiction de la suite d'octets BOM UTF-8 `EF BB BF` en tête de Payload. Un U+FEFF à un autre endroit est un caractère et non un BOM, donc cette règle ne l'interdit pas.
+- Un U+FEFF en tête de Payload (octets UTF-8 `EF BB BF`) est permis et est un caractère, comme un U+FEFF à tout autre endroit. Le traitement de la signature U+FEFF de tête (BOM) décrit par la RFC 3629 ne s'applique pas : il n'est ni retiré ni lu comme signature, et le texte d'origine est conservé tel quel.
 - La normalisation Unicode n'est pas imposée. On conserve telle quelle la suite de scalar du texte original décodé.
 - Une suite d'octets UTF-8 valide se place dans le Payload sans conversion. Dans un WORD, l'octet de poids fort vient en premier. Si le nombre d'octets est impair (code impair), l'octet de poids faible inutilisé du dernier WORD doit être `00`.
 - Le nombre de WORD du Payload est `ceil(nombre d'octets/2)`. Pour un code impair, si l'octet de poids faible du dernier WORD n'est pas `00`, on rejette.
 
 ## Fondement normatif
 
-- L'étendue des scalar d'UTF-8, les suites d'octets well-formed et le sens du traitement du BOM suivent la [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
-- L'interdiction du BOM, la paire de codes pair/impair, le zero padding, le TAG et la Length de GEUL et la disposition en WORD de 16 bits sont les règles de cadrage canonique de ce format.
+- L'étendue des scalar d'UTF-8 et les suites d'octets well-formed suivent la [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629).
+- La paire de codes pair/impair, le zero padding, le TAG et la Length de GEUL et la disposition en WORD de 16 bits sont les règles de cadrage canonique de ce format.
 
 ## Longueur
 
