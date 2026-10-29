@@ -10,11 +10,9 @@ artifacts/terraform/env/
 artifacts/terraform/tfplan
 artifacts/terraform/tfplan*
 
-# GEUL 공표 아카이브: 위키데이터 변환 결과(gogeulwiki)는 용량이 커서 git 관리에서 제외
-artifacts/geul/.well-known/geul/0x00010000/
-artifacts/geul/.well-known/geul/0x00010001/
-# h/는 규격 문서 사본만 git add -f로 추적한다(위키데이터 사본 제외)
-artifacts/geul/.well-known/geul/h/*
+# GEUL 공표 아카이브: 개별 .geul 파일이든 pack(.gpm·.gpx·.gpk·latest.txt)이든 git에 넣지 않는다(2026-10-29).
+# 과거에 추적하던 디렉터리 형식 파일은 이력에만 남는다.
+artifacts/geul/.well-known/
 
 # Claude
 .claude/
