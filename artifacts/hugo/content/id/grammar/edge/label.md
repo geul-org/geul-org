@@ -43,17 +43,17 @@ Total = 1 + N_len + N_id + N_subject + N_object WORD
 
 ## Contoh (non-normatif)
 
-Registri kode bahasa `en` belum disegel sehingga `0783` adalah nilai non-normatif, bukan kode final.
+Kode bahasa `0784` untuk `en` adalah nomor dari draf GEUL Language Registry (draft-0). Registri belum disegel sehingga ini adalah nilai non-normatif, bukan kode final.
 
 ### LANGUAGE-SHORT-CODE
 
 Edge Id `0007`, Subject Q22686 (`00A0 589e`), Object `Donald Trump` (en).
 
-- Object adalah record bahasa `08C8 0783` (SHORT-CODE 2 WORD) + teks 12 byte (genap, 6 WORD) sehingga `UTF8-LANGUAGE-TEXT-EVEN` (`0x4A`), total 9 WORD `0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70`.
+- Object adalah record bahasa `08C8 0784` (SHORT-CODE 2 WORD) + teks 12 byte (genap, 6 WORD) sehingga `UTF8-LANGUAGE-TEXT-EVEN` (`0x4A`), total 9 WORD `0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70`.
 - Edge adalah TAG 1 + Edge Id 2 + Subject 2 + Object 9 = 14 WORD, `LLLL=1101`. TAG adalah `1684`.
 
 ```
-1684 0088 0007 00A0 589e 0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70
+1684 0088 0007 00A0 589e 0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70
 ```
 
 ### LANGUAGE-BCP47-CODE

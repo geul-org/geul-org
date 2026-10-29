@@ -43,17 +43,17 @@ Object            UTF8-LANGUAGE-TEXT Value 或 LOCAL Reference 记录 1 个
 
 ## 示例（非规范）
 
-`en` 的语言码因注册表尚未封版，所以 `0783` 不是确定的码，而是非规范值。
+`en` 的语言码 `0784` 是 GEUL Language Registry 草案（draft-0）中的编号。注册表尚未封版，所以它不是确定的码，而是非规范值。
 
 ### LANGUAGE-SHORT-CODE
 
 Edge Id `0007`，Subject Q22686（`00A0 589e`），Object `Donald Trump`（en）。
 
-- Object 是语言 `08C8 0783`（SHORT-CODE 2 WORD）+ 文本 12 byte（偶数，6 WORD），所以是 `UTF8-LANGUAGE-TEXT-EVEN`（`0x4A`），共 9 WORD `0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70`。
+- Object 是语言 `08C8 0784`（SHORT-CODE 2 WORD）+ 文本 12 byte（偶数，6 WORD），所以是 `UTF8-LANGUAGE-TEXT-EVEN`（`0x4A`），共 9 WORD `0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70`。
 - Edge 是 TAG 1 + Edge Id 2 + Subject 2 + Object 9 = 14 WORD，`LLLL=1101`。TAG 是 `1684`。
 
 ```
-1684 0088 0007 00A0 589e 0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70
+1684 0088 0007 00A0 589e 0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70
 ```
 
 ### LANGUAGE-BCP47-CODE

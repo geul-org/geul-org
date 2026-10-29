@@ -43,17 +43,17 @@ Object            قيمة UTF8-LANGUAGE-TEXT أو سجل Reference واحد م�
 
 ## أمثلة (غير معيارية)
 
-لأن سجل رمز اللغة `en` لم يُختم بعد، فـ `0783` قيمة غير معيارية وليست رمزاً نهائياً.
+رمز اللغة `0784` لـ `en` هو الرقم الوارد في مسودة GEUL Language Registry (draft-0). ولأن السجل لم يُختم بعد، فهو قيمة غير معيارية وليس رمزاً نهائياً.
 
 ### LANGUAGE-SHORT-CODE
 
 Edge Id `0007`، وSubject Q22686 (`00A0 589e`)، وObject `Donald Trump` (en).
 
-- Object هو اللغة `08C8 0783` (SHORT-CODE 2 WORD) + نص من 12 byte (زوجي، 6 WORD) فهو `UTF8-LANGUAGE-TEXT-EVEN` (`0x4A`)، والمجموع 9 WORD `0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70`.
+- Object هو اللغة `08C8 0784` (SHORT-CODE 2 WORD) + نص من 12 byte (زوجي، 6 WORD) فهو `UTF8-LANGUAGE-TEXT-EVEN` (`0x4A`)، والمجموع 9 WORD `0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70`.
 - Edge هو TAG (1) + Edge Id (2) + Subject (2) + Object (9) = 14 WORD و`LLLL=1101`. وTAG هو `1684`.
 
 ```
-1684 0088 0007 00A0 589e 0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70
+1684 0088 0007 00A0 589e 0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70
 ```
 
 ### LANGUAGE-BCP47-CODE

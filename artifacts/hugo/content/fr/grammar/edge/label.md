@@ -43,17 +43,17 @@ Total = 1 + N_len + N_id + N_subject + N_object WORD
 
 ## Exemple (non normatif)
 
-Le registre des codes de langue n'étant pas encore scellé, `0783` n'est pas un code définitif mais une valeur non normative.
+Le code de langue `0784` de `en` est le numéro du brouillon de la GEUL Language Registry (draft-0). Le registre n'étant pas encore scellé, ce n'est pas un code définitif mais une valeur non normative.
 
 ### LANGUAGE-SHORT-CODE
 
 Edge Id `0007`, Subject Q22686 (`00A0 589e`), Object `Donald Trump` (en).
 
-- Object fait langue `08C8 0783` (SHORT-CODE, 2 WORD) + texte de 12 octets (pair, 6 WORD), donc `UTF8-LANGUAGE-TEXT-EVEN` (`0x4A`), 9 WORD au total `0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70`.
+- Object fait langue `08C8 0784` (SHORT-CODE, 2 WORD) + texte de 12 octets (pair, 6 WORD), donc `UTF8-LANGUAGE-TEXT-EVEN` (`0x4A`), 9 WORD au total `0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70`.
 - L'Edge fait TAG 1 + Edge Id 2 + Subject 2 + Object 9 = 14 WORD, `LLLL=1101`. Le TAG est `1684`.
 
 ```
-1684 0088 0007 00A0 589e 0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70
+1684 0088 0007 00A0 589e 0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70
 ```
 
 ### LANGUAGE-BCP47-CODE

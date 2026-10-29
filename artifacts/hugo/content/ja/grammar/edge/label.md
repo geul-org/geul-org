@@ -43,17 +43,17 @@ Object            UTF8-LANGUAGE-TEXT Value または LOCAL Reference レコー�
 
 ## 例 (非規範)
 
-`en` の言語コードは、レジストリがまだ封印されていないので、`0783` は確定コードではなく非規範の値だ。
+`en` の言語コード `0784` は GEUL Language Registry 草案(draft-0)の番号だ。レジストリがまだ封印されていないので、確定コードではなく非規範の値だ。
 
 ### LANGUAGE-SHORT-CODE
 
 Edge Id `0007`、Subject Q22686(`00A0 589e`)、Object `Donald Trump`(en)。
 
-- Object は言語 `08C8 0783`(SHORT-CODE 2 WORD)+ テキスト 12 byte(偶数、6 WORD)なので `UTF8-LANGUAGE-TEXT-EVEN`(`0x4A`)、全体 9 WORD `0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70` だ。
+- Object は言語 `08C8 0784`(SHORT-CODE 2 WORD)+ テキスト 12 byte(偶数、6 WORD)なので `UTF8-LANGUAGE-TEXT-EVEN`(`0x4A`)、全体 9 WORD `0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70` だ。
 - Edge は TAG 1 + Edge Id 2 + Subject 2 + Object 9 = 14 WORD、`LLLL=1101` だ。TAG は `1684` だ。
 
 ```
-1684 0088 0007 00A0 589e 0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70
+1684 0088 0007 00A0 589e 0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70
 ```
 
 ### LANGUAGE-BCP47-CODE

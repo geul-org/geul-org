@@ -43,17 +43,17 @@ Object            Value מסוג UTF8-LANGUAGE-TEXT או רשומת LOCAL Refere
 
 ## דוגמה (לא נורמטיבית)
 
-רישום קודי השפה טרם ננעל, ולכן `0783` לשפה `en` הוא ערך לא נורמטיבי ולא קוד סופי.
+קוד השפה `0784` של `en` הוא המספר מטיוטת GEUL Language Registry (draft-0). הרישום טרם ננעל, ולכן זהו ערך לא נורמטיבי ולא קוד סופי.
 
 ### LANGUAGE-SHORT-CODE
 
 Edge Id `0007`, Subject Q22686 (`00A0 589e`), Object `Donald Trump` (en).
 
-- ה-Object הוא שפה `08C8 0783` (SHORT-CODE, 2 WORD) + טקסט של 12 בייטים (זוגי, 6 WORD), ולכן `UTF8-LANGUAGE-TEXT-EVEN` (`0x4A`), בסך הכול 9 WORD: `0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70`.
+- ה-Object הוא שפה `08C8 0784` (SHORT-CODE, 2 WORD) + טקסט של 12 בייטים (זוגי, 6 WORD), ולכן `UTF8-LANGUAGE-TEXT-EVEN` (`0x4A`), בסך הכול 9 WORD: `0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70`.
 - ה-Edge היא TAG 1 + Edge Id 2 + Subject 2 + Object 9 = 14 WORD, `LLLL=1101`. ה-TAG הוא `1684`.
 
 ```
-1684 0088 0007 00A0 589e 0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70
+1684 0088 0007 00A0 589e 0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70
 ```
 
 ### LANGUAGE-BCP47-CODE

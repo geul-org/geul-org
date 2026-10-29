@@ -43,17 +43,17 @@ Object            UTF8-LANGUAGE-TEXT Value 또는 LOCAL Reference 레코드 1개
 
 ## 예시 (비규범)
 
-`en`의 언어 코드는 레지스트리가 아직 봉인되지 않았으므로 `0783`은 확정 코드가 아닌 비규범 값이다.
+`en`의 언어 코드 `0784`는 GEUL Language Registry 초안(draft-0)의 번호다. 레지스트리가 아직 봉인되지 않았으므로 확정 코드가 아닌 비규범 값이다.
 
 ### LANGUAGE-SHORT-CODE
 
 Edge Id `0007`, Subject Q22686(`00A0 589e`), Object `Donald Trump`(en).
 
-- Object는 언어 `08C8 0783`(SHORT-CODE 2 WORD) + 텍스트 12 byte(짝수, 6 WORD)라 `UTF8-LANGUAGE-TEXT-EVEN`(`0x4A`), 전체 9 WORD `0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70`이다.
+- Object는 언어 `08C8 0784`(SHORT-CODE 2 WORD) + 텍스트 12 byte(짝수, 6 WORD)라 `UTF8-LANGUAGE-TEXT-EVEN`(`0x4A`), 전체 9 WORD `0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70`이다.
 - Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 9 = 14 WORD, `LLLL=1101`이다. TAG는 `1684`다.
 
 ```
-1684 0088 0007 00A0 589e 0C4A 08C8 0783 446f 6e61 6c64 2054 7275 6d70
+1684 0088 0007 00A0 589e 0C4A 08C8 0784 446f 6e61 6c64 2054 7275 6d70
 ```
 
 ### LANGUAGE-BCP47-CODE
