@@ -23,4 +23,4 @@ Bahasa pemrograman mendeskripsikan prosedur. Mereka tidak bisa mendeskripsikan d
 Vektor bagus untuk komputasi tetapi mustahil untuk diinterpretasi. Bertentangan dengan prinsip kotak putih. Mengapa GEUL meninggalkan manipulasi vektor langsung.
 
 ### Mengapa Wikidata?
-GEUL tidak menolak Wikidata — ia berdiri di atasnya. Hierarki klasifikasi dan statistik frekuensi dari 100 juta entitas menjadi buku kode SIDX.
+GEUL tidak menolak Wikidata — ia berdiri di atasnya. Tujuannya adalah mengubah hierarki klasifikasi dan statistik frekuensi dari 100 juta entitas menjadi buku kode SIDX.

@@ -22,7 +22,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/en"
     title = "GEUL — A Semantic Language for AI"
     [languages.en.params]
-      description = "A semantically-aligned artificial language and binary stream format designed for unambiguous communication between humans and AI."
+      description = "A semantically-aligned artificial language and binary format designed for unambiguous communication between humans and AI."
     [languages.en.menus]
       [[languages.en.menus.main]]
         identifier = "why"
@@ -46,7 +46,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/ko"
     title = "GEUL — AI를 위한 의미정렬 언어"
     [languages.ko.params]
-      description = "인간과 AI가 모호성 없이 소통하기 위해 설계된 의미정렬 인공 언어이자 바이너리 스트림 포맷."
+      description = "인간과 AI가 모호성 없이 소통하기 위해 설계된 의미정렬 인공 언어이자 바이너리 형식."
     [languages.ko.menus]
       [[languages.ko.menus.main]]
         identifier = "why"
@@ -70,7 +70,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/zh"
     title = "GEUL — 面向AI的语义对齐语言"
     [languages.zh.params]
-      description = "为人类与AI之间无歧义沟通而设计的语义对齐人工语言与二进制流格式。"
+      description = "为人类与AI之间无歧义沟通而设计的语义对齐人工语言与二进制格式。"
     [languages.zh.menus]
       [[languages.zh.menus.main]]
         identifier = "why"
@@ -94,7 +94,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/es"
     title = "GEUL — Un lenguaje semántico para IA"
     [languages.es.params]
-      description = "Un lenguaje artificial semánticamente alineado y formato de flujo binario diseñado para la comunicación inequívoca entre humanos e IA."
+      description = "Un lenguaje artificial semánticamente alineado y formato binario diseñado para la comunicación inequívoca entre humanos e IA."
     [languages.es.menus]
       [[languages.es.menus.main]]
         identifier = "why"
@@ -118,7 +118,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/ar"
     title = "GEUL — لغة دلالية للذكاء الاصطناعي"
     [languages.ar.params]
-      description = "لغة اصطناعية محاذاة دلالياً وتنسيق تدفق ثنائي مصمم للتواصل الواضح بين البشر والذكاء الاصطناعي."
+      description = "لغة اصطناعية محاذاة دلالياً وتنسيق ثنائي مصمم للتواصل الواضح بين البشر والذكاء الاصطناعي."
     [languages.ar.menus]
       [[languages.ar.menus.main]]
         identifier = "why"
@@ -142,7 +142,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/pt"
     title = "GEUL — Uma linguagem semântica para IA"
     [languages.pt.params]
-      description = "Uma linguagem artificial semanticamente alinhada e formato de fluxo binário projetado para comunicação inequívoca entre humanos e IA."
+      description = "Uma linguagem artificial semanticamente alinhada e formato binário projetado para comunicação inequívoca entre humanos e IA."
     [languages.pt.menus]
       [[languages.pt.menus.main]]
         identifier = "why"
@@ -166,7 +166,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/id"
     title = "GEUL — Bahasa Semantik untuk AI"
     [languages.id.params]
-      description = "Bahasa buatan yang selaras secara semantik dan format aliran biner yang dirancang untuk komunikasi tanpa ambiguitas antara manusia dan AI."
+      description = "Bahasa buatan yang selaras secara semantik dan format biner yang dirancang untuk komunikasi tanpa ambiguitas antara manusia dan AI."
     [languages.id.menus]
       [[languages.id.menus.main]]
         identifier = "why"
@@ -190,7 +190,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/ru"
     title = "GEUL — Семантический язык для ИИ"
     [languages.ru.params]
-      description = "Семантически выровненный искусственный язык и формат бинарного потока для однозначной коммуникации между людьми и ИИ."
+      description = "Семантически выровненный искусственный язык и бинарный формат для однозначной коммуникации между людьми и ИИ."
     [languages.ru.menus]
       [[languages.ru.menus.main]]
         identifier = "why"
@@ -214,7 +214,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/ja"
     title = "GEUL — AI のための意味整列言語"
     [languages.ja.params]
-      description = "人間とAIの間の曖昧さのないコミュニケーションのために設計された、意味整列型人工言語およびバイナリストリームフォーマット。"
+      description = "人間とAIの間の曖昧さのないコミュニケーションのために設計された、意味整列型人工言語およびバイナリフォーマット。"
     [languages.ja.menus]
       [[languages.ja.menus.main]]
         identifier = "why"
@@ -238,7 +238,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/fr"
     title = "GEUL — Un langage sémantique pour l'IA"
     [languages.fr.params]
-      description = "Un langage artificiel sémantiquement aligné et un format de flux binaire conçu pour une communication sans ambiguïté entre humains et IA."
+      description = "Un langage artificiel sémantiquement aligné et un format binaire conçu pour une communication sans ambiguïté entre humains et IA."
     [languages.fr.menus]
       [[languages.fr.menus.main]]
         identifier = "why"
@@ -262,7 +262,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/de"
     title = "GEUL — Eine semantische Sprache für KI"
     [languages.de.params]
-      description = "Eine semantisch ausgerichtete künstliche Sprache und ein binäres Streamformat für eindeutige Kommunikation zwischen Menschen und KI."
+      description = "Eine semantisch ausgerichtete künstliche Sprache und ein Binärformat für eindeutige Kommunikation zwischen Menschen und KI."
     [languages.de.menus]
       [[languages.de.menus.main]]
         identifier = "why"
@@ -286,7 +286,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/he"
     title = "GEUL — שפה סמנטית לבינה מלאכותית"
     [languages.he.params]
-      description = "שפה מלאכותית מיושרת סמנטית ופורמט זרם בינארי שתוכנן לתקשורת חד-משמעית בין בני אדם ובינה מלאכותית."
+      description = "שפה מלאכותית מיושרת סמנטית ופורמט בינארי שתוכנן לתקשורת חד-משמעית בין בני אדם ובינה מלאכותית."
     [languages.he.menus]
       [[languages.he.menus.main]]
         identifier = "why"

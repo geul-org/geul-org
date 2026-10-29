@@ -23,4 +23,4 @@ Linguagens de programação descrevem procedimentos. Não conseguem descrever o 
 Vetores são ótimos para computação, mas impossíveis de interpretar. Conflitam com o princípio da caixa branca. Por que GEUL abandonou a manipulação direta de vetores.
 
 ### Por que Wikidata?
-GEUL não rejeita o Wikidata — se apoia nele. A hierarquia de classificação e as estatísticas de frequência de 100 milhões de entidades se tornam o livro de códigos SIDX.
+GEUL não rejeita o Wikidata — se apoia nele. O objetivo é transformar a hierarquia de classificação e as estatísticas de frequência de 100 milhões de entidades no livro de códigos SIDX.

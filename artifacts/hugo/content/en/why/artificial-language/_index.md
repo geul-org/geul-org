@@ -23,4 +23,4 @@ Programming languages describe procedures. They cannot describe the world. You c
 Vectors are great for computation but impossible to interpret. They conflict with the white-box principle. Why GEUL abandoned direct vector manipulation and pivoted to an artificial language.
 
 ### Why Wikidata?
-GEUL does not reject Wikidata — it stands on it. The classification hierarchy and frequency statistics of 100 million entities become the SIDX codebook. Dictionary below, grammar above.
+GEUL does not reject Wikidata — it stands on it. The goal is to turn the classification hierarchy and frequency statistics of 100 million entities into the SIDX codebook. Dictionary below, grammar above.

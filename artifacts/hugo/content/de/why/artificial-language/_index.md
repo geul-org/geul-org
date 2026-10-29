@@ -23,4 +23,4 @@ Programmiersprachen beschreiben Verfahren. Sie können die Welt nicht beschreibe
 Vektoren eignen sich hervorragend für Berechnungen, sind aber unmöglich zu interpretieren. Sie stehen im Konflikt mit dem White-Box-Prinzip. Warum GEUL die direkte Vektormanipulation aufgab.
 
 ### Warum Wikidata?
-GEUL lehnt Wikidata nicht ab — es steht darauf. Die Klassifikationshierarchie und Häufigkeitsstatistiken von 100 Millionen Entitäten werden zum SIDX-Codebuch.
+GEUL lehnt Wikidata nicht ab — es steht darauf. Ziel ist es, die Klassifikationshierarchie und Häufigkeitsstatistiken von 100 Millionen Entitäten in das SIDX-Codebuch zu überführen.
