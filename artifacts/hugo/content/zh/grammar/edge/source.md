@@ -2,7 +2,7 @@
 title: "SOURCE"
 weight: 33
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "SOURCE 是把一条记录或整个文档连接到其来源的依据 Edge（Codec 0x20）。来源的性质用以来源为 Subject 的 TRIPLE，引用的性质（查阅日、来源内的位置、原文哈希）用附在 SOURCE 上的 QUALIFIER。整个文档的 SOURCE 放在 HEAD 中。"
 author: "朴俊宇"
@@ -100,7 +100,7 @@ BODY
 
 ## 示例（非规范）
 
-Q42 P19（出生地）Q350，目标 TRIPLE `#178`。2026-10-19 Wikidata 转储的四个出处。
+Q42 P19（出生地）Q350，目标 TRIPLE `#178`。在 2026-10-19 Wikidata 转储中，该命题有五个出处，这里展示其中三个。③ 每日电讯报文章（`#1358`~`#1367`）与 ② 形式相同，⑤ Store norske leksikon（Q746368）与 ① 形式相同，因此省略。
 
 ```
 SOURCE     #1347  #178   Q5375741                     ① 不列颠百科全书：没有来源描述，只有一个 P248

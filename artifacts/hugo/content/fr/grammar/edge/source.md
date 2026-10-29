@@ -2,7 +2,7 @@
 title: "SOURCE"
 weight: 33
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "SOURCE est un Edge de fondement (Codec 0x20) qui rattache un enregistrement, ou le document entier, à son origine. Les propriétés de l'origine s'écrivent par un TRIPLE dont l'origine est le Subject, celles de la citation (date de consultation, emplacement dans l'origine, hachage du texte d'origine) par des QUALIFIER joints au SOURCE. Le SOURCE du document entier se place dans le HEAD."
 author: "Junwoo Park"
@@ -100,7 +100,7 @@ La famille fondement ne contient que SOURCE. Les autres fondements s'écrivent p
 
 ## Exemple (non normatif)
 
-Q42 P19 (lieu de naissance) Q350, TRIPLE cible `#178`. Quatre sources du dump Wikidata du 2026-10-19.
+Q42 P19 (lieu de naissance) Q350, TRIPLE cible `#178`. Dans le dump Wikidata du 2026-10-19, cette affirmation a cinq sources ; trois sont montrées. ③, un article du Telegraph (`#1358`~`#1367`), a la même forme que ②, et ⑤, Store norske leksikon (Q746368), la même que ① ; ils sont donc omis.
 
 ```
 SOURCE     #1347  #178   Q5375741                     ① Britannica : sans description d'origine, seul P248

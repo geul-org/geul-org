@@ -2,7 +2,7 @@
 title: "SOURCE"
 weight: 33
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "SOURCE は、レコード一つまたはドキュメント全体をその原典に結びつける根拠 Edge だ(Codec 0x20)。原典の性質は原典を Subject とする TRIPLE で、引用の性質(参照日、原典内の位置、原文ハッシュ)は SOURCE に付く QUALIFIER で書く。ドキュメント全体の SOURCE は HEAD に置く。"
 author: "朴俊宇"
@@ -100,7 +100,7 @@ BODY
 
 ## 例 (非規範)
 
-Q42 P19(出生地) Q350、対象 TRIPLE `#178`。2026-10-19 の Wikidata ダンプの出典四つ。
+Q42 P19(出生地) Q350、対象 TRIPLE `#178`。2026-10-19 の Wikidata ダンプでこの命題の出典は五つで、そのうち三つを示す。③ テレグラフ記事(`#1358`~`#1367`)は②と、⑤ Store norske leksikon(Q746368)は①と同じ形なので省いた。
 
 ```
 SOURCE     #1347  #178   Q5375741                     ① ブリタニカ: 原典の記述なしで P248 のみ

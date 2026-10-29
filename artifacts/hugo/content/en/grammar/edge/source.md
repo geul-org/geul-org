@@ -2,7 +2,7 @@
 title: "SOURCE"
 weight: 33
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "SOURCE is an evidence Edge that links one record, or the whole document, to its source (Codec 0x20). The properties of the source go in a TRIPLE with the source as Subject, and the properties of the citation (retrieval date, position within the source, source hash) go in QUALIFIERs attached to the SOURCE. The SOURCE for the whole document is placed in the HEAD."
 author: "Junwoo Park"
@@ -100,7 +100,7 @@ The evidence family has only SOURCE. Other evidence is written as a QUALIFIER.
 
 ## Example (non-normative)
 
-Q42 P19 (place of birth) Q350, target TRIPLE `#178`. Four sources in the 2026-10-19 Wikidata dump.
+Q42 P19 (place of birth) Q350, target TRIPLE `#178`. In the 2026-10-19 Wikidata dump this statement has five sources; three are shown. ③, a Telegraph article (`#1358`-`#1367`), has the same shape as ②, and ⑤, Store norske leksikon (Q746368), the same shape as ①, so they are left out.
 
 ```
 SOURCE     #1347  #178   Q5375741                     ① Britannica: P248 only, no description of the source

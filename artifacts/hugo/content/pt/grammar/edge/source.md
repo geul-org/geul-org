@@ -2,7 +2,7 @@
 title: "SOURCE"
 weight: 33
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "SOURCE é o Edge de fundamento que liga um registro, ou o documento inteiro, à sua fonte (Codec 0x20). As propriedades da fonte vão num TRIPLE que tem a fonte como Subject; as propriedades da citação (data de consulta, posição dentro da fonte, hash do texto original) vão em QUALIFIERs ligados ao SOURCE. O SOURCE do documento inteiro fica no HEAD."
 author: "Junwoo Park"
@@ -100,7 +100,7 @@ A família de fundamento só tem SOURCE. Os outros fundamentos escrevem-se com Q
 
 ## Exemplo (não normativo)
 
-Q42 P19 (local de nascimento) Q350, TRIPLE alvo `#178`. Quatro origens do dump do Wikidata de 2026-10-19.
+Q42 P19 (local de nascimento) Q350, TRIPLE alvo `#178`. No dump do Wikidata de 2026-10-19 esta afirmação tem cinco origens; mostram-se três. ③, um artigo do The Telegraph (`#1358`~`#1367`), tem a mesma forma que ②, e ⑤, Store norske leksikon (Q746368), a mesma que ①, por isso ficam de fora.
 
 ```
 SOURCE     #1347  #178   Q5375741                     ① Britannica: sem descrição da fonte, só um P248

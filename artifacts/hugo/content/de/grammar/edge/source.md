@@ -2,7 +2,7 @@
 title: "SOURCE"
 weight: 33
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "SOURCE ist ein Beleg-Edge (Codec 0x20), das einen Record oder das gesamte Dokument mit seiner Quelle verbindet. Eigenschaften der Quelle schreibt man als TRIPLE mit der Quelle als Subject, Eigenschaften des Zitats (Abrufdatum, Stelle in der Quelle, Hash des Originals) als QUALIFIER, der an das SOURCE angehängt wird. Das SOURCE für das gesamte Dokument steht im HEAD."
 author: "Junwoo Park"
@@ -100,7 +100,7 @@ In der Belegfamilie gibt es nur SOURCE. Andere Belege schreibt man als QUALIFIER
 
 ## Beispiel (nicht normativ)
 
-Q42 P19 (Geburtsort) Q350, Ziel-TRIPLE `#178`. Vier Quellenangaben aus dem Wikidata-Dump vom 19.10.2026.
+Q42 P19 (Geburtsort) Q350, Ziel-TRIPLE `#178`. Im Wikidata-Dump vom 19.10.2026 hat diese Aussage fünf Quellenangaben; drei davon werden gezeigt. ③, ein Artikel im Telegraph (`#1358`~`#1367`), hat dieselbe Form wie ②, und ⑤, Store norske leksikon (Q746368), dieselbe wie ①; sie sind deshalb weggelassen.
 
 ```
 SOURCE     #1347  #178   Q5375741                     ① Britannica: nur P248, ohne Quellenbeschreibung

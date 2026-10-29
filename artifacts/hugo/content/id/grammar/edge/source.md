@@ -2,7 +2,7 @@
 title: "SOURCE"
 weight: 33
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "edge"]
 summary: "SOURCE adalah Edge dasar yang menghubungkan satu record atau seluruh dokumen dengan sumbernya (Codec 0x20). Sifat sumber ditulis dengan TRIPLE yang Subject-nya sumber, dan sifat kutipan (tanggal akses, posisi di dalam sumber, hash teks asli) dengan QUALIFIER yang menempel pada SOURCE. SOURCE untuk seluruh dokumen ditaruh di HEAD."
 author: "Junwoo Park"
@@ -100,7 +100,7 @@ Pada keluarga dasar hanya ada SOURCE. Dasar lain ditulis dengan QUALIFIER.
 
 ## Contoh (non-normatif)
 
-Q42 P19 (tempat lahir) Q350, TRIPLE target `#178`. Empat asal dari dump Wikidata 2026-10-19.
+Q42 P19 (tempat lahir) Q350, TRIPLE target `#178`. Dalam dump Wikidata 2026-10-19 pernyataan ini memiliki lima asal; tiga di antaranya ditampilkan. ③ artikel The Telegraph (`#1358`~`#1367`) berbentuk sama dengan ②, dan ⑤ Store norske leksikon (Q746368) sama dengan ①, sehingga dihilangkan.
 
 ```
 SOURCE     #1347  #178   Q5375741                     ① Britannica: tanpa uraian sumber, hanya satu P248
