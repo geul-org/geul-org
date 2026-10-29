@@ -1,242 +1,165 @@
 ---
-title: "SILK — Indice Simbolico para Conhecimento de LLM"
+title: "SILK — Motor de indexação e busca para GEUL"
+weight: 1
 date: 2026-03-01T12:00:00+09:00
-lastmod: 2026-03-01T12:00:00+09:00
-tags: ["SILK", "search", "SIDX", "neuro-symbolic"]
-summary: "Arquitetura de busca neuro-simbolica baseada em inteiros de 64 bits. Pesquisa 100 milhoes de entidades do Wikidata em menos de um segundo sem vector DB, grafos ANN ou modelos de embedding."
+lastmod: 2026-10-29T12:00:00+09:00
+tags: ["SILK", "busca", "índice", "GEUL", "Go"]
+summary: "Motor que indexa e consulta arquivos GEUL pack registro a registro. Como os dados são estruturados na escrita, a busca se reduz a comparações de inteiros e varreduras por intervalo. Consultas de 0,1–4 ms no Wikidata Q1–Q10000."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
-weight: 1
 aliases:
   - /pt/silk/
 ---
 
-**Symbolic Index for LLM Knowledge** — arquitetura de busca neuro-simbolica.
+SILK é um **motor de indexação e busca dedicado ao GEUL**. Sem decodificar documentos GEUL inteiros, ele responde apenas com índices de registros a consultas como "quais documentos afirmam que a ocupação (P106) é físico (Q169470)?".
 
-Pesquisa com inteiros de 64 bits. Nao requer vector DB, grafos ANN nem modelos de embedding.
+| | |
+|---|---|
+| Status | Desenvolvimento inicial. Os algoritmos de busca estão sendo validados, e os formatos podem mudar antes da primeira versão |
+| Linguagem | Go |
+| Entrada | Arquivos GEUL pack (sem compressão) |
+| Licença | CC0 |
+| Repositório | <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">github.com/geul-org/silk</a> |
 
-<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">Repositorio no GitHub</a>
+## Tese central
 
-## Proposicao central
-
-A busca nao era um problema dificil, mas sim um **sintoma de dados sem estrutura**.
-Se uma estrutura de 64 bits for atribuida no momento da escrita, o sintoma desaparece.
-
-```python
-results = index[(index & mask) == pattern]
-```
-
-100 milhoes de entidades do Wikidata em 1.3 GB de memoria, busca em menos de um segundo.
-Apenas com Python (NumPy) supera vector DBs otimizadas em C++/Rust — uma vitoria da arquitetura.
-
-## Por que nao embeddings vetoriais
-
-Embeddings vetoriais destroem a estrutura.
+O difícil nunca foi buscar: **o problema eram os dados sem estrutura**.
 
 ```
-"Vasco da Gama foi um explorador e navegador portugues do seculo XV"
- → Um humano identifica imediatamente: portugues, navegador, seculo XV
-
-Modelo de embedding:
- [0.234, -0.891, 0.445, ..., 0.112] (384 dimensoes float)
- → Estrutura destruida. Nao se pode ler se e person ou location.
-
-Para recuperar a estrutura destruida:
- Grafos ANN (HNSW, IVF-PQ), cross-encoders, re-rankers, filtros de metadados...
+Abordagem tradicional: escrever primeiro → inferir a estrutura depois (tokenização, embeddings, análise)
+GEUL:                  estruturar na escrita → buscar é só comparar inteiros e varrer intervalos
 ```
 
-SILK preserva a estrutura.
+Um registro GEUL já traz campos como sujeito, predicado, objeto e idioma em posições fixas, como IDs inteiros. O SILK apenas extrai esses campos e os mantém ordenados.
 
-```
-SIDX: [Human / exploration / europe / early_modern]
- → A estrutura vive nos bits. Pode ser lida.
- → Nao ha nada para recuperar. Nunca foi destruida.
-```
+## Por que combina com GEUL
 
-A chave e a inversao da ordem.
+| Propriedade do GEUL | O que o SILK ganha |
+|---|---|
+| Um único TAG WORD de 16 bits contém o tipo (Kind, Codec) e o comprimento | Filtra e pula registros sem precisar de um livro de códigos |
+| Os campos de um Edge são registros em posições fixas | Extrai as chaves pela posição. Não são necessárias regras de parsing separadas |
+| O vocabulário controlado é formado por IDs inteiros (Q, P, idioma) | Compara igualdade com inteiros, sem normalizar strings |
+| Um pack é composto de objetos imutáveis e gerações | O índice também é construído com segmentos imutáveis e gerações, então os snapshots são seguros |
+| A conversão é determinística | A mesma entrada gera o mesmo índice. O resultado incremental pode ser comparado byte a byte com um índice construído do zero |
 
-```
-Convencional: primeiro escrever → estruturar depois (indexacao)
-SILK:         estruturar ao escrever → a busca e gratuita
-```
-
-## Layout de bits SIDX
-
-SIDX segue a especificacao Entity Node da [gramatica GEUL](/pt/grammar/).
-
-```
-[prefix 7 | mode 3 | entity_type 6 | attrs 48]
- MSB(63)                                  LSB(0)
-```
-
-| Campo | Bits | Tamanho | Descricao |
-|-------|------|---------|-----------|
-| prefix | 63-57 | 7 | Cabecalho de protocolo GEUL (`0001001` fixo, ignorado na busca) |
-| mode | 56-54 | 3 | Modo de quantificacao/numero (entidade registrada=0, definido, universal, existencial, etc. 8 tipos) |
-| entity_type | 53-48 | 6 | 64 tipos de nivel superior (Human=0 ~ Election=62, nao classificado=63) |
-| attrs | 47-0 | 48 | Codificacao de atributos por tipo (definida por codebook) |
-
-Alvo de busca: entity_type 6 bits + attrs 48 bits = **54 bits**.
-O QID nao esta incluido no SIDX; e armazenado em um array separado.
-
-### attrs 48 bits — esquema por tipo
-
-```
-Human(0):       subclass 5 | occupation 6 | country 8 | era 4 | decade 4 | gender 2 | notability 3 | ...
-Star(12):       constellation 7 | spectral_type 4 | luminosity 3 | magnitude 4 | ra_zone 4 | dec_zone 4 | ...
-Settlement(28): country 8 | admin_level 4 | admin_code 8 | lat_zone 4 | lon_zone 4 | population 4 | ...
-Organization(44): country 8 | org_type 4 | legal_form 6 | industry 8 | era 4 | size 4 | ...
-Film(51):       country 8 | year 7 | genre 6 | language 8 | color 2 | duration 4 | ...
-```
-
-Atualmente, os layouts de bits de atributos estao definidos para 5 tipos. Os demais codificam apenas entity_type.
+Os documentos GEUL nunca são reordenados. O índice é apenas uma **visão (view)** ordenada; os bytes publicados, os hashes de conteúdo e as assinaturas permanecem inalterados.
 
 ## Arquitetura
 
-SILK possui dois pipelines: **codificacao** (ao escrever) e **busca** (ao consultar).
-Ambos seguem o mesmo principio: o simbolico captura a estrutura, o LLM processa o significado.
+### Entrada
 
-```
-Pipeline de codificacao (ao escrever)
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│  Rotulacao   │──►│  Validacao   │──►│ Codificacao  │
-│  LLM         │   │  VALID       │   │ por codebook │
-│  Doc → JSON  │   │ Valores      │   │ JSON → SIDX  │
-│ (classif.    │   │ validos do   │   │ (montagem    │
-│  semantica)  │   │ codebook     │   │  de bits)    │
-│              │   │ Alucinacao   │   │              │
-│              │   │ → descarte   │   │              │
-└──────────────┘   └──────────────┘   └──────────────┘
-  LLM rotula       Codigo valida     Codificacao por codebook
-```
+Lê arquivos GEUL pack por meio do [gogeul](https://github.com/geul-org/gogeul). Como o índice aponta para posições de bytes dentro dos data packs, o conjunto precisa guardar os registros sem compressão (`GEULCOMPRESS=none`). A compressão zstd serve para distribuição e arquivamento; a camada de busca usa packs sem compressão.
 
-```
-Pipeline de busca (ao consultar)
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ Interpretac. │──►│ Filtro bit   │──►│  Julgamento  │
-│ da consulta  │   │ AND          │   │  LLM         │
-│ Lookup no    │   │ NumPy SIMD   │   │ Apenas poucos│
-│ codebook     │   │ 100M → umas  │   │ candidatos   │
-│ + assist.LLM │   │ dezenas      │   │ → resposta   │
-└──────────────┘   └──────────────┘   └──────────────┘
-  Extrac. semantica   Filtragem ampla  Julgamento preciso
-```
+### Especificação de partições
 
-Estrategia central: **filtrar amplamente sem perder nada com bit AND do SIDX**, depois **o LLM julga apenas os poucos candidatos**.
+Para cada tipo de TAG, declaram-se uma **chave de partição** e uma **chave de ordenação** como campos de posição fixa do registro. Nada como predicados ou idiomas fica fixo no código; a tabela abaixo mostra os valores padrão para documentos do Wikidata.
 
-```
-Cada um faz o que faz melhor:
- Humano: projetar estrutura (codebook)
- LLM:    classificacao semantica (rotulacao) + julgamento semantico (busca)
- Codigo: validacao de regras (VALID) + montagem de bits
- CPU:    comparacao massiva (NumPy SIMD)
-```
+| TAG | Chave de partição | Chave de ordenação |
+|---|---|---|
+| TRIPLE | Predicado (Predicate) | Objeto (Object) |
+| QUALIFIER | Propriedade (Property) | Valor (Value) |
+| LABEL·ALIAS·DESCRIPTION | Idioma | Sujeito (Subject) |
+| SOURCE | nenhuma | Origem (Origin) |
+| REFERENCE-NODE | nenhuma | Objeto (Object) |
 
-### Codificacao: rotulacao LLM → validacao VALID
+- Uma chave são os primeiros bytes (um slot) do registro de campo. Se o registro cabe no slot, a igualdade é exata; se for maior, a chave só seleciona candidatos.
+- A validação da especificação rejeita como chave de partição campos cuja posição exige um livro de códigos ou campos de comprimento ilimitado.
+- A especificação é identificada pelo hash do seu conteúdo. Quando ela muda, só aquele TAG é reconstruído.
 
-O LLM le o documento e o rotula como JSON. VALID realiza uma verificacao mecanica baseada no codebook.
-Valores fora do codebook, violacoes de consistencia entre tipos e violacoes de restricoes **fisicamente nao podem entrar no indice**.
+### Runs, incrementos e mesclagem
 
-```
-Rotulacao LLM: {"type": "Human", "occupation": "exploration", "country": "portugal"}
-VALID:         occupation="exploration" ∈ codebook? ✓  country="portugal" ∈ codebook? ✓
-               Human com campo constellation? ✗ Descartado
-Codificacao:   codebook "exploration"→6 bits, "portugal"→8 bits → montagem de bits → SIDX uint64
+| Elemento | Papel |
+|---|---|
+| Run ordenado | Segmento imutável ordenado por (chave de ordenação, documento, deslocamento) em cada partição. Consultado por busca binária |
+| Segmento anexado | Contém só as revisões novas de uma atualização incremental (`silk index update`). Varrido sequencialmente |
+| Bitmap de revisões vivas | Marca como mortas as revisões antigas de documentos alterados, em vez de apagá-las |
+| Mesclagem por faixas de tamanho | Mescla runs da mesma faixa de tamanho com um merge O(n) e, se houver muitas linhas mortas, mescla até o run base |
+| Geração | A geração do manifesto é trocada atomicamente. Os leitores fixam uma geração, então o snapshot se mantém mesmo durante a mesclagem |
+
+A mesclagem pode ser restrita a períodos ociosos (`-idle`, deixando 30% da CPU e da memória livres). Ela para nos limites de partição e retoma a partir de um checkpoint.
+
+### Consultas
+
+1. **Condição de igualdade**: localiza a partição e faz busca binária nos runs ordenados.
+2. **Várias condições**: faz merge join pelo documento (sujeito). Todas as condições devem valer dentro de um mesmo documento.
+3. **Verificação precisa**: decodifica os registros candidatos com o gogeul, compara campo a campo e lê o Edge Id.
+
+```sh
+silk query -triple P106=Q169470 ARCHIVE
+silk query -count -triple P31=Q5 -triple P106=Q169470 ARCHIVE
+silk query -label ko -match LABEL:1=Q42 ARCHIVE
 ```
 
-O LLM pode alucinar. Mas como VALID atua como guardiao, a possibilidade de contaminacao do indice e 0.
-Apenas o JSON que passa pelo VALID e codificado como inteiro SIDX de 64 bits baseado no codebook.
+## Medições
 
-### Busca: filtragem ampla, o LLM refina
+Medido no Wikidata Q1–Q10000 e em 16.696 documentos de propriedades (271 MB, 7,07 milhões de registros de índice). 8 threads, melhor de 7 execuções, sem contar o tempo de inicialização do processo.
 
-```
-1. Extracao semantica       Lookup no codebook 80% / assistencia LLM 20%
-2. Montagem de mascara      Deterministico — algoritmo
-3. Bit AND com NumPy        Deterministico — varredura completa de 100M em 20ms
-4. Julgamento final LLM     Apenas poucos candidatos — julgamento semantico preciso
-```
+### Consultas
 
-### 80% das buscas sao consultas estruturais
+| Consulta | Documentos resultantes | Método anterior (varredura completa) | Índice SILK |
+|---|---:|---:|---:|
+| P106=Q169470 (ocupação = físico) | 55 | ~20ms | 0,12ms |
+| P31=Q5 (ser humano) | 1.579 | ~19ms | ~1ms |
+| ser humano + físico | 54 | ~38ms | ~1ms |
+| LABEL ko | 9.746 | (impossível) | ~4ms |
 
-```
-"Vasco da Gama"     → Q7318 exact match. Bit AND. Fim.
-"noticias Samsung"  → org/company + doc_meta/news. Bit AND. Fim.
-"cimeira Biden-Xi"  → Q6279 ∩ Q15031 ∩ meeting. Intersecao. Fim.
-```
+- O método anterior varria por completo o mapa de registros TRIPLE.
+- Em LABEL ko, a maior parte do tempo é gasta lendo os 9.746 registros do pack para a verificação precisa.
 
-```
-Consulta estrutural (80%): completada com bit AND do SILK. Sem LLM.
-Consulta semantica  (15%): SILK reduz candidatos → LLM julga 5-10 itens.
-Consulta generativa  (5%): SILK localiza documentos → LLM gera.
-```
+### Tamanho, construção e incrementos
 
-## Multi-SIDX
+| Item | Valor |
+|---|---|
+| Tamanho do índice | 113MB (15,7B por registro em média) |
+| Construção | ~3 segundos (parsing de documentos em uma só thread) |
+| Atualização incremental (4.217 revisões alteradas) | 1,8 segundo |
+| Resultado incremental | Após 2 atualizações, 2 mesclagens e uma interrupção seguida de retomada, os resultados das consultas são idênticos byte a byte aos de um índice construído do zero |
+| Amplificação de escrita | 1,31 acumulada (1,71 se reconstruído toda vez) |
 
-Um unico documento/evento pode ter multiplos SIDX.
+- Extrapolado para todo o Wikidata (cerca de 7,5 bilhões de registros), o índice teria cerca de 110 GB (**estimativa**).
+- O custo é o tamanho: cerca de 4 vezes maior que um mapa simples de 4 B por registro. Reduzir a largura dos slots e as assinaturas de entidade são os próximos itens a examinar.
 
-```
-Noticia "Reuniao de executivos da Samsung, NVIDIA e Hyundai":
+### Varredura de assinaturas (medição preliminar para assinaturas de entidade)
 
-SIDX[0]: [Human / business / east_asia ]  Lee Jae-yong
-SIDX[1]: [Org   / company / east_asia ]  Samsung Electronics
-SIDX[2]: [Human / business / n_america]  Jensen Huang
-SIDX[3]: [Org   / company / n_america]  NVIDIA
-SIDX[4]: [Human / business / east_asia ]  Chung Eui-sun
-SIDX[5]: [Org   / company / east_asia ]  Hyundai Motor
-SIDX[6]: [Event / meeting / east_asia ]  Reuniao
-```
+Tempo, em escala, para varrer 100 milhões de assinaturas de 128 bits com máscara e padrão (i7-14700K, AVX2).
 
-Todos sao o mesmo SIDX de 64 bits. Mesmo indice. Mesma busca por bit AND.
-O campo entity_type distingue entidades (Human, Org) de eventos (Event).
+| Implementação | Tempo |
+|---|---:|
+| NumPy, 1 thread | ~1s |
+| Go, 1 thread | ~134ms |
+| Go, 8 threads | ~27ms |
+| Go, 16–20 threads | ~23ms (limite da largura de banda de memória) |
 
-## Estrutura do indice
+O que faz a diferença não é a linguagem, e sim **loops fundidos sem arrays intermediários e o uso de várias threads**.
 
-```python
-sidx_array = np.array([...], dtype=np.uint64)  # 108.8M × 8B = 870MB
-qid_array  = np.array([...], dtype=np.uint32)  # 108.8M × 4B = 435MB
-# Total ~1.3GB em memoria
-```
+## Relação com a busca vetorial
 
-```
-Construcao do indice:
- Elasticsearch: tokenizacao → analise → indice invertido → merge de segmentos
- Pinecone:      embedding → grafo HNSW → clustering
- SILK:          sort
-```
+Não é uma substituição, é uma divisão de tarefas.
 
-Sem estrutura de dados. Um unico array ordenado.
+| | SILK | Busca vetorial |
+|---|---|---|
+| Consultas atendidas | Consultas estruturadas (condições de predicado, objeto, idioma, entidade) | Similaridade semântica difícil de expressar como estrutura |
+| Resultado | O conjunto que satisfaz as condições (exato) | Um ranking por similaridade (aproximado) |
+| Pré-requisito | Os dados precisam estar estruturados em GEUL | Basta o texto original ou os embeddings |
 
-## Comparacao com vector DB
+Para consultas que procuram fatos expressos em GEUL, o SILK é exato e barato. Para texto original sem estrutura ou para buscar "algo parecido", a busca vetorial é mais adequada.
 
-|  | SILK | Vector DB |
-|------|------|-----------|
-| Tamanho do indice (1B registros) | 12TB | 1.5PB (125x) |
-| Construcao do indice | sort | HNSW dias |
-| Arranque a frio | Imediato ao abrir arquivo | Horas construindo grafo |
-| Varredura particionada | Possivel (resultado identico) | Impossivel (grafo quebrado) |
-| Condicoes compostas | Intersecao (exata) | Comprimido em 1 vetor (aproximado) |
-| Resultado | Exato (operacao de conjuntos) | Aproximado (ranking por similaridade) |
-| Auditoria | JSON (caixa branca) | Impossivel (caixa preta) |
+## Posição e próximos passos
 
-```
-Bit AND e independente de ordem, sem estado, acumulavel.
-Vector DB: o grafo inteiro deve estar em memoria. Particionar = destruir.
-SILK:      funciona onde se cortar. Particionar = apenas mais lento. Mesmo resultado.
-```
+O SILK é **a tecnologia de busca usada pelo WMS (o coordenador de armazenamento e recuperação do GEUL)**. Julgar se uma afirmação encontrada está correta cabe a um motor de julgamento separado.
 
-## Pipeline de auditoria
+| Próximo passo | Conteúdo |
+|---|---|
+| Assinaturas de entidade | Uma cadeia de bits de largura fixa de 16–128 bits por entidade. O usuário declara os campos (enumeração, one-hot, Bloom, prefixo, intervalo). É um primeiro filtro aproximado, seguido de verificação precisa. Atualmente em fase de planejamento (só uma parte está na biblioteca, ainda não no índice) |
+| Especificação como documento GEUL | Declarar a especificação JSON como documento GEUL e ler o layout a partir dos documentos de especificação de codec (DECLARE, FIELD) |
+| Índice de montagem de afirmações | Índice Target que encontra diretamente o TRIPLE apontado por um QUALIFIER ou SOURCE |
+| Preparação para grande escala | Limites de memória para construção e mesclagem, paralelização do parsing na construção |
 
-Embeddings vetoriais sao caixa preta: nao podem ser auditados. SIDX e JSON: pode ser auditado.
+A concepção inicial (2026-03) era um projeto em Python e NumPy que varria identificadores de entidade de 64 bits com AND bit a bit. Hoje é um motor em Go que indexa diretamente os registros GEUL.
 
-```
-Fase 1 — Rotulacao com LLM pequeno     Llama 8B / GPT-4o-mini. Precisao 85-90%.
-Fase 2 — Verificacao mecanica VALID     Valores validos, consistencia, restricoes. Custo $0.
-Fase 3 — Auditoria com LLM grande      Apenas confidence=low. Precisao 99%+.
+## Repositório e licença
 
-VALID como guardiao: alucinacoes fora dos valores validos do codebook fisicamente nao entram no indice.
-```
-
-## Licenca
-
-MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">GitHub</a>
+- Repositório: <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">github.com/geul-org/silk</a>
+- Instalação: `go install github.com/geul-org/silk/cmd/silk@latest`
+- Licença: nossa obra é CC0 1.0. Componentes de terceiros seguem suas próprias licenças (NOTICE do repositório).

@@ -1,241 +1,165 @@
 ---
-title: "SILK — Indeks Simbolik untuk Pengetahuan LLM"
+title: "SILK — Mesin Indeks dan Pencarian Khusus GEUL"
+weight: 1
 date: 2026-03-01T12:00:00+09:00
-lastmod: 2026-03-01T12:00:00+09:00
-tags: ["SILK", "search", "SIDX", "neuro-symbolic"]
-summary: "Arsitektur pencarian neuro-simbolik menggunakan bilangan bulat 64-bit. Mencari 100 juta entitas Wikidata dalam waktu sub-detik dengan memori 1,3 GB, tanpa vector DB, graf ANN, atau model embedding."
+lastmod: 2026-10-29T12:00:00+09:00
+tags: ["SILK", "pencarian", "indeks", "GEUL", "Go"]
+summary: "Mesin yang mengindeks dan menelusuri arsip GEUL pack per rekaman. Karena data sudah terstruktur sejak ditulis, pencarian tinggal perbandingan bilangan bulat dan penelusuran rentang. Kueri 0,1–4 ms pada Wikidata Q1–Q10000."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
-weight: 1
 aliases:
   - /id/silk/
 ---
 
-**Symbolic Index for LLM Knowledge** — arsitektur pencarian neuro-simbolik.
+SILK adalah **mesin indeks dan pencarian khusus GEUL**. Tanpa mendekode seluruh dokumen GEUL, SILK menjawab kueri seperti "dokumen mana yang menyatakan bahwa pekerjaan (P106) adalah fisikawan (Q169470)?" hanya dengan indeks rekaman.
 
-Mencari dengan bilangan bulat 64-bit. Tidak memerlukan vector DB, graf ANN, maupun model embedding.
+| | |
+|---|---|
+| Status | Pengembangan awal. Algoritme pencarian sedang divalidasi, dan format dapat berubah sebelum rilis pertama |
+| Bahasa | Go |
+| Masukan | Arsip GEUL pack (tanpa kompresi) |
+| Lisensi | CC0 |
+| Repositori | <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">github.com/geul-org/silk</a> |
 
-<a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">Repositori GitHub</a>
+## Tesis Inti
 
-## Tesis Utama
-
-Pencarian bukanlah masalah yang sulit — ia adalah **gejala data tanpa struktur**.
-Jika struktur 64-bit diberikan pada saat pencatatan, gejalanya menghilang.
-
-```python
-results = index[(index & mask) == pattern]
-```
-
-Pencarian 100 juta entitas Wikidata dalam memori 1,3 GB dengan waktu sub-detik.
-Python (NumPy) saja mengalahkan vector DB C++/Rust yang sudah dioptimasi — kemenangan arsitektur.
-
-## Mengapa Bukan Embedding Vektor?
-
-Embedding vektor menghancurkan struktur.
+Yang sulit bukan pencariannya. **Masalahnya adalah data tanpa struktur.**
 
 ```
-"Diponegoro adalah panglima perang Jawa pada abad ke-19"
- → Manusia langsung memahami: orang Jawa, militer, abad ke-19
-
-Model embedding:
- [0.234, -0.891, 0.445, ..., 0.112] (384 dimensi float)
- → Struktur hilang. Tidak bisa dibaca apakah person atau location.
-
-Untuk memulihkan struktur yang hancur:
- Graf ANN (HNSW, IVF-PQ), cross-encoder, reranker, filter metadata...
+Cara lama: tulis dulu → tebak strukturnya belakangan (tokenisasi, embedding, analisis)
+GEUL:      strukturkan saat menulis → pencarian tinggal perbandingan bilangan bulat dan penelusuran rentang
 ```
 
-SILK mempertahankan struktur.
+Rekaman GEUL sudah memuat field seperti subjek, predikat, objek, dan bahasa sebagai ID bilangan bulat pada posisi tetap. SILK hanya mengambil field tersebut dan menyimpannya dalam keadaan terurut.
 
-```
-SIDX: [Human / military / southeast_asia / early_modern]
- → Struktur hidup di dalam bit. Bisa dibaca.
- → Tidak perlu dipulihkan. Karena tidak pernah dihancurkan.
-```
+## Kecocokan dengan GEUL
 
-Intinya adalah pembalikan urutan.
+| Sifat GEUL | Yang diperoleh SILK |
+|---|---|
+| Satu TAG WORD 16-bit memuat jenis (Kind·Codec) dan panjang | Rekaman dapat disaring dan dilewati tanpa codebook |
+| Field Edge adalah rekaman pada posisi tetap | Kunci diambil berdasarkan posisi. Tidak perlu aturan parsing tersendiri |
+| Kosakata terkendali berupa ID bilangan bulat (Q, P, bahasa) | Kesamaan dibandingkan sebagai bilangan bulat, tanpa normalisasi string |
+| pack terdiri atas objek imutabel dan generasi | Indeks juga dibangun dari segmen imutabel dan generasi, sehingga snapshot aman |
+| Konversi bersifat deterministik | Masukan yang sama menghasilkan indeks yang sama. Hasil inkremental dapat dicocokkan byte demi byte dengan indeks yang dibangun dari awal |
 
-```
-Konvensional: tulis dulu → strukturkan kemudian (indexing)
-SILK: strukturkan saat menulis → pencarian gratis
-```
+Dokumen GEUL tidak pernah diurutkan ulang. Indeks hanyalah **tampilan (view)** yang terurut; byte yang dipublikasikan, hash konten, dan tanda tangan tetap tidak berubah.
 
-## Tata Letak Bit SIDX
+## Struktur
 
-SIDX mengikuti spesifikasi Entity Node dalam [tata bahasa GEUL](/id/grammar/).
+### Masukan
 
-```
-[prefix 7 | mode 3 | entity_type 6 | attrs 48]
- MSB(63)                                  LSB(0)
-```
+SILK membaca arsip GEUL pack melalui [gogeul](https://github.com/geul-org/gogeul). Karena indeks menunjuk posisi byte di dalam data pack, set harus menyimpan rekaman tanpa kompresi (`GEULCOMPRESS=none`). Kompresi zstd dipakai untuk distribusi dan penyimpanan arsip; lapisan pencarian memakai pack tanpa kompresi.
 
-| Field | Bit | Ukuran | Deskripsi |
-|-------|-----|--------|-----------|
-| prefix | 63-57 | 7 | Header protokol GEUL (tetap `0001001`, diabaikan saat pencarian) |
-| mode | 56-54 | 3 | Mode kuantisasi/jumlah (entitas terdaftar=0, definit, universal, eksistensial, dsb. — 8 mode) |
-| entity_type | 53-48 | 6 | 64 tipe teratas (Human=0 ~ Election=62, belum diklasifikasi=63) |
-| attrs | 47-0 | 48 | Encoding atribut per tipe (didefinisikan oleh codebook) |
+### Spesifikasi Partisi
 
-Cakupan pencarian: entity_type 6 bit + attrs 48 bit = **54 bit**.
-QID tidak termasuk dalam SIDX dan disimpan dalam array terpisah.
+Untuk setiap jenis TAG, **kunci partisi** dan **kunci urut** dideklarasikan sebagai field berposisi tetap pada rekaman. Predikat, bahasa, dan sejenisnya tidak di-hardcode; tabel di bawah adalah nilai bawaan untuk dokumen Wikidata.
 
-### attrs 48 bit — Skema per Tipe
+| TAG | Kunci partisi | Kunci urut |
+|---|---|---|
+| TRIPLE | Predikat (Predicate) | Objek (Object) |
+| QUALIFIER | Properti (Property) | Nilai (Value) |
+| LABEL·ALIAS·DESCRIPTION | Bahasa | Subjek (Subject) |
+| SOURCE | tidak ada | Asal (Origin) |
+| REFERENCE-NODE | tidak ada | Objek (Object) |
 
-```
-Human(0):       subclass 5 | occupation 6 | country 8 | era 4 | decade 4 | gender 2 | notability 3 | ...
-Star(12):       constellation 7 | spectral_type 4 | luminosity 3 | magnitude 4 | ra_zone 4 | dec_zone 4 | ...
-Settlement(28): country 8 | admin_level 4 | admin_code 8 | lat_zone 4 | lon_zone 4 | population 4 | ...
-Organization(44): country 8 | org_type 4 | legal_form 6 | industry 8 | era 4 | size 4 | ...
-Film(51):       country 8 | year 7 | genre 6 | language 8 | color 2 | duration 4 | ...
-```
+- Kunci adalah beberapa byte pertama (slot) dari rekaman field. Jika rekaman muat dalam slot, kesamaannya tepat; jika lebih panjang, kunci hanya memilih kandidat.
+- Validasi spesifikasi menolak field yang posisinya hanya bisa diketahui dengan codebook, atau field yang panjangnya tak terbatas, sebagai kunci partisi.
+- Spesifikasi diidentifikasi dengan hash kontennya. Jika spesifikasi berubah, hanya TAG tersebut yang dibangun ulang.
 
-Saat ini tata letak atribut untuk 5 tipe telah didefinisikan. Sisanya hanya di-encode berdasarkan entity_type.
+### Run, Inkremen, dan Penggabungan
 
-## Arsitektur
+| Elemen | Peran |
+|---|---|
+| Run terurut | Segmen imutabel yang diurutkan berdasarkan (kunci urut, dokumen, offset) per partisi. Ditelusuri dengan pencarian biner |
+| Segmen tambahan | Hanya memuat revisi baru dari pembaruan inkremental (`silk index update`). Dipindai |
+| Bitmap revisi hidup | Menandai revisi lama dari dokumen yang berubah sebagai mati, alih-alih menghapusnya |
+| Penggabungan bertingkat ukuran | Menggabungkan run dalam tingkat ukuran yang sama dengan merge O(n), dan jika baris mati banyak, menggabungkannya sampai ke run dasar |
+| Generasi | Generasi manifest diganti secara atomik. Pembaca mengunci satu generasi, sehingga snapshot tetap terjaga bahkan selama penggabungan |
 
-SILK memiliki dua pipeline: **encoding** (saat menulis) dan **pencarian** (saat mencari).
-Keduanya dengan prinsip yang sama: simbolik menangani struktur, LLM memproses makna.
+Penggabungan dapat dibatasi hanya saat menganggur (`-idle`, menyisakan 30% CPU dan memori). Prosesnya berhenti di batas partisi dan dilanjutkan dari checkpoint.
 
-```
-Pipeline Encoding (saat menulis)
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│  Tagging LLM │──►│  Validasi    │──►│ Encoding     │
-│  dokumen →   │   │  VALID       │   │ codebook     │
-│  JSON        │   │ nilai valid  │   │ JSON → SIDX  │
-│  (klasifikasi│   │ cek konsist. │   │ (rakit bit)  │
-│   semantik)  │   │ halusinasi → │   │              │
-│              │   │ tolak        │   │              │
-└──────────────┘   └──────────────┘   └──────────────┘
-   LLM men-tag      kode memvalidasi  encoding berbasis codebook
+### Kueri
+
+1. **Kondisi kesamaan**: temukan partisi, lalu lakukan pencarian biner pada run terurut.
+2. **Beberapa kondisi**: lakukan merge join berdasarkan dokumen (subjek). Semua kondisi harus terpenuhi di dalam satu dokumen.
+3. **Verifikasi presisi**: dekode rekaman kandidat dengan gogeul, bandingkan per field, dan baca Edge Id.
+
+```sh
+silk query -triple P106=Q169470 ARCHIVE
+silk query -count -triple P31=Q5 -triple P106=Q169470 ARCHIVE
+silk query -label ko -match LABEL:1=Q42 ARCHIVE
 ```
 
-```
-Pipeline Pencarian (saat mencari)
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│  Interpretasi│──►│ Filter       │──►│  Keputusan   │
-│  kueri       │   │ bit AND      │   │  LLM         │
-│  lookup      │   │  NumPy SIMD  │   │ hanya kandidat│
-│  codebook    │   │100M → puluhan│   │ puluhan →    │
-│  + bantu LLM │   │              │   │ jawaban      │
-└──────────────┘   └──────────────┘   └──────────────┘
-   ekstraksi makna   filter luas       keputusan presisi
-```
+## Hasil Pengukuran
 
-Strategi utama: **filter luas dengan bit AND pada SIDX tanpa kehilangan**, kemudian **LLM memutuskan hanya pada kandidat yang sedikit**.
+Diukur pada Wikidata Q1–Q10000 dan 16.696 dokumen properti (271 MB, 7,07 juta rekaman indeks). 8 thread, nilai terbaik dari 7 kali percobaan, tidak termasuk waktu startup proses.
 
-```
-Masing-masing melakukan yang terbaik:
- Manusia: desain struktur (codebook)
- LLM:  klasifikasi semantik (tagging) + keputusan semantik (pencarian)
- Kode: validasi aturan (VALID) + perakitan bit
- CPU:  perbandingan massal (NumPy SIMD)
-```
+### Kueri
 
-### Encoding: Tagging LLM → Validasi VALID
+| Kueri | Dokumen hasil | Cara sebelumnya (pemindaian penuh) | Indeks SILK |
+|---|---:|---:|---:|
+| P106=Q169470 (pekerjaan = fisikawan) | 55 | ~20ms | 0,12ms |
+| P31=Q5 (manusia) | 1.579 | ~19ms | ~1ms |
+| manusia + fisikawan | 54 | ~38ms | ~1ms |
+| LABEL ko | 9.746 | (tidak bisa) | ~4ms |
 
-LLM membaca dokumen dan men-tag ke JSON. VALID melakukan pemeriksaan mekanis berdasarkan codebook.
-Nilai yang tidak ada di codebook, pelanggaran konsistensi antar-tipe, dan pelanggaran constraint **secara fisik tidak bisa masuk ke indeks.**
+- Cara sebelumnya memindai seluruh peta rekaman TRIPLE.
+- Untuk LABEL ko, sebagian besar waktunya habis untuk membaca 9.746 rekaman dari pack guna verifikasi presisi.
 
-```
-Tagging LLM: {"type": "Human", "occupation": "military", "country": "indonesia"}
-VALID:    occupation="military" ∈ codebook? ✓  country="indonesia" ∈ codebook? ✓
-          Human dengan field constellation? ✗ ditolak
-Encoding:   "military"→6 bit, "indonesia"→8 bit dari codebook → rakit bit → SIDX uint64
-```
+### Ukuran, Build, dan Inkremen
 
-LLM bisa berhalusinasi. Tapi VALID berperan sebagai penjaga gerbang sehingga kemungkinan kontaminasi indeks adalah nol.
-Hanya JSON yang lolos VALID yang di-encode menjadi bilangan bulat SIDX 64-bit berdasarkan codebook.
+| Item | Nilai |
+|---|---|
+| Ukuran indeks | 113MB (rata-rata 15,7B per rekaman) |
+| Build | ~3 detik (parsing dokumen satu thread) |
+| Pembaruan inkremental (4.217 revisi berubah) | 1,8 detik |
+| Hasil inkremental | Setelah 2 kali pembaruan, 2 kali penggabungan, serta interupsi lalu dilanjutkan, hasil kueri tetap identik byte demi byte dengan indeks yang dibangun dari awal |
+| Amplifikasi tulis | Kumulatif 1,31 (1,71 jika dibangun ulang setiap kali) |
 
-### Pencarian: Filter Luas, LLM Mempersempit
+- Jika diekstrapolasi ke seluruh Wikidata (sekitar 7,5 miliar rekaman), ukuran indeks sekitar 110 GB (**perkiraan**).
+- Biayanya adalah ukuran: sekitar 4 kali lebih besar dari peta sederhana 4 B per rekaman. Penyempitan lebar slot dan tanda tangan entitas menjadi bahan kajian berikutnya.
 
-```
-1. Ekstraksi makna kueri     lookup codebook 80% / bantuan LLM 20%
-2. Perakitan bitmask         deterministik — algoritma
-3. bit AND via NumPy         deterministik — full scan 100M dalam 20ms
-4. Keputusan akhir LLM       hanya kandidat sedikit — keputusan semantik presisi
-```
+### Pemindaian Tanda Tangan (pengukuran awal untuk tanda tangan entitas)
 
-### 80% Pencarian adalah Kueri Struktural
+Waktu yang dikonversi untuk memindai 100 juta tanda tangan 128-bit dengan mask dan pola (i7-14700K, AVX2).
 
-```
-"Diponegoro"      → Q484523 exact match. bit AND. Selesai.
-"berita Samsung"   → org/company + doc_meta/news. bit AND. Selesai.
-"KTT Biden-Xi"    → Q6279 ∩ Q15031 ∩ meeting. Irisan. Selesai.
-```
+| Implementasi | Waktu |
+|---|---:|
+| NumPy 1 thread | ~1 detik |
+| Go 1 thread | ~134ms |
+| Go 8 thread | ~27ms |
+| Go 16–20 thread | ~23ms (batas bandwidth memori) |
 
-```
-Kueri struktural (80%): bit AND SILK sudah cukup. LLM tidak diperlukan.
-Kueri semantik (15%): SILK mempersempit kandidat → LLM memutuskan 5-10 kasus.
-Kueri generatif  (5%): SILK mengidentifikasi dokumen → LLM menghasilkan.
-```
+Yang membuat perbedaan bukan bahasanya, melainkan **loop terfusi tanpa array perantara dan multithreading**.
 
-## Multi-SIDX
+## Hubungan dengan Pencarian Vektor
 
-Satu dokumen/peristiwa membawa beberapa SIDX.
+Bukan pengganti, melainkan pembagian peran.
 
-```
-Artikel berita "Pertemuan pimpinan Samsung, NVIDIA, dan Hyundai":
+| | SILK | Pencarian vektor |
+|---|---|---|
+| Kueri yang ditangani | Kueri terstruktur (kondisi predikat, objek, bahasa, entitas) | Kemiripan makna yang sulit dinyatakan sebagai struktur |
+| Hasil | Himpunan yang memenuhi kondisi (tepat) | Peringkat kemiripan (aproksimasi) |
+| Prasyarat | Data harus sudah terstruktur dalam GEUL | Cukup teks asli atau embedding |
 
-SIDX[0]: [Human / business / east_asia ]  Lee Jae-yong
-SIDX[1]: [Org   / company / east_asia ]  Samsung
-SIDX[2]: [Human / business / n_america]  Jensen Huang
-SIDX[3]: [Org   / company / n_america]  NVIDIA
-SIDX[4]: [Human / business / east_asia ]  Chung Eui-sun
-SIDX[5]: [Org   / company / east_asia ]  Hyundai
-SIDX[6]: [Event / meeting / east_asia ]  pertemuan
-```
+Untuk kueri yang mencari fakta yang dinyatakan dalam GEUL, SILK tepat dan murah. Untuk teks asli tanpa struktur atau kueri yang mencari "sesuatu yang mirip", pencarian vektor lebih cocok.
 
-Semua SIDX 64-bit yang sama. Indeks yang sama. bit AND yang sama untuk pencarian.
-Field entity_type membedakan entitas (Human, Org) dari peristiwa (Event).
+## Posisi dan Langkah Berikutnya
 
-## Struktur Indeks
+SILK adalah **teknologi pencarian yang dipakai WMS (koordinator penyimpanan dan pengambilan GEUL)**. Penilaian apakah pernyataan yang ditemukan itu benar ditangani oleh mesin penilai tersendiri.
 
-```python
-sidx_array = np.array([...], dtype=np.uint64)  # 108.8M × 8B = 870MB
-qid_array  = np.array([...], dtype=np.uint32)  # 108.8M × 4B = 435MB
-# Total ~1,3 GB memori
-```
+| Langkah berikutnya | Isi |
+|---|---|
+| Tanda tangan entitas | Untaian bit lebar tetap 16–128 bit per entitas. Pengguna mendeklarasikan field-nya (enumerasi, one-hot, Bloom, prefiks, rentang). Ini filter tahap pertama yang bersifat aproksimasi, diikuti verifikasi presisi. Saat ini masih tahap perencanaan (baru sebagian ada di pustaka, belum masuk ke indeks) |
+| Spesifikasi sebagai dokumen GEUL | Mendeklarasikan spesifikasi JSON sebagai dokumen GEUL dan membaca tata letak dari dokumen spesifikasi codec (DECLARE·FIELD) |
+| Indeks perakitan pernyataan | Indeks Target yang langsung menemukan TRIPLE yang ditunjuk oleh QUALIFIER·SOURCE |
+| Persiapan skala besar | Batas atas memori untuk build dan penggabungan, paralelisasi parsing saat build |
 
-```
-Pembangunan indeks:
- Elasticsearch: tokenisasi → analisis → inverted index → merge segmen
- Pinecone:      embedding → graf HNSW → clustering
- SILK:          sort
-```
+Gagasan awal (2026-03) adalah desain Python·NumPy yang memindai pengenal entitas 64-bit dengan operasi AND bit. Kini telah berubah menjadi mesin Go yang langsung mengindeks rekaman GEUL.
 
-Tanpa struktur data. Satu array terurut.
+## Repositori dan Lisensi
 
-## Perbandingan dengan Vector DB
-
-|  | SILK | Vector DB |
-|------|------|---------|
-| Ukuran indeks (1 triliun record) | 12TB | 1,5PB (125 kali lipat) |
-| Pembangunan indeks | sort | HNSW berhari-hari |
-| Cold start | buka file langsung jalan | pembangunan graf berjam-jam |
-| Scan terbagi | bisa (hasil identik) | tidak bisa (graf terputus) |
-| Kondisi kompleks | irisan (tepat) | kompresi ke satu vektor (aproksimasi) |
-| Hasil | tepat (operasi himpunan) | aproksimasi (peringkat kemiripan) |
-| Audit | JSON (white box) | tidak bisa (black box) |
-
-```
-bit AND tidak bergantung urutan, tanpa state, bisa diagregasi.
-Vector DB: seluruh graf harus di memori. Pembagian = kehancuran.
-SILK:    potong di mana saja tetap berjalan. Pembagian = hanya lebih lambat. Hasil identik.
-```
-
-## Pipeline Audit
-
-Embedding vektor adalah black box yang tidak bisa diaudit. SIDX adalah JSON yang bisa diaudit.
-
-```
-Tahap 1 — Tagging LLM kecil     Llama 8B / GPT-4o-mini. Akurasi 85-90%.
-Tahap 2 — Pemeriksaan VALID mekanis  nilai valid, konsistensi, constraint. Biaya $0.
-Tahap 3 — Audit LLM besar       hanya confidence=low. Akurasi 99%+.
-
-VALID adalah penjaga gerbang: halusinasi di luar nilai valid codebook secara fisik tidak bisa masuk ke indeks.
-```
-
-## Lisensi
-
-MIT — <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">Repositori GitHub</a>
+- Repositori: <a href="https://github.com/geul-org/silk" target="_blank" rel="noopener">github.com/geul-org/silk</a>
+- Instalasi: `go install github.com/geul-org/silk/cmd/silk@latest`
+- Lisensi: karya kami berlisensi CC0 1.0. Komponen pihak ketiga mengikuti lisensinya masing-masing (NOTICE di repositori).
