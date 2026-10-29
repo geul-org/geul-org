@@ -2,7 +2,7 @@
 title: "COORDINATE-GEO"
 weight: 6
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
 summary: "COORDINATE-GEO 是用天体 Reference、纬度·经度 binary64、不确定度 binary32 及其单位 Reference 来承载行星·卫星等天体上一个点的 Value。"
 author: "朴俊宇"
@@ -28,7 +28,7 @@ Unit              Reference 记录 1 个，或占位标记 0x0000 ABSENT
 
 - Payload 以 Globe 记录开头。Globe 恰好是一条完整的 Reference 记录，Quantifier 是 Identified（`000`）。可以使用任何指向天体的 Reference：[WIKIDATA-QID](/zh/grammar/reference/wikidata-qid/)（有名称的天体）、[GEUL](/zh/grammar/reference/geul/)、同一文档的 [LOCAL](/zh/grammar/reference/local/)（在文档内定义的天体）、其他文档的天体（[EXTERNAL-POINTER](/zh/grammar/reference/external-pointer/)·[EXTERNAL-ISSUER](/zh/grammar/reference/external-issuer/)）等。天体无穷无尽，有 QID 的天体只是其中一部分。
 - Globe 之后是 10 WORD（Latitude 4、Longitude 4、Uncertainty 2）和一条 Unit 记录。读完 Unit 的游标必须与记录末尾吻合。
-- Latitude 是 `-90 ≤ φ ≤ 90`，Longitude 是 `-180 ≤ λ ≤ 360`。`(180, 360]` 是为了原样承载经度按 0~360° 计数的天体坐标系的值而允许的。其他规则（binary64、有限值、轴顺序、Uncertainty·Unit 的含义、未知的表示）与 COORDINATE-EARTH 相同。
+- Latitude 是 `-90 ≤ φ ≤ 90`，Longitude 是 `-360 ≤ λ ≤ 360`。为了不加改动地承载经度按 0~360° 计数的天体坐标系（东经或西经）的值，以及按相反方向写出的负值，范围比地球更宽。该范围与 Wikidata globecoordinate 数据模型（Wikibase `LatLongValue`）相同。`λ` 与 `λ ± 360` 是同一条经线，GEUL 不做规范化。其他规则（binary64、有限值、轴顺序、Uncertainty·Unit 的含义、未知的表示）与 COORDINATE-EARTH 相同。
 - 坐标系按各天体遵循该天体的惯例（行星中心纬度、东经或西经 0~360° 等）。各天体的坐标系用单独的 GEUL 文档规定。
 - 距离单位（米等）的 Uncertainty 是天体表面上的距离。角度单位（度·角分·角秒）与天体大小无关，是纬度·经度的角度半径。
 - 地球（Q2）坐标建议使用 COORDINATE-EARTH。在本格式中写地球也不是 invalid，由比较一方将其对齐为同一坐标。
@@ -67,6 +67,7 @@ Unit              Reference 记录 1 个，或占位标记 0x0000 ABSENT
 
 - 含义：[RFC 5870](https://www.rfc-editor.org/rfc/rfc5870) 的纬度·经度·`u`（Unit 为米时）。RFC 5870 的 `crs` 中登记的坐标系只有 `wgs84`，所以地球之外的天体用 GEUL Globe Reference 指定。
 - 数值：[IEEE 754](https://standards.ieee.org/ieee/754/6210/) binary64（纬度·经度）、binary32（不确定度）。
+- 经度范围：Wikidata globecoordinate 数据模型 [DataValues Geo `LatLongValue`](https://github.com/DataValues/Geo) 的 `-360 ≤ λ ≤ 360`。
 
 ## 未决问题
 

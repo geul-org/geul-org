@@ -2,7 +2,7 @@
 title: "COORDINATE-GEO"
 weight: 6
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
 summary: "COORDINATE-GEO est une Value qui contient un point d'un corps céleste (planète, satellite, etc.) par une Reference du corps céleste, la latitude et la longitude en binary64, l'incertitude en binary32 et une Reference de son unité."
 author: "Junwoo Park"
@@ -28,7 +28,7 @@ Unit              1 enregistrement Reference, ou marqueur d'emplacement 0x0000 A
 
 - Le Payload commence par l'enregistrement Globe. Globe est exactement un enregistrement Reference complet, de Quantifier Identified (`000`). Toute Reference qui désigne un corps céleste convient : [WIKIDATA-QID](/fr/grammar/reference/wikidata-qid/) (corps célestes nommés), [GEUL](/fr/grammar/reference/geul/), un [LOCAL](/fr/grammar/reference/local/) du même document (corps céleste défini dans le document), un corps céleste d'un autre document ([EXTERNAL-POINTER](/fr/grammar/reference/external-pointer/), [EXTERNAL-ISSUER](/fr/grammar/reference/external-issuer/)), etc. Les corps célestes sont innombrables et ceux qui ont un QID n'en sont qu'une partie.
 - Après Globe viennent 10 WORD (Latitude 4, Longitude 4, Uncertainty 2) et un enregistrement Unit. Le curseur après lecture de Unit doit coïncider avec la fin de l'enregistrement.
-- Latitude : `-90 ≤ φ ≤ 90`, Longitude : `-180 ≤ λ ≤ 360`. `(180, 360]` est admis pour contenir telles quelles les valeurs des systèmes de coordonnées de corps célestes qui comptent la longitude de 0 à 360°. Les autres règles (binary64, valeurs finies, ordre des axes, sens d'Uncertainty et d'Unit, expression de l'inconnu) sont celles de COORDINATE-EARTH.
+- Latitude : `-90 ≤ φ ≤ 90`, Longitude : `-360 ≤ λ ≤ 360`. La plage est plus large que sur la Terre pour contenir sans changement les valeurs des systèmes de coordonnées de corps célestes qui comptent la longitude de 0 à 360° (est ou ouest), ainsi que les valeurs négatives écrites dans le sens opposé. La plage est la même que celle du modèle de données globecoordinate de Wikidata (Wikibase `LatLongValue`). `λ` et `λ ± 360` sont le même méridien, et GEUL ne les normalise pas. Les autres règles (binary64, valeurs finies, ordre des axes, sens d'Uncertainty et d'Unit, expression de l'inconnu) sont celles de COORDINATE-EARTH.
 - Le système de coordonnées suit, pour chaque corps céleste, la convention de ce corps (latitude planétocentrique, longitude est ou ouest de 0 à 360°, etc.). Le système de coordonnées propre à chaque corps céleste est fixé par un document GEUL à part.
 - Pour une Uncertainty en unité de distance (mètre, etc.), c'est une distance sur la surface du corps céleste. Pour une unité angulaire (degré, minute d'arc, seconde d'arc), c'est le rayon angulaire en latitude et longitude, quelle que soit la taille du corps céleste.
 - Pour les coordonnées terrestres (Q2), on recommande COORDINATE-EARTH. Mettre la Terre dans ce format n'est pas invalid non plus, et celui qui compare les aligne sur la même coordonnée.
@@ -67,6 +67,7 @@ Le même point, precision 0,1° (Unit degré Q28390) :
 
 - Sens : latitude, longitude et `u` (quand Unit est le mètre) de la [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870). Le seul système de coordonnées enregistré pour `crs` dans la RFC 5870 étant `wgs84`, on désigne les corps célestes hors de la Terre par la Reference Globe de GEUL.
 - Valeurs : [IEEE 754](https://standards.ieee.org/ieee/754/6210/) binary64 (latitude, longitude), binary32 (incertitude).
+- Plage de longitude : `-360 ≤ λ ≤ 360` du modèle de données globecoordinate de Wikidata, [DataValues Geo `LatLongValue`](https://github.com/DataValues/Geo).
 
 ## Problèmes ouverts
 

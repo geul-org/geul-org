@@ -2,7 +2,7 @@
 title: "COORDINATE-GEO"
 weight: 6
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
 summary: "COORDINATE-GEO قيمة Value تحمل نقطة على جرم سماوي كالكوكب أو القمر بـ Reference للجرم وخط العرض وخط الطول binary64 وعدم اليقين binary32 وReference لوحدته."
 author: "جونو بارك"
@@ -28,7 +28,7 @@ Unit              سجل Reference واحد، أو علامة الموضع 0x000
 
 - يبدأ Payload بسجل Globe. Globe هو سجل Reference كامل واحد بالضبط وQuantifier فيه هو Identified (`000`). يمكن استخدام أي Reference يشير إلى جرم سماوي: [WIKIDATA-QID](/ar/grammar/reference/wikidata-qid/) (للأجرام المسماة)، و[GEUL](/ar/grammar/reference/geul/)، و[LOCAL](/ar/grammar/reference/local/) في المستند نفسه (جرم عُرّف داخل المستند)، وجرم في مستند آخر ([EXTERNAL-POINTER](/ar/grammar/reference/external-pointer/) و[EXTERNAL-ISSUER](/ar/grammar/reference/external-issuer/)) وغيرها. الأجرام لا تُحصى والأجرام التي لها QID جزء منها.
 - بعد Globe يأتي 10 WORD (Latitude 4 وLongitude 4 وUncertainty 2) وسجل Unit واحد. يجب أن يتطابق المؤشر بعد قراءة Unit مع نهاية السجل.
-- Latitude هو `-90 ≤ φ ≤ 90`، وLongitude هو `-180 ≤ λ ≤ 360`. يُسمح بالنطاق `(180, 360]` لحمل قيمة نظام إحداثيات الأجرام الذي يعدّ خط الطول من 0 إلى 360° كما هي. أما بقية القواعد (binary64 والقيمة المنتهية وترتيب المحاور ومعنى Uncertainty وUnit وتمثيل المجهول) فهي نفسها في COORDINATE-EARTH.
+- Latitude هو `-90 ≤ φ ≤ 90`، وLongitude هو `-360 ≤ λ ≤ 360`. النطاق أوسع منه على الأرض لحمل قيم أنظمة إحداثيات الأجرام التي تعدّ خط الطول من 0 إلى 360° (شرقًا أو غربًا)، والقيم السالبة المكتوبة في الاتجاه المعاكس، دون تغيير. وهو النطاق نفسه في نموذج بيانات globecoordinate في ويكي بيانات (Wikibase `LatLongValue`). `λ` و`λ ± 360` خط زوال واحد، ولا يطبّعهما GEUL. أما بقية القواعد (binary64 والقيمة المنتهية وترتيب المحاور ومعنى Uncertainty وUnit وتمثيل المجهول) فهي نفسها في COORDINATE-EARTH.
 - يتبع نظام الإحداثيات عُرف كل جرم (خط العرض المركزي للكوكب، وخط الطول الشرقي أو الغربي 0~360° وغيرها). نظام الإحداثيات لكل جرم يُحدد في مستند GEUL مستقل.
 - Uncertainty بوحدة مسافة (المتر وغيره) هو مسافة على سطح الجرم. أما وحدة الزاوية (الدرجة والدقيقة القوسية والثانية القوسية) فهي نصف قطر زاوي لخط العرض وخط الطول مهما كان حجم الجرم.
 - يُوصى باستخدام COORDINATE-EARTH لإحداثيات الأرض (Q2). وكتابة الأرض في هذه الصيغة ليست invalid أيضاً، وتطابقها جهة المقارنة على أنها الإحداثية نفسها.
@@ -67,6 +67,7 @@ Unit              سجل Reference واحد، أو علامة الموضع 0x000
 
 - المعنى: خط العرض وخط الطول و`u` (عندما تكون Unit هي المتر) في [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870). نظام الإحداثيات الوحيد المسجل في `crs` في RFC 5870 هو `wgs84`، لذلك تُحدَّد الأجرام خارج الأرض بـ Reference الجرم Globe في GEUL.
 - الأعداد: [IEEE 754](https://standards.ieee.org/ieee/754/6210/) binary64 (خط العرض والطول) وbinary32 (عدم اليقين).
+- نطاق خط الطول: `-360 ≤ λ ≤ 360` في نموذج بيانات globecoordinate في ويكي بيانات، [DataValues Geo `LatLongValue`](https://github.com/DataValues/Geo).
 
 ## مسائل مفتوحة
 

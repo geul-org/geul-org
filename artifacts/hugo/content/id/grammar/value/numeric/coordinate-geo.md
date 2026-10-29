@@ -2,7 +2,7 @@
 title: "COORDINATE-GEO"
 weight: 6
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
 summary: "COORDINATE-GEO adalah Value yang memuat satu titik pada benda langit seperti planet·satelit dengan Reference benda langit, lintang·bujur binary64, ketidakpastian binary32, dan Reference satuannya."
 author: "Junwoo Park"
@@ -28,7 +28,7 @@ Unit              1 record Reference, atau penanda slot 0x0000 ABSENT
 
 - Payload dimulai dengan record Globe. Globe adalah tepat satu record Reference yang lengkap dengan Quantifier Identified (`000`). Reference apa pun yang menunjuk benda langit dapat dipakai: [WIKIDATA-QID](/id/grammar/reference/wikidata-qid/) (benda langit bernama), [GEUL](/id/grammar/reference/geul/), [LOCAL](/id/grammar/reference/local/) dokumen yang sama (benda langit yang didefinisikan dalam dokumen), benda langit pada dokumen lain ([EXTERNAL-POINTER](/id/grammar/reference/external-pointer/)·[EXTERNAL-ISSUER](/id/grammar/reference/external-issuer/)), dan lain-lain. Benda langit tak terhitung banyaknya dan yang memiliki QID hanyalah sebagian.
 - Setelah Globe datang 10 WORD (Latitude 4, Longitude 4, Uncertainty 2) dan satu record Unit. Kursor setelah membaca Unit harus sesuai dengan akhir record.
-- Latitude `-90 ≤ φ ≤ 90`, Longitude `-180 ≤ λ ≤ 360`. `(180, 360]` diizinkan agar nilai sistem koordinat benda langit yang menghitung bujur 0~360° dapat dimuat apa adanya. Aturan lain (binary64, nilai berhingga, urutan sumbu, makna Uncertainty·Unit, representasi tidak diketahui) sama dengan COORDINATE-EARTH.
+- Latitude `-90 ≤ φ ≤ 90`, Longitude `-360 ≤ λ ≤ 360`. Rentangnya lebih lebar daripada di Bumi agar nilai sistem koordinat benda langit yang menghitung bujur 0~360° (timur atau barat), serta nilai negatif yang ditulis ke arah sebaliknya, dapat dimuat tanpa diubah. Rentang ini sama dengan model data globecoordinate Wikidata (Wikibase `LatLongValue`). `λ` dan `λ ± 360` adalah meridian yang sama, dan GEUL tidak menormalkannya. Aturan lain (binary64, nilai berhingga, urutan sumbu, makna Uncertainty·Unit, representasi tidak diketahui) sama dengan COORDINATE-EARTH.
 - Sistem koordinat mengikuti konvensi benda langit masing-masing (lintang planetosentris, bujur timur atau barat 0~360°, dan lain-lain). Sistem koordinat per benda langit ditetapkan dengan dokumen GEUL terpisah.
 - Uncertainty dengan satuan jarak (meter, dan lain-lain) adalah jarak di permukaan benda langit. Satuan sudut (derajat·menit busur·detik busur) adalah radius sudut lintang·bujur tanpa kaitan dengan ukuran benda langit.
 - Untuk koordinat Bumi (Q2) dianjurkan memakai COORDINATE-EARTH. Menulis Bumi pada format ini juga bukan invalid, dan pihak yang membandingkan menyamakannya sebagai koordinat yang sama.
@@ -67,6 +67,7 @@ Titik yang sama, precision 0.1° (Unit derajat Q28390):
 
 - Makna: lintang·bujur·`u` (saat Unit adalah meter) pada [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870). Sistem koordinat yang terdaftar pada `crs` RFC 5870 hanya `wgs84` sehingga benda langit di luar Bumi ditentukan dengan Reference Globe GEUL.
 - Numerik: [IEEE 754](https://standards.ieee.org/ieee/754/6210/) binary64 (lintang·bujur), binary32 (ketidakpastian).
+- Rentang bujur: `-360 ≤ λ ≤ 360` pada model data globecoordinate Wikidata, [DataValues Geo `LatLongValue`](https://github.com/DataValues/Geo).
 
 ## Masalah terbuka
 

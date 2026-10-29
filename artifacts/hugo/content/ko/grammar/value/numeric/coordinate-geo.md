@@ -2,7 +2,7 @@
 title: "COORDINATE-GEO"
 weight: 6
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
 summary: "COORDINATE-GEO는 천체 Reference와 위도·경도 binary64, 불확도 binary32와 그 단위 Reference로 행성·위성 등 천체 위의 한 점을 담는 Value다."
 author: "박준우"
@@ -28,7 +28,7 @@ Unit              Reference 레코드 1개, 또는 자리 표지 0x0000 ABSENT
 
 - Payload는 Globe 레코드로 시작한다. Globe는 완전한 Reference 레코드 정확히 하나이고 Quantifier는 Identified(`000`)다. 천체를 가리키는 어떤 Reference든 쓸 수 있다: [WIKIDATA-QID](/ko/grammar/reference/wikidata-qid/)(이름 있는 천체), [GEUL](/ko/grammar/reference/geul/), 같은 문서의 [LOCAL](/ko/grammar/reference/local/)(문서 안에서 정의한 천체), 다른 문서의 천체([EXTERNAL-POINTER](/ko/grammar/reference/external-pointer/)·[EXTERNAL-ISSUER](/ko/grammar/reference/external-issuer/)) 등. 천체는 무수히 많고 QID가 있는 천체는 그 일부다.
 - Globe 뒤에 10 WORD(Latitude 4, Longitude 4, Uncertainty 2)와 Unit 레코드 하나가 온다. Unit을 읽은 커서는 레코드 끝과 맞아야 한다.
-- Latitude는 `-90 ≤ φ ≤ 90`, Longitude는 `-180 ≤ λ ≤ 360`이다. `(180, 360]`은 경도를 0~360°로 세는 천체 좌표계의 값을 그대로 담으려고 허용한다. 그 밖의 규칙(binary64, 유한값, 축 순서, Uncertainty·Unit의 뜻, 미상 표현)은 COORDINATE-EARTH와 같다.
+- Latitude는 `-90 ≤ φ ≤ 90`, Longitude는 `-360 ≤ λ ≤ 360`이다. 경도를 0~360°로 세는 천체 좌표계(동경·서경)의 값과 그 반대 방향으로 적은 음수 값을 바꾸지 않고 담으려고 지구보다 넓게 허용한다. 범위는 위키데이터 globecoordinate 데이터 모델(Wikibase `LatLongValue`)과 같다. `λ`와 `λ ± 360`은 같은 자오선이며 GEUL은 정규화하지 않는다. 그 밖의 규칙(binary64, 유한값, 축 순서, Uncertainty·Unit의 뜻, 미상 표현)은 COORDINATE-EARTH와 같다.
 - 좌표계는 천체마다 그 천체의 관례를 따른다(행성중심 위도, 동경 또는 서경 0~360° 등). 천체별 좌표계는 별도의 GEUL 문서로 정한다.
 - 거리 단위(미터 등)의 Uncertainty는 천체 표면 위의 거리다. 각도 단위(도·각분·각초)는 천체 크기와 상관없이 위도·경도의 각도 반경이다.
 - 지구(Q2) 좌표는 COORDINATE-EARTH를 쓰기를 권한다. 이 형식에 지구를 적어도 invalid는 아니며, 비교하는 쪽이 같은 좌표로 맞춰 본다.
@@ -67,6 +67,7 @@ Unit              Reference 레코드 1개, 또는 자리 표지 0x0000 ABSENT
 
 - 의미: [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870)의 위도·경도·`u`(Unit이 미터일 때). RFC 5870의 `crs`에 등록된 좌표계는 `wgs84`뿐이라 지구 밖 천체는 GEUL Globe Reference로 지정한다.
 - 수치: [IEEE 754](https://standards.ieee.org/ieee/754/6210/) binary64(위도·경도), binary32(불확도).
+- 경도 범위: 위키데이터 globecoordinate 데이터 모델 [DataValues Geo `LatLongValue`](https://github.com/DataValues/Geo)의 `-360 ≤ λ ≤ 360`.
 
 ## 열린 문제
 

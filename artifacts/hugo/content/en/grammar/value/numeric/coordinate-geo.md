@@ -2,7 +2,7 @@
 title: "COORDINATE-GEO"
 weight: 6
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
 summary: "COORDINATE-GEO is a Value that holds one point on a celestial body such as a planet or moon, with a celestial body Reference, binary64 latitude and longitude, a binary32 uncertainty, and its unit Reference."
 author: "Junwoo Park"
@@ -28,7 +28,7 @@ Unit              one Reference record, or the slot marker 0x0000 ABSENT
 
 - The Payload starts with the Globe record. Globe is exactly one complete Reference record and its Quantifier is Identified (`000`). Any Reference that points to a celestial body can be used: [WIKIDATA-QID](/grammar/reference/wikidata-qid/) (a named body), [GEUL](/grammar/reference/geul/), a [LOCAL](/grammar/reference/local/) of the same document (a body defined in the document), a body of another document ([EXTERNAL-POINTER](/grammar/reference/external-pointer/), [EXTERNAL-ISSUER](/grammar/reference/external-issuer/)), and so on. Celestial bodies are countless, and those with a QID are only a part.
 - After Globe come 10 WORD (Latitude 4, Longitude 4, Uncertainty 2) and one Unit record. The cursor after reading Unit must match the end of the record.
-- Latitude is `-90 ≤ φ ≤ 90`, and Longitude is `-180 ≤ λ ≤ 360`. `(180, 360]` is allowed so that values of celestial coordinate systems that count longitude from 0 to 360° can be held as they are. The other rules (binary64, finite values, axis order, the meaning of Uncertainty and Unit, the unknown representation) are the same as COORDINATE-EARTH.
+- Latitude is `-90 ≤ φ ≤ 90`, and Longitude is `-360 ≤ λ ≤ 360`. The range is wider than on Earth so that values of celestial coordinate systems that count longitude from 0 to 360° (east or west), and negative values written in the opposite direction, can be held without change. The range is the same as the Wikidata globecoordinate data model (Wikibase `LatLongValue`). `λ` and `λ ± 360` are the same meridian, and GEUL does not normalize them. The other rules (binary64, finite values, axis order, the meaning of Uncertainty and Unit, the unknown representation) are the same as COORDINATE-EARTH.
 - The coordinate system follows the convention of each body (planetocentric latitude, east or west longitude 0 to 360°, and so on). The coordinate system of each body is set in a separate GEUL document.
 - Uncertainty in a distance unit (metres and so on) is a distance on the surface of the body. An angular unit (degree, arcminute, arcsecond) is an angular radius of latitude and longitude regardless of the size of the body.
 - For Earth (Q2) coordinates, using COORDINATE-EARTH is recommended. Writing Earth in this format is also not invalid, and the comparing side aligns them as the same coordinate.
@@ -67,6 +67,7 @@ The same point, precision 0.1° (Unit degree Q28390):
 
 - Meaning: latitude, longitude, and `u` (when Unit is metre) of [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870). The only coordinate system registered for `crs` in RFC 5870 is `wgs84`, so bodies other than Earth are specified with a GEUL Globe Reference.
 - Numbers: [IEEE 754](https://standards.ieee.org/ieee/754/6210/) binary64 (latitude and longitude), binary32 (uncertainty).
+- Longitude range: `-360 ≤ λ ≤ 360` of the Wikidata globecoordinate data model, [DataValues Geo `LatLongValue`](https://github.com/DataValues/Geo).
 
 ## Open Questions
 

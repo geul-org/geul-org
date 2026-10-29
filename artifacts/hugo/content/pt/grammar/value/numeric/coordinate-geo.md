@@ -2,7 +2,7 @@
 title: "COORDINATE-GEO"
 weight: 6
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
 summary: "COORDINATE-GEO é o Value que contém um ponto sobre um corpo celeste, como um planeta ou satélite, por uma Reference de corpo celeste, latitude e longitude binary64, incerteza binary32 e a Reference da sua unidade."
 author: "Junwoo Park"
@@ -28,7 +28,7 @@ Unit              1 registro Reference, ou o marcador de posição 0x0000 ABSENT
 
 - O Payload começa com o registro Globe. Globe é exatamente um registro Reference completo, com Quantifier Identified (`000`). Pode ser qualquer Reference que aponte para o corpo celeste: [WIKIDATA-QID](/pt/grammar/reference/wikidata-qid/) (corpo celeste com nome), [GEUL](/pt/grammar/reference/geul/), um [LOCAL](/pt/grammar/reference/local/) do mesmo documento (corpo celeste definido no documento), ou um corpo celeste de outro documento ([EXTERNAL-POINTER](/pt/grammar/reference/external-pointer/), [EXTERNAL-ISSUER](/pt/grammar/reference/external-issuer/)) etc. Os corpos celestes são incontáveis, e os que têm QID são uma parte deles.
 - Depois do Globe vêm 10 WORD (Latitude 4, Longitude 4, Uncertainty 2) e um registro Unit. O cursor depois de ler o Unit deve coincidir com o fim do registro.
-- A Latitude é `-90 ≤ φ ≤ 90` e a Longitude é `-180 ≤ λ ≤ 360`. `(180, 360]` é permitido para conter tal como estão os valores dos sistemas de coordenadas de corpos celestes que contam a longitude de 0 a 360°. As demais regras (binary64, valores finitos, ordem dos eixos, significado de Uncertainty e Unit, representação de desconhecido) são as de COORDINATE-EARTH.
+- A Latitude é `-90 ≤ φ ≤ 90` e a Longitude é `-360 ≤ λ ≤ 360`. O intervalo é mais amplo que na Terra para conter sem alteração os valores dos sistemas de coordenadas de corpos celestes que contam a longitude de 0 a 360° (leste ou oeste) e os valores negativos escritos no sentido oposto. O intervalo é o mesmo do modelo de dados globecoordinate do Wikidata (Wikibase `LatLongValue`). `λ` e `λ ± 360` são o mesmo meridiano, e o GEUL não os normaliza. As demais regras (binary64, valores finitos, ordem dos eixos, significado de Uncertainty e Unit, representação de desconhecido) são as de COORDINATE-EARTH.
 - O sistema de coordenadas segue a convenção de cada corpo celeste (latitude planetocêntrica, longitude leste ou oeste de 0 a 360° etc.). O sistema de coordenadas por corpo celeste é definido em um documento GEUL à parte.
 - A Uncertainty em unidade de distância (metros etc.) é a distância sobre a superfície do corpo celeste. As unidades angulares (grau, minuto de arco, segundo de arco) são o raio angular de latitude e longitude, independentemente do tamanho do corpo celeste.
 - Recomenda-se usar COORDINATE-EARTH para coordenadas da Terra (Q2). Escrever a Terra neste formato também não é invalid, e quem compara as ajusta como a mesma coordenada.
@@ -67,6 +67,7 @@ O mesmo ponto, com precision 0,1° (Unit grau Q28390):
 
 - Significado: latitude, longitude e `u` da [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870) (quando o Unit é o metro). O único sistema de coordenadas registrado em `crs` da RFC 5870 é `wgs84`, por isso os corpos celestes fora da Terra são indicados pela Reference Globe do GEUL.
 - Valores numéricos: [IEEE 754](https://standards.ieee.org/ieee/754/6210/) binary64 (latitude, longitude) e binary32 (incerteza).
+- Intervalo de longitude: `-360 ≤ λ ≤ 360` do modelo de dados globecoordinate do Wikidata, [DataValues Geo `LatLongValue`](https://github.com/DataValues/Geo).
 
 ## Questões em aberto
 

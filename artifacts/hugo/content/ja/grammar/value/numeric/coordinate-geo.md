@@ -2,7 +2,7 @@
 title: "COORDINATE-GEO"
 weight: 6
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
 summary: "COORDINATE-GEO は、天体 Reference と緯度・経度 binary64、不確かさ binary32 とその単位 Reference で、惑星・衛星などの天体上の一点を収める Value だ。"
 author: "朴俊宇"
@@ -28,7 +28,7 @@ Unit              Reference レコード 1個、またはプレースホルダ 0
 
 - Payload は Globe レコードで始まる。Globe は完全な Reference レコードがちょうど一つで、Quantifier は Identified(`000`)だ。天体を指す任意の Reference が使える: [WIKIDATA-QID](/ja/grammar/reference/wikidata-qid/)(名前のある天体)、[GEUL](/ja/grammar/reference/geul/)、同じドキュメントの [LOCAL](/ja/grammar/reference/local/)(ドキュメント内で定義した天体)、他のドキュメントの天体([EXTERNAL-POINTER](/ja/grammar/reference/external-pointer/)・[EXTERNAL-ISSUER](/ja/grammar/reference/external-issuer/))など。天体は無数にあり、QID のある天体はその一部だ。
 - Globe の後ろに、10 WORD(Latitude 4、Longitude 4、Uncertainty 2)と Unit レコード一つが来る。Unit を読み終えたカーソルは、レコードの終わりと合わなければならない。
-- Latitude は `-90 ≤ φ ≤ 90`、Longitude は `-180 ≤ λ ≤ 360` だ。`(180, 360]` は、経度を 0~360° で数える天体の座標系の値をそのまま収めるために許す。その他の規則(binary64、有限値、軸の順序、Uncertainty・Unit の意味、不明の表現)は COORDINATE-EARTH と同じだ。
+- Latitude は `-90 ≤ φ ≤ 90`、Longitude は `-360 ≤ λ ≤ 360` だ。経度を 0~360° で数える天体の座標系(東経・西経)の値と、それを逆向きに書いた負の値を変えずに収めるため、地球より広く許す。範囲はウィキデータ globecoordinate データモデル(Wikibase `LatLongValue`)と同じだ。`λ` と `λ ± 360` は同じ子午線で、GEUL は正規化しない。その他の規則(binary64、有限値、軸の順序、Uncertainty・Unit の意味、不明の表現)は COORDINATE-EARTH と同じだ。
 - 座標系は、天体ごとにその天体の慣例に従う(惑星中心緯度、東経または西経 0~360° など)。天体ごとの座標系は、別の GEUL ドキュメントで定める。
 - 距離単位(メートルなど)の Uncertainty は、天体表面上の距離だ。角度単位(度・分角・秒角)は、天体の大きさと関係なく、緯度・経度の角度半径だ。
 - 地球(Q2)の座標は、COORDINATE-EARTH を使うことを勧める。この形式に地球を書いても invalid ではなく、比較する側が同じ座標として突き合わせる。
@@ -67,6 +67,7 @@ Unit              Reference レコード 1個、またはプレースホルダ 0
 
 - 意味: [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870) の緯度・経度・`u`(Unit がメートルのとき)。RFC 5870 の `crs` に登録された座標系は `wgs84` だけなので、地球外の天体は GEUL の Globe Reference で指定する。
 - 数値: [IEEE 754](https://standards.ieee.org/ieee/754/6210/) binary64(緯度・経度)、binary32(不確かさ)。
+- 経度の範囲: ウィキデータ globecoordinate データモデル [DataValues Geo `LatLongValue`](https://github.com/DataValues/Geo) の `-360 ≤ λ ≤ 360`。
 
 ## 未解決の問題
 

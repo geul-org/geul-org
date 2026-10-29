@@ -2,7 +2,7 @@
 title: "COORDINATE-GEO"
 weight: 6
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
 summary: "COORDINATE-GEO ist ein Value, der einen Punkt auf einem Himmelskörper wie Planet oder Mond mit Himmelskörper-Reference, Breite und Länge als binary64, Unsicherheit als binary32 und deren Einheiten-Reference enthält."
 author: "Junwoo Park"
@@ -28,7 +28,7 @@ Unit              1 Reference-Record oder Slot-Marker 0x0000 ABSENT
 
 - Der Payload beginnt mit dem Globe-Record. Globe ist genau ein vollständiger Reference-Record, und der Quantifier ist Identified (`000`). Jedes Reference, das auf einen Himmelskörper verweist, kann verwendet werden: [WIKIDATA-QID](/de/grammar/reference/wikidata-qid/) (benannte Himmelskörper), [GEUL](/de/grammar/reference/geul/), ein [LOCAL](/de/grammar/reference/local/) im selben Dokument (im Dokument definierter Himmelskörper), Himmelskörper anderer Dokumente ([EXTERNAL-POINTER](/de/grammar/reference/external-pointer/), [EXTERNAL-ISSUER](/de/grammar/reference/external-issuer/)) usw. Es gibt unzählige Himmelskörper, und die mit QID sind nur ein Teil.
 - Nach Globe folgen 10 WORD (Latitude 4, Longitude 4, Uncertainty 2) und ein Unit-Record. Der Cursor nach dem Lesen von Unit muss mit dem Ende des Records übereinstimmen.
-- Latitude liegt in `-90 ≤ φ ≤ 90`, Longitude in `-180 ≤ λ ≤ 360`. `(180, 360]` ist zugelassen, um Werte von Himmelskörper-Koordinatensystemen, die die Länge von 0 bis 360° zählen, unverändert aufnehmen zu können. Die übrigen Regeln (binary64, endliche Werte, Achsenreihenfolge, Bedeutung von Uncertainty und Unit, Darstellung von „unbekannt“) sind wie bei COORDINATE-EARTH.
+- Latitude liegt in `-90 ≤ φ ≤ 90`, Longitude in `-360 ≤ λ ≤ 360`. Der Bereich ist weiter als auf der Erde, damit Werte von Himmelskörper-Koordinatensystemen, die die Länge von 0 bis 360° zählen (östlich oder westlich), und in Gegenrichtung geschriebene negative Werte unverändert aufgenommen werden können. Der Bereich ist derselbe wie im globecoordinate-Datenmodell von Wikidata (Wikibase `LatLongValue`). `λ` und `λ ± 360` sind derselbe Meridian; GEUL normalisiert sie nicht. Die übrigen Regeln (binary64, endliche Werte, Achsenreihenfolge, Bedeutung von Uncertainty und Unit, Darstellung von „unbekannt“) sind wie bei COORDINATE-EARTH.
 - Das Koordinatensystem folgt für jeden Himmelskörper den Konventionen dieses Himmelskörpers (planetozentrische Breite, östliche oder westliche Länge 0~360° usw.). Koordinatensysteme je Himmelskörper werden in eigenen GEUL-Dokumenten festgelegt.
 - Eine Uncertainty in Entfernungseinheiten (Meter usw.) ist eine Entfernung auf der Oberfläche des Himmelskörpers. Winkeleinheiten (Grad, Bogenminute, Bogensekunde) sind unabhängig von der Größe des Himmelskörpers der Winkelradius von Breite und Länge.
 - Für Koordinaten auf der Erde (Q2) wird COORDINATE-EARTH empfohlen. Auch die Erde in diesem Format ist nicht invalid; wer vergleicht, gleicht sie als dieselbe Koordinate ab.
@@ -67,6 +67,7 @@ Derselbe Punkt, precision 0,1° (Unit Grad Q28390):
 
 - Bedeutung: Breite, Länge und `u` von [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870) (wenn Unit Meter ist). Das einzige in `crs` von RFC 5870 registrierte Koordinatensystem ist `wgs84`, daher legt man Himmelskörper außerhalb der Erde über das GEUL-Globe-Reference fest.
 - Zahlen: [IEEE 754](https://standards.ieee.org/ieee/754/6210/) binary64 (Breite, Länge), binary32 (Unsicherheit).
+- Längenbereich: `-360 ≤ λ ≤ 360` des globecoordinate-Datenmodells von Wikidata, [DataValues Geo `LatLongValue`](https://github.com/DataValues/Geo).
 
 ## Offene Fragen
 

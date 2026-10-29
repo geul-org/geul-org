@@ -2,7 +2,7 @@
 title: "COORDINATE-GEO"
 weight: 6
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
 summary: "COORDINATE-GEO הוא Value שמכיל נקודה אחת על גרם שמים כמו כוכב לכת או ירח: Reference של גרם השמים, קו רוחב וקו אורך ב-binary64, אי-ודאות ב-binary32 ו-Reference של היחידה שלה."
 author: "ג'ונו פארק"
@@ -28,7 +28,7 @@ Unit              רשומת Reference אחת, או סמן מקום 0x0000 ABSEN
 
 - ה-Payload מתחיל ברשומת Globe. Globe הוא רשומת Reference שלמה אחת בדיוק וה-Quantifier שלו הוא Identified (`000`). אפשר להשתמש בכל Reference שמצביע על גרם שמים: [WIKIDATA-QID](/he/grammar/reference/wikidata-qid/) (גרם שמים בעל שם), [GEUL](/he/grammar/reference/geul/), [LOCAL](/he/grammar/reference/local/) באותו מסמך (גרם שמים שהוגדר במסמך), גרם שמים ממסמך אחר ([EXTERNAL-POINTER](/he/grammar/reference/external-pointer/)·[EXTERNAL-ISSUER](/he/grammar/reference/external-issuer/)) וכד'. גרמי השמים אינם ניתנים למנייה, ואלה שיש להם QID הם רק חלק מהם.
 - אחרי ה-Globe באים 10 WORD (Latitude 4, Longitude 4, Uncertainty 2) ורשומת Unit אחת. הסמן שקרא את ה-Unit חייב להתלכד עם סוף הרשומה.
-- Latitude הוא `-90 ≤ φ ≤ 90`, ו-Longitude הוא `-180 ≤ λ ≤ 360`. `(180, 360]` מותר כדי לשמור כמות שהוא את הערך של מערכות קואורדינטות של גרמי שמים שבהן קו האורך נספר מ-0 עד 360°. שאר הכללים (binary64, ערך סופי, סדר צירים, משמעות Uncertainty ו-Unit, ייצוג "לא ידוע") זהים ל-COORDINATE-EARTH.
+- Latitude הוא `-90 ≤ φ ≤ 90`, ו-Longitude הוא `-360 ≤ λ ≤ 360`. הטווח רחב יותר מאשר בכדור הארץ כדי לשמור ללא שינוי ערכים של מערכות קואורדינטות של גרמי שמים שבהן קו האורך נספר מ-0 עד 360° (מזרחה או מערבה), וכן ערכים שליליים שנכתבו בכיוון ההפוך. הטווח זהה למודל הנתונים globecoordinate של ויקינתונים (Wikibase `LatLongValue`). `λ` ו-`λ ± 360` הם אותו קו אורך, ו-GEUL אינו מנרמל אותם. שאר הכללים (binary64, ערך סופי, סדר צירים, משמעות Uncertainty ו-Unit, ייצוג "לא ידוע") זהים ל-COORDINATE-EARTH.
 - מערכת הקואורדינטות לכל גרם שמים עוקבת אחרי המנהג של אותו גרם (קו רוחב מרכזי-פלנטרי, קו אורך מזרחי או מערבי 0~360° וכד'). מערכת הקואורדינטות לפי גרם שמים נקבעת במסמך GEUL נפרד.
 - Uncertainty ביחידת מרחק (מטר וכד') הוא מרחק על פני השטח של גרם השמים. יחידת זווית (מעלה, דקת קשת, שנייה של קשת) היא רדיוס זוויתי של קו הרוחב וקו האורך, בלי קשר לגודל גרם השמים.
 - לקואורדינטה על כדור הארץ (Q2) מומלץ להשתמש ב-COORDINATE-EARTH. גם אם כותבים בפורמט הזה את כדור הארץ זה אינו invalid, והצד המשווה מתאים אותה לאותה קואורדינטה.
@@ -67,6 +67,7 @@ Unit              רשומת Reference אחת, או סמן מקום 0x0000 ABSEN
 
 - משמעות: קו רוחב, קו אורך ו-`u` של [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870) (כשה-Unit הוא מטר). מערכת הקואורדינטות היחידה הרשומה ב-`crs` של RFC 5870 היא `wgs84`, ולכן גרם שמים מחוץ לכדור הארץ מצוין באמצעות Globe Reference של GEUL.
 - מספרים: [IEEE 754](https://standards.ieee.org/ieee/754/6210/) binary64 (קו רוחב וקו אורך), binary32 (אי-ודאות).
+- טווח קו האורך: `-360 ≤ λ ≤ 360` במודל הנתונים globecoordinate של ויקינתונים, [DataValues Geo `LatLongValue`](https://github.com/DataValues/Geo).
 
 ## שאלות פתוחות
 
