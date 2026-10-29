@@ -2,10 +2,17 @@ geul-org (geul.org website)
 NOTICE — third-party material
 =============================
 
-The GEUL project's own work in this repository (site content, layouts, scripts,
-images, the .well-known/geul archive) is dedicated to the public domain under
-CC0 1.0 Universal (see LICENSE). The items below are not ours and are not
-covered by CC0.
+Scope of CC0
+------------
+The GEUL project's own work in this repository — site content, layouts,
+scripts, images, the .well-known/geul archive and other material we created —
+is dedicated to the public domain under CC0 1.0 Universal. LICENSE holds the
+CC0 1.0 legal text verbatim (unmodified, so that it is recognised as CC0-1.0);
+this section states what it covers.
+
+CC0 covers only our own work. Third-party material keeps its own license and is
+not covered by CC0: web fonts loaded from Google Fonts at runtime (SIL Open
+Font License 1.1), listed below; they are not redistributed here.
 
 * Noto Serif, Noto Serif KR, Noto Serif JP, Noto Serif SC, Noto Serif Hebrew
     License:     SIL Open Font License 1.1
