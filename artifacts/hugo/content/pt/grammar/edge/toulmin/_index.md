@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "Os Edges TOULMIN (Codec 0x60~0x7B) escrevem grafos de julgamento e execução com o modelo de argumentação de Toulmin. Esta página define as regras do documento TOULMIN, os campos comuns, a tabela de códigos, as regras numéricas e o núcleo fixo da autorrevisão."
 author: "Junwoo Park"
@@ -48,7 +48,7 @@ Os registros de texto original e de seção (SOURCE, TEXT, SECTION, CASE-BEGIN·
 | `0x63` | [RULE-DECLARE](/pt/grammar/edge/toulmin/node/) | NODE | general rule, nome de regra de Rules | Declaração de afirmação (Warrant). Pode ser atacada |
 | `0x64` | [COUNTER-DECLARE](/pt/grammar/edge/toulmin/node/) | NODE | counter rule | Declaração de contestação. Ataca com conclusão própria. O Level padrão é Fail |
 | `0x65` | [EXCEPT-DECLARE](/pt/grammar/edge/toulmin/node/) | NODE | except rule | Declaração de exceção. Ataca sem conclusão própria. O Level padrão é Review |
-| `0x68` | [ATTACKS](/pt/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Relação de ataque. O julgamento do atacante reduz gradualmente o julgamento do alvo |
+| `0x68` | [ATTACKS](/pt/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Relação de ataque. O julgamento do atacante reduz gradualmente o julgamento do alvo conforme a intensidade do ataque (0~1, padrão 1) |
 | `0x69` | [SUPERSEDES](/pt/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | Relação de exclusão. Se o atacante está Active, retira o alvo da agregação de forma determinística. A cadeia (`A > B > C`) escreve-se um par por vez |
 | `0x6A` | SUPERSEDE-CHAIN | — | | Cadeia de prioridade `A > B > C`. Abreviação de SUPERSEDES par a par. Só o código foi atribuído; o layout ainda não existe |
 | `0x70` | [RUN](/pt/grammar/edge/toulmin/link/) | LINK | `run c when n` | Composição de execução. Se o nó está Active, executa o caso inferior (DAG) |
@@ -146,14 +146,16 @@ END
 
 ## Números
 
-- O valor de julgamento (−1~1) e o Qualifier (0~1) são Values [SIGNED-DECIMAL](/pt/grammar/value/decimal/signed-decimal/). Não se mantém um formato de ponto fixo à parte.
+- O valor de julgamento (−1~1), o Qualifier (0~1) e a intensidade do ataque (0~1) são Values [SIGNED-DECIMAL](/pt/grammar/value/decimal/signed-decimal/). Não se mantém um formato de ponto fixo à parte.
 - O codificador apaga os zeros finais do coeficiente. 0,8 é `C=8, E=−1`. O decodificador aceita até 4 casas decimais.
 - O portão de grau de certeza (por exemplo, `at least 75%`) escreve-se com 1 WORD de operador de comparação e um Value de porcentagem [UNSIGNED-DECIMAL](/pt/grammar/value/decimal/unsigned-decimal/) (`E=0`) ([LINK](/pt/grammar/edge/toulmin/link/) F_GATE).
+- A intensidade do ataque é o campo F_FORCE de ATTACKS ([LINK](/pt/grammar/edge/toulmin/link/#intensidade-do-ataque)). Fora do intervalo, rejeita-se.
 
 ## Eixos da declaração de nó
 
 - A declaração de nó (RULE, COUNTER e EXCEPT-DECLARE) tem papel (afirmação, contestação, exceção), Qualifier (0~1) e Level (Unset, Fail, Review). O papel é dado pelo Codec e pelo role do cabeçalho NODE, o Qualifier por F_QUAL e o Level pelo level do cabeçalho ([NODE](/pt/grammar/edge/toulmin/node/)).
 - A força (Strict, Defeasible, Defeater) é um eixo separado do papel. A colocação da força ainda não foi definida.
+- A intensidade do ataque (Force) não é um valor do nó, e sim da aresta ATTACKS ([LINK](/pt/grammar/edge/toulmin/link/#intensidade-do-ataque) F_FORCE). É um eixo diferente da força.
 
 ## Julgar sobre o desconhecido
 
@@ -183,6 +185,7 @@ Quando o grafo de julgamento recebe fatos GEUL como entrada, os três conceitos 
 
 - Layout de SUPERSEDE-CHAIN (`0x6A`), VERDICT (`0x78`) e EVIDENCE (`0x79`). Se o método atual, de escrever SUPERSEDES par a par, basta para as cadeias.
 - Colocação da força do nó (Strict, Defeasible, Defeater).
+- Um ATTACKS que escreve intensidade 1 e um que não escreve intensidade dão o mesmo julgamento, mas diferem nos bytes. Se dois julgamentos são iguais deve ser comparado pelos valores decodificados, não pelos bytes.
 - O número de nós, o número de rótulos e o índice de rótulo dentro de EXPR ocupam 1 WORD, e o número de filhos tem 13 bits. Os limites são fixos.
 - Layout de PROVENANCE (origem e premissas da regra).
 - Se os nomes entre crases ficam como [LABEL](/pt/grammar/edge/label/) e [BIND](/pt/grammar/edge/bind/) descritivos, em vez de TEXT + LABEL (`0xC029`).

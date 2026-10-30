@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "TOULMIN Edge（Codec 0x60~0x7B）用图尔敏论证模型书写判定·执行图。本页规定 TOULMIN 文档规则、公共字段、码表、数值规则和自我修订的固定核心。"
 author: "朴俊宇"
@@ -48,7 +48,7 @@ TOULMIN 记录使用三种布局之一。布局由 Codec（或格式编号）决
 | `0x63` | [RULE-DECLARE](/zh/grammar/edge/toulmin/node/) | NODE | general rule，Rules 的规则名称 | 主张声明（Warrant）。可被攻击 |
 | `0x64` | [COUNTER-DECLARE](/zh/grammar/edge/toulmin/node/) | NODE | counter rule | 反驳声明。带着自己的结论进行攻击。默认 Level 为 Fail |
 | `0x65` | [EXCEPT-DECLARE](/zh/grammar/edge/toulmin/node/) | NODE | except rule | 例外声明。不带自己的结论进行攻击。默认 Level 为 Review |
-| `0x68` | [ATTACKS](/zh/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | 攻击关系。攻击者的判定逐步削弱目标的判定 |
+| `0x68` | [ATTACKS](/zh/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | 攻击关系。攻击者的判定按攻击力度（0~1，默认 1）逐步削弱目标的判定 |
 | `0x69` | [SUPERSEDES](/zh/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | 排除关系。攻击者为 Active 时，决定性地把目标从汇总中剔除。链（`A > B > C`）每对写一个 |
 | `0x6A` | SUPERSEDE-CHAIN | — | | 优先级链 `A > B > C`。成对 SUPERSEDES 的缩写。只分配了码，布局尚无 |
 | `0x70` | [RUN](/zh/grammar/edge/toulmin/link/) | LINK | `run c when n` | 执行组合。节点为 Active 时执行下级案件（DAG） |
@@ -146,14 +146,16 @@ END
 
 ## 数值
 
-- 判定值（−1~1）和 Qualifier（0~1）是 [SIGNED-DECIMAL](/zh/grammar/value/decimal/signed-decimal/) Value。不另设定点格式。
+- 判定值（−1~1）、Qualifier（0~1）和攻击力度（0~1）是 [SIGNED-DECIMAL](/zh/grammar/value/decimal/signed-decimal/) Value。不另设定点格式。
 - 编码器去掉系数末尾的 0。0.8 是 `C=8, E=−1`。解码器接受到小数点后 4 位。
 - 置信度门槛（例：`at least 75%`）用比较运算符 1 WORD 和百分比 [UNSIGNED-DECIMAL](/zh/grammar/value/decimal/unsigned-decimal/) Value（`E=0`）书写（[LINK](/zh/grammar/edge/toulmin/link/) F_GATE）。
+- 攻击力度是 ATTACKS 的 F_FORCE 字段（[LINK](/zh/grammar/edge/toulmin/link/#攻击力度)）。超出范围则拒绝。
 
 ## 节点声明的轴
 
 - 节点声明（RULE·COUNTER·EXCEPT-DECLARE）具有角色（主张·反驳·例外）、Qualifier（0~1）、Level（Unset、Fail、Review）。角色由 Codec 和 NODE 头的 role 承载，Qualifier 由 F_QUAL 承载，Level 由头的 level 承载（[NODE](/zh/grammar/edge/toulmin/node/)）。
 - 强度（Strict、Defeasible、Defeater）是与角色分开的另一条轴。强度的布置尚未确定。
+- 攻击力度（Force）不是节点的值，而是 ATTACKS 边的值（[LINK](/zh/grammar/edge/toulmin/link/#攻击力度) F_FORCE）。它与强度是不同的轴。
 
 ## 在未知之上判定
 
@@ -183,6 +185,7 @@ END
 
 - SUPERSEDE-CHAIN（`0x6A`）、VERDICT（`0x78`）、EVIDENCE（`0x79`）的布局。以目前逐对书写 SUPERSEDES 的方式，链是否足够。
 - 节点强度（Strict、Defeasible、Defeater）的布置。
+- 写出攻击力度 1 的 ATTACKS 与不写力度的 ATTACKS 判定相同，但字节不同。判定是否相同须按解码后的值比较，而不是按字节。
 - EXPR 内的节点数、标签数、标签索引是 1 WORD，子节点数是 13 位。上限是固定的。
 - PROVENANCE（规则出处·前提）布局。
 - 反引号名称是否不用 TEXT + LABEL（`0xC029`），而用叙述 [LABEL](/zh/grammar/edge/label/)·[BIND](/zh/grammar/edge/bind/)。

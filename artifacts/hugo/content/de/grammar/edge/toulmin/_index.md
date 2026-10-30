@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "TOULMIN-Edges (Codec 0x60~0x7B) schreiben Urteils- und Ausführungsgraphen mit dem Toulmin-Argumentationsmodell. Diese Seite legt die TOULMIN-Dokumentregeln, gemeinsame Felder, Codetabellen, numerische Regeln und den festen Kern der Selbstrevision fest."
 author: "Junwoo Park"
@@ -48,7 +48,7 @@ Originaltext- und Gliederungs-Records (SOURCE, TEXT, SECTION, CASE-BEGIN/CASE-EN
 | `0x63` | [RULE-DECLARE](/de/grammar/edge/toulmin/node/) | NODE | general rule, Regelname der Rules | Deklaration einer Behauptung (Warrant). Kann angegriffen werden |
 | `0x64` | [COUNTER-DECLARE](/de/grammar/edge/toulmin/node/) | NODE | counter rule | Deklaration einer Gegenbehauptung. Greift mit eigener Schlussfolgerung an. Standard-Level ist Fail |
 | `0x65` | [EXCEPT-DECLARE](/de/grammar/edge/toulmin/node/) | NODE | except rule | Deklaration einer Ausnahme. Greift ohne eigene Schlussfolgerung an. Standard-Level ist Review |
-| `0x68` | [ATTACKS](/de/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Angriffsbeziehung. Das Urteil des Angreifers mindert das Urteil des Ziels schrittweise |
+| `0x68` | [ATTACKS](/de/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Angriffsbeziehung. Das Urteil des Angreifers mindert das Urteil des Ziels schrittweise nach der Angriffskraft (0~1, Standard 1) |
 | `0x69` | [SUPERSEDES](/de/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | Verdrängungsbeziehung. Ist der Angreifer Active, nimmt er das Ziel endgültig aus der Aggregation. Eine Kette (`A > B > C`) wird paarweise je einmal geschrieben |
 | `0x6A` | SUPERSEDE-CHAIN | — | | Vorrangkette `A > B > C`. Kurzform paarweiser SUPERSEDES. Nur der Code ist vergeben, ein Layout gibt es noch nicht |
 | `0x70` | [RUN](/de/grammar/edge/toulmin/link/) | LINK | `run c when n` | Ausführungskomposition. Ist der Knoten Active, wird der untergeordnete Fall ausgeführt (DAG) |
@@ -146,14 +146,16 @@ END
 
 ## Numerische Werte
 
-- Urteilswert (−1~1) und Qualifier (0~1) sind [SIGNED-DECIMAL](/de/grammar/value/decimal/signed-decimal/)-Values. Ein eigenes Festkommaformat gibt es nicht.
+- Urteilswert (−1~1), Qualifier (0~1) und Angriffskraft (0~1) sind [SIGNED-DECIMAL](/de/grammar/value/decimal/signed-decimal/)-Values. Ein eigenes Festkommaformat gibt es nicht.
 - Der Encoder entfernt Nullen am Ende des Koeffizienten. 0,8 ist `C=8, E=−1`. Der Decoder akzeptiert bis zu 4 Dezimalstellen.
 - Ein Konfidenz-Gate (z. B. `at least 75%`) wird mit 1 WORD Vergleichsoperator und einem Prozent-[UNSIGNED-DECIMAL](/de/grammar/value/decimal/unsigned-decimal/)-Value (`E=0`) geschrieben ([LINK](/de/grammar/edge/toulmin/link/) F_GATE).
+- Die Angriffskraft ist das F_FORCE-Feld von ATTACKS ([LINK](/de/grammar/edge/toulmin/link/#angriffskraft)). Außerhalb des Bereichs wird abgelehnt.
 
 ## Achsen der Knotendeklaration
 
 - Eine Knotendeklaration (RULE-, COUNTER-, EXCEPT-DECLARE) hat Rolle (Behauptung, Gegenbehauptung, Ausnahme), Qualifier (0~1) und Level (Unset, Fail, Review). Die Rolle tragen der Codec und das role des NODE-Headers, den Qualifier F_QUAL, das Level das level des Headers ([NODE](/de/grammar/edge/toulmin/node/)).
 - Die Stärke (Strict, Defeasible, Defeater) ist eine von der Rolle getrennte Achse. Wie sie angeordnet wird, ist noch nicht festgelegt.
+- Die Angriffskraft (Force) ist kein Wert eines Knotens, sondern einer ATTACKS-Kante ([LINK](/de/grammar/edge/toulmin/link/#angriffskraft) F_FORCE). Sie ist eine andere Achse als die Stärke.
 
 ## Urteilen auf unbekannter Grundlage
 
@@ -183,6 +185,7 @@ Erhält ein Urteilsgraph GEUL-Tatsachen als Eingabe, werden die drei Begriffe de
 
 - Layouts von SUPERSEDE-CHAIN (`0x6A`), VERDICT (`0x78`) und EVIDENCE (`0x79`). Ob die derzeitige Weise, SUPERSEDES paarweise zu schreiben, für Ketten ausreicht.
 - Anordnung der Knotenstärke (Strict, Defeasible, Defeater).
+- Ein ATTACKS mit ausgeschriebener Angriffskraft 1 und eines ohne Angabe urteilen gleich, unterscheiden sich aber in den Bytes. Ob zwei Urteile gleich sind, muss an den dekodierten Werten verglichen werden, nicht an den Bytes.
 - Anzahl der Knoten und Labels in EXPR; der Label-Index ist 1 WORD, die Zahl der Kinder 13 Bit. Die Obergrenzen sind fest.
 - Layout von PROVENANCE (Regelherkunft, Prämissen).
 - Ob Backtick-Namen statt TEXT + LABEL (`0xC029`) als beschreibendes [LABEL](/de/grammar/edge/label/) bzw. [BIND](/de/grammar/edge/bind/) abgelegt werden.

@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "TOULMIN Edges (Codec 0x60-0x7B) write judgment and execution graphs with the Toulmin model of argument. This page sets the TOULMIN document rules, common fields, code table, numeric rules, and the fixed core of self-revision."
 author: "Junwoo Park"
@@ -48,7 +48,7 @@ The source text and section records (SOURCE, TEXT, SECTION, CASE-BEGIN and CASE-
 | `0x63` | [RULE-DECLARE](/grammar/edge/toulmin/node/) | NODE | general rule, rule name in Rules | Claim declaration (Warrant). It can be attacked |
 | `0x64` | [COUNTER-DECLARE](/grammar/edge/toulmin/node/) | NODE | counter rule | Rebuttal declaration. Attacks with its own conclusion. The default Level is Fail |
 | `0x65` | [EXCEPT-DECLARE](/grammar/edge/toulmin/node/) | NODE | except rule | Exception declaration. Attacks without its own conclusion. The default Level is Review |
-| `0x68` | [ATTACKS](/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Attack relation. The attacker's judgment gradually reduces the target's judgment |
+| `0x68` | [ATTACKS](/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Attack relation. The attacker's judgment gradually reduces the target's judgment by the attack force (0 to 1, default 1) |
 | `0x69` | [SUPERSEDES](/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | Override relation. If the attacker is Active, it removes the target from aggregation decisively. A chain (`A > B > C`) is written one pair at a time |
 | `0x6A` | SUPERSEDE-CHAIN | — | | Priority chain `A > B > C`. An abbreviation of pairwise SUPERSEDES. Only the code is assigned; there is no layout yet |
 | `0x70` | [RUN](/grammar/edge/toulmin/link/) | LINK | `run c when n` | Execution composition. If the node is Active, it runs a lower case (DAG) |
@@ -146,14 +146,16 @@ END
 
 ## Numbers
 
-- Judgment values (−1 to 1) and Qualifiers (0 to 1) are [SIGNED-DECIMAL](/grammar/value/decimal/signed-decimal/) Values. No separate fixed-point format is placed.
+- Judgment values (−1 to 1), Qualifiers (0 to 1) and attack forces (0 to 1) are [SIGNED-DECIMAL](/grammar/value/decimal/signed-decimal/) Values. No separate fixed-point format is placed.
 - The encoder strips trailing zeros from the coefficient. 0.8 is `C=8, E=−1`. A decoder accepts up to 4 decimal places.
 - A confidence gate (for example, `at least 75%`) is written with a 1 WORD comparison operator and a percent [UNSIGNED-DECIMAL](/grammar/value/decimal/unsigned-decimal/) Value (`E=0`) ([LINK](/grammar/edge/toulmin/link/) F_GATE).
+- The attack force is the F_FORCE field of ATTACKS ([LINK](/grammar/edge/toulmin/link/#attack-force)). Out of range, reject.
 
 ## Axes of Node Declarations
 
 - A node declaration (RULE-, COUNTER-, EXCEPT-DECLARE) has a role (claim, rebuttal, exception), a Qualifier (0 to 1), and a Level (Unset, Fail, Review). The role is held by the Codec and the role of the NODE header, the Qualifier by F_QUAL, and the Level by the level of the header ([NODE](/grammar/edge/toulmin/node/)).
 - Strength (Strict, Defeasible, Defeater) is an axis separate from role. Where strength goes is not yet decided.
+- The attack force (Force) is a value of an ATTACKS edge, not of a node ([LINK](/grammar/edge/toulmin/link/#attack-force) F_FORCE). It is a different axis from strength.
 
 ## Judging over Unknown
 
@@ -183,6 +185,7 @@ When a judgment graph takes GEUL facts as input, the three notions of a [slot ma
 
 - The layouts of SUPERSEDE-CHAIN (`0x6A`), VERDICT (`0x78`), and EVIDENCE (`0x79`). Whether the current way of writing SUPERSEDES pair by pair is enough for chains.
 - Where node strength (Strict, Defeasible, Defeater) goes.
+- An ATTACKS that writes attack force 1 and one that writes no force judge the same but differ in bytes. Whether two judgments are the same must be compared on decoded values, not bytes.
 - Within EXPR, the node count and label count, and the label index is 1 WORD while the child count is 13 bits. The upper bounds are fixed.
 - The PROVENANCE (rule source, premises) layout.
 - Whether to place backtick names as the statement [LABEL](/grammar/edge/label/) and [BIND](/grammar/edge/bind/) instead of TEXT + LABEL (`0xC029`).

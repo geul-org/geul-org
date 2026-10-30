@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "Edge الخاصة بـ TOULMIN (Codec 0x60~0x7B) تكتب رسم الأحكام والتنفيذ بنموذج الحجة عند Toulmin. تحدد هذه الصفحة قواعد مستند TOULMIN والحقول المشتركة وجدول الرموز وقواعد القيم العددية والنواة الثابتة للمراجعة الذاتية."
 author: "جونو بارك"
@@ -48,7 +48,7 @@ Edge من عائلة TOULMIN (أعلى بتّين في Codec هما `11`، وا�
 | `0x63` | [RULE-DECLARE](/ar/grammar/edge/toulmin/node/) | NODE | general rule، واسم القاعدة في Rules | تصريح بدعوى (Warrant). يمكن مهاجمتها |
 | `0x64` | [COUNTER-DECLARE](/ar/grammar/edge/toulmin/node/) | NODE | counter rule | تصريح بدحض. يهاجم بنتيجة خاصة به. المستوى الافتراضي Fail |
 | `0x65` | [EXCEPT-DECLARE](/ar/grammar/edge/toulmin/node/) | NODE | except rule | تصريح باستثناء. يهاجم بلا نتيجة خاصة به. المستوى الافتراضي Review |
-| `0x68` | [ATTACKS](/ar/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | علاقة هجوم. حكم المهاجم ينقص حكم الهدف تدريجياً |
+| `0x68` | [ATTACKS](/ar/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | علاقة هجوم. حكم المهاجم ينقص حكم الهدف تدريجياً بقدر شدة الهجوم (0~1، والافتراضي 1) |
 | `0x69` | [SUPERSEDES](/ar/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | علاقة إقصاء. إذا كان المهاجم Active أخرج الهدف من التجميع حتماً. السلسلة (`A > B > C`) تُكتب بواحد لكل زوج |
 | `0x6A` | SUPERSEDE-CHAIN | — | | سلسلة أولوية `A > B > C`. اختصار لـ SUPERSEDES الثنائية. خُصص الرمز فقط ولا تخطيط له بعد |
 | `0x70` | [RUN](/ar/grammar/edge/toulmin/link/) | LINK | `run c when n` | تركيب التنفيذ. إذا كانت العقدة Active نُفِّذت القضية الفرعية (DAG) |
@@ -146,14 +146,16 @@ END
 
 ## القيم العددية
 
-- قيمة الحكم (−1~1) وQualifier (0~1) هي Value من [SIGNED-DECIMAL](/ar/grammar/value/decimal/signed-decimal/). ولا توضع صيغة عشرية ثابتة على حدة.
+- قيمة الحكم (−1~1) وQualifier (0~1) وشدة الهجوم (0~1) هي Value من [SIGNED-DECIMAL](/ar/grammar/value/decimal/signed-decimal/). ولا توضع صيغة عشرية ثابتة على حدة.
 - يحذف المرمِّز الأصفار في نهاية المعامل. فـ 0.8 هي `C=8, E=−1`. ويقبل المفكك حتى 4 خانات عشرية.
 - بوابة الثقة (مثل `at least 75%`) تُكتب بمُعامل مقارنة (1 WORD) وValue من [UNSIGNED-DECIMAL](/ar/grammar/value/decimal/unsigned-decimal/) بالنسبة المئوية (`E=0`) (F_GATE في [LINK](/ar/grammar/edge/toulmin/link/)).
+- شدة الهجوم هي حقل F_FORCE في ATTACKS ([LINK](/ar/grammar/edge/toulmin/link/#شدة-الهجوم)). وإذا خرجت عن المدى رُفضت.
 
 ## محور تصريح العقدة
 
 - تصريح العقدة (RULE·COUNTER·EXCEPT-DECLARE) له دور (دعوى أو دحض أو استثناء) وQualifier (0~1) وLevel (Unset وFail وReview). الدور في Codec وrole في ترويسة NODE، وQualifier في F_QUAL، وLevel في level في الترويسة ([NODE](/ar/grammar/edge/toulmin/node/)).
 - القوة (Strict وDefeasible وDefeater) محور مستقل عن الدور. ولم يتحدد موضعها بعد.
+- شدة الهجوم (Force) ليست قيمة للعقدة بل لحافة ATTACKS ([LINK](/ar/grammar/edge/toulmin/link/#شدة-الهجوم) F_FORCE). وهي محور مختلف عن القوة.
 
 ## الحكم على أساس المجهول
 
@@ -183,6 +185,7 @@ END
 
 - تخطيط SUPERSEDE-CHAIN (`0x6A`) وVERDICT (`0x78`) وEVIDENCE (`0x79`). وهل تكفي السلسلة بالطريقة الحالية التي تُكتب فيها SUPERSEDES لكل زوج.
 - موضع قوة العقدة (Strict وDefeasible وDefeater).
+- ATTACKS الذي يكتب شدة 1 وATTACKS الذي لا يكتب شدة يعطيان الحكم نفسه لكن بايتاتهما مختلفة. فالمقارنة بين حكمين تكون بالقيم بعد فك الترميز لا بالبايتات.
 - عدد العقد في EXPR وعدد التسميات (label) وفهرس التسمية 1 WORD، وعدد الأبناء 13 بتاً. فالحدود الأعلى ثابتة.
 - تخطيط PROVENANCE (مصدر القاعدة ومقدماتها).
 - هل توضع الأسماء بين علامتي backtick بـ [LABEL](/ar/grammar/edge/label/) و[BIND](/ar/grammar/edge/bind/) الوصفيين بدل TEXT + LABEL (`0xC029`).

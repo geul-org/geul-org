@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "TOULMIN Edge(Codec 0x60~0x7B)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 이 페이지는 TOULMIN 문서 규칙, 공통 필드, 코드 표, 수치 규칙과 자기 개정의 고정 핵심을 정한다."
 author: "박준우"
@@ -48,7 +48,7 @@ TOULMIN 레코드는 세 가지 레이아웃 중 하나를 쓴다. 레이아웃�
 | `0x63` | [RULE-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | general rule, Rules의 규칙 이름 | 주장 선언(Warrant). 공격받을 수 있다 |
 | `0x64` | [COUNTER-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | counter rule | 반박 선언. 자기 결론을 가지고 공격한다. 기본 Level은 Fail |
 | `0x65` | [EXCEPT-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | except rule | 예외 선언. 자기 결론 없이 공격한다. 기본 Level은 Review |
-| `0x68` | [ATTACKS](/ko/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | 공격 관계. 공격자의 판정이 대상의 판정을 점진적으로 깎는다 |
+| `0x68` | [ATTACKS](/ko/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | 공격 관계. 공격자의 판정이 대상의 판정을 공격 세기(0~1, 기본 1)만큼 점진적으로 깎는다 |
 | `0x69` | [SUPERSEDES](/ko/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | 배제 관계. 공격자가 Active이면 대상을 집계에서 결정적으로 뺀다. 사슬(`A > B > C`)은 쌍마다 하나씩 쓴다 |
 | `0x6A` | SUPERSEDE-CHAIN | — | | 우선순위 사슬 `A > B > C`. 쌍별 SUPERSEDES의 축약. 코드만 배정했고 레이아웃은 아직 없다 |
 | `0x70` | [RUN](/ko/grammar/edge/toulmin/link/) | LINK | `run c when n` | 실행 합성. 노드가 Active이면 하위 사안을 실행한다(DAG) |
@@ -146,14 +146,16 @@ END
 
 ## 수치
 
-- 판정값(−1~1)과 Qualifier(0~1)는 [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) Value다. 고정 소수 형식을 따로 두지 않는다.
+- 판정값(−1~1), Qualifier(0~1), 공격 세기(0~1)는 [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) Value다. 고정 소수 형식을 따로 두지 않는다.
 - 인코더는 계수의 끝 0을 지운다. 0.8은 `C=8, E=−1`이다. 디코더는 소수 4자리까지 받는다.
 - 확신도 게이트(예: `at least 75%`)는 비교 연산자 1 WORD와 퍼센트 [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/) Value(`E=0`)로 쓴다([LINK](/ko/grammar/edge/toulmin/link/) F_GATE).
+- 공격 세기는 ATTACKS의 F_FORCE 필드다([LINK](/ko/grammar/edge/toulmin/link/#공격-세기)). 범위를 벗어나면 거부한다.
 
 ## 노드 선언의 축
 
 - 노드 선언(RULE·COUNTER·EXCEPT-DECLARE)은 역할(주장·반박·예외), Qualifier(0~1), Level(Unset, Fail, Review)을 가진다. 역할은 Codec과 NODE 헤더의 role이, Qualifier는 F_QUAL이, Level은 헤더의 level이 담는다([NODE](/ko/grammar/edge/toulmin/node/)).
 - 강도(Strict, Defeasible, Defeater)는 역할과 별개의 축이다. 강도의 배치는 아직 정하지 않았다.
+- 공격 세기(Force)는 노드가 아니라 ATTACKS 간선의 값이다([LINK](/ko/grammar/edge/toulmin/link/#공격-세기) F_FORCE). 강도와 다른 축이다.
 
 ## 미상 위에서 판정하기
 
@@ -183,6 +185,7 @@ END
 
 - SUPERSEDE-CHAIN(`0x6A`), VERDICT(`0x78`), EVIDENCE(`0x79`)의 레이아웃. SUPERSEDES를 쌍마다 쓰는 지금 방식으로 사슬이 충분한지.
 - 노드 강도(Strict, Defeasible, Defeater)의 배치.
+- 공격 세기 1을 적은 ATTACKS와 적지 않은 ATTACKS는 판정이 같지만 바이트가 다르다. 판정이 같은지는 바이트가 아니라 해석한 값으로 비교해야 한다.
 - EXPR 안의 노드 수, 라벨 수, 라벨 인덱스는 1 WORD이고 자식 수는 13비트다. 상한이 고정되어 있다.
 - PROVENANCE(규칙 출처·전제) 레이아웃.
 - 백틱 이름을 TEXT + LABEL(`0xC029`) 대신 서술 [LABEL](/ko/grammar/edge/label/)·[BIND](/ko/grammar/edge/bind/)로 둘지.

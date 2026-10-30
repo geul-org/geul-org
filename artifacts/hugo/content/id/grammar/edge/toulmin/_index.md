@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "Edge TOULMIN (Codec 0x60~0x7B) menulis graf putusan·eksekusi dengan model argumen Toulmin. Halaman ini menetapkan aturan dokumen TOULMIN, field umum, tabel kode, aturan numerik, dan inti tetap revisi mandiri."
 author: "Junwoo Park"
@@ -48,7 +48,7 @@ Record teks asli dan bagian (SOURCE, TEXT, SECTION, CASE-BEGIN·CASE-END, PROSE)
 | `0x63` | [RULE-DECLARE](/id/grammar/edge/toulmin/node/) | NODE | general rule, nama aturan pada Rules | Deklarasi klaim (Warrant). Dapat diserang |
 | `0x64` | [COUNTER-DECLARE](/id/grammar/edge/toulmin/node/) | NODE | counter rule | Deklarasi sanggahan. Menyerang dengan kesimpulannya sendiri. Level default Fail |
 | `0x65` | [EXCEPT-DECLARE](/id/grammar/edge/toulmin/node/) | NODE | except rule | Deklarasi pengecualian. Menyerang tanpa kesimpulan sendiri. Level default Review |
-| `0x68` | [ATTACKS](/id/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Relasi serangan. Putusan penyerang mengurangi putusan target secara bertahap |
+| `0x68` | [ATTACKS](/id/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Relasi serangan. Putusan penyerang mengurangi putusan target secara bertahap sebesar intensitas serangan (0~1, bawaan 1) |
 | `0x69` | [SUPERSEDES](/id/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | Relasi pengesampingan. Jika penyerang Active, target dikeluarkan dari agregasi secara pasti. Rantai (`A > B > C`) ditulis satu per pasangan |
 | `0x6A` | SUPERSEDE-CHAIN | — | | Rantai prioritas `A > B > C`. Singkatan SUPERSEDES per pasangan. Hanya kodenya yang dialokasikan dan layout belum ada |
 | `0x70` | [RUN](/id/grammar/edge/toulmin/link/) | LINK | `run c when n` | Komposisi eksekusi. Jika node Active, kasus turunan dieksekusi (DAG) |
@@ -146,14 +146,16 @@ END
 
 ## Numerik
 
-- Nilai putusan (−1~1) dan Qualifier (0~1) adalah Value [SIGNED-DECIMAL](/id/grammar/value/decimal/signed-decimal/). Format titik tetap tidak disediakan terpisah.
+- Nilai putusan (−1~1), Qualifier (0~1), dan intensitas serangan (0~1) adalah Value [SIGNED-DECIMAL](/id/grammar/value/decimal/signed-decimal/). Format titik tetap tidak disediakan terpisah.
 - Encoder menghapus angka 0 di ujung koefisien. 0.8 adalah `C=8, E=−1`. Decoder menerima sampai 4 digit desimal.
 - Gerbang keyakinan (contoh: `at least 75%`) ditulis dengan 1 WORD operator perbandingan dan Value persen [UNSIGNED-DECIMAL](/id/grammar/value/decimal/unsigned-decimal/) (`E=0`) ([LINK](/id/grammar/edge/toulmin/link/) F_GATE).
+- Intensitas serangan adalah field F_FORCE pada ATTACKS ([LINK](/id/grammar/edge/toulmin/link/#intensitas-serangan)). Jika di luar rentang, ditolak.
 
 ## Sumbu deklarasi node
 
 - Deklarasi node (RULE·COUNTER·EXCEPT-DECLARE) memiliki peran (klaim·sanggahan·pengecualian), Qualifier (0~1), dan Level (Unset, Fail, Review). Peran dimuat oleh Codec dan role pada header NODE, Qualifier oleh F_QUAL, dan Level oleh level pada header ([NODE](/id/grammar/edge/toulmin/node/)).
 - Kekuatan (Strict, Defeasible, Defeater) adalah sumbu terpisah dari peran. Penempatan kekuatan belum ditetapkan.
+- Intensitas serangan (Force) bukan nilai node, melainkan nilai edge ATTACKS ([LINK](/id/grammar/edge/toulmin/link/#intensitas-serangan) F_FORCE). Ia sumbu yang berbeda dari kekuatan.
 
 ## Memutuskan di atas ketidaktahuan
 
@@ -183,6 +185,7 @@ Saat graf putusan menerima fakta GEUL sebagai input, tiga konsep [penanda slot](
 
 - Layout SUPERSEDE-CHAIN (`0x6A`), VERDICT (`0x78`), EVIDENCE (`0x79`). Apakah cara saat ini yang menulis SUPERSEDES per pasangan cukup untuk rantai.
 - Penempatan kekuatan node (Strict, Defeasible, Defeater).
+- ATTACKS yang menulis intensitas 1 dan yang tidak menulis intensitas memberi putusan yang sama tetapi byte-nya berbeda. Apakah dua putusan sama harus dibandingkan dengan nilai hasil dekode, bukan byte.
 - Jumlah node, jumlah label, dan indeks label dalam EXPR adalah 1 WORD dan jumlah anak adalah 13 bit. Batas atasnya tetap.
 - Layout PROVENANCE (asal·premis aturan).
 - Apakah nama backtick ditaruh dengan [LABEL](/id/grammar/edge/label/)·[BIND](/id/grammar/edge/bind/) pernyataan, bukan TEXT + LABEL (`0xC029`).

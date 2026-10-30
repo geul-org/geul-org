@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "Edge של TOULMIN (Codec 0x60~0x7B) כותבות גרפי הכרעה וביצוע לפי מודל הטיעון של טולמין. הדף הזה קובע את כללי מסמך TOULMIN, השדות המשותפים, טבלת הקודים, כללי הערכים המספריים והליבה הקבועה של התיקון העצמי."
 author: "ג'ונו פארק"
@@ -48,7 +48,7 @@ TOULMIN הוא Codec של GEUL כדי ש-GEUL תוכל לבצע מטא-קוגנ�
 | `0x63` | [RULE-DECLARE](/he/grammar/edge/toulmin/node/) | NODE | general rule, שם כלל ב-Rules | הצהרת טענה (Warrant). אפשר לתקוף אותה |
 | `0x64` | [COUNTER-DECLARE](/he/grammar/edge/toulmin/node/) | NODE | counter rule | הצהרת ראיית-נגד. תוקפת ויש לה מסקנה משלה. ה-Level כברירת מחדל הוא Fail |
 | `0x65` | [EXCEPT-DECLARE](/he/grammar/edge/toulmin/node/) | NODE | except rule | הצהרת חריג. תוקף בלי מסקנה משלו. ה-Level כברירת מחדל הוא Review |
-| `0x68` | [ATTACKS](/he/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | יחס תקיפה. ההכרעה של התוקף מקטינה בהדרגה את ההכרעה של היעד |
+| `0x68` | [ATTACKS](/he/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | יחס תקיפה. ההכרעה של התוקף מקטינה בהדרגה את ההכרעה של היעד לפי כוח התקיפה (0~1, ברירת מחדל 1) |
 | `0x69` | [SUPERSEDES](/he/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | יחס דחיקה. כשהתוקף Active, היעד מוצא באופן מכריע מהצבירה. שרשרת (`A > B > C`) נכתבת כרשומה אחת לכל זוג |
 | `0x6A` | SUPERSEDE-CHAIN | — | | שרשרת עדיפויות `A > B > C`. קיצור של SUPERSEDES בזוגות. הוקצה רק הקוד, ועדיין אין פריסה |
 | `0x70` | [RUN](/he/grammar/edge/toulmin/link/) | LINK | `run c when n` | הרכבת ביצוע. כשהצומת Active, מריצה מקרה משנה (DAG) |
@@ -146,14 +146,16 @@ END
 
 ## ערכים מספריים
 
-- ערך ההכרעה (−1~1) ו-Qualifier (0~1) הם Value מסוג [SIGNED-DECIMAL](/he/grammar/value/decimal/signed-decimal/). לא מציבים פורמט נפרד של נקודה קבועה.
+- ערך ההכרעה (−1~1), Qualifier (0~1) וכוח התקיפה (0~1) הם Value מסוג [SIGNED-DECIMAL](/he/grammar/value/decimal/signed-decimal/). לא מציבים פורמט נפרד של נקודה קבועה.
 - המקודד מוחק אפסים בסוף המקדם. 0.8 הוא `C=8, E=−1`. המפענח מקבל עד 4 ספרות אחרי הנקודה.
 - שער ודאות (למשל `at least 75%`) נכתב כאופרטור השוואה של WORD אחד וכ-[UNSIGNED-DECIMAL](/he/grammar/value/decimal/unsigned-decimal/) באחוזים (`E=0`) ([LINK](/he/grammar/edge/toulmin/link/) F_GATE).
+- כוח התקיפה הוא שדה F_FORCE של ATTACKS ([LINK](/he/grammar/edge/toulmin/link/#כוח-התקיפה)). מחוץ לטווח, דוחים.
 
 ## צירי הצהרה על צומת
 
 - הצהרת צומת (RULE·COUNTER·EXCEPT-DECLARE) כוללת תפקיד (טענה, ראיית-נגד, חריג), Qualifier (0~1) ו-Level (Unset, Fail, Review). התפקיד נמצא ב-Codec וב-role שבכותרת ה-NODE, ה-Qualifier ב-F_QUAL, וה-Level ב-level שבכותרת ([NODE](/he/grammar/edge/toulmin/node/)).
 - עוצמה (Strict, Defeasible, Defeater) היא ציר נפרד מהתפקיד. מיקום העוצמה טרם נקבע.
+- כוח התקיפה (Force) אינו ערך של צומת אלא של קשת ATTACKS ([LINK](/he/grammar/edge/toulmin/link/#כוח-התקיפה) F_FORCE). זה ציר שונה מהעוצמה.
 
 ## הכרעה על בסיס לא ידוע
 
@@ -183,6 +185,7 @@ END
 
 - הפריסה של SUPERSEDE-CHAIN (`0x6A`), VERDICT (`0x78`) ו-EVIDENCE (`0x79`). האם בשיטה הנוכחית, שבה SUPERSEDES נכתב לכל זוג, מספיקה שרשרת.
 - מיקום עוצמת הצומת (Strict, Defeasible, Defeater).
+- ATTACKS שכותב כוח תקיפה 1 ו-ATTACKS שאינו כותב כוח מכריעים אותו דבר אבל הבתים שלהם שונים. האם שתי הכרעות זהות יש להשוות לפי הערכים המפוענחים, לא לפי הבתים.
 - מספר הצמתים בתוך EXPR, מספר התוויות ואינדקס התווית הם WORD אחד, ומספר הצאצאים הוא 13 ביט. הגבולות העליונים קבועים.
 - פריסת PROVENANCE (מקור הכלל והנחות היסוד).
 - האם לשים שמות בגרשיים הפוכים כ-[LABEL](/he/grammar/edge/label/) ו-[BIND](/he/grammar/edge/bind/) תיאוריים במקום TEXT + LABEL (`0xC029`).

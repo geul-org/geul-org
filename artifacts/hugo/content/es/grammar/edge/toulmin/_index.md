@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "Los Edge TOULMIN (Codec 0x60~0x7B) escriben grafos de juicio y ejecución con el modelo de argumentación de Toulmin. Esta página fija las reglas del documento TOULMIN, los campos comunes, la tabla de códigos, las reglas numéricas y el núcleo fijo de la autorrevisión."
 author: "Junwoo Park"
@@ -48,7 +48,7 @@ El texto original y los registros de sección (SOURCE, TEXT, SECTION, CASE-BEGIN
 | `0x63` | [RULE-DECLARE](/es/grammar/edge/toulmin/node/) | NODE | general rule, nombre de regla de Rules | Declaración de afirmación (Warrant). Puede ser atacada |
 | `0x64` | [COUNTER-DECLARE](/es/grammar/edge/toulmin/node/) | NODE | counter rule | Declaración de refutación. Ataca con una conclusión propia. El Level por defecto es Fail |
 | `0x65` | [EXCEPT-DECLARE](/es/grammar/edge/toulmin/node/) | NODE | except rule | Declaración de excepción. Ataca sin conclusión propia. El Level por defecto es Review |
-| `0x68` | [ATTACKS](/es/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Relación de ataque. El juicio del atacante reduce gradualmente el juicio del destino |
+| `0x68` | [ATTACKS](/es/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Relación de ataque. El juicio del atacante reduce gradualmente el juicio del destino según la intensidad de ataque (0~1, por defecto 1) |
 | `0x69` | [SUPERSEDES](/es/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | Relación de exclusión. Si el atacante está Active, saca de forma determinista al destino del recuento. Las cadenas (`A > B > C`) se escriben con un registro por cada par |
 | `0x6A` | SUPERSEDE-CHAIN | — | | Cadena de prioridad `A > B > C`. Abreviatura de SUPERSEDES por pares. Solo está asignado el código; el layout aún no existe |
 | `0x70` | [RUN](/es/grammar/edge/toulmin/link/) | LINK | `run c when n` | Composición de ejecución. Si el nodo está Active, ejecuta el caso subordinado (DAG) |
@@ -146,14 +146,16 @@ END
 
 ## Valores numéricos
 
-- El valor de juicio (−1~1) y el Qualifier (0~1) son Values [SIGNED-DECIMAL](/es/grammar/value/decimal/signed-decimal/). No se define aparte un formato de coma fija.
+- El valor de juicio (−1~1), el Qualifier (0~1) y la intensidad de ataque (0~1) son Values [SIGNED-DECIMAL](/es/grammar/value/decimal/signed-decimal/). No se define aparte un formato de coma fija.
 - El codificador elimina los 0 finales del coeficiente. 0.8 es `C=8, E=−1`. El decodificador acepta hasta 4 decimales.
 - La compuerta de certeza (por ejemplo, `at least 75%`) se escribe con 1 WORD de operador de comparación y un Value [UNSIGNED-DECIMAL](/es/grammar/value/decimal/unsigned-decimal/) de porcentaje (`E=0`) (F_GATE de [LINK](/es/grammar/edge/toulmin/link/)).
+- La intensidad de ataque es el campo F_FORCE de ATTACKS ([LINK](/es/grammar/edge/toulmin/link/#intensidad-de-ataque)). Fuera de rango, se rechaza.
 
 ## Ejes de la declaración de nodos
 
 - La declaración de nodos (RULE, COUNTER y EXCEPT-DECLARE) tiene un rol (afirmación, refutación, excepción), un Qualifier (0~1) y un Level (Unset, Fail, Review). El rol lo lleva el Codec y el role de la cabecera de NODE, el Qualifier lo lleva F_QUAL y el Level lo lleva el level de la cabecera ([NODE](/es/grammar/edge/toulmin/node/)).
 - La fuerza (Strict, Defeasible, Defeater) es un eje separado del rol. La ubicación de la fuerza aún no está fijada.
+- La intensidad de ataque (Force) no es un valor del nodo sino de la arista ATTACKS ([LINK](/es/grammar/edge/toulmin/link/#intensidad-de-ataque) F_FORCE). Es un eje distinto de la fuerza.
 
 ## Juzgar sobre lo desconocido
 
@@ -183,6 +185,7 @@ Cuando el grafo de juicio recibe hechos GEUL como entrada, los tres conceptos de
 
 - Layouts de SUPERSEDE-CHAIN (`0x6A`), VERDICT (`0x78`) y EVIDENCE (`0x79`). Si basta con la forma actual de escribir SUPERSEDES por pares para las cadenas.
 - Ubicación de la fuerza de los nodos (Strict, Defeasible, Defeater).
+- Un ATTACKS que escribe intensidad 1 y uno que no escribe intensidad dan el mismo juicio pero difieren en bytes. Si dos juicios son iguales debe compararse con los valores decodificados, no con los bytes.
 - En EXPR, el número de nodos y el número de etiquetas, y el índice de etiqueta es de 1 WORD y el número de hijos es de 13 bits. Los límites superiores están fijados.
 - Layout de PROVENANCE (procedencia y premisas de la regla).
 - Si los nombres entre acentos graves se ponen con el [LABEL](/es/grammar/edge/label/) o [BIND](/es/grammar/edge/bind/) de afirmación y no con TEXT + LABEL (`0xC029`).

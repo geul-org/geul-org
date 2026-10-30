@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "TOULMIN Edge(Codec 0x60~0x7B)は、トゥールミンの論証モデルで判定・実行グラフを書く。このページは TOULMIN ドキュメントの規則、共通フィールド、コード表、数値規則と、自己改訂の固定された核を定める。"
 author: "朴俊宇"
@@ -48,7 +48,7 @@ TOULMIN レコードは三つのレイアウトのいずれかを使う。レイ
 | `0x63` | [RULE-DECLARE](/ja/grammar/edge/toulmin/node/) | NODE | general rule、Rules の規則名 | 主張の宣言(Warrant)。攻撃されうる |
 | `0x64` | [COUNTER-DECLARE](/ja/grammar/edge/toulmin/node/) | NODE | counter rule | 反駁の宣言。自分の結論を持って攻撃する。既定の Level は Fail |
 | `0x65` | [EXCEPT-DECLARE](/ja/grammar/edge/toulmin/node/) | NODE | except rule | 例外の宣言。自分の結論なしで攻撃する。既定の Level は Review |
-| `0x68` | [ATTACKS](/ja/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | 攻撃関係。攻撃者の判定が対象の判定を漸進的に削る |
+| `0x68` | [ATTACKS](/ja/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | 攻撃関係。攻撃者の判定が対象の判定を攻撃力(0~1、既定 1)に応じて漸進的に削る |
 | `0x69` | [SUPERSEDES](/ja/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | 排除関係。攻撃者が Active なら対象を集計から決定的に除く。チェーン(`A > B > C`)は組ごとに一つずつ書く |
 | `0x6A` | SUPERSEDE-CHAIN | — | | 優先順位チェーン `A > B > C`。組ごとの SUPERSEDES の短縮形。コードだけを割り当て、レイアウトはまだない |
 | `0x70` | [RUN](/ja/grammar/edge/toulmin/link/) | LINK | `run c when n` | 実行の合成。ノードが Active なら下位の事案を実行する(DAG) |
@@ -146,14 +146,16 @@ END
 
 ## 数値
 
-- 判定値(−1~1)と Qualifier(0~1)は [SIGNED-DECIMAL](/ja/grammar/value/decimal/signed-decimal/) Value だ。固定小数形式を別に置かない。
+- 判定値(−1~1)、Qualifier(0~1)、攻撃力(0~1)は [SIGNED-DECIMAL](/ja/grammar/value/decimal/signed-decimal/) Value だ。固定小数形式を別に置かない。
 - エンコーダは係数の末尾の 0 を消す。0.8 は `C=8, E=−1` だ。デコーダは小数4桁まで受け付ける。
 - 確信度ゲート(例: `at least 75%`)は、比較演算子 1 WORD とパーセントの [UNSIGNED-DECIMAL](/ja/grammar/value/decimal/unsigned-decimal/) Value(`E=0`)で書く([LINK](/ja/grammar/edge/toulmin/link/) の F_GATE)。
+- 攻撃力は ATTACKS の F_FORCE フィールドだ([LINK](/ja/grammar/edge/toulmin/link/#攻撃力))。範囲を外れれば拒否する。
 
 ## ノード宣言の軸
 
 - ノード宣言(RULE・COUNTER・EXCEPT-DECLARE)は、役割(主張・反駁・例外)、Qualifier(0~1)、Level(Unset、Fail、Review)を持つ。役割は Codec と NODE ヘッダの role が、Qualifier は F_QUAL が、Level はヘッダの level が収める([NODE](/ja/grammar/edge/toulmin/node/))。
 - 強度(Strict、Defeasible、Defeater)は、役割とは別の軸だ。強度の配置はまだ決めていない。
+- 攻撃力(Force)はノードではなく ATTACKS 辺の値だ([LINK](/ja/grammar/edge/toulmin/link/#攻撃力) の F_FORCE)。強度とは別の軸だ。
 
 ## 不明の上での判定
 
@@ -183,6 +185,7 @@ END
 
 - SUPERSEDE-CHAIN(`0x6A`)、VERDICT(`0x78`)、EVIDENCE(`0x79`)のレイアウト。SUPERSEDES を組ごとに書く今の方式でチェーンが十分か。
 - ノード強度(Strict、Defeasible、Defeater)の配置。
+- 攻撃力 1 を書いた ATTACKS と書かない ATTACKS は判定が同じだがバイトが違う。判定が同じかどうかはバイトではなく解釈した値で比べなければならない。
 - EXPR 内のノード数、ラベル数、ラベルインデックスは 1 WORD で、子の数は 13 ビットだ。上限が固定されている。
 - PROVENANCE(規則の出典・前提)のレイアウト。
 - バッククォート名を TEXT + LABEL(`0xC029`)の代わりに、記述 [LABEL](/ja/grammar/edge/label/)・[BIND](/ja/grammar/edge/bind/) で置くか。

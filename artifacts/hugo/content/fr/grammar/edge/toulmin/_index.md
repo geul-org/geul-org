@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "Les Edge TOULMIN (Codec 0x60~0x7B) écrivent des graphes de jugement et d'exécution selon le modèle d'argumentation de Toulmin. Cette page fixe les règles des documents TOULMIN, les champs communs, la table des codes, les règles numériques et le noyau fixe de l'auto-révision."
 author: "Junwoo Park"
@@ -48,7 +48,7 @@ Les enregistrements de texte original et de sections (SOURCE, TEXT, SECTION, CAS
 | `0x63` | [RULE-DECLARE](/fr/grammar/edge/toulmin/node/) | NODE | general rule, nom de règle de Rules | Déclaration d'assertion (Warrant). Peut être attaquée |
 | `0x64` | [COUNTER-DECLARE](/fr/grammar/edge/toulmin/node/) | NODE | counter rule | Déclaration de réfutation. Attaque avec sa propre conclusion. Level par défaut : Fail |
 | `0x65` | [EXCEPT-DECLARE](/fr/grammar/edge/toulmin/node/) | NODE | except rule | Déclaration d'exception. Attaque sans conclusion propre. Level par défaut : Review |
-| `0x68` | [ATTACKS](/fr/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Relation d'attaque. Le jugement de l'attaquant entame progressivement celui de la cible |
+| `0x68` | [ATTACKS](/fr/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Relation d'attaque. Le jugement de l'attaquant entame progressivement celui de la cible selon l'intensité d'attaque (0 à 1, 1 par défaut) |
 | `0x69` | [SUPERSEDES](/fr/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | Relation d'exclusion. Si l'attaquant est Active, la cible est retirée de l'agrégation de façon déterminante. Une chaîne (`A > B > C`) s'écrit une paire à la fois |
 | `0x6A` | SUPERSEDE-CHAIN | — | | Chaîne de priorité `A > B > C`. Forme abrégée de SUPERSEDES deux à deux. Seul le code est attribué, la disposition n'existe pas encore |
 | `0x70` | [RUN](/fr/grammar/edge/toulmin/link/) | LINK | `run c when n` | Composition d'exécution. Si le nœud est Active, exécute le cas inférieur (DAG) |
@@ -146,14 +146,16 @@ END
 
 ## Valeurs numériques
 
-- La valeur de jugement (−1 à 1) et le Qualifier (0 à 1) sont des Value [SIGNED-DECIMAL](/fr/grammar/value/decimal/signed-decimal/). On ne prévoit pas de format à virgule fixe à part.
+- La valeur de jugement (−1 à 1), le Qualifier (0 à 1) et l'intensité d'attaque (0 à 1) sont des Value [SIGNED-DECIMAL](/fr/grammar/value/decimal/signed-decimal/). On ne prévoit pas de format à virgule fixe à part.
 - L'encodeur supprime les zéros de fin du coefficient. 0,8 est `C=8, E=−1`. Le décodeur accepte jusqu'à 4 décimales.
 - Un seuil de confiance (par ex. `at least 75%`) s'écrit avec 1 WORD d'opérateur de comparaison et une Value [UNSIGNED-DECIMAL](/fr/grammar/value/decimal/unsigned-decimal/) en pourcentage (`E=0`) ([LINK](/fr/grammar/edge/toulmin/link/) F_GATE).
+- L'intensité d'attaque est le champ F_FORCE d'ATTACKS ([LINK](/fr/grammar/edge/toulmin/link/#intensité-dattaque)). Hors de l'intervalle, on rejette.
 
 ## Axes de déclaration des nœuds
 
 - Une déclaration de nœud (RULE, COUNTER, EXCEPT-DECLARE) a un rôle (assertion, réfutation, exception), un Qualifier (0 à 1) et un Level (Unset, Fail, Review). Le rôle est porté par le Codec et le role de l'en-tête NODE, le Qualifier par F_QUAL, le Level par le level de l'en-tête ([NODE](/fr/grammar/edge/toulmin/node/)).
 - La force (Strict, Defeasible, Defeater) est un axe distinct du rôle. Son placement n'est pas encore fixé.
+- L'intensité d'attaque (Force) est une valeur non du nœud mais de l'arête ATTACKS ([LINK](/fr/grammar/edge/toulmin/link/#intensité-dattaque) F_FORCE). C'est un axe distinct de la force.
 
 ## Juger sur l'inconnu
 
@@ -183,6 +185,7 @@ Quand un graphe de jugement reçoit des faits GEUL en entrée, les trois notions
 
 - Disposition de SUPERSEDE-CHAIN (`0x6A`), VERDICT (`0x78`) et EVIDENCE (`0x79`). La méthode actuelle de SUPERSEDES paire par paire suffit-elle pour les chaînes.
 - Placement de la force des nœuds (Strict, Defeasible, Defeater).
+- Un ATTACKS qui écrit l'intensité 1 et un ATTACKS sans intensité donnent le même jugement mais diffèrent en octets. L'égalité de deux jugements se compare sur les valeurs décodées, pas sur les octets.
 - Dans EXPR, le nombre de nœuds et le nombre d'étiquettes, l'indice d'étiquette est de 1 WORD et le nombre d'enfants de 13 bits. Les plafonds sont fixes.
 - Disposition de PROVENANCE (origine et prémisses des règles).
 - Remplacer ou non TEXT + LABEL (`0xC029`) par les [LABEL](/fr/grammar/edge/label/) et [BIND](/fr/grammar/edge/bind/) de description pour les noms entre accents graves.

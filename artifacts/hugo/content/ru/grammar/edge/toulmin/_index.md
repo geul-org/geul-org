@@ -2,7 +2,7 @@
 title: "TOULMIN"
 weight: 97
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
 summary: "TOULMIN Edge (Codec 0x60~0x7B) записывает граф вердиктов и выполнения по модели аргументации Тулмина. Эта страница задаёт правила документа TOULMIN, общие поля, таблицу кодов, правила записи чисел и фиксированное ядро самопересмотра."
 author: "Джунву Пак"
@@ -48,7 +48,7 @@ TOULMIN является Codec GEUL, чтобы GEUL мог осознавать
 | `0x63` | [RULE-DECLARE](/ru/grammar/edge/toulmin/node/) | NODE | general rule, имя правила в Rules | Объявление утверждения (Warrant). Может быть атаковано |
 | `0x64` | [COUNTER-DECLARE](/ru/grammar/edge/toulmin/node/) | NODE | counter rule | Объявление возражения. Атакует, имея собственный вывод. Level по умолчанию — Fail |
 | `0x65` | [EXCEPT-DECLARE](/ru/grammar/edge/toulmin/node/) | NODE | except rule | Объявление исключения. Атакует без собственного вывода. Level по умолчанию — Review |
-| `0x68` | [ATTACKS](/ru/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Отношение атаки. Вердикт атакующего постепенно снижает вердикт цели |
+| `0x68` | [ATTACKS](/ru/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | Отношение атаки. Вердикт атакующего постепенно снижает вердикт цели с интенсивностью атаки (0~1, по умолчанию 1) |
 | `0x69` | [SUPERSEDES](/ru/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | Отношение вытеснения. Если атакующий Active, цель окончательно исключается из агрегации. Цепочка (`A > B > C`) записывается по одной записи на пару |
 | `0x6A` | SUPERSEDE-CHAIN | — | | Цепочка приоритета `A > B > C`. Сокращение попарных SUPERSEDES. Назначен только код, раскладки пока нет |
 | `0x70` | [RUN](/ru/grammar/edge/toulmin/link/) | LINK | `run c when n` | Композиция выполнения. Если узел Active, выполняет подчинённое дело (DAG) |
@@ -146,14 +146,16 @@ END
 
 ## Числа
 
-- Значение вердикта (−1~1) и Qualifier (0~1) — это Value [SIGNED-DECIMAL](/ru/grammar/value/decimal/signed-decimal/). Отдельного формата с фиксированной запятой нет.
+- Значение вердикта (−1~1), Qualifier (0~1) и интенсивность атаки (0~1) — это Value [SIGNED-DECIMAL](/ru/grammar/value/decimal/signed-decimal/). Отдельного формата с фиксированной запятой нет.
 - Кодировщик отбрасывает конечные нули коэффициента. 0.8 — это `C=8, E=−1`. Декодер принимает до 4 знаков после запятой.
 - Порог уверенности (например, `at least 75%`) записывается WORD оператора сравнения и Value [UNSIGNED-DECIMAL](/ru/grammar/value/decimal/unsigned-decimal/) в процентах (`E=0`) ([LINK](/ru/grammar/edge/toulmin/link/) F_GATE).
+- Интенсивность атаки — поле F_FORCE в ATTACKS ([LINK](/ru/grammar/edge/toulmin/link/#интенсивность-атаки)). Вне диапазона запись отклоняется.
 
 ## Оси объявления узла
 
 - Объявление узла (RULE·COUNTER·EXCEPT-DECLARE) имеет роль (утверждение, возражение, исключение), Qualifier (0~1) и Level (Unset, Fail, Review). Роль несёт Codec и поле role заголовка NODE, Qualifier — F_QUAL, Level — поле level заголовка ([NODE](/ru/grammar/edge/toulmin/node/)).
 - Сила (Strict, Defeasible, Defeater) — ось, независимая от роли. Размещение силы пока не определено.
+- Интенсивность атаки (Force) — значение не узла, а ребра ATTACKS ([LINK](/ru/grammar/edge/toulmin/link/#интенсивность-атаки) F_FORCE). Это ось, отличная от силы.
 
 ## Вердикт при неизвестных значениях
 
@@ -183,6 +185,7 @@ END
 
 - Раскладки SUPERSEDE-CHAIN (`0x6A`), VERDICT (`0x78`), EVIDENCE (`0x79`). Достаточно ли цепочек при нынешнем способе записи SUPERSEDES по одной записи на пару.
 - Размещение силы узла (Strict, Defeasible, Defeater).
+- ATTACKS с явной интенсивностью 1 и ATTACKS без интенсивности дают одинаковый вердикт, но различаются байтами. Совпадение вердиктов нужно проверять по декодированным значениям, а не по байтам.
 - В EXPR число узлов, число меток и индекс метки занимают 1 WORD, а число дочерних — 13 бит. Верхние границы фиксированы.
 - Раскладка PROVENANCE (источник и посылки правила).
 - Записывать ли имя в обратных кавычках не как TEXT + LABEL (`0xC029`), а через повествовательные [LABEL](/ru/grammar/edge/label/)·[BIND](/ru/grammar/edge/bind/).
