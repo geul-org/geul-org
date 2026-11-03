@@ -27,9 +27,9 @@ TAG WORD          0001 1100 0111 LLLL      Codec 0x1C7L
 ## 해석과 유효성
 
 - Payload는 `DOC-POINTER`(Issuer, 문서 ID, 버전 `0`) Reference 레코드 정확히 하나다. 버전 ID는 `0`만 쓴다. 버전은 문서가 아니라 버전 목록이 배정한다. 코덱 문서는 `CODEC-POINTER`(Issuer, 코덱 ID, 버전 `0`)를 쓴다([CODEC-POINTER](/ko/grammar/reference/codec-pointer/)).
-- 그래서 "이 문서"를 가리키는 표기가 DOC-ID, 버전 목록의 [BIND](/ko/grammar/edge/bind/) Subject, 다른 문서의 인용에서 모두 같다.
+- 그래서 "이 문서"를 가리키는 표기가 DOC-ID, 버전 목록의 PUBLICATION 레코드, 다른 문서의 인용에서 모두 같다.
 - 버전과 무관하게 같은 문서는 같은 `DOC-ID`다. 버전 ID와 내용 해시는 문서에 적지 않는다([버전](/ko/grammar/document/#버전)).
-- 문서 이름은 버전 목록의 서술 `BIND`가(선택, [공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)), 사람이 읽는 제목은 서술 [LABEL](/ko/grammar/edge/label/)이 맡는다.
+- 문서 이름 주소는 없다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)). 사람이 읽는 제목은 서술 [LABEL](/ko/grammar/edge/label/)이 맡는다.
 - 없으면 이름 없는 문서이며 내용 해시로만 가리킬 수 있다. 다른 문서가 이 문서의 LOCAL을 지시 Reference로 가리키려면 필요하다.
 - 문서를 가져오는 쪽은 받은 문서의 `DOC-ID`가 요청한 Issuer·문서 ID와 같은지 검증한다.
 - 문서 ID `0x0000000000000000`은 Issuer의 용어 정의 색인 문서다([Issuer](/ko/grammar/issuer/)). 이 문서도 `docs/<문서 ID>/` 아래 버전 문서이므로 DOC-ID(`DOC-POINTER`(Issuer, `0`, `0`))를 둔다. Issuer 자신은 [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)가 대표한다.

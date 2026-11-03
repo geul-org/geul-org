@@ -12,7 +12,7 @@ image: "/images/og-default.webp"
 
 BIND는 Subject에 기계가 맞추는 이름을 묶는 서술 Edge다. Codec `0x083L`.
 
-명명이다. 사람이 읽는 이름(언어별 제목)은 [LABEL](/ko/grammar/edge/label/)이 맡는다. 프로그램 기호의 이름과 문서의 주소용 이름을 같은 레코드로 쓴다.
+명명이다. 사람이 읽는 이름(언어별 제목)은 [LABEL](/ko/grammar/edge/label/)이 맡는다. 프로그램 기호의 이름과 Issuer 목록의 도메인 이름을 같은 레코드로 쓴다.
 
 ## 레이아웃
 
@@ -33,7 +33,8 @@ Subject           Reference 레코드 1개, 또는 코덱 TAG WORD 1 WORD
 - 이름의 범위는 BIND를 담은 문서다. 한 문서에서 같은 이름을 서로 다른 Subject에 묶지 않는다.
 - 한 Subject에 이름을 여럿 묶을 수 있다(별칭, 옛 이름). 문서가 따로 정하지 않으면 마지막 BIND가 대표 이름이다.
 - 다른 레코드는 이름이 아니라 LOCAL ID로 대상을 가리킨다. 이름은 바깥(호스트 함수, 주소 입력, 사람)과 맞추는 데 쓴다.
-- 이름에 쓸 수 있는 문자는 쓰임새가 정한다. 문서 주소용 이름은 문서 이름 규칙(소문자 ASCII 슬러그)을 따른다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)).
+- 이름에 쓸 수 있는 문자는 쓰임새가 정한다. Issuer 목록의 도메인 이름은 도메인 규칙(소문자, IDNA)을 따른다([공표 주소와 버전 목록](/ko/grammar/publishing/#issuer-목록)).
+- 버전 목록에는 BIND를 두지 않는다. 문서 이름 주소는 없다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)).
 
 ## 길이
 
@@ -52,17 +53,7 @@ Subject           Reference 레코드 1개, 또는 코덱 TAG WORD 1 WORD
 0837 0051 0003 0051 0007 0522 6d61 696e
 ```
 
-문서 이름(그 문서의 버전 목록 문서 `0x00000000/docs/0xffff000000000002/versions.geul` 안): Edge Id `0005`, Subject `DOC-POINTER`(Issuer `0x00000000`, 문서 `0xffff000000000002`, 버전 `0` = 문서 자신), 이름 `this-is-sample-doc`.
-
-- Subject는 TAG `0048` + Issuer 2 + 문서 ID 4 + 버전 ID 2 = 9 WORD다.
-- 이름은 18 byte(짝수)라 TAG `0529` + 9 WORD = 10 WORD다.
-- Edge는 TAG 1 + Length 확장 1 + Edge Id 2 + Subject 9 + 이름 10 = 23 WORD라 `LLLL=1110`, TAG `083E`, 확장 `0017`이다.
-
-```
-083E 0017 0051 0005 0048 0000 0000 ffff 0000 0000 0002 0000 0000 0529 7468 6973 2d69 732d 7361 6d70 6c65 2d64 6f63
-```
-
 ## 관련 페이지
 
-- [Edge](/ko/grammar/edge/), [LABEL](/ko/grammar/edge/label/), [PUBLICATION](/ko/grammar/edge/publication/) (버전 목록 문서의 문서 이름)
+- [Edge](/ko/grammar/edge/), [LABEL](/ko/grammar/edge/label/), [공표 주소와 버전 목록](/ko/grammar/publishing/#issuer-목록) (Issuer 목록의 도메인 이름)
 - [LOCAL](/ko/grammar/reference/local/), [DOC-POINTER](/ko/grammar/reference/doc-pointer/), [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)

@@ -56,14 +56,14 @@ DOC-1WORD/2WORD/4WORD     전체 길이
   NEXT-LOCAL-ID           다음에 배정할 LOCAL ID (버전이 있으면)
   SIGNATURE               공표처의 서명. 대상은 이 목록 문서의 내용 해시
 BODY
-  PUBLICATION · DEPRECATION · TOMBSTONE · BIND …
+  PUBLICATION · DEPRECATION · TOMBSTONE …
 END
 ```
 
 - HEAD Meta: [SPEC-VERSION](/ko/grammar/meta/declaration/spec-version/), [PARENT](/ko/grammar/meta/lineage/parent/), [RECORDED-AT](/ko/grammar/meta/provenance/recorded-at/), [NEXT-LOCAL-ID](/ko/grammar/meta/lineage/next-local-id/), [SIGNATURE](/ko/grammar/meta/verification/signature/).
 - 버전 목록 문서에는 `DOC-ID`를 두지 않는다(목록 문서의 예외, [DOC-ID](/ko/grammar/meta/declaration/doc-id/)). 목록은 공표 문서가 아니라 그 문서에 딸린 기록이다. 어느 문서의 목록인지는 레코드의 DOC-POINTER(문서 ID)가 말한다. 그래서 경로 없이(`hashes/`, 덤프) 받아도 무엇의 목록인지 안다.
 - 레코드의 문서 ID는 모두 그 목록이 다루는 문서여야 한다. 다른 문서의 레코드는 거부한다.
-- 버전 목록 문서는 IMPORT를 두지 않고 0층 Codec만 쓴다.
+- 버전 목록 문서는 IMPORT를 두지 않고 0층 Codec만 쓴다. BODY에는 PUBLICATION·DEPRECATION·TOMBSTONE만 둔다. 문서 이름 BIND를 두지 않는다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)).
 - 새 목록 문서는 직전 목록 문서의 BODY를 그대로 앞에 두고 레코드를 덧붙인다. 고치거나 지우거나 순서를 바꾸지 않는다.
 - 공표처가 목록에 서명한다. geul.org 공표는 geul.org(GEUL Issuer)가, 사설 공표는 그 Issuer가 서명한다.
 - 문서 ID `0x0000000000000000`은 Issuer의 용어 정의 색인 문서다([Issuer와 공표](/ko/grammar/issuer/)). Issuer 자신은 [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)로 가리킨다.
@@ -85,18 +85,6 @@ END
 - 버전의 상태는 레코드를 차례로 적용해 계산한다. 공표됨 → deprecated → 삭제됨. 삭제된 버전은 다시 공표하지 않고 내주지 않는다.
 - 최신 버전은 deprecated도 삭제도 아닌 가장 높은 버전 ID다.
 - 버전 ID가 2 WORD 끝에 이르면 그 문서는 더 공표하지 않고 새 문서 ID로 낸다.
-
-## 문서 이름
-
-문서 이름을 ID로 바꾸는 색인은 두지 않는다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)).
-
-버전 목록 문서에 문서 이름 [BIND](/ko/grammar/edge/bind/)를 둘 수 있다(선택). 두면 다음을 지킨다.
-
-- Subject는 `DOC-POINTER`(Issuer, 그 목록의 문서 ID, 버전 `0`)다. 이름은 버전이 아니라 문서에 묶이므로 버전은 `0`이다.
-- 앞에 PUBLICATION이 나온 문서에만 묶는다. 공표된 적 없는 문서에 이름을 묶지 않는다.
-- 이름은 문서 이름 규칙(소문자 ASCII 슬러그)을 따른다.
-- 이름을 바꾸면 새 BIND를 덧붙인다. 옛 이름은 그대로 남아 같은 문서를 가리킨다. 대표 이름은 마지막 BIND다.
-- 문서 안에는 자기 이름을 적지 않는다.
 
 ## 주소
 

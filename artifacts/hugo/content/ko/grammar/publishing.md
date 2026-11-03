@@ -108,9 +108,9 @@ Fetch(ctx, Addr) ([]byte, error)    // geul get = ParseAddr → Fetch → 표준
 
 ### 도메인 이름
 
-도메인 이름과 문서 이름은 공표 URL 주소가 아니다. `<Issuer>` 자리에 도메인을 쓰거나 ID 자리에 이름을 쓴 주소는 위 10가지 형식 밖이라 404(없음)다. 이름에서 ID 주소로 보내는 리다이렉트도 없다.
+도메인 이름은 공표 URL 주소가 아니다. `<Issuer>` 자리에 도메인을 쓰거나 ID 자리에 이름을 쓴 주소는 위 10가지 형식 밖이라 404(없음)다. 이름에서 ID 주소로 보내는 리다이렉트도 없다.
 
-- 도메인 이름은 해석기와 CLI의 입력이다. 해석기는 Issuer 목록 `issuers/`의 BIND로 도메인을 Issuer ID로 바꾼다. 바꾼 ID는 잠금 기록에 남긴다. 문서 이름·코덱 이름을 ID로 바꾸는 색인은 없다([문서 이름](#문서-이름)).
+- 도메인 이름은 해석기와 CLI의 입력이다. 해석기는 Issuer 목록 `issuers/`의 BIND로 도메인을 Issuer ID로 바꾼다. 바꾼 ID는 잠금 기록에 남긴다. 문서 이름 주소는 없다([문서 이름](#문서-이름)).
 - 정본 주소, 캐시 키, 서명 대상은 ID 주소다.
 - 도메인은 소문자로 쓰고, 국제화 도메인은 IDNA(punycode) 형태로 쓴다. 끝의 `.`은 붙이지 않는다.
 - 등록부가 없는 16 WORD Issuer와 geul.org에 닿지 못하는 망분리 환경은 도메인 이름을 쓰지 못한다. ID를 쓴다.
@@ -132,23 +132,12 @@ BODY
 
 ### 문서 이름
 
-**문서 이름·코덱 이름을 ID로 바꾸는 색인은 두지 않는다.** 문서와 코덱은 ID로 찾는다. 사람이 둘러보는 색인은 도구(뷰어)가 pack 인벤토리로 만든다. 이름은 공표 URL 주소가 아니다([도메인 이름](#도메인-이름)).
+**문서 이름 주소는 없다.** 문서와 코덱은 ID로 찾는다.
 
-문서 이름은 그 문서의 버전 목록 문서에 BIND로 둘 수 있다(선택, [PUBLICATION](/ko/grammar/edge/publication/#문서-이름)).
-
-```
-BODY
-  BIND   Subject = DOC-POINTER(Issuer, 문서 ID, 버전 0)   이름 = "publication"
-  …
-```
-
-- Subject는 [DOC-POINTER](/ko/grammar/reference/doc-pointer/)(Issuer, 문서 ID, 버전 `0`)다. 이름은 버전이 아니라 문서에 묶인다.
-- Subject의 Issuer·문서 ID는 그 버전 목록이 다루는 문서와 같다.
-- 이름은 공표된 문서에만 묶는다.
-- 문서 이름은 소문자 ASCII 슬러그다: `a-z`, `0-9`, `-`. 처음과 끝은 `-`가 아니고 `0x`로 시작하지 않는다. 그래서 문서 ID(`0x…`)나 예약 이름(`latest.geul`, `versions.geul`)과 겹치지 않는다([BIND](/ko/grammar/edge/bind/)).
-- 한 Issuer 안에서 이름 하나는 문서 하나에만 묶이고, 한 번 묶은 이름은 다른 문서에 다시 쓰지 않는다. 이름을 바꾸면 새 BIND를 덧붙인다. 옛 이름도 같은 문서를 가리킨다. 같은 이름이 여러 번 나오면 마지막 BIND가 대표다.
-- 문서 안에는 자기 이름을 적지 않는다. 정본 주소, 캐시 키, 서명 대상은 ID 주소다. IMPORT와 문서 안의 인용은 ID로만 한다.
-- 사람이 읽는 제목(언어별)은 이름이 아니다. 서술 `LABEL`로 붙인다.
+- 문서 이름·코덱 이름을 ID로 바꾸는 색인은 두지 않는다. 버전 목록에도 문서 이름 [BIND](/ko/grammar/edge/bind/)를 두지 않는다([PUBLICATION](/ko/grammar/edge/publication/#버전-목록-문서)).
+- 사람이 둘러보는 색인은 도구(뷰어)가 pack 인벤토리로 만든다.
+- 정본 주소, 캐시 키, 서명 대상은 ID 주소다. IMPORT와 문서 안의 인용은 ID로만 한다.
+- 사람이 읽는 제목(언어별)은 서술 [LABEL](/ko/grammar/edge/label/)로 붙인다.
 
 ### 삭제된 문서
 
@@ -200,7 +189,7 @@ END
 - 최신 버전은 폐기 권고도 삭제도 아닌 가장 높은 버전이다.
 - 레코드에는 시각을 넣지 않는다. 그 레코드가 처음 실린 목록의 `RECORDED-AT`이 공표 시각이다.
 - 버전 목록에는 `DOC-ID`를 두지 않는다. 레코드의 DOC-POINTER(문서 ID, Issuer 목록은 예약 문서 ID)가 무엇의 목록인지 말한다.
-- 버전 목록은 IMPORT를 두지 않고, 0층 Codec만 쓴다.
+- 버전 목록은 IMPORT를 두지 않고, 0층 Codec만 쓴다. BODY에는 PUBLICATION·DEPRECATION·TOMBSTONE만 둔다.
 - 지난 버전 목록은 내용 해시(`<Issuer>/hashes/<내용 해시>.geul`)로만 가리키고, 이력은 `PARENT` 사슬로 잇는다.
 - 가변인 주소는 `latest.geul`과 `versions.geul`이다. 가변 포인터는 문서로 만들 수 없으므로, 받은 목록의 서명·`RECORDED-AT`·`PARENT`로 검증한다.
 

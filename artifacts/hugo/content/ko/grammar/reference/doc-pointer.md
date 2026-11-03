@@ -31,7 +31,7 @@ Issuer            2/4/16 WORD
 - 문서 ID `0xFFFFFFFFFFFFFFFF`(Issuer 목록 `issuers/`, Issuer `0x00000000`)는 목록 문서에 예약했다. `issuers/versions.geul`의 PUBLICATION·DEPRECATION·TOMBSTONE이 이 값으로 목록 버전을 가리킨다([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)).
 - Codec `0x004L` 한 칸이다. 양화가 없다(Identified).
 - Issuer의 문서를 가리키는 형식은 DOC-POINTER 하나다. `EXTERNAL-ISSUER-*`(Issuer, 문서 ID, 대상 ID `0`)나 `EXTERNAL-POINTER-*`(IMPORT ID, 대상 ID `0`)로 문서를 가리키는 것은 invalid다.
-- 쓰는 곳: Meta [DOC-ID](/ko/grammar/meta/declaration/doc-id/)·[IMPORT-DOC](/ko/grammar/meta/import/import-doc/), 버전 목록의 PUBLICATION·DEPRECATION·TOMBSTONE과 BIND Subject.
+- 쓰는 곳: Meta [DOC-ID](/ko/grammar/meta/declaration/doc-id/)·[IMPORT-DOC](/ko/grammar/meta/import/import-doc/), 버전 목록의 PUBLICATION·DEPRECATION·TOMBSTONE.
 - 코덱 문서는 문서 ID가 없다. 코덱 문서와 그 버전은 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)로 가리킨다.
 
 ## 예시
