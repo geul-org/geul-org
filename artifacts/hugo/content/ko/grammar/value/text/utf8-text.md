@@ -4,7 +4,7 @@ weight: 65
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
-summary: "UTF8-TEXT는 언어가 없는 UTF-8 문자열을 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x40/0x41을 쓴다."
+summary: "UTF8-TEXT는 언어가 없는 UTF-8 문자열을 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x052L/0x053L을 쓴다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,7 +14,7 @@ UTF8-TEXT는 RFC 3629의 valid UTF-8 바이트열을 담는 Value다. 식별자,
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x40`(짝수 바이트)·`0x41`(홀수 바이트). 계열 TEXT.
+- 코드: Value 직접 코드 `0x052L`(짝수 바이트)·`0x41`(홀수 바이트). 계열 TEXT.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
@@ -43,5 +43,5 @@ Payload WORD 1st ... Nth          UTF-8 bytes / final zero padding
 
 ## 예시
 
-- `A`(`41`)는 1 byte(홀수)라 `UTF8-TEXT-ODD`(`0x41`), Payload `4100`, 전체 2 WORD, `LLLL=0001`이다. 전체는 `08C1 4100`이다.
-- 빈 문자열은 `0840`(`UTF8-TEXT-EVEN`, TAG WORD만) 1 WORD다.
+- `A`(`41`)는 1 byte(홀수)라 `UTF8-TEXT-ODD`(`0x053L`), Payload `4100`, 전체 2 WORD, `LLLL=0001`이다. 전체는 `0531 4100`이다.
+- 빈 문자열은 `0520`(`UTF8-TEXT-EVEN`, TAG WORD만) 1 WORD다.

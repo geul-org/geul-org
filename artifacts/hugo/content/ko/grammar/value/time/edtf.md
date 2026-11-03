@@ -4,7 +4,7 @@ weight: 37
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "time"]
-summary: "EDTF는 ISO 8601-2 확장 날짜 문자열로 연·월 정밀도, 기원전, 불확실, 구간 같은 날짜를 담는 Value다(Codec 0x24/0x25)."
+summary: "EDTF는 ISO 8601-2 확장 날짜 문자열로 연·월 정밀도, 기원전, 불확실, 구간 같은 날짜를 담는 Value다(Codec 0x04EL/0x04FL)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,7 +14,7 @@ EDTF는 [Extended Date/Time Format](https://www.loc.gov/standards/datetime/edtf.
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x24`(짝수 바이트)·`0x25`(홀수 바이트). 계열 TIME. Payload는 문자열이지만 TIME 계열에 두어, 디코더와 색인이 형식을 몰라도 시간 값으로 다룬다.
+- 코드: Value 직접 코드 `0x04EL`(짝수 바이트)·`0x25`(홀수 바이트). 계열 TIME. Payload는 문자열이지만 TIME 계열에 두어, 디코더와 색인이 형식을 몰라도 시간 값으로 다룬다.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
@@ -40,9 +40,9 @@ Payload WORD 1st ... Nth          EDTF 문자열의 ASCII 바이트 / 홀수면 
 
 | 날짜 | 바이트 | 전체 WORD |
 |---|---|---|
-| `1974` | 4 (짝수) | `0924 3139 3734` |
-| `197X` | 4 (짝수) | `0924 3139 3758` |
-| `1952-03` | 7 (홀수) | `0A25 3139 3532 2d30 3300` |
+| `1974` | 4 (짝수) | `04E2 3139 3734` |
+| `197X` | 4 (짝수) | `04E2 3139 3758` |
+| `1952-03` | 7 (홀수) | `04F4 3139 3532 2d30 3300` |
 
 ## 표준 근거
 

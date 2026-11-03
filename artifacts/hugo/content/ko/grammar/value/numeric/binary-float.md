@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-BINARY-FLOAT은 IEEE 754 binary interchange scalar를 나타내는 Value다. Value 직접 코드 `0x03`, 계열 NUMERIC이다. Payload가 1/2/4/8 WORD이면 각각 binary16/32/64/128이다. interchange 비트열을 그대로 보존하며 다른 Payload 크기는 허용하지 않는다.
+BINARY-FLOAT은 IEEE 754 binary interchange scalar를 나타내는 Value다. Value 직접 코드 `0x043L`, 계열 NUMERIC이다. Payload가 1/2/4/8 WORD이면 각각 binary16/32/64/128이다. interchange 비트열을 그대로 보존하며 다른 Payload 크기는 허용하지 않는다.
 
 ## 레이아웃
 
@@ -52,10 +52,10 @@ binary128도 1~14 WORD 직접 범위에 있으므로 Length 확장 TAG를 쓰지
 
 | 형식 | TAG | Length 확장 TAG | Payload 예 | 판정 |
 |---|---|---|---|---|
-| binary16 | `0883` | 없음 | `0000` | 정규 |
-| binary32 | `0903` | 없음 | `0000 0000` | 정규 |
-| binary64 | `0A03` | 없음 | `0000 0000 0000 0000` | 정규 |
-| binary128 | `0C03` | 없음 | 8 WORD 비트열 | 정규 |
+| binary16 | `0431` | 없음 | `0000` | 정규 |
+| binary32 | `0432` | 없음 | `0000 0000` | 정규 |
+| binary64 | `0434` | 없음 | `0000 0000 0000 0000` | 정규 |
+| binary128 | `0438` | 없음 | 8 WORD 비트열 | 정규 |
 | 임의 | Length가 나타내는 크기와 불일치 | 임의 | 임의 | invalid |
 
 ## 표준 근거

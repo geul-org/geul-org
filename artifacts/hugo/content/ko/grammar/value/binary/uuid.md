@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-UUID는 RFC 9562 UUID의 128bit 값을 담는 고정 폭 Value다. Value 직접 코드 `0x60`, 계열 BINARY다. Payload는 정확히 8 WORD(16 octet, 128bit)다.
+UUID는 RFC 9562 UUID의 128bit 값을 담는 고정 폭 Value다. Value 직접 코드 `0x05BL`, 계열 BINARY다. Payload는 정확히 8 WORD(16 octet, 128bit)다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x0C60 (0000 1100 0110 0000)  전체 9 WORD
+TAG WORD          0x05B8 (0000 0101 1011 1000)  전체 9 WORD
 Payload           8 WORD (128비트)  UUID octet 0 → octet 15
 ```
 
@@ -46,7 +46,7 @@ Payload           8 WORD (128비트)  UUID octet 0 → octet 15
 RFC 9562 Appendix A.6의 UUIDv7 test vector `017f22e2-79b0-7cc3-98c4-dc0c0c07398f`:
 
 ```
-0c60 017f 22e2 79b0 7cc3 98c4 dc0c 0c07 398f
+05b8 017f 22e2 79b0 7cc3 98c4 dc0c 0c07 398f
 ```
 
-- TAG `0c60`, Payload `017f 22e2 79b0 7cc3 98c4 dc0c 0c07 398f`.
+- TAG `05b8`, Payload `017f 22e2 79b0 7cc3 98c4 dc0c 0c07 398f`.

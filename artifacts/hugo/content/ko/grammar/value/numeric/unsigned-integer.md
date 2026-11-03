@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-UNSIGNED-INTEGER는 부호 없는 정수 값을 나타내는 Value다. Value 직접 코드 `0x02`, 계열 NUMERIC이다. Payload 전체를 big-endian WORD 순서의 임의 정밀도 unsigned magnitude로 읽는다. Payload는 최소 1 WORD이며 최소 WORD 정규 표현만 허용한다.
+UNSIGNED-INTEGER는 부호 없는 정수 값을 나타내는 Value다. Value 직접 코드 `0x042L`, 계열 NUMERIC이다. Payload 전체를 big-endian WORD 순서의 임의 정밀도 unsigned magnitude로 읽는다. Payload는 최소 1 WORD이며 최소 WORD 정규 표현만 허용한다.
 
 ## 레이아웃
 
@@ -48,7 +48,7 @@ Payload WORD Nth  (하위 WORD)   Unsigned Magnitude Nth
 | 65535 | `ffff` | 정규 |
 | 65536 | `0001 0000` | 정규 |
 | 1 | `0000 0001` | 비정규: 불필요한 선행 `0000` |
-| 7 WORD Payload | TAG `0b82`(직접 길이 `LLLL=0111`, 전체 8 WORD) 뒤의 7 WORD | 정규 |
+| 7 WORD Payload | TAG `0427`(직접 길이 `LLLL=0111`, 전체 8 WORD) 뒤의 7 WORD | 정규 |
 | 7 WORD Payload | 확장 길이 TAG와 확장 값 `0009` 뒤의 7 WORD | 비정규: 14 WORD 이하는 직접 길이로 쓴다 |
 
 ## 형식 지위

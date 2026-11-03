@@ -4,7 +4,7 @@ weight: 75
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-30T12:00:00+09:00
 tags: ["grammar", "value", "text"]
-summary: "UTF8-LANGUAGE-TEXT는 언어 Value 레코드 하나와 UTF-8 텍스트를 한 Value에 담는, 언어가 붙은 텍스트다(Codec 0x4A/0x4B)."
+summary: "UTF8-LANGUAGE-TEXT는 언어 Value 레코드 하나와 UTF-8 텍스트를 한 Value에 담는, 언어가 붙은 텍스트다(Codec 0x058L/0x059L)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -16,7 +16,7 @@ UTF8-LANGUAGE-TEXT는 언어가 붙은 텍스트다. 언어 Value 레코드 하�
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x4A`(텍스트 짝수 바이트)·`0x4B`(텍스트 홀수 바이트). 계열 TEXT.
+- 코드: Value 직접 코드 `0x058L`(텍스트 짝수 바이트)·`0x4B`(텍스트 홀수 바이트). 계열 TEXT.
 
 ```
 TAG WORD          0000 0101 100P LLLL      Codec 0x058L/0x059L (P = 텍스트가 홀수 바이트)
@@ -28,7 +28,7 @@ Text WORD 1st ... Nth             UTF-8 bytes / 홀수면 마지막 0x00
 ## 해석과 유효성
 
 - Payload는 언어 레코드로 시작한다. Payload 첫 WORD를 TAG로 읽어 그 Length만큼이 언어 레코드이고, 나머지가 텍스트 바이트다. 언어 레코드는 필수다. 언어가 없으면 이 형식이 아니라 UTF8-TEXT를 쓴다.
-- 언어 레코드는 정확히 하나의 완전한 [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/)(`0x48`) 또는 [LANGUAGE-BCP47-CODE](/ko/grammar/value/text/language-bcp47-code/)(`0x46`·`0x47`) 레코드다. 다른 Codec이거나 불완전하면 invalid다. 언어 레코드의 유효성은 그 형식의 규칙을 따른다.
+- 언어 레코드는 정확히 하나의 완전한 [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/)(`0x05AL`) 또는 [LANGUAGE-BCP47-CODE](/ko/grammar/value/text/language-bcp47-code/)(`0x056L`·`0x057L`) 레코드다. 다른 Codec이거나 불완전하면 invalid다. 언어 레코드의 유효성은 그 형식의 규칙을 따른다.
 - 두 언어 형식 모두 쓸 수 있다. 같은 언어인지 비교하는 규칙은 [LABEL](/ko/grammar/edge/label/)과 같다. SHORT-CODE와, 레지스트리가 그 번호에 묶은 BCP 47 tag는 같은 언어다.
 - `zxx`(언어 내용 없음)는 쓰지 않는다. 그런 문자열은 UTF8-TEXT다. `und`(언어 미정)와 `mul`(여러 언어)은 언어가 있는 텍스트이므로 쓸 수 있다.
 - 텍스트 바이트는 UTF8-TEXT와 같은 규칙을 따른다. well-formed UTF-8이어야 하고, 선두 U+FEFF도 문자로 허용하며, 정규화를 강제하지 않고 원문 그대로 보존한다. 비교·색인하는 쪽이 NFC로 맞춰 비교한다.
@@ -59,12 +59,12 @@ Text WORD 1st ... Nth             UTF-8 bytes / 홀수면 마지막 0x00
 
 | 값 | 텍스트 바이트 | 전체 WORD |
 |---|---|---|
-| "Paris" (fr) | 5 (홀수) | `0ACB 08C6 6672 5061 7269 7300` |
-| "" (ko) | 0 | `094A 08C6 6B6F` |
-| "Bundesrepublik Deutschland" (de) | 26 (짝수) | `0F4A 0011 08C6 6465 4275 6E64 6573 7265 7075 626C 696B 2044 6575 7473 6368 6C61 6E64` |
+| "Paris" (fr) | 5 (홀수) | `0595 0561 6672 5061 7269 7300` |
+| "" (ko) | 0 | `0582 0561 6B6F` |
+| "Bundesrepublik Deutschland" (de) | 26 (짝수) | `058E 0011 0561 6465 4275 6E64 6573 7265 7075 626C 696B 2044 6575 7473 6368 6C61 6E64` |
 
-- "Paris": TAG `0ACB`(Codec `0x4B`, `LLLL=0101`, 전체 6 WORD), 언어 `08C6 6672`(BCP 47 `fr`), 텍스트 `5061 7269 7300`(5 byte, 마지막 `00`).
-- 세 번째는 전체 17 WORD라 Length 확장을 쓴다(`0F4A`의 `LLLL=1110`, 확장 TAG `0011`).
+- "Paris": TAG `0595`(Codec `0x059L`, `LLLL=0101`, 전체 6 WORD), 언어 `0561 6672`(BCP 47 `fr`), 텍스트 `5061 7269 7300`(5 byte, 마지막 `00`).
+- 세 번째는 전체 17 WORD라 Length 확장을 쓴다(`058E`의 `LLLL=1110`, 확장 TAG `0011`).
 
 ## 표준 근거
 

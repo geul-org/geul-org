@@ -4,7 +4,7 @@ weight: 1004
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "vector"]
-summary: "DENSE-U32-VECTOR는 big-endian uint32 원소를 descriptor 없이 이어 담는 1차원 벡터 Value다(ADHOC Issuer 형식 0x0503)."
+summary: "DENSE-U32-VECTOR는 big-endian uint32 원소를 descriptor 없이 이어 담는 1차원 벡터 Value다(ADHOC Issuer 형식 0x00000503)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,13 +14,13 @@ DENSE-U32-VECTOR는 big-endian uint32 원소를 descriptor 없이 이어 저장�
 
 ## 레이아웃
 
-- 코드: Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0001` ADHOC, 형식 번호 `0x0503`. 계열 NUMERIC.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000503`. 계열 NUMERIC.
 
 ```
-TAG WORD          0000 1LLL LCCC CCCC      Codec 0x7C
+TAG WORD          0000 0111 1101 LLLL      Codec 0x07DL
 [Length 확장 TAG] 전체 15 WORD 이상일 때
-Issuer            1 WORD  0x0001 (ADHOC)
-형식 번호         1 WORD  0x0503
+Issuer            2 WORD  0x00000002 (ADHOC)
+코덱 번호         2 WORD  0x00000503
 Payload: [uint32 1st: 2 WORD] ... [uint32 Nth: 2 WORD]
 ```
 
@@ -40,8 +40,8 @@ Payload: [uint32 1st: 2 WORD] ... [uint32 Nth: 2 WORD]
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Length 확장 TAG(있으면), Issuer 1 WORD, 형식 번호 1 WORD와 Payload를 합한 WORD 수다. 14 WORD 이하는 직접 길이, 15 WORD 이상은 `1110`·`1111` 확장 길이를 쓰며, 확장 TAG도 전체 수에 포함한다([Length](/ko/grammar/record/)).
+- 전체는 TAG 1 WORD, Length 확장 TAG(있으면), Issuer 2 WORD, 코덱 번호 2 WORD와 Payload를 합한 WORD 수다. 14 WORD 이하는 직접 길이, 15 WORD 이상은 `1110`·`1111` 확장 길이를 쓰며, 확장 TAG도 전체 수에 포함한다([Length](/ko/grammar/record/)).
 
 ## 예시
 
-- Payload `0000 0000 ffff ffff`는 원소 `[0, 4294967295]`이고, 전체 7 WORD 레코드다.
+- Payload `0000 0000 ffff ffff`는 원소 `[0, 4294967295]`이고, 전체 9 WORD 레코드다.

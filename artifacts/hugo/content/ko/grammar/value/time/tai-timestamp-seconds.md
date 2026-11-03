@@ -4,7 +4,7 @@ weight: 1003
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "time"]
-summary: "TAI-TIMESTAMP-SECONDS는 1970-01-01T00:00:00 TAI부터의 signed SI-second 수를 담는 Value다(BIPM Issuer 형식 0x4000)."
+summary: "TAI-TIMESTAMP-SECONDS는 1970-01-01T00:00:00 TAI부터의 signed SI-second 수를 담는 Value다(BIPM Issuer 형식 0x00004000)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,12 +14,12 @@ TAI-TIMESTAMP-SECONDS는 `1970-01-01T00:00:00 TAI`부터의 signed SI-second 수
 
 ## 레이아웃
 
-- 코드: Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0060` BIPM, 형식 번호 `0x4000`. 계열 TIME.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000013` BIPM, 코덱 번호 `0x00004000`. 계열 TIME.
 
 ```
-TAG WORD          0x0B7C (0000 1011 0111 1100)  전체 7 WORD
-Issuer            1 WORD  0x0060 (BIPM)
-형식 번호         1 WORD  0x4000
+TAG WORD          0x07D8 (0000 0111 1101 1000)  전체 9 WORD
+Issuer            2 WORD  0x00000013 (BIPM)
+코덱 번호         2 WORD  0x00004000
 Payload WORD 1st (bits 63..48)     Signed SI Seconds high 16bit
 Payload WORD 2nd (bits 47..32)     Signed SI Seconds
 Payload WORD 3rd (bits 31..16)     Signed SI Seconds
@@ -34,12 +34,12 @@ Payload WORD 4th (bits 15..0)      Signed SI Seconds low 16bit
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Issuer 1 WORD, 형식 번호 1 WORD와 Payload 4 WORD를 합한 정확히 7 WORD이고 직접 길이 `LLLL=0110`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
+- 전체는 TAG 1 WORD, Issuer 2 WORD, 코덱 번호 2 WORD와 Payload 4 WORD를 합한 정확히 9 WORD이고 직접 길이 `LLLL=1000`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
 - Payload가 정확히 4 WORD가 아니면 거부한다.
 
 ## 예시
 
-- GEUL TAI epoch는 Payload `0000 0000 0000 0000`, 전체 7 WORD, `LLLL=0110`이다.
+- GEUL TAI epoch는 Payload `0000 0000 0000 0000`, 전체 9 WORD, `LLLL=1000`이다.
 - epoch 뒤 1초는 Payload `0000 0000 0000 0001`이다.
 - epoch 1초 전은 Payload `ffff ffff ffff ffff`이다.
 

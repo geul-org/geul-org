@@ -4,7 +4,7 @@ weight: 1013
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "vector"]
-summary: "BBOX2-BINARY64는 (minX, minY, maxX, maxY) 순서의 IEEE 754 binary64 네 성분으로 된 2차원 경계 상자 Value다(ADHOC Issuer 형식 0x050C)."
+summary: "BBOX2-BINARY64는 (minX, minY, maxX, maxY) 순서의 IEEE 754 binary64 네 성분으로 된 2차원 경계 상자 Value다(ADHOC Issuer 형식 0x0000050C)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,13 +14,13 @@ BBOX2-BINARY64는 `(minX, minY, maxX, maxY)` 순서의 IEEE 754 binary64 네 성
 
 ## 레이아웃
 
-- 코드: Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0001` ADHOC, 형식 번호 `0x050C`. 계열 NUMERIC.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x0000050C`. 계열 NUMERIC.
 
 ```
-TAG WORD          0x0F7C (0000 1111 0111 1100)  LLLL=1110
-Length 확장 TAG   1 WORD  0x0014 (전체 20 WORD)
-Issuer            1 WORD  0x0001 (ADHOC)
-형식 번호         1 WORD  0x050C
+TAG WORD          0x07DE (0000 0111 1101 1110)  LLLL=1110
+Length 확장 TAG   1 WORD  0x0016 (전체 22 WORD)
+Issuer            2 WORD  0x00000002 (ADHOC)
+코덱 번호         2 WORD  0x0000050C
 Payload: [minX: 4 WORD][minY: 4 WORD][maxX: 4 WORD][maxY: 4 WORD]
 ```
 
@@ -41,7 +41,7 @@ Payload: [minX: 4 WORD][minY: 4 WORD][maxX: 4 WORD][maxY: 4 WORD]
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Length 확장 TAG 1 WORD, Issuer 1 WORD, 형식 번호 1 WORD와 Payload 16 WORD를 합한 정확히 20 WORD이고 `LLLL=1110`을 쓴다. descriptor와 padding은 없다.
+- 전체는 TAG 1 WORD, Length 확장 TAG 1 WORD, Issuer 2 WORD, 코덱 번호 2 WORD와 Payload 16 WORD를 합한 정확히 22 WORD이고 `LLLL=1110`을 쓴다. descriptor와 padding은 없다.
 - Payload가 정확히 16 WORD가 아니면 거부한다.
 
 ## 예시

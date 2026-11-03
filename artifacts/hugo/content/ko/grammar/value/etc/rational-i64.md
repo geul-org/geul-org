@@ -4,20 +4,20 @@ weight: 1003
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "etc"]
-summary: "RATIONAL-I64는 int64 분자와 양의 int64 분모의 기약분수로 유리수를 담는 고정 11 WORD ADHOC Issuer 형식이다."
+summary: "RATIONAL-I64는 int64 분자와 양의 int64 분모의 기약분수로 유리수를 담는 고정 13 WORD ADHOC Issuer 형식이다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-RATIONAL-I64는 big-endian int64 numerator와 int64 denominator의 기약분수로 유리수를 나타내는 Value다. Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0001` ADHOC, 형식 번호 `0x0702`, 계열 NUMERIC이다.
+RATIONAL-I64는 big-endian int64 numerator와 int64 denominator의 기약분수로 유리수를 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000702`, 계열 NUMERIC이다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x0D7C (0000 1101 0111 1100)  전체 11 WORD
-Issuer            1 WORD  0x0001 (ADHOC)
-형식 번호         1 WORD  0x0702
+TAG WORD          0x07DC (0000 0111 1101 1100)  전체 13 WORD
+Issuer            2 WORD  0x00000002 (ADHOC)
+코덱 번호         2 WORD  0x00000702
 Payload           [numerator int64: 4 WORD][denominator int64: 4 WORD]
 ```
 
@@ -35,7 +35,7 @@ Payload           [numerator int64: 4 WORD][denominator int64: 4 WORD]
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Issuer 1 WORD, 형식 번호 1 WORD, Payload 8 WORD를 합한 정확히 11 WORD이고 직접 길이 `LLLL=1010`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
+- 전체는 TAG 1 WORD, Issuer 2 WORD, 코덱 번호 2 WORD, Payload 8 WORD를 합한 정확히 13 WORD이고 직접 길이 `LLLL=1100`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
 - Payload가 정확히 8 WORD가 아니면 거부한다.
 
 ## 예시

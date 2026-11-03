@@ -4,21 +4,21 @@ weight: 1009
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "binary"]
-summary: "SHA3-256-DIGEST는 SHA3-256 결과 256bit 전체를 담는 고정 20 WORD NIST Issuer 형식이다."
+summary: "SHA3-256-DIGEST는 SHA3-256 결과 256bit 전체를 담는 고정 22 WORD NIST Issuer 형식이다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-SHA3-256-DIGEST는 SHA3-256 결과 전체를 담는 고정 폭 Value다. Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0062` NIST, 형식 번호 `0xC001`, 계열 BINARY다. Payload는 정확히 16 WORD(256 bit)이며 잘라 쓰기(truncation)는 허용하지 않는다.
+SHA3-256-DIGEST는 SHA3-256 결과 전체를 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000015` NIST, 코덱 번호 `0x0000C001`, 계열 BINARY다. Payload는 정확히 16 WORD(256 bit)이며 잘라 쓰기(truncation)는 허용하지 않는다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x0F7C (0000 1111 0111 1100)  LLLL=1110
-Length 확장 TAG   1 WORD  0x0014 (전체 20 WORD)
-Issuer            1 WORD  0x0062 (NIST)
-형식 번호         1 WORD  0xC001
+TAG WORD          0x07DE (0000 0111 1101 1110)  LLLL=1110
+Length 확장 TAG   1 WORD  0x0016 (전체 22 WORD)
+Issuer            2 WORD  0x00000015 (NIST)
+코덱 번호         2 WORD  0x0000C001
 Payload           16 WORD  SHA3-256 Digest
 ```
 
@@ -35,9 +35,9 @@ Payload           16 WORD  SHA3-256 Digest
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Length 확장 TAG 1 WORD, Issuer 1 WORD, 형식 번호 1 WORD, Payload 16 WORD를 합한 정확히 20 WORD이고 `LLLL=1110`을 쓴다. descriptor와 padding은 없다.
+- 전체는 TAG 1 WORD, Length 확장 TAG 1 WORD, Issuer 2 WORD, 코덱 번호 2 WORD, Payload 16 WORD를 합한 정확히 22 WORD이고 `LLLL=1110`을 쓴다. descriptor와 padding은 없다.
 - Payload가 정확히 16 WORD가 아니면 거부한다.
 
 ## 예시
 
-- digest octet `d[0]`부터 `d[31]`까지를 16개 Payload WORD에 출력 순서대로 두 octet씩 놓는다. 전체 Length는 항상 20 WORD다.
+- digest octet `d[0]`부터 `d[31]`까지를 16개 Payload WORD에 출력 순서대로 두 octet씩 놓는다. 전체 Length는 항상 22 WORD다.

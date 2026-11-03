@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-COORDINATE-EARTH는 지구 위의 한 점을 위도·경도와 불확도로 나타내는 좌표 Value다. Value 직접 코드 `0x04`, 계열 NUMERIC이다. 뜻은 [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870)(geo URI)의 `geo:위도,경도;u=불확도`(좌표계 WGS 84)와 같고, 문자열이 아니라 고정 폭 수치로 담는다. 불확도는 단위를 함께 적는다. 지구 밖 천체의 좌표는 [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/)(`0x05`)로 쓴다.
+COORDINATE-EARTH는 지구 위의 한 점을 위도·경도와 불확도로 나타내는 좌표 Value다. Value 직접 코드 `0x044L`, 계열 NUMERIC이다. 뜻은 [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870)(geo URI)의 `geo:위도,경도;u=불확도`(좌표계 WGS 84)와 같고, 문자열이 아니라 고정 폭 수치로 담는다. 불확도는 단위를 함께 적는다. 지구 밖 천체의 좌표는 [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/)(`0x05`)로 쓴다.
 
 ## 레이아웃
 
@@ -33,13 +33,13 @@ Unit              Reference 레코드 1개, 또는 자리 표지 0x0000 ABSENT
 - Uncertainty는 2 WORD를 big-endian으로 이어 붙인 IEEE 754 binary32다(BINARY-FLOAT의 binary32와 같은 비트 배치). 실제 위치가 이 반경 안에 있다는 뜻이고, 값은 Unit 단위로 읽는다.
   - 유한한 `+0` 이상이어야 한다. 음수, `-0`(`8000 0000`), NaN, ±Infinity는 invalid다.
   - `0`(Unit이 있을 때): 정확한 좌표. 어느 단위로 적어도 같다.
-- Unit은 Uncertainty의 단위를 가리키는 Reference다. Value는 받지 않는다. Quantifier는 Identified(`000`)다.
+- Unit은 Uncertainty의 단위를 가리키는 Reference다. Value는 받지 않는다. Quantifier는 Identified다.
   - 위키데이터 단위 항목 [WIKIDATA-QID](/ko/grammar/reference/wikidata-qid/)를 쓰기를 권한다: 도 Q28390, 각분 Q209426, 각초 Q829073, 미터 Q11573, 밀리미터 Q174789 등. QID가 없는 단위는 다른 Reference(LOCAL, GEUL 등)로 가리킨다. 같은 단위를 가리키는 Reference가 여럿이면 QID가 정규형이다.
   - Unit이 미터(Q11573)이면 Uncertainty는 RFC 5870의 `u`와 같다.
 - **미상**: Unit 자리에 [ABSENT](/ko/grammar/reference/slot-marker/)(`0x0000`)를 쓰고 Uncertainty는 `+0`(`0000 0000`)으로 둔다. RFC 5870에서 `u`를 생략한 경우와 같다. ABSENT인데 Uncertainty가 `+0`이 아니면 invalid다(표현을 하나로 고정한다).
 - 고도는 담지 않는다. 필요하면 별도 형식으로 정한다. 위키데이터 altitude는 표본에서 쓰이지 않았고(0/23,066), 값이 있으면 변환하지 않고 원문을 UTF8-TEXT로 보존한다.
 - 지구 좌표는 이 형식을 쓰기를 권한다. COORDINATE-GEO에 지구(Q2)를 적은 좌표도 invalid는 아니며, 비교하는 쪽이 같은 좌표로 맞춰 본다.
-- geul.org 규격 문서 `0x0000/0x0000000000000804`는 Latitude·Longitude·Uncertainty 날값 필드에 [CODEC](/ko/grammar/edge/codec/) BINARY-FLOAT(`0803`)를 두고(4 WORD = binary64, 2 WORD = binary32), Unit 레코드 필드에 CODEC `0780`(아무 Reference)·`0000`(ABSENT)을 둔다.
+- geul.org 규격 문서 `0x00000000/codecs/0x00000440`은 Latitude·Longitude·Uncertainty 날값 필드에 [CODEC](/ko/grammar/edge/codec/) BINARY-FLOAT(`0430`)를 두고(4 WORD = binary64, 2 WORD = binary32), Unit 레코드 필드에 CODEC `000F`(아무 Reference)·`0000`(ABSENT)을 둔다.
 
 ## 길이
 
@@ -47,9 +47,9 @@ Unit              Reference 레코드 1개, 또는 자리 표지 0x0000 ABSENT
 
 | Unit | 전체 | TAG |
 |---|---|---|
-| ABSENT (1 WORD) | 12 WORD | `0D84` (`LLLL=1011`) |
-| QID가 1 WORD에 들어갈 때 (2 WORD, 예: 도 Q28390) | 13 WORD | `0E04` (`LLLL=1100`) |
-| QID가 2 WORD일 때 (3 WORD, 예: 각분 Q209426) | 14 WORD | `0E84` (`LLLL=1101`) |
+| ABSENT (1 WORD) | 12 WORD | `044B` (`LLLL=1011`) |
+| QID가 1 WORD에 들어갈 때 (2 WORD, 예: 도 Q28390) | 13 WORD | `044C` (`LLLL=1100`) |
+| QID가 2 WORD일 때 (3 WORD, 예: 각분 Q209426) | 14 WORD | `044D` (`LLLL=1101`) |
 | Unit 레코드 4 WORD 이상 | 15 WORD 이상 | 확장 길이([레코드와 TAG WORD](/ko/grammar/record/)) |
 
 - 짝·홀 Codec 쌍은 두지 않는다.
@@ -90,13 +90,13 @@ precision을 환산 없이 옮긴다. 도·각분·각초 중 원래 표기를 �
 베를린 52.516666666667, 13.383333333333, precision 1/60°(각분 1):
 
 ```
-0E84 404A 4222 2222 2251 402A C444 4444 4389 3F80 0000 0120 0003 3212
+044D 404A 4222 2222 2251 402A C444 4444 4389 3F80 0000 0142 0003 3212
 ```
 
-- TAG `0E84`(14 WORD), Latitude `404A 4222 2222 2251`, Longitude `402A C444 4444 4389`, Uncertainty `3F80 0000`(binary32 1.0), Unit `0120 0003 3212`(WIKIDATA-QID Q209426, 각분).
+- TAG `044D`(14 WORD), Latitude `404A 4222 2222 2251`, Longitude `402A C444 4444 4389`, Uncertainty `3F80 0000`(binary32 1.0), Unit `0142 0003 3212`(WIKIDATA-QID Q209426, 각분).
 - 텍스트 표기: `COORDINATE-EARTH(52.516666666667, 13.383333333333, 1, Q209426)`.
 
-불확도 미상인 같은 점: `0D84 404A 4222 2222 2251 402A C444 4444 4389 0000 0000 0000` (12 WORD, Unit ABSENT).
+불확도 미상인 같은 점: `044B 404A 4222 2222 2251 402A C444 4444 4389 0000 0000 0000` (12 WORD, Unit ABSENT).
 
 ## 표준 근거
 

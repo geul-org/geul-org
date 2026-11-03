@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-BOOL은 논리값 false와 true를 나타내는 Value다. Value 직접 코드 `0x00`, 계열 NUMERIC이다. 숫자 0과 1을 담는 SIGNED-INTEGER·UNSIGNED-INTEGER와는 다른 타입이다.
+BOOL은 논리값 false와 true를 나타내는 Value다. Value 직접 코드 `0x040L`, 계열 NUMERIC이다. 숫자 0과 1을 담는 SIGNED-INTEGER·UNSIGNED-INTEGER와는 다른 타입이다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x0880 (0000 1000 1000 0000)  전체 2 WORD
+TAG WORD          0x0401 (0000 0100 0000 0001)  전체 2 WORD
 Payload           1 WORD  Boolean Code
 ```
 
@@ -35,10 +35,10 @@ Payload           1 WORD  Boolean Code
 
 | 전체 레코드 (TAG + Payload) | Payload | 판정 |
 |---|---|---|
-| `0880 0000` | `0000` | false, 정규 |
-| `0880 0001` | `0001` | true, 정규 |
-| `0880 0002` | `0002` | invalid |
-| `0880 ffff` | `ffff` | invalid |
+| `0401 0000` | `0000` | false, 정규 |
+| `0401 0001` | `0001` | true, 정규 |
+| `0401 0002` | `0002` | invalid |
+| `0401 ffff` | `ffff` | invalid |
 | Length가 `0001`이 아닌 TAG + `0000` 또는 `0001` | `0000` 또는 `0001` | invalid |
 
 ## 형식 지위

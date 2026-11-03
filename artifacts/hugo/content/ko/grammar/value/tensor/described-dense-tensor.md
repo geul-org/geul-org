@@ -10,15 +10,15 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-DESCRIBED-DENSE-TENSOR는 shape와 element format을 Payload descriptor에 적고 C-contiguous row-major payload를 저장하는 텐서 Value다. Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0001` ADHOC, 형식 번호 `0x0600`, 계열 NUMERIC이다.
+DESCRIBED-DENSE-TENSOR는 shape와 element format을 Payload descriptor에 적고 C-contiguous row-major payload를 저장하는 텐서 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000600`, 계열 NUMERIC이다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 1LLL LCCC CCCC      Codec 0x7C
+TAG WORD          0000 0111 1101 LLLL      Codec 0x07DL
 [Length 확장 TAG] 전체 15 WORD 이상일 때
-Issuer            1 WORD  0x0001 (ADHOC)
-형식 번호         1 WORD  0x0600
+Issuer            2 WORD  0x00000002 (ADHOC)
+코덱 번호         2 WORD  0x00000600
 Payload WORD 1st  [version: 4bit][element-format: 8bit][rank: 4bit]
 Payload next      [dimension 1: uint32, 2 WORD] ... [dimension rank: uint32, 2 WORD]
 Payload 나머지    [dense payload]
@@ -42,7 +42,7 @@ Payload 나머지    [dense payload]
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Length 확장 TAG(있으면), Issuer 1 WORD, 형식 번호 1 WORD, Payload를 합한 WORD 수다. 14 WORD 이하는 직접 길이, 15 WORD 이상은 `1110`·`1111` 확장 길이를 쓰며 확장 TAG도 전체 수에 들어간다([레코드와 TAG WORD](/ko/grammar/record/)).
+- 전체는 TAG 1 WORD, Length 확장 TAG(있으면), Issuer 2 WORD, 코덱 번호 2 WORD, Payload를 합한 WORD 수다. 14 WORD 이하는 직접 길이, 15 WORD 이상은 `1110`·`1111` 확장 길이를 쓰며 확장 TAG도 전체 수에 들어간다([레코드와 TAG WORD](/ko/grammar/record/)).
 - descriptor는 1 WORD, shape는 `2 × rank` WORD이며 나머지가 payload다.
 
 ## 예시

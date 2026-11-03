@@ -4,7 +4,7 @@ weight: 39
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "time"]
-summary: "GEDCOM-DATE는 GEDCOM 7 날짜 값 문자열로 율리우스력 같은 다른 달력의 날짜를 적힌 그대로 보존하는 Value다(Codec 0x26/0x27)."
+summary: "GEDCOM-DATE는 GEDCOM 7 날짜 값 문자열로 율리우스력 같은 다른 달력의 날짜를 적힌 그대로 보존하는 Value다(Codec 0x050L/0x051L)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,7 +14,7 @@ GEDCOM-DATE는 [GEDCOM 7](https://gedcom.io/specifications/FamilySearchGEDCOMv7.
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x26`(짝수 바이트)·`0x27`(홀수 바이트). 계열 TIME.
+- 코드: Value 직접 코드 `0x050L`(짝수 바이트)·`0x27`(홀수 바이트). 계열 TIME.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
@@ -45,7 +45,7 @@ Payload WORD 1st ... Nth          GEDCOM 날짜 문자열의 ASCII 바이트 / �
 
 | 날짜 | 바이트 | 전체 WORD |
 |---|---|---|
-| `JULIAN 1300` | 11 (홀수) | `0B27 4a55 4c49 414e 2031 3330 3000` |
+| `JULIAN 1300` | 11 (홀수) | `0516 4a55 4c49 414e 2031 3330 3000` |
 
 ## 표준 근거
 

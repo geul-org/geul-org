@@ -4,7 +4,7 @@ weight: 1015
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "vector"]
-summary: "BGRA8-UNORM은 B, G, R, A 순서의 UNORM8 네 성분을 Payload 2 WORD에 담는 픽셀 Value다(KHRONOS Issuer 형식 0x0001)."
+summary: "BGRA8-UNORM은 B, G, R, A 순서의 UNORM8 네 성분을 Payload 2 WORD에 담는 픽셀 Value다(KHRONOS Issuer 형식 0x00000001)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,12 +14,12 @@ BGRA8-UNORM은 B, G, R, A 네 UNORM8 성분을 고정 Payload 2 WORD에 packed �
 
 ## 레이아웃
 
-- 코드: Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0041` KHRONOS, 형식 번호 `0x0001`. 계열 NUMERIC.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x0000000E` KHRONOS, 코덱 번호 `0x00000001`. 계열 NUMERIC.
 
 ```
-TAG WORD          0x0A7C (0000 1010 0111 1100)  전체 5 WORD
-Issuer            1 WORD  0x0041 (KHRONOS)
-형식 번호         1 WORD  0x0001
+TAG WORD          0x07D6 (0000 0111 1101 0110)  전체 7 WORD
+Issuer            2 WORD  0x0000000E (KHRONOS)
+코덱 번호         2 WORD  0x00000001
 Payload WORD 1st: [B: 상위 8bit][G: 하위 8bit]
 Payload WORD 2nd: [R: 상위 8bit][A: 하위 8bit]
 ```
@@ -41,7 +41,7 @@ Payload WORD 2nd: [R: 상위 8bit][A: 하위 8bit]
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Issuer 1 WORD, 형식 번호 1 WORD와 Payload 2 WORD를 합한 정확히 5 WORD이고 직접 길이 `LLLL=0100`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
+- 전체는 TAG 1 WORD, Issuer 2 WORD, 코덱 번호 2 WORD와 Payload 2 WORD를 합한 정확히 7 WORD이고 직접 길이 `LLLL=0110`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
 - Payload가 정확히 2 WORD가 아니면 거부한다.
 
 ## 예시

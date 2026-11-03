@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-SHA-256-DIGEST는 SHA-2 계열 SHA-256의 결과 전체를 담는 고정 폭 Value다. Value 직접 코드 `0x61`, 계열 BINARY다. Payload는 정확히 16 WORD(256 bit)이며 잘라 쓰기(truncation)는 허용하지 않는다.
+SHA-256-DIGEST는 SHA-2 계열 SHA-256의 결과 전체를 담는 고정 폭 Value다. Value 직접 코드 `0x05CL`, 계열 BINARY다. Payload는 정확히 16 WORD(256 bit)이며 잘라 쓰기(truncation)는 허용하지 않는다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x0F61 (0000 1111 0110 0001)  LLLL=1110
+TAG WORD          0x05CE (0000 0101 1100 1110)  LLLL=1110
 Length 확장 TAG   1 WORD  0x0012 (전체 18 WORD)
 Payload           16 WORD  SHA-256 Digest
 ```

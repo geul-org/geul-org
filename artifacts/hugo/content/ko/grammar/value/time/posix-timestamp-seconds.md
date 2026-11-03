@@ -4,7 +4,7 @@ weight: 35
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "time"]
-summary: "POSIX-TIMESTAMP-SECONDS는 Unix epoch부터의 signed int64 초 수를 담는 Value다(Codec 0x22)."
+summary: "POSIX-TIMESTAMP-SECONDS는 Unix epoch부터의 signed int64 초 수를 담는 Value다(Codec 0x04CL)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,11 +14,11 @@ POSIX-TIMESTAMP-SECONDS는 Unix epoch `1970-01-01T00:00:00Z`부터의 signed 초
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x22`. 계열 TIME.
+- 코드: Value 직접 코드 `0x04CL`. 계열 TIME.
 - 산업 데이터 교환을 위해 Arrow `timestamp[s]`와 같은 고정폭 signed int64 물리 타입을 쓴다.
 
 ```
-TAG WORD          0x0A22 (0000 1010 0010 0010)  전체 5 WORD
+TAG WORD          0x04C4 (0000 0100 1100 0100)  전체 5 WORD
 Payload WORD 1st (bits 63..48)     Signed Seconds high 16bit
 Payload WORD 2nd (bits 47..32)     Signed Seconds
 Payload WORD 3rd (bits 31..16)     Signed Seconds

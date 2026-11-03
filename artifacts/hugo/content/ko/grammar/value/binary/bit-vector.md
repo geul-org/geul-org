@@ -10,15 +10,15 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-BIT-VECTOR는 길이를 밝힌 raw bit sequence다. Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0000` GEUL, 형식 번호 `0xC002`, 계열 BINARY다. 첫 2 Payload WORD는 unsigned 32bit bit count `N`이고, 뒤에 `ceil(N/16)` WORD가 온다.
+BIT-VECTOR는 길이를 밝힌 raw bit sequence다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000000` GEUL, 코덱 번호 `0x0000C002`, 계열 BINARY다. 첫 2 Payload WORD는 unsigned 32bit bit count `N`이고, 뒤에 `ceil(N/16)` WORD가 온다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 1LLL LCCC CCCC      Codec 0x7C
+TAG WORD          0000 0111 1101 LLLL      Codec 0x07DL
 [Length 확장 TAG] 전체 15 WORD 이상일 때
-Issuer            1 WORD  0x0000 (GEUL)
-형식 번호         1 WORD  0xC002
+Issuer            2 WORD  0x00000000 (GEUL)
+코덱 번호         2 WORD  0x0000C002
 Payload WORD 1st–2nd       Bit Count N (상위 16bit │ 하위 16bit)
 Payload WORD 3rd ... Nth   Payload bits, MSB-first
 ```
@@ -37,9 +37,9 @@ Payload WORD 3rd ... Nth   Payload bits, MSB-first
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Length 확장 TAG(있으면), Issuer 1 WORD, 형식 번호 1 WORD, Payload를 합한 WORD 수다. 14 WORD 이하는 직접 길이, 15 WORD 이상은 `1110`·`1111` 확장 길이를 쓰며 확장 TAG도 전체 수에 들어간다([레코드와 TAG WORD](/ko/grammar/record/)).
+- 전체는 TAG 1 WORD, Length 확장 TAG(있으면), Issuer 2 WORD, 코덱 번호 2 WORD, Payload를 합한 WORD 수다. 14 WORD 이하는 직접 길이, 15 WORD 이상은 `1110`·`1111` 확장 길이를 쓰며 확장 TAG도 전체 수에 들어간다([레코드와 TAG WORD](/ko/grammar/record/)).
 
 ## 예시
 
-- 빈 bit vector는 count `0000 0000`, payload 없음, 전체 5 WORD, `LLLL=0100`이다.
-- bit sequence `101`은 count `0000 0003`, payload `a000`, 전체 6 WORD, `LLLL=0101`이다.
+- 빈 bit vector는 count `0000 0000`, payload 없음, 전체 7 WORD, `LLLL=0110`이다.
+- bit sequence `101`은 count `0000 0003`, payload `a000`, 전체 8 WORD, `LLLL=0111`이다.

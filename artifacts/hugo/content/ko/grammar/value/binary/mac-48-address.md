@@ -4,20 +4,20 @@ weight: 1007
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "binary"]
-summary: "MAC-48-ADDRESS는 48bit IEEE 802 MAC 주소를 octet 순서 그대로 담는 고정 6 WORD IEEE Issuer 형식이다."
+summary: "MAC-48-ADDRESS는 48bit IEEE 802 MAC 주소를 octet 순서 그대로 담는 고정 8 WORD IEEE Issuer 형식이다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-MAC-48-ADDRESS는 48-bit IEEE 802 MAC 주소 값을 담는 고정 폭 Value다. Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0040` IEEE, 형식 번호 `0xC000`, 계열 BINARY다. Payload는 정확히 3 WORD(6 octet, 48bit)다.
+MAC-48-ADDRESS는 48-bit IEEE 802 MAC 주소 값을 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x0000000D` IEEE, 코덱 번호 `0x0000C000`, 계열 BINARY다. Payload는 정확히 3 WORD(6 octet, 48bit)다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x0AFC (0000 1010 1111 1100)  전체 6 WORD
-Issuer            1 WORD  0x0040 (IEEE)
-형식 번호         1 WORD  0xC000
+TAG WORD          0x07D7 (0000 0111 1101 0111)  전체 8 WORD
+Issuer            2 WORD  0x0000000D (IEEE)
+코덱 번호         2 WORD  0x0000C000
 Payload           3 WORD  octet 0 → 1 │ octet 2 → 3 │ octet 4 → 5
 ```
 
@@ -41,7 +41,7 @@ Payload           3 WORD  octet 0 → 1 │ octet 2 → 3 │ octet 4 → 5
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Issuer 1 WORD, 형식 번호 1 WORD, Payload 3 WORD를 합한 정확히 6 WORD이고 직접 길이 `LLLL=0101`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
+- 전체는 TAG 1 WORD, Issuer 2 WORD, 코덱 번호 2 WORD, Payload 3 WORD를 합한 정확히 8 WORD이고 직접 길이 `LLLL=0111`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
 - Payload가 정확히 3 WORD가 아니면 거부한다.
 
 ## 예시
@@ -49,5 +49,5 @@ Payload           3 WORD  octet 0 → 1 │ octet 2 → 3 │ octet 4 → 5
 locally administered individual(unicast) 주소 `02:00:5e:10:00:00`(첫 octet `0x02`의 I/G=0, U/L=1):
 
 ```
-0afc 0040 c000 0200 5e10 0000
+07d7 0000 000d 0000 c000 0200 5e10 0000
 ```

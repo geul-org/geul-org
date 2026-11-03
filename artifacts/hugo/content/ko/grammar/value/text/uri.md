@@ -4,7 +4,7 @@ weight: 69
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
-summary: "URI는 RFC 3986 URI(scheme 포함 절대 URI) 문법의 ASCII 바이트열을 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x44/0x45를 쓴다."
+summary: "URI는 RFC 3986 URI(scheme 포함 절대 URI) 문법의 ASCII 바이트열을 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x054L/0x055L을 쓴다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,7 +14,7 @@ URI는 RFC 3986 `URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]` 문�
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x44`(짝수 바이트)·`0x45`(홀수 바이트). 계열 TEXT.
+- 코드: Value 직접 코드 `0x054L`(짝수 바이트)·`0x45`(홀수 바이트). 계열 TEXT.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
@@ -27,7 +27,7 @@ Payload WORD 1st ... Nth          URI bytes / final zero padding
 
 - 바이트열은 RFC 3986의 `URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]` 문법에 맞아야 한다. query와 fragment를 포함할 수 있다.
 - URI 문법의 terminal은 US-ASCII 문자다. 허용된 ASCII 문자는 그대로 저장하고, octet을 percent-encoding할 때는 `pct-encoded = "%" HEXDIG HEXDIG` 형식을 쓴다. 비ASCII 문자를 literal byte로 직접 넣어서는 안 된다.
-- `scheme`과 `:`을 반드시 포함한다. 상대 참조는 [URI-RELATIVE-REF](/ko/grammar/value/text/uri-relative-ref/)(IETF 형식 번호 `0x8000`·`0x8001`)를 쓴다.
+- `scheme`과 `:`을 반드시 포함한다. 상대 참조는 [URI-RELATIVE-REF](/ko/grammar/value/text/uri-relative-ref/)(IETF 코덱 번호 `0x00008000`·`0x00008001`)를 쓴다.
 - RFC 3986의 URI production은 빈 문자열을 허용하지 않는다. 0 byte 레코드는 유효하지 않다.
 - WORD 안에서는 상위 byte가 먼저 온다. 바이트 수가 홀수(홀수 코드)이면 마지막 WORD의 사용하지 않는 하위 byte는 `00`이어야 한다.
 - Payload WORD 수는 `ceil(바이트 수/2)`다. 홀수 코드인데 마지막 WORD의 하위 byte가 `00`이 아니면 거부한다.
@@ -43,9 +43,9 @@ Payload WORD 1st ... Nth          URI bytes / final zero padding
 
 ## 예시
 
-- `https://example.com/`은 ASCII 20 byte(짝수)이므로 `URI-EVEN`(`0x44`)이다.
+- `https://example.com/`은 ASCII 20 byte(짝수)이므로 `URI-EVEN`(`0x054L`)이다.
 - Payload는 `6874 7470 733a 2f2f 6578 616d 706c 652e 636f 6d2f`의 10 WORD다.
-- TAG 1 WORD와 Payload 10 WORD를 합쳐 전체 11 WORD이므로 `LLLL=1010`이다. 전체는 `0D44 6874 7470 733a 2f2f 6578 616d 706c 652e 636f 6d2f`다.
+- TAG 1 WORD와 Payload 10 WORD를 합쳐 전체 11 WORD이므로 `LLLL=1010`이다. 전체는 `054A 6874 7470 733a 2f2f 6578 616d 706c 652e 636f 6d2f`다.
 
 ## GEUL Archive URI
 

@@ -4,20 +4,20 @@ weight: 1005
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "binary"]
-summary: "IPV4-ADDRESS는 IPv4 주소 32bit를 network byte order 그대로 담는 고정 5 WORD IETF Issuer 형식이다."
+summary: "IPV4-ADDRESS는 IPv4 주소 32bit를 network byte order 그대로 담는 고정 7 WORD IETF Issuer 형식이다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-IPV4-ADDRESS는 IPv4 주소의 32bit 값을 담는 고정 폭 Value다. Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0020` IETF, 형식 번호 `0xC001`, 계열 BINARY다. Payload는 정확히 2 WORD(32bit)다.
+IPV4-ADDRESS는 IPv4 주소의 32bit 값을 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000007` IETF, 코덱 번호 `0x0000C001`, 계열 BINARY다. Payload는 정확히 2 WORD(32bit)다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x0A7C (0000 1010 0111 1100)  전체 5 WORD
-Issuer            1 WORD  0x0020 (IETF)
-형식 번호         1 WORD  0xC001
+TAG WORD          0x07D6 (0000 0111 1101 0110)  전체 7 WORD
+Issuer            2 WORD  0x00000007 (IETF)
+코덱 번호         2 WORD  0x0000C001
 Payload           2 WORD  address octet 1–2 │ address octet 3–4
 ```
 
@@ -37,7 +37,7 @@ Payload           2 WORD  address octet 1–2 │ address octet 3–4
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Issuer 1 WORD, 형식 번호 1 WORD, Payload 2 WORD를 합한 정확히 5 WORD이고 직접 길이 `LLLL=0100`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
+- 전체는 TAG 1 WORD, Issuer 2 WORD, 코덱 번호 2 WORD, Payload 2 WORD를 합한 정확히 7 WORD이고 직접 길이 `LLLL=0110`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
 - Payload가 정확히 2 WORD가 아니면 거부한다.
 
 ## 예시
@@ -45,5 +45,5 @@ Payload           2 WORD  address octet 1–2 │ address octet 3–4
 IPv4 주소 `1.2.3.4`:
 
 ```
-0a7c 0020 c001 0102 0304
+07d6 0000 0007 0000 c001 0102 0304
 ```

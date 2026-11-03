@@ -10,14 +10,14 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-SHA1-DIGEST는 SHA-1 결과 전체를 담는 고정 폭 Value다. Value 직접 코드 `0x62`, 계열 BINARY다. Payload는 정확히 10 WORD(160 bit)이며 잘라 쓰기(truncation)는 허용하지 않는다.
+SHA1-DIGEST는 SHA-1 결과 전체를 담는 고정 폭 Value다. Value 직접 코드 `0x05DL`, 계열 BINARY다. Payload는 정확히 10 WORD(160 bit)이며 잘라 쓰기(truncation)는 허용하지 않는다.
 
 **식별 용도로만 쓴다.** SHA-1은 충돌 저항이 깨졌다(2017 SHAttered). 무결성·서명의 근거로는 [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/)를 쓴다. 이 형식은 이미 SHA-1로 정해진 식별자, 대표적으로 SHA-1 git 저장소의 객체 ID(커밋 ID)를 그대로 담으려고 둔다. 예를 들어 [TRANSFORMED-BY](/ko/grammar/meta/lineage/transformed-by/)의 Version(커밋 ID)을 hex 텍스트(22 WORD) 대신 11 WORD로 담는다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x0D62 (0000 1101 0110 0010)  LLLL=1010
+TAG WORD          0x05DA (0000 0101 1101 1010)  LLLL=1010
 Payload           10 WORD  SHA-1 Digest
 ```
 
@@ -41,7 +41,7 @@ Payload           10 WORD  SHA-1 Digest
 git 커밋 `ddc0719974a32aaa7b422ee84221a9721085ce4c`:
 
 ```
-0D62 ddc0 7199 74a3 2aaa 7b42 2ee8 4221 a972 1085 ce4c
+05DA ddc0 7199 74a3 2aaa 7b42 2ee8 4221 a972 1085 ce4c
 ```
 
 ## 관련 페이지

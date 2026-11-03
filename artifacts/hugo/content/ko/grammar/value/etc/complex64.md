@@ -4,20 +4,20 @@ weight: 1001
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "etc"]
-summary: "COMPLEX64는 실수부·허수부 binary32 두 성분으로 복소수를 담는 고정 7 WORD ADHOC Issuer 형식이다."
+summary: "COMPLEX64는 실수부·허수부 binary32 두 성분으로 복소수를 담는 고정 9 WORD ADHOC Issuer 형식이다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-COMPLEX64는 `(real, imag)` 순서의 IEEE 754 binary32 두 성분으로 복소수를 나타내는 Value다. Value `ISSUER-1WORD`(`0x7C`), Issuer `0x0001` ADHOC, 형식 번호 `0x0700`, 계열 NUMERIC이다.
+COMPLEX64는 `(real, imag)` 순서의 IEEE 754 binary32 두 성분으로 복소수를 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000700`, 계열 NUMERIC이다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x0B7C (0000 1011 0111 1100)  전체 7 WORD
-Issuer            1 WORD  0x0001 (ADHOC)
-형식 번호         1 WORD  0x0700
+TAG WORD          0x07D8 (0000 0111 1101 1000)  전체 9 WORD
+Issuer            2 WORD  0x00000002 (ADHOC)
+코덱 번호         2 WORD  0x00000700
 Payload           [real binary32: 2 WORD][imag binary32: 2 WORD]
 ```
 
@@ -34,7 +34,7 @@ Payload           [real binary32: 2 WORD][imag binary32: 2 WORD]
 
 ## 길이
 
-- 전체는 TAG 1 WORD, Issuer 1 WORD, 형식 번호 1 WORD, Payload 4 WORD를 합한 정확히 7 WORD이고 직접 길이 `LLLL=0110`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
+- 전체는 TAG 1 WORD, Issuer 2 WORD, 코덱 번호 2 WORD, Payload 4 WORD를 합한 정확히 9 WORD이고 직접 길이 `LLLL=1000`을 쓴다. Length 확장 TAG, descriptor, padding은 없다.
 - Payload가 정확히 4 WORD가 아니면 거부한다.
 
 ## 예시
