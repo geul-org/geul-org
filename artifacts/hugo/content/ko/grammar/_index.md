@@ -118,7 +118,7 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 
 `0x080L~0x1BFL` — [Edge](/ko/grammar/edge/)
 
-직접 코드의 계열은 `(코드 − 0x80) >> 5`다(코드는 TAG ID의 앞 세 자리). 계열은 아래 네 구간뿐이다. `0x100L~0x1BCL`은 빈칸이고 계열이 정의되지 않았다. Issuer 형식에는 계열 규칙이 없다.
+직접 코드의 계열은 `(코드 − 0x80) >> 5`다(코드는 TAG ID의 앞 세 자리). 배정된 직접 코드는 아래 다섯 구간이다. 계열 4(`0x100L~0x114L`)의 이름과 뜻은 미정이다. `0x115L~0x1BCL`은 빈칸이다. Issuer 형식에는 계열 규칙이 없다.
 
 | 계열 | 직접 코드 |
 |---|---|
@@ -126,6 +126,7 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 | 근거 | `0x0A0L~0x0BFL` |
 | 실행 | `0x0C0L~0x0DFL` |
 | [TOULMIN](/ko/grammar/edge/toulmin/) | `0x0E0L~0x0FBL` |
+| 미정 | `0x100L~0x114L` |
 
 - `0x0FCL~0x0FFL`은 Reserved다.
 - `0x1BDL~0x1BFL`은 EDGE-ISSUER다(아래 Edge ISSUER 형식).
@@ -248,47 +249,53 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 | `0x0F0L~0x0F7L` | 실행 |
 | `0x0F8L~0x0FFL` | 결과 (`0x0FCL~0x0FFL`은 Reserved) |
 
+### 계열 4 (`0x100L~0x114L`)
+
+계열 이름과 뜻은 미정이다. 지금은 [TOULMIN](/ko/grammar/edge/toulmin/) 문서의 원문·구획·보조 노드와 관계가 쓴다.
+
+| Codec | 이름 | 설명 |
+|---|---|---|
+| `0x100L` | [SOURCE](/ko/grammar/edge/toulmin/source/) | 저작 원문. SPAN 폭과 UTF8 Value |
+| `0x101L` | [TEXT](/ko/grammar/edge/toulmin/source/) | 이름·문자열 |
+| `0x102L` | [SECTION](/ko/grammar/edge/toulmin/source/) | 섹션 시작. 섹션 코드 |
+| `0x103L` | [CASE-BEGIN](/ko/grammar/edge/toulmin/source/) | 사안 범위 시작 |
+| `0x104L` | [CASE-END](/ko/grammar/edge/toulmin/source/) | 사안 범위 끝 |
+| `0x105L` | [PROSE](/ko/grammar/edge/toulmin/source/) | 서술 문단(SPAN) |
+| `0x106L` | [NAMESPACE](/ko/grammar/edge/toulmin/node/) | NODE. `this document is` |
+| `0x107L` | [FUNC](/ko/grammar/edge/toulmin/node/) | NODE. 함수 참조 |
+| `0x108L` | [FIELD](/ko/grammar/edge/toulmin/node/) | NODE. `is required` |
+| `0x109L` | [ALIAS](/ko/grammar/edge/toulmin/node/) | NODE. `see … from` |
+| `0x10AL` | [GROUP](/ko/grammar/edge/toulmin/node/) | NODE. 순서 있는 실행 묶음 |
+| `0x10BL` | [REQUIRES](/ko/grammar/edge/toulmin/link/) | LINK. 사안 → 필드 |
+| `0x10CL` | [MEANS](/ko/grammar/edge/toulmin/link/) | LINK. 정의 항목 → 값·타입 |
+| `0x10DL` | [HAS](/ko/grammar/edge/toulmin/link/) | LINK. 정의 항목 → 필드 |
+| `0x10EL` | [RUNS](/ko/grammar/edge/toulmin/link/) | LINK. 진입점 → 사안, 실행 |
+| `0x10FL` | [EVALUATES](/ko/grammar/edge/toulmin/link/) | LINK. 진입점 → 사안, 판정 |
+| `0x110L` | [TRIGGERS](/ko/grammar/edge/toulmin/link/) | LINK. 트리거 → 사안 |
+| `0x111L` | [UNTIL](/ko/grammar/edge/toulmin/link/) | LINK. 트리거 → 사안(`every … until`) |
+| `0x112L` | [SAME-AS](/ko/grammar/edge/toulmin/link/) | LINK. 노드 → 전역 식별자 |
+| `0x113L` | [IMPORTED-FROM](/ko/grammar/edge/toulmin/link/) | LINK. 별칭 → 경로(TEXT) |
+| `0x114L` | [LABEL](/ko/grammar/edge/toulmin/link/) | LINK. 노드 → TEXT, 이름 표기 |
+
+- `0x115L~0x1BCL`은 빈칸이다.
+
 ### Edge ISSUER 형식
 
-`0x1BDL`~`0x1BFL`(EDGE-ISSUER-2/4/16WORD) 뒤 Codec 확장 TAG에 Issuer와 코덱 번호 2 WORD를 둔다. 코덱 번호 공간은 Value와 따로다.
-
-| Issuer | 코덱 번호 | 이름 | 설명 |
-|---|---|---|---|
-| `0x00000000` GEUL | `0x0000C000` | [SOURCE](/ko/grammar/edge/toulmin/source/) | 저작 원문. SPAN 폭과 UTF8 Value |
-| `0x00000000` GEUL | `0x0000C001` | [TEXT](/ko/grammar/edge/toulmin/source/) | 이름·문자열 |
-| `0x00000000` GEUL | `0x0000C002` | [SECTION](/ko/grammar/edge/toulmin/source/) | 섹션 시작. 섹션 코드 |
-| `0x00000000` GEUL | `0x0000C003` | [CASE-BEGIN](/ko/grammar/edge/toulmin/source/) | 사안 범위 시작 |
-| `0x00000000` GEUL | `0x0000C004` | [CASE-END](/ko/grammar/edge/toulmin/source/) | 사안 범위 끝 |
-| `0x00000000` GEUL | `0x0000C005` | [PROSE](/ko/grammar/edge/toulmin/source/) | 서술 문단(SPAN) |
-| `0x00000000` GEUL | `0x0000C010` | [NAMESPACE](/ko/grammar/edge/toulmin/node/) | NODE. `this document is` |
-| `0x00000000` GEUL | `0x0000C011` | [FUNC](/ko/grammar/edge/toulmin/node/) | NODE. 함수 참조 |
-| `0x00000000` GEUL | `0x0000C012` | [FIELD](/ko/grammar/edge/toulmin/node/) | NODE. `is required` |
-| `0x00000000` GEUL | `0x0000C013` | [ALIAS](/ko/grammar/edge/toulmin/node/) | NODE. `see … from` |
-| `0x00000000` GEUL | `0x0000C014` | [GROUP](/ko/grammar/edge/toulmin/node/) | NODE. 순서 있는 실행 묶음 |
-| `0x00000000` GEUL | `0x0000C020` | [REQUIRES](/ko/grammar/edge/toulmin/link/) | LINK. 사안 → 필드 |
-| `0x00000000` GEUL | `0x0000C021` | [MEANS](/ko/grammar/edge/toulmin/link/) | LINK. 정의 항목 → 값·타입 |
-| `0x00000000` GEUL | `0x0000C022` | [HAS](/ko/grammar/edge/toulmin/link/) | LINK. 정의 항목 → 필드 |
-| `0x00000000` GEUL | `0x0000C023` | [RUNS](/ko/grammar/edge/toulmin/link/) | LINK. 진입점 → 사안, 실행 |
-| `0x00000000` GEUL | `0x0000C024` | [EVALUATES](/ko/grammar/edge/toulmin/link/) | LINK. 진입점 → 사안, 판정 |
-| `0x00000000` GEUL | `0x0000C025` | [TRIGGERS](/ko/grammar/edge/toulmin/link/) | LINK. 트리거 → 사안 |
-| `0x00000000` GEUL | `0x0000C026` | [UNTIL](/ko/grammar/edge/toulmin/link/) | LINK. 트리거 → 사안(`every … until`) |
-| `0x00000000` GEUL | `0x0000C027` | [SAME-AS](/ko/grammar/edge/toulmin/link/) | LINK. 노드 → 전역 식별자 |
-| `0x00000000` GEUL | `0x0000C028` | [IMPORTED-FROM](/ko/grammar/edge/toulmin/link/) | LINK. 별칭 → 경로(TEXT) |
-| `0x00000000` GEUL | `0x0000C029` | [LABEL](/ko/grammar/edge/toulmin/link/) | LINK. 노드 → TEXT, 이름 표기 |
+`0x1BDL`~`0x1BFL`(EDGE-ISSUER-2/4/16WORD) 뒤 Codec 확장 TAG에 Issuer와 코덱 번호 2 WORD를 둔다. 지금 등재한 Edge ISSUER 형식은 없다.
 
 ## Value
 
 `0x040L~0x07FL` — [Value](/ko/grammar/value/)
 
-Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x040L~0x05DL`에 빈칸 없이 둔다. `0x05EL~0x07CL`은 빈칸이고, `0x07DL~0x07FL`은 VALUE-ISSUER다. 계열 이름(NUMERIC, DECIMAL, TIME, TEXT, BINARY)은 주제 묶음이다. 짝수·홀수 쌍은 짝수 코드에서 시작한다.
+Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x040L~0x061L`에 빈칸 없이 둔다. `0x062L~0x07CL`은 빈칸이고, `0x07DL~0x07FL`은 VALUE-ISSUER다. 계열 이름(NUMERIC, DECIMAL, TIME, TEXT, BINARY)은 주제 묶음이다. 짝수·홀수 쌍은 짝수 코드에서 시작한다.
 
 | 계열 | 직접 코드 |
 |---|---|
 | [NUMERIC](/ko/grammar/value/numeric/) | `0x040L~0x047L` |
 | [DECIMAL](/ko/grammar/value/decimal/) | `0x048L~0x049L` |
-| [TIME](/ko/grammar/value/time/) | `0x04AL~0x051L` |
+| [TIME](/ko/grammar/value/time/) | `0x04AL~0x051L`, `0x061L` |
 | [TEXT](/ko/grammar/value/text/) | `0x052L~0x05AL` |
-| [BINARY](/ko/grammar/value/binary/) | `0x05BL~0x05DL` |
+| [BINARY](/ko/grammar/value/binary/) | `0x05BL~0x060L` |
 
 ### 직접 코드
 
@@ -321,18 +328,18 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x040L~0x05DL`�
 | `0x05BL` | [UUID](/ko/grammar/value/binary/uuid/) | BINARY | 고정 Payload 8 WORD의 RFC 9562 UUID 128bit |
 | `0x05CL` | [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/) | BINARY | 고정 Payload 16 WORD의 SHA-256 결과 |
 | `0x05DL` | [SHA1-DIGEST](/ko/grammar/value/binary/sha1-digest/) | BINARY | 고정 Payload 10 WORD의 SHA-1 결과. git 객체 ID 같은 식별 용도로만 |
+| `0x05EL` | [OPAQUE-BYTES-EVEN](/ko/grammar/value/binary/opaque-bytes/) | BINARY | 의미·형식 불명의 바이트열. 짝수 바이트 |
+| `0x05FL` | [OPAQUE-BYTES-ODD](/ko/grammar/value/binary/opaque-bytes/) | BINARY | 위와 같음. 홀수 바이트 |
+| `0x060L` | [BIT-VECTOR](/ko/grammar/value/binary/bit-vector/) | BINARY | bit-count 뒤에 MSB-first로 저장한 N bit |
+| `0x061L` | [DURATION-NANOSECONDS](/ko/grammar/value/time/duration-nanoseconds/) | TIME | epoch 없는 signed nanosecond 경과 시간 |
 | `0x07DL`~`0x07FL` | VALUE-ISSUER-2/4/16WORD |  | Issuer가 정의한 형식. 아래 Value ISSUER 형식 참조 |
 
 ### Value ISSUER 형식
 
-`0x07DL`~`0x07FL`(VALUE-ISSUER-2/4/16WORD) 뒤 Codec 확장 TAG에 Issuer와 코덱 번호 2 WORD를 둔다.
+`0x07DL`~`0x07FL`(VALUE-ISSUER-2/4/16WORD) 뒤 Codec 확장 TAG에 Issuer와 코덱 번호 2 WORD를 둔다. 코덱 문서는 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000c000/`([공표 주소와 버전 목록](/ko/grammar/publishing/)).
 
 | Issuer | 코덱 번호 | 이름 | 설명 |
 |---|---|---|---|
-| `0x00000000` GEUL | `0x00004000` | [DURATION-NANOSECONDS](/ko/grammar/value/time/duration-nanoseconds/) | epoch 없는 signed nanosecond 경과 시간 |
-| `0x00000000` GEUL | `0x0000C000` | [OPAQUE-BYTES-EVEN](/ko/grammar/value/binary/opaque-bytes/) | 의미·형식 불명의 바이트열. 짝수 바이트 |
-| `0x00000000` GEUL | `0x0000C001` | [OPAQUE-BYTES-ODD](/ko/grammar/value/binary/opaque-bytes/) | 위와 같음. 홀수 바이트 |
-| `0x00000000` GEUL | `0x0000C002` | [BIT-VECTOR](/ko/grammar/value/binary/bit-vector/) | bit-count 뒤에 MSB-first로 저장한 N bit |
 | `0x00000002` ADHOC | `0x00000000` | BFLOAT16 | 고정 Payload 1 WORD의 BF16 interchange bits |
 | `0x00000002` ADHOC | `0x00000500` | [DENSE-I16-VECTOR](/ko/grammar/value/vector/dense-i16-vector/) | 연속 big-endian int16 vector |
 | `0x00000002` ADHOC | `0x00000501` | [DENSE-U16-VECTOR](/ko/grammar/value/vector/dense-u16-vector/) | 연속 big-endian uint16 vector |

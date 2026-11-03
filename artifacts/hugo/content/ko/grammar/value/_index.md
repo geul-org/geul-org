@@ -33,9 +33,9 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 비트로 계열
 |---|---|
 | NUMERIC | `0x040L~0x047L` |
 | DECIMAL | `0x048L~0x049L` |
-| TIME | `0x04AL~0x051L` |
+| TIME | `0x04AL~0x051L`, `0x061L` |
 | TEXT | `0x052L~0x05AL` |
-| BINARY | `0x05BL~0x05DL` |
+| BINARY | `0x05BL~0x060L` |
 
 - 벡터, 텐서, 복소수, 분수, 구간 같은 수치 값은 NUMERIC이다. 예외로 BIT-VECTOR는 BINARY다. 언어 코드는 TEXT다.
 - Issuer 형식 레코드는 Codec 확장 TAG(Issuer와 코덱 번호)가 붙는다. Payload가 길면(전체 15 WORD 이상) Length 확장 TAG를 쓴다.
@@ -68,17 +68,19 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 비트로 계열
 | `0x05BL` | [UUID](/ko/grammar/value/binary/uuid/) | BINARY | RFC 9562 UUID |
 | `0x05CL` | [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/) | BINARY | SHA-256 결과 |
 | `0x05DL` | [SHA1-DIGEST](/ko/grammar/value/binary/sha1-digest/) | BINARY | SHA-1 결과 (git 객체 ID 같은 식별 용도) |
+| `0x05EL`/`0x05FL` | [OPAQUE-BYTES](/ko/grammar/value/binary/opaque-bytes/) | BINARY | 의미·형식 불명의 바이트열. 짝수·홀수 바이트 |
+| `0x060L` | [BIT-VECTOR](/ko/grammar/value/binary/bit-vector/) | BINARY | bit-count 뒤에 MSB-first로 저장한 N bit |
+| `0x061L` | [DURATION-NANOSECONDS](/ko/grammar/value/time/duration-nanoseconds/) | TIME | 경과 시간(나노초) |
 
 - 짝수·홀수로 짝지은 코드는 가변 길이 바이트열이다. 짝수 코드는 바이트 수가 짝수, 홀수 코드는 홀수다([레코드와 TAG WORD](/ko/grammar/record/)).
-- 직접 코드는 `0x040L~0x05DL`에 빈칸 없이 있다. `0x05EL~0x07CL`은 빈칸이고 `0x07DL~0x07FL`은 VALUE-ISSUER-2/4/16WORD다.
+- 직접 코드는 `0x040L~0x061L`에 빈칸 없이 있다. `0x062L~0x07CL`은 빈칸이고 `0x07DL~0x07FL`은 VALUE-ISSUER-2/4/16WORD다.
 
 ## Issuer 형식
 
-직접 코드에 없는 형식은 그 형식을 제정한 단체의 Issuer 아래 코덱 번호로 둔다. 제정 단체가 없는 관례 형식은 ADHOC(`0x00000002`), GEUL 고유 형식은 GEUL(`0x00000000`) 아래에 둔다.
+직접 코드에 없는 형식은 그 형식을 제정한 단체의 Issuer 아래 코덱 번호로 둔다. 제정 단체가 없는 관례 형식은 ADHOC(`0x00000002`) 아래에 둔다. GEUL 고유 형식(OPAQUE-BYTES, BIT-VECTOR, DURATION-NANOSECONDS)은 직접 코드다.
 
 | Issuer | 형식 예 |
 |---|---|
-| GEUL `0x00000000` | DURATION-NANOSECONDS, OPAQUE-BYTES, BIT-VECTOR |
 | ADHOC `0x00000002` | BFLOAT16, 정수·실수 벡터, 텐서, 복소수, 분수, 구간, 사원수, BLAKE3 |
 | IETF `0x00000007` | 상대 URI, CRC32C, IPv4·IPv6 주소 |
 | IEEE `0x0000000D` | IEEE 754 decimal32/64/128, POSIX 나노초 타임스탬프, MAC 주소 |
@@ -89,6 +91,7 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 비트로 계열
 | GPS `0x00000016` | GPS 타임스탬프 |
 
 - 형식을 모르는 디코더는 Issuer와 코덱 번호까지 알고 Length로 건너뛴다.
+- 코덱 문서는 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000c000/`([공표 주소와 버전 목록](/ko/grammar/publishing/)).
 - 이미지·영상 같은 큰 값은 직접 넣기보다 URI와 SHA-256으로 참조하기를 권장한다.
 - 바이트열 안의 저작물은 원래 라이선스를 따른다. 출처와 라이선스는 Meta로 기록한다.
 

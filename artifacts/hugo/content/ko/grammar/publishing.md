@@ -4,7 +4,7 @@ weight: 85
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "issuer", "publication", "signature"]
-summary: "공표한 GEUL 문서는 ID(Issuer, 문서 ID, 버전 ID)에서 정해지는 고정 주소로 서비스되고, 공표처가 서명한 버전 목록으로 검증된다. 이 페이지는 ID 표기, 주소, 형식 지정, 이름 색인, 버전 목록, 신뢰 층을 정한다."
+summary: "공표한 GEUL 문서는 ID(Issuer, 문서 ID, 버전 ID)에서 정해지는 고정 주소로 서비스되고, 공표처가 서명한 버전 목록으로 검증된다. 이 페이지는 ID 표기, 주소, 형식 지정, 목록 문서와 이름, 버전 목록, 신뢰 층을 정한다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -18,7 +18,8 @@ GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를
 
 - 접두어는 소문자 `0x`, hex 숫자도 소문자다.
 - 자릿수는 폭 × 4로 고정한다. 앞의 0을 생략하지 않으며, 자릿수가 곧 폭이다.
-- Issuer는 8자리, 16자리, 64자리 모두 받는다. 짧은 Issuer ID에 앞 0을 붙인 긴 표기는 같은 Issuer로 찾는다(`0x00000001`과 `0x0000000000000001`은 같은 Issuer다, [Issuer와 공표](/ko/grammar/issuer/#issuer-등급)).
+- 주소를 쓸 때 Issuer는 발급 폭의 자릿수로 쓴다: 2 WORD 8자리, 4 WORD 16자리, 16 WORD 64자리.
+- 읽을 때 Issuer는 8자리, 16자리, 64자리 모두 받는다. 짧은 Issuer ID에 앞 0을 붙인 긴 표기는 같은 Issuer로 찾는다(`0x00000001`과 `0x0000000000000001`은 같은 Issuer다, [Issuer와 공표](/ko/grammar/issuer/#issuer-등급)).
 
 | 대상 | 폭 | 자릿수 | 예 |
 |---|---|---|---|
@@ -30,7 +31,8 @@ GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를
 | 버전 ID | 2 WORD | 8 | `0x00000003` |
 | 내용 해시 | 16 WORD | 64 | `0x` + 64자리 |
 
-- GEUL 직접 코드의 코덱 ID는 그 TAG WORD(L=0)를 32비트로 쓴 값이다(TRIPLE `0x08AL` → `0x000008a0`). Kind가 TAG에 들어 있어 겹치지 않는다. Issuer 코덱은 Issuer가 번호를 정하고 한 `codecs/` 안에서 겹치지 않는다.
+- GEUL 직접 코드의 코덱 ID는 그 TAG WORD(L=0)를 32비트로 쓴 값이다(TRIPLE `0x08AL` → `0x000008a0`). Kind가 TAG에 들어 있어 겹치지 않는다.
+- 다른 Issuer의 ISSUER 형식 코덱은 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000c000/`.
 - 버전 ID의 규칙(1부터, `0`은 최신, 공표처 배정, 다 쓰면 새 문서 ID)은 [문서](/ko/grammar/document/#버전)가 정한다.
 
 ## 공표 주소
@@ -57,8 +59,8 @@ GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를
 예: `/.well-known/geul/0x00000002/docs/0x0000000000000000/latest.geul`
 
 - 경로는 RFC 8615의 `.well-known`을 따른다. geul.org와 사설 공표가 같은 경로를 쓰고 도메인만 다르다. 등록할 접미사는 `geul` 하나다.
-- 일반 문서, 코덱, 목록, 해시가 Issuer 폴더 아래에서 갈린다. Issuer 목록은 `issuers/`, 코덱 목록은 `<Issuer>/codecs/`, 문서 목록은 `<Issuer>/docs/`다.
-- `latest.geul`은 예약어다. 가장 최신 버전의 문서를 그대로 반환한다. 리다이렉트하지 않는다.
+- 일반 문서, 코덱, 목록, 해시가 Issuer 폴더 아래에서 갈린다. Issuer 목록은 `issuers/`, 코덱 목록은 `<Issuer>/codecs/`, 문서 목록은 `<Issuer>/docs/`다. 목록도 버전 1부터이고 `versions.geul`을 둔다([목록 문서](#목록-문서)).
+- `latest.geul`은 예약어이고 별칭이다. 저장하지 않는다. 같은 자리의 `versions.geul`에서 가장 최근 버전을 찾아 그 버전의 바이트를 그대로 낸다. 리다이렉트하지 않는다. 목록, 코덱, 문서의 모든 `latest.geul`이 같다.
 - 한 버전의 정본 주소는 `/<Issuer>/docs/<문서 ID>/<버전 ID>.geul`이다. 코덱은 `/<Issuer>/codecs/<코덱 ID>/<버전 ID>.geul`이다. 같은 내용을 주는 다른 주소는 `Link: rel=canonical`로 정본 주소를 가리킨다.
 - 버전 지정 주소와 내용 해시 주소는 불변이다. 불변 주소는 영구 캐시와 CDN에 둘 수 있다. 받은 쪽은 버전 목록(또는 잠금 기록)의 내용 해시로 검증한다.
 - 내용 해시로 찾으려면 Issuer를 알아야 한다. 해시만으로 찾는 전역 조회는 없다.
@@ -99,26 +101,32 @@ Fetch(ctx, Addr) ([]byte, error)    // geul get = ParseAddr → Fetch → 표준
 ### 형식 지정
 
 - 확장자가 있으면 형식을 지정한 것이다. `.geul`은 바이너리(`application/vnd.geul`)다.
-- 확장자가 없으면 `Accept` 헤더를 따른다. 브라우저에는 HTML 보기를, 도구에는 바이너리를 준다. 예: `/<Issuer>/<문서 ID>/<버전 ID>`
+- 확장자가 없으면 `Accept` 헤더를 따른다. 브라우저에는 HTML 보기를, 도구에는 바이너리를 준다. 예: `/<Issuer>/docs/<문서 ID>/<버전 ID>`
 - 문서는 바이너리가 정본이다. 내용 해시와 서명은 바이너리로만 계산한다.
+
+### 목록 문서
+
+목록 문서는 세 가지다. 모두 버전 1부터이고 각자 `versions.geul`을 둔다.
+
+| 목록 | 주소 | 예약 문서 ID | 묶는 것 |
+|---|---|---|---|
+| Issuer 목록 | `issuers/` | `0xFFFFFFFFFFFFFFFF` (Issuer geul.org `0x00000000`) | Issuer와 도메인 |
+| 문서 목록 | `<Issuer>/docs/` | `0xFFFFFFFFFFFFFFFE` | 문서와 문서 이름 |
+| 코덱 목록 | `<Issuer>/codecs/` | `0xFFFFFFFFFFFFFFFD` | 코덱과 코덱 이름 |
+
+- `latest.geul`은 저장하지 않는 별칭이다. `versions.geul`에서 가장 최근 버전을 찾아 그 바이트를 낸다.
+- 목록 `versions.geul`의 PUBLICATION·DEPRECATION·TOMBSTONE은 DOC-POINTER(Issuer, 예약 문서 ID, 버전 ID)로 목록 버전을 가리킨다. 그래서 `hashes/`로 받아도 무엇의 목록인지 안다([PUBLICATION](/ko/grammar/edge/publication/#목록-문서의-버전-목록)).
+- 예약 문서 ID는 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않고(404) 문서 목록 `docs/`에 올리지 않는다. 문서 ID `0x0000000000000000`(용어 정의 색인, [Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)) 예약과 같은 방식이다.
+- 목록 문서에는 `DOC-ID`를 두지 않는다. 무엇의 목록인지는 레코드의 DOC-POINTER가 말한다([DOC-ID](/ko/grammar/meta/declaration/doc-id/)).
 
 ### 도메인 이름
 
-도메인 소유 증명을 거친 Issuer는 주소의 `<Issuer>` 자리에 ID 대신 그 도메인을 쓸 수 있다.
+도메인 이름과 문서 이름은 공표 URL 주소가 아니다. `<Issuer>` 자리에 도메인을 쓰거나 ID 자리에 이름을 쓴 주소는 위 16가지 형식 밖이라 404(없음)다. 이름에서 ID 주소로 보내는 리다이렉트도 없다.
 
-```
-/.well-known/geul/<도메인>/docs/<문서 ID>/latest.geul          → 302 → /<Issuer>/docs/<문서 ID>/latest.geul
-/.well-known/geul/<도메인>/docs/<문서 ID>/<버전 ID>.geul       → 302 → /<Issuer>/docs/<문서 ID>/<버전 ID>.geul
-/.well-known/geul/<도메인>/codecs/<코덱 ID>/<버전 ID>.geul     → 302 → /<Issuer>/codecs/<코덱 ID>/<버전 ID>.geul
-```
-
-예: `/.well-known/geul/geul.org/codecs/0x00000980/0x00000001.geul`
-
-- 도메인 주소는 내용을 주지 않고 `302`로 ID 주소에 보낸다. 정본 주소, 캐시 키, 서명 대상은 ID 주소다. 대응이 바뀔 수 있으므로 영구 리다이렉트를 쓰지 않는다.
-- 도메인은 소문자로 쓰고, 국제화 도메인은 IDNA(punycode) 형태로 쓴다. 끝의 `.`은 붙이지 않는다. 정규형이 아니면 정규형으로 `301` 리다이렉트한다.
-- 도메인에는 `.`이 있으므로 `0x`로 시작하는 ID나 예약 이름(`issuers` 등)과 겹치지 않는다.
-- 해석기는 도메인 주소를 받으면 Issuer 목록으로 대응을 확인하고 ID로 바꿔 잠금 기록에 남긴다.
-- 등록부가 없는 16 WORD Issuer와 geul.org에 닿지 못하는 망분리 환경은 도메인 이름을 쓰지 못한다. ID 주소를 쓴다.
+- 이름은 해석기와 CLI의 입력이다. 예: `geul show geul.org/triple`. 해석기는 Issuer 목록 `issuers/`의 BIND로 도메인을 Issuer ID로, 그 Issuer의 목록(`docs/`, `codecs/`)의 BIND로 이름을 문서 ID·코덱 ID로 바꾼다. 바꾼 ID는 잠금 기록에 남긴다.
+- 정본 주소, 캐시 키, 서명 대상은 ID 주소다.
+- 도메인은 소문자로 쓰고, 국제화 도메인은 IDNA(punycode) 형태로 쓴다. 끝의 `.`은 붙이지 않는다.
+- 등록부가 없는 16 WORD Issuer와 geul.org에 닿지 못하는 망분리 환경은 도메인 이름을 쓰지 못한다. ID를 쓴다.
 
 ### Issuer 목록
 
@@ -137,17 +145,7 @@ BODY
 
 ### 문서 이름
 
-문서 ID 대신 문서 이름으로도 주소를 쓸 수 있다. `<Issuer>` 자리에는 ID나 도메인 이름을 쓴다.
-
-```
-/.well-known/geul/<Issuer|도메인>/<문서 이름>.geul              → 302 → /<Issuer>/docs/<문서 ID>/latest.geul
-/.well-known/geul/<Issuer|도메인>/<문서 이름>/<버전 ID>.geul    → 302 → /<Issuer>/docs/<문서 ID>/<버전 ID>.geul
-/.well-known/geul/<Issuer|도메인>/<문서 이름>/                  → 302 → /<Issuer>/docs/<문서 ID>/
-```
-
-예: `/.well-known/geul/geul.org/publication/0x00000001.geul` → `/0x00000000/codecs/0x00000980/0x00000001.geul`
-
-**문서 이름은 Issuer의 문서 목록 `/<Issuer>/docs/`가 BIND로 묶는다.** 해석기는 이름을 이 목록으로 문서 ID에 대응시킨다. 코덱 이름은 코덱 목록 `/<Issuer>/codecs/`가 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)를 Subject로 하는 BIND로 묶는다.
+**문서 이름은 Issuer의 문서 목록 `/<Issuer>/docs/`가 BIND로 묶는다.** 해석기와 CLI는 이름을 이 목록으로 문서 ID에 대응시킨다. 코덱 이름은 코덱 목록 `/<Issuer>/codecs/`가 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)를 Subject로 하는 BIND로 묶는다. 이름은 공표 URL 주소가 아니다([도메인 이름](#도메인-이름)).
 
 ```
 BODY
@@ -159,7 +157,7 @@ BODY
 - Subject의 Issuer는 색인을 둔 Issuer와 같아야 한다. 다른 Issuer의 문서는 무시한다.
 - 이름은 공표된 문서에만 묶는다.
 - 문서 이름은 소문자 ASCII 슬러그다: `a-z`, `0-9`, `-`. 처음과 끝은 `-`가 아니고 `0x`로 시작하지 않는다. 그래서 문서 ID(`0x…`)나 예약 이름(`latest.geul`, `versions.geul`)과 겹치지 않는다([BIND](/ko/grammar/edge/bind/)).
-- 한 Issuer 안에서 이름 하나는 문서 하나에만 묶이고, 한 번 묶은 이름은 다른 문서에 다시 쓰지 않는다. 이름을 바꾸면 새 BIND를 덧붙인다. 옛 이름은 같은 문서로 계속 보낸다. 같은 이름이 여러 번 나오면 마지막 BIND가 대표다.
+- 한 Issuer 안에서 이름 하나는 문서 하나에만 묶이고, 한 번 묶은 이름은 다른 문서에 다시 쓰지 않는다. 이름을 바꾸면 새 BIND를 덧붙인다. 옛 이름도 같은 문서를 가리킨다. 같은 이름이 여러 번 나오면 마지막 BIND가 대표다.
 - 문서 안에는 자기 이름을 적지 않는다. 정본 주소, 캐시 키, 서명 대상은 ID 주소다. IMPORT와 문서 안의 인용은 ID로만 한다.
 - 사람이 읽는 제목(언어별)은 이름이 아니다. 서술 `LABEL`로 붙인다.
 - 버전 목록 문서에도 같은 문서 이름 BIND를 둘 수 있다([PUBLICATION](/ko/grammar/edge/publication/#문서-이름)). 두면 문서 목록과 같아야 한다. 해석기는 문서 목록만 읽는다.
@@ -185,12 +183,12 @@ GEUL은 출처·메타·목록까지 GEUL 문서로 표현한다. 그것을 읽�
 
 ## 버전 목록
 
-공표처는 문서마다 버전 목록 문서 하나를 이어 쓴다(`/<Issuer>/docs/<문서 ID>/versions.geul`, 코덱은 `/<Issuer>/codecs/<코덱 ID>/versions.geul`). 레코드 형식과 문서 구조는 [PUBLICATION](/ko/grammar/edge/publication/)이 정한다.
+공표처는 문서마다 버전 목록 문서 하나를 이어 쓴다(`/<Issuer>/docs/<문서 ID>/versions.geul`, 코덱은 `/<Issuer>/codecs/<코덱 ID>/versions.geul`, 목록 문서는 `issuers/versions.geul`, `/<Issuer>/docs/versions.geul`, `/<Issuer>/codecs/versions.geul`). 레코드 형식과 문서 구조는 [PUBLICATION](/ko/grammar/edge/publication/)이 정한다.
 
 ```
 DOC-*
   SPEC-VERSION
-  PARENT          직전 목록 문서의 내용 해시
+  PARENT          직전 버전 목록의 내용 해시
   RECORDED-AT     이 목록을 낸 시각
   NEXT-LOCAL-ID   다음에 배정할 LOCAL ID
   SIGNATURE       공표처의 서명
@@ -213,9 +211,9 @@ END
 - 버전 ID는 1부터 빠짐없이 오름차순이다. 같은 내용을 다시 공표하지 않는다.
 - 최신 버전은 폐기 권고도 삭제도 아닌 가장 높은 버전이다.
 - 레코드에는 시각을 넣지 않는다. 그 레코드가 처음 실린 목록의 `RECORDED-AT`이 공표 시각이다.
-- 목록 문서에는 `DOC-ID`를 두지 않는다. 레코드의 문서 ID가 무엇의 목록인지 말한다.
-- 목록 문서는 IMPORT를 두지 않고, 0층 Codec만 쓴다.
-- 목록 문서는 다른 목록에 올리지 않는다(목록의 목록 없음). 지난 목록은 내용 해시(`<Issuer>/hashes/<내용 해시>.geul`)로만 가리키고, 이력은 `PARENT` 사슬로 잇는다.
+- 버전 목록에는 `DOC-ID`를 두지 않는다. 레코드의 DOC-POINTER(문서 ID, 목록 문서는 예약 문서 ID)가 무엇의 목록인지 말한다.
+- 버전 목록은 IMPORT를 두지 않고, 0층 Codec만 쓴다.
+- 버전 목록은 문서 목록 `docs/`에 올리지 않는다. 지난 버전 목록은 내용 해시(`<Issuer>/hashes/<내용 해시>.geul`)로만 가리키고, 이력은 `PARENT` 사슬로 잇는다.
 - 가변인 주소는 `latest.geul`과 `versions.geul`이다. 가변 포인터는 문서로 만들 수 없으므로, 받은 목록의 서명·`RECORDED-AT`·`PARENT`로 검증한다.
 
 ### 서명 주체
@@ -223,7 +221,7 @@ END
 | 서명 | 주체 | 대상 |
 |---|---|---|
 | 문서 서명 | 그 문서의 Issuer | 문서의 내용 해시 ([Issuer와 공표](/ko/grammar/issuer/#서명)) |
-| 목록 서명 | 버전 ID를 배정한 공표처 | 목록 문서의 내용 해시 |
+| 목록 서명 | 버전 ID를 배정한 공표처 | 버전 목록의 내용 해시 |
 
 - geul.org 공표는 geul.org(GEUL Issuer)가, 사설 공표는 그 Issuer가 버전 ID를 배정하고 목록에 서명한다.
 - 저자는 내용을, 공표처는 번호와 순서를 책임진다.
@@ -232,7 +230,7 @@ END
 
 - 서명은 내용 해시에서 빠지므로 지워도 해시가 그대로다. 그래서 "서명이 있으면 확인한다"가 아니라 "정해진 키의 서명이 있어야 한다"로 검증한다. 요구할 키는 해석기의 신뢰 설정과 잠금 기록이 정한다.
 - 해석기는 마지막으로 본 목록의 내용 해시를 잠금 기록에 남긴다. 새로 받은 목록의 `PARENT` 사슬에 그 해시가 없으면 거부한다(되감기·분기 방지).
-- 미러와 망분리 환경은 목록 문서 사슬을 함께 복사한다. 공개키만 있으면 오프라인에서 검증된다.
+- 미러와 망분리 환경은 버전 목록 사슬을 함께 복사한다. 공개키만 있으면 오프라인에서 검증된다.
 - 받은 문서는 어느 출처에서 왔든 내용 해시로 검증한다. 출처를 신뢰할 필요가 없다.
 
 ## 의존성 해석

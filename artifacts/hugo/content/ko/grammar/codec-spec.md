@@ -29,10 +29,10 @@ Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다. GEUL의
 
 디코더는 TAG WORD만 보고 규격 문서의 주소를 만든다. 모르는 Codec을 만나면 그 문서를 받아 읽으면 된다.
 
-- `<TAG>`는 대상 TAG WORD의 hex 4자리다. Length 자리는 `0000`이고, Reference 5Q 체계는 체계 머리 코드(Identified)를 쓴다(LOCAL은 `0050`). 직접 코드와 Issuer 코덱이 같은 주소 규칙 `<Issuer>/codecs/<코덱 ID>/`를 쓴다([공표 주소와 버전 목록](/ko/grammar/publishing/#공표-주소)).
+- `<TAG>`는 대상 TAG WORD의 hex 4자리(소문자)다. Length 자리는 `0000`이고, Reference 5Q 체계는 체계 머리 코드(Identified)를 쓴다(LOCAL은 `0050`). 직접 코드와 Issuer 코덱이 같은 주소 규칙 `<Issuer>/codecs/<코덱 ID>/`를 쓴다([공표 주소와 버전 목록](/ko/grammar/publishing/#공표-주소)).
 - [자리 표지](/ko/grammar/reference/slot-marker/)(`0x0000`, `0x0010`, `0x0020`)는 규격 문서가 없다. 디코더에 내장한다([0층](/ko/grammar/publishing/#층)).
 - 규격 문서는 `DOC-ID`로 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)(`0x00000000`, `0x0000<TAG>`, `0`)를 둔다. 버전 목록 레코드도 이 CODEC-POINTER를 쓴다.
-- 규격 문서 이름은 GEUL Issuer의 코덱 목록 `0x00000000/codecs/`에 소문자 슬러그로 묶는다. 예: `publication` → `geul.org/publication/` = `0x00000000/codecs/0x00000980/`([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)).
+- 규격 문서 이름은 GEUL Issuer의 코덱 목록 `0x00000000/codecs/`의 BIND로 소문자 슬러그를 묶는다. 이름은 공표 URL 주소가 아니다. 해석기와 CLI가 이 BIND로 이름을 코덱 ID로 바꾼다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)).
 - 버전·정본 주소·서명 규칙은 일반 공표 문서와 같다.
 
 ### 코덱북과 명세 판

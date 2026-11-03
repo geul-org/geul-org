@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-NODE는 TOULMIN 판정·실행 그래프의 노드를 쓰는 레이아웃이다. 노드 종류는 Codec(또는 GEUL ISSUER 코덱 번호)이 정하고, 헤더 1 WORD가 역할·Level·Claim 형태와 조건부 필드를 정한다.
+NODE는 TOULMIN 판정·실행 그래프의 노드를 쓰는 레이아웃이다. 노드 종류는 Codec이 정하고, 헤더 1 WORD가 역할·Level·Claim 형태와 조건부 필드를 정한다.
 
 ## Codec
 
@@ -23,13 +23,13 @@ NODE는 TOULMIN 판정·실행 그래프의 노드를 쓰는 레이아웃이다.
 | `0x0E5L` | EXCEPT-DECLARE | except rule | 예외(Defeater) |
 | `0x0F5L` | ENTRY | `provides x` | 외부 진입점 |
 | `0x0F6L` | TRIGGER | `on`, `every`, `until` | 이벤트·주기 진입점 |
-| ISSUER `0x00000000`/`0x0000C010` | NAMESPACE | `this document is` | 문서 이름공간 |
-| ISSUER `0x00000000`/`0x0000C011` | FUNC | 함수 참조 | 바깥 함수(예: `bank.withdraw`) |
-| ISSUER `0x00000000`/`0x0000C012` | FIELD | `x is required [as Type]` | 필수 필드 |
-| ISSUER `0x00000000`/`0x0000C013` | ALIAS | `see a from path` | 가져온 패키지 별칭 |
-| ISSUER `0x00000000`/`0x0000C014` | GROUP | `1.` 순서 목록 | 순서 있는 실행 묶음 |
+| `0x106L` | NAMESPACE | `this document is` | 문서 이름공간 |
+| `0x107L` | FUNC | 함수 참조 | 바깥 함수(예: `bank.withdraw`) |
+| `0x108L` | FIELD | `x is required [as Type]` | 필수 필드 |
+| `0x109L` | ALIAS | `see a from path` | 가져온 패키지 별칭 |
+| `0x10AL` | GROUP | `1.` 순서 목록 | 순서 있는 실행 묶음 |
 
-ISSUER 형식은 `EDGE-ISSUER-2WORD`(`0x1BDL`) 뒤 Codec 확장 TAG에 Issuer `0x00000000`과 코덱 번호를 둔다([TOULMIN](/ko/grammar/edge/toulmin/)).
+`0x106L~0x10AL`은 Edge 계열 4 직접 코드다([TOULMIN](/ko/grammar/edge/toulmin/#계열-4-직접-코드)).
 
 ## 레이아웃
 

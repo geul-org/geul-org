@@ -4,13 +4,13 @@ weight: 97
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
-summary: "TOULMIN Edge(Codec 0x0E0L~0x0FBL)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 이 페이지는 TOULMIN 문서 규칙, 공통 필드, 코드 표, 수치 규칙과 자기 개정의 고정 핵심을 정한다."
+summary: "TOULMIN Edge(Codec 0x0E0L~0x0FBL, 0x100L~0x114L)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 이 페이지는 TOULMIN 문서 규칙, 공통 필드, 코드 표, 수치 규칙과 자기 개정의 고정 핵심을 정한다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-TOULMIN 계열 Edge(직접 코드 `0x0E0L~0x0FBL`)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 주장·반박·예외의 선언, 공격·배제 관계, 실행 연결, 판정 결과가 모두 Edge다. TANGEUL 문서(toulmin 엔진의 규칙 언어) 하나가 GEUL 문서 하나가 된다. 파일 확장자는 다른 문서와 같은 `.geul`이다.
+TOULMIN 계열 Edge(직접 코드 `0x0E0L~0x0FBL`, 보조 레코드는 계열 4 `0x100L~0x114L`)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 주장·반박·예외의 선언, 공격·배제 관계, 실행 연결, 판정 결과가 모두 Edge다. TANGEUL 문서(toulmin 엔진의 규칙 언어) 하나가 GEUL 문서 하나가 된다. 파일 확장자는 다른 문서와 같은 `.geul`이다.
 
 이 페이지가 정하지 않은 것은 [Edge](/ko/grammar/edge/)와 [레코드와 TAG WORD](/ko/grammar/record/)의 공통 규칙을 따른다.
 
@@ -28,7 +28,7 @@ TOULMIN이 GEUL Codec인 이유는 GEUL이 자기 자신을 메타 인지하기 
 
 ## 코드
 
-TOULMIN 레코드는 세 가지 레이아웃 중 하나를 쓴다. 레이아웃은 Codec(또는 코덱 번호)이 정한다.
+TOULMIN 레코드는 세 가지 레이아웃 중 하나를 쓴다. 레이아웃은 Codec이 정한다.
 
 | 레이아웃 | 쓰임 | 페이지 |
 |---|---|---|
@@ -66,45 +66,40 @@ TOULMIN 레코드는 세 가지 레이아웃 중 하나를 쓴다. 레이아웃�
 - 묶음은 `0x0E0L~0x0E7L` 선언, `0x0E8L~0x0EFL` 관계, `0x0F0L~0x0F7L` 실행, `0x0F8L~0x0FFL` 결과다(`0x0FCL~0x0FFL`은 Reserved).
 - 문서 전체의 판정은 Meta [VERDICT](/ko/grammar/meta/verification/verdict/)(`0x1E9L`)가, 노드·레코드의 판정은 TOULMIN `VERDICT`(Edge `0x0F8L`)가 맡는다. 둘은 Kind가 다른 별개의 Codec이다.
 
-### ISSUER 형식
+### 계열 4 직접 코드
 
-직접 코드가 모자란 TOULMIN 레코드는 `EDGE-ISSUER-2WORD`(`0x1BDL`), Issuer `0x00000000`(GEUL) 아래 코덱 번호로 둔다. 코덱 번호는 GEUL Issuer가 정한다.
+원문·구획·보조 노드와 관계는 Edge 계열 4 직접 코드 `0x100L~0x114L`에 둔다. 계열 4의 이름과 뜻은 미정이다. Issuer와 코덱 번호 칸이 없고 TAG 뒤에 Payload가 바로 온다.
 
 ```
-TAG WORD          0001 1011 1101 LLLL      Edge, Codec 0x1BDL
+TAG WORD          0001 0000 0000 LLLL      Edge, Codec 0x100L (SOURCE). 다른 코드도 같은 자리
 [Length 확장 TAG]
-Issuer            0x00000000 (2 WORD)
-코덱 번호         0x0000C000~0x0000C029 (2 WORD)
 Edge Id           LOCAL Reference 레코드
 구성요소          형식이 정한 레이아웃
 ```
 
-| 코덱 번호 | 이름 | 레이아웃 | 뜻 |
+| Codec | 이름 | 레이아웃 | 뜻 |
 |---|---|---|---|
-| `0x0000C000` | [SOURCE](/ko/grammar/edge/toulmin/source/) | ID, SPAN 폭 WORD, UTF8 Value | 저작 원문 |
-| `0x0000C001` | [TEXT](/ko/grammar/edge/toulmin/source/) | ID, UTF8 Value | 이름·문자열 |
-| `0x0000C002` | [SECTION](/ko/grammar/edge/toulmin/source/) | ID, 섹션 코드 1 WORD | 섹션 시작 |
-| `0x0000C003` | [CASE-BEGIN](/ko/grammar/edge/toulmin/source/) | ID, REF(사안) | 사안 범위 시작 |
-| `0x0000C004` | [CASE-END](/ko/grammar/edge/toulmin/source/) | ID, REF(사안) | 사안 범위 끝 |
-| `0x0000C005` | [PROSE](/ko/grammar/edge/toulmin/source/) | ID, SPAN | 서술 문단 |
-| `0x0000C010` | [NAMESPACE](/ko/grammar/edge/toulmin/node/) | NODE | `this document is` |
-| `0x0000C011` | [FUNC](/ko/grammar/edge/toulmin/node/) | NODE | 함수 참조 |
-| `0x0000C012` | [FIELD](/ko/grammar/edge/toulmin/node/) | NODE | `is required` |
-| `0x0000C013` | [ALIAS](/ko/grammar/edge/toulmin/node/) | NODE | `see … from` |
-| `0x0000C014` | [GROUP](/ko/grammar/edge/toulmin/node/) | NODE | 순서 있는 실행 묶음 |
-| `0x0000C020` | [REQUIRES](/ko/grammar/edge/toulmin/link/) | LINK | 사안 → 필드 |
-| `0x0000C021` | [MEANS](/ko/grammar/edge/toulmin/link/) | LINK | 정의 항목 → 값·타입 |
-| `0x0000C022` | [HAS](/ko/grammar/edge/toulmin/link/) | LINK | 정의 항목 → 필드 |
-| `0x0000C023` | [RUNS](/ko/grammar/edge/toulmin/link/) | LINK | 진입점 → 사안, 실행 |
-| `0x0000C024` | [EVALUATES](/ko/grammar/edge/toulmin/link/) | LINK | 진입점 → 사안, 판정 |
-| `0x0000C025` | [TRIGGERS](/ko/grammar/edge/toulmin/link/) | LINK | 트리거 → 사안 |
-| `0x0000C026` | [UNTIL](/ko/grammar/edge/toulmin/link/) | LINK | 트리거 → 사안(`every … until`) |
-| `0x0000C027` | [SAME-AS](/ko/grammar/edge/toulmin/link/) | LINK | 노드 → 전역 식별자 |
-| `0x0000C028` | [IMPORTED-FROM](/ko/grammar/edge/toulmin/link/) | LINK | 별칭 → 경로(TEXT) |
-| `0x0000C029` | [LABEL](/ko/grammar/edge/toulmin/link/) | LINK | 노드 → TEXT, 이름 표기 |
-
-- 코덱 번호 공간은 Kind마다 따로다. Value의 GEUL 형식 `0x0000C000`(OPAQUE-BYTES-EVEN)과 Edge의 `0x0000C000`(SOURCE)은 다른 형식이다.
-- 코덱 번호는 추가만 한다. 배정한 번호는 다른 형식에 다시 쓰지 않는다.
+| `0x100L` | [SOURCE](/ko/grammar/edge/toulmin/source/) | ID, SPAN 폭 WORD, UTF8 Value | 저작 원문 |
+| `0x101L` | [TEXT](/ko/grammar/edge/toulmin/source/) | ID, UTF8 Value | 이름·문자열 |
+| `0x102L` | [SECTION](/ko/grammar/edge/toulmin/source/) | ID, 섹션 코드 1 WORD | 섹션 시작 |
+| `0x103L` | [CASE-BEGIN](/ko/grammar/edge/toulmin/source/) | ID, REF(사안) | 사안 범위 시작 |
+| `0x104L` | [CASE-END](/ko/grammar/edge/toulmin/source/) | ID, REF(사안) | 사안 범위 끝 |
+| `0x105L` | [PROSE](/ko/grammar/edge/toulmin/source/) | ID, SPAN | 서술 문단 |
+| `0x106L` | [NAMESPACE](/ko/grammar/edge/toulmin/node/) | NODE | `this document is` |
+| `0x107L` | [FUNC](/ko/grammar/edge/toulmin/node/) | NODE | 함수 참조 |
+| `0x108L` | [FIELD](/ko/grammar/edge/toulmin/node/) | NODE | `is required` |
+| `0x109L` | [ALIAS](/ko/grammar/edge/toulmin/node/) | NODE | `see … from` |
+| `0x10AL` | [GROUP](/ko/grammar/edge/toulmin/node/) | NODE | 순서 있는 실행 묶음 |
+| `0x10BL` | [REQUIRES](/ko/grammar/edge/toulmin/link/) | LINK | 사안 → 필드 |
+| `0x10CL` | [MEANS](/ko/grammar/edge/toulmin/link/) | LINK | 정의 항목 → 값·타입 |
+| `0x10DL` | [HAS](/ko/grammar/edge/toulmin/link/) | LINK | 정의 항목 → 필드 |
+| `0x10EL` | [RUNS](/ko/grammar/edge/toulmin/link/) | LINK | 진입점 → 사안, 실행 |
+| `0x10FL` | [EVALUATES](/ko/grammar/edge/toulmin/link/) | LINK | 진입점 → 사안, 판정 |
+| `0x110L` | [TRIGGERS](/ko/grammar/edge/toulmin/link/) | LINK | 트리거 → 사안 |
+| `0x111L` | [UNTIL](/ko/grammar/edge/toulmin/link/) | LINK | 트리거 → 사안(`every … until`) |
+| `0x112L` | [SAME-AS](/ko/grammar/edge/toulmin/link/) | LINK | 노드 → 전역 식별자 |
+| `0x113L` | [IMPORTED-FROM](/ko/grammar/edge/toulmin/link/) | LINK | 별칭 → 경로(TEXT) |
+| `0x114L` | [LABEL](/ko/grammar/edge/toulmin/link/) | LINK | 노드 → TEXT, 이름 표기 |
 
 ## 문서
 
@@ -188,7 +183,7 @@ END
 - 공격 세기 1을 적은 ATTACKS와 적지 않은 ATTACKS는 판정이 같지만 바이트가 다르다. 판정이 같은지는 바이트가 아니라 해석한 값으로 비교해야 한다.
 - EXPR 안의 노드 수, 라벨 수, 라벨 인덱스는 1 WORD이고 자식 수는 13비트다. 상한이 고정되어 있다.
 - PROVENANCE(규칙 출처·전제) 레이아웃.
-- 백틱 이름을 TEXT + LABEL(`0x0000C029`) 대신 서술 [LABEL](/ko/grammar/edge/label/)·[BIND](/ko/grammar/edge/bind/)로 둘지.
+- 백틱 이름을 TEXT + LABEL(`0x114L`) 대신 서술 [LABEL](/ko/grammar/edge/label/)·[BIND](/ko/grammar/edge/bind/)로 둘지.
 - Claim의 predicate·mode 코드값과 FuncRef의 VerbCode 코드값 표.
 - 닫힌 세계 선언(ABSENT를 empty로 읽기)을 판단 기준(SPEC)으로 할지 사안 단위로 할지.
 - TOULMIN Codec의 [Codec 규격 문서](/ko/grammar/codec-spec/). NODE·LINK의 조건부 필드와 SOURCE가 정하는 SPAN 폭은 FIELD로 선언할 수 없는 레이아웃이다.

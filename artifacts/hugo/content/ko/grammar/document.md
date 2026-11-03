@@ -56,7 +56,7 @@ END              ← 문서를 닫는다
 | Meta | 뜻 | 있어야 하는 문서 |
 |---|---|---|
 | [SPEC-VERSION](/ko/grammar/meta/declaration/spec-version/) | 따르는 명세 판. 나머지 레코드를 어떻게 읽을지 정한다. 모르는 판이면 거부하거나 경고한다. v1 문서의 값은 `0x0001`이다 | 공표 문서. 없으면 디코더가 아는 판으로 읽는다 |
-| [DOC-ID](/ko/grammar/meta/declaration/doc-id/) | 문서 자신의 식별자. 문서 밖에서 이 문서와 그 안의 대상을 가리키려면 있어야 한다 | `.well-known/geul/` 아래 이름이 `0x`로 시작하는 문서(버전 문서, 규격 문서). 버전 목록·이름 색인에는 두지 않는다 |
+| [DOC-ID](/ko/grammar/meta/declaration/doc-id/) | 문서 자신의 식별자. 문서 밖에서 이 문서와 그 안의 대상을 가리키려면 있어야 한다 | `.well-known/geul/` 아래 `docs/<문서 ID>/`·`codecs/<코덱 ID>/`의 버전 문서(규격 문서 포함). 버전 목록 `versions.geul`과 목록 문서(`issuers/`, `docs/`, `codecs/`)에는 두지 않는다 |
 
 - `SPEC-VERSION`은 어느 판의 디코더든 읽을 수 있게 정수 하나만 담는다(v1은 `1C51 0001`). Value 코드에 기대지 않는다.
 - `DOC-ID`는 자기 자신을 가리키는 DOC-POINTER(Issuer, 문서 ID, 버전 `0`)다. 문서 ID는 4 WORD다.
@@ -111,7 +111,7 @@ GEUL 문서는 법령처럼 개정된다.
 
 버전은 언제나 문서 전체(스냅숏)로 정의한다. diff는 그 스냅숏을 적게 저장·전송하는 형식일 뿐이다.
 
-- `DOC-ID`가 있고 BODY가 모두 Edge인 문서만 diff로 둘 수 있다. 버전 관리를 하지 않는 `versions.geul`, 목록 문서(`issuers/`, `codecs/`, `docs/`)와 이름 없는 문서는 diff를 두지 않는다.
+- `DOC-ID`가 있고 BODY가 모두 Edge인 문서만 diff로 둘 수 있다. `DOC-ID`를 두지 않는 버전 목록 `versions.geul`, 목록 문서(`issuers/`, `codecs/`, `docs/`의 버전)와 이름 없는 문서는 diff를 두지 않는다.
 - diff 문서는 일반 GEUL 문서이고, HEAD에 [DELTA-BASE](/ko/grammar/meta/lineage/delta-base/)(기준 버전 ID)를 둔다.
 - 삭제는 [DELTA-REMOVE](/ko/grammar/meta/lineage/delta-remove/)(빼는 LOCAL ID 목록)로, 추가와 개정은 BODY의 Edge로 적는다. 추가·개정 표지는 따로 없다. Edge Id가 기준에 있으면 개정, 없으면 추가다.
 - 스냅숏 복원은 결정적이어야 한다(그래야 해시가 맞는다).

@@ -4,24 +4,24 @@ weight: 1001
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
-summary: "TOULMIN 문서의 저작 원문(SOURCE), 문자열(TEXT), 섹션·사안 구획(SECTION, CASE-BEGIN, CASE-END), 서술 문단(PROSE)을 쓰는 GEUL ISSUER 형식 0x0000C000~0x0000C005다."
+summary: "TOULMIN 문서의 저작 원문(SOURCE), 문자열(TEXT), 섹션·사안 구획(SECTION, CASE-BEGIN, CASE-END), 서술 문단(PROSE)을 쓰는 Edge 직접 코드 0x100L~0x105L이다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-TOULMIN 문서의 원문과 구획을 쓰는 레코드다. 모두 `EDGE-ISSUER-2WORD`(`0x1BDL`), Issuer `0x00000000`(GEUL) 아래 코덱 번호를 쓰는 Edge다([TOULMIN](/ko/grammar/edge/toulmin/#issuer-형식)).
+TOULMIN 문서의 원문과 구획을 쓰는 레코드다. 모두 Edge 계열 4 직접 코드 `0x100L~0x105L`이다([TOULMIN](/ko/grammar/edge/toulmin/#계열-4-직접-코드)). Issuer와 코덱 번호 칸 없이 TAG 뒤에 Payload가 온다.
 
 ## 형식
 
-| 코덱 번호 | 이름 | 레이아웃 |
+| Codec | 이름 | 레이아웃 |
 |---|---|---|
-| `0x0000C000` | SOURCE | ID, SPAN 폭 WORD, UTF8 Value |
-| `0x0000C001` | TEXT | ID, UTF8 Value |
-| `0x0000C002` | SECTION | ID, 섹션 코드 1 WORD |
-| `0x0000C003` | CASE-BEGIN | ID, REF(사안) |
-| `0x0000C004` | CASE-END | ID, REF(사안) |
-| `0x0000C005` | PROSE | ID, SPAN |
+| `0x100L` | SOURCE | ID, SPAN 폭 WORD, UTF8 Value |
+| `0x101L` | TEXT | ID, UTF8 Value |
+| `0x102L` | SECTION | ID, 섹션 코드 1 WORD |
+| `0x103L` | CASE-BEGIN | ID, REF(사안) |
+| `0x104L` | CASE-END | ID, REF(사안) |
+| `0x105L` | PROSE | ID, SPAN |
 
 - ID는 Edge Id, REF는 이 문서 레코드의 Edge Id다([TOULMIN](/ko/grammar/edge/toulmin/#공통-필드) 공통 필드).
 - UTF8 Value는 [UTF8-TEXT](/ko/grammar/value/text/utf8-text/) Value 레코드다. 바이트를 그대로 담는다.

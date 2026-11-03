@@ -46,7 +46,7 @@ Edge Id           LOCAL Reference 레코드
 
 ## 버전 목록 문서
 
-공표처는 문서마다 버전 목록 문서 하나를 이어 쓴다: `/<Issuer>/docs/<문서 ID>/versions.geul`(코덱은 `/<Issuer>/codecs/<코덱 ID>/versions.geul`). 그 문서가 그 공표처에서 공표된 모든 버전이 한 목록에 들어간다.
+공표처는 문서마다 버전 목록 문서 하나를 이어 쓴다: `/<Issuer>/docs/<문서 ID>/versions.geul`(코덱은 `/<Issuer>/codecs/<코덱 ID>/versions.geul`, 목록 문서는 [아래](#목록-문서의-버전-목록)). 그 문서가 그 공표처에서 공표된 모든 버전이 한 목록에 들어간다.
 
 ```
 DOC-1WORD/2WORD/4WORD     전체 길이
@@ -61,12 +61,27 @@ END
 ```
 
 - HEAD Meta: [SPEC-VERSION](/ko/grammar/meta/declaration/spec-version/), [PARENT](/ko/grammar/meta/lineage/parent/), [RECORDED-AT](/ko/grammar/meta/provenance/recorded-at/), [NEXT-LOCAL-ID](/ko/grammar/meta/lineage/next-local-id/), [SIGNATURE](/ko/grammar/meta/verification/signature/).
-- 목록 문서에는 `DOC-ID`를 두지 않는다(이름이 `0x`로 시작하지 않는 문서의 예외, [DOC-ID](/ko/grammar/meta/declaration/doc-id/)). 목록은 공표 문서가 아니라 그 문서에 딸린 기록이다. 어느 문서의 목록인지는 레코드의 문서 ID가 말한다. 그래서 경로 없이(`hashes/`, 덤프) 받아도 무엇의 목록인지 안다.
+- 버전 목록 문서에는 `DOC-ID`를 두지 않는다(목록 문서의 예외, [DOC-ID](/ko/grammar/meta/declaration/doc-id/)). 목록은 공표 문서가 아니라 그 문서에 딸린 기록이다. 어느 문서의 목록인지는 레코드의 DOC-POINTER(문서 ID)가 말한다. 그래서 경로 없이(`hashes/`, 덤프) 받아도 무엇의 목록인지 안다.
 - 레코드의 문서 ID는 모두 그 목록이 다루는 문서여야 한다. 다른 문서의 레코드는 거부한다.
-- 목록 문서는 IMPORT를 두지 않고 0층 Codec만 쓴다. 다른 목록에 올리지 않는다(목록의 목록 없음).
+- 버전 목록 문서는 IMPORT를 두지 않고 0층 Codec만 쓴다. 문서 목록 `docs/`에 올리지 않는다.
 - 새 목록 문서는 직전 목록 문서의 BODY를 그대로 앞에 두고 레코드를 덧붙인다. 고치거나 지우거나 순서를 바꾸지 않는다.
 - 공표처가 목록에 서명한다. geul.org 공표는 geul.org(GEUL Issuer)가, 사설 공표는 그 Issuer가 서명한다.
 - 문서 ID `0x0000000000000000`은 Issuer의 용어 정의 색인 문서다([Issuer와 공표](/ko/grammar/issuer/)). Issuer 자신은 [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)로 가리킨다.
+
+## 목록 문서의 버전 목록
+
+Issuer 목록 `issuers/`, 문서 목록 `<Issuer>/docs/`, 코덱 목록 `<Issuer>/codecs/`도 버전 1부터이고 버전 목록 `versions.geul`을 둔다([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)). 레코드는 예약 문서 ID의 DOC-POINTER로 목록 버전을 가리킨다.
+
+| 목록 | 버전 목록 | DOC-POINTER |
+|---|---|---|
+| Issuer 목록 | `issuers/versions.geul` | (`0x00000000`, `0xFFFFFFFFFFFFFFFF`, 버전 ID) |
+| 문서 목록 | `<Issuer>/docs/versions.geul` | (Issuer, `0xFFFFFFFFFFFFFFFE`, 버전 ID) |
+| 코덱 목록 | `<Issuer>/codecs/versions.geul` | (Issuer, `0xFFFFFFFFFFFFFFFD`, 버전 ID) |
+
+- 레코드 형식은 위와 같다. 그래서 `hashes/`로 받아도 무엇의 목록인지 안다.
+- 목록 문서 자신(`<버전 ID>.geul`)도 `DOC-ID`를 두지 않는다.
+- 예약 문서 ID는 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않고(404) 문서 목록 `docs/`에 올리지 않는다.
+- 목록의 `latest.geul`은 저장하지 않는 별칭이다. 이 버전 목록에서 가장 최근 버전을 찾아 그 바이트를 낸다.
 
 ## 규칙
 
@@ -94,6 +109,9 @@ END
 ```
 /.well-known/geul/<Issuer>/docs/<문서 ID>/versions.geul        최신 목록 문서 (가변)
 /.well-known/geul/<Issuer>/codecs/<코덱 ID>/versions.geul      코덱의 최신 목록 문서 (가변)
+/.well-known/geul/issuers/versions.geul                       Issuer 목록의 최신 버전 목록 (가변)
+/.well-known/geul/<Issuer>/docs/versions.geul                 문서 목록의 최신 버전 목록 (가변)
+/.well-known/geul/<Issuer>/codecs/versions.geul               코덱 목록의 최신 버전 목록 (가변)
 /.well-known/geul/<Issuer>/hashes/<내용 해시>.geul             지난 목록 문서 (불변)
 ```
 
@@ -105,7 +123,7 @@ END
 - 목록 문서에 정해진 공표처 키의 `SIGNATURE`가 있어야 한다.
 - 레코드의 문서 ID가 요청한 문서 ID와 같아야 한다.
 - 잠금 기록에 남은 직전 목록의 내용 해시가 새 목록의 `PARENT` 사슬에 있어야 한다. 그 목록의 BODY는 새 목록 BODY의 앞부분과 같아야 한다.
-- 받은 문서의 내용 해시는 그 버전 ID의 PUBLICATION이 적은 값과 같아야 하고, 문서의 `DOC-ID`는 요청한 Issuer·문서 ID와 같아야 한다.
+- 받은 문서의 내용 해시는 그 버전 ID의 PUBLICATION이 적은 값과 같아야 하고, 문서의 `DOC-ID`는 요청한 Issuer·문서 ID와 같아야 한다. 목록 문서는 `DOC-ID`가 없다.
 
 ## 열린 문제
 

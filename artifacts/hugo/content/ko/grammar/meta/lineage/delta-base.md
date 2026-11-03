@@ -25,7 +25,7 @@ TAG WORD          0001 1101 1011 LLLL      Codec 0x1DBL
 
 ## 해석과 유효성
 
-- [DOC-ID](/ko/grammar/meta/declaration/doc-id/)가 있는 문서(버전 목록으로 버전을 관리하는 문서)에만 쓴다. 버전 관리를 하지 않는 `versions.geul`, 목록 문서(`issuers/`, `codecs/`, `docs/`)와 이름 없는 문서는 diff를 두지 않는다.
+- [DOC-ID](/ko/grammar/meta/declaration/doc-id/)가 있는 문서에만 쓴다. `DOC-ID`를 두지 않는 버전 목록 `versions.geul`, 목록 문서(`issuers/`, `codecs/`, `docs/`의 버전)와 이름 없는 문서는 diff를 두지 않는다.
 - 기준 버전은 같은 `DOC-ID`의 공표된 버전이고 이 버전보다 앞선다. `0`(버전 없음)은 invalid다.
 - 복원한 스냅숏의 내용 해시가 버전 목록([PUBLICATION](/ko/grammar/edge/publication/))의 이 버전 해시와 같아야 한다. 다르면 이 diff는 invalid다. 그래서 diff 안에 결과 해시를 따로 적지 않는다.
 - BODY의 모든 레코드가 Edge(Edge Id가 있는 레코드)인 문서만 diff로 둘 수 있다. diff 단위가 LOCAL ID(Edge Id)이기 때문이다.

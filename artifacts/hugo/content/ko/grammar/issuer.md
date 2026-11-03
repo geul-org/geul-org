@@ -40,15 +40,15 @@ GEUL은 식별 체계를 한곳에 모으지 않는다. 각 Issuer가 대상과 
 
 - **Issuer ID는 정수값이다.** 값이 같으면 같은 Issuer다. 폭은 식별자의 일부가 아니다.
 - **짧은 Issuer ID에 앞 0을 붙인 긴 표기는 같은 Issuer다**(2 → 4, 2 → 16, 4 → 16 WORD). `0x00000001`과 `0x0000000000000001`은 같은 Issuer다. 그래서 4 WORD Issuer로 `0x00000000XXXXXXXX`를, 16 WORD Issuer로 상위 12 WORD가 0인 값을 배정하지 않는다.
-- **정규형은 가장 짧은 폭이다.** 레코드에는 값이 들어가는 가장 짧은 폭으로 쓰고, 더 넓은 폭의 표기는 거부한다. 그래서 각 폭의 배정은 바로 아래 폭의 범위가 끝난 다음 값부터 시작한다. 2 WORD가 가장 짧은 폭이다. 공표 주소는 넓힌 표기도 같은 Issuer로 받는다([공표 주소와 버전 목록](/ko/grammar/publishing/#id-표기)).
+- **정규형은 가장 짧은 폭이다.** 레코드에는 값이 들어가는 가장 짧은 폭으로 쓰고, 더 넓은 폭의 표기는 거부한다. 그래서 각 폭의 배정은 바로 아래 폭의 범위가 끝난 다음 값부터 시작한다. 2 WORD가 가장 짧은 폭이다. 공표 주소에 쓸 때는 발급 폭의 자릿수(2 WORD 8자리, 4 WORD 16자리, 16 WORD 64자리)와 16진 소문자로 쓰고, 읽을 때는 넓힌 표기도 같은 Issuer로 받는다([공표 주소와 버전 목록](/ko/grammar/publishing/#id-표기)).
 
 ## 2 WORD 배정표
 
-geul.org는 표준 제정 단체와 주요 기관에 2 WORD Issuer 번호를 앞에서부터 순서대로 배정한다. GEUL이 설계한 고유 형식은 `GEUL`, 제정 단체가 없는 사실상 표준이나 관례 형식은 `ADHOC`(`adhoc.geul.org`) 아래에 둔다. 표준 제정 단체의 Issuer는 geul.org 서브도메인 Issuer다(예: `iso.geul.org`, `iec.geul.org`).
+geul.org는 표준 제정 단체와 주요 기관에 2 WORD Issuer 번호를 앞에서부터 순서대로 배정한다. 제정 단체가 없는 사실상 표준이나 관례 형식은 `ADHOC`(`adhoc.geul.org`) 아래에 둔다. GEUL이 설계한 고유 형식은 직접 코드다. 표준 제정 단체의 Issuer는 geul.org 서브도메인 Issuer다(예: `iso.geul.org`, `iec.geul.org`).
 
 | Issuer | 이름 | 단체 | 대표 형식 |
 |---|---|---|---|
-| `0x00000000` | GEUL | geul.org | GEUL 고유 형식, 코덱북 |
+| `0x00000000` | GEUL | geul.org | 직접 코드 규격 문서(코덱북) |
 | `0x00000001` | wikidata.geul.org | geul.org | 위키데이터 항목·속성 문서 |
 | `0x00000002` | ADHOC | geul.org | 제정 단체가 없는 관례 형식. BFLOAT16, BLAKE3, 복소수·분수·구간·사원수, 벡터·텐서 |
 | `0x00000003` | ISO | International Organization for Standardization | ISO 8601, ISO 4217(통화), ISO 3166(국가) |
@@ -98,7 +98,7 @@ Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ 서명 알고리즘 ID(2바이트) ‖ 
 - 2 WORD Issuer의 도메인 소유 증명은 등록 시점에만 확인한다. 이후 도메인 관리는 Issuer의 책임이다.
 - 도메인 하나는 Issuer 하나에만 대응한다. Issuer 하나는 도메인을 여럿 가질 수 있다. 대응은 Issuer 목록 `issuers/`의 BIND로 적는다([공표 주소와 버전 목록](/ko/grammar/publishing/#issuer-목록)).
 - 도메인이 만료되거나 넘어가도 대응은 처음 증명한 Issuer에 남는다. 새 소유자는 그 도메인을 Issuer 이름으로 쓰지 못한다.
-- 도메인 이름은 주소 입력과 표시용이다. GEUL 문서 안에는 Issuer ID만 적는다.
+- 도메인 이름은 해석기·CLI 입력과 표시용이다. 공표 URL 주소가 아니다([공표 주소와 버전 목록](/ko/grammar/publishing/#도메인-이름)). GEUL 문서 안에는 Issuer ID만 적는다.
 
 ## 용어 정의 문서
 
@@ -106,6 +106,7 @@ Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ 서명 알고리즘 ID(2바이트) ‖ 
 - 다른 문서는 `EXTERNAL-ISSUER-*`(Issuer, 문서 ID, LOCAL ID)로 용어를 가리킨다. 같은 정의를 문서마다 반복하지 않는다. 예: [TRANSFORMED-BY](/ko/grammar/meta/lineage/transformed-by/)의 도구.
 - 용어 정의 문서의 문서 ID 구간은 Issuer가 정한다. geul.org(`0x00000000`)는 `0x0001xxxx xxxxxxxx`를 쓴다.
 - 각 Issuer의 문서 ID `0x0000000000000000`은 그 Issuer의 **용어 정의 색인 문서**로 예약한다: `<Issuer>/docs/0x0000000000000000/`. 용어 정의 문서들을 나열하는 자리다.
+- 문서 ID 위쪽 끝 세 값은 목록 문서에 예약한다: `0xFFFFFFFFFFFFFFFF` Issuer 목록 `issuers/`(Issuer geul.org `0x00000000`), `0xFFFFFFFFFFFFFFFE` 문서 목록 `docs/`, `0xFFFFFFFFFFFFFFFD` 코덱 목록 `codecs/`. 이 ID는 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않고(404) `docs/` 목록에 올리지 않는다([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)).
 - 색인 문서는 모든 Issuer에 **권고**한다. 필수는 아니다. 색인이 없으면 용어 정의 문서는 문서 목록 `<Issuer>/docs/`로 찾는다.
 - 외부 대상을 가리키는 순서: (1) 맞는 Reference Codec이 있으면 그것(WIKIDATA-QID 등), (2) 그 대상을 정의한 GEUL 문서가 있으면 그것(DOC-POINTER·EXTERNAL-ISSUER), (3) 없으면 자기 용어 정의 문서에 LOCAL로 정의하고 가리킨다.
 

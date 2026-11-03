@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-LINK는 TOULMIN 그래프에서 노드 사이의 관계를 쓰는 레이아웃이다. 관계의 종류는 Codec(또는 GEUL ISSUER 코덱 번호)이 정한다.
+LINK는 TOULMIN 그래프에서 노드 사이의 관계를 쓰는 레이아웃이다. 관계의 종류는 Codec이 정한다.
 
 ## Codec
 
@@ -23,16 +23,16 @@ LINK는 TOULMIN 그래프에서 노드 사이의 관계를 쓰는 레이아웃�
 | `0x0F2L` | DO-ONCE | `do fn once when n` | 규칙 → FuncRef |
 | `0x0F3L` | UNDO | `undo fn when n` | 규칙 → FuncRef |
 | `0x0F4L` | CHECKING | `checking c` | 규칙 → 사안. 부작용 없는 판정 |
-| ISSUER `0x00000000`/`0x0000C020` | REQUIRES | `f is required` | 사안 → 필드 |
-| ISSUER `0x00000000`/`0x0000C021` | MEANS | Definitions `means` | 정의 항목 → 값·타입 |
-| ISSUER `0x00000000`/`0x0000C022` | HAS | Definitions `has` | 정의 항목 → 필드 |
-| ISSUER `0x00000000`/`0x0000C023` | RUNS | 진입점 `run c` | 진입점 → 사안(실행) |
-| ISSUER `0x00000000`/`0x0000C024` | EVALUATES | 진입점 `check c` | 진입점 → 사안(판정) |
-| ISSUER `0x00000000`/`0x0000C025` | TRIGGERS | 트리거 `run c` | 트리거 → 사안 |
-| ISSUER `0x00000000`/`0x0000C026` | UNTIL | `every … until c` | 트리거 → 사안 |
-| ISSUER `0x00000000`/`0x0000C027` | SAME-AS | | 노드 → 전역 식별자 |
-| ISSUER `0x00000000`/`0x0000C028` | IMPORTED-FROM | `see a from path` | 별칭 → 경로(TEXT) |
-| ISSUER `0x00000000`/`0x0000C029` | LABEL | 백틱 이름 | 노드 → TEXT. 이름 표기 |
+| `0x10BL` | REQUIRES | `f is required` | 사안 → 필드 |
+| `0x10CL` | MEANS | Definitions `means` | 정의 항목 → 값·타입 |
+| `0x10DL` | HAS | Definitions `has` | 정의 항목 → 필드 |
+| `0x10EL` | RUNS | 진입점 `run c` | 진입점 → 사안(실행) |
+| `0x10FL` | EVALUATES | 진입점 `check c` | 진입점 → 사안(판정) |
+| `0x110L` | TRIGGERS | 트리거 `run c` | 트리거 → 사안 |
+| `0x111L` | UNTIL | `every … until c` | 트리거 → 사안 |
+| `0x112L` | SAME-AS | | 노드 → 전역 식별자 |
+| `0x113L` | IMPORTED-FROM | `see a from path` | 별칭 → 경로(TEXT) |
+| `0x114L` | LABEL | 백틱 이름 | 노드 → TEXT. 이름 표기 |
 
 ## 레이아웃
 
@@ -96,7 +96,7 @@ SPAN             SOURCE가 정한 폭 × 2
 - `do … once`는 DO-ONCE Codec이 나타낸다. DO-ONCE의 flags에는 F_ONCE를 쓰지 않는다(켜져 있으면 거부한다). UNDO의 `once`는 F_ONCE로 쓴다.
 - 게이트 연산자는 연산자 WORD의 상위 2비트이고 나머지 14비트는 0이다. 퍼센트는 `E=0`인 UNSIGNED-DECIMAL Value이며 0~100이다.
 - flags의 b5~b15는 예약이며 0이어야 한다. 아니면 거부한다.
-- F_FORCE는 ATTACKS에서만 쓴다. 다른 Codec(SUPERSEDES, 실행·판정 연결, ISSUER 형식 관계)에서 켜져 있으면 거부한다.
+- F_FORCE는 ATTACKS에서만 쓴다. 다른 Codec(SUPERSEDES, 실행·판정 연결, 계열 4 관계)에서 켜져 있으면 거부한다.
 - 공격 세기가 SIGNED-DECIMAL Value가 아니거나, 0~1 밖이거나, 소수 4자리로 정확히 나타낼 수 없으면 거부한다.
 - SUPERSEDES의 사슬 `A > B > C`는 쌍마다 SUPERSEDES를 하나씩 쓴다.
 
