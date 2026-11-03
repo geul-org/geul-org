@@ -34,7 +34,7 @@ GEUL 문서(`.geul`)를 쓰고, 읽고, 검사하고, 공표한다. 형식 검�
 
 위키데이터 → GEUL 변환(옛 이름 gogeulwiki).
 
-wikipg가 PostgreSQL에 적재한 위키데이터 덤프를 읽어 항목·속성마다 GEUL 문서 하나를 낸다. 레이블, 설명, 별칭, 한정자와 출처가 붙은 진술, 사이트링크를 모든 언어로 담는다. 모든 문서는 Issuer `wikidata.geul.org`(`0x00010000`) 아래 공표된다.
+위키데이터 JSON 덤프를 바로 읽어 항목·속성마다 GEUL 문서 하나를 낸다. 레이블, 설명, 별칭, 한정자와 출처가 붙은 진술, 사이트링크를 모든 언어로 담는다. 모든 문서는 Issuer `wikidata.geul.org`(`0x00000001`) 아래 공표된다.
 
 | | |
 |---|---|
@@ -44,13 +44,13 @@ wikipg가 PostgreSQL에 적재한 위키데이터 덤프를 읽어 항목·속�
 
 ### wikipg
 
-위키데이터 JSON 덤프 → PostgreSQL 무손실 적재.
+위키데이터 JSON 덤프 → PostgreSQL 무손실 적재. 2026-11-03부터 쓰지 않는다(deprecated). 덤프를 바로 읽는 [wikigeul](#wikigeul)을 쓴다.
 
 개체, 레이블, 설명, 별칭, 진술, 한정자, 출처, 사이트링크, Lexeme을 덤프 순서대로 저장하고, 덤프의 모든 줄을 원문 그대로 보존한다. 덤프 자체(파일, URL, 크기, 체크섬, 적재기 커밋)도 기록한다. wikipg는 GEUL에 의존하지 않는다.
 
 | | |
 |---|---|
-| GitHub | [geul-org/wikipg](https://github.com/geul-org/wikipg) |
+| GitHub | [geul-org/wikipgeul](https://github.com/geul-org/wikipgeul) |
 | 언어 | Go |
 | 라이선스 | CC0 |
 
