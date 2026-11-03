@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-COORDINATE-GEO는 지정한 천체(행성, 위성, 소행성 등) 위의 한 점을 위도·경도와 불확도로 나타내는 좌표 Value다. Value 직접 코드 `0x045L`, 계열 NUMERIC이다. [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/)(`0x04`) 앞에 천체(Globe) Reference를 더한 형식이며, 위도·경도·불확도·단위 규칙은 COORDINATE-EARTH와 같다.
+COORDINATE-GEO는 지정한 천체(행성, 위성, 소행성 등) 위의 한 점을 위도·경도와 불확도로 나타내는 좌표 Value다. Value 직접 코드 `0x045L`, 계열 NUMERIC이다. [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/)(`0x044L`) 앞에 천체(Globe) Reference를 더한 형식이며, 위도·경도·불확도·단위 규칙은 COORDINATE-EARTH와 같다.
 
 ## 레이아웃
 

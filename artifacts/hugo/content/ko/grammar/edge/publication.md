@@ -92,12 +92,13 @@ END
 ## 주소
 
 ```
-/.well-known/geul/<Issuer>/<문서 ID>/versions.geul             최신 목록 문서 (가변)
-/.well-known/geul/h/<내용 해시>.geul                           지난 목록 문서 (불변)
+/.well-known/geul/<Issuer>/docs/<문서 ID>/versions.geul        최신 목록 문서 (가변)
+/.well-known/geul/<Issuer>/codecs/<코덱 ID>/versions.geul      코덱의 최신 목록 문서 (가변)
+/.well-known/geul/<Issuer>/hashes/<내용 해시>.geul             지난 목록 문서 (불변)
 ```
 
-- 가변인 것은 최신 목록 주소 하나다. 받은 목록은 서명, `RECORDED-AT`, `PARENT` 사슬로 검증한다.
-- 지난 목록 문서는 모두 `h/`에 남긴다. `PARENT` 사슬을 따라 어느 시점의 목록이든 되짚을 수 있다.
+- 가변인 것은 최신 목록 주소다. 받은 목록은 서명, `RECORDED-AT`, `PARENT` 사슬로 검증한다.
+- 지난 목록 문서는 모두 `<Issuer>/hashes/`에 남긴다. `PARENT` 사슬을 따라 어느 시점의 목록이든 되짚을 수 있다.
 
 ## 검증
 

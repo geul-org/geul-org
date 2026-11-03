@@ -14,7 +14,7 @@ UTF8-TEXT는 RFC 3629의 valid UTF-8 바이트열을 담는 Value다. 식별자,
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x052L`(짝수 바이트)·`0x41`(홀수 바이트). 계열 TEXT.
+- 코드: Value 직접 코드 `0x052L`(짝수 바이트)·`0x053L`(홀수 바이트). 계열 TEXT.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```

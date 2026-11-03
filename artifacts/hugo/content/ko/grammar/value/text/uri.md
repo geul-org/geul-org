@@ -14,7 +14,7 @@ URI는 RFC 3986 `URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]` 문�
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x054L`(짝수 바이트)·`0x45`(홀수 바이트). 계열 TEXT.
+- 코드: Value 직접 코드 `0x054L`(짝수 바이트)·`0x055L`(홀수 바이트). 계열 TEXT.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```

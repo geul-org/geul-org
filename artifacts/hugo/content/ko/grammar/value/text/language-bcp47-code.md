@@ -14,7 +14,7 @@ LANGUAGE-BCP47-CODE는 완전한 BCP 47 language tag를 담는 Value다. script,
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x056L`(짝수 바이트)·`0x47`(홀수 바이트). 계열 TEXT.
+- 코드: Value 직접 코드 `0x056L`(짝수 바이트)·`0x057L`(홀수 바이트). 계열 TEXT.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 - Payload는 UTF-8 텍스트가 아니라 BCP 47 tag의 ASCII 바이트열이다.
 

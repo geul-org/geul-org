@@ -14,7 +14,7 @@ EDTF는 [Extended Date/Time Format](https://www.loc.gov/standards/datetime/edtf.
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x04EL`(짝수 바이트)·`0x25`(홀수 바이트). 계열 TIME. Payload는 문자열이지만 TIME 계열에 두어, 디코더와 색인이 형식을 몰라도 시간 값으로 다룬다.
+- 코드: Value 직접 코드 `0x04EL`(짝수 바이트)·`0x04FL`(홀수 바이트). 계열 TIME. Payload는 문자열이지만 TIME 계열에 둔다.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```

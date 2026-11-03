@@ -16,49 +16,49 @@ image: "/images/og-default.webp"
 - Q42는 사람(Q5)의 인스턴스다(P31).
 - Q42는 St John's College(Q691283)에서 교육받았다(P69). 시작 시점(P580)은 1971년이다.
 
-문서는 Issuer `0x00010000`의 문서 `0x510000000000002a`이고, 전체 63 WORD(126바이트)다.
+문서는 Issuer `0x00000001`의 문서 `0x510000000000002a`이고, 전체 63 WORD(126바이트)다.
 
 ## 전체
 
 ```
-1880 003f 1890 0001 1c92 0438 0001 0000 5100 0000 0000 002a 0000 0000
-180e
-1704 0010 0088 0001 00a0 002a 0ccb 08c6 656e 446f 7567 6c61 7320 4164 616d 7300
-148a 0088 0002 00a8 001f 00a0 002a 00a0 0005 0000
-150a 0088 0003 00a8 0045 00a0 002a 0120 000a 8c53 0000
-148b 0088 0004 00a8 0244 0088 0003 0924 3139 3731
-180f
+1c01 003f 1c51 0001 1c79 0048 0000 0001 5100 0000 0000 002a 0000 0000
+1c30
+084e 0010 0051 0001 0141 002a 0599 0561 656e 446f 7567 6c61 7320 4164 616d 7300
+08a9 0051 0002 0191 001f 0141 002a 0141 0005 0000
+08aa 0051 0003 0191 0045 0141 002a 0142 000a 8c53 0000
+08b9 0051 0004 0191 0244 0051 0003 04e2 3139 3731
+1c40
 ```
 
 ## HEAD
 
 ```
-1880 003f
+1c01 003f
 ```
 
-`1880`은 Meta(`11`), Length 2 WORD, Codec `0x00`(DOC-1WORD)다. 값 `003f`(63)가 문서 전체 WORD 수다. 디코더는 이 값으로 문서 끝을 미리 안다.
+`1c01`은 Meta(`111`), Codec `0x1C0L`(DOC-1WORD), Length 2 WORD다. 값 `003f`(63)가 문서 전체 WORD 수다. 디코더는 이 값으로 문서 끝을 미리 안다.
 
 ```
-1890 0001
+1c51 0001
 ```
 
-Meta `0x10` SPEC-VERSION. 이 문서가 따르는 명세 판이다. v1은 `0001`이다.
+Meta `0x1C5L` SPEC-VERSION. 이 문서가 따르는 명세 판이다. v1은 `0001`이다.
 
 ```
-1c92 0438 0001 0000 5100 0000 0000 002a 0000 0000
+1c79 0048 0000 0001 5100 0000 0000 002a 0000 0000
 ```
 
-Meta `0x12` DOC-ID, 전체 10 WORD. Payload는 DOC-POINTER Reference 하나다.
+Meta `0x1C7L` DOC-ID, 전체 10 WORD. Payload는 DOC-POINTER Reference 하나다.
 
 | WORD | 뜻 |
 |---|---|
-| `0438` | Reference, 9 WORD, Codec `0111`(DOC-POINTER), Quantifier `000` |
-| `0001 0000` | Issuer `0x00010000` (2 WORD) |
+| `0048` | Reference, Codec `0x004L`(DOC-POINTER), 9 WORD |
+| `0000 0001` | Issuer `0x00000001` (2 WORD) |
 | `5100 0000 0000 002a` | 문서 ID `0x510000000000002a` |
 | `0000 0000` | 버전 `0` (자기 자신) |
 
 ```
-180e
+1c30
 ```
 
 BODY. HEAD가 끝나고 BODY가 시작된다.
@@ -68,67 +68,67 @@ BODY. HEAD가 끝나고 BODY가 시작된다.
 ### #1 LABEL — 영어 이름
 
 ```
-1704 0010 0088 0001 00a0 002a 0ccb 08c6 656e 446f 7567 6c61 7320 4164 616d 7300
+084e 0010 0051 0001 0141 002a 0599 0561 656e 446f 7567 6c61 7320 4164 616d 7300
 ```
 
 | WORD | 뜻 |
 |---|---|
-| `1704` | Edge, Length `1110`(확장), Codec `0x04` LABEL |
+| `084e` | Edge, Codec `0x084L` LABEL, Length `1110`(확장) |
 | `0010` | 확장 길이: 전체 16 WORD |
-| `0088 0001` | Edge Id: LOCAL 1 |
-| `00a0 002a` | Subject: 위키데이터 Q42 |
-| `0ccb` | Object: UTF8-LANGUAGE-TEXT, 10 WORD, 홀수 바이트(`0x4B`) |
-| `08c6 656e` | 언어: BCP 47 `en` |
+| `0051 0001` | Edge Id: LOCAL 1 |
+| `0141 002a` | Subject: 위키데이터 Q42 |
+| `0599` | Object: UTF8-LANGUAGE-TEXT, 홀수 바이트(`0x059L`), 10 WORD |
+| `0561 656e` | 언어: BCP 47 `en` |
 | `446f … 7300` | `Douglas Adams` 13바이트 + 패딩 `00` |
 
 ### #2 TRIPLE — Q42는 사람이다
 
 ```
-148a 0088 0002 00a8 001f 00a0 002a 00a0 0005 0000
+08a9 0051 0002 0191 001f 0141 002a 0141 0005 0000
 ```
 
 | WORD | 뜻 |
 |---|---|
-| `148a` | Edge, 10 WORD, Codec `0x0A` TRIPLE |
-| `0088 0002` | Edge Id: LOCAL 2 |
-| `00a8 001f` | Predicate: P31 (instance of) |
-| `00a0 002a` | Subject: Q42 |
-| `00a0 0005` | Object: Q5 (사람) |
+| `08a9` | Edge, Codec `0x08AL` TRIPLE, 10 WORD |
+| `0051 0002` | Edge Id: LOCAL 2 |
+| `0191 001f` | Predicate: P31 (instance of) |
+| `0141 002a` | Subject: Q42 |
+| `0141 0005` | Object: Q5 (사람) |
 | `0000` | Rank: normal |
 
 ### #3 TRIPLE — Q42는 St John's College에서 교육받았다
 
 ```
-150a 0088 0003 00a8 0045 00a0 002a 0120 000a 8c53 0000
+08aa 0051 0003 0191 0045 0141 002a 0142 000a 8c53 0000
 ```
 
 | WORD | 뜻 |
 |---|---|
-| `150a` | Edge, 11 WORD, TRIPLE |
-| `0088 0003` | Edge Id: LOCAL 3 |
-| `00a8 0045` | Predicate: P69 (educated at) |
-| `00a0 002a` | Subject: Q42 |
-| `0120 000a 8c53` | Object: Q691283. 값이 16비트를 넘어 3 WORD Reference다 |
+| `08aa` | Edge, TRIPLE, 11 WORD |
+| `0051 0003` | Edge Id: LOCAL 3 |
+| `0191 0045` | Predicate: P69 (educated at) |
+| `0141 002a` | Subject: Q42 |
+| `0142 000a 8c53` | Object: Q691283. 값이 16비트를 넘어 3 WORD Reference다 |
 | `0000` | Rank: normal |
 
 ### #4 QUALIFIER — 시작 시점 1971년
 
 ```
-148b 0088 0004 00a8 0244 0088 0003 0924 3139 3731
+08b9 0051 0004 0191 0244 0051 0003 04e2 3139 3731
 ```
 
 | WORD | 뜻 |
 |---|---|
-| `148b` | Edge, 10 WORD, Codec `0x0B` QUALIFIER |
-| `0088 0004` | Edge Id: LOCAL 4 |
-| `00a8 0244` | Property: P580 (start time) |
-| `0088 0003` | Target: #3 (위의 TRIPLE) |
-| `0924 3139 3731` | Value: EDTF `1971` (연 정밀도라 GREGORIAN-DATE가 아니라 EDTF) |
+| `08b9` | Edge, Codec `0x08BL` QUALIFIER, 10 WORD |
+| `0051 0004` | Edge Id: LOCAL 4 |
+| `0191 0244` | Property: P580 (start time) |
+| `0051 0003` | Target: #3 (위의 TRIPLE) |
+| `04e2 3139 3731` | Value: EDTF `1971` (연 정밀도라 GREGORIAN-DATE가 아니라 EDTF) |
 
 #3의 의미는 #3 자체와 #3을 가리키는 QUALIFIER를 모두 모은 것이다: "Q42는 1971년부터 St John's College에서 교육받았다."
 
 ```
-180f
+1c40
 ```
 
 END. 여기까지가 63 WORD다.
@@ -148,5 +148,5 @@ END. 여기까지가 63 WORD다.
 이 문서의 내용 해시(SHA-256)는 다음과 같다. 공표하면 버전 목록에 이 해시가 버전 ID와 함께 기록된다.
 
 ```
-0x4f05137f92de70951f581156cf90f15471c254c7e87ad1ba100bf91dd705ebc1
+0xcbf73316f2c4582f77a3b9a48338ef5f9ad968b32c654391616050ab7ec412b9
 ```

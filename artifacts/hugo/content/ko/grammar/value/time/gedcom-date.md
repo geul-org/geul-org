@@ -14,7 +14,7 @@ GEDCOM-DATE는 [GEDCOM 7](https://gedcom.io/specifications/FamilySearchGEDCOMv7.
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x050L`(짝수 바이트)·`0x27`(홀수 바이트). 계열 TIME.
+- 코드: Value 직접 코드 `0x050L`(짝수 바이트)·`0x051L`(홀수 바이트). 계열 TIME.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```

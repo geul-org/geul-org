@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-COORDINATE-EARTH는 지구 위의 한 점을 위도·경도와 불확도로 나타내는 좌표 Value다. Value 직접 코드 `0x044L`, 계열 NUMERIC이다. 뜻은 [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870)(geo URI)의 `geo:위도,경도;u=불확도`(좌표계 WGS 84)와 같고, 문자열이 아니라 고정 폭 수치로 담는다. 불확도는 단위를 함께 적는다. 지구 밖 천체의 좌표는 [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/)(`0x05`)로 쓴다.
+COORDINATE-EARTH는 지구 위의 한 점을 위도·경도와 불확도로 나타내는 좌표 Value다. Value 직접 코드 `0x044L`, 계열 NUMERIC이다. 뜻은 [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870)(geo URI)의 `geo:위도,경도;u=불확도`(좌표계 WGS 84)와 같고, 문자열이 아니라 고정 폭 수치로 담는다. 불확도는 단위를 함께 적는다. 지구 밖 천체의 좌표는 [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/)(`0x045L`)로 쓴다.
 
 ## 레이아웃
 
