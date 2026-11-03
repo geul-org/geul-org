@@ -4,7 +4,7 @@ weight: 60
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge", "triple", "qualifier", "label"]
-summary: "Edge는 Reference·Value·다른 Edge를 묶어 서술하는 레코드다. 첫 구성요소는 항상 Edge Id이고, 직접 코드의 계열(서술, 근거, 실행, TOULMIN)은 `(코드 − 0x80) >> 5`로 안다."
+summary: "Edge는 Reference·Value·다른 Edge를 묶어 서술하는 레코드다. 첫 구성요소는 항상 Edge Id이고, 직접 코드의 계열(서술, 근거, 실행, TOULMIN, TOULMIN 형식)은 `(코드 − 0x80) >> 5`로 안다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -32,7 +32,7 @@ Edge Id           LOCAL Reference 레코드
 
 ## 계열
 
-Edge 구역은 `0x080L~0x1BFL`이다. 직접 코드의 계열은 `(코드 − 0x80) >> 5`다(코드는 TAG ID의 앞 세 자리).
+Edge 구역은 `0x080L~0x1BFL`이다. 직접 코드의 계열은 `(코드 − 0x80) >> 5`다(코드는 TAG ID의 앞 세 자리). 계열은 32칸씩이고 TAG의 `w >> 9`(KKK와 C 맨 위 1비트)와 같다.
 
 | 계열 | 직접 코드 | 하는 일 |
 |---|---|---|
@@ -40,9 +40,9 @@ Edge 구역은 `0x080L~0x1BFL`이다. 직접 코드의 계열은 `(코드 − 0x
 | 근거 | `0x0A0L~0x0BFL` | 레코드와 문서가 어디서 나왔는지([SOURCE](/ko/grammar/edge/source/)) |
 | 실행 | `0x0C0L~0x0DFL` | 실행할 수 있는 프로그램 구조(AST) |
 | [TOULMIN](/ko/grammar/edge/toulmin/) | `0x0E0L~0x0FBL` | 논증 그래프: 주장·반박·예외, 공격 관계, 실행, 판정 결과 |
-| 미정 | `0x100L~0x114L` | 이름과 뜻은 미정이다. 지금은 TOULMIN 문서의 원문·구획·보조 노드와 관계가 쓴다 |
+| [TOULMIN](/ko/grammar/edge/toulmin/) 형식 | `0x100L~0x114L` | TOULMIN 문서의 원문·구획·보조 노드와 관계 |
 
-- 배정된 직접 코드는 이 다섯 구간이다. 계열 4(`0x100L~0x114L`)의 이름과 뜻은 미정이다. `0x0FCL~0x0FFL`은 Reserved이고, `0x115L~0x1BCL`은 빈칸이다.
+- 배정된 직접 코드는 이 다섯 계열이다. `0x0FCL~0x0FFL`은 Reserved이고, `0x115L~0x1BCL`은 빈칸이다.
 - `0x1BDL~0x1BFL`은 EDGE-ISSUER다(아래 Issuer 형식 Edge). Issuer 형식에는 계열 규칙이 없다.
 
 ## 서술 Edge
@@ -219,7 +219,7 @@ QUALIFIER  #1348  P1417  #1347  "biography/Douglas-Adams"
 | 실행 | RUN, DO, DO-ONCE, UNDO, CHECKING — [LINK](/ko/grammar/edge/toulmin/link/), ENTRY, TRIGGER — [NODE](/ko/grammar/edge/toulmin/node/) |
 | 결과 | VERDICT(판정 결과: Pass·Review·Fail), EVIDENCE(판정의 증거) — 레이아웃 미정 |
 
-- 원문·구획·보조 노드와 관계는 계열 4 직접 코드 `0x100L~0x114L`이다([SOURCE와 구획](/ko/grammar/edge/toulmin/source/), [TOULMIN](/ko/grammar/edge/toulmin/#계열-4-직접-코드)).
+- 원문·구획·보조 노드와 관계는 TOULMIN 형식 계열 직접 코드 `0x100L~0x114L`이다([SOURCE와 구획](/ko/grammar/edge/toulmin/source/), [TOULMIN](/ko/grammar/edge/toulmin/#toulmin-형식)).
 - 판정 결과는 판정 대상과 다른 문서에 둔다. 결과 문서가 대상 문서를 가져와 가리킨다. 그래서 판정해도 대상 문서의 내용 해시는 바뀌지 않는다.
 
 ## Issuer 형식 Edge

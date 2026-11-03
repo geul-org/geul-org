@@ -118,7 +118,7 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 
 `0x080L~0x1BFL` — [Edge](/ko/grammar/edge/)
 
-직접 코드의 계열은 `(코드 − 0x80) >> 5`다(코드는 TAG ID의 앞 세 자리). 배정된 직접 코드는 아래 다섯 구간이다. 계열 4(`0x100L~0x114L`)의 이름과 뜻은 미정이다. `0x115L~0x1BCL`은 빈칸이다. Issuer 형식에는 계열 규칙이 없다.
+직접 코드의 계열은 `(코드 − 0x80) >> 5`다(코드는 TAG ID의 앞 세 자리). 계열은 32칸씩이고 TAG의 `w >> 9`(KKK와 C 맨 위 1비트)와 같다. 배정된 직접 코드는 아래 다섯 계열이다. `0x115L~0x1BCL`은 빈칸이다. Issuer 형식에는 계열 규칙이 없다.
 
 | 계열 | 직접 코드 |
 |---|---|
@@ -126,7 +126,7 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 | 근거 | `0x0A0L~0x0BFL` |
 | 실행 | `0x0C0L~0x0DFL` |
 | [TOULMIN](/ko/grammar/edge/toulmin/) | `0x0E0L~0x0FBL` |
-| 미정 | `0x100L~0x114L` |
+| [TOULMIN](/ko/grammar/edge/toulmin/) 형식 | `0x100L~0x114L` |
 
 - `0x0FCL~0x0FFL`은 Reserved다.
 - `0x1BDL~0x1BFL`은 EDGE-ISSUER다(아래 Edge ISSUER 형식).
@@ -249,9 +249,9 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 | `0x0F0L~0x0F7L` | 실행 |
 | `0x0F8L~0x0FFL` | 결과 (`0x0FCL~0x0FFL`은 Reserved) |
 
-### 계열 4 (`0x100L~0x114L`)
+### TOULMIN 형식 (`0x100L~0x114L`)
 
-계열 이름과 뜻은 미정이다. 지금은 [TOULMIN](/ko/grammar/edge/toulmin/) 문서의 원문·구획·보조 노드와 관계가 쓴다.
+[TOULMIN](/ko/grammar/edge/toulmin/) 문서의 원문·구획·보조 노드와 관계다.
 
 | Codec | 이름 | 설명 |
 |---|---|---|

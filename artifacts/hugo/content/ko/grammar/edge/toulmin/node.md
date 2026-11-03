@@ -29,7 +29,7 @@ NODE는 TOULMIN 판정·실행 그래프의 노드를 쓰는 레이아웃이다.
 | `0x109L` | ALIAS | `see a from path` | 가져온 패키지 별칭 |
 | `0x10AL` | GROUP | `1.` 순서 목록 | 순서 있는 실행 묶음 |
 
-`0x106L~0x10AL`은 Edge 계열 4 직접 코드다([TOULMIN](/ko/grammar/edge/toulmin/#계열-4-직접-코드)).
+`0x106L~0x10AL`은 Edge TOULMIN 형식 계열 직접 코드다([TOULMIN](/ko/grammar/edge/toulmin/#toulmin-형식)).
 
 ## 레이아웃
 

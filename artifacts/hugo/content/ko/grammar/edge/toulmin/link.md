@@ -96,7 +96,7 @@ SPAN             SOURCE가 정한 폭 × 2
 - `do … once`는 DO-ONCE Codec이 나타낸다. DO-ONCE의 flags에는 F_ONCE를 쓰지 않는다(켜져 있으면 거부한다). UNDO의 `once`는 F_ONCE로 쓴다.
 - 게이트 연산자는 연산자 WORD의 상위 2비트이고 나머지 14비트는 0이다. 퍼센트는 `E=0`인 UNSIGNED-DECIMAL Value이며 0~100이다.
 - flags의 b5~b15는 예약이며 0이어야 한다. 아니면 거부한다.
-- F_FORCE는 ATTACKS에서만 쓴다. 다른 Codec(SUPERSEDES, 실행·판정 연결, 계열 4 관계)에서 켜져 있으면 거부한다.
+- F_FORCE는 ATTACKS에서만 쓴다. 다른 Codec(SUPERSEDES, 실행·판정 연결, TOULMIN 형식 관계)에서 켜져 있으면 거부한다.
 - 공격 세기가 SIGNED-DECIMAL Value가 아니거나, 0~1 밖이거나, 소수 4자리로 정확히 나타낼 수 없으면 거부한다.
 - SUPERSEDES의 사슬 `A > B > C`는 쌍마다 SUPERSEDES를 하나씩 쓴다.
 

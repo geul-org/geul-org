@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-TOULMIN 문서의 원문과 구획을 쓰는 레코드다. 모두 Edge 계열 4 직접 코드 `0x100L~0x105L`이다([TOULMIN](/ko/grammar/edge/toulmin/#계열-4-직접-코드)). Issuer와 코덱 번호 칸 없이 TAG 뒤에 Payload가 온다.
+TOULMIN 문서의 원문과 구획을 쓰는 레코드다. 모두 Edge TOULMIN 형식 계열 직접 코드 `0x100L~0x105L`이다([TOULMIN](/ko/grammar/edge/toulmin/#toulmin-형식)). Issuer와 코덱 번호 칸 없이 TAG 뒤에 Payload가 온다.
 
 ## 형식
 

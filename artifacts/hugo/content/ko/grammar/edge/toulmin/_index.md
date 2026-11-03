@@ -10,7 +10,7 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-TOULMIN 계열 Edge(직접 코드 `0x0E0L~0x0FBL`, 보조 레코드는 계열 4 `0x100L~0x114L`)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 주장·반박·예외의 선언, 공격·배제 관계, 실행 연결, 판정 결과가 모두 Edge다. TANGEUL 문서(toulmin 엔진의 규칙 언어) 하나가 GEUL 문서 하나가 된다. 파일 확장자는 다른 문서와 같은 `.geul`이다.
+TOULMIN 계열 Edge(직접 코드 `0x0E0L~0x0FBL`, 보조 레코드는 TOULMIN 형식 계열 `0x100L~0x114L`)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 주장·반박·예외의 선언, 공격·배제 관계, 실행 연결, 판정 결과가 모두 Edge다. TANGEUL 문서(toulmin 엔진의 규칙 언어) 하나가 GEUL 문서 하나가 된다. 파일 확장자는 다른 문서와 같은 `.geul`이다.
 
 이 페이지가 정하지 않은 것은 [Edge](/ko/grammar/edge/)와 [레코드와 TAG WORD](/ko/grammar/record/)의 공통 규칙을 따른다.
 
@@ -66,9 +66,9 @@ TOULMIN 레코드는 세 가지 레이아웃 중 하나를 쓴다. 레이아웃�
 - 묶음은 `0x0E0L~0x0E7L` 선언, `0x0E8L~0x0EFL` 관계, `0x0F0L~0x0F7L` 실행, `0x0F8L~0x0FFL` 결과다(`0x0FCL~0x0FFL`은 Reserved).
 - 문서 전체의 판정은 Meta [VERDICT](/ko/grammar/meta/verification/verdict/)(`0x1E9L`)가, 노드·레코드의 판정은 TOULMIN `VERDICT`(Edge `0x0F8L`)가 맡는다. 둘은 Kind가 다른 별개의 Codec이다.
 
-### 계열 4 직접 코드
+### TOULMIN 형식
 
-원문·구획·보조 노드와 관계는 Edge 계열 4 직접 코드 `0x100L~0x114L`에 둔다. 계열 4의 이름과 뜻은 미정이다. Issuer와 코덱 번호 칸이 없고 TAG 뒤에 Payload가 바로 온다.
+원문·구획·보조 노드와 관계는 Edge TOULMIN 형식 계열 직접 코드 `0x100L~0x114L`에 둔다. Issuer와 코덱 번호 칸이 없고 TAG 뒤에 Payload가 바로 온다.
 
 ```
 TAG WORD          0001 0000 0000 LLLL      Edge, Codec 0x100L (SOURCE). 다른 코드도 같은 자리
