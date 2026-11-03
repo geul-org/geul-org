@@ -15,7 +15,7 @@ WIKIDATA-PID는 위키데이터 속성(Property)을 가리키는 선언 Referenc
 ## 레이아웃
 
 ```
-TAG WORD          0000 0LLL L010 1QQQ      CCCC = 0101
+TAG WORD          0000 0001 1001 LLLL      Codec 0x019L~0x01DL (Identified 0x019L)
 [Length 확장 TAG]
 PID               가장 짧은 폭의 unsigned big-endian
 ```
@@ -27,9 +27,9 @@ PID               가장 짧은 폭의 unsigned big-endian
 
 | 속성 | WORD sequence |
 |---|---|
-| `P31` (instance of) | `00A8 001F` |
-| `P279` (subclass of) | `00A8 0117` |
-| `P569` (date of birth) | `00A8 0239` |
+| `P31` (instance of) | `0191 001F` |
+| `P279` (subclass of) | `0191 0117` |
+| `P569` (date of birth) | `0191 0239` |
 
 ## 관련 페이지
 

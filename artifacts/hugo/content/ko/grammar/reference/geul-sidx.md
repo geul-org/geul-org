@@ -15,19 +15,19 @@ GEUL-SIDX는 GEUL SIDX(Semantic-aligned Index)로 대상을 가리키는 선언 
 ## 레이아웃
 
 ```
-TAG WORD          0000 0LLL L001 1QQQ      CCCC = 0011
+TAG WORD          0000 0000 1111 LLLL      Codec 0x00FL~0x013L (Identified 0x00FL)
 [Length 확장 TAG]
 SIDX              나머지 전부
 ```
 
-- Quantifier는 다른 선언 Codec과 같다. Variable이면 그 종류의 익명 변수다([Reference](/ko/grammar/reference/) Variable). 양화는 `QQQ`로만 한다. SIDX 값에는 양화를 넣지 않는다.
+- Quantifier는 다른 선언 Codec과 같다. Variable이면 그 종류의 익명 변수다([Reference](/ko/grammar/reference/) Variable). 양화는 5Q 코드(`0x00FL~0x013L`, `C % 5`)로만 한다. SIDX 값에는 양화를 넣지 않는다.
 - 규격 문서는 SIDX를 나머지 폭 날값 필드 하나로 선언한다. 폭 규칙이 정해지면 바꾼다.
 
 ## 예시
 
 | SIDX | WORD sequence |
 |---|---|
-| (비규범) 64비트 `0x1234 5678 9abc def0`, Identified | `0218 1234 5678 9abc def0` |
+| (비규범) 64비트 `0x1234 5678 9abc def0`, Identified | `00f4 1234 5678 9abc def0` |
 
 ## 배정 방침
 

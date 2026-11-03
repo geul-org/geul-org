@@ -10,29 +10,29 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-LOCAL은 이 문서가 발급한 ID로 대상을 가리키는 선언 Reference다. 외부 Issuer 없이 문서 안의 대상을 참조하며, 문서 밖에서는 의미가 없다. 문서 밖에서 가리키려면 문서에 Meta [DOC-ID](/ko/grammar/meta/declaration/doc-id/)를 두고, 다른 문서가 지시 Reference로 가리킨다.
+LOCAL은 이 문서가 발급한 ID로 대상을 가리키는 선언 Reference다. 외부 Issuer 없이 문서 안의 대상을 참조한다. 문서 밖에서 가리키려면 문서에 Meta [DOC-ID](/ko/grammar/meta/declaration/doc-id/)를 두고, 다른 문서가 지시 Reference로 가리킨다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 0LLL L000 1QQQ      CCCC = 0001
+TAG WORD          0000 0000 0101 LLLL      Codec 0x005L~0x009L (Identified 0x005L)
 [Length 확장 TAG]
 LOCAL ID          가장 짧은 폭의 unsigned big-endian
 ```
 
 | LOCAL ID | 전체 | TAG WORD (Identified) |
 |---|---|---|
-| `0..65535` | 2 WORD | `0x0088` |
-| `65536..2^32-1` | 3 WORD | `0x0108` |
-| `2^32..2^48-1` | 4 WORD | `0x0188` |
-| `2^48..2^64-1` | 5 WORD | `0x0208` |
+| `0..65535` | 2 WORD | `0x0051` |
+| `65536..2^32-1` | 3 WORD | `0x0052` |
+| `2^32..2^48-1` | 4 WORD | `0x0053` |
+| `2^48..2^64-1` | 5 WORD | `0x0054` |
 
-- TAG WORD는 `0000 0 LLLL 0001 QQQ`다. Identified(`000`)일 때 하위 7비트는 `0x08`이다.
+- Codec은 `0x005L`(Identified), `0x006L`(Generic), `0x007L`(Free-choice), `0x008L`(Universal), `0x009L`(Variable)이다. Identified의 TAG WORD는 `0000 0000 0101 LLLL`이다.
 - 대상 ID를 가장 짧은 WORD 수로 쓰는 Reference 공통 규칙을 따른다.
 
 ## Edge Id
 
-- Edge Payload의 첫 요소인 LOCAL이 그 Edge의 Edge Id 선언이다([Edge](/ko/grammar/edge/)). Edge Id를 선언하는 LOCAL의 Quantifier는 `000`만 쓴다.
+- Edge Payload의 첫 요소인 LOCAL이 그 Edge의 Edge Id 선언이다([Edge](/ko/grammar/edge/)). Edge Id를 선언하는 LOCAL은 Identified(`0x005L`)만 쓴다.
 - Edge Payload의 그 밖의 자리에 있는 LOCAL은 언급이다. 이 문서의 대상은 언급할 때마다 LOCAL로 쓴다. 이 문서의 대상을 가리키는 지시 코드는 따로 없다.
 
 ## 식별자 할당
@@ -53,7 +53,7 @@ LOCAL ID          가장 짧은 폭의 unsigned big-endian
 - Identified LOCAL은 식별된 대상을 나타낸다. 익명·미지정·null·sentinel 용도로 쓰지 않는다. 값이 있지만 모르거나(UNKNOWN-VALUE) 값이 없다(NO-VALUE)는 말은 그 표지를 받는 필드에 [자리 표지](/ko/grammar/reference/slot-marker/)로 쓴다.
 - 서로 다른 LOCAL ID는 서로 다른 Reference일 뿐, 현실의 대상까지 서로 다르다는 뜻은 아니다.
 - LOCAL의 동일성을 문서 밖으로 넓히지 않는다. 다른 문서의 같은 숫자는 무관하다.
-- Variable(`100`) LOCAL은 이름 있는 담화 변수다([Reference](/ko/grammar/reference/) Variable).
+- Variable(`0x009L`) LOCAL은 이름 있는 담화 변수다([Reference](/ko/grammar/reference/) Variable).
 
 ## 병합
 
@@ -68,7 +68,7 @@ LOCAL ID          가장 짧은 폭의 unsigned big-endian
 다음 인코딩이나 할당은 invalid다.
 
 - 선행 `0x0000` WORD가 있는 non-minimal 인코딩(값 0의 `0x0000` 1 WORD는 예외)
-- Edge Id 선언 자리의 Quantifier가 `000`이 아니거나 ID가 `0`인 경우
+- Edge Id 선언 자리의 Codec이 Identified(`0x005L`)가 아니거나 ID가 `0`인 경우
 - 같은 문서에서 ID 하나를 서로 다른 대상에 겹쳐 할당한 경우
 - 같은 문서에서 같은 Edge Id를 두 번 이상 선언한 경우
 
@@ -76,11 +76,11 @@ LOCAL ID          가장 짧은 폭의 unsigned big-endian
 
 | LOCAL ID | WORD sequence |
 |---:|---|
-| 1 | `0088 0001` |
-| 65535 | `0088 ffff` |
-| 65536 | `0108 0001 0000` |
-| 4294967295 | `0108 ffff ffff` |
-| 1, Variable | `008C 0001` |
+| 1 | `0051 0001` |
+| 65535 | `0051 ffff` |
+| 65536 | `0052 0001 0000` |
+| 4294967295 | `0052 ffff ffff` |
+| 1, Variable | `0091 0001` |
 
 ## 관련 페이지
 

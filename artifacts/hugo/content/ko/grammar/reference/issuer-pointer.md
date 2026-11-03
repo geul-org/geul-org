@@ -15,24 +15,24 @@ ISSUER-POINTER는 Issuer 자신을 가리키는 지시선언 Reference다. Issue
 ## 레이아웃
 
 ```
-TAG WORD          0000 0LLL L011 0QQQ      CCCC = 0110
+TAG WORD          0000 0000 0011 LLLL      Codec 0x003L
 [Length 확장 TAG]
-Issuer            1/2/4/16 WORD
+Issuer            2/4/16 WORD
 ```
 
-- Issuer 폭은 Payload 전체다. Codec이 폭을 나누지 않는다. 폭이 1, 2, 4, 16 WORD가 아니거나, Issuer 값이 더 좁은 폭에 들어가면 invalid다(Issuer 정규형).
+- Issuer 폭은 Payload 전체다. Codec이 폭을 나누지 않는다. 폭이 2, 4, 16 WORD가 아니거나, Issuer 값이 더 좁은 폭에 들어가면 invalid다(Issuer 정규형).
 - Issuer가 16 WORD면 전체 17 WORD라 Length 확장 1 WORD가 붙는다.
-- Quantifier는 `000`(Identified)만 쓴다. 다른 값은 invalid다.
+- Codec `0x003L` 한 칸이다. 양화가 없다(Identified).
 - Issuer 값은 [Issuer](/ko/grammar/issuer/)의 배정을 따른다.
-- 쓰임: Issuer 이름 색인 `issuers.geul`의 BIND Subject([공표 주소와 버전 목록](/ko/grammar/publishing/#issuer-이름)), Issuer 표시 이름 LABEL, Issuer에 대한 판정, 서명자 등 Issuer 자신이 대상인 자리.
+- 쓰임: Issuer 목록 `issuers/`의 BIND Subject([공표 주소와 버전 목록](/ko/grammar/publishing/#issuer-목록)), Issuer 표시 이름 LABEL, Issuer에 대한 판정, 서명자 등 Issuer 자신이 대상인 자리.
 - Issuer 자신을 가리키는 형식은 ISSUER-POINTER 하나다. `EXTERNAL-ISSUER-*`로 문서 ID `0`, 대상 ID `0`을 써서 Issuer를 가리키는 것은 invalid다.
 
 ## 예시
 
 | Issuer | WORD sequence |
 |---|---|
-| GEUL `0x0000` | `00B0 0000` |
-| IEEE `0x0040` | `00B0 0040` |
+| GEUL `0x00000000` | `0032 0000 0000` |
+| IEEE `0x0000000D` | `0032 0000 000D` |
 
 ## 관련 페이지
 

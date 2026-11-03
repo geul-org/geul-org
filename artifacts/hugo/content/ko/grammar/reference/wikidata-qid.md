@@ -15,7 +15,7 @@ WIKIDATA-QID는 위키데이터 항목(Item)을 가리키는 선언 Reference다
 ## 레이아웃
 
 ```
-TAG WORD          0000 0LLL L010 0QQQ      CCCC = 0100
+TAG WORD          0000 0001 0100 LLLL      Codec 0x014L~0x018L (Identified 0x014L)
 [Length 확장 TAG]
 QID               가장 짧은 폭의 unsigned big-endian
 ```
@@ -28,11 +28,11 @@ QID               가장 짧은 폭의 unsigned big-endian
 
 | 항목 | WORD sequence |
 |---|---|
-| `Q5` (human) | `00A0 0005` |
-| `Q76` (Barack Obama) | `00A0 004C` |
-| `Q884` (South Korea) | `00A0 0374` |
-| `Q317521` (Elon Musk) | `0120 0004 D851` |
-| `Q30461` (president), Variable | `00A4 76FD` |
+| `Q5` (human) | `0141 0005` |
+| `Q76` (Barack Obama) | `0141 004C` |
+| `Q884` (South Korea) | `0141 0374` |
+| `Q317521` (Elon Musk) | `0142 0004 D851` |
+| `Q30461` (president), Variable | `0181 76FD` |
 
 ## 관련 페이지
 

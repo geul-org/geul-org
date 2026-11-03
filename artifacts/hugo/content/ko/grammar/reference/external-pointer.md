@@ -15,21 +15,22 @@ EXTERNAL-POINTER는 HEAD의 [IMPORT-DOC](/ko/grammar/meta/import/import-doc/)으
 ## 레이아웃
 
 ```
-TAG WORD          0000 0LLL L10W WQQQ      CCCC = 10WW
+TAG WORD          0000 00CC CCCC LLLL      Codec 0x01EL~0x02CL
 [Length 확장 TAG]
-IMPORT ID         WW가 정한 폭 (00=1, 01=2, 10=4, 11=8 WORD)
+IMPORT ID         Codec이 정한 폭 (1/2/4 WORD)
 대상 ID           나머지 전부. 가져온 문서의 LOCAL ID, 가장 짧은 폭
 ```
 
-| CCCC | 이름 | IMPORT ID 폭 |
+| Codec (Identified, Generic, Free-choice, Universal, Variable) | 이름 | IMPORT ID 폭 |
 |---|---|---|
-| `1000` | EXTERNAL-POINTER-1WORD | 1 WORD |
-| `1001` | EXTERNAL-POINTER-2WORD | 2 WORD |
-| `1010` | EXTERNAL-POINTER-4WORD | 4 WORD |
-| `1011` | EXTERNAL-POINTER-8WORD | 8 WORD |
+| `0x01EL~0x022L` | EXTERNAL-POINTER-1WORD | 1 WORD |
+| `0x023L~0x027L` | EXTERNAL-POINTER-2WORD | 2 WORD |
+| `0x028L~0x02CL` | EXTERNAL-POINTER-4WORD | 4 WORD |
+
+- 폭은 체계 번호로 정해진다: `C / 5 − 6`이 0, 1, 2이면 1, 2, 4 WORD다. 양화는 `C % 5`다.
 
 - IMPORT ID 값이 들어가는 가장 좁은 Codec을 쓴다.
-- IMPORT ID는 이 문서의 `IMPORT-DOC`이 배정한 값이며 이 문서 안에서만 유효하다. EXTERNAL-POINTER에는 Issuer를 적지 않는다. Issuer와 문서 ID는 그 `IMPORT-DOC`에서 얻는다. 버전도 그 `IMPORT-DOC`이 정한다(고정 또는 최신).
+- IMPORT ID는 이 문서의 `IMPORT-DOC`이 배정한 값이다. EXTERNAL-POINTER에는 Issuer를 적지 않는다. Issuer와 문서 ID는 그 `IMPORT-DOC`에서 얻는다. 버전도 그 `IMPORT-DOC`이 정한다(고정 또는 최신).
 - 가져온 문서의 같은 LOCAL ID면, 그 문서 안에서 LOCAL로 쓰든 여기서 EXTERNAL-POINTER로 쓰든 같은 대상이다.
 - Variable이면 가져온 문서의 LOCAL 변수다.
 
@@ -44,9 +45,9 @@ IMPORT ID         WW가 정한 폭 (00=1, 01=2, 10=4, 11=8 WORD)
 
 | 대상 | WORD sequence |
 |---|---|
-| IMPORT ID 1의 LOCAL 5 | `0140 0001 0005` |
-| IMPORT ID 1의 LOCAL 65536 | `01C0 0001 0001 0000` |
-| IMPORT ID 70000의 LOCAL 5 | `01C8 0001 1170 0005` |
+| IMPORT ID 1의 LOCAL 5 | `01E2 0001 0005` |
+| IMPORT ID 1의 LOCAL 65536 | `01E3 0001 0001 0000` |
+| IMPORT ID 70000의 LOCAL 5 | `0233 0001 1170 0005` |
 
 ## 관련 페이지
 

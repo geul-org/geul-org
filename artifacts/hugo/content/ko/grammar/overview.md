@@ -56,17 +56,18 @@ TAG WORD의 상위 비트는 영역을 나눈다.
 
 | 정보 | 코덱북 없이 | 근거 |
 |---|---|---|
-| Kind | 안다 | TAG WORD |
+| Kind | 안다 | TAG WORD의 `(w >> 10) & 7` |
 | 레코드 전체 길이, 다음 레코드 위치 | 안다 | TAG WORD의 Length |
-| Codec 번호 | 안다 | TAG WORD (Issuer 형식이면 확장 TAG의 Issuer와 형식 번호) |
-| 계열·클래스 | 안다 | Codec 번호 또는 형식 번호의 상위 비트 |
-| Edge의 Edge Id | 안다 | Edge의 첫 구성요소는 항상 LOCAL Reference |
-| 자리 표지(적지 않음·알 수 없음·없음) | 안다 | WORD 값이 `0`~`7`(Reference Codec `0000`, 1 WORD). [자리 표지](/ko/grammar/reference/slot-marker/) |
+| Codec 번호 | 안다 | TAG WORD (Issuer 형식이면 확장 TAG의 Issuer와 코덱 번호) |
+| 계열·클래스 | 일부 안다 | Edge 직접 코드의 계열만 비트로 안다. Value 직접 코드와 Issuer 형식의 계열, Meta 클래스는 비트로 모른다. Issuer 형식은 Issuer와 코덱 번호까지 안다. Meta 검증 클래스는 Kind Meta이고 `C >= 0x25`로 안다 |
+| Edge의 Edge Id | 안다 | Edge의 첫 구성요소는 항상 LOCAL Reference(Kind 2~6) |
+| 자리 표지(적지 않음·알 수 없음·없음) | 안다 | WORD 값이 `0x0000`, `0x0010`, `0x0020`(Reference, C < 3, L 0). [자리 표지](/ko/grammar/reference/slot-marker/) |
+| Quantifier | 안다 | `5 <= C < 0x3C`이면 `C % 5` |
 | Codec별 TAG 길이, Payload 시작 위치 | 모른다 | 코덱북 |
 | Payload 해석, Edge 구성요소의 역할 | 모른다 | 코덱북 |
 
 - 코덱북이 없는 디코더는 레코드를 건너뛰며 Kind와 Codec별로 셀 수 있지만, 그래프 구조를 따라가지는 못한다.
-- 모든 디코더는 Meta 구조·정의·IMPORT 클래스를 처리해야 한다. 이 Codec들은 GEUL 핵심 코덱북에 속한다([Meta](/ko/grammar/meta/)).
+- 모든 디코더는 Meta 구조·정의·IMPORT 클래스를 처리해야 한다. 이 Codec들은 GEUL 핵심 코덱북에 속하고, 디코더는 내장 번호 표로 안다([Meta](/ko/grammar/meta/)).
 
 코덱북은 GEUL 문서로 공표된다([Codec 규격 문서](/ko/grammar/codec-spec/)). 그래서 디코더는 필요한 규격 문서를 받아 읽으면 된다.
 
@@ -80,8 +81,8 @@ TAG WORD의 상위 비트는 영역을 나눈다.
 | [Value](/ko/grammar/value/) | 값 계열, 직접 코드, 텍스트·수량·날짜 |
 | [Edge](/ko/grammar/edge/) | 서술·근거·실행·TOULMIN 계열, TRIPLE·QUALIFIER·LABEL |
 | [Meta](/ko/grammar/meta/) | 구조·정의·출처·계보·검증·정책·IMPORT |
-| [Issuer와 공표](/ko/grammar/issuer/) | Issuer 등급, 1 WORD 배정표, 공개 방식, 서명, 검증키 |
-| [공표 주소와 버전 목록](/ko/grammar/publishing/) | ID 표기, 공표 주소, 형식 지정, 이름 색인, 버전 목록, 신뢰 층 |
+| [Issuer와 공표](/ko/grammar/issuer/) | Issuer 등급, 2 WORD 배정표, 공개 방식, 서명, 검증키 |
+| [공표 주소와 버전 목록](/ko/grammar/publishing/) | ID 표기, 공표 주소, 형식 지정, Issuer·문서 목록, 버전 목록, 신뢰 층 |
 | [Codec 규격 문서](/ko/grammar/codec-spec/) | DECLARE·FIELD·ENUM·CODEC으로 쓰는 코덱북 |
 | [예시: 위키데이터 항목](/ko/grammar/example/) | 문서 하나를 워드 단위로 읽기 |
 

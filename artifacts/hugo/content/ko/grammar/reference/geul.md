@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-GEUL은 geul.org가 CC0로 발급하는 엔티티를 가리키는 선언 Reference다. 번호에 의미를 담지 않는 일련 ID다. 비트에 의미를 담는 식별자는 별도 Codec [GEUL-SIDX](/ko/grammar/reference/geul-sidx/)(`0011`)가 맡는다.
+GEUL은 geul.org가 CC0로 발급하는 엔티티를 가리키는 선언 Reference다. 번호에 의미를 담지 않는 일련 ID다. 비트에 의미를 담는 식별자는 별도 Codec [GEUL-SIDX](/ko/grammar/reference/geul-sidx/)(`0x00FL~0x013L`)가 맡는다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 0LLL L001 0QQQ      CCCC = 0010
+TAG WORD          0000 0000 1010 LLLL      Codec 0x00AL~0x00EL (Identified 0x00AL)
 [Length 확장 TAG]
 GEUL ID           가장 짧은 폭의 unsigned big-endian
 ```
@@ -28,9 +28,9 @@ GEUL ID           가장 짧은 폭의 unsigned big-endian
 
 | GEUL ID | WORD sequence |
 |---|---|
-| 1, Identified | `0090 0001` |
-| 1, Variable | `0094 0001` |
-| 70000, Generic | `0111 0001 1170` |
+| 1, Identified | `00A1 0001` |
+| 1, Variable | `00E1 0001` |
+| 70000, Generic | `00B2 0001 1170` |
 
 ## 열린 문제
 
