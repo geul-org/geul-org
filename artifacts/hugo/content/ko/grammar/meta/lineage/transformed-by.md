@@ -31,14 +31,14 @@ Version           Value 레코드 1개 (SHA-256-DIGEST 또는 SHA1-DIGEST)
   - geul.org 도구 문서의 도구: [EXTERNAL-ISSUER](/ko/grammar/reference/external-issuer/)(`0x00000000`, 문서 ID `0x0001xxxx xxxxxxxx`, 그 LOCAL). 도구 하나에 문서 하나다([Issuer](/ko/grammar/issuer/) 용어 정의 문서).
   - 코덱이 GEUL 문서이면 그 코덱 문서를 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)로 가리킨다.
 - Version은 정확히 하나의 완전한 Value 레코드이며 Tool 소스의 버전 관리 객체 ID다. git이면 커밋 객체 ID 전체다.
-  - git 저장소의 객체 형식이 SHA-256이면 [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/)(`0x05CL`, 16 WORD), SHA-1이면 [SHA1-DIGEST](/ko/grammar/value/binary/sha1-digest/)(`0x05DL`, 10 WORD)다. 저장소 형식은 `git rev-parse --show-object-format`으로 확인한다.
+  - git 저장소의 객체 형식이 SHA-256이면 [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/)(`0x07CL`, 16 WORD), SHA-1이면 [SHA1-DIGEST](/ko/grammar/value/binary/sha1-digest/)(`0x07DL`, 10 WORD)다. 저장소 형식은 `git rev-parse --show-object-format`으로 확인한다.
   - 축약 ID(`2bd496f` 등)는 쓰지 않는다. 다이제스트 Value는 잘라낸 값을 허용하지 않는다.
   - hex 텍스트(UTF8-TEXT)로 쓰지 않는다. 같은 값이 SHA-1에서 22 WORD(바이너리 11), SHA-256에서 34 WORD(바이너리 18)다.
 - Version은 필수다. 소스 버전을 모르는 도구 기록은 재현의 근거가 되지 못한다. 버전 관리 밖의 도구라면 배포물의 SHA-256(SHA-256-DIGEST)을 쓴다.
 - Version은 커밋된 소스를 가리킨다. 커밋되지 않은 변경이 있는 작업 트리로 만든 문서에는 그 커밋 ID를 쓰지 않는다(도구가 실행을 거부하는 것을 권한다).
 - 도구가 저장소 밖의 코드에 기대면(예: Go `replace`로 가리킨 로컬 라이브러리) 그 코드도 TRANSFORMED-BY로 따로 적는다. 도구의 커밋 ID만으로는 그 코드가 정해지지 않는다.
 - 원천을 무손실로 옮겨 담기만 하는 도구(예: 덤프를 원문 그대로 DB에 적재하는 도구)는 문서 내용을 정하지 않으므로 적지 않는다. 무손실이 아닌 적재는 문서를 바꾸므로 도구로 적는다.
-- geul.org 규격 문서(`0x1D40`)는 Tool(폭 0, 아무 Reference라 CODEC 없음)과 Version(폭 0, [CODEC](/ko/grammar/edge/codec/) `05C0`·`05D0`)의 두 레코드 필드로 적는다.
+- geul.org 규격 문서(`0x1D40`)는 Tool(폭 0, 아무 Reference라 CODEC 없음)과 Version(폭 0, [CODEC](/ko/grammar/edge/codec/) `07C0`·`07D0`)의 두 레코드 필드로 적는다.
 
 ## 길이
 
@@ -51,12 +51,12 @@ Version           Value 레코드 1개 (SHA-256-DIGEST 또는 SHA1-DIGEST)
 
 ## 예시
 
-비규범 예시다. 도구는 geul.org 도구 문서 `0x0001000000000001`의 LOCAL 2(`02D7 0000 0000 0001 0000 0000 0001 0002`), 소스는 커밋 `ddc0719974a32aaa7b422ee84221a9721085ce4c`(SHA-1)다.
+비규범 예시다. 도구는 geul.org 도구 문서 `0x0001000000000001`의 LOCAL 2(`02F7 0000 0000 0001 0000 0000 0001 0002`), 소스는 커밋 `ddc0719974a32aaa7b422ee84221a9721085ce4c`(SHA-1)다.
 
 ```
 1D4E 0015
-02D7 0000 0000 0001 0000 0000 0001 0002
-05DA ddc0 7199 74a3 2aaa 7b42 2ee8 4221 a972 1085 ce4c
+02F7 0000 0000 0001 0000 0000 0001 0002
+07DA ddc0 7199 74a3 2aaa 7b42 2ee8 4221 a972 1085 ce4c
 ```
 
 ## 열린 문제

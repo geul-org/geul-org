@@ -4,20 +4,20 @@ weight: 1
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge"]
-summary: "REFERENCE-NODE는 Reference 하나를 Object 레코드 하나에 묶어 그 Reference가 무엇인지 정의하는 방향성 서술 Edge다(Codec 0x080L)."
+summary: "REFERENCE-NODE는 Reference 하나를 Object 레코드 하나에 묶어 그 Reference가 무엇인지 정의하는 방향성 서술 Edge다(Codec 0x0A0L)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-REFERENCE-NODE는 Reference 하나를 Object 레코드 하나에 연결해, 그 Reference가 무엇인지 정의하거나 바인딩하는 방향성 서술 Edge다. Codec `0x080L`.
+REFERENCE-NODE는 Reference 하나를 Object 레코드 하나에 연결해, 그 Reference가 무엇인지 정의하거나 바인딩하는 방향성 서술 Edge다. Codec `0x0A0L`.
 
 Subject가 Object를 지시한다. 이 바인딩은 의미상 동일성을 주장하는 [SAME-NODE](/ko/grammar/edge/same-node/)가 아니며, 두 레코드의 byte가 같다는 뜻도 아니다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 1000 0000 LLLL
+TAG WORD          0000 1010 0000 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Subject           Reference 레코드 1개
@@ -49,11 +49,11 @@ Edge Id `0008`, Subject는 LOCAL 1, Object는 `Donald Trump`(en)의 [UTF8-LANGUA
 
 - Edge Id는 `0051 0008`로 2 WORD다.
 - Subject는 `0051 0001`로 2 WORD다.
-- Object는 언어 `0561 656e`(BCP47 `en`) + 텍스트 12 byte(짝수)라 `UTF8-LANGUAGE-TEXT-EVEN`(`0x058L`), 전체 9 WORD다. TAG는 `0588`이다.
-- Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 9 = 14 WORD, `LLLL=1101`이다. TAG는 `080D`다.
+- Object는 언어 `0761 656e`(BCP47 `en`) + 텍스트 12 byte(짝수)라 `UTF8-LANGUAGE-TEXT-EVEN`(`0x078L`), 전체 9 WORD다. TAG는 `0788`이다.
+- Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 9 = 14 WORD, `LLLL=1101`이다. TAG는 `0A0D`다.
 
 ```
-080D 0051 0008 0051 0001 0588 0561 656e 446f 6e61 6c64 2054 7275 6d70
+0A0D 0051 0008 0051 0001 0588 0561 656e 446f 6e61 6c64 2054 7275 6d70
 ```
 
 ## 관련 페이지

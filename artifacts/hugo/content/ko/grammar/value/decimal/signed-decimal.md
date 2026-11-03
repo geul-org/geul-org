@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-SIGNED-DECIMAL은 부호 있는 coefficient를 가진 정확한 10진수(exact decimal) Value다. Value 직접 코드 `0x048L`, 계열 DECIMAL이다. Payload 첫 2 WORD는 signed 32bit 10진 exponent `E`, 나머지는 최소 WORD 2의 보수 coefficient `C`이며 값은 `C×10^E`다.
+SIGNED-DECIMAL은 부호 있는 coefficient를 가진 정확한 10진수(exact decimal) Value다. Value 직접 코드 `0x068L`, 계열 DECIMAL이다. Payload 첫 2 WORD는 signed 32bit 10진 exponent `E`, 나머지는 최소 WORD 2의 보수 coefficient `C`이며 값은 `C×10^E`다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 0100 1000 LLLL      Codec 0x048L
+TAG WORD          0000 0110 1000 LLLL      Codec 0x068L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st–2nd (32비트)       Signed Base-10 Exponent E
 Payload WORD 3rd–Nth (1 WORD 이상)  Signed Two's-complement Coefficient C

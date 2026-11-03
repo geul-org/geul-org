@@ -4,20 +4,20 @@ weight: 30
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge"]
-summary: "ENUM은 날값 필드의 코드값 하나에 의미를 붙이는 서술 Edge다(Codec 0x09DL). 이름은 BIND로 묶는다."
+summary: "ENUM은 날값 필드의 코드값 하나에 의미를 붙이는 서술 Edge다(Codec 0x0BDL). 이름은 BIND로 묶는다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-ENUM은 날값 필드의 코드값 하나에 의미를 붙이는 서술 Edge다. Codec `0x09DL`.
+ENUM은 날값 필드의 코드값 하나에 의미를 붙이는 서술 Edge다. Codec `0x0BDL`.
 
 [FIELD](/ko/grammar/edge/field/)와 함께 Codec 규격을 쓰는 어휘다. 레이아웃은 디코더에 내장한다([Codec 규격 문서](/ko/grammar/codec-spec/)).
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 1001 1101 LLLL
+TAG WORD          0000 1011 1101 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 필드              FIELD Edge를 가리키는 LOCAL Reference 레코드
@@ -45,7 +45,7 @@ TOMBSTONE 규격 문서의 사유 범주 필드(FIELD #4, 날값 1 WORD)에 코�
 - TAG 1 + Edge Id 2 + 필드 2 + 코드값 1 = 6 WORD, `LLLL = 0101`.
 
 ```
-09D5 0051 000A 0051 0004 0001
+0BD5 0051 000A 0051 0004 0001
 ```
 
 TRIPLE 규격 문서는 Rank 필드(FIELD #5)에 ENUM 셋(`0`·`1`·`2`)을 두고 각각 `normal`·`preferred`·`deprecated`로 BIND한다([TRIPLE](/ko/grammar/edge/triple/)).

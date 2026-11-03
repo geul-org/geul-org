@@ -31,11 +31,11 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 비트로 계열
 
 | 계열 | 직접 코드 |
 |---|---|
-| NUMERIC | `0x040L~0x047L` |
-| DECIMAL | `0x048L~0x049L` |
-| TIME | `0x04AL~0x051L`, `0x061L` |
-| TEXT | `0x052L~0x05AL` |
-| BINARY | `0x05BL~0x060L` |
+| NUMERIC | `0x060L~0x067L` |
+| DECIMAL | `0x068L~0x069L` |
+| TIME | `0x06AL~0x071L`, `0x081L` |
+| TEXT | `0x072L~0x07AL` |
+| BINARY | `0x07BL~0x080L` |
 
 - 벡터, 텐서, 복소수, 분수, 구간 같은 수치 값은 NUMERIC이다. 예외로 BIT-VECTOR는 BINARY다. 언어 코드는 TEXT다.
 - Issuer 형식 레코드는 Codec 확장 TAG(Issuer와 코덱 번호)가 붙는다. Payload가 길면(전체 15 WORD 이상) Length 확장 TAG를 쓴다.
@@ -44,36 +44,36 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 비트로 계열
 
 | Codec | 이름 | 계열 | 설명 |
 |---|---|---|---|
-| `0x040L` | [BOOL](/ko/grammar/value/numeric/bool/) | NUMERIC | false 또는 true |
-| `0x041L` | [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/) | NUMERIC | 최소 WORD 2의 보수 정수 |
-| `0x042L` | [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/) | NUMERIC | 최소 WORD 부호 없는 정수 |
-| `0x043L` | [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
-| `0x044L` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도와 불확도(단위 Reference) |
-| `0x045L` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도, 불확도(단위 Reference) |
-| `0x046L` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | 수치 양(정수·BINARY-FLOAT·10진수·분수), 단위 Reference, 하한·상한 |
-| `0x047L` | [FRACTION](/ko/grammar/value/numeric/fraction/) | NUMERIC | 표기를 보존하는 분수(분자·분모 레코드, 약분하지 않음) |
-| `0x048L` | [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, 부호 있는 계수 |
-| `0x049L` | [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, 부호 없는 계수 |
-| `0x04AL` | [GREGORIAN-DATE](/ko/grammar/value/time/gregorian-date/) | TIME | 1970-01-01부터의 날짜 수 (그레고리력) |
-| `0x04BL` | [CIVIL-TIME-NANOSECONDS](/ko/grammar/value/time/civil-time-nanoseconds/) | TIME | 자정부터의 나노초 |
-| `0x04CL` | [POSIX-TIMESTAMP-SECONDS](/ko/grammar/value/time/posix-timestamp-seconds/) | TIME | Unix epoch부터의 초 |
-| `0x04DL` | [DURATION-SECONDS](/ko/grammar/value/time/duration-seconds/) | TIME | 경과 시간(초) |
-| `0x04EL`/`0x04FL` | [EDTF](/ko/grammar/value/time/edtf/) | TIME | ISO 8601-2 확장 날짜 문자열 (연·월 정밀도, 불확실, 구간) |
-| `0x050L`/`0x051L` | [GEDCOM-DATE](/ko/grammar/value/time/gedcom-date/) | TIME | GEDCOM 7 날짜 문자열 (율리우스력 등 다른 달력) |
-| `0x052L`/`0x053L` | [UTF8-TEXT](/ko/grammar/value/text/utf8-text/) | TEXT | 언어가 없는 UTF-8 문자열 |
-| `0x054L`/`0x055L` | [URI](/ko/grammar/value/text/uri/) | TEXT | RFC 3986 URI |
-| `0x056L`/`0x057L` | [LANGUAGE-BCP47-CODE](/ko/grammar/value/text/language-bcp47-code/) | TEXT | BCP 47 언어 태그 |
-| `0x058L`/`0x059L` | [UTF8-LANGUAGE-TEXT](/ko/grammar/value/text/utf8-language-text/) | TEXT | 언어가 붙은 텍스트 |
-| `0x05AL` | [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/) | TEXT | 1 WORD 압축 언어 코드 |
-| `0x05BL` | [UUID](/ko/grammar/value/binary/uuid/) | BINARY | RFC 9562 UUID |
-| `0x05CL` | [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/) | BINARY | SHA-256 결과 |
-| `0x05DL` | [SHA1-DIGEST](/ko/grammar/value/binary/sha1-digest/) | BINARY | SHA-1 결과 (git 객체 ID 같은 식별 용도) |
-| `0x05EL`/`0x05FL` | [OPAQUE-BYTES](/ko/grammar/value/binary/opaque-bytes/) | BINARY | 의미·형식 불명의 바이트열. 짝수·홀수 바이트 |
-| `0x060L` | [BIT-VECTOR](/ko/grammar/value/binary/bit-vector/) | BINARY | bit-count 뒤에 MSB-first로 저장한 N bit |
-| `0x061L` | [DURATION-NANOSECONDS](/ko/grammar/value/time/duration-nanoseconds/) | TIME | 경과 시간(나노초) |
+| `0x060L` | [BOOL](/ko/grammar/value/numeric/bool/) | NUMERIC | false 또는 true |
+| `0x061L` | [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/) | NUMERIC | 최소 WORD 2의 보수 정수 |
+| `0x062L` | [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/) | NUMERIC | 최소 WORD 부호 없는 정수 |
+| `0x063L` | [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
+| `0x064L` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도와 불확도(단위 Reference) |
+| `0x065L` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도, 불확도(단위 Reference) |
+| `0x066L` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | 수치 양(정수·BINARY-FLOAT·10진수·분수), 단위 Reference, 하한·상한 |
+| `0x067L` | [FRACTION](/ko/grammar/value/numeric/fraction/) | NUMERIC | 표기를 보존하는 분수(분자·분모 레코드, 약분하지 않음) |
+| `0x068L` | [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, 부호 있는 계수 |
+| `0x069L` | [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, 부호 없는 계수 |
+| `0x06AL` | [GREGORIAN-DATE](/ko/grammar/value/time/gregorian-date/) | TIME | 1970-01-01부터의 날짜 수 (그레고리력) |
+| `0x06BL` | [CIVIL-TIME-NANOSECONDS](/ko/grammar/value/time/civil-time-nanoseconds/) | TIME | 자정부터의 나노초 |
+| `0x06CL` | [POSIX-TIMESTAMP-SECONDS](/ko/grammar/value/time/posix-timestamp-seconds/) | TIME | Unix epoch부터의 초 |
+| `0x06DL` | [DURATION-SECONDS](/ko/grammar/value/time/duration-seconds/) | TIME | 경과 시간(초) |
+| `0x06EL`/`0x06FL` | [EDTF](/ko/grammar/value/time/edtf/) | TIME | ISO 8601-2 확장 날짜 문자열 (연·월 정밀도, 불확실, 구간) |
+| `0x070L`/`0x071L` | [GEDCOM-DATE](/ko/grammar/value/time/gedcom-date/) | TIME | GEDCOM 7 날짜 문자열 (율리우스력 등 다른 달력) |
+| `0x072L`/`0x073L` | [UTF8-TEXT](/ko/grammar/value/text/utf8-text/) | TEXT | 언어가 없는 UTF-8 문자열 |
+| `0x074L`/`0x075L` | [URI](/ko/grammar/value/text/uri/) | TEXT | RFC 3986 URI |
+| `0x076L`/`0x077L` | [LANGUAGE-BCP47-CODE](/ko/grammar/value/text/language-bcp47-code/) | TEXT | BCP 47 언어 태그 |
+| `0x078L`/`0x079L` | [UTF8-LANGUAGE-TEXT](/ko/grammar/value/text/utf8-language-text/) | TEXT | 언어가 붙은 텍스트 |
+| `0x07AL` | [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/) | TEXT | 1 WORD 압축 언어 코드 |
+| `0x07BL` | [UUID](/ko/grammar/value/binary/uuid/) | BINARY | RFC 9562 UUID |
+| `0x07CL` | [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/) | BINARY | SHA-256 결과 |
+| `0x07DL` | [SHA1-DIGEST](/ko/grammar/value/binary/sha1-digest/) | BINARY | SHA-1 결과 (git 객체 ID 같은 식별 용도) |
+| `0x07EL`/`0x07FL` | [OPAQUE-BYTES](/ko/grammar/value/binary/opaque-bytes/) | BINARY | 의미·형식 불명의 바이트열. 짝수·홀수 바이트 |
+| `0x080L` | [BIT-VECTOR](/ko/grammar/value/binary/bit-vector/) | BINARY | bit-count 뒤에 MSB-first로 저장한 N bit |
+| `0x081L` | [DURATION-NANOSECONDS](/ko/grammar/value/time/duration-nanoseconds/) | TIME | 경과 시간(나노초) |
 
 - 짝수·홀수로 짝지은 코드는 가변 길이 바이트열이다. 짝수 코드는 바이트 수가 짝수, 홀수 코드는 홀수다([레코드와 TAG WORD](/ko/grammar/record/)).
-- 직접 코드는 `0x040L~0x061L`에 빈칸 없이 있다. `0x062L~0x07CL`은 빈칸이고 `0x07DL~0x07FL`은 VALUE-ISSUER-2/4/16WORD다.
+- 직접 코드는 `0x060L~0x081L`에 빈칸 없이 있다. `0x082L~0x09CL`은 빈칸이고 `0x09DL~0x09FL`은 VALUE-ISSUER-2/4/16WORD다.
 
 ## Issuer 형식
 
@@ -135,7 +135,7 @@ TAG WORD          0000 0101 100P LLLL   (P = 텍스트가 홀수 바이트)
 예: `"Douglas Adams"@en` (13 바이트, 홀수)
 
 ```
-0599  0561 656E  446F 7567 6C61 7320 4164 616D 7300
+0799  0761 656E  446F 7567 6C61 7320 4164 616D 7300
 TAG   언어 en    D o  u g  l a  s ␠  A d  a m  s (패딩)
 ```
 
@@ -146,7 +146,7 @@ TAG   언어 en    D o  u g  l a  s ␠  A d  a m  s (패딩)
 QUANTITY는 양과 단위, 경계를 하나의 값으로 담는다.
 
 ```
-TAG WORD          0000 0100 0110 LLLL
+TAG WORD          0000 0110 0110 LLLL
 [Length 확장 TAG]
 양                수치 Value 레코드 (정수·BINARY-FLOAT·10진수·분수)
 단위              Reference 레코드 (단위 항목), 무단위면 0x0000
@@ -161,11 +161,11 @@ TAG WORD          0000 0100 0110 LLLL
 예: `652 km`, 범위 `[651, 653]` (km = 위키데이터 Q828224)
 
 ```
-046E 0011                    TAG (확장 길이 17 WORD)
-0483 0000 0000 028C          양 652
+066E 0011                    TAG (확장 길이 17 WORD)
+0683 0000 0000 028C          양 652
 0142 000C A340               단위 Q828224
-0483 0000 0000 028B          하한 651
-0483 0000 0000 028D          상한 653
+0683 0000 0000 028B          하한 651
+0683 0000 0000 028D          상한 653
 ```
 
 ## 날짜

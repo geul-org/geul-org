@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-DESCRIBED-DENSE-TENSOR는 shape와 element format을 Payload descriptor에 적고 C-contiguous row-major payload를 저장하는 텐서 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000600`, 계열 NUMERIC이다.
+DESCRIBED-DENSE-TENSOR는 shape와 element format을 Payload descriptor에 적고 C-contiguous row-major payload를 저장하는 텐서 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000600`, 계열 NUMERIC이다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 0111 1101 LLLL      Codec 0x07DL
+TAG WORD          0000 1001 1101 LLLL      Codec 0x09DL
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Issuer            2 WORD  0x00000002 (ADHOC)
 코덱 번호         2 WORD  0x00000600

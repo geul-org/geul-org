@@ -4,13 +4,13 @@ weight: 10
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-28T12:00:00+09:00
 tags: ["grammar", "value", "numeric"]
-summary: "NUMERIC 계열(Codec `0x040L~0x047L`)의 기본 수 형식: BOOL, 정수, IEEE 754 부동소수, 지구·천체 좌표, 단위가 붙은 QUANTITY, 표기를 보존하는 분수 FRACTION."
+summary: "NUMERIC 계열(Codec `0x060L~0x067L`)의 기본 수 형식: BOOL, 정수, IEEE 754 부동소수, 지구·천체 좌표, 단위가 붙은 QUANTITY, 표기를 보존하는 분수 FRACTION."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-NUMERIC 계열의 기본 수 형식이다. 직접 코드 `0x040L~0x047L`에 둔다.
+NUMERIC 계열의 기본 수 형식이다. 직접 코드 `0x060L~0x067L`에 둔다.
 
 - BOOL, 부호 있는·없는 정수, IEEE 754 binary 부동소수, 지구(WGS 84)·천체 좌표, 양·단위·경계를 묶은 QUANTITY, 원문 표기 그대로의 분수 FRACTION이 있다.
 - 정수는 값이 들어가는 최소 WORD로 쓴다.

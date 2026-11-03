@@ -4,7 +4,7 @@ weight: 1001
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "time"]
-summary: "DURATION-NANOSECONDS는 epoch 없는 signed int64 nanosecond 경과 시간을 담는 Value다(직접 코드 0x061L)."
+summary: "DURATION-NANOSECONDS는 epoch 없는 signed int64 nanosecond 경과 시간을 담는 Value다(직접 코드 0x081L)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,11 +14,11 @@ DURATION-NANOSECONDS는 epoch이 없는 signed nanosecond 경과 시간이다. i
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x061L`. 계열 TIME.
+- 코드: Value 직접 코드 `0x081L`. 계열 TIME.
 - Arrow `Duration(NANOSECOND)`와 같은 고정폭 signed int64 물리 타입을 쓴다.
 
 ```
-TAG WORD          0x0614 (0000 0110 0001 0100)  전체 5 WORD
+TAG WORD          0x0814 (0000 1000 0001 0100)  전체 5 WORD
 Payload WORD 1st (bits 63..48)     Signed Nanoseconds high 16bit
 Payload WORD 2nd (bits 47..32)     Signed Nanoseconds
 Payload WORD 3rd (bits 31..16)     Signed Nanoseconds
@@ -38,7 +38,7 @@ Payload WORD 4th (bits 15..0)      Signed Nanoseconds low 16bit
 
 ## 예시
 
-- 0ns는 Payload `0000 0000 0000 0000`, 전체 5 WORD, `LLLL=0100`이다. 전체는 `0614 0000 0000 0000 0000`이다.
+- 0ns는 Payload `0000 0000 0000 0000`, 전체 5 WORD, `LLLL=0100`이다. 전체는 `0814 0000 0000 0000 0000`이다.
 - 1ns는 Payload `0000 0000 0000 0001`이다.
 - -1ns는 Payload `ffff ffff ffff ffff`이다.
 

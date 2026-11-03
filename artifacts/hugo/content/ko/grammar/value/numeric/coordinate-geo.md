@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-COORDINATE-GEO는 지정한 천체(행성, 위성, 소행성 등) 위의 한 점을 위도·경도와 불확도로 나타내는 좌표 Value다. Value 직접 코드 `0x045L`, 계열 NUMERIC이다. [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/)(`0x044L`) 앞에 천체(Globe) Reference를 더한 형식이며, 위도·경도·불확도·단위 규칙은 COORDINATE-EARTH와 같다.
+COORDINATE-GEO는 지정한 천체(행성, 위성, 소행성 등) 위의 한 점을 위도·경도와 불확도로 나타내는 좌표 Value다. Value 직접 코드 `0x065L`, 계열 NUMERIC이다. [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/)(`0x064L`) 앞에 천체(Globe) Reference를 더한 형식이며, 위도·경도·불확도·단위 규칙은 COORDINATE-EARTH와 같다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 0100 0101 LLLL      Codec 0x045L
+TAG WORD          0000 0110 0101 LLLL      Codec 0x065L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Globe             Reference 레코드 1개 (천체를 가리키는 Reference, Quantifier Identified)
 Latitude          4 WORD 날값, IEEE 754 binary64 (도)
@@ -32,12 +32,12 @@ Unit              Reference 레코드 1개, 또는 자리 표지 0x0000 ABSENT
 - 좌표계는 천체마다 그 천체의 관례를 따른다(행성중심 위도, 동경 또는 서경 0~360° 등). 천체별 좌표계는 별도의 GEUL 문서로 정한다.
 - 거리 단위(미터 등)의 Uncertainty는 천체 표면 위의 거리다. 각도 단위(도·각분·각초)는 천체 크기와 상관없이 위도·경도의 각도 반경이다.
 - 지구(Q2) 좌표는 COORDINATE-EARTH를 쓰기를 권한다. 이 형식에 지구를 적어도 invalid는 아니며, 비교하는 쪽이 같은 좌표로 맞춰 본다.
-- geul.org 규격 문서 `0x00000000/codecs/0x00000450`은 Latitude·Longitude·Uncertainty 날값 필드에 [CODEC](/ko/grammar/edge/codec/) BINARY-FLOAT(`0430`)를, Unit 레코드 필드에 CODEC `000F`(아무 Reference)·`0000`(ABSENT)을 둔다.
+- geul.org 규격 문서 `0x00000000/codecs/0x00000650`은 Latitude·Longitude·Uncertainty 날값 필드에 [CODEC](/ko/grammar/edge/codec/) BINARY-FLOAT(`0630`)를, Unit 레코드 필드에 CODEC `000F`(아무 Reference)·`0000`(ABSENT)을 둔다.
 
 ## 길이
 
 - 전체는 TAG 1 WORD + (Length 확장 TAG) + Globe 레코드 + 10 WORD + Unit 레코드다.
-- Globe가 2 WORD(QID가 1 WORD에 들어갈 때)이고 Unit이 ABSENT면 14 WORD, `LLLL=1101`, TAG `045D`다. Unit이 Reference(2 WORD 이상)이면 15 WORD를 넘어 확장 길이를 쓴다: TAG `045E`, 다음 WORD에 전체 WORD 수([레코드와 TAG WORD](/ko/grammar/record/)).
+- Globe가 2 WORD(QID가 1 WORD에 들어갈 때)이고 Unit이 ABSENT면 14 WORD, `LLLL=1101`, TAG `065D`다. Unit이 Reference(2 WORD 이상)이면 15 WORD를 넘어 확장 길이를 쓴다: TAG `065E`, 다음 WORD에 전체 WORD 수([레코드와 TAG WORD](/ko/grammar/record/)).
 
 ## 위키데이터 대응
 
@@ -49,19 +49,19 @@ Unit              Reference 레코드 1개, 또는 자리 표지 0x0000 ABSENT
 화성(Q111) 4.5, 137.4, 불확도 미상:
 
 ```
-045D 0141 006F 4012 0000 0000 0000 4061 2CCC CCCC CCCD 0000 0000 0000
+065D 0141 006F 4012 0000 0000 0000 4061 2CCC CCCC CCCD 0000 0000 0000
 ```
 
-- TAG `045D`(Codec `0x045L`, `LLLL=1101`, 14 WORD), Globe `0141 006F`(WIKIDATA-QID Q111), Latitude `4012 0000 0000 0000`, Longitude `4061 2CCC CCCC CCCD`, Uncertainty `0000 0000`(+0), Unit `0000`(ABSENT, 미상).
+- TAG `065D`(Codec `0x065L`, `LLLL=1101`, 14 WORD), Globe `0141 006F`(WIKIDATA-QID Q111), Latitude `4012 0000 0000 0000`, Longitude `4061 2CCC CCCC CCCD`, Uncertainty `0000 0000`(+0), Unit `0000`(ABSENT, 미상).
 - 텍스트 표기: `COORDINATE-GEO(Q111, 4.5, 137.4, 0, ABSENT)`.
 
 같은 점, precision 0.1°(Unit 도 Q28390):
 
 ```
-045E 0010 0141 006F 4012 0000 0000 0000 4061 2CCC CCCC CCCD 3DCC CCCD 0141 6EE6
+065E 0010 0141 006F 4012 0000 0000 0000 4061 2CCC CCCC CCCD 3DCC CCCD 0141 6EE6
 ```
 
-- TAG `045E`(`LLLL=1110`, 확장 길이), 전체 `0010`(16 WORD), Uncertainty `3DCC CCCD`(binary32 0.1), Unit `0141 6EE6`(Q28390).
+- TAG `065E`(`LLLL=1110`, 확장 길이), 전체 `0010`(16 WORD), Uncertainty `3DCC CCCD`(binary32 0.1), Unit `0141 6EE6`(Q28390).
 
 ## 표준 근거
 

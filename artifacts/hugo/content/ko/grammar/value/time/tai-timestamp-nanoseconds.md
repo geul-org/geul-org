@@ -14,10 +14,10 @@ TAI-TIMESTAMP-NANOSECONDS는 같은 TAI epoch `1970-01-01T00:00:00 TAI`부터의
 
 ## 레이아웃
 
-- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000013` BIPM, 코덱 번호 `0x00004001`. 계열 TIME.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000013` BIPM, 코덱 번호 `0x00004001`. 계열 TIME.
 
 ```
-TAG WORD          0x07D8 (0000 0111 1101 1000)  전체 9 WORD
+TAG WORD          0x09D8 (0000 1001 1101 1000)  전체 9 WORD
 Issuer            2 WORD  0x00000013 (BIPM)
 코덱 번호         2 WORD  0x00004001
 Payload WORD 1st (bits 63..48)     Signed Nanoseconds high 16bit

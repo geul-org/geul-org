@@ -4,20 +4,20 @@ weight: 2
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge"]
-summary: "SAME-NODE는 두 Reference가 같은 대상을 지시한다고 선언하는 방향 없는 동일성 서술 Edge다(Codec 0x081L)."
+summary: "SAME-NODE는 두 Reference가 같은 대상을 지시한다고 선언하는 방향 없는 동일성 서술 Edge다(Codec 0x0A1L)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-SAME-NODE는 두 Reference가 같은 referent를 지시한다고 선언하는 방향 없는 동일성 서술 Edge다. Codec `0x081L`.
+SAME-NODE는 두 Reference가 같은 referent를 지시한다고 선언하는 방향 없는 동일성 서술 Edge다. Codec `0x0A1L`.
 
 두 Reference 레코드의 byte 인코딩, Codec, ID가 같다는 뜻이 아니다. [REFERENCE-NODE](/ko/grammar/edge/reference-node/)가 `Reference → 레코드`의 방향성 바인딩인 것과 달리, SAME-NODE는 두 Reference 사이의 동일성(referential identity)을 나타낸다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 1000 0001 LLLL
+TAG WORD          0000 1010 0001 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Subject           Reference 레코드 1개
@@ -45,10 +45,10 @@ Object            Reference 레코드 1개
 
 Edge Id `0009`, Subject는 LOCAL 1, Object는 LOCAL 2다.
 
-- Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 2 = 7 WORD, `LLLL=0110`이다. TAG는 `0000 1000 0001 0110` = `0816`이다.
+- Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 2 = 7 WORD, `LLLL=0110`이다. TAG는 `0000 1010 0001 0110` = `0A16`이다.
 
 ```
-0816 0051 0009 0051 0001 0051 0002
+0A16 0051 0009 0051 0001 0051 0002
 ```
 
 ## 관련 페이지

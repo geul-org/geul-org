@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-QUATERNION-BINARY32는 `(x, y, z, w)` 순서의 IEEE 754 binary32 네 성분으로 quaternion을 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000704`, 계열 NUMERIC이다.
+QUATERNION-BINARY32는 `(x, y, z, w)` 순서의 IEEE 754 binary32 네 성분으로 quaternion을 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000704`, 계열 NUMERIC이다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07DC (0000 0111 1101 1100)  전체 13 WORD
+TAG WORD          0x09DC (0000 1001 1101 1100)  전체 13 WORD
 Issuer            2 WORD  0x00000002 (ADHOC)
 코덱 번호         2 WORD  0x00000704
 Payload           [x: 2 WORD][y: 2 WORD][z: 2 WORD][w: 2 WORD]

@@ -15,7 +15,7 @@ Reference는 대상을 가리키는 레코드다. 대상은 엔티티, 개념, �
 ## 레이아웃
 
 ```
-TAG WORD          0000 00CC CCCC LLLL
+TAG WORD          0000 0KCC CCCC LLLL      섹션 0~2 (0x000L~0x05FL)
 [Length 확장 TAG]
 [IMPORT ID]       EXTERNAL-POINTER일 때 (1/2/4 WORD)
 [Issuer]          EXTERNAL-ISSUER일 때 (2/4/16 WORD)
@@ -24,7 +24,8 @@ TAG WORD          0000 00CC CCCC LLLL
 ```
 
 - `LLLL`은 TAG WORD를 포함한 전체 WORD 수 − 1이다([레코드와 TAG WORD](/ko/grammar/record/)).
-- Codec은 C 6비트 코드 표로 쓴다(아래 표). 5Q 체계는 코드 하나에 식별 체계와 양화가 함께 있다. REFERENCE-ISSUER의 양화는 Issuer 문서가 정한다.
+- Reference는 섹션 0~2(`w < 0x0600`) 96칸이다. 섹션 0 엔티티 `0x000L~0x01FL`, 섹션 1 EXTERNAL `0x020L~0x03FL`, 섹션 2 기타 `0x040L~0x05FL`이다.
+- Codec은 코드 표로 쓴다(아래 표). 5Q 체계는 코드 하나에 식별 체계와 양화가 함께 있다. REFERENCE-ISSUER의 양화는 Issuer 문서가 정한다.
 - 대상 ID는 부호 없는 빅 엔디언 정수이고 **가장 짧은 폭**으로 쓴다. 폭은 Length에서 앞 필드를 뺀 나머지다.
 - 대상 ID `0`은 `0x0000` 1 WORD로 쓴다. 그 밖에는 앞에 `0x0000` WORD를 붙이지 않는다.
 - 정수값이 같으면 같은 ID다. 폭은 ID의 일부가 아니다.
@@ -37,36 +38,39 @@ TAG WORD          0000 00CC CCCC LLLL
 | TAG ID | 이름 | 분류 | 대상 |
 |---|---|---|---|
 | `0x000L~0x002L` | [자리 표지](/ko/grammar/reference/slot-marker/) | 예약 | 대상을 가리키지 않는다. 1 WORD 표지만 쓴다: `0x0000` ABSENT(적지 않음), `0x0010` UNKNOWN-VALUE(알 수 없음), `0x0020` NO-VALUE(없음) |
-| `0x003L` | [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/) | 지시선언 | Issuer 자신 |
-| `0x004L` | [DOC-POINTER](/ko/grammar/reference/doc-pointer/) | 지시선언 | Issuer가 공표한 문서의 한 버전 |
 | `0x005L~0x009L` | [LOCAL](/ko/grammar/reference/local/) | 선언 | 이 문서가 발급한 ID |
 | `0x00AL~0x00EL` | [GEUL](/ko/grammar/reference/geul/) | 선언 | geul.org가 발급하는 엔티티 |
 | `0x00FL~0x013L` | [GEUL-SIDX](/ko/grammar/reference/geul-sidx/) | 선언 | 비트에 의미를 담은 의미정렬 식별자 |
 | `0x014L~0x018L` | [WIKIDATA-QID](/ko/grammar/reference/wikidata-qid/) | 선언 | 위키데이터 항목. `Q` 뒤의 정수 |
 | `0x019L~0x01DL` | [WIKIDATA-PID](/ko/grammar/reference/wikidata-pid/) | 선언 | 위키데이터 속성. `P` 뒤의 정수 |
-| `0x01EL~0x02CL` | [EXTERNAL-POINTER-1/2/4WORD](/ko/grammar/reference/external-pointer/) | 지시 | IMPORT로 가져온 문서의 LOCAL ID |
-| `0x02DL~0x03BL` | [EXTERNAL-ISSUER-2/4/16WORD](/ko/grammar/reference/external-issuer/) | 지시선언 | Issuer가 공표한 문서의 LOCAL ID |
-| `0x03CL` | [CODEC-POINTER](/ko/grammar/reference/codec-pointer/) | 지시선언 | Issuer가 공표한 코덱의 한 버전 |
-| `0x03DL~0x03FL` | [REFERENCE-ISSUER-2/4/16WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer가 정의한다. 분류와 대상 ID 칸은 Issuer 문서가 정한다 |
+| `0x020L~0x02EL` | [EXTERNAL-POINTER-1/2/4WORD](/ko/grammar/reference/external-pointer/) | 지시 | IMPORT로 가져온 문서의 LOCAL ID |
+| `0x02FL~0x03DL` | [EXTERNAL-ISSUER-2/4/16WORD](/ko/grammar/reference/external-issuer/) | 지시선언 | Issuer가 공표한 문서의 LOCAL ID |
+| `0x040L` | [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/) | 지시선언 | Issuer 자신 |
+| `0x041L` | [DOC-POINTER](/ko/grammar/reference/doc-pointer/) | 지시선언 | Issuer가 공표한 문서의 한 버전 |
+| `0x042L` | [CODEC-POINTER](/ko/grammar/reference/codec-pointer/) | 지시선언 | Issuer가 공표한 코덱의 한 버전 |
+| `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer가 정의한다. 분류와 대상 ID 칸은 Issuer 문서가 정한다 |
 
-| 체계 `C / 5` | 이름 | Identified | Generic | Free-choice | Universal | Variable |
+- 빈칸은 `0x003L~0x004L`, `0x01EL~0x01FL`(섹션 0), `0x03EL~0x03FL`(섹션 1), `0x043L~0x05CL`(섹션 2, 새 식별 체계 자리)이다.
+- 체계 번호는 섹션 안 오프셋 `o = C & 0x1F`로 읽는다. 섹션 0에서 `5 <= o < 30`이면 체계 `o / 5`(1~5), 섹션 1에서 `o < 30`이면 체계 `6 + o / 5`(6~11)다.
+
+| 체계 | 이름 | Identified | Generic | Free-choice | Universal | Variable |
 |---:|---|---|---|---|---|---|
 | 1 | LOCAL | `0x005L` | `0x006L` | `0x007L` | `0x008L` | `0x009L` |
 | 2 | GEUL | `0x00AL` | `0x00BL` | `0x00CL` | `0x00DL` | `0x00EL` |
 | 3 | GEUL-SIDX | `0x00FL` | `0x010L` | `0x011L` | `0x012L` | `0x013L` |
 | 4 | WIKIDATA-QID | `0x014L` | `0x015L` | `0x016L` | `0x017L` | `0x018L` |
 | 5 | WIKIDATA-PID | `0x019L` | `0x01AL` | `0x01BL` | `0x01CL` | `0x01DL` |
-| 6 | EXTERNAL-POINTER-1WORD | `0x01EL` | `0x01FL` | `0x020L` | `0x021L` | `0x022L` |
-| 7 | EXTERNAL-POINTER-2WORD | `0x023L` | `0x024L` | `0x025L` | `0x026L` | `0x027L` |
-| 8 | EXTERNAL-POINTER-4WORD | `0x028L` | `0x029L` | `0x02AL` | `0x02BL` | `0x02CL` |
-| 9 | EXTERNAL-ISSUER-2WORD | `0x02DL` | `0x02EL` | `0x02FL` | `0x030L` | `0x031L` |
-| 10 | EXTERNAL-ISSUER-4WORD | `0x032L` | `0x033L` | `0x034L` | `0x035L` | `0x036L` |
-| 11 | EXTERNAL-ISSUER-16WORD | `0x037L` | `0x038L` | `0x039L` | `0x03AL` | `0x03BL` |
+| 6 | EXTERNAL-POINTER-1WORD | `0x020L` | `0x021L` | `0x022L` | `0x023L` | `0x024L` |
+| 7 | EXTERNAL-POINTER-2WORD | `0x025L` | `0x026L` | `0x027L` | `0x028L` | `0x029L` |
+| 8 | EXTERNAL-POINTER-4WORD | `0x02AL` | `0x02BL` | `0x02CL` | `0x02DL` | `0x02EL` |
+| 9 | EXTERNAL-ISSUER-2WORD | `0x02FL` | `0x030L` | `0x031L` | `0x032L` | `0x033L` |
+| 10 | EXTERNAL-ISSUER-4WORD | `0x034L` | `0x035L` | `0x036L` | `0x037L` | `0x038L` |
+| 11 | EXTERNAL-ISSUER-16WORD | `0x039L` | `0x03AL` | `0x03BL` | `0x03CL` | `0x03DL` |
 
 - **선언**은 발급 주체가 정한 ID로 대상을 직접 식별한다.
-- **지시**는 IMPORT ID로 가져온 문서 안의 LOCAL을 가리킨다. IMPORT ID 폭은 체계로 정해진다: `C / 5 − 6`이 0, 1, 2이면 1, 2, 4 WORD다.
-- **지시선언**은 IMPORT 없이 레코드 하나로 다른 문서와 그 안의 대상을 가리킨다. EXTERNAL-ISSUER의 Issuer 폭은 `C / 5 − 9`가 0, 1, 2이면 2, 4, 16 WORD다.
-- `0x01EL~0x03BL`(`0x1E <= C <= 0x3B`, 체계 6~11)은 다른 문서의 LOCAL을 가리킨다. 그 밖의 선언 체계는 대상을 직접 식별한다(이 문서의 LOCAL, 발급 ID). 포인터(`C = 3, 4, 0x3C`)는 Issuer·문서·코덱 자체를 가리킨다. REFERENCE-ISSUER는 이 구분 밖이다.
+- **지시**는 IMPORT ID로 가져온 문서 안의 LOCAL을 가리킨다. IMPORT ID 폭은 체계로 정해진다: 체계 − 6이 0, 1, 2이면 1, 2, 4 WORD다.
+- **지시선언**은 IMPORT 없이 레코드 하나로 다른 문서와 그 안의 대상을 가리킨다. EXTERNAL-ISSUER의 Issuer 폭은 체계 − 9가 0, 1, 2이면 2, 4, 16 WORD다.
+- `0x020L~0x03DL`(섹션 1, 체계 6~11)은 다른 문서의 LOCAL을 가리킨다. 그 밖의 선언 체계는 대상을 직접 식별한다(이 문서의 LOCAL, 발급 ID). 포인터(섹션 2, `0x040L~0x042L`)는 Issuer·문서·코덱 자체를 가리킨다. REFERENCE-ISSUER는 이 구분 밖이다.
 - `0x000L~0x002L`은 예약이고, 대상을 가리키는 Reference로는 쓰지 않는다. WORD `0x0000`, `0x0010`, `0x0020`(L 0, 1 WORD)은 [자리 표지](/ko/grammar/reference/slot-marker/)다(`0x0000` ABSENT, `0x0010` UNKNOWN-VALUE, `0x0020` NO-VALUE). 표지는 그 WORD를 CODEC 대상으로 정확히 둔 레코드 필드 자리에서만 유효하다. 와일드카드와 CODEC 없는 필드는 받지 않고, HEAD·BODY 레코드 자리와 Edge Id 자리에서는 invalid다. C 0~2에 Payload가 있는 레코드(L ≥ 1)는 예약이다.
 - geul.org가 제공하는 직접 코드와 공표물만 CC0다. CC0가 아닌 식별 체계(WordNet 등)를 직접 코드로 두지 않는다. Issuer 형식의 라이선스는 그 Issuer가 정한다.
 
@@ -119,12 +123,12 @@ LOCAL은 이 문서가 발급한 ID다.
 예: Issuer `0x00000002`의 문서 `0x0000000000000002` 안의 LOCAL 7
 
 ```
-02D7 0000 0002 0000 0000 0000 0002 0007
+02F7 0000 0002 0000 0000 0000 0002 0007
 ```
 
 ## Quantifier
 
-| `C % 5` | 이름 | 뜻 | 예 |
+| `o % 5` | 이름 | 뜻 | 예 |
 |---|---|---|---|
 | `0` | Identified | 식별된 개체 | 일론 머스크, 대한민국 |
 | `1` | Generic | 종류 전체에 관한 일반적 진술. 예외를 허용한다 | 병사는 명령에 복종한다 |
@@ -132,7 +136,7 @@ LOCAL은 이 문서가 발급한 ID다.
 | `3` | Universal | 범위 안의 모든 대상 | 모든 병사 |
 | `4` | Variable | 담화 변수 | 그 사람, 이 여자 |
 
-- **양화는 `5 <= C < 0x3C`(체계 1~11)에서만 읽는다.** 양화는 `C % 5`, 체계는 `C / 5`다. 표지(`C < 3`)와 포인터(`C = 3, 4, 0x3C`)는 양화가 없다. 표지 `0x0010` UNKNOWN-VALUE는 Generic이 아니다. REFERENCE-ISSUER(`C >= 0x3D`)의 양화는 Issuer가 발행한 Codec 문서가 정한다.
+- **양화는 5Q 체계(체계 1~11)에서만 읽는다.** 섹션 안 오프셋 `o = C & 0x1F`로, 섹션 0은 `5 <= o < 30`, 섹션 1은 `o < 30`일 때 양화 `o % 5`다. 한 섹션이 32칸이라 `C % 5`를 그대로 쓰면 섹션 1이 어긋난다. 표지(섹션 0, `C < 3`)와 섹션 2(포인터, REFERENCE-ISSUER)는 양화가 없다. 표지 `0x0010` UNKNOWN-VALUE는 Generic이 아니다. REFERENCE-ISSUER의 양화는 Issuer가 발행한 Codec 문서가 정한다.
 - Generic은 Universal과 달리 모든 개별 대상에 예외 없이 적용된다는 뜻이 아니다. `병사란 무엇인가` 같은 정의적 표현은 Generic으로 쓸 수 있다. 엄밀한 개념·분류 정의가 필요하면 별도의 관계로 구체화한다.
 - 양화의 적용 범위와 부정은 Reference가 아니라 그것을 쓰는 Edge가 정한다.
 - **Variable**은 종류는 알지만 아직 식별되지 않은 담화 속 대상이다.

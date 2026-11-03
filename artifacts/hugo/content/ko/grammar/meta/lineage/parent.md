@@ -33,4 +33,4 @@ Payload           SHA-256-DIGEST Value 하나 (16 WORD)
 
 ## 예시
 
-- `0x1D1E 0x0014 0x05CE 0x0012 <16 WORD>` (Meta 20 WORD = TAG + Length 확장 + 내장 Value 18 WORD)
+- `0x1D1E 0x0014 0x07CE 0x0012 <16 WORD>` (Meta 20 WORD = TAG + Length 확장 + 내장 Value 18 WORD)

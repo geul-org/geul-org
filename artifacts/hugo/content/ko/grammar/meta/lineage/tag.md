@@ -28,12 +28,12 @@ TAG WORD          0001 1101 1010 LLLL      Codec 0x1DAL
 ## 해석과 유효성
 
 - 이름은 [UTF8-TEXT](/ko/grammar/value/text/utf8-text/), 대상은 [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/)다.
-- 대상을 생략하면(ABSENT `0x0000`, [CODEC](/ko/grammar/edge/codec/) 선택 필드) 이 문서 자신에 붙인 이름이다. 자기 내용 해시는 자기 안에 적을 수 없다. geul.org 규격 `0x1DA0`은 name(`0520`·`0530`)과 target(`05C0`·`0000`)의 두 레코드 필드다.
+- 대상을 생략하면(ABSENT `0x0000`, [CODEC](/ko/grammar/edge/codec/) 선택 필드) 이 문서 자신에 붙인 이름이다. 자기 내용 해시는 자기 안에 적을 수 없다. geul.org 규격 `0x1DA0`은 name(`0720`·`0730`)과 target(`07C0`·`0000`)의 두 레코드 필드다.
 - 같은 이름을 다른 버전에 다시 쓰지 않는다.
 
 ## 예시
 
-- 이름 `v1`, 이 버전: `1DA3 0521 7631 0000`
+- 이름 `v1`, 이 버전: `1DA3 0721 7631 0000`
 
 ## 열린 문제
 

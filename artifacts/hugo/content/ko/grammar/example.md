@@ -21,12 +21,12 @@ image: "/images/og-default.webp"
 ## 전체
 
 ```
-1c01 003f 1c51 0001 1c79 0048 0000 0001 5100 0000 0000 002a 0000 0000
+1c01 003f 1c51 0001 1c79 0418 0000 0001 5100 0000 0000 002a 0000 0000
 1c30
-084e 0010 0051 0001 0141 002a 0599 0561 656e 446f 7567 6c61 7320 4164 616d 7300
-08a9 0051 0002 0191 001f 0141 002a 0141 0005 0000
-08aa 0051 0003 0191 0045 0141 002a 0142 000a 8c53 0000
-08b9 0051 0004 0191 0244 0051 0003 04e2 3139 3731
+0a4e 0010 0051 0001 0141 002a 0799 0761 656e 446f 7567 6c61 7320 4164 616d 7300
+0aa9 0051 0002 0191 001f 0141 002a 0141 0005 0000
+0aaa 0051 0003 0191 0045 0141 002a 0142 000a 8c53 0000
+0ab9 0051 0004 0191 0244 0051 0003 06e2 3139 3731
 1c40
 ```
 
@@ -36,7 +36,7 @@ image: "/images/og-default.webp"
 1c01 003f
 ```
 
-`1c01`은 Meta(`111`), Codec `0x1C0L`(DOC-1WORD), Length 2 WORD다. 값 `003f`(63)가 문서 전체 WORD 수다. 디코더는 이 값으로 문서 끝을 미리 안다.
+`1c01`은 Meta(섹션 14), Codec `0x1C0L`(DOC-1WORD), Length 2 WORD다. 값 `003f`(63)가 문서 전체 WORD 수다. 디코더는 이 값으로 문서 끝을 미리 안다.
 
 ```
 1c51 0001
@@ -45,14 +45,14 @@ image: "/images/og-default.webp"
 Meta `0x1C5L` SPEC-VERSION. 이 문서가 따르는 명세 판이다. v1은 `0001`이다.
 
 ```
-1c79 0048 0000 0001 5100 0000 0000 002a 0000 0000
+1c79 0418 0000 0001 5100 0000 0000 002a 0000 0000
 ```
 
 Meta `0x1C7L` DOC-ID, 전체 10 WORD. Payload는 DOC-POINTER Reference 하나다.
 
 | WORD | 뜻 |
 |---|---|
-| `0048` | Reference, Codec `0x004L`(DOC-POINTER), 9 WORD |
+| `0418` | Reference, Codec `0x041L`(DOC-POINTER), 9 WORD |
 | `0000 0001` | Issuer `0x00000001` (2 WORD) |
 | `5100 0000 0000 002a` | 문서 ID `0x510000000000002a` |
 | `0000 0000` | 버전 `0` (자기 자신) |
@@ -68,28 +68,28 @@ BODY. HEAD가 끝나고 BODY가 시작된다.
 ### #1 LABEL — 영어 이름
 
 ```
-084e 0010 0051 0001 0141 002a 0599 0561 656e 446f 7567 6c61 7320 4164 616d 7300
+0a4e 0010 0051 0001 0141 002a 0799 0761 656e 446f 7567 6c61 7320 4164 616d 7300
 ```
 
 | WORD | 뜻 |
 |---|---|
-| `084e` | Edge, Codec `0x084L` LABEL, Length `1110`(확장) |
+| `0a4e` | Edge, Codec `0x0A4L` LABEL, Length `1110`(확장) |
 | `0010` | 확장 길이: 전체 16 WORD |
 | `0051 0001` | Edge Id: LOCAL 1 |
 | `0141 002a` | Subject: 위키데이터 Q42 |
-| `0599` | Object: UTF8-LANGUAGE-TEXT, 홀수 바이트(`0x059L`), 10 WORD |
-| `0561 656e` | 언어: BCP 47 `en` |
+| `0799` | Object: UTF8-LANGUAGE-TEXT, 홀수 바이트(`0x079L`), 10 WORD |
+| `0761 656e` | 언어: BCP 47 `en` |
 | `446f … 7300` | `Douglas Adams` 13바이트 + 패딩 `00` |
 
 ### #2 TRIPLE — Q42는 사람이다
 
 ```
-08a9 0051 0002 0191 001f 0141 002a 0141 0005 0000
+0aa9 0051 0002 0191 001f 0141 002a 0141 0005 0000
 ```
 
 | WORD | 뜻 |
 |---|---|
-| `08a9` | Edge, Codec `0x08AL` TRIPLE, 10 WORD |
+| `0aa9` | Edge, Codec `0x0AAL` TRIPLE, 10 WORD |
 | `0051 0002` | Edge Id: LOCAL 2 |
 | `0191 001f` | Predicate: P31 (instance of) |
 | `0141 002a` | Subject: Q42 |
@@ -99,12 +99,12 @@ BODY. HEAD가 끝나고 BODY가 시작된다.
 ### #3 TRIPLE — Q42는 St John's College에서 교육받았다
 
 ```
-08aa 0051 0003 0191 0045 0141 002a 0142 000a 8c53 0000
+0aaa 0051 0003 0191 0045 0141 002a 0142 000a 8c53 0000
 ```
 
 | WORD | 뜻 |
 |---|---|
-| `08aa` | Edge, TRIPLE, 11 WORD |
+| `0aaa` | Edge, TRIPLE, 11 WORD |
 | `0051 0003` | Edge Id: LOCAL 3 |
 | `0191 0045` | Predicate: P69 (educated at) |
 | `0141 002a` | Subject: Q42 |
@@ -114,16 +114,16 @@ BODY. HEAD가 끝나고 BODY가 시작된다.
 ### #4 QUALIFIER — 시작 시점 1971년
 
 ```
-08b9 0051 0004 0191 0244 0051 0003 04e2 3139 3731
+0ab9 0051 0004 0191 0244 0051 0003 06e2 3139 3731
 ```
 
 | WORD | 뜻 |
 |---|---|
-| `08b9` | Edge, Codec `0x08BL` QUALIFIER, 10 WORD |
+| `0ab9` | Edge, Codec `0x0ABL` QUALIFIER, 10 WORD |
 | `0051 0004` | Edge Id: LOCAL 4 |
 | `0191 0244` | Property: P580 (start time) |
 | `0051 0003` | Target: #3 (위의 TRIPLE) |
-| `04e2 3139 3731` | Value: EDTF `1971` (연 정밀도라 GREGORIAN-DATE가 아니라 EDTF) |
+| `06e2 3139 3731` | Value: EDTF `1971` (연 정밀도라 GREGORIAN-DATE가 아니라 EDTF) |
 
 #3의 의미는 #3 자체와 #3을 가리키는 QUALIFIER를 모두 모은 것이다: "Q42는 1971년부터 St John's College에서 교육받았다."
 
@@ -148,5 +148,5 @@ END. 여기까지가 63 WORD다.
 이 문서의 내용 해시(SHA-256)는 다음과 같다. 공표하면 버전 목록에 이 해시가 버전 ID와 함께 기록된다.
 
 ```
-0xcbf73316f2c4582f77a3b9a48338ef5f9ad968b32c654391616050ab7ec412b9
+0x561c157203d51af8c754d53e20ad190f17e73acdc4235ba47c87f608c946737f
 ```

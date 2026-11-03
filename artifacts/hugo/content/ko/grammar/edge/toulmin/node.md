@@ -16,20 +16,20 @@ NODE는 TOULMIN 판정·실행 그래프의 노드를 쓰는 레이아웃이다.
 
 | Codec | 이름 | TANGEUL | 노드 |
 |---|---|---|---|
-| `0x0E0L` | CASE-DECLARE | `in case of` | 사안 |
-| `0x0E2L` | SPEC-DECLARE | Definitions 항목(`means`, `has`) | 판단 기준(Backing). role이 정의 종류 |
-| `0x0E3L` | RULE-DECLARE | general rule | 주장(Warrant) |
-| `0x0E4L` | COUNTER-DECLARE | counter rule | 반박(Rebuttal) |
-| `0x0E5L` | EXCEPT-DECLARE | except rule | 예외(Defeater) |
-| `0x0F5L` | ENTRY | `provides x` | 외부 진입점 |
-| `0x0F6L` | TRIGGER | `on`, `every`, `until` | 이벤트·주기 진입점 |
-| `0x106L` | NAMESPACE | `this document is` | 문서 이름공간 |
-| `0x107L` | FUNC | 함수 참조 | 바깥 함수(예: `bank.withdraw`) |
-| `0x108L` | FIELD | `x is required [as Type]` | 필수 필드 |
-| `0x109L` | ALIAS | `see a from path` | 가져온 패키지 별칭 |
-| `0x10AL` | GROUP | `1.` 순서 목록 | 순서 있는 실행 묶음 |
+| `0x100L` | CASE-DECLARE | `in case of` | 사안 |
+| `0x102L` | SPEC-DECLARE | Definitions 항목(`means`, `has`) | 판단 기준(Backing). role이 정의 종류 |
+| `0x103L` | RULE-DECLARE | general rule | 주장(Warrant) |
+| `0x104L` | COUNTER-DECLARE | counter rule | 반박(Rebuttal) |
+| `0x105L` | EXCEPT-DECLARE | except rule | 예외(Defeater) |
+| `0x115L` | ENTRY | `provides x` | 외부 진입점 |
+| `0x116L` | TRIGGER | `on`, `every`, `until` | 이벤트·주기 진입점 |
+| `0x126L` | NAMESPACE | `this document is` | 문서 이름공간 |
+| `0x127L` | FUNC | 함수 참조 | 바깥 함수(예: `bank.withdraw`) |
+| `0x128L` | FIELD | `x is required [as Type]` | 필수 필드 |
+| `0x129L` | ALIAS | `see a from path` | 가져온 패키지 별칭 |
+| `0x12AL` | GROUP | `1.` 순서 목록 | 순서 있는 실행 묶음 |
 
-`0x106L~0x10AL`은 Edge TOULMIN 형식 계열 직접 코드다([TOULMIN](/ko/grammar/edge/toulmin/#toulmin-형식)).
+`0x126L~0x12AL`은 Edge TOULMIN 형식 계열 직접 코드다([TOULMIN](/ko/grammar/edge/toulmin/#toulmin-형식)).
 
 ## 레이아웃
 

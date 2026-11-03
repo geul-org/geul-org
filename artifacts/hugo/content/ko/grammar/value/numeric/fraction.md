@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-FRACTION은 원문에 적힌 분수를 표기 그대로 나타내는 Value다. Value 직접 코드 `0x047L`, 계열 NUMERIC이다. 분자와 분모는 각각 완전한 Value 레코드다. 약분하지 않는다. 법령의 "3분의 2", "100분의 5"와 등기의 소수 지분 `23.45/1256.1`처럼 적힌 그대로가 기록인 분수를 담는다.
+FRACTION은 원문에 적힌 분수를 표기 그대로 나타내는 Value다. Value 직접 코드 `0x067L`, 계열 NUMERIC이다. 분자와 분모는 각각 완전한 Value 레코드다. 약분하지 않는다. 법령의 "3분의 2", "100분의 5"와 등기의 소수 지분 `23.45/1256.1`처럼 적힌 그대로가 기록인 분수를 담는다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 0100 0111 LLLL      Codec 0x047L
+TAG WORD          0000 0110 0111 LLLL      Codec 0x067L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 numerator         Value 레코드 1개: SIGNED-INTEGER 또는 SIGNED-DECIMAL
 denominator       Value 레코드 1개: UNSIGNED-INTEGER 또는 UNSIGNED-DECIMAL
@@ -23,8 +23,8 @@ denominator       Value 레코드 1개: UNSIGNED-INTEGER 또는 UNSIGNED-DECIMAL
 
 ## 해석과 유효성
 
-- numerator는 [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/)(`0x041L`) 또는 [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/)(`0x048L`) 레코드 정확히 하나다.
-- denominator는 [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/)(`0x042L`) 또는 [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/)(`0x049L`) 레코드 정확히 하나다.
+- numerator는 [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/)(`0x061L`) 또는 [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/)(`0x068L`) 레코드 정확히 하나다.
+- denominator는 [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/)(`0x062L`) 또는 [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/)(`0x069L`) 레코드 정확히 하나다.
 - 닫힌 목록이다. 그 밖의 Value, FRACTION 자신(중첩 금지), 자리 표지(`0x0000` 등)는 받지 않는다.
 - 두 레코드는 각자 길이를 가지므로 경계를 따로 적지 않는다. 두 레코드를 읽은 커서는 Payload 끝과 정확히 맞아야 한다.
 - 안쪽 레코드도 각 Codec의 정규형을 따른다(정수·coefficient는 최소 WORD). 비정규 안쪽 레코드가 있으면 FRACTION 전체가 invalid다.
@@ -61,23 +61,23 @@ denominator       Value 레코드 1개: UNSIGNED-INTEGER 또는 UNSIGNED-DECIMAL
 `2/3`:
 
 ```
-0474 0411 0002 0421 0003
+0674 0611 0002 0621 0003
 ```
 
-- TAG `0474`(Codec `0x047L`, 5 WORD), numerator `0411 0002`(SIGNED-INTEGER 2), denominator `0421 0003`(UNSIGNED-INTEGER 3).
+- TAG `0674`(Codec `0x067L`, 5 WORD), numerator `0611 0002`(SIGNED-INTEGER 2), denominator `0621 0003`(UNSIGNED-INTEGER 3).
 
 `23.45/1256.1`:
 
 ```
-0478 0483 FFFF FFFE 0929 0493 FFFF FFFF 3111
+0678 0683 FFFF FFFE 0929 0693 FFFF FFFF 3111
 ```
 
-- TAG `0478`(9 WORD), numerator `0483 FFFF FFFE 0929`(SIGNED-DECIMAL E = -2, C = 2345), denominator `0493 FFFF FFFF 3111`(UNSIGNED-DECIMAL E = -1, C = 12561).
+- TAG `0678`(9 WORD), numerator `0683 FFFF FFFE 0929`(SIGNED-DECIMAL E = -2, C = 2345), denominator `0693 FFFF FFFF 3111`(UNSIGNED-DECIMAL E = -1, C = 12561).
 
 ## 다른 형식과의 관계
 
 - [QUANTITY](/ko/grammar/value/numeric/quantity/)의 amount·lower·upper는 FRACTION을 받는다. "출석 의결권의 3분의 2"는 amount `2/3`, 무단위 QUANTITY로 쓸 수 있다.
-- geul.org 규격 문서 `0x00000000/codecs/0x00000470`은 numerator(`0410`·`0480`), denominator(`0420`·`0490`)의 레코드 필드 둘로 적는다([Codec 규격 문서](/ko/grammar/codec-spec/)).
+- geul.org 규격 문서 `0x00000000/codecs/0x00000670`은 numerator(`0610`·`0680`), denominator(`0620`·`0690`)의 레코드 필드 둘로 적는다([Codec 규격 문서](/ko/grammar/codec-spec/)).
 - 약분을 강제하는 고정 int64 분수가 필요하면 Issuer 형식 [RATIONAL-I64](/ko/grammar/value/etc/rational-i64/)를 쓴다.
 
 ## 열린 문제

@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-COMPLEX64는 `(real, imag)` 순서의 IEEE 754 binary32 두 성분으로 복소수를 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000700`, 계열 NUMERIC이다.
+COMPLEX64는 `(real, imag)` 순서의 IEEE 754 binary32 두 성분으로 복소수를 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000700`, 계열 NUMERIC이다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07D8 (0000 0111 1101 1000)  전체 9 WORD
+TAG WORD          0x09D8 (0000 1001 1101 1000)  전체 9 WORD
 Issuer            2 WORD  0x00000002 (ADHOC)
 코덱 번호         2 WORD  0x00000700
 Payload           [real binary32: 2 WORD][imag binary32: 2 WORD]

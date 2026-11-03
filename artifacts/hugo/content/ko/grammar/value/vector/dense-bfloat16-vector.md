@@ -14,10 +14,10 @@ DENSE-BFLOAT16-VECTOR는 bfloat16 16비트 원소 bit pattern을 descriptor 없�
 
 ## 레이아웃
 
-- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000507`. 계열 NUMERIC.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000507`. 계열 NUMERIC.
 
 ```
-TAG WORD          0000 0111 1101 LLLL      Codec 0x07DL
+TAG WORD          0000 1001 1101 LLLL      Codec 0x09DL
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Issuer            2 WORD  0x00000002 (ADHOC)
 코덱 번호         2 WORD  0x00000507

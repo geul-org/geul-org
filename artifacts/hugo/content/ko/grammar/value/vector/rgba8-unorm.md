@@ -14,10 +14,10 @@ RGBA8-UNORM은 R, G, B, A 네 UNORM8 성분을 고정 Payload 2 WORD에 packed �
 
 ## 레이아웃
 
-- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x0000000E` KHRONOS, 코덱 번호 `0x00000000`. 계열 NUMERIC.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x0000000E` KHRONOS, 코덱 번호 `0x00000000`. 계열 NUMERIC.
 
 ```
-TAG WORD          0x07D6 (0000 0111 1101 0110)  전체 7 WORD
+TAG WORD          0x09D6 (0000 1001 1101 0110)  전체 7 WORD
 Issuer            2 WORD  0x0000000E (KHRONOS)
 코덱 번호         2 WORD  0x00000000
 Payload WORD 1st: [R: 상위 8bit][G: 하위 8bit]

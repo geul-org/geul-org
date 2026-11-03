@@ -4,20 +4,20 @@ weight: 31
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge"]
-summary: "CODEC은 FIELD 하나가 받는 Kind·Codec 하나를 지정하는 서술 Edge다(Codec 0x09EL). 와일드카드와 자리 표지(0x0000 적지 않음, 0x0010 알 수 없음, 0x0020 없음)도 이것으로 선언한다."
+summary: "CODEC은 FIELD 하나가 받는 Kind·Codec 하나를 지정하는 서술 Edge다(Codec 0x0BEL). 와일드카드와 자리 표지(0x0000 적지 않음, 0x0010 알 수 없음, 0x0020 없음)도 이것으로 선언한다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-CODEC은 [FIELD](/ko/grammar/edge/field/) 하나가 받는 Kind·Codec 하나를 지정하는 서술 Edge다. Codec `0x09EL`.
+CODEC은 [FIELD](/ko/grammar/edge/field/) 하나가 받는 Kind·Codec 하나를 지정하는 서술 Edge다. Codec `0x0BEL`.
 
 [ENUM](/ko/grammar/edge/enum/)이 날값 필드의 코드값 하나에 의미를 붙이듯, CODEC은 필드의 형식 하나를 붙인다. Edge 하나에 하나씩이라 여러 개를 지정할 수 있다. 레이아웃은 디코더에 내장한다([Codec 규격 문서](/ko/grammar/codec-spec/)).
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 1001 1110 LLLL
+TAG WORD          0000 1011 1110 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 필드              FIELD Edge를 가리키는 LOCAL Reference 레코드
@@ -26,23 +26,23 @@ Edge Id           LOCAL Reference 레코드
 
 ## 대상 WORD
 
-- TAG WORD의 Kind(`KKK`)와 Codec(`CCCCCC`) 자리를 그대로 둔다. 상위 3비트는 0이다. `LLLL`은 `0000`(정확) 또는 `1111`(와일드카드)이고, 다른 값은 invalid다.
-- 정확한 대상(`LLLL = 0000`)을 32비트로 쓴 값이 그 Codec의 코덱 ID다(예: LOCAL `0x0050` → `0x00000050`, COORDINATE-EARTH `0x0440`, UTF8-LANGUAGE-TEXT `0x0580`). 그래서 대상이 곧 그 Codec 규격 문서를 가리킨다([Codec 규격 문서](/ko/grammar/codec-spec/)).
-- 홀짝 코드 쌍(텍스트·바이트열)도 정확한 코드로 지정한다. 짝수·홀수를 모두 받으려면 둘 다 둔다. 쌍을 묶어 해석하는 규칙은 두지 않는다(NUMERIC `0x044L`/`0x045L`처럼 쌍이 아닌 인접 코드가 있다).
+- TAG WORD의 Kind·Codec 자리(`KKKCCCCCC`)를 그대로 둔다. 상위 3비트는 0이다. `LLLL`은 `0000`(정확) 또는 `1111`(와일드카드)이고, 다른 값은 invalid다.
+- 정확한 대상(`LLLL = 0000`)을 32비트로 쓴 값이 그 Codec의 코덱 ID다(예: LOCAL `0x0050` → `0x00000050`, COORDINATE-EARTH `0x0640`, UTF8-LANGUAGE-TEXT `0x0780`). 그래서 대상이 곧 그 Codec 규격 문서를 가리킨다([Codec 규격 문서](/ko/grammar/codec-spec/)).
+- 홀짝 코드 쌍(텍스트·바이트열)도 정확한 코드로 지정한다. 짝수·홀수를 모두 받으려면 둘 다 둔다. 쌍을 묶어 해석하는 규칙은 두지 않는다(NUMERIC `0x064L`/`0x065L`처럼 쌍이 아닌 인접 코드가 있다).
 
 ### 와일드카드 (`LLLL = 1111`)
 
-- `LLLL = 1111`이면 C 값과 무관하게 KKK가 가리키는 Kind 전체를 받는다. 대상의 Kind와 레코드의 Kind가 같은지만 본다. Kind를 넘어 아무 레코드를 받지는 않는다.
-- `LLLL = 1111`이면 C=0을 권고한다. 권고이고 강제가 아니다. C≠0이어도 유효하고 C는 보지 않는다.
+- `LLLL = 1111`이면 대상 WORD의 섹션 구간이 가리키는 Kind 전체를 받는다. 같은 Kind 안의 코드라면 어느 값이든 뜻이 같다. 대상의 Kind와 레코드의 Kind가 같은지만 본다. Kind를 넘어 아무 레코드를 받지는 않는다.
+- `LLLL = 1111`이면 Kind 구역의 첫 코드(`000F`, `060F`, `0A0F`, `1C0F`)를 권고한다. 권고이고 강제가 아니다. 같은 Kind의 다른 코드여도 유효하다.
 
 | 대상 | 뜻 |
 |---|---|
 | `000F` | 아무 Reference |
-| `040F` | 아무 Value |
-| `080F` | 아무 Edge (KKK `010`~`110` 전체, EDGE-ISSUER 포함) |
+| `060F` | 아무 Value |
+| `0A0F` | 아무 Edge (섹션 5~13 전체, EDGE-ISSUER 포함) |
 | `1C0F` | 아무 Meta |
 
-- Reference 자리 표지(`0x000L~0x002L`)는 `LLLL = 1111`과 맞지 않는다(`000F`는 ABSENT·UNKNOWN-VALUE·NO-VALUE를 받지 않는다). 한편 Value `0x040L`(BOOL)·Edge `0x080L`(REFERENCE-NODE)처럼 C=0이 배정된 Kind도 `LLLL = 1111`이 그것을 포함한다(BOOL만 받으려면 `LLLL = 0000`인 `0400`).
+- Reference 자리 표지(`0x000L~0x002L`)는 `LLLL = 1111`과 맞지 않는다(`000F`는 ABSENT·UNKNOWN-VALUE·NO-VALUE를 받지 않는다). 한편 Value `0x060L`(BOOL)·Edge `0x0A0L`(REFERENCE-NODE)처럼 Kind 구역의 첫 코드가 배정된 Kind도 `LLLL = 1111`이 그것을 포함한다(BOOL만 받으려면 `LLLL = 0000`인 `0600`).
 - `LLLL = 1111`인 대상은 규격 문서를 가리키지 않는다.
 - 양화 무관이나 묶음은 CODEC 나열(`LLLL = 0000`)로만 쓴다. 예: WIKIDATA-QID 양화 무관은 `0140`, `0150`, `0160`, `0170`, `0180` 다섯 개다.
 - Reference 5Q 체계의 코드에는 양화가 들어 있다. 대상은 양화까지 정확히 지정한다. 여러 Quantifier를 받으려면 CODEC을 여러 개 둔다. REFERENCE-ISSUER의 양화는 Issuer 문서가 정한다.
@@ -78,7 +78,7 @@ Edge Id           LOCAL Reference 레코드
 - 자리 표지는 목록의 정확한 대상으로만 대조한다. 선택 필드(대상 `0000`) 자리에 `0x0000`이 오면 생략이다. 그 밖의 레코드는 표지 대상을 뺀 목록으로 대조한다.
 - 날값 필드에 CODEC과 ENUM을 함께 둘 수 있다. CODEC은 형식, ENUM은 코드값의 이름이다(예: rank를 UNSIGNED-INTEGER로 두고 0·1·2를 ENUM으로).
 - CODEC의 Edge Id에 BIND로 이름을 붙일 수 있지만 필수가 아니다.
-- "Reference 또는 Value" 필드는 CODEC 2개(`000F`, `040F`)로 쓴다.
+- "Reference 또는 Value" 필드는 CODEC 2개(`000F`, `060F`)로 쓴다.
 
 ## 길이
 
@@ -88,15 +88,15 @@ Edge Id           LOCAL Reference 레코드
 
 ## 예시
 
-LABEL 규격 문서 `0x00000000/codecs/0x00000840/`에서 Object 필드(FIELD #3)가 UTF8-LANGUAGE-TEXT(짝수·홀수)와 LOCAL을 받는다. Edge Id 7~9.
+LABEL 규격 문서 `0x00000000/codecs/0x00000a40/`에서 Object 필드(FIELD #3)가 UTF8-LANGUAGE-TEXT(짝수·홀수)와 LOCAL을 받는다. Edge Id 7~9.
 
 ```
-09E5 0051 0007 0051 0003 0580
-09E5 0051 0008 0051 0003 0590
-09E5 0051 0009 0051 0003 0050
+0BE5 0051 0007 0051 0003 0580
+0BE5 0051 0008 0051 0003 0590
+0BE5 0051 0009 0051 0003 0050
 ```
 
-- TAG `09E5`(Edge, Codec `0x09EL`, `LLLL = 0101`, 6 WORD), Edge Id `0051 0007`, 필드 `0051 0003`, 대상 `0580`.
+- TAG `0BE5`(Edge, Codec `0x0BEL`, `LLLL = 0101`, 6 WORD), Edge Id `0051 0007`, 필드 `0051 0003`, 대상 `0780`.
 
 ## 관련 페이지
 

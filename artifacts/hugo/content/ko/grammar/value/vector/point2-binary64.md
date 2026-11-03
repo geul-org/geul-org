@@ -14,10 +14,10 @@ POINT2-BINARY64는 `(x, y)` 순서의 IEEE 754 binary64 두 성분으로 된 2�
 
 ## 레이아웃
 
-- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x0000050A`. 계열 NUMERIC.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x0000050A`. 계열 NUMERIC.
 
 ```
-TAG WORD          0x07DC (0000 0111 1101 1100)  전체 13 WORD
+TAG WORD          0x09DC (0000 1001 1101 1100)  전체 13 WORD
 Issuer            2 WORD  0x00000002 (ADHOC)
 코덱 번호         2 WORD  0x0000050A
 Payload: [x binary64: 4 WORD][y binary64: 4 WORD]

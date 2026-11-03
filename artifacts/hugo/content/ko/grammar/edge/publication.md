@@ -4,7 +4,7 @@ weight: 25
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge"]
-summary: "PUBLICATION·DEPRECATION·TOMBSTONE은 문서 버전의 공표·사용 중단 권고·삭제를 기록하는 서술 Edge이고, 이 페이지는 그 Edge로 쓰는 버전 목록 문서의 규격도 정한다(Codec 0x098L~0x09AL)."
+summary: "PUBLICATION·DEPRECATION·TOMBSTONE은 문서 버전의 공표·사용 중단 권고·삭제를 기록하는 서술 Edge이고, 이 페이지는 그 Edge로 쓰는 버전 목록 문서의 규격도 정한다(Codec 0x0B8L~0x0BAL)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -16,9 +16,9 @@ image: "/images/og-default.webp"
 
 | Codec | 이름 | Payload |
 |---|---|---|
-| `0x098L` | PUBLICATION | Edge Id, DOC-POINTER, 내용 해시 |
-| `0x099L` | DEPRECATION | Edge Id, DOC-POINTER |
-| `0x09AL` | TOMBSTONE | Edge Id, DOC-POINTER, 사유 범주 |
+| `0x0B8L` | PUBLICATION | Edge Id, DOC-POINTER, 내용 해시 |
+| `0x0B9L` | DEPRECATION | Edge Id, DOC-POINTER |
+| `0x0BAL` | TOMBSTONE | Edge Id, DOC-POINTER, 사유 범주 |
 
 - 세 코드는 디코더에 내장한다([0층](/ko/grammar/publishing/#층)). 버전 목록은 코덱북을 조회하지 않고 해석된다.
 - 하위 형식(Codec별 TAG)을 두지 않는다. Payload 첫 요소가 Edge Id라는 [Edge](/ko/grammar/edge/) 규칙을 그대로 지킨다.
@@ -26,7 +26,7 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          Edge, Codec 0x098L / 0x099L / 0x09AL
+TAG WORD          Edge, Codec 0x0B8L / 0x0B9L / 0x0BAL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 문서              DOC-POINTER Reference 레코드 (Issuer, 문서 ID, 버전 ID). 코덱 버전 목록은 CODEC-POINTER

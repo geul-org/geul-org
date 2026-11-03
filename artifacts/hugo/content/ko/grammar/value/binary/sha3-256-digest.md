@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-SHA3-256-DIGEST는 SHA3-256 결과 전체를 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000015` NIST, 코덱 번호 `0x0000C001`, 계열 BINARY다. Payload는 정확히 16 WORD(256 bit)이며 잘라 쓰기(truncation)는 허용하지 않는다.
+SHA3-256-DIGEST는 SHA3-256 결과 전체를 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000015` NIST, 코덱 번호 `0x0000C001`, 계열 BINARY다. Payload는 정확히 16 WORD(256 bit)이며 잘라 쓰기(truncation)는 허용하지 않는다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07DE (0000 0111 1101 1110)  LLLL=1110
+TAG WORD          0x09DE (0000 1001 1101 1110)  LLLL=1110
 Length 확장 TAG   1 WORD  0x0016 (전체 22 WORD)
 Issuer            2 WORD  0x00000015 (NIST)
 코덱 번호         2 WORD  0x0000C001

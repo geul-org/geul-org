@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-QUANTITY는 수량 하나를 수, 단위, 하한·상한으로 나타내는 Value다. Value 직접 코드 `0x046L`, 계열 NUMERIC이다. 네 부분은 각각 완전한 레코드다. 단위와 경계는 [선택 필드](/ko/grammar/codec-spec/)라 생략하면 ABSENT(`0x0000`)를 쓴다.
+QUANTITY는 수량 하나를 수, 단위, 하한·상한으로 나타내는 Value다. Value 직접 코드 `0x066L`, 계열 NUMERIC이다. 네 부분은 각각 완전한 레코드다. 단위와 경계는 [선택 필드](/ko/grammar/codec-spec/)라 생략하면 ABSENT(`0x0000`)를 쓴다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 0100 0110 LLLL      Codec 0x046L
+TAG WORD          0000 0110 0110 LLLL      Codec 0x066L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 amount            수치 Value 레코드 (정수·BINARY-FLOAT·10진수·분수)
 unit              Reference 레코드 (단위 항목), 무단위면 0x0000
@@ -25,7 +25,7 @@ upper             수치 Value 레코드, 생략하면 0x0000 ABSENT
 
 ## 해석과 유효성
 
-- amount는 완전한 수치 Value 레코드 하나다. 받는 Codec은 [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/)(`0x041L`), [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/)(`0x042L`), [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/)(`0x043L`), [FRACTION](/ko/grammar/value/numeric/fraction/)(`0x047L`), [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/)(`0x048L`), [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/)(`0x049L`)의 여섯이다. 닫힌 목록이며 와일드카드가 아니다. BOOL, COORDINATE-EARTH·COORDINATE-GEO, QUANTITY 자신(중첩 금지, 깊이 고정), 그 밖의 Value는 받지 않는다. amount에는 자리 표지(`0x0000` 등)를 쓸 수 없다.
+- amount는 완전한 수치 Value 레코드 하나다. 받는 Codec은 [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/)(`0x061L`), [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/)(`0x062L`), [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/)(`0x063L`), [FRACTION](/ko/grammar/value/numeric/fraction/)(`0x067L`), [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/)(`0x068L`), [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/)(`0x069L`)의 여섯이다. 닫힌 목록이며 와일드카드가 아니다. BOOL, COORDINATE-EARTH·COORDINATE-GEO, QUANTITY 자신(중첩 금지, 깊이 고정), 그 밖의 Value는 받지 않는다. amount에는 자리 표지(`0x0000` 등)를 쓸 수 없다.
 - 안쪽 레코드도 각 Codec의 정규형을 따른다(정수·coefficient는 최소 WORD, BINARY-FLOAT은 1/2/4/8 WORD, FRACTION은 그 규칙). 비정규 안쪽 레코드가 있으면 QUANTITY 전체가 invalid다.
 - amount·lower·upper가 BINARY-FLOAT이면 유한한 값이어야 한다. NaN과 ±Infinity는 invalid다([COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/)의 위도·경도와 같은 규칙).
 - 수 형식은 원래 표기를 그대로 따른다. 정수 원문은 INTEGER, 소수 원문은 DECIMAL, 분수 원문은 FRACTION, IEEE 754 binary 값은 BINARY-FLOAT로 담고, 인코더가 형식을 바꾸어 정규화하지 않는다. DECIMAL의 C와 E는 원래 표기의 자릿수를 그대로 담는다: `1.20` = `120×10^-2`, `1.2` = `12×10^-1`. 두 값은 같은 수지만 유효숫자가 다르므로 다른 Value다. 정수와 coefficient 자릿수에 상한은 없다(최소 WORD, 가변 길이).
@@ -36,7 +36,7 @@ upper             수치 Value 레코드, 생략하면 0x0000 ABSENT
 - amount 레코드를 꺼내면 그대로 독립된 Value 레코드다. 단위를 뗀 수가 필요하면 다시 인코딩하지 않고 그 레코드를 쓴다.
 - SI 단위로 환산한 값은 담지 않는다. 단위와 환산표에서 계산할 수 있는 파생값이다.
 - 네 레코드를 읽은 커서는 Payload 끝과 정확히 맞아야 한다. 그 밖의 형태는 invalid다.
-- geul.org 규격 문서는 amount(`0410`·`0420`·`0430`·`0470`·`0480`·`0490`), unit(`000F`·`0000`), lower·upper(`0410`·`0420`·`0430`·`0470`·`0480`·`0490`·`0000`)의 레코드 필드 넷으로 적는다([Codec 규격 문서](/ko/grammar/codec-spec/)).
+- geul.org 규격 문서는 amount(`0610`·`0620`·`0630`·`0670`·`0680`·`0690`), unit(`000F`·`0000`), lower·upper(`0610`·`0620`·`0630`·`0670`·`0680`·`0690`·`0000`)의 레코드 필드 넷으로 적는다([Codec 규격 문서](/ko/grammar/codec-spec/)).
 
 ## 길이
 
@@ -48,35 +48,35 @@ upper             수치 Value 레코드, 생략하면 0x0000 ABSENT
 무단위 `1.20`:
 
 ```
-0467 0483 FFFF FFFE 0078 0000 0000 0000
+0667 0683 FFFF FFFE 0078 0000 0000 0000
 ```
 
-- TAG `0467`(Codec `0x046L`, 8 WORD), amount `0483 FFFF FFFE 0078`(E = -2, C = 120), unit·lower·upper `0000`.
+- TAG `0667`(Codec `0x066L`, 8 WORD), amount `0683 FFFF FFFE 0078`(E = -2, C = 120), unit·lower·upper `0000`.
 
 무단위 정수 `42`:
 
 ```
-0465 0411 002A 0000 0000 0000
+0665 0611 002A 0000 0000 0000
 ```
 
-- TAG `0465`(6 WORD), amount `0411 002A`(SIGNED-INTEGER 42), unit·lower·upper `0000`.
+- TAG `0665`(6 WORD), amount `0611 002A`(SIGNED-INTEGER 42), unit·lower·upper `0000`.
 
 무단위 분수 `2/3`(출석 의결권의 3분의 2):
 
 ```
-0468 0474 0411 0002 0421 0003 0000 0000 0000
+0668 0674 0611 0002 0621 0003 0000 0000 0000
 ```
 
-- TAG `0468`(9 WORD), amount `0474 0411 0002 0421 0003`([FRACTION](/ko/grammar/value/numeric/fraction/) 2/3), unit·lower·upper `0000`.
+- TAG `0668`(9 WORD), amount `0674 0611 0002 0621 0003`([FRACTION](/ko/grammar/value/numeric/fraction/) 2/3), unit·lower·upper `0000`.
 
 `652 km`, 범위 `[651, 653]`(km = Q828224):
 
 ```
-046E 0011
-0483 0000 0000 028C
+066E 0011
+0683 0000 0000 028C
 0142 000C A340
-0483 0000 0000 028B
-0483 0000 0000 028D
+0683 0000 0000 028B
+0683 0000 0000 028D
 ```
 
 - 전체 17 WORD라 `LLLL=1110`, 확장 TAG `0011`.

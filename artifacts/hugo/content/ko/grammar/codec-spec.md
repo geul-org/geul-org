@@ -23,9 +23,9 @@ Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다. GEUL의
 | Codec | TAG | 규격 문서 |
 |---|---|---|
 | Reference LOCAL | `0050` | `0x00000000/codecs/0x00000050` |
-| Value QUANTITY | `0460` | `0x00000000/codecs/0x00000460` |
-| Edge TRIPLE | `08A0` | `0x00000000/codecs/0x000008a0` |
-| Edge PUBLICATION | `0980` | `0x00000000/codecs/0x00000980` |
+| Value QUANTITY | `0660` | `0x00000000/codecs/0x00000660` |
+| Edge TRIPLE | `0AA0` | `0x00000000/codecs/0x00000aa0` |
+| Edge PUBLICATION | `0B80` | `0x00000000/codecs/0x00000b80` |
 
 디코더는 TAG WORD만 보고 규격 문서의 주소를 만든다. 모르는 Codec을 만나면 그 문서를 받아 읽으면 된다.
 
@@ -44,10 +44,10 @@ Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다. GEUL의
 
 | Edge | Codec | 하는 일 |
 |---|---|---|
-| DECLARE | `0x09BL` | Codec 하나의 Payload 구성을 선언한다. 대상 TAG WORD 1 WORD |
-| FIELD | `0x09CL` | Payload 필드 하나. 속한 DECLARE와 폭 |
-| ENUM | `0x09DL` | 날값 필드의 코드값 하나에 의미를 붙인다 |
-| CODEC | `0x09EL` | 필드가 받는 Kind·Codec 하나를 지정한다 |
+| DECLARE | `0x0BBL` | Codec 하나의 Payload 구성을 선언한다. 대상 TAG WORD 1 WORD |
+| FIELD | `0x0BCL` | Payload 필드 하나. 속한 DECLARE와 폭 |
+| ENUM | `0x0BDL` | 날값 필드의 코드값 하나에 의미를 붙인다 |
+| CODEC | `0x0BEL` | 필드가 받는 Kind·Codec 하나를 지정한다 |
 
 - 네 Edge의 레이아웃은 디코더에 내장한다([0층](/ko/grammar/publishing/#층)). 규격 문서를 코덱북 없이 읽어야 하기 때문이다. 규격 문서를 읽는 데 다른 규격 문서가 필요 없다.
 - 이름(Codec 이름, 필드 이름, 코드값 이름)은 모두 BIND로 묶는다.
@@ -73,8 +73,8 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 
 | Length 자리 | 뜻 | 예 |
 |---|---|---|
-| `0000` | 정확한 Codec | `0480` SIGNED-DECIMAL, `0050` LOCAL |
-| `1111` | 와일드카드: C를 보지 않고 KKK가 가리키는 Kind 전체다. C=0을 권고한다 | `000F` 아무 Reference, `040F` 아무 Value |
+| `0000` | 정확한 Codec | `0680` SIGNED-DECIMAL, `0050` LOCAL |
+| `1111` | 와일드카드: 섹션 구간이 가리키는 Kind 전체다. Kind 구역의 첫 코드를 권고한다 | `000F` 아무 Reference, `060F` 아무 Value |
 
 - 양화 무관이나 묶음은 정확한 Codec을 나열한다. 위키데이터 QID(양화 무관)는 `0140`, `0150`, `0160`, `0170`, `0180` 다섯 개다.
 
@@ -91,7 +91,7 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 | `0010` | UNKNOWN-VALUE, 알 수 없음 | 값이 있지만 무엇인지 모른다는 단언을 받는다 |
 | `0020` | NO-VALUE, 없음 | 값이 없다는 단언을 받는다 |
 
-- **수용 규칙:** 표지는 그 필드의 CODEC 목록에 같은 WORD가 정확한 대상으로 있을 때만 유효하다. 와일드카드(`000F`, `040F` …)와 CODEC이 없는 필드("아무 레코드")는 표지를 받지 않는다. HEAD·BODY 레코드 자리, Edge Id 자리에서는 invalid다.
+- **수용 규칙:** 표지는 그 필드의 CODEC 목록에 같은 WORD가 정확한 대상으로 있을 때만 유효하다. 와일드카드(`000F`, `060F` …)와 CODEC이 없는 필드("아무 레코드")는 표지를 받지 않는다. HEAD·BODY 레코드 자리, Edge Id 자리에서는 invalid다.
 - 선택 필드를 생략할 때는 그 자리에 WORD `0x0000` 하나(ABSENT)를 쓴다. 선택 필드도 자리는 항상 차지한다. 그래서 레코드 하나의 표기는 하나이고, 분해는 위치만으로 정해진다.
 - 표지는 예약 Reference Codec이라 다른 레코드와 겹치지 않고, 규격을 모르는 디코더도 1 WORD 레코드로 건너뛴다.
 - 세 표지는 다른 말이다. ABSENT는 문서에 관한 말(이 자리를 채우지 않았다)이라 세계에 관해 아무것도 단언하지 않는다. UNKNOWN-VALUE는 값이 있다는 단언(`∃x`), NO-VALUE는 값이 없다는 단언(`¬∃x`, 한정 조건 안에서)이다. 생략은 "값이 없음"이 아니라 "적지 않음"이다.
@@ -99,32 +99,32 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 
 ## 예: TRIPLE 규격 문서
 
-`0x00000000/codecs/0x000008a0`의 BODY다.
+`0x00000000/codecs/0x00000aa0`의 BODY다.
 
 | Edge | 내용 | 이름(BIND) |
 |---|---|---|
-| #1 DECLARE | 대상 `08A0` | `TRIPLE` |
+| #1 DECLARE | 대상 `0AA0` | `TRIPLE` |
 | #2 FIELD | #1의 필드, 레코드 | `predicate` |
 | #3 FIELD | #1의 필드, 레코드 | `subject` |
 | #4 FIELD | #1의 필드, 레코드 | `object` |
 | #5 FIELD | #1의 필드, 날값 1 WORD | `rank` |
 | #6~#8 ENUM | #5의 코드값 0, 1, 2 | `normal`, `preferred`, `deprecated` |
-| #17 CODEC | #5는 UNSIGNED-INTEGER(`0420`)로 해석 | |
-| #18, #19 CODEC | #4는 아무 Reference(`000F`) 또는 아무 Value(`040F`) | |
+| #17 CODEC | #5는 UNSIGNED-INTEGER(`0620`)로 해석 | |
+| #18, #19 CODEC | #4는 아무 Reference(`000F`) 또는 아무 Value(`060F`) | |
 | #20, #21 CODEC | #4는 UNKNOWN-VALUE(`0010`), NO-VALUE(`0020`)도 받는다 | |
 
 이 문서 하나로 디코더는 TRIPLE 레코드를 필드로 나누고, 필드 이름을 붙여 보여 주고, 형식이 맞는지 검사한다.
 
 ## 예: QUANTITY 규격 문서
 
-Value QUANTITY(`0460`)는 필드 네 개가 모두 레코드다.
+Value QUANTITY(`0660`)는 필드 네 개가 모두 레코드다.
 
 | 필드 | CODEC |
 |---|---|
-| `amount` | `0410` SIGNED-INTEGER, `0420` UNSIGNED-INTEGER, `0430` BINARY-FLOAT(유한한 값만), `0470` FRACTION, `0480` SIGNED-DECIMAL, `0490` UNSIGNED-DECIMAL |
+| `amount` | `0610` SIGNED-INTEGER, `0620` UNSIGNED-INTEGER, `0630` BINARY-FLOAT(유한한 값만), `0670` FRACTION, `0680` SIGNED-DECIMAL, `0690` UNSIGNED-DECIMAL |
 | `unit` | `000F` 아무 Reference, `0000` 선택 |
-| `lower` | `0410`·`0420`·`0430`·`0470`·`0480`·`0490`(amount와 같음), `0000` 선택 |
-| `upper` | `0410`·`0420`·`0430`·`0470`·`0480`·`0490`(amount와 같음), `0000` 선택 |
+| `lower` | `0610`·`0620`·`0630`·`0670`·`0680`·`0690`(amount와 같음), `0000` 선택 |
+| `upper` | `0610`·`0620`·`0630`·`0670`·`0680`·`0690`(amount와 같음), `0000` 선택 |
 
 ## 규칙
 

@@ -27,4 +27,4 @@ TAG WORD          0001 1101 1001 LLLL      Codec 0x1D9L
 ## 해석과 유효성
 
 - 메시지와 언어는 UTF8-LANGUAGE-TEXT 하나에 담는다. 같은 언어의 MESSAGE는 하나다.
-- geul.org 규격 문서는 [CODEC](/ko/grammar/edge/codec/) `0580`·`0590`으로 적는다.
+- geul.org 규격 문서는 [CODEC](/ko/grammar/edge/codec/) `0780`·`0790`으로 적는다.

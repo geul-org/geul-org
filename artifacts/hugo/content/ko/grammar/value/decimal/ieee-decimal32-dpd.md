@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-IEEE-DECIMAL32-DPD는 IEEE 754 decimal32 DPD interchange encoding을 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x0000000D` IEEE, 코덱 번호 `0x00002000`, 계열 DECIMAL이다. DPD 비트 패턴을 그대로 보존하며 BID와 구별한다.
+IEEE-DECIMAL32-DPD는 IEEE 754 decimal32 DPD interchange encoding을 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x0000000D` IEEE, 코덱 번호 `0x00002000`, 계열 DECIMAL이다. DPD 비트 패턴을 그대로 보존하며 BID와 구별한다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07D6  전체 7 WORD
+TAG WORD          0x09D6  전체 7 WORD
 Issuer            2 WORD  0x0000000D (IEEE)
 코덱 번호         2 WORD  0x00002000
 Payload           2 WORD (32비트)  IEEE decimal32 DPD Interchange
@@ -37,8 +37,8 @@ Payload           2 WORD (32비트)  IEEE decimal32 DPD Interchange
 
 | 구조 | 판정 |
 |---|---|
-| `07D6 0000 000D 0000 2000` + 2 WORD DPD 비트열 | 정규 길이 구조 |
-| `07D6 0000 000D 0000 2000` + 4 WORD | invalid: Payload 폭 불일치 |
+| `09D6 0000 000D 0000 2000` + 2 WORD DPD 비트열 | 정규 길이 구조 |
+| `09D6 0000 000D 0000 2000` + 4 WORD | invalid: Payload 폭 불일치 |
 | 같은 32비트에 코덱 번호 `0x00002003` | BID 형식이며 이 타입이 아님 |
 
 ## 표준 근거

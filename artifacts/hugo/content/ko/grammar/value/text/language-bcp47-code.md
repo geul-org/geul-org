@@ -4,7 +4,7 @@ weight: 71
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
-summary: "LANGUAGE-BCP47-CODE는 완전한 BCP 47 language tag를 ASCII 바이트열로 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x056L/0x057L을 쓴다."
+summary: "LANGUAGE-BCP47-CODE는 완전한 BCP 47 language tag를 ASCII 바이트열로 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x076L/0x077L을 쓴다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,12 +14,12 @@ LANGUAGE-BCP47-CODE는 완전한 BCP 47 language tag를 담는 Value다. script,
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x056L`(짝수 바이트)·`0x057L`(홀수 바이트). 계열 TEXT.
+- 코드: Value 직접 코드 `0x076L`(짝수 바이트)·`0x077L`(홀수 바이트). 계열 TEXT.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 - Payload는 UTF-8 텍스트가 아니라 BCP 47 tag의 ASCII 바이트열이다.
 
 ```
-TAG WORD          0000 0101 011P LLLL      Codec 0x056L/0x057L
+TAG WORD          0000 0101 011P LLLL      Codec 0x076L/0x077L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st ... Nth          BCP 47 tag bytes / final zero padding
 ```
@@ -54,5 +54,5 @@ Payload WORD 1st ... Nth          BCP 47 tag bytes / final zero padding
 
 ## 예시
 
-- `ko-KR`은 ASCII 5 byte(홀수)이므로 `LANGUAGE-BCP47-CODE-ODD`(`0x057L`), Payload는 `6b6f 2d4b 5200`이다.
-- TAG 1 WORD, Payload 3 WORD로 전체 4 WORD이며 `LLLL=0011`이다. 전체는 `0573 6b6f 2d4b 5200`이다.
+- `ko-KR`은 ASCII 5 byte(홀수)이므로 `LANGUAGE-BCP47-CODE-ODD`(`0x077L`), Payload는 `6b6f 2d4b 5200`이다.
+- TAG 1 WORD, Payload 3 WORD로 전체 4 WORD이며 `LLLL=0011`이다. 전체는 `0773 6b6f 2d4b 5200`이다.

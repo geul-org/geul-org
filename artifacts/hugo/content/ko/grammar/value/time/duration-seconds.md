@@ -4,7 +4,7 @@ weight: 36
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "time"]
-summary: "DURATION-SECONDS는 epoch 없는 signed int64 초 단위 경과 시간을 담는 Value다(Codec 0x04DL)."
+summary: "DURATION-SECONDS는 epoch 없는 signed int64 초 단위 경과 시간을 담는 Value다(Codec 0x06DL)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,11 +14,11 @@ DURATION-SECONDS는 epoch이 없는 signed 초 단위 경과 시간이다. insta
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x04DL`. 계열 TIME.
+- 코드: Value 직접 코드 `0x06DL`. 계열 TIME.
 - Arrow `Duration(SECOND)`와 같은 고정폭 signed int64 물리 타입을 쓴다.
 
 ```
-TAG WORD          0x04D4 (0000 0100 1101 0100)  전체 5 WORD
+TAG WORD          0x06D4 (0000 0110 1101 0100)  전체 5 WORD
 Payload WORD 1st (bits 63..48)     Signed Seconds high 16bit
 Payload WORD 2nd (bits 47..32)     Signed Seconds
 Payload WORD 3rd (bits 31..16)     Signed Seconds

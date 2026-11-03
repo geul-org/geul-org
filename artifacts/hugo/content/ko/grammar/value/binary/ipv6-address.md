@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-IPV6-ADDRESS는 IPv6 주소의 128bit 값을 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000007` IETF, 코덱 번호 `0x0000C002`, 계열 BINARY다. Payload는 정확히 8 WORD(128bit)다.
+IPV6-ADDRESS는 IPv6 주소의 128bit 값을 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000007` IETF, 코덱 번호 `0x0000C002`, 계열 BINARY다. Payload는 정확히 8 WORD(128bit)다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07DC (0000 0111 1101 1100)  전체 13 WORD
+TAG WORD          0x09DC (0000 1001 1101 1100)  전체 13 WORD
 Issuer            2 WORD  0x00000007 (IETF)
 코덱 번호         2 WORD  0x0000C002
 Payload           8 WORD (128비트)  IPv6 address, high-order bit → low-order bit
@@ -48,7 +48,7 @@ Payload           8 WORD (128비트)  IPv6 address, high-order bit → low-order
 IPv6 주소 `2001:db8::1`:
 
 ```
-07dc 0000 0007 0000 c002 2001 0db8 0000 0000 0000 0000 0000 0001
+09dc 0000 0007 0000 c002 2001 0db8 0000 0000 0000 0000 0000 0001
 ```
 
 - 문자열의 축약 표기는 Payload에 영향을 주지 않는다.

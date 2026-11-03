@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-CRC32C는 CRC-32C 결과를 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000007` IETF, 코덱 번호 `0x0000C000`, 계열 BINARY다. Payload는 정확히 2 WORD(32 bit)다.
+CRC32C는 CRC-32C 결과를 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000007` IETF, 코덱 번호 `0x0000C000`, 계열 BINARY다. Payload는 정확히 2 WORD(32 bit)다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07D6 (0000 0111 1101 0110)  전체 7 WORD
+TAG WORD          0x09D6 (0000 1001 1101 0110)  전체 7 WORD
 Issuer            2 WORD  0x00000007 (IETF)
 코덱 번호         2 WORD  0x0000C000
 Payload           2 WORD  CRC32C 상위 16bit │ 하위 16bit
@@ -42,5 +42,5 @@ Payload           2 WORD  CRC32C 상위 16bit │ 하위 16bit
 ASCII `123456789`의 CRC-32C check value `0xe3069283`:
 
 ```
-07D6 0000 0007 0000 C000 e306 9283
+09D6 0000 0007 0000 C000 e306 9283
 ```

@@ -20,7 +20,7 @@ TAG WORD          0000 0000 1111 LLLL      Codec 0x00FL~0x013L (Identified 0x00F
 SIDX              나머지 전부
 ```
 
-- Quantifier는 다른 선언 Codec과 같다. Variable이면 그 종류의 익명 변수다([Reference](/ko/grammar/reference/) Variable). 양화는 5Q 코드(`0x00FL~0x013L`, `C % 5`)로만 한다. SIDX 값에는 양화를 넣지 않는다.
+- Quantifier는 다른 선언 Codec과 같다. Variable이면 그 종류의 익명 변수다([Reference](/ko/grammar/reference/) Variable). 양화는 5Q 코드(`0x00FL~0x013L`, `o % 5`)로만 한다. SIDX 값에는 양화를 넣지 않는다.
 - 규격 문서는 SIDX를 나머지 폭 날값 필드 하나로 선언한다. 폭 규칙이 정해지면 바꾼다.
 
 ## 예시

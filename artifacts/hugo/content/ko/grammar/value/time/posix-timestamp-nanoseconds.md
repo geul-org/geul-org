@@ -14,11 +14,11 @@ POSIX-TIMESTAMP-NANOSECONDS는 Unix epoch `1970-01-01T00:00:00Z`부터의 signed
 
 ## 레이아웃
 
-- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x0000000D` IEEE, 코덱 번호 `0x00004000`. 계열 TIME.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x0000000D` IEEE, 코덱 번호 `0x00004000`. 계열 TIME.
 - 산업 데이터 교환을 위해 Parquet `TIMESTAMP(isAdjustedToUTC=true, unit=NANOS)`와 같은 고정폭 signed int64 물리 타입을 쓴다.
 
 ```
-TAG WORD          0x07D8 (0000 0111 1101 1000)  전체 9 WORD
+TAG WORD          0x09D8 (0000 1001 1101 1000)  전체 9 WORD
 Issuer            2 WORD  0x0000000D (IEEE)
 코덱 번호         2 WORD  0x00004000
 Payload WORD 1st (bits 63..48)     Signed Nanoseconds high 16bit

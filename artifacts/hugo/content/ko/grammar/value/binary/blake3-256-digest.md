@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-BLAKE3-256-DIGEST는 BLAKE3 default hash mode 출력의 첫 32 octet(256 bit)을 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x0000C000`, 계열 BINARY다. Payload는 정확히 16 WORD이며 keyed hash mode, key derivation mode, 다른 길이의 XOF 출력은 담지 않는다.
+BLAKE3-256-DIGEST는 BLAKE3 default hash mode 출력의 첫 32 octet(256 bit)을 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x0000C000`, 계열 BINARY다. Payload는 정확히 16 WORD이며 keyed hash mode, key derivation mode, 다른 길이의 XOF 출력은 담지 않는다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07DE (0000 0111 1101 1110)  LLLL=1110
+TAG WORD          0x09DE (0000 1001 1101 1110)  LLLL=1110
 Length 확장 TAG   1 WORD  0x0016 (전체 22 WORD)
 Issuer            2 WORD  0x00000002 (ADHOC)
 코덱 번호         2 WORD  0x0000C000

@@ -4,20 +4,20 @@ weight: 29
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge"]
-summary: "FIELD는 Codec Payload의 필드 하나를 선언하는 서술 Edge다(Codec 0x09CL). 속한 DECLARE와 폭(레코드, 날값 n WORD, 나머지 날값)을 적는다."
+summary: "FIELD는 Codec Payload의 필드 하나를 선언하는 서술 Edge다(Codec 0x0BCL). 속한 DECLARE와 폭(레코드, 날값 n WORD, 나머지 날값)을 적는다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-FIELD는 Codec Payload의 필드 하나를 선언하는 서술 Edge다. Codec `0x09CL`.
+FIELD는 Codec Payload의 필드 하나를 선언하는 서술 Edge다. Codec `0x0BCL`.
 
 FIELD가 자기 [DECLARE](/ko/grammar/edge/declare/)를 가리킨다. 한 DECLARE를 가리키는 FIELD들이 문서 안 순서대로 Payload를 구성한다. 레이아웃은 디코더에 내장한다([Codec 규격 문서](/ko/grammar/codec-spec/)).
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 1001 1100 LLLL
+TAG WORD          0000 1011 1100 LLLL
 Edge Id           LOCAL Reference 레코드
 DECLARE           LOCAL Reference 레코드. 이 필드가 속한 DECLARE Edge
 폭                1 WORD. 0 = 레코드, n (1~65534) = 날값 n WORD, 0xFFFF = 나머지 날값
@@ -46,7 +46,7 @@ DECLARE           LOCAL Reference 레코드. 이 필드가 속한 DECLARE Edge
 - 레코드 필드: Edge Id 7, DECLARE #1, 폭 `0`. TAG 1 + Edge Id 2 + DECLARE 2 + 폭 1 = 6 WORD. LOCAL만 받게 하려면 [CODEC](/ko/grammar/edge/codec/) 예시를 본다.
 
 ```
-09C5 0051 0007 0051 0001 0000
+0BC5 0051 0007 0051 0001 0000
 ```
 
 - 내용 해시 같은 날값 필드는 [DECLARE](/ko/grammar/edge/declare/) 예시를 본다.

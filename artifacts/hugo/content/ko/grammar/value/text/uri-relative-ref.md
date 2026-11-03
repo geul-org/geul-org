@@ -14,11 +14,11 @@ URI-RELATIVE-REF는 RFC 3986 `relative-ref` 문법의 ASCII 바이트열을 담�
 
 ## 레이아웃
 
-- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000007` IETF, 코덱 번호 `0x00008000`(짝수 바이트)·`0x00008001`(홀수 바이트). 계열 TEXT.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000007` IETF, 코덱 번호 `0x00008000`(짝수 바이트)·`0x00008001`(홀수 바이트). 계열 TEXT.
 - 바이트 수는 코덱 번호의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
-TAG WORD          0000 0111 1101 LLLL      Codec 0x07DL
+TAG WORD          0000 1001 1101 LLLL      Codec 0x09DL
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Issuer            2 WORD  0x00000007 (IETF)
 코덱 번호         2 WORD  0x00008000/0x00008001
@@ -46,7 +46,7 @@ Payload WORD 1st ... Nth          relative-ref bytes / final zero padding
 
 ## 예시
 
-- `a/b?x=1`은 7 byte(홀수)라 코덱 번호 `0x00008001`, Payload `612f 623f 783d 3100`이다. 전체 9 WORD이므로 `LLLL=1000`이다. 전체는 `07D8 0000 0007 0000 8001 612f 623f 783d 3100`이다.
+- `a/b?x=1`은 7 byte(홀수)라 코덱 번호 `0x00008001`, Payload `612f 623f 783d 3100`이다. 전체 9 WORD이므로 `LLLL=1000`이다. 전체는 `09D8 0000 0007 0000 8001 612f 623f 783d 3100`이다.
 
 ## 열린 문제
 

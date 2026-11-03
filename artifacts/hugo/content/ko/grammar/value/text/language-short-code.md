@@ -4,7 +4,7 @@ weight: 73
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-29T23:00:00+09:00
 tags: ["grammar", "value", "text"]
-summary: "LANGUAGE-SHORT-CODE는 GEUL Language Registry가 번호를 준 BCP 47 tag 하나를 1 WORD로 담는 GEUL 언어 코드 Value다(Codec 0x05AL). 레지스트리는 이 Codec 규격 문서의 ENUM이다."
+summary: "LANGUAGE-SHORT-CODE는 GEUL Language Registry가 번호를 준 BCP 47 tag 하나를 1 WORD로 담는 GEUL 언어 코드 Value다(Codec 0x07AL). 레지스트리는 이 Codec 규격 문서의 ENUM이다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,24 +14,24 @@ LANGUAGE-SHORT-CODE는 GEUL Language Registry에 번호가 배정된 BCP 47 tag 
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x05AL`. 계열 TEXT.
+- 코드: Value 직접 코드 `0x07AL`. 계열 TEXT.
 - Payload는 정확히 1 WORD의 unsigned 16비트 코드다.
 
 ```
-TAG WORD          0x05A1 (0000 0101 1010 0001)  전체 2 WORD
+TAG WORD          0x07A1 (0000 0111 1010 0001)  전체 2 WORD
 Payload WORD 1st (16비트)           GEUL Language Registry 번호 (uint16)
 ```
 
 ## 해석과 유효성
 
 - Payload 1 WORD를 unsigned 16비트 정수로 읽는다.
-- 이 값은 GEUL Language Registry가 배정한 tag 하나다. 레지스트리의 정식 표현은 이 Codec의 규격 문서 `0x00000000/codecs/0x000005a0`이다. 코드값마다 FIELD `code`에 [ENUM](/ko/grammar/edge/enum/)이 하나 있고, 그 ENUM Edge Id에 [BIND](/ko/grammar/edge/bind/)로 묶인 이름이 정규 대소문자의 BCP 47 tag다.
+- 이 값은 GEUL Language Registry가 배정한 tag 하나다. 레지스트리의 정식 표현은 이 Codec의 규격 문서 `0x00000000/codecs/0x000007a0`이다. 코드값마다 FIELD `code`에 [ENUM](/ko/grammar/edge/enum/)이 하나 있고, 그 ENUM Edge Id에 [BIND](/ko/grammar/edge/bind/)로 묶인 이름이 정규 대소문자의 BCP 47 tag다.
 - 레지스트리는 닫힌 목록이다. 규격 문서에 ENUM이 없는 값은 invalid다. ENUM 일반 규칙("선언되지 않은 코드값은 오류가 아니다")보다 이 Codec 규칙이 앞선다.
 - 배정 대상은 다음 셋이다.
   - IANA Language Subtag Registry의 `Type: language` 레코드 가운데 `Scope: private-use`(`qaa..qtz`)를 뺀 것. collection, macrolanguage, special(`mul`·`und`·`zxx`·`mis`)은 빼지 않는다.
   - IANA가 통째로 등록한 tag: grandfathered와 redundant(`zh-Hans`, `sr-Latn`, `zh-min-nan` 등).
   - 공개 CC0 원천에서 관측된 유효한 조합 tag(`pt-BR`, `en-GB`, `be-tarask` 등). language·extlang·script·region·variant subtag로만 된 tag다. extension(`-u-`·`-t-`)과 private-use(`-x-`)가 든 tag는 받지 않는다.
-- 번호가 없는 tag는 이 형식으로 쓸 수 없다. [LANGUAGE-BCP47-CODE](/ko/grammar/value/text/language-bcp47-code/)(`0x056L`·`0x057L`)로 쓴다. SHORT-CODE 안에는 escape 경로가 없다.
+- 번호가 없는 tag는 이 형식으로 쓸 수 없다. [LANGUAGE-BCP47-CODE](/ko/grammar/value/text/language-bcp47-code/)(`0x076L`·`0x077L`)로 쓴다. SHORT-CODE 안에는 escape 경로가 없다.
 - `0x0000`과 `0xffff`는 영구히 배정하지 않는다. 이 Value에서 둘은 invalid다. 둘 다 `null`·`unknown`·`und`의 뜻으로 쓰지 않는다.
 - 값의 구간은 배정 관례다. 디코더는 값의 범위로 tag의 종류를 추정하지 않는다. 값의 뜻은 규격 문서에서만 온다.
 
@@ -48,7 +48,7 @@ Payload WORD 1st (16비트)           GEUL Language Registry 번호 (uint16)
 - 새 tag는 규격 문서의 새 버전에 ENUM과 BIND를 덧붙여 넣는다. 기존 ENUM·BIND는 고치지 않는다. 그래서 어느 버전이든 앞 버전의 상위집합이다.
 - 65,534개가 모두 차면 더 배정하지 않는다. 그 뒤의 새 tag는 LANGUAGE-BCP47-CODE로 쓴다. 표현력은 줄지 않고 압축 이득만 없다.
 - 같은 언어: SHORT-CODE `n`과, 레지스트리가 `n`에 묶은 tag의 LANGUAGE-BCP47-CODE(대소문자 무시)는 같은 언어다.
-- 레지스트리 판은 규격 문서의 버전이다. 각 판은 근거로 삼은 IANA registry 파일(File-Date, SHA-256)을 규격 문서 HEAD의 [SOURCE](/ko/grammar/edge/source/)로 적는다. 값을 해석한 판을 밝혀야 할 때는 그 버전(`0x0000/0x0000000000000848@n`)을 함께 남긴다.
+- 레지스트리 판은 규격 문서의 버전이다. 각 판은 근거로 삼은 IANA registry 파일(File-Date, SHA-256)을 규격 문서 HEAD의 [SOURCE](/ko/grammar/edge/source/)로 적는다. 값을 해석한 판을 밝혀야 할 때는 그 버전([CODEC-POINTER](/ko/grammar/reference/codec-pointer/)(`0x00000000`, `0x000007a0`, 버전 ID `n`))을 함께 남긴다.
 - Codec 규격은 같은 1 WORD 코드를 TAG 없는 날값 필드로 담을 수 있다(날값 필드의 [CODEC](/ko/grammar/codec-spec/#codec)). 이는 그 Codec 규격의 규칙이며, 독립 Value의 wire form은 언제나 TAG 1 WORD + Payload 1 WORD다.
 
 ## 표준 근거
@@ -63,14 +63,14 @@ Payload WORD 1st (16비트)           GEUL Language Registry 번호 (uint16)
 
 ## 예시
 
-레지스트리 v2(규격 문서 `0x00000000/codecs/0x000005a0` 버전 2, IANA File-Date 2026-09-17)의 번호다. 8,678개를 배정했다(language 8,275, grandfathered 26, redundant 67, 관측 조합 310).
+레지스트리 v2(규격 문서 `0x00000000/codecs/0x000007a0` 버전 2, IANA File-Date 2026-09-17)의 번호다. 8,678개를 배정했다(language 8,275, grandfathered 26, redundant 67, 관측 조합 310).
 
 | tag | 코드 | 전체 WORD |
 |---|---|---|
-| `en` | `0x0784` | `05A1 0784` |
-| `ko` | `0x0d06` | `05A1 0D06` |
-| `zh-Hans` | `0x404c` | `05A1 404C` |
-| `pt-BR` | `0x4130` | `05A1 4130` |
+| `en` | `0x0784` | `07A1 0784` |
+| `ko` | `0x0d06` | `07A1 0D06` |
+| `zh-Hans` | `0x404c` | `07A1 404C` |
+| `pt-BR` | `0x4130` | `07A1 4130` |
 
 - 규격 문서에서 `en`은 `ENUM #2 0x0784`와 그 Edge Id에 묶인 `BIND "en"`이다.
 - `de-x-formal`(private-use), `nl-u-sd-bebru`(extension)는 번호가 없으므로 LANGUAGE-BCP47-CODE로 쓴다.

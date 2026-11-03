@@ -4,18 +4,18 @@ weight: 1002
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "binary"]
-summary: "BIT-VECTOR는 32bit 비트 수 N 뒤에 N bit를 MSB-first로 담는 Value다(직접 코드 0x060L)."
+summary: "BIT-VECTOR는 32bit 비트 수 N 뒤에 N bit를 MSB-first로 담는 Value다(직접 코드 0x080L)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-BIT-VECTOR는 길이를 밝힌 raw bit sequence다. Value 직접 코드 `0x060L`, 계열 BINARY다. 첫 2 Payload WORD는 unsigned 32bit bit count `N`이고, 뒤에 `ceil(N/16)` WORD가 온다.
+BIT-VECTOR는 길이를 밝힌 raw bit sequence다. Value 직접 코드 `0x080L`, 계열 BINARY다. 첫 2 Payload WORD는 unsigned 32bit bit count `N`이고, 뒤에 `ceil(N/16)` WORD가 온다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 0110 0000 LLLL      Codec 0x060L
+TAG WORD          0000 1000 0000 LLLL      Codec 0x080L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st–2nd       Bit Count N (상위 16bit │ 하위 16bit)
 Payload WORD 3rd ... Nth   Payload bits, MSB-first
@@ -39,5 +39,5 @@ Payload WORD 3rd ... Nth   Payload bits, MSB-first
 
 ## 예시
 
-- 빈 bit vector는 count `0000 0000`, payload 없음, 전체 3 WORD, `LLLL=0010`이다. 전체는 `0602 0000 0000`이다.
-- bit sequence `101`은 count `0000 0003`, payload `a000`, 전체 4 WORD, `LLLL=0011`이다. 전체는 `0603 0000 0003 a000`이다.
+- 빈 bit vector는 count `0000 0000`, payload 없음, 전체 3 WORD, `LLLL=0010`이다. 전체는 `0802 0000 0000`이다.
+- bit sequence `101`은 count `0000 0003`, payload `a000`, 전체 4 WORD, `LLLL=0011`이다. 전체는 `0803 0000 0003 a000`이다.

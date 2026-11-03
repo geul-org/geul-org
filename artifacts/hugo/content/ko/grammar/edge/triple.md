@@ -4,20 +4,20 @@ weight: 11
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge"]
-summary: "TRIPLE은 명제 하나(Predicate, Subject, Object)와 그 등급(rank)을 담는 서술 Edge다(Codec 0x08AL). Object에는 값 대신 알 수 없음(UNKNOWN-VALUE)이나 없음(NO-VALUE)을 쓸 수 있다."
+summary: "TRIPLE은 명제 하나(Predicate, Subject, Object)와 그 등급(rank)을 담는 서술 Edge다(Codec 0x0AAL). Object에는 값 대신 알 수 없음(UNKNOWN-VALUE)이나 없음(NO-VALUE)을 쓸 수 있다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-TRIPLE은 명제 하나(Predicate, Subject, Object)와 그 등급(rank)을 담는 서술 Edge다. Codec `0x08AL`.
+TRIPLE은 명제 하나(Predicate, Subject, Object)와 그 등급(rank)을 담는 서술 Edge다. Codec `0x0AAL`.
 
 명제를 한정하는 조건(시작·종료 시점, 적용 범위 등)은 TRIPLE의 Edge Id를 가리키는 [QUALIFIER](/ko/grammar/edge/qualifier/)로 붙인다. 출처(위키데이터 references)는 TRIPLE의 Edge Id를 가리키는 근거 Edge [SOURCE](/ko/grammar/edge/source/)로 붙인다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 1000 1010 LLLL
+TAG WORD          0000 1010 1010 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Predicate         Reference 레코드 (WIKIDATA-PID 등)
@@ -43,7 +43,7 @@ Rank              1 WORD (ENUM)
 - Predicate, Subject는 정확히 하나의 완전한 Reference 레코드다.
 - Object는 정확히 하나의 완전한 Reference 또는 Value 레코드, 또는 [자리 표지](/ko/grammar/reference/slot-marker/) `0x0010`(UNKNOWN-VALUE)·`0x0020`(NO-VALUE) 1 WORD다. ABSENT(`0x0000`)는 받지 않는다. Object는 선택 필드가 아니다.
 - Object를 읽은 뒤 정확히 1 WORD(Rank)가 남아야 한다.
-- geul.org 규격 문서는 Rank 날값 필드에 [CODEC](/ko/grammar/edge/codec/) UNSIGNED-INTEGER(`0420`)와 [ENUM](/ko/grammar/edge/enum/) 0·1·2를 둔다. Object 필드에는 CODEC `000F`(아무 Reference), `040F`(아무 Value), `0010`(UNKNOWN-VALUE), `0020`(NO-VALUE)을 둔다. Predicate·Subject는 자리 표지를 받지 않는다.
+- geul.org 규격 문서는 Rank 날값 필드에 [CODEC](/ko/grammar/edge/codec/) UNSIGNED-INTEGER(`0620`)와 [ENUM](/ko/grammar/edge/enum/) 0·1·2를 둔다. Object 필드에는 CODEC `000F`(아무 Reference), `060F`(아무 Value), `0010`(UNKNOWN-VALUE), `0020`(NO-VALUE)을 둔다. Predicate·Subject는 자리 표지를 받지 않는다.
 - **TRIPLE의 의미는 같은 문서에서 그 Edge Id를 가리키는 QUALIFIER를 모두 모은 것이다.** 읽는 쪽은 TRIPLE을 해석하기 전에 QUALIFIER를 모은다. QUALIFIER 없이 읽은 TRIPLE은 한정이 빠진 명제일 수 있다(예: 시간 한정이 빠진 "행정부 수반").
 
 ## 알 수 없음과 없음
@@ -67,21 +67,21 @@ Object 자리의 자리 표지는 값이 아니라 명제에 관한 단언이다
 
 Q42(Douglas Adams) P31(instance of) Q5(human), normal. Edge Id `0005`.
 
-- TAG 1 + Edge Id 2 + Predicate 2 + Subject 2 + Object 2 + Rank 1 = 10 WORD, `LLLL=1001`. TAG는 `0000 1000 1010 1001` = `08A9`다.
+- TAG 1 + Edge Id 2 + Predicate 2 + Subject 2 + Object 2 + Rank 1 = 10 WORD, `LLLL=1001`. TAG는 `0000 1010 1010 1001` = `0AA9`다.
 
 ```
-08A9 0051 0005 0191 001f 0141 002a 0141 0005 0000
+0AA9 0051 0005 0191 001f 0141 002a 0141 0005 0000
 ```
 
 Q30(미국) P1304(중앙은행) NO-VALUE, normal. 1811~1816년에는 중앙은행이 없었다(P580·P582 QUALIFIER는 [QUALIFIER](/ko/grammar/edge/qualifier/) 예시). Edge Id `3161`.
 
-- TAG 1 + Edge Id 2 + Predicate 2 + Subject 2 + Object 1 + Rank 1 = 9 WORD, `LLLL=1000`. TAG는 `0000 1000 1010 1000` = `08A8`다.
+- TAG 1 + Edge Id 2 + Predicate 2 + Subject 2 + Object 1 + Rank 1 = 9 WORD, `LLLL=1000`. TAG는 `0000 1010 1010 1000` = `0AA8`다.
 
 ```
-08A8 0051 0C59 0191 0518 0141 001E 0020 0000      #3161 TRIPLE P1304 Q30 NONE normal
+0AA8 0051 0C59 0191 0518 0141 001E 0020 0000      #3161 TRIPLE P1304 Q30 NONE normal
 ```
 
-- "자녀(P40) 없음"은 `08A8 0051 <Edge Id> 0191 0028 <Subject> 0020 0000`이다.
+- "자녀(P40) 없음"은 `0AA8 0051 <Edge Id> 0191 0028 <Subject> 0020 0000`이다.
 
 ## 열린 문제
 

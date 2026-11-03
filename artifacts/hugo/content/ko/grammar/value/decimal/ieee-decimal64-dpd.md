@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-IEEE-DECIMAL64-DPD는 IEEE 754 decimal64 DPD interchange encoding을 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x0000000D` IEEE, 코덱 번호 `0x00002001`, 계열 DECIMAL이다. DPD 비트 패턴을 그대로 보존하며 BID와 구별한다.
+IEEE-DECIMAL64-DPD는 IEEE 754 decimal64 DPD interchange encoding을 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x0000000D` IEEE, 코덱 번호 `0x00002001`, 계열 DECIMAL이다. DPD 비트 패턴을 그대로 보존하며 BID와 구별한다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07D8  전체 9 WORD
+TAG WORD          0x09D8  전체 9 WORD
 Issuer            2 WORD  0x0000000D (IEEE)
 코덱 번호         2 WORD  0x00002001
 Payload           4 WORD (64비트)  IEEE decimal64 DPD Interchange
@@ -37,8 +37,8 @@ Payload           4 WORD (64비트)  IEEE decimal64 DPD Interchange
 
 | 구조 | 판정 |
 |---|---|
-| `07D8 0000 000D 0000 2001` + 4 WORD DPD 비트열 | 정규 길이 구조 |
-| `07D8 0000 000D 0000 2001` + 2 WORD | invalid: Payload 폭 불일치 |
+| `09D8 0000 000D 0000 2001` + 4 WORD DPD 비트열 | 정규 길이 구조 |
+| `09D8 0000 000D 0000 2001` + 2 WORD | invalid: Payload 폭 불일치 |
 | 같은 64비트에 코덱 번호 `0x00002004` | BID 형식이며 이 타입이 아님 |
 
 ## 표준 근거

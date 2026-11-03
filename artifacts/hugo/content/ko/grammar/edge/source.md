@@ -4,20 +4,20 @@ weight: 33
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "edge"]
-summary: "SOURCE는 레코드 하나 또는 문서 전체를 그 원천에 잇는 근거 Edge다(Codec 0x0A0L). 원천의 성질은 원천을 Subject로 하는 TRIPLE로, 인용의 성질(조회일, 원천 안의 위치, 원문 해시)은 SOURCE에 붙는 QUALIFIER로 쓴다. 문서 전체의 SOURCE는 HEAD에 둔다."
+summary: "SOURCE는 레코드 하나 또는 문서 전체를 그 원천에 잇는 근거 Edge다(Codec 0x0C0L). 원천의 성질은 원천을 Subject로 하는 TRIPLE로, 인용의 성질(조회일, 원천 안의 위치, 원문 해시)은 SOURCE에 붙는 QUALIFIER로 쓴다. 문서 전체의 SOURCE는 HEAD에 둔다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-SOURCE는 레코드 하나(대상) 또는 문서 전체를 그것이 나온 원천에 잇는 근거 Edge다. Codec `0x0A0L`. 근거 계열(`01`)의 유일한 직접 코드다.
+SOURCE는 레코드 하나(대상) 또는 문서 전체를 그것이 나온 원천에 잇는 근거 Edge다. Codec `0x0C0L`. 근거 계열(`01`)의 유일한 직접 코드다.
 
 위키데이터 reference(출처 묶음) 하나가 SOURCE 하나다. 레코드 하나에 출처가 여럿이면 SOURCE도 여럿이다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 1010 0000 LLLL
+TAG WORD          0000 1100 0000 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Target            LOCAL Reference 레코드 (BODY에서는 근거를 붙이는 Edge의 Edge Id, HEAD에서는 0 = 문서 전체)
@@ -48,7 +48,7 @@ Origin            Reference 레코드, 또는 자리 표지 0x0000 ABSENT·0x001
 - Target, Origin은 각각 정확히 하나의 완전한 레코드다. Origin을 읽은 커서는 Edge 끝과 맞아야 한다.
 - Target은 LOCAL Reference다. BODY의 SOURCE는 같은 문서 BODY의 Edge Id를 가리킨다. `0`(문서 전체)은 HEAD의 SOURCE만 쓴다([문서 전체의 출처](#문서-전체의-출처)). BODY에 Target `0`인 SOURCE가 있으면 invalid다. 다른 문서의 레코드에는 그 문서 안에서 근거를 붙인다.
 - Origin은 Reference다. 자리 표지는 `0x0000`(ABSENT)·`0x0010`(UNKNOWN-VALUE)만 받는다. NO-VALUE(`0x0020`)·Value는 받지 않는다.
-- geul.org 규격 문서 `0x00000000/codecs/0x00000a00`(이름 `source`)은 Target에 [CODEC](/ko/grammar/edge/codec/) LOCAL(`0050`), Origin에 CODEC `000F`(아무 Reference)·`0000`(ABSENT, 선택)·`0010`(UNKNOWN-VALUE)을 둔다.
+- geul.org 규격 문서 `0x00000000/codecs/0x00000c00`(이름 `source`)은 Target에 [CODEC](/ko/grammar/edge/codec/) LOCAL(`0050`), Origin에 CODEC `000F`(아무 Reference)·`0000`(ABSENT, 선택)·`0010`(UNKNOWN-VALUE)을 둔다.
 - 같은 Target의 SOURCE 사이 순서는 의미가 없다. 출처 하나 안의 항목 순서도 의미가 없다(같은 속성의 값 순서는 문서 순서로 남는다).
 - SOURCE는 대상의 참·거짓을 바꾸지 않는다. 대상이 어디서 왔는지 적을 뿐이다. 판정 결과는 [TOULMIN](/ko/grammar/edge/toulmin/) `VERDICT`가 맡는다.
 
@@ -120,10 +120,10 @@ QUALIFIER  #1369  P227   #1368  "119033364"
 QUALIFIER  #1370  P813   #1368  GREGORIAN-DATE(2022-10-09)
 ```
 
-- ①은 원천 기술이 없고 P248이 하나라 원천이 그 항목이다. `#1347`은 TAG 1 + Edge Id 2 + Target 2 + Q5375741 3 = 8 WORD, TAG `0A07`.
+- ①은 원천 기술이 없고 P248이 하나라 원천이 그 항목이다. `#1347`은 TAG 1 + Edge Id 2 + Target 2 + Q5375741 3 = 8 WORD, TAG `0C07`.
 
 ```
-0A07 0051 0543 0051 00B2 0142 0052 06FD
+0C07 0051 0543 0051 00B2 0142 0052 06FD
 ```
 
 - URL 하나뿐인 출처: `REFERENCE-NODE #1383 #1384 <http://www.eskimo.com/~rkj/weekly/aa051701a.htm>`, `SOURCE #1385 #180 #1384`.

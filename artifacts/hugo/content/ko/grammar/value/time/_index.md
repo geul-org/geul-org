@@ -4,13 +4,13 @@ weight: 30
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "time"]
-summary: "TIME 계열(Codec `0x04AL~0x051L`, `0x061L`)의 날짜·시각 형식: 그레고리력 날짜, 타임스탬프, 경과 시간, EDTF, GEDCOM 날짜."
+summary: "TIME 계열(Codec `0x06AL~0x071L`, `0x081L`)의 날짜·시각 형식: 그레고리력 날짜, 타임스탬프, 경과 시간, EDTF, GEDCOM 날짜."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-TIME 계열은 날짜와 시각 형식이다. 직접 코드 `0x04AL~0x051L`과 `0x061L`(DURATION-NANOSECONDS)에 둔다.
+TIME 계열은 날짜와 시각 형식이다. 직접 코드 `0x06AL~0x071L`과 `0x081L`(DURATION-NANOSECONDS)에 둔다.
 
 | 정밀도 | 형식 |
 |---|---|

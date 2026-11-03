@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-SIGNED-INTEGER는 부호 있는 정수 값을 나타내는 Value다. Value 직접 코드 `0x041L`, 계열 NUMERIC이다. Payload 전체를 big-endian WORD 순서의 임의 정밀도 2의 보수 정수로 읽는다. Payload는 최소 1 WORD이며 최소 WORD 정규 표현만 허용한다.
+SIGNED-INTEGER는 부호 있는 정수 값을 나타내는 Value다. Value 직접 코드 `0x061L`, 계열 NUMERIC이다. Payload 전체를 big-endian WORD 순서의 임의 정밀도 2의 보수 정수로 읽는다. Payload는 최소 1 WORD이며 최소 WORD 정규 표현만 허용한다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0000 0100 0001 LLLL      Codec 0x041L
+TAG WORD          0000 0110 0001 LLLL      Codec 0x061L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st  (상위 WORD)   Integer 1st
 ...

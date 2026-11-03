@@ -30,4 +30,4 @@ Payload           언어 Value 하나
 
 ## 예시
 
-- `en`: `0x1CA2 0x0561 0x656E`
+- `en`: `0x1CA2 0x0761 0x656E`

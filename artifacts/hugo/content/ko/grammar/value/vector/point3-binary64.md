@@ -14,10 +14,10 @@ POINT3-BINARY64는 `(x, y, z)` 순서의 IEEE 754 binary64 세 성분으로 된 
 
 ## 레이아웃
 
-- 코드: Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x0000050B`. 계열 NUMERIC.
+- 코드: Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x0000050B`. 계열 NUMERIC.
 
 ```
-TAG WORD          0x07DE (0000 0111 1101 1110)  LLLL=1110
+TAG WORD          0x09DE (0000 1001 1101 1110)  LLLL=1110
 Length 확장 TAG   1 WORD  0x0012 (전체 18 WORD)
 Issuer            2 WORD  0x00000002 (ADHOC)
 코덱 번호         2 WORD  0x0000050B

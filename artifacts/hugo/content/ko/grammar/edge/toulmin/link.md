@@ -16,23 +16,23 @@ LINK는 TOULMIN 그래프에서 노드 사이의 관계를 쓰는 레이아웃�
 
 | Codec | 이름 | TANGEUL | src → dst |
 |---|---|---|---|
-| `0x0E8L` | ATTACKS | `don't X when Y` | 규칙 → 규칙. 판정을 공격 세기만큼 점진적으로 깎는다 |
-| `0x0E9L` | SUPERSEDES | `X supersedes Y` | 규칙 → 규칙. Active이면 대상을 집계에서 뺀다 |
-| `0x0F0L` | RUN | `run c when n` | 규칙 → 사안 |
-| `0x0F1L` | DO | `do fn when n` | 규칙 → FuncRef |
-| `0x0F2L` | DO-ONCE | `do fn once when n` | 규칙 → FuncRef |
-| `0x0F3L` | UNDO | `undo fn when n` | 규칙 → FuncRef |
-| `0x0F4L` | CHECKING | `checking c` | 규칙 → 사안. 부작용 없는 판정 |
-| `0x10BL` | REQUIRES | `f is required` | 사안 → 필드 |
-| `0x10CL` | MEANS | Definitions `means` | 정의 항목 → 값·타입 |
-| `0x10DL` | HAS | Definitions `has` | 정의 항목 → 필드 |
-| `0x10EL` | RUNS | 진입점 `run c` | 진입점 → 사안(실행) |
-| `0x10FL` | EVALUATES | 진입점 `check c` | 진입점 → 사안(판정) |
-| `0x110L` | TRIGGERS | 트리거 `run c` | 트리거 → 사안 |
-| `0x111L` | UNTIL | `every … until c` | 트리거 → 사안 |
-| `0x112L` | SAME-AS | | 노드 → 전역 식별자 |
-| `0x113L` | IMPORTED-FROM | `see a from path` | 별칭 → 경로(TEXT) |
-| `0x114L` | LABEL | 백틱 이름 | 노드 → TEXT. 이름 표기 |
+| `0x108L` | ATTACKS | `don't X when Y` | 규칙 → 규칙. 판정을 공격 세기만큼 점진적으로 깎는다 |
+| `0x109L` | SUPERSEDES | `X supersedes Y` | 규칙 → 규칙. Active이면 대상을 집계에서 뺀다 |
+| `0x110L` | RUN | `run c when n` | 규칙 → 사안 |
+| `0x111L` | DO | `do fn when n` | 규칙 → FuncRef |
+| `0x112L` | DO-ONCE | `do fn once when n` | 규칙 → FuncRef |
+| `0x113L` | UNDO | `undo fn when n` | 규칙 → FuncRef |
+| `0x114L` | CHECKING | `checking c` | 규칙 → 사안. 부작용 없는 판정 |
+| `0x12BL` | REQUIRES | `f is required` | 사안 → 필드 |
+| `0x12CL` | MEANS | Definitions `means` | 정의 항목 → 값·타입 |
+| `0x12DL` | HAS | Definitions `has` | 정의 항목 → 필드 |
+| `0x12EL` | RUNS | 진입점 `run c` | 진입점 → 사안(실행) |
+| `0x12FL` | EVALUATES | 진입점 `check c` | 진입점 → 사안(판정) |
+| `0x130L` | TRIGGERS | 트리거 `run c` | 트리거 → 사안 |
+| `0x131L` | UNTIL | `every … until c` | 트리거 → 사안 |
+| `0x132L` | SAME-AS | | 노드 → 전역 식별자 |
+| `0x133L` | IMPORTED-FROM | `see a from path` | 별칭 → 경로(TEXT) |
+| `0x134L` | LABEL | 백틱 이름 | 노드 → TEXT. 이름 표기 |
 
 ## 레이아웃
 
@@ -78,16 +78,16 @@ SPAN             SOURCE가 정한 폭 × 2
 `` `Y` 면 `X` 를 0.5의 세기로 공격한다``. Edge Id 5, 공격자 Y는 Edge Id 3, 대상 X는 Edge Id 2, SPAN 폭 1 WORD.
 
 ```
-0E8D                  TAG WORD: Edge, Codec 0x0E8L (ATTACKS), 전체 14 WORD
+108D                  TAG WORD: Edge, Codec 0x108L (ATTACKS), 전체 14 WORD
 0051 0005             ID      LOCAL 5
 0051 0003             src     LOCAL 3 (Y, 공격자)
 0051 0002             dst     LOCAL 2 (X, 대상)
 0010                  flags   F_FORCE
-0483 FFFF FFFF 0005   F_FORCE SIGNED-DECIMAL, E=−1, C=5 (0.5)
+0683 FFFF FFFF 0005   F_FORCE SIGNED-DECIMAL, E=−1, C=5 (0.5)
 0040 001A             SPAN    시작 바이트 0x40, 바이트 수 0x1A
 ```
 
-세기를 적지 않은 같은 간선은 flags가 `0000`이고 F_FORCE 필드가 없다. TAG WORD는 `0E89`(전체 10 WORD)이다.
+세기를 적지 않은 같은 간선은 flags가 `0000`이고 F_FORCE 필드가 없다. TAG WORD는 `1089`(전체 10 WORD)이다.
 
 ## 해석과 유효성
 

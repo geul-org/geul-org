@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-IPV4-ADDRESS는 IPv4 주소의 32bit 값을 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000007` IETF, 코덱 번호 `0x0000C001`, 계열 BINARY다. Payload는 정확히 2 WORD(32bit)다.
+IPV4-ADDRESS는 IPv4 주소의 32bit 값을 담는 고정 폭 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000007` IETF, 코덱 번호 `0x0000C001`, 계열 BINARY다. Payload는 정확히 2 WORD(32bit)다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07D6 (0000 0111 1101 0110)  전체 7 WORD
+TAG WORD          0x09D6 (0000 1001 1101 0110)  전체 7 WORD
 Issuer            2 WORD  0x00000007 (IETF)
 코덱 번호         2 WORD  0x0000C001
 Payload           2 WORD  address octet 1–2 │ address octet 3–4
@@ -45,5 +45,5 @@ Payload           2 WORD  address octet 1–2 │ address octet 3–4
 IPv4 주소 `1.2.3.4`:
 
 ```
-07d6 0000 0007 0000 c001 0102 0304
+09d6 0000 0007 0000 c001 0102 0304
 ```

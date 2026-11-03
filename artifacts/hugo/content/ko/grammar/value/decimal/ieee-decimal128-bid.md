@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-IEEE-DECIMAL128-BID는 IEEE 754 decimal128 BID interchange encoding을 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x0000000D` IEEE, 코덱 번호 `0x00002005`, 계열 DECIMAL이다. BID 비트 패턴을 그대로 보존하며 DPD와 구별한다.
+IEEE-DECIMAL128-BID는 IEEE 754 decimal128 BID interchange encoding을 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x0000000D` IEEE, 코덱 번호 `0x00002005`, 계열 DECIMAL이다. BID 비트 패턴을 그대로 보존하며 DPD와 구별한다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07DC  전체 13 WORD
+TAG WORD          0x09DC  전체 13 WORD
 Issuer            2 WORD  0x0000000D (IEEE)
 코덱 번호         2 WORD  0x00002005
 Payload           8 WORD (128비트)  IEEE decimal128 BID Interchange
@@ -37,7 +37,7 @@ Payload           8 WORD (128비트)  IEEE decimal128 BID Interchange
 
 | 구조 | 판정 |
 |---|---|
-| `07DC 0000 000D 0000 2005` + 8 WORD BID 비트열 | 정규 |
+| `09DC 0000 000D 0000 2005` + 8 WORD BID 비트열 | 정규 |
 | 전체가 13 WORD(`LLLL=1100`)가 아님 | invalid: 고정 Payload 폭과 불일치 |
 
 ## 표준 근거

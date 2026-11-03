@@ -10,12 +10,12 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-RATIONAL-I64는 big-endian int64 numerator와 int64 denominator의 기약분수로 유리수를 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x07DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000702`, 계열 NUMERIC이다.
+RATIONAL-I64는 big-endian int64 numerator와 int64 denominator의 기약분수로 유리수를 나타내는 Value다. Value `VALUE-ISSUER-2WORD`(`0x09DL`), Issuer `0x00000002` ADHOC, 코덱 번호 `0x00000702`, 계열 NUMERIC이다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0x07DC (0000 0111 1101 1100)  전체 13 WORD
+TAG WORD          0x09DC (0000 1001 1101 1100)  전체 13 WORD
 Issuer            2 WORD  0x00000002 (ADHOC)
 코덱 번호         2 WORD  0x00000702
 Payload           [numerator int64: 4 WORD][denominator int64: 4 WORD]

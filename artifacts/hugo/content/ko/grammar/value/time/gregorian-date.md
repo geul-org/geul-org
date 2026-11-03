@@ -4,7 +4,7 @@ weight: 33
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "value", "time"]
-summary: "GREGORIAN-DATE는 proleptic Gregorian 1970-01-01을 day 0으로 하는 signed int32 날짜 수 Value다(Codec 0x04AL)."
+summary: "GREGORIAN-DATE는 proleptic Gregorian 1970-01-01을 day 0으로 하는 signed int32 날짜 수 Value다(Codec 0x06AL)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,11 +14,11 @@ GREGORIAN-DATE는 proleptic Gregorian `1970-01-01`을 day 0으로 하는 signed 
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x04AL`. 계열 TIME.
+- 코드: Value 직접 코드 `0x06AL`. 계열 TIME.
 - Arrow Date32, Parquet `DATE`와 같은 고정폭 signed int32 물리 타입을 쓴다.
 
 ```
-TAG WORD          0x04A2 (0000 0100 1010 0010)  전체 3 WORD
+TAG WORD          0x06A2 (0000 0110 1010 0010)  전체 3 WORD
 Payload WORD 1st (bits 31..16)     Signed Day Count high 16bit
 Payload WORD 2nd (bits 15..0)      Signed Day Count low 16bit
 ```

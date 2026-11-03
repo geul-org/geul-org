@@ -4,7 +4,7 @@ weight: 60
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge", "triple", "qualifier", "label"]
-summary: "Edge는 Reference·Value·다른 Edge를 묶어 서술하는 레코드다. 첫 구성요소는 항상 Edge Id이고, 직접 코드의 계열(서술, 근거, 실행, TOULMIN, TOULMIN 형식)은 `(코드 − 0x80) >> 5`로 안다."
+summary: "Edge는 Reference·Value·다른 Edge를 묶어 서술하는 레코드다. 첫 구성요소는 항상 Edge Id이고, 직접 코드의 계열(서술, 근거, 실행, TOULMIN, TOULMIN 형식)은 `(코드 − 0xA0) >> 5`로 안다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -15,7 +15,7 @@ Edge는 다른 레코드를 구성요소로 묶어 서술하는 레코드다. "Q
 ## 레이아웃
 
 ```
-TAG WORD          000K KKCC CCCC LLLL      KKK 010~110
+TAG WORD          000K KKCC CCCC LLLL      섹션 5~13 (0x0A0L~0x1BFL)
 [Length 확장 TAG]
 [Codec 확장 TAG]  Issuer 형식일 때
 Edge Id           LOCAL Reference 레코드
@@ -32,38 +32,38 @@ Edge Id           LOCAL Reference 레코드
 
 ## 계열
 
-Edge 구역은 `0x080L~0x1BFL`이다. 직접 코드의 계열은 `(코드 − 0x80) >> 5`다(코드는 TAG ID의 앞 세 자리). 계열은 32칸씩이고 TAG의 `w >> 9`(KKK와 C 맨 위 1비트)와 같다.
+Edge 구역은 `0x0A0L~0x1BFL`이다. 직접 코드의 계열은 `(코드 − 0xA0) >> 5`다(코드는 TAG ID의 앞 세 자리). 계열은 32칸씩이고 섹션 `w >> 9`에서 5를 뺀 값과 같다. Edge는 섹션 5~13이다.
 
-| 계열 | 직접 코드 | 하는 일 |
-|---|---|---|
-| 서술 | `0x080L~0x09FL` | 세계와 사건에 관한 내용을 구성한다 |
-| 근거 | `0x0A0L~0x0BFL` | 레코드와 문서가 어디서 나왔는지([SOURCE](/ko/grammar/edge/source/)) |
-| 실행 | `0x0C0L~0x0DFL` | 실행할 수 있는 프로그램 구조(AST) |
-| [TOULMIN](/ko/grammar/edge/toulmin/) | `0x0E0L~0x0FBL` | 논증 그래프: 주장·반박·예외, 공격 관계, 실행, 판정 결과 |
-| [TOULMIN](/ko/grammar/edge/toulmin/) 형식 | `0x100L~0x114L` | TOULMIN 문서의 원문·구획·보조 노드와 관계 |
+| 섹션 | 계열 | 직접 코드 | 하는 일 |
+|---|---|---|---|
+| 5 | 서술 | `0x0A0L~0x0BFL` | 세계와 사건에 관한 내용을 구성한다 |
+| 6 | 근거 | `0x0C0L~0x0DFL` | 레코드와 문서가 어디서 나왔는지([SOURCE](/ko/grammar/edge/source/)) |
+| 7 | 실행 | `0x0E0L~0x0FFL` | 실행할 수 있는 프로그램 구조(AST) |
+| 8 | [TOULMIN](/ko/grammar/edge/toulmin/) | `0x100L~0x11BL` | 논증 그래프: 주장·반박·예외, 공격 관계, 실행, 판정 결과 |
+| 9 | [TOULMIN](/ko/grammar/edge/toulmin/) 형식 | `0x120L~0x134L` | TOULMIN 문서의 원문·구획·보조 노드와 관계 |
 
-- 배정된 직접 코드는 이 다섯 계열이다. `0x0FCL~0x0FFL`은 Reserved이고, `0x115L~0x1BCL`은 빈칸이다.
-- `0x1BDL~0x1BFL`은 EDGE-ISSUER다(아래 Issuer 형식 Edge). Issuer 형식에는 계열 규칙이 없다.
+- 배정된 직접 코드는 이 다섯 계열이다. `0x11CL~0x11FL`은 Reserved이고, `0x135L~0x1BCL`은 빈칸이다(섹션 10~12는 빈 섹션).
+- `0x1BDL~0x1BFL`(섹션 13의 끝 세 칸)은 EDGE-ISSUER다(아래 Issuer 형식 Edge). Issuer 형식에는 계열 규칙이 없다.
 
 ## 서술 Edge
 
 | Codec | 이름 | 구성요소 |
 |---|---|---|
-| `0x080L` | [REFERENCE-NODE](/ko/grammar/edge/reference-node/) | Subject(Reference)가 Object를 지시한다는 방향성 바인딩 |
-| `0x081L` | [SAME-NODE](/ko/grammar/edge/same-node/) | 두 Reference가 같은 대상을 지시한다 |
-| `0x082L` | [DIFFERENT-NODE](/ko/grammar/edge/different-node/) | 두 Reference가 다른 대상을 지시한다 |
-| `0x083L` | [BIND](/ko/grammar/edge/bind/) | Subject에 기계용 이름(UTF8-TEXT)을 묶는다 |
-| `0x084L` | [LABEL](/ko/grammar/edge/label/) | Subject의 언어별 이름(UTF8-LANGUAGE-TEXT) |
-| `0x085L` | [ALIAS](/ko/grammar/edge/alias/) | Subject의 다른 이름. 레이아웃은 LABEL과 같다 |
-| `0x086L` | [DESCRIPTION](/ko/grammar/edge/description/) | Subject의 언어별 설명. 레이아웃은 LABEL과 같다 |
-| `0x088L`/`0x089L` | VERB-SHORT / VERB | 동사 서술 |
-| `0x08AL` | [TRIPLE](/ko/grammar/edge/triple/) | 명제 하나(Predicate, Subject, Object)와 rank |
-| `0x08BL` | [QUALIFIER](/ko/grammar/edge/qualifier/) | 다른 Edge의 명제를 한정하는 조건 하나 |
-| `0x090L~0x092L` | WORLD / TIMELINE / SCENE | 세계관, 사건 순서, 장면 구조 |
-| `0x098L~0x09AL` | [PUBLICATION](/ko/grammar/edge/publication/) / DEPRECATION / TOMBSTONE | 문서 버전의 공표·폐기 권고·삭제 ([공표 주소와 버전 목록](/ko/grammar/publishing/#버전-목록)) |
-| `0x09BL~0x09EL` | [DECLARE](/ko/grammar/edge/declare/) / [FIELD](/ko/grammar/edge/field/) / [ENUM](/ko/grammar/edge/enum/) / [CODEC](/ko/grammar/edge/codec/) | Codec 규격을 쓰는 어휘 ([Codec 규격 문서](/ko/grammar/codec-spec/)) |
+| `0x0A0L` | [REFERENCE-NODE](/ko/grammar/edge/reference-node/) | Subject(Reference)가 Object를 지시한다는 방향성 바인딩 |
+| `0x0A1L` | [SAME-NODE](/ko/grammar/edge/same-node/) | 두 Reference가 같은 대상을 지시한다 |
+| `0x0A2L` | [DIFFERENT-NODE](/ko/grammar/edge/different-node/) | 두 Reference가 다른 대상을 지시한다 |
+| `0x0A3L` | [BIND](/ko/grammar/edge/bind/) | Subject에 기계용 이름(UTF8-TEXT)을 묶는다 |
+| `0x0A4L` | [LABEL](/ko/grammar/edge/label/) | Subject의 언어별 이름(UTF8-LANGUAGE-TEXT) |
+| `0x0A5L` | [ALIAS](/ko/grammar/edge/alias/) | Subject의 다른 이름. 레이아웃은 LABEL과 같다 |
+| `0x0A6L` | [DESCRIPTION](/ko/grammar/edge/description/) | Subject의 언어별 설명. 레이아웃은 LABEL과 같다 |
+| `0x0A8L`/`0x0A9L` | VERB-SHORT / VERB | 동사 서술 |
+| `0x0AAL` | [TRIPLE](/ko/grammar/edge/triple/) | 명제 하나(Predicate, Subject, Object)와 rank |
+| `0x0ABL` | [QUALIFIER](/ko/grammar/edge/qualifier/) | 다른 Edge의 명제를 한정하는 조건 하나 |
+| `0x0B0L~0x0B2L` | WORLD / TIMELINE / SCENE | 세계관, 사건 순서, 장면 구조 |
+| `0x0B8L~0x0BAL` | [PUBLICATION](/ko/grammar/edge/publication/) / DEPRECATION / TOMBSTONE | 문서 버전의 공표·폐기 권고·삭제 ([공표 주소와 버전 목록](/ko/grammar/publishing/#버전-목록)) |
+| `0x0BBL~0x0BEL` | [DECLARE](/ko/grammar/edge/declare/) / [FIELD](/ko/grammar/edge/field/) / [ENUM](/ko/grammar/edge/enum/) / [CODEC](/ko/grammar/edge/codec/) | Codec 규격을 쓰는 어휘 ([Codec 규격 문서](/ko/grammar/codec-spec/)) |
 
-- `-SHORT`와 일반형은 짝수·홀수 짝으로 둔다(VERB-SHORT `0x088L`/VERB `0x089L`). LABEL은 언어를 Object(UTF8-LANGUAGE-TEXT) 안의 언어 레코드로 받으므로 `0x084L` 하나만 쓴다.
+- `-SHORT`와 일반형은 짝수·홀수 짝으로 둔다(VERB-SHORT `0x0A8L`/VERB `0x0A9L`). LABEL은 언어를 Object(UTF8-LANGUAGE-TEXT) 안의 언어 레코드로 받으므로 `0x0A4L` 하나만 쓴다.
 - PUBLICATION·DEPRECATION·TOMBSTONE은 버전 목록 문서가 쓴다. 버전 목록을 코덱북 없이 읽어야 하므로 디코더에 내장한다([공표 주소와 버전 목록](/ko/grammar/publishing/#층)의 0층).
 - DECLARE·FIELD·ENUM·CODEC은 Codec 규격을 쓰는 어휘다. 규격 문서를 코덱북 없이 읽어야 하므로 레이아웃을 디코더에 내장한다(0층). 그 어휘로 쓴 각 Codec 규격 문서는 일반 문서다.
 
@@ -72,7 +72,7 @@ Edge 구역은 `0x080L~0x1BFL`이다. 직접 코드의 계열은 `(코드 − 0x
 자세히: [TRIPLE](/ko/grammar/edge/triple/)
 
 ```
-TAG WORD          0000 1000 1010 LLLL
+TAG WORD          0000 1010 1010 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference
 Predicate         Reference (위키데이터 속성 등)
@@ -93,7 +93,7 @@ Rank              1 WORD
 예: Q42 — P31(instance of) — Q5(사람), normal, Edge Id 2
 
 ```
-08A9  0051 0002  0191 001F  0141 002A  0141 0005  0000
+0AA9  0051 0002  0191 001F  0141 002A  0141 0005  0000
 TAG   #2         P31        Q42        Q5         normal
 ```
 
@@ -102,7 +102,7 @@ TAG   #2         P31        Q42        Q5         normal
 자세히: [QUALIFIER](/ko/grammar/edge/qualifier/)
 
 ```
-TAG WORD          0000 1000 1011 LLLL
+TAG WORD          0000 1010 1011 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference
 Property          Reference
@@ -117,8 +117,8 @@ Value             Reference 또는 Value
 예: Q42 — P69(educated at) — Q691283, 시작(P580) 1971
 
 ```
-08AA 0051 0003 0191 0045 0141 002A 0142 000A 8C53 0000   TRIPLE    #3 P69 Q42 Q691283 normal
-08B9 0051 0004 0191 0244 0051 0003 04E2 3139 3731        QUALIFIER #4 P580 #3 EDTF "1971"
+0AAA 0051 0003 0191 0045 0141 002A 0142 000A 8C53 0000   TRIPLE    #3 P69 Q42 Q691283 normal
+0AB9 0051 0004 0191 0244 0051 0003 06E2 3139 3731        QUALIFIER #4 P580 #3 EDTF "1971"
 ```
 
 ### LABEL, ALIAS, DESCRIPTION
@@ -126,7 +126,7 @@ Value             Reference 또는 Value
 자세히: [LABEL](/ko/grammar/edge/label/), [ALIAS](/ko/grammar/edge/alias/), [DESCRIPTION](/ko/grammar/edge/description/)
 
 ```
-TAG WORD          0000 1000 0100 LLLL   (LABEL)
+TAG WORD          0000 1010 0100 LLLL   (LABEL)
 [Length 확장 TAG]
 Edge Id           LOCAL Reference
 Subject           Reference
@@ -155,12 +155,12 @@ Object            UTF8-LANGUAGE-TEXT
 
 ## 근거 Edge
 
-BODY 안의 개별 레코드, 또는 문서 전체(HEAD)에 근거를 붙인다. 근거 계열의 직접 코드는 [SOURCE](/ko/grammar/edge/source/)(`0x0A0L`) 하나다.
+BODY 안의 개별 레코드, 또는 문서 전체(HEAD)에 근거를 붙인다. 근거 계열의 직접 코드는 [SOURCE](/ko/grammar/edge/source/)(`0x0C0L`) 하나다.
 
 | Codec | 이름 | 구성요소 |
 |---|---|---|
-| `0x0A0L` | [SOURCE](/ko/grammar/edge/source/) | Target(근거를 붙이는 BODY Edge의 Edge Id, HEAD에서는 `0` = 문서 전체), Origin(원천 Reference, ABSENT 또는 UNKNOWN-VALUE) |
-| `0x0A1L~0x0BFL` | Reserved | |
+| `0x0C0L` | [SOURCE](/ko/grammar/edge/source/) | Target(근거를 붙이는 BODY Edge의 Edge Id, HEAD에서는 `0` = 문서 전체), Origin(원천 Reference, ABSENT 또는 UNKNOWN-VALUE) |
+| `0x0C1L~0x0DFL` | Reserved | |
 
 - 원천 자체의 성질(URL, 제목, 저자, 발행일 …)은 원천을 Subject로 하는 TRIPLE로, 인용의 성질(조회일, 원천 안의 위치 …)은 SOURCE의 Edge Id를 Target으로 하는 QUALIFIER로 쓴다.
 - 문서 전체의 원천은 HEAD에 Target `0`인 SOURCE로 쓰고, 그것을 Target으로 하는 QUALIFIER도 HEAD에 둔다. HEAD에 오는 Edge는 이 둘뿐이고, Edge Id는 HEAD와 BODY가 한 번호 공간을 쓴다([문서 전체의 출처](/ko/grammar/edge/source/#문서-전체의-출처)).
@@ -172,7 +172,7 @@ BODY 안의 개별 레코드, 또는 문서 전체(HEAD)에 근거를 붙인다.
 자세히: [SOURCE](/ko/grammar/edge/source/)
 
 ```
-TAG WORD          0000 1010 0000 LLLL
+TAG WORD          0000 1100 0000 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference
 Target            LOCAL Reference (근거를 붙이는 BODY Edge의 Edge Id, HEAD에서는 0 = 문서 전체)
@@ -219,7 +219,7 @@ QUALIFIER  #1348  P1417  #1347  "biography/Douglas-Adams"
 | 실행 | RUN, DO, DO-ONCE, UNDO, CHECKING — [LINK](/ko/grammar/edge/toulmin/link/), ENTRY, TRIGGER — [NODE](/ko/grammar/edge/toulmin/node/) |
 | 결과 | VERDICT(판정 결과: Pass·Review·Fail), EVIDENCE(판정의 증거) — 레이아웃 미정 |
 
-- 원문·구획·보조 노드와 관계는 TOULMIN 형식 계열 직접 코드 `0x100L~0x114L`이다([SOURCE와 구획](/ko/grammar/edge/toulmin/source/), [TOULMIN](/ko/grammar/edge/toulmin/#toulmin-형식)).
+- 원문·구획·보조 노드와 관계는 TOULMIN 형식 계열 직접 코드 `0x120L~0x134L`이다([SOURCE와 구획](/ko/grammar/edge/toulmin/source/), [TOULMIN](/ko/grammar/edge/toulmin/#toulmin-형식)).
 - 판정 결과는 판정 대상과 다른 문서에 둔다. 결과 문서가 대상 문서를 가져와 가리킨다. 그래서 판정해도 대상 문서의 내용 해시는 바뀌지 않는다.
 
 ## Issuer 형식 Edge

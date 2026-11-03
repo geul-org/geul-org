@@ -4,7 +4,7 @@ weight: 69
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-29T12:00:00+09:00
 tags: ["grammar", "value", "text"]
-summary: "URI는 RFC 3986 URI(scheme 포함 절대 URI) 문법의 ASCII 바이트열을 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x054L/0x055L을 쓴다."
+summary: "URI는 RFC 3986 URI(scheme 포함 절대 URI) 문법의 ASCII 바이트열을 담는 Value다. 짝수·홀수 바이트 코드 쌍 0x074L/0x075L을 쓴다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -14,11 +14,11 @@ URI는 RFC 3986 `URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]` 문�
 
 ## 레이아웃
 
-- 코드: Value 직접 코드 `0x054L`(짝수 바이트)·`0x055L`(홀수 바이트). 계열 TEXT.
+- 코드: Value 직접 코드 `0x074L`(짝수 바이트)·`0x075L`(홀수 바이트). 계열 TEXT.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
-TAG WORD          0000 0101 010P LLLL      Codec 0x054L/0x055L
+TAG WORD          0000 0101 010P LLLL      Codec 0x074L/0x075L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st ... Nth          URI bytes / final zero padding
 ```
@@ -43,9 +43,9 @@ Payload WORD 1st ... Nth          URI bytes / final zero padding
 
 ## 예시
 
-- `https://example.com/`은 ASCII 20 byte(짝수)이므로 `URI-EVEN`(`0x054L`)이다.
+- `https://example.com/`은 ASCII 20 byte(짝수)이므로 `URI-EVEN`(`0x074L`)이다.
 - Payload는 `6874 7470 733a 2f2f 6578 616d 706c 652e 636f 6d2f`의 10 WORD다.
-- TAG 1 WORD와 Payload 10 WORD를 합쳐 전체 11 WORD이므로 `LLLL=1010`이다. 전체는 `054A 6874 7470 733a 2f2f 6578 616d 706c 652e 636f 6d2f`다.
+- TAG 1 WORD와 Payload 10 WORD를 합쳐 전체 11 WORD이므로 `LLLL=1010`이다. 전체는 `074A 6874 7470 733a 2f2f 6578 616d 706c 652e 636f 6d2f`다.
 
 ## GEUL Archive URI
 

@@ -25,45 +25,47 @@ GEUL v1 문법 명세다. 처음 읽는다면 아래 순서로 읽는다.
 
 ## Kind
 
-TAG WORD는 `000K KKCC CCCC LLLL`다. `KKK`는 Kind, `CCCCCC`는 Codec, `LLLL`은 Length다. TAG ID는 `0x000L`로 쓴다. 앞 세 자리가 Kind와 Codec이고 `L`은 Length 자리다([레코드와 TAG WORD](/ko/grammar/record/)).
+TAG WORD는 `000K KKCC CCCC LLLL`다. `KKKCCCCCC` 9비트는 Kind와 Codec 자리, `LLLL`은 Length다. TAG ID는 `0x000L`로 쓴다. 앞 세 자리가 Kind와 Codec이고 `L`은 Length 자리다([레코드와 TAG WORD](/ko/grammar/record/)).
 
-| KKK | TAG ID | 분류 | 설명 |
+| 섹션 | TAG ID | 분류 | 설명 |
 |---|---|---|---|
-| `000` | `0x000L~0x03FL` | [Reference](/ko/grammar/reference/) | 대상을 가리키는 레코드 |
-| `001` | `0x040L~0x07FL` | [Value](/ko/grammar/value/) | 값 레코드 |
-| `010`~`110` | `0x080L~0x1BFL` | [Edge](/ko/grammar/edge/) | 구성 레코드 |
-| `111` | `0x1C0L~0x1FFL` | [Meta](/ko/grammar/meta/) | 문서와 레코드에 관한 레코드 |
+| 0~2 | `0x000L~0x05FL` | [Reference](/ko/grammar/reference/) | 대상을 가리키는 레코드 |
+| 3·4 | `0x060L~0x09FL` | [Value](/ko/grammar/value/) | 값 레코드 |
+| 5~13 | `0x0A0L~0x1BFL` | [Edge](/ko/grammar/edge/) | 구성 레코드 |
+| 14·15 | `0x1C0L~0x1FFL` | [Meta](/ko/grammar/meta/) | 문서와 레코드에 관한 레코드 |
 
-- Kind는 `(w >> 10) & 7` 하나로 판정한다. 예외는 없다.
+- 섹션은 `S = w >> 9`(4비트)이고 한 섹션은 32칸이다.
+- Kind는 섹션 구간 하나로 판정한다: `w < 0x0600` Reference, `w < 0x0A00` Value, `w < 0x1C00` Edge, 나머지 Meta. 예외는 없다.
 - Reference, Value, Edge 구역의 끝 세 칸은 ISSUER다(`..DL` 2 WORD, `..EL` 4 WORD, `..FL` 16 WORD). Meta에는 ISSUER가 없다.
 
 ## Reference
 
-`0x000L~0x03FL` — [Reference](/ko/grammar/reference/)
+`0x000L~0x05FL` — [Reference](/ko/grammar/reference/)
 
 ### Codec
 
 | TAG ID | 이름 | 분류 | 대상 ID |
 |---|---|---|---|
 | `0x000L~0x002L` | [자리 표지](/ko/grammar/reference/slot-marker/) | 예약 | 대상을 가리키지 않는 1 WORD 표지 묶음(아래 표) |
-| `0x003L` | [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/) | 지시선언 | Issuer 자신. Payload는 Issuer(2/4/16 WORD)뿐이며 대상 ID가 없다 |
-| `0x004L` | [DOC-POINTER](/ko/grammar/reference/doc-pointer/) | 지시선언 | Issuer 문서의 한 버전. Issuer + 문서 ID 4 WORD + 버전 ID 2 WORD, 대상 ID가 없다 |
 | `0x005L~0x009L` | [LOCAL](/ko/grammar/reference/local/) | 선언 | 이 문서가 발급한 ID |
 | `0x00AL~0x00EL` | [GEUL](/ko/grammar/reference/geul/) | 선언 | geul.org가 CC0로 발급하는 엔티티. 작은 번호를 고빈도 엔티티에 배정한다 |
 | `0x00FL~0x013L` | [GEUL-SIDX](/ko/grammar/reference/geul-sidx/) | 선언 | GEUL SIDX(Semantic-aligned Index). 비트에 의미를 담은 식별자 |
 | `0x014L~0x018L` | [WIKIDATA-QID](/ko/grammar/reference/wikidata-qid/) | 선언 | 위키데이터 항목. `Q` 뒤의 정수 |
 | `0x019L~0x01DL` | [WIKIDATA-PID](/ko/grammar/reference/wikidata-pid/) | 선언 | 위키데이터 속성. `P` 뒤의 정수 |
-| `0x01EL~0x022L` | [EXTERNAL-POINTER-1WORD](/ko/grammar/reference/external-pointer/) | 지시 | `IMPORT-DOC`으로 가져온 문서의 LOCAL ID. IMPORT ID 1 WORD |
-| `0x023L~0x027L` | [EXTERNAL-POINTER-2WORD](/ko/grammar/reference/external-pointer/) | 지시 | 위와 같음. IMPORT ID 2 WORD |
-| `0x028L~0x02CL` | [EXTERNAL-POINTER-4WORD](/ko/grammar/reference/external-pointer/) | 지시 | 위와 같음. IMPORT ID 4 WORD |
-| `0x02DL~0x031L` | [EXTERNAL-ISSUER-2WORD](/ko/grammar/reference/external-issuer/) | 지시선언 | 2 WORD Issuer 문서의 LOCAL ID |
-| `0x032L~0x036L` | [EXTERNAL-ISSUER-4WORD](/ko/grammar/reference/external-issuer/) | 지시선언 | 4 WORD Issuer 문서의 LOCAL ID |
-| `0x037L~0x03BL` | [EXTERNAL-ISSUER-16WORD](/ko/grammar/reference/external-issuer/) | 지시선언 | 16 WORD Issuer 문서의 LOCAL ID |
-| `0x03CL` | [CODEC-POINTER](/ko/grammar/reference/codec-pointer/) | 지시선언 | Issuer 코덱의 한 버전. Issuer + 코덱 ID 2 WORD + 버전 ID 2 WORD, 대상 ID가 없다 |
-| `0x03DL` | [REFERENCE-ISSUER-2WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer 2 WORD와 코덱 번호 2 WORD. 분류와 대상은 Issuer 문서가 정한다 |
-| `0x03EL` | [REFERENCE-ISSUER-4WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer 4 WORD와 코덱 번호 2 WORD. 위와 같음 |
-| `0x03FL` | [REFERENCE-ISSUER-16WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer 16 WORD와 코덱 번호 2 WORD. 위와 같음 |
+| `0x020L~0x024L` | [EXTERNAL-POINTER-1WORD](/ko/grammar/reference/external-pointer/) | 지시 | `IMPORT-DOC`으로 가져온 문서의 LOCAL ID. IMPORT ID 1 WORD |
+| `0x025L~0x029L` | [EXTERNAL-POINTER-2WORD](/ko/grammar/reference/external-pointer/) | 지시 | 위와 같음. IMPORT ID 2 WORD |
+| `0x02AL~0x02EL` | [EXTERNAL-POINTER-4WORD](/ko/grammar/reference/external-pointer/) | 지시 | 위와 같음. IMPORT ID 4 WORD |
+| `0x02FL~0x033L` | [EXTERNAL-ISSUER-2WORD](/ko/grammar/reference/external-issuer/) | 지시선언 | 2 WORD Issuer 문서의 LOCAL ID |
+| `0x034L~0x038L` | [EXTERNAL-ISSUER-4WORD](/ko/grammar/reference/external-issuer/) | 지시선언 | 4 WORD Issuer 문서의 LOCAL ID |
+| `0x039L~0x03DL` | [EXTERNAL-ISSUER-16WORD](/ko/grammar/reference/external-issuer/) | 지시선언 | 16 WORD Issuer 문서의 LOCAL ID |
+| `0x040L` | [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/) | 지시선언 | Issuer 자신. Payload는 Issuer(2/4/16 WORD)뿐이며 대상 ID가 없다 |
+| `0x041L` | [DOC-POINTER](/ko/grammar/reference/doc-pointer/) | 지시선언 | Issuer 문서의 한 버전. Issuer + 문서 ID 4 WORD + 버전 ID 2 WORD, 대상 ID가 없다 |
+| `0x042L` | [CODEC-POINTER](/ko/grammar/reference/codec-pointer/) | 지시선언 | Issuer 코덱의 한 버전. Issuer + 코덱 ID 2 WORD + 버전 ID 2 WORD, 대상 ID가 없다 |
+| `0x05DL` | [REFERENCE-ISSUER-2WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer 2 WORD와 코덱 번호 2 WORD. 분류와 대상은 Issuer 문서가 정한다 |
+| `0x05EL` | [REFERENCE-ISSUER-4WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer 4 WORD와 코덱 번호 2 WORD. 위와 같음 |
+| `0x05FL` | [REFERENCE-ISSUER-16WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer 16 WORD와 코덱 번호 2 WORD. 위와 같음 |
 
+- Reference는 섹션 세 개다. 섹션 0 엔티티 `0x000L~0x01FL`(자리 표지, 5Q 체계), 섹션 1 EXTERNAL `0x020L~0x03FL`, 섹션 2 기타 `0x040L~0x05FL`(포인터, REFERENCE-ISSUER). 빈칸은 `0x003L~0x004L`, `0x01EL~0x01FL`, `0x03EL~0x03FL`, `0x043L~0x05CL`이다.
 - 5칸 묶음(LOCAL부터 EXTERNAL-ISSUER-16WORD까지)은 아래 Quantifier 순서로 한 칸씩이다. 예: WIKIDATA-QID Identified `0x014L`, Generic `0x015L`.
 
 ### 자리 표지 (`0x000L~0x002L`)
@@ -78,7 +80,7 @@ TAG WORD는 `000K KKCC CCCC LLLL`다. `KKK`는 Kind, `CCCCCC`는 Codec, `LLLL`�
 
 ### Quantifier
 
-| `C % 5` | 이름 | 의미 | 예시 |
+| `o % 5` | 이름 | 의미 | 예시 |
 |---|---|---|---|
 | `0` | Identified | 식별된 개체 | 일론 머스크, 대한민국 |
 | `1` | Generic | 종류 전체에 관한 일반적·정의적 진술. 예외를 허용한다. | 병사는 명령에 복종한다 |
@@ -86,7 +88,7 @@ TAG WORD는 `000K KKCC CCCC LLLL`다. `KKK`는 Kind, `CCCCCC`는 Codec, `LLLL`�
 | `3` | Universal | 주어진 범위에 속하는 모든 대상 | 모든 병사 |
 | `4` | Variable | 담화 변수 | 그 사람, 이 여자 |
 
-- `5 <= C < 0x3C`이면 양화는 `C % 5`, 체계는 `C / 5`다. 표지(`C < 3`), 포인터(`C = 3, 4, 0x3C`), REFERENCE-ISSUER(`C >= 0x3D`)에는 쓰지 않는다.
+- 양화는 섹션 안 오프셋 `o = C & 0x1F`로 읽는다. 섹션 0에서 `5 <= o < 30`이면 양화는 `o % 5`, 체계는 `o / 5`(1~5)다. 섹션 1에서 `o < 30`이면 양화는 `o % 5`, 체계는 `6 + o / 5`(6~11)다. 표지(섹션 0, `C < 3`)와 섹션 2(포인터, REFERENCE-ISSUER)에는 쓰지 않는다.
 - ISSUER-POINTER, DOC-POINTER, CODEC-POINTER는 양화가 없는 한 칸이다. REFERENCE-ISSUER의 양화는 Issuer가 발행한 Codec 문서가 정한다.
 
 ## Issuer
@@ -116,168 +118,168 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 
 ## Edge
 
-`0x080L~0x1BFL` — [Edge](/ko/grammar/edge/)
+`0x0A0L~0x1BFL` — [Edge](/ko/grammar/edge/)
 
-직접 코드의 계열은 `(코드 − 0x80) >> 5`다(코드는 TAG ID의 앞 세 자리). 계열은 32칸씩이고 TAG의 `w >> 9`(KKK와 C 맨 위 1비트)와 같다. 배정된 직접 코드는 아래 다섯 계열이다. `0x115L~0x1BCL`은 빈칸이다. Issuer 형식에는 계열 규칙이 없다.
+직접 코드의 계열은 `(코드 − 0xA0) >> 5`다(코드는 TAG ID의 앞 세 자리). 계열은 32칸씩이고 섹션 `w >> 9`에서 5를 뺀 값과 같다. 배정된 직접 코드는 아래 다섯 계열이다. `0x135L~0x1BCL`은 빈칸이다(섹션 10~12는 빈 섹션). Issuer 형식에는 계열 규칙이 없다.
 
-| 계열 | 직접 코드 |
-|---|---|
-| 서술 | `0x080L~0x09FL` |
-| 근거 | `0x0A0L~0x0BFL` |
-| 실행 | `0x0C0L~0x0DFL` |
-| [TOULMIN](/ko/grammar/edge/toulmin/) | `0x0E0L~0x0FBL` |
-| [TOULMIN](/ko/grammar/edge/toulmin/) 형식 | `0x100L~0x114L` |
+| 섹션 | 계열 | 직접 코드 |
+|---|---|---|
+| 5 | 서술 | `0x0A0L~0x0BFL` |
+| 6 | 근거 | `0x0C0L~0x0DFL` |
+| 7 | 실행 | `0x0E0L~0x0FFL` |
+| 8 | [TOULMIN](/ko/grammar/edge/toulmin/) | `0x100L~0x11BL` |
+| 9 | [TOULMIN](/ko/grammar/edge/toulmin/) 형식 | `0x120L~0x134L` |
 
-- `0x0FCL~0x0FFL`은 Reserved다.
-- `0x1BDL~0x1BFL`은 EDGE-ISSUER다(아래 Edge ISSUER 형식).
+- `0x11CL~0x11FL`은 Reserved다.
+- `0x1BDL~0x1BFL`(섹션 13의 끝 세 칸)은 EDGE-ISSUER다(아래 Edge ISSUER 형식).
 
-### 서술 (`0x080L~0x09FL`)
+### 서술 (`0x0A0L~0x0BFL`)
 
 | Codec | 이름 | 하위 형식 | 설명 |
 |---|---|---|---|
-| `0x080L` | [REFERENCE-NODE](/ko/grammar/edge/reference-node/) |  | Reference인 Subject가 Object를 지시하는 방향성 바인딩 |
-| `0x081L` | [SAME-NODE](/ko/grammar/edge/same-node/) |  | 두 Reference가 동일한 대상을 지시하는 동일성 |
-| `0x082L` | [DIFFERENT-NODE](/ko/grammar/edge/different-node/) |  | 두 Reference가 서로 다른 대상을 지시하는 비동일성 |
-| `0x083L` | [BIND](/ko/grammar/edge/bind/) |  | Subject에 기계가 맞추는 이름(`UTF8-TEXT-*`)을 묶는다. 범위 안에서 유일하고 정확히 일치해야 하며 언어가 없다 |
-| `0x084L` | [LABEL](/ko/grammar/edge/label/) |  | Subject의 언어 이름(label) 연결. Object는 UTF8-LANGUAGE-TEXT |
-| `0x085L` | [ALIAS](/ko/grammar/edge/alias/) |  | Subject의 다른 이름(별칭) 연결. 레이아웃은 LABEL과 같다 |
-| `0x086L` | [DESCRIPTION](/ko/grammar/edge/description/) |  | Subject의 언어 설명(description) 연결. 레이아웃은 LABEL과 같다 |
-| `0x087L` | Reserved |  |  |
-| `0x088L` | VERB-SHORT |  | 동사 서술 축약 |
-| `0x089L` | VERB |  | 동사 서술 |
-| `0x08AL` | [TRIPLE](/ko/grammar/edge/triple/) |  | Predicate, Subject, Object 순서의 명제와 rank. Object는 값 또는 UNKNOWN-VALUE·NO-VALUE 표지. 의미는 그 Edge Id를 가리키는 QUALIFIER를 모두 모은 것이다 |
-| `0x08BL` | [QUALIFIER](/ko/grammar/edge/qualifier/) |  | 다른 Edge의 명제를 한정하는 조건 하나. Property, Target(Edge Id), Value(값 또는 UNKNOWN-VALUE·NO-VALUE 표지). 명제의 일부다 |
-| `0x08CL~0x08FL` | Reserved |  |  |
-| `0x090L` | WORLD | 있음 | 세계관 표현을 위한 구조 |
-| `0x091L` | TIMELINE | 있음 | 세계와 사건의 순서를 표현하는 구조 |
-| `0x092L` | SCENE | 있음 | 시나리오 특성의 서술을 위한 장면 구조 |
-| `0x093L~0x097L` | Reserved |  |  |
-| `0x098L` | [PUBLICATION](/ko/grammar/edge/publication/) |  | 문서 공표. DOC-POINTER, 내용 해시 |
-| `0x099L` | DEPRECATION |  | 공표한 버전의 deprecate. DOC-POINTER |
-| `0x09AL` | TOMBSTONE |  | 공표한 버전의 삭제(묘비). DOC-POINTER, 사유 범주 |
-| `0x09BL` | [DECLARE](/ko/grammar/edge/declare/) |  | Codec 하나의 Payload 구성 선언. 대상 Kind·Codec |
-| `0x09CL` | [FIELD](/ko/grammar/edge/field/) |  | Payload 필드 하나. 속한 DECLARE, 폭: 레코드(TAG의 Length) 또는 날값 n WORD |
-| `0x09DL` | [ENUM](/ko/grammar/edge/enum/) |  | 날값 필드의 코드값 하나. 필드, 코드값 |
-| `0x09EL` | [CODEC](/ko/grammar/edge/codec/) |  | 필드가 받는 Kind·Codec 하나. 필드, 대상 WORD(`000K KKCC CCCC LLLL`, LLLL 0000 정확·1111 와일드카드(Kind 전체), 자리 표지는 정확한 대상 `0000`·`0010`·`0020`로만). 레코드 필드는 여러 개(닫힌 목록), 날값 필드는 하나(TAG 없는 그 Value) |
-| `0x09FL` | Reserved |  |  |
+| `0x0A0L` | [REFERENCE-NODE](/ko/grammar/edge/reference-node/) |  | Reference인 Subject가 Object를 지시하는 방향성 바인딩 |
+| `0x0A1L` | [SAME-NODE](/ko/grammar/edge/same-node/) |  | 두 Reference가 동일한 대상을 지시하는 동일성 |
+| `0x0A2L` | [DIFFERENT-NODE](/ko/grammar/edge/different-node/) |  | 두 Reference가 서로 다른 대상을 지시하는 비동일성 |
+| `0x0A3L` | [BIND](/ko/grammar/edge/bind/) |  | Subject에 기계가 맞추는 이름(`UTF8-TEXT-*`)을 묶는다. 범위 안에서 유일하고 정확히 일치해야 하며 언어가 없다 |
+| `0x0A4L` | [LABEL](/ko/grammar/edge/label/) |  | Subject의 언어 이름(label) 연결. Object는 UTF8-LANGUAGE-TEXT |
+| `0x0A5L` | [ALIAS](/ko/grammar/edge/alias/) |  | Subject의 다른 이름(별칭) 연결. 레이아웃은 LABEL과 같다 |
+| `0x0A6L` | [DESCRIPTION](/ko/grammar/edge/description/) |  | Subject의 언어 설명(description) 연결. 레이아웃은 LABEL과 같다 |
+| `0x0A7L` | Reserved |  |  |
+| `0x0A8L` | VERB-SHORT |  | 동사 서술 축약 |
+| `0x0A9L` | VERB |  | 동사 서술 |
+| `0x0AAL` | [TRIPLE](/ko/grammar/edge/triple/) |  | Predicate, Subject, Object 순서의 명제와 rank. Object는 값 또는 UNKNOWN-VALUE·NO-VALUE 표지. 의미는 그 Edge Id를 가리키는 QUALIFIER를 모두 모은 것이다 |
+| `0x0ABL` | [QUALIFIER](/ko/grammar/edge/qualifier/) |  | 다른 Edge의 명제를 한정하는 조건 하나. Property, Target(Edge Id), Value(값 또는 UNKNOWN-VALUE·NO-VALUE 표지). 명제의 일부다 |
+| `0x0ACL~0x0AFL` | Reserved |  |  |
+| `0x0B0L` | WORLD | 있음 | 세계관 표현을 위한 구조 |
+| `0x0B1L` | TIMELINE | 있음 | 세계와 사건의 순서를 표현하는 구조 |
+| `0x0B2L` | SCENE | 있음 | 시나리오 특성의 서술을 위한 장면 구조 |
+| `0x0B3L~0x0B7L` | Reserved |  |  |
+| `0x0B8L` | [PUBLICATION](/ko/grammar/edge/publication/) |  | 문서 공표. DOC-POINTER, 내용 해시 |
+| `0x0B9L` | DEPRECATION |  | 공표한 버전의 deprecate. DOC-POINTER |
+| `0x0BAL` | TOMBSTONE |  | 공표한 버전의 삭제(묘비). DOC-POINTER, 사유 범주 |
+| `0x0BBL` | [DECLARE](/ko/grammar/edge/declare/) |  | Codec 하나의 Payload 구성 선언. 대상 Kind·Codec |
+| `0x0BCL` | [FIELD](/ko/grammar/edge/field/) |  | Payload 필드 하나. 속한 DECLARE, 폭: 레코드(TAG의 Length) 또는 날값 n WORD |
+| `0x0BDL` | [ENUM](/ko/grammar/edge/enum/) |  | 날값 필드의 코드값 하나. 필드, 코드값 |
+| `0x0BEL` | [CODEC](/ko/grammar/edge/codec/) |  | 필드가 받는 Kind·Codec 하나. 필드, 대상 WORD(`000K KKCC CCCC LLLL`, LLLL 0000 정확·1111 와일드카드(Kind 전체), 자리 표지는 정확한 대상 `0000`·`0010`·`0020`로만). 레코드 필드는 여러 개(닫힌 목록), 날값 필드는 하나(TAG 없는 그 Value) |
+| `0x0BFL` | Reserved |  |  |
 
 | TAG ID | 묶음 |
 |---|---|
-| `0x080L~0x087L` | 지시와 이름 |
-| `0x088L~0x08FL` | 명제 |
-| `0x090L~0x097L` | 구조 |
-| `0x098L~0x09FL` | 기타 |
+| `0x0A0L~0x0A7L` | 지시와 이름 |
+| `0x0A8L~0x0AFL` | 명제 |
+| `0x0B0L~0x0B7L` | 구조 |
+| `0x0B8L~0x0BFL` | 기타 |
 
-### 근거 (`0x0A0L~0x0BFL`)
+### 근거 (`0x0C0L~0x0DFL`)
 
 | Codec | 이름 | 하위 형식 | 설명 |
 |---|---|---|---|
-| `0x0A0L` | [SOURCE](/ko/grammar/edge/source/) |  | 레코드 하나 또는 문서 전체를 그 원천에 잇는다. Target(BODY Edge Id, HEAD에서는 `0` = 문서 전체), Origin(Reference, ABSENT 또는 UNKNOWN-VALUE). 원천의 성질은 원천을 Subject로 하는 TRIPLE, 인용의 성질(조회일, 위치, 원문 해시)은 SOURCE에 붙는 QUALIFIER. 문서 전체의 SOURCE와 그 QUALIFIER는 HEAD에 둔다 |
-| `0x0A1L~0x0BFL` | Reserved |  |  |
+| `0x0C0L` | [SOURCE](/ko/grammar/edge/source/) |  | 레코드 하나 또는 문서 전체를 그 원천에 잇는다. Target(BODY Edge Id, HEAD에서는 `0` = 문서 전체), Origin(Reference, ABSENT 또는 UNKNOWN-VALUE). 원천의 성질은 원천을 Subject로 하는 TRIPLE, 인용의 성질(조회일, 위치, 원문 해시)은 SOURCE에 붙는 QUALIFIER. 문서 전체의 SOURCE와 그 QUALIFIER는 HEAD에 둔다 |
+| `0x0C1L~0x0DFL` | Reserved |  |  |
 
 - 원문 범위, 만든 주체, 신뢰도, 조문별 시행 기간, 옛 레코드는 QUALIFIER로 쓰고, 처음 들어온 버전은 버전 이력에서 계산한다([SOURCE](/ko/grammar/edge/source/#다른-근거의-표현)).
 
-### 실행 (`0x0C0L~0x0DFL`)
+### 실행 (`0x0E0L~0x0FFL`)
 
 | Codec | 이름 | 설명 |
 |---|---|---|
-| `0x0C0L` | Reserved |  |
-| `0x0C1L` | FUNCTION-DECLARE | 함수 선언. 기호, 매개변수 기호 목록, 반환 타입, 본문(BLOCK) |
-| `0x0C2L` | TYPE-DECLARE | 타입 선언. 기호와 구성(필드 기호 목록, 열거값, 별칭 대상) |
-| `0x0C3L~0x0C7L` | Reserved |  |
-| `0x0C8L` | CONST | 상수식. 내장 Value 하나 |
-| `0x0C9L` | UNARY | 단항식. 연산자 1 WORD, 피연산자 |
-| `0x0CAL` | BINARY | 이항식. 연산자 1 WORD, 왼쪽, 오른쪽 |
-| `0x0CBL` | CALL | 호출. 대상 함수, 인자 수, 인자 × 인자 수 |
-| `0x0CCL` | MEMBER | 멤버 접근. 대상, 필드 기호 |
-| `0x0CDL` | INDEX | 색인 접근. 대상, 색인 |
-| `0x0CEL` | CONSTRUCT | 복합값 생성(목록, 레코드). 타입, 요소 수, 요소 × 요소 수 |
-| `0x0CFL` | CONDITIONAL | 조건식. 조건, 참일 때 값, 거짓일 때 값 |
-| `0x0D0L` | BLOCK | 순서 있는 문 묶음. 문 수, 문 × 문 수 |
-| `0x0D1L` | ASSIGN | 대입. 대상(기호, MEMBER, INDEX), 값 |
-| `0x0D2L` | IF | 조건 분기. 조건, 참 BLOCK, 거짓(BLOCK·IF, 없으면 0) |
-| `0x0D3L` | SWITCH | 다중 분기. 대상, 갈래 수, (값, BLOCK) × 갈래 수, 기본 BLOCK(없으면 0) |
-| `0x0D4L` | WHILE | 조건 반복. 조건, 본문 BLOCK |
-| `0x0D5L` | FOREACH | 순회 반복. 요소 기호, 대상, 본문 BLOCK |
-| `0x0D6L` | JUMP | 반복 제어. 종류 1 WORD(break, continue), 대상 반복 |
-| `0x0D7L` | RETURN | 반환. 값(없으면 0) |
-| `0x0D8L` | RAISE | 오류 발생. 오류 값 |
-| `0x0D9L` | TRY | 오류 처리. 본문 BLOCK, 오류 기호, 처리 BLOCK, 마무리 BLOCK(없으면 0) |
-| `0x0DAL~0x0DFL` | Reserved |  |
+| `0x0E0L` | Reserved |  |
+| `0x0E1L` | FUNCTION-DECLARE | 함수 선언. 기호, 매개변수 기호 목록, 반환 타입, 본문(BLOCK) |
+| `0x0E2L` | TYPE-DECLARE | 타입 선언. 기호와 구성(필드 기호 목록, 열거값, 별칭 대상) |
+| `0x0E3L~0x0E7L` | Reserved |  |
+| `0x0E8L` | CONST | 상수식. 내장 Value 하나 |
+| `0x0E9L` | UNARY | 단항식. 연산자 1 WORD, 피연산자 |
+| `0x0EAL` | BINARY | 이항식. 연산자 1 WORD, 왼쪽, 오른쪽 |
+| `0x0EBL` | CALL | 호출. 대상 함수, 인자 수, 인자 × 인자 수 |
+| `0x0ECL` | MEMBER | 멤버 접근. 대상, 필드 기호 |
+| `0x0EDL` | INDEX | 색인 접근. 대상, 색인 |
+| `0x0EEL` | CONSTRUCT | 복합값 생성(목록, 레코드). 타입, 요소 수, 요소 × 요소 수 |
+| `0x0EFL` | CONDITIONAL | 조건식. 조건, 참일 때 값, 거짓일 때 값 |
+| `0x0F0L` | BLOCK | 순서 있는 문 묶음. 문 수, 문 × 문 수 |
+| `0x0F1L` | ASSIGN | 대입. 대상(기호, MEMBER, INDEX), 값 |
+| `0x0F2L` | IF | 조건 분기. 조건, 참 BLOCK, 거짓(BLOCK·IF, 없으면 0) |
+| `0x0F3L` | SWITCH | 다중 분기. 대상, 갈래 수, (값, BLOCK) × 갈래 수, 기본 BLOCK(없으면 0) |
+| `0x0F4L` | WHILE | 조건 반복. 조건, 본문 BLOCK |
+| `0x0F5L` | FOREACH | 순회 반복. 요소 기호, 대상, 본문 BLOCK |
+| `0x0F6L` | JUMP | 반복 제어. 종류 1 WORD(break, continue), 대상 반복 |
+| `0x0F7L` | RETURN | 반환. 값(없으면 0) |
+| `0x0F8L` | RAISE | 오류 발생. 오류 값 |
+| `0x0F9L` | TRY | 오류 처리. 본문 BLOCK, 오류 기호, 처리 BLOCK, 마무리 BLOCK(없으면 0) |
+| `0x0FAL~0x0FFL` | Reserved |  |
 
 | TAG ID | 묶음 |
 |---|---|
-| `0x0C0L~0x0C7L` | 선언 |
-| `0x0C8L~0x0CFL` | 식 |
-| `0x0D0L~0x0D7L` | 문 |
-| `0x0D8L~0x0DFL` | 오류 |
+| `0x0E0L~0x0E7L` | 선언 |
+| `0x0E8L~0x0EFL` | 식 |
+| `0x0F0L~0x0F7L` | 문 |
+| `0x0F8L~0x0FFL` | 오류 |
 
-### TOULMIN (`0x0E0L~0x0FBL`)
+### TOULMIN (`0x100L~0x11BL`)
 
 자세히: [TOULMIN](/ko/grammar/edge/toulmin/)
 
 | Codec | 이름 | 설명 |
 |---|---|---|
-| `0x0E0L` | [CASE-DECLARE](/ko/grammar/edge/toulmin/node/) | 사안 선언. 노드와 관계를 담는 판정 그래프 |
-| `0x0E1L` | [PREDICATE-DECLARE](/ko/grammar/edge/toulmin/expr/) | 술어 선언. 판정 함수·식, 판단 기준(Spec), 사실 계약(Ground) |
-| `0x0E2L` | [SPEC-DECLARE](/ko/grammar/edge/toulmin/node/) | 판단 기준 선언. 상수·목록 (Backing) |
-| `0x0E3L` | [RULE-DECLARE](/ko/grammar/edge/toulmin/node/) | 주장 선언. 사안 안에서 술어를 일반 규칙(Warrant)으로 둔다. 공격받을 수 있다. |
-| `0x0E4L` | [COUNTER-DECLARE](/ko/grammar/edge/toulmin/node/) | 반박 선언. 자기 결론을 가지고 공격한다. 기본 Level은 Fail |
-| `0x0E5L` | [EXCEPT-DECLARE](/ko/grammar/edge/toulmin/node/) | 예외 선언. 자기 결론 없이 공격한다. 기본 Level은 Review |
-| `0x0E6L~0x0E7L` | Reserved |  |
-| `0x0E8L` | [ATTACKS](/ko/grammar/edge/toulmin/link/) | 공격 관계. 공격자의 판정이 대상의 판정을 점진적으로 깎는다. |
-| `0x0E9L` | [SUPERSEDES](/ko/grammar/edge/toulmin/link/) | 배제 관계. 공격자가 Active이면 대상을 집계에서 결정적으로 뺀다. |
-| `0x0EAL` | SUPERSEDE-CHAIN | 우선순위 사슬 `A > B > C`. 쌍별 SUPERSEDES의 축약. 레이아웃 미정 |
-| `0x0EBL~0x0EFL` | Reserved |  |
-| `0x0F0L` | [RUN](/ko/grammar/edge/toulmin/link/) | 실행 합성. 노드가 Active이면 하위 사안을 실행한다(DAG). |
-| `0x0F1L` | [DO](/ko/grammar/edge/toulmin/link/) | 노드가 Active이면 수행하는 동작 |
-| `0x0F2L` | [DO-ONCE](/ko/grammar/edge/toulmin/link/) | 재시도해도 한 번만 수행하는 동작 |
-| `0x0F3L` | [UNDO](/ko/grammar/edge/toulmin/link/) | DO의 보상 동작(saga). 이후 단계가 실패하면 역순으로 수행한다. |
-| `0x0F4L` | [CHECKING](/ko/grammar/edge/toulmin/link/) | 부작용 없이 판정만 하는 연결 |
-| `0x0F5L` | [ENTRY](/ko/grammar/edge/toulmin/node/) | 외부 진입점. 사안을 실행하거나 판정한다 |
-| `0x0F6L` | [TRIGGER](/ko/grammar/edge/toulmin/node/) | 외부 호출 없는 이벤트·주기 진입점 |
-| `0x0F7L` | Reserved |  |
-| `0x0F8L` | VERDICT | 노드·레코드의 판정 결과. 결과(Pass, Review, Fail), 판정값, Activated, Excluded, Level. 레이아웃 미정. 문서 전체의 판정은 Meta [VERDICT](/ko/grammar/meta/verification/verdict/)(`0x1E9L`) |
-| `0x0F9L` | EVIDENCE | 판정의 증거. 위치, 기대값, 실제값 (Fact). 레이아웃 미정 |
-| `0x0FAL~0x0FBL` | Reserved |  |
-| `0x0FCL~0x0FFL` | Reserved |  |
+| `0x100L` | [CASE-DECLARE](/ko/grammar/edge/toulmin/node/) | 사안 선언. 노드와 관계를 담는 판정 그래프 |
+| `0x101L` | [PREDICATE-DECLARE](/ko/grammar/edge/toulmin/expr/) | 술어 선언. 판정 함수·식, 판단 기준(Spec), 사실 계약(Ground) |
+| `0x102L` | [SPEC-DECLARE](/ko/grammar/edge/toulmin/node/) | 판단 기준 선언. 상수·목록 (Backing) |
+| `0x103L` | [RULE-DECLARE](/ko/grammar/edge/toulmin/node/) | 주장 선언. 사안 안에서 술어를 일반 규칙(Warrant)으로 둔다. 공격받을 수 있다. |
+| `0x104L` | [COUNTER-DECLARE](/ko/grammar/edge/toulmin/node/) | 반박 선언. 자기 결론을 가지고 공격한다. 기본 Level은 Fail |
+| `0x105L` | [EXCEPT-DECLARE](/ko/grammar/edge/toulmin/node/) | 예외 선언. 자기 결론 없이 공격한다. 기본 Level은 Review |
+| `0x106L~0x107L` | Reserved |  |
+| `0x108L` | [ATTACKS](/ko/grammar/edge/toulmin/link/) | 공격 관계. 공격자의 판정이 대상의 판정을 점진적으로 깎는다. |
+| `0x109L` | [SUPERSEDES](/ko/grammar/edge/toulmin/link/) | 배제 관계. 공격자가 Active이면 대상을 집계에서 결정적으로 뺀다. |
+| `0x10AL` | SUPERSEDE-CHAIN | 우선순위 사슬 `A > B > C`. 쌍별 SUPERSEDES의 축약. 레이아웃 미정 |
+| `0x10BL~0x10FL` | Reserved |  |
+| `0x110L` | [RUN](/ko/grammar/edge/toulmin/link/) | 실행 합성. 노드가 Active이면 하위 사안을 실행한다(DAG). |
+| `0x111L` | [DO](/ko/grammar/edge/toulmin/link/) | 노드가 Active이면 수행하는 동작 |
+| `0x112L` | [DO-ONCE](/ko/grammar/edge/toulmin/link/) | 재시도해도 한 번만 수행하는 동작 |
+| `0x113L` | [UNDO](/ko/grammar/edge/toulmin/link/) | DO의 보상 동작(saga). 이후 단계가 실패하면 역순으로 수행한다. |
+| `0x114L` | [CHECKING](/ko/grammar/edge/toulmin/link/) | 부작용 없이 판정만 하는 연결 |
+| `0x115L` | [ENTRY](/ko/grammar/edge/toulmin/node/) | 외부 진입점. 사안을 실행하거나 판정한다 |
+| `0x116L` | [TRIGGER](/ko/grammar/edge/toulmin/node/) | 외부 호출 없는 이벤트·주기 진입점 |
+| `0x117L` | Reserved |  |
+| `0x118L` | VERDICT | 노드·레코드의 판정 결과. 결과(Pass, Review, Fail), 판정값, Activated, Excluded, Level. 레이아웃 미정. 문서 전체의 판정은 Meta [VERDICT](/ko/grammar/meta/verification/verdict/)(`0x1E9L`) |
+| `0x119L` | EVIDENCE | 판정의 증거. 위치, 기대값, 실제값 (Fact). 레이아웃 미정 |
+| `0x11AL~0x11BL` | Reserved |  |
+| `0x11CL~0x11FL` | Reserved |  |
 
 | TAG ID | 묶음 |
 |---|---|
-| `0x0E0L~0x0E7L` | 선언 |
-| `0x0E8L~0x0EFL` | 관계 |
-| `0x0F0L~0x0F7L` | 실행 |
-| `0x0F8L~0x0FFL` | 결과 (`0x0FCL~0x0FFL`은 Reserved) |
+| `0x100L~0x107L` | 선언 |
+| `0x108L~0x10FL` | 관계 |
+| `0x110L~0x117L` | 실행 |
+| `0x118L~0x11FL` | 결과 (`0x11CL~0x11FL`은 Reserved) |
 
-### TOULMIN 형식 (`0x100L~0x114L`)
+### TOULMIN 형식 (`0x120L~0x134L`)
 
 [TOULMIN](/ko/grammar/edge/toulmin/) 문서의 원문·구획·보조 노드와 관계다.
 
 | Codec | 이름 | 설명 |
 |---|---|---|
-| `0x100L` | [SOURCE](/ko/grammar/edge/toulmin/source/) | 저작 원문. SPAN 폭과 UTF8 Value |
-| `0x101L` | [TEXT](/ko/grammar/edge/toulmin/source/) | 이름·문자열 |
-| `0x102L` | [SECTION](/ko/grammar/edge/toulmin/source/) | 섹션 시작. 섹션 코드 |
-| `0x103L` | [CASE-BEGIN](/ko/grammar/edge/toulmin/source/) | 사안 범위 시작 |
-| `0x104L` | [CASE-END](/ko/grammar/edge/toulmin/source/) | 사안 범위 끝 |
-| `0x105L` | [PROSE](/ko/grammar/edge/toulmin/source/) | 서술 문단(SPAN) |
-| `0x106L` | [NAMESPACE](/ko/grammar/edge/toulmin/node/) | NODE. `this document is` |
-| `0x107L` | [FUNC](/ko/grammar/edge/toulmin/node/) | NODE. 함수 참조 |
-| `0x108L` | [FIELD](/ko/grammar/edge/toulmin/node/) | NODE. `is required` |
-| `0x109L` | [ALIAS](/ko/grammar/edge/toulmin/node/) | NODE. `see … from` |
-| `0x10AL` | [GROUP](/ko/grammar/edge/toulmin/node/) | NODE. 순서 있는 실행 묶음 |
-| `0x10BL` | [REQUIRES](/ko/grammar/edge/toulmin/link/) | LINK. 사안 → 필드 |
-| `0x10CL` | [MEANS](/ko/grammar/edge/toulmin/link/) | LINK. 정의 항목 → 값·타입 |
-| `0x10DL` | [HAS](/ko/grammar/edge/toulmin/link/) | LINK. 정의 항목 → 필드 |
-| `0x10EL` | [RUNS](/ko/grammar/edge/toulmin/link/) | LINK. 진입점 → 사안, 실행 |
-| `0x10FL` | [EVALUATES](/ko/grammar/edge/toulmin/link/) | LINK. 진입점 → 사안, 판정 |
-| `0x110L` | [TRIGGERS](/ko/grammar/edge/toulmin/link/) | LINK. 트리거 → 사안 |
-| `0x111L` | [UNTIL](/ko/grammar/edge/toulmin/link/) | LINK. 트리거 → 사안(`every … until`) |
-| `0x112L` | [SAME-AS](/ko/grammar/edge/toulmin/link/) | LINK. 노드 → 전역 식별자 |
-| `0x113L` | [IMPORTED-FROM](/ko/grammar/edge/toulmin/link/) | LINK. 별칭 → 경로(TEXT) |
-| `0x114L` | [LABEL](/ko/grammar/edge/toulmin/link/) | LINK. 노드 → TEXT, 이름 표기 |
+| `0x120L` | [SOURCE](/ko/grammar/edge/toulmin/source/) | 저작 원문. SPAN 폭과 UTF8 Value |
+| `0x121L` | [TEXT](/ko/grammar/edge/toulmin/source/) | 이름·문자열 |
+| `0x122L` | [SECTION](/ko/grammar/edge/toulmin/source/) | 섹션 시작. 섹션 코드 |
+| `0x123L` | [CASE-BEGIN](/ko/grammar/edge/toulmin/source/) | 사안 범위 시작 |
+| `0x124L` | [CASE-END](/ko/grammar/edge/toulmin/source/) | 사안 범위 끝 |
+| `0x125L` | [PROSE](/ko/grammar/edge/toulmin/source/) | 서술 문단(SPAN) |
+| `0x126L` | [NAMESPACE](/ko/grammar/edge/toulmin/node/) | NODE. `this document is` |
+| `0x127L` | [FUNC](/ko/grammar/edge/toulmin/node/) | NODE. 함수 참조 |
+| `0x128L` | [FIELD](/ko/grammar/edge/toulmin/node/) | NODE. `is required` |
+| `0x129L` | [ALIAS](/ko/grammar/edge/toulmin/node/) | NODE. `see … from` |
+| `0x12AL` | [GROUP](/ko/grammar/edge/toulmin/node/) | NODE. 순서 있는 실행 묶음 |
+| `0x12BL` | [REQUIRES](/ko/grammar/edge/toulmin/link/) | LINK. 사안 → 필드 |
+| `0x12CL` | [MEANS](/ko/grammar/edge/toulmin/link/) | LINK. 정의 항목 → 값·타입 |
+| `0x12DL` | [HAS](/ko/grammar/edge/toulmin/link/) | LINK. 정의 항목 → 필드 |
+| `0x12EL` | [RUNS](/ko/grammar/edge/toulmin/link/) | LINK. 진입점 → 사안, 실행 |
+| `0x12FL` | [EVALUATES](/ko/grammar/edge/toulmin/link/) | LINK. 진입점 → 사안, 판정 |
+| `0x130L` | [TRIGGERS](/ko/grammar/edge/toulmin/link/) | LINK. 트리거 → 사안 |
+| `0x131L` | [UNTIL](/ko/grammar/edge/toulmin/link/) | LINK. 트리거 → 사안(`every … until`) |
+| `0x132L` | [SAME-AS](/ko/grammar/edge/toulmin/link/) | LINK. 노드 → 전역 식별자 |
+| `0x133L` | [IMPORTED-FROM](/ko/grammar/edge/toulmin/link/) | LINK. 별칭 → 경로(TEXT) |
+| `0x134L` | [LABEL](/ko/grammar/edge/toulmin/link/) | LINK. 노드 → TEXT, 이름 표기 |
 
-- `0x115L~0x1BCL`은 빈칸이다.
+- `0x135L~0x1BCL`은 빈칸이다.
 
 ### Edge ISSUER 형식
 
@@ -285,58 +287,58 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 
 ## Value
 
-`0x040L~0x07FL` — [Value](/ko/grammar/value/)
+`0x060L~0x09FL` — [Value](/ko/grammar/value/)
 
-Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x040L~0x061L`에 빈칸 없이 둔다. `0x062L~0x07CL`은 빈칸이고, `0x07DL~0x07FL`은 VALUE-ISSUER다. 계열 이름(NUMERIC, DECIMAL, TIME, TEXT, BINARY)은 주제 묶음이다. 짝수·홀수 쌍은 짝수 코드에서 시작한다.
+Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x060L~0x081L`에 빈칸 없이 둔다. `0x082L~0x09CL`은 빈칸이고, `0x09DL~0x09FL`은 VALUE-ISSUER다. 계열 이름(NUMERIC, DECIMAL, TIME, TEXT, BINARY)은 주제 묶음이다. 짝수·홀수 쌍은 짝수 코드에서 시작한다.
 
 | 계열 | 직접 코드 |
 |---|---|
-| [NUMERIC](/ko/grammar/value/numeric/) | `0x040L~0x047L` |
-| [DECIMAL](/ko/grammar/value/decimal/) | `0x048L~0x049L` |
-| [TIME](/ko/grammar/value/time/) | `0x04AL~0x051L`, `0x061L` |
-| [TEXT](/ko/grammar/value/text/) | `0x052L~0x05AL` |
-| [BINARY](/ko/grammar/value/binary/) | `0x05BL~0x060L` |
+| [NUMERIC](/ko/grammar/value/numeric/) | `0x060L~0x067L` |
+| [DECIMAL](/ko/grammar/value/decimal/) | `0x068L~0x069L` |
+| [TIME](/ko/grammar/value/time/) | `0x06AL~0x071L`, `0x081L` |
+| [TEXT](/ko/grammar/value/text/) | `0x072L~0x07AL` |
+| [BINARY](/ko/grammar/value/binary/) | `0x07BL~0x080L` |
 
 ### 직접 코드
 
 | Codec | 이름 | 계열 | 설명 |
 |---|---|---|---|
-| `0x040L` | [BOOL](/ko/grammar/value/numeric/bool/) | NUMERIC | 고정 1 WORD의 false 또는 true |
-| `0x041L` | [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/) | NUMERIC | 최소 WORD 2의 보수 부호 있는 정수 |
-| `0x042L` | [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/) | NUMERIC | 최소 WORD big-endian unsigned magnitude 정수 |
-| `0x043L` | [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/) | NUMERIC | Payload 1/2/4/8 WORD의 IEEE 754 binary16/32/64/128 scalar |
-| `0x044L` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도 binary64, 불확도 binary32와 그 단위 Reference(ABSENT = 미상) |
-| `0x045L` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도 binary64, 불확도 binary32와 그 단위 Reference |
-| `0x046L` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | 수치 Value amount(정수·BINARY-FLOAT·10진수·분수), 단위 Reference, 하한·상한. 단위·경계는 생략 가능(ABSENT `0x0000`) |
-| `0x047L` | [FRACTION](/ko/grammar/value/numeric/fraction/) | NUMERIC | 원문 표기를 보존하는 분수: 정수·10진수 분자, 부호 없는 정수·10진수 분모. 약분하지 않음 |
-| `0x048L` | [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) | DECIMAL | signed exponent `E`와 최소 WORD 2의 보수 coefficient `C`의 `C×10^E` |
-| `0x049L` | [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/) | DECIMAL | signed exponent `E`와 최소 WORD unsigned coefficient `C`의 `C×10^E` |
-| `0x04AL` | [GREGORIAN-DATE](/ko/grammar/value/time/gregorian-date/) | TIME | proleptic Gregorian `1970-01-01` 기준 signed 날짜 수 |
-| `0x04BL` | [CIVIL-TIME-NANOSECONDS](/ko/grammar/value/time/civil-time-nanoseconds/) | TIME | 민사일 자정 후 unsigned nanosecond 계수 |
-| `0x04CL` | [POSIX-TIMESTAMP-SECONDS](/ko/grammar/value/time/posix-timestamp-seconds/) | TIME | Unix/POSIX epoch부터의 signed 초 계수 |
-| `0x04DL` | [DURATION-SECONDS](/ko/grammar/value/time/duration-seconds/) | TIME | epoch 없는 signed SI-second 경과 시간 |
-| `0x04EL`/`0x04FL` | [EDTF](/ko/grammar/value/time/edtf/) | TIME | EDTF(ISO 8601-2) 날짜 문자열. 짝수·홀수 바이트. GREGORIAN-DATE로 쓸 수 있는 날짜는 쓰지 않는다 |
-| `0x050L`/`0x051L` | [GEDCOM-DATE](/ko/grammar/value/time/gedcom-date/) | TIME | GEDCOM 7 날짜 값 문자열. 다른 달력(율리우스력 등)의 원본 표기 보존. 짝수·홀수 바이트 |
-| `0x052L` | [UTF8-TEXT-EVEN](/ko/grammar/value/text/utf8-text/) | TEXT | 정규화를 암시하지 않는 valid UTF-8 바이트열. 짝수 바이트 |
-| `0x053L` | [UTF8-TEXT-ODD](/ko/grammar/value/text/utf8-text/) | TEXT | 위와 같음. 홀수 바이트 |
-| `0x054L` | [URI-EVEN](/ko/grammar/value/text/uri/) | TEXT | RFC 3986 `URI` production ASCII 바이트열. 짝수 바이트 |
-| `0x055L` | [URI-ODD](/ko/grammar/value/text/uri/) | TEXT | 위와 같음. 홀수 바이트 |
-| `0x056L` | [LANGUAGE-BCP47-CODE-EVEN](/ko/grammar/value/text/language-bcp47-code/) | TEXT | canonical casing의 완전한 BCP 47 language tag ASCII 바이트열. 짝수 바이트 |
-| `0x057L` | [LANGUAGE-BCP47-CODE-ODD](/ko/grammar/value/text/language-bcp47-code/) | TEXT | 위와 같음. 홀수 바이트 |
-| `0x058L`/`0x059L` | [UTF8-LANGUAGE-TEXT](/ko/grammar/value/text/utf8-language-text/) | TEXT | 언어가 붙은 텍스트. 언어 Value 레코드(LANGUAGE-SHORT-CODE 또는 LANGUAGE-BCP47-CODE)와 UTF-8 바이트. 텍스트 바이트의 짝수·홀수 |
-| `0x05AL` | [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/) | TEXT | GEUL Language Registry 번호로 쓴 BCP 47 tag(Payload 1 WORD) |
-| `0x05BL` | [UUID](/ko/grammar/value/binary/uuid/) | BINARY | 고정 Payload 8 WORD의 RFC 9562 UUID 128bit |
-| `0x05CL` | [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/) | BINARY | 고정 Payload 16 WORD의 SHA-256 결과 |
-| `0x05DL` | [SHA1-DIGEST](/ko/grammar/value/binary/sha1-digest/) | BINARY | 고정 Payload 10 WORD의 SHA-1 결과. git 객체 ID 같은 식별 용도로만 |
-| `0x05EL` | [OPAQUE-BYTES-EVEN](/ko/grammar/value/binary/opaque-bytes/) | BINARY | 의미·형식 불명의 바이트열. 짝수 바이트 |
-| `0x05FL` | [OPAQUE-BYTES-ODD](/ko/grammar/value/binary/opaque-bytes/) | BINARY | 위와 같음. 홀수 바이트 |
-| `0x060L` | [BIT-VECTOR](/ko/grammar/value/binary/bit-vector/) | BINARY | bit-count 뒤에 MSB-first로 저장한 N bit |
-| `0x061L` | [DURATION-NANOSECONDS](/ko/grammar/value/time/duration-nanoseconds/) | TIME | epoch 없는 signed nanosecond 경과 시간 |
-| `0x07DL`~`0x07FL` | VALUE-ISSUER-2/4/16WORD |  | Issuer가 정의한 형식. 아래 Value ISSUER 형식 참조 |
+| `0x060L` | [BOOL](/ko/grammar/value/numeric/bool/) | NUMERIC | 고정 1 WORD의 false 또는 true |
+| `0x061L` | [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/) | NUMERIC | 최소 WORD 2의 보수 부호 있는 정수 |
+| `0x062L` | [UNSIGNED-INTEGER](/ko/grammar/value/numeric/unsigned-integer/) | NUMERIC | 최소 WORD big-endian unsigned magnitude 정수 |
+| `0x063L` | [BINARY-FLOAT](/ko/grammar/value/numeric/binary-float/) | NUMERIC | Payload 1/2/4/8 WORD의 IEEE 754 binary16/32/64/128 scalar |
+| `0x064L` | [COORDINATE-EARTH](/ko/grammar/value/numeric/coordinate-earth/) | NUMERIC | 지구(WGS 84) 위도·경도 binary64, 불확도 binary32와 그 단위 Reference(ABSENT = 미상) |
+| `0x065L` | [COORDINATE-GEO](/ko/grammar/value/numeric/coordinate-geo/) | NUMERIC | 천체 Reference와 위도·경도 binary64, 불확도 binary32와 그 단위 Reference |
+| `0x066L` | [QUANTITY](/ko/grammar/value/numeric/quantity/) | NUMERIC | 수치 Value amount(정수·BINARY-FLOAT·10진수·분수), 단위 Reference, 하한·상한. 단위·경계는 생략 가능(ABSENT `0x0000`) |
+| `0x067L` | [FRACTION](/ko/grammar/value/numeric/fraction/) | NUMERIC | 원문 표기를 보존하는 분수: 정수·10진수 분자, 부호 없는 정수·10진수 분모. 약분하지 않음 |
+| `0x068L` | [SIGNED-DECIMAL](/ko/grammar/value/decimal/signed-decimal/) | DECIMAL | signed exponent `E`와 최소 WORD 2의 보수 coefficient `C`의 `C×10^E` |
+| `0x069L` | [UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/) | DECIMAL | signed exponent `E`와 최소 WORD unsigned coefficient `C`의 `C×10^E` |
+| `0x06AL` | [GREGORIAN-DATE](/ko/grammar/value/time/gregorian-date/) | TIME | proleptic Gregorian `1970-01-01` 기준 signed 날짜 수 |
+| `0x06BL` | [CIVIL-TIME-NANOSECONDS](/ko/grammar/value/time/civil-time-nanoseconds/) | TIME | 민사일 자정 후 unsigned nanosecond 계수 |
+| `0x06CL` | [POSIX-TIMESTAMP-SECONDS](/ko/grammar/value/time/posix-timestamp-seconds/) | TIME | Unix/POSIX epoch부터의 signed 초 계수 |
+| `0x06DL` | [DURATION-SECONDS](/ko/grammar/value/time/duration-seconds/) | TIME | epoch 없는 signed SI-second 경과 시간 |
+| `0x06EL`/`0x06FL` | [EDTF](/ko/grammar/value/time/edtf/) | TIME | EDTF(ISO 8601-2) 날짜 문자열. 짝수·홀수 바이트. GREGORIAN-DATE로 쓸 수 있는 날짜는 쓰지 않는다 |
+| `0x070L`/`0x071L` | [GEDCOM-DATE](/ko/grammar/value/time/gedcom-date/) | TIME | GEDCOM 7 날짜 값 문자열. 다른 달력(율리우스력 등)의 원본 표기 보존. 짝수·홀수 바이트 |
+| `0x072L` | [UTF8-TEXT-EVEN](/ko/grammar/value/text/utf8-text/) | TEXT | 정규화를 암시하지 않는 valid UTF-8 바이트열. 짝수 바이트 |
+| `0x073L` | [UTF8-TEXT-ODD](/ko/grammar/value/text/utf8-text/) | TEXT | 위와 같음. 홀수 바이트 |
+| `0x074L` | [URI-EVEN](/ko/grammar/value/text/uri/) | TEXT | RFC 3986 `URI` production ASCII 바이트열. 짝수 바이트 |
+| `0x075L` | [URI-ODD](/ko/grammar/value/text/uri/) | TEXT | 위와 같음. 홀수 바이트 |
+| `0x076L` | [LANGUAGE-BCP47-CODE-EVEN](/ko/grammar/value/text/language-bcp47-code/) | TEXT | canonical casing의 완전한 BCP 47 language tag ASCII 바이트열. 짝수 바이트 |
+| `0x077L` | [LANGUAGE-BCP47-CODE-ODD](/ko/grammar/value/text/language-bcp47-code/) | TEXT | 위와 같음. 홀수 바이트 |
+| `0x078L`/`0x079L` | [UTF8-LANGUAGE-TEXT](/ko/grammar/value/text/utf8-language-text/) | TEXT | 언어가 붙은 텍스트. 언어 Value 레코드(LANGUAGE-SHORT-CODE 또는 LANGUAGE-BCP47-CODE)와 UTF-8 바이트. 텍스트 바이트의 짝수·홀수 |
+| `0x07AL` | [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/) | TEXT | GEUL Language Registry 번호로 쓴 BCP 47 tag(Payload 1 WORD) |
+| `0x07BL` | [UUID](/ko/grammar/value/binary/uuid/) | BINARY | 고정 Payload 8 WORD의 RFC 9562 UUID 128bit |
+| `0x07CL` | [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/) | BINARY | 고정 Payload 16 WORD의 SHA-256 결과 |
+| `0x07DL` | [SHA1-DIGEST](/ko/grammar/value/binary/sha1-digest/) | BINARY | 고정 Payload 10 WORD의 SHA-1 결과. git 객체 ID 같은 식별 용도로만 |
+| `0x07EL` | [OPAQUE-BYTES-EVEN](/ko/grammar/value/binary/opaque-bytes/) | BINARY | 의미·형식 불명의 바이트열. 짝수 바이트 |
+| `0x07FL` | [OPAQUE-BYTES-ODD](/ko/grammar/value/binary/opaque-bytes/) | BINARY | 위와 같음. 홀수 바이트 |
+| `0x080L` | [BIT-VECTOR](/ko/grammar/value/binary/bit-vector/) | BINARY | bit-count 뒤에 MSB-first로 저장한 N bit |
+| `0x081L` | [DURATION-NANOSECONDS](/ko/grammar/value/time/duration-nanoseconds/) | TIME | epoch 없는 signed nanosecond 경과 시간 |
+| `0x09DL`~`0x09FL` | VALUE-ISSUER-2/4/16WORD |  | Issuer가 정의한 형식. 아래 Value ISSUER 형식 참조 |
 
 ### Value ISSUER 형식
 
-`0x07DL`~`0x07FL`(VALUE-ISSUER-2/4/16WORD) 뒤 Codec 확장 TAG에 Issuer와 코덱 번호 2 WORD를 둔다. 코덱 문서는 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000c000/`([공표 주소와 버전 목록](/ko/grammar/publishing/)).
+`0x09DL`~`0x09FL`(VALUE-ISSUER-2/4/16WORD) 뒤 Codec 확장 TAG에 Issuer와 코덱 번호 2 WORD를 둔다. 코덱 문서는 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000c000/`([공표 주소와 버전 목록](/ko/grammar/publishing/)).
 
 | Issuer | 코덱 번호 | 이름 | 설명 |
 |---|---|---|---|
@@ -486,4 +488,4 @@ Meta 번호는 비트로 클래스를 나타내지 않는다. 클래스는 아�
 | `0x1E6L` | [SIGNATURE](/ko/grammar/meta/verification/signature/) | 대상에 대한 서명. 문서에 대한 서명은 내용 해시에 서명한다 (git 서명 커밋·태그) |
 | `0x1E7L` | [SIGNED-OFF](/ko/grammar/meta/verification/signed-off/) | 기여 권리 확인. Reference (git `Signed-off-by`, DCO) |
 | `0x1E8L` | [CONFIDENCE](/ko/grammar/meta/verification/confidence/) | 신뢰도 |
-| `0x1E9L` | [VERDICT](/ko/grammar/meta/verification/verdict/) | 문서 전체의 판정 결과. Pass, Review, Fail. 노드·레코드 단위는 [TOULMIN](/ko/grammar/edge/toulmin/) `VERDICT`(Edge `0x0F8L`) |
+| `0x1E9L` | [VERDICT](/ko/grammar/meta/verification/verdict/) | 문서 전체의 판정 결과. Pass, Review, Fail. 노드·레코드 단위는 [TOULMIN](/ko/grammar/edge/toulmin/) `VERDICT`(Edge `0x118L`) |
