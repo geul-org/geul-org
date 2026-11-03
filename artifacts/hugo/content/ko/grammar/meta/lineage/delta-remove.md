@@ -15,12 +15,12 @@ diff([DELTA-BASE](/ko/grammar/meta/lineage/delta-base/))에서 기준 스냅숏�
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L011 1011      Codec 0x3B
+TAG WORD          0001 1101 1100 LLLL      Codec 0x1DCL
 [Length 확장 TAG]
 삭제할 LOCAL ID    LOCAL Reference 레코드 × 1 이상
 ```
 
-- Codec: Meta `0x3B`, 계보 클래스(`011`)
+- Codec: Meta `0x1DCL`, 계보 클래스
 - Payload: [LOCAL](/ko/grammar/reference/local/) Reference 레코드 하나 이상
 - 개수: 많아야 하나
 
@@ -38,7 +38,7 @@ TAG WORD          0001 1LLL L011 1011      Codec 0x3B
 LOCAL `#7`과 `#12` 삭제:
 
 ```
-1A3B 0088 0007 0088 000C
+1DC4 0051 0007 0051 000C
 ```
 
-- TAG `1A3B`(Meta `0x3B`, `LLLL=0100`, 5 WORD), LOCAL Reference `0088 0007`, `0088 000C`.
+- TAG `1DC4`(Meta `0x1DCL`, `LLLL=0100`, 5 WORD), LOCAL Reference `0051 0007`, `0051 000C`.

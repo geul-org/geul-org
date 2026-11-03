@@ -18,7 +18,7 @@ EDTF는 [Extended Date/Time Format](https://www.loc.gov/standards/datetime/edtf.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
-TAG WORD          0000 1LLL L010 010P      Codec 0x24/0x25 (P = 홀수 바이트)
+TAG WORD          0000 0100 111P LLLL      Codec 0x04EL/0x04FL (P = 홀수 바이트)
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st ... Nth          EDTF 문자열의 ASCII 바이트 / 홀수면 마지막 0x00
 ```

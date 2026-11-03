@@ -15,7 +15,7 @@ BINARY-FLOAT은 IEEE 754 binary interchange scalar를 나타내는 Value다. Val
 ## 레이아웃
 
 ```
-TAG WORD          0000 1LLL LCCC CCCC      Codec 0x03
+TAG WORD          0000 0100 0011 LLLL      Codec 0x043L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st  (상위 WORD)   IEEE Binary Interchange 1st
 ...

@@ -15,7 +15,7 @@ COORDINATE-EARTH는 지구 위의 한 점을 위도·경도와 불확도로 나�
 ## 레이아웃
 
 ```
-TAG WORD          0000 1LLL L000 0100      Codec 0x04
+TAG WORD          0000 0100 0100 LLLL      Codec 0x044L
 Latitude          4 WORD 날값, IEEE 754 binary64 (도)
 Longitude         4 WORD 날값, IEEE 754 binary64 (도)
 Uncertainty       2 WORD 날값, IEEE 754 binary32 (Unit 단위)

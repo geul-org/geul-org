@@ -15,20 +15,20 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L110 0000      Codec 0x60
+TAG WORD          0001 1110 0100 LLLL      Codec 0x1E4L
 [Length 확장 TAG]
-문서              DOC-POINTER Reference 레코드 (Issuer, 문서 ID, 버전 ID. 버전 0이면 최신)
+문서              DOC-POINTER Reference 레코드 (Issuer, 문서 ID, 버전 ID. 버전 0이면 최신). 코덱 문서는 CODEC-POINTER
 IMPORT ID         나머지 전부. 가장 짧은 폭의 unsigned
 ```
 
-- Codec: Meta `0x60`, IMPORT 클래스(`110`)
+- Codec: Meta `0x1E4L`, IMPORT 클래스
 - Payload: 내장 Reference `DOC-POINTER`(Issuer, 문서 ID, 버전 ID) + IMPORT ID 날값
 - 개수: 여럿 가능(IMPORT ID마다 하나)
 
 ## 해석과 유효성
 
-- 문서는 정확히 하나의 DOC-POINTER 레코드다. 자기 Length로 끝나며, 나머지가 IMPORT ID다.
-- IMPORT ID는 1 WORD 이상, 가장 짧은 폭이다. IMPORT ID의 폭은 여기서는 레코드 길이로, [EXTERNAL-POINTER-*](/ko/grammar/reference/external-pointer/)에서는 Codec으로 정해진다. IMPORT ID는 그 문서 안에서만 유효하다.
+- 문서는 정확히 하나의 DOC-POINTER 레코드다. 코덱 문서를 가져올 때는 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)(Issuer, 코덱 ID, 버전 ID) 레코드다. 자기 Length로 끝나며, 나머지가 IMPORT ID다.
+- IMPORT ID는 1 WORD 이상, 가장 짧은 폭이다. IMPORT ID의 폭은 여기서는 레코드 길이로, [EXTERNAL-POINTER-*](/ko/grammar/reference/external-pointer/)에서는 Codec으로 정해진다.
 - 한 문서에서 같은 IMPORT ID를 두 번 배정하지 않는다.
 - 버전 ID를 적으면 그 판본에, `0`이면 해석 시점의 최신(또는 지정한 시점에 시행 중인) 판본에 바인딩된다([개정](/ko/grammar/document/#개정)).
 - BODY의 [EXTERNAL-POINTER-*](/ko/grammar/reference/external-pointer/)가 IMPORT ID로 가져온 문서의 LOCAL을 가리킨다. 가져온 문서 자신은 DOC-POINTER로 가리킨다.
@@ -37,4 +37,4 @@ IMPORT ID         나머지 전부. 가장 짧은 폭의 unsigned
 
 ## 예시
 
-- IMPORT ID 1, Issuer `0x0001`, 문서 `0x…0002`, 최신: `1CE0 03B8 0001 0000 0000 0000 0002 0000 0000 0001` (Meta TAG 1 + DOC-POINTER 8 + IMPORT ID 1 = 10 WORD)
+- IMPORT ID 1, Issuer `0x00000002`, 문서 `0x…0002`, 최신: `1E4A 0048 0000 0002 0000 0000 0000 0002 0000 0000 0001` (Meta TAG 1 + DOC-POINTER 9 + IMPORT ID 1 = 11 WORD)

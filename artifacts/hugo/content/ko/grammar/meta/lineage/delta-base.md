@@ -15,17 +15,17 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L011 1010      Codec 0x3A
+TAG WORD          0001 1101 1011 LLLL      Codec 0x1DBL
 버전 ID           2 WORD unsigned (같은 문서의 기준 버전)
 ```
 
-- Codec: Meta `0x3A`, 계보 클래스(`011`)
+- Codec: Meta `0x1DBL`, 계보 클래스
 - Payload: 2 WORD 버전 ID(날값)
 - 개수: 많아야 하나
 
 ## 해석과 유효성
 
-- [DOC-ID](/ko/grammar/meta/declaration/doc-id/)가 있는 문서(버전 목록으로 버전을 관리하는 문서)에만 쓴다. 버전 관리를 하지 않는 `versions.geul`·`documents.geul`·`issuers.geul`과 이름 없는 문서는 diff를 두지 않는다.
+- [DOC-ID](/ko/grammar/meta/declaration/doc-id/)가 있는 문서(버전 목록으로 버전을 관리하는 문서)에만 쓴다. 버전 관리를 하지 않는 `versions.geul`, 목록 문서(`issuers/`, `codecs/`, `docs/`)와 이름 없는 문서는 diff를 두지 않는다.
 - 기준 버전은 같은 `DOC-ID`의 공표된 버전이고 이 버전보다 앞선다. `0`(버전 없음)은 invalid다.
 - 복원한 스냅숏의 내용 해시가 버전 목록([PUBLICATION](/ko/grammar/edge/publication/))의 이 버전 해시와 같아야 한다. 다르면 이 diff는 invalid다. 그래서 diff 안에 결과 해시를 따로 적지 않는다.
 - BODY의 모든 레코드가 Edge(Edge Id가 있는 레코드)인 문서만 diff로 둘 수 있다. diff 단위가 LOCAL ID(Edge Id)이기 때문이다.
@@ -37,13 +37,13 @@ TAG WORD          0001 1LLL L011 1010      Codec 0x3A
 기준 버전 3에 대한 diff:
 
 ```
-193A 0000 0003
+1DB2 0000 0003
 ```
 
-- TAG `193A`(Meta `0x3A`, `LLLL=0010`, 3 WORD), 버전 ID `0000 0003`.
+- TAG `1DB2`(Meta `0x1DBL`, `LLLL=0010`, 3 WORD), 버전 ID `0000 0003`.
 
 ## 열린 문제
 
 1. 스냅숏 간격: 몇 버전마다 전체 스냅숏을 둘지(diff 사슬 길이와 복원 비용).
 2. 기준 버전을 직전 버전으로 제한할지.
-3. diff 파일의 저장 위치: 버전 파일 자리(`<버전 ID>.geul`)에 둘지, 내용 주소 저장소 `h/`와의 관계(`h/`는 스냅숏의 내용 해시로 찾는다).
+3. diff 파일의 저장 위치: 버전 파일 자리(`<버전 ID>.geul`)에 둘지, 내용 해시 주소 `<Issuer>/hashes/`와의 관계(`hashes/`는 스냅숏의 내용 해시로 찾는다).

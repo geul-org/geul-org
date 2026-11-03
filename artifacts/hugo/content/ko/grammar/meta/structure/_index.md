@@ -4,13 +4,13 @@ weight: 10
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "meta", "structure"]
-summary: "Meta 구조 클래스(상위 3비트 `000`, `0x00`~`0x0F`)는 문서의 경계와 길이를 정한다. DOC-1WORD/2WORD/4WORD로 열고, BODY로 HEAD를 끝내며, END로 닫는다."
+summary: "Meta 구조 클래스(`0x1C0L~0x1C4L`)는 문서의 경계와 길이를 정한다. DOC-1WORD/2WORD/4WORD로 열고, BODY로 HEAD를 끝내며, END로 닫는다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Meta 구조 클래스(상위 3비트 `000`, Codec `0x00`~`0x0F`)는 문서의 경계와 길이를 정한다. GEUL 데이터의 단위는 문서 하나다.
+Meta 구조 클래스(Codec `0x1C0L~0x1C4L`)는 문서의 경계와 길이를 정한다. GEUL 데이터의 단위는 문서 하나다.
 
 ```
 DOC-*                  ← HEAD 시작

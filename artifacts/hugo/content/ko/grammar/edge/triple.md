@@ -17,7 +17,7 @@ TRIPLE은 명제 하나(Predicate, Subject, Object)와 그 등급(rank)을 담�
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L000 1010
+TAG WORD          0000 1000 1010 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Predicate         Reference 레코드 (WIKIDATA-PID 등)

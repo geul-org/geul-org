@@ -15,7 +15,7 @@ COORDINATE-GEO는 지정한 천체(행성, 위성, 소행성 등) 위의 한 점
 ## 레이아웃
 
 ```
-TAG WORD          0000 1LLL L000 0101      Codec 0x05
+TAG WORD          0000 0100 0101 LLLL      Codec 0x045L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Globe             Reference 레코드 1개 (천체를 가리키는 Reference, Quantifier Identified)
 Latitude          4 WORD 날값, IEEE 754 binary64 (도)

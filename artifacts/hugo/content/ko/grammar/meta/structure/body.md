@@ -15,11 +15,11 @@ HEAD를 끝내고 BODY를 시작하는 레코드다.
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L000 1110      Codec 0x0E
+TAG WORD          0001 1100 0011 LLLL      Codec 0x1C3L
 [Length 확장 TAG]
 ```
 
-- Codec: Meta `0x0E`, 구조 클래스(`000`)
+- Codec: Meta `0x1C3L`, 구조 클래스
 - Payload: 없음(1 WORD)
 - 개수: 문서마다 많아야 하나
 
@@ -30,4 +30,4 @@ TAG WORD          0001 1LLL L000 1110      Codec 0x0E
 
 ## 예시
 
-- `0x180E`
+- `0x1C30`

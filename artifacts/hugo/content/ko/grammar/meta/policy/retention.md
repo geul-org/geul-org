@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L101 0011      Codec 0x53
+TAG WORD          0001 1110 0001 LLLL      Codec 0x1E1L
 [Length 확장 TAG]
 Payload           만료 시각(GREGORIAN-DATE 등) 또는 기간(DURATION-SECONDS)
 ```
 
-- Codec: Meta `0x53`, 정책 클래스(`101`)
+- Codec: Meta `0x1E1L`, 정책 클래스
 - Payload: 내장 Value(TIME 계열: [GREGORIAN-DATE](/ko/grammar/value/time/gregorian-date/) 등, 또는 [DURATION-SECONDS](/ko/grammar/value/time/duration-seconds/))
 - 개수: 많아야 하나
 

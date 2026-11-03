@@ -18,7 +18,7 @@ URI는 RFC 3986 `URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]` 문�
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
-TAG WORD          0000 1LLL LCCC CCCC      Codec 0x44/0x45
+TAG WORD          0000 0101 010P LLLL      Codec 0x054L/0x055L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st ... Nth          URI bytes / final zero padding
 ```

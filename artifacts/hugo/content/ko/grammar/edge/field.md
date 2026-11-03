@@ -17,7 +17,7 @@ FIELD가 자기 [DECLARE](/ko/grammar/edge/declare/)를 가리킨다. 한 DECLAR
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L001 1100
+TAG WORD          0000 1001 1100 LLLL
 Edge Id           LOCAL Reference 레코드
 DECLARE           LOCAL Reference 레코드. 이 필드가 속한 DECLARE Edge
 폭                1 WORD. 0 = 레코드, n (1~65534) = 날값 n WORD, 0xFFFF = 나머지 날값

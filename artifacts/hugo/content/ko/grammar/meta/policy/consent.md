@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L101 0100      Codec 0x54
+TAG WORD          0001 1110 0010 LLLL      Codec 0x1E2L
 [Length 확장 TAG]
 Payload           동의 근거를 가리키는 Reference 또는 텍스트
 ```
 
-- Codec: Meta `0x54`, 정책 클래스(`101`)
+- Codec: Meta `0x1E2L`, 정책 클래스
 - Payload: 내장 Reference 또는 Value
 - 개수: 여럿 가능
 

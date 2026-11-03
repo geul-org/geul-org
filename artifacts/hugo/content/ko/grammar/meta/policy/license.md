@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L101 0000      Codec 0x50
+TAG WORD          0001 1101 1110 LLLL      Codec 0x1DEL
 [Length 확장 TAG]
 Payload           라이선스를 가리키는 Reference, 또는 SPDX 식별자 UTF8-TEXT, 또는 URI Value
 ```
 
-- Codec: Meta `0x50`, 정책 클래스(`101`)
+- Codec: Meta `0x1DEL`, 정책 클래스
 - Payload: 내장 Reference 또는 Value([UTF8-TEXT](/ko/grammar/value/text/utf8-text/), [URI](/ko/grammar/value/text/uri/))
 - 개수: 많아야 하나
 

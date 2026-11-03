@@ -15,11 +15,11 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L011 1100      Codec 0x3C
+TAG WORD          0001 1101 1101 LLLL      Codec 0x1DDL
 Payload           다음에 배정할 LOCAL ID, 가장 짧은 폭의 unsigned 정수
 ```
 
-- Codec: Meta `0x3C`, 계보 클래스(`011`)
+- Codec: Meta `0x1DDL`, 계보 클래스
 - Payload: 날값(가장 짧은 폭의 unsigned 정수)
 - 개수: 많아야 하나
 - 놓는 곳: 버전 목록 문서 `versions.geul`의 HEAD([PUBLICATION](/ko/grammar/edge/publication/))
@@ -38,7 +38,7 @@ Payload           다음에 배정할 LOCAL ID, 가장 짧은 폭의 unsigned �
 다음 배정 번호 524:
 
 ```
-18BC 020C
+1DD1 020C
 ```
 
-- TAG `18BC`(Meta `0x3C`, `LLLL=0001`, 2 WORD), Payload `020C`.
+- TAG `1DD1`(Meta `0x1DDL`, `LLLL=0001`, 2 WORD), Payload `020C`.

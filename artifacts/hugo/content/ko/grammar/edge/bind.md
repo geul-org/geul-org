@@ -17,7 +17,7 @@ BIND는 Subject에 기계가 맞추는 이름을 묶는 서술 Edge다. Codec `0
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L000 0011
+TAG WORD          0000 1000 0011 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Subject           Reference 레코드 1개, 또는 코덱 TAG WORD 1 WORD

@@ -15,11 +15,11 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L000 1111      Codec 0x0F
+TAG WORD          0001 1100 0100 LLLL      Codec 0x1C4L
 [Length 확장 TAG]
 ```
 
-- Codec: Meta `0x0F`, 구조 클래스(`000`)
+- Codec: Meta `0x1C4L`, 구조 클래스
 - Payload: 없음(1 WORD)
 - 개수: 문서마다 하나, 맨 끝
 
@@ -31,4 +31,4 @@ TAG WORD          0001 1LLL L000 1111      Codec 0x0F
 
 ## 예시
 
-- `0x180F`
+- `0x1C40`

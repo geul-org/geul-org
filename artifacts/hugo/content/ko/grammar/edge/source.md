@@ -17,7 +17,7 @@ SOURCE는 레코드 하나(대상) 또는 문서 전체를 그것이 나온 원�
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L010 0000
+TAG WORD          0000 1010 0000 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Target            LOCAL Reference 레코드 (BODY에서는 근거를 붙이는 Edge의 Edge Id, HEAD에서는 0 = 문서 전체)

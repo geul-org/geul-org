@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L001 0000      Codec 0x10
+TAG WORD          0001 1100 0101 LLLL      Codec 0x1C5L
 [Length 확장 TAG]
 Payload           명세 판. v1 = 0x0001
 ```
 
-- Codec: Meta `0x10`, 정의 클래스(`001`)
+- Codec: Meta `0x1C5L`, 정의 클래스
 - Payload: 날값(가장 짧은 폭의 unsigned 정수)
 - 개수: 많아야 하나
 
@@ -32,7 +32,7 @@ Payload           명세 판. v1 = 0x0001
 
 ## 예시
 
-- `0x1890 0x0001`: GEUL v1
+- `0x1C51 0x0001`: GEUL v1
 
 ## 열린 문제
 

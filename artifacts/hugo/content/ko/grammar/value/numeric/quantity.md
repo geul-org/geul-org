@@ -15,7 +15,7 @@ QUANTITY는 수량 하나를 수, 단위, 하한·상한으로 나타내는 Valu
 ## 레이아웃
 
 ```
-TAG WORD          0000 1LLL L000 0110      Codec 0x06
+TAG WORD          0000 0100 0110 LLLL      Codec 0x046L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 amount            수치 Value 레코드 (정수·BINARY-FLOAT·10진수·분수)
 unit              Reference 레코드 (단위 항목), 무단위면 0x0000

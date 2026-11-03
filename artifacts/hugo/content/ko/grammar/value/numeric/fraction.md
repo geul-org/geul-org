@@ -15,7 +15,7 @@ FRACTION은 원문에 적힌 분수를 표기 그대로 나타내는 Value다. V
 ## 레이아웃
 
 ```
-TAG WORD          0000 1LLL L000 0111      Codec 0x07
+TAG WORD          0000 0100 0111 LLLL      Codec 0x047L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 numerator         Value 레코드 1개: SIGNED-INTEGER 또는 SIGNED-DECIMAL
 denominator       Value 레코드 1개: UNSIGNED-INTEGER 또는 UNSIGNED-DECIMAL

@@ -17,7 +17,7 @@ LABEL은 Subject 대상의 특정 언어 이름(label) 하나를 Object로 연�
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L000 0100
+TAG WORD          0000 1000 0100 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Subject           Reference 레코드 1개

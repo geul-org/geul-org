@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L001 0110      Codec 0x16
+TAG WORD          0001 1100 1010 LLLL      Codec 0x1CAL
 [Length 확장 TAG]
 Payload           언어 Value 하나
 ```
 
-- Codec: Meta `0x16`, 정의 클래스(`001`)
+- Codec: Meta `0x1CAL`, 정의 클래스
 - Payload: 내장 Value([LANGUAGE-BCP47-CODE](/ko/grammar/value/text/language-bcp47-code/) 또는 [LANGUAGE-SHORT-CODE](/ko/grammar/value/text/language-short-code/))
 - 개수: 많아야 하나
 
@@ -30,4 +30,4 @@ Payload           언어 Value 하나
 
 ## 예시
 
-- `en`: `0x1916 0x08C6 0x656E`
+- `en`: `0x1CA2 0x0561 0x656E`

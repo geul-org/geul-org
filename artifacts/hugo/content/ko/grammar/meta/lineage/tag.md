@@ -15,25 +15,25 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L011 1001      Codec 0x39
+TAG WORD          0001 1101 1010 LLLL      Codec 0x1DAL
 [Length 확장 TAG]
 이름              UTF8-TEXT-* Value
 대상              SHA-256-DIGEST Value, 또는 생략 표지 0x0000 (선택 필드). 생략하면 이 버전
 ```
 
-- Codec: Meta `0x39`, 계보 클래스(`011`)
+- Codec: Meta `0x1DAL`, 계보 클래스
 - Payload: 내장 Value(텍스트 + 선택적 내용 해시)
 - 개수: 여럿 가능
 
 ## 해석과 유효성
 
 - 이름은 [UTF8-TEXT](/ko/grammar/value/text/utf8-text/), 대상은 [SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/)다.
-- 대상을 생략하면(ABSENT `0x0000`, [CODEC](/ko/grammar/edge/codec/) 선택 필드) 이 문서 자신에 붙인 이름이다. 자기 내용 해시는 자기 안에 적을 수 없다. geul.org 규격 `0x1839`는 name(`0840`·`0841`)과 target(`0861`·`0000`)의 두 레코드 필드다.
+- 대상을 생략하면(ABSENT `0x0000`, [CODEC](/ko/grammar/edge/codec/) 선택 필드) 이 문서 자신에 붙인 이름이다. 자기 내용 해시는 자기 안에 적을 수 없다. geul.org 규격 `0x1DA0`은 name(`0520`·`0530`)과 target(`05C0`·`0000`)의 두 레코드 필드다.
 - 같은 이름을 다른 버전에 다시 쓰지 않는다.
 
 ## 예시
 
-- 이름 `v1`, 이 버전: `19B9 08C0 7631 0000`
+- 이름 `v1`, 이 버전: `1DA3 0521 7631 0000`
 
 ## 열린 문제
 

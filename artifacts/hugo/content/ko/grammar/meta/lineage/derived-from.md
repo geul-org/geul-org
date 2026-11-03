@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L011 0001      Codec 0x31
+TAG WORD          0001 1101 0010 LLLL      Codec 0x1D2L
 [Length 확장 TAG]
 Payload           Reference, 또는 SHA-256-DIGEST(내용 해시), 또는 URI Value
 ```
 
-- Codec: Meta `0x31`, 계보 클래스(`011`)
+- Codec: Meta `0x1D2L`, 계보 클래스
 - Payload: 내장 Reference 또는 Value
 - 개수: 여럿 가능
 

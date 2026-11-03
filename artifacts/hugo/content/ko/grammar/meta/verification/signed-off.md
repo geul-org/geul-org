@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L100 0010      Codec 0x42
+TAG WORD          0001 1110 0111 LLLL      Codec 0x1E7L
 [Length 확장 TAG]
 Payload           Reference 하나
 ```
 
-- Codec: Meta `0x42`, 검증 클래스(`100`)
+- Codec: Meta `0x1E7L`, 검증 클래스
 - Payload: 내장 Reference
 - 개수: 여럿 가능
 

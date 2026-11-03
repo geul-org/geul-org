@@ -15,14 +15,14 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L100 0001      Codec 0x41
+TAG WORD          0001 1110 0110 LLLL      Codec 0x1E6L
 [Length 확장 TAG]
 알고리즘 ID       1 WORD (0x0001 = Ed25519)
 서명자            ISSUER-POINTER(Issuer) Reference 레코드
 서명              나머지 전부. 폭은 알고리즘이 정한다 (Ed25519 32 WORD)
 ```
 
-- Codec: Meta `0x41`, 검증 클래스(`100`)
+- Codec: Meta `0x1E6L`, 검증 클래스
 - Payload: 알고리즘 ID(날값 1 WORD) + 서명자(내장 Reference) + 서명(날값, 나머지)
 - 개수: 여럿 가능
 

@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L101 0010      Codec 0x52
+TAG WORD          0001 1110 0000 LLLL      Codec 0x1E0L
 [Length 확장 TAG]
 등급              1 WORD
 ```
 
-- Codec: Meta `0x52`, 정책 클래스(`101`)
+- Codec: Meta `0x1E0L`, 정책 클래스
 - Payload: 날값(등급 1 WORD)
 - 개수: 많아야 하나
 

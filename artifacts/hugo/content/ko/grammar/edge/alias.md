@@ -17,7 +17,7 @@ ALIAS는 Subject 대상의 다른 이름(별칭) 하나를 Object로 연결하�
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L000 0101
+TAG WORD          0000 1000 0101 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Subject           Reference 레코드 1개

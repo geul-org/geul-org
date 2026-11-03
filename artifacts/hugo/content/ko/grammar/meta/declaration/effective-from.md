@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L001 0011      Codec 0x13
+TAG WORD          0001 1100 1000 LLLL      Codec 0x1C8L
 [Length 확장 TAG]
 Payload           TIME Value 하나
 ```
 
-- Codec: Meta `0x13`, 정의 클래스(`001`)
+- Codec: Meta `0x1C8L`, 정의 클래스
 - Payload: 내장 Value([GREGORIAN-DATE](/ko/grammar/value/time/gregorian-date/) 또는 [POSIX-TIMESTAMP-SECONDS](/ko/grammar/value/time/posix-timestamp-seconds/))
 - 개수: 많아야 하나
 
@@ -33,4 +33,4 @@ Payload           TIME Value 하나
 
 ## 예시
 
-- 1970-01-02 시행: `0x1993 0x0920 0x0000 0x0001`
+- 1970-01-02 시행: `0x1C83 0x04A2 0x0000 0x0001`

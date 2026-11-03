@@ -17,7 +17,7 @@ ENUM은 날값 필드의 코드값 하나에 의미를 붙이는 서술 Edge다.
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L001 1101
+TAG WORD          0000 1001 1101 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 필드              FIELD Edge를 가리키는 LOCAL Reference 레코드

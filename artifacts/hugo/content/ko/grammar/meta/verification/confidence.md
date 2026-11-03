@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L100 0011      Codec 0x43
+TAG WORD          0001 1110 1000 LLLL      Codec 0x1E8L
 [Length 확장 TAG]
 Payload           UNSIGNED-DECIMAL Value, 0 이상 1 이하
 ```
 
-- Codec: Meta `0x43`, 검증 클래스(`100`)
+- Codec: Meta `0x1E8L`, 검증 클래스
 - Payload: 내장 Value([UNSIGNED-DECIMAL](/ko/grammar/value/decimal/unsigned-decimal/))
 - 개수: 많아야 하나
 

@@ -10,17 +10,17 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-문서를 여는 레코드다. 문서 전체의 WORD 수를 Payload에 지정한다. `DOC-1WORD`(`0x00`), `DOC-2WORD`(`0x01`), `DOC-4WORD`(`0x02`)를 이 페이지에서 함께 다룬다.
+문서를 여는 레코드다. 문서 전체의 WORD 수를 Payload에 지정한다. `DOC-1WORD`(`0x1C0L`), `DOC-2WORD`(`0x1C1L`), `DOC-4WORD`(`0x1C2L`)를 이 페이지에서 함께 다룬다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L000 0000      Codec 0x00
+TAG WORD          0001 1100 0000 LLLL      Codec 0x1C0L
 [Length 확장 TAG]
 Payload           전체 WORD 수. Codec이 폭을 정한다: DOC-1WORD 1, DOC-2WORD 2, DOC-4WORD 4
 ```
 
-- Codec: Meta `0x00`~`0x02`, 구조 클래스(`000`)
+- Codec: Meta `0x1C0L~0x1C2L`, 구조 클래스
 - Payload: 날값(문서 전체 WORD 수, unsigned)
 - 개수: 문서마다 하나, 맨 앞
 
@@ -34,4 +34,4 @@ Payload           전체 WORD 수. Codec이 폭을 정한다: DOC-1WORD 1, DOC-2
 
 ## 예시
 
-- `0x1880 0x0017`: DOC-1WORD, 전체 23 WORD
+- `0x1C01 0x0017`: DOC-1WORD, 전체 23 WORD

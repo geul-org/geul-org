@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L001 0001      Codec 0x11
+TAG WORD          0001 1100 0110 LLLL      Codec 0x1C6L
 [Length 확장 TAG]
 Payload           UTF8-TEXT Value "<이름>-<major>.<minor>"
 ```
 
-- Codec: Meta `0x11`, 정의 클래스(`001`)
+- Codec: Meta `0x1C6L`, 정의 클래스
 - Payload: 내장 Value([UTF8-TEXT](/ko/grammar/value/text/utf8-text/))
 - 개수: 많아야 하나
 
@@ -31,7 +31,7 @@ Payload           UTF8-TEXT Value "<이름>-<major>.<minor>"
 
 ## 예시
 
-- `tangeul-1.0`: `0x1B91 0x0B41 7461 6e67 6575 6c2d 312e 3000`
+- `tangeul-1.0`: `0x1C67 0x0536 7461 6e67 6575 6c2d 312e 3000`
 
 ## 열린 문제
 

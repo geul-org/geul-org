@@ -10,17 +10,17 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-문서 전체의 판정 결과를 적는다. 노드·레코드 단위 판정은 [TOULMIN](/ko/grammar/edge/toulmin/) `VERDICT`(Edge `0x78`)가 맡는다.
+문서 전체의 판정 결과를 적는다. 노드·레코드 단위 판정은 [TOULMIN](/ko/grammar/edge/toulmin/) `VERDICT`(Edge `0x0F8L`)가 맡는다.
 
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L100 0100      Codec 0x44
+TAG WORD          0001 1110 1001 LLLL      Codec 0x1E9L
 [Length 확장 TAG]
 판정              1 WORD (0 Pass, 1 Review, 2 Fail)
 ```
 
-- Codec: Meta `0x44`, 검증 클래스(`100`)
+- Codec: Meta `0x1E9L`, 검증 클래스
 - Payload: 날값(판정 1 WORD)
 - 개수: 많아야 하나
 

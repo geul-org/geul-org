@@ -17,7 +17,7 @@ DESCRIPTION은 Subject 대상의 특정 언어 설명 하나를 Object로 연결
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L000 0110
+TAG WORD          0000 1000 0110 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Subject           Reference 레코드 1개

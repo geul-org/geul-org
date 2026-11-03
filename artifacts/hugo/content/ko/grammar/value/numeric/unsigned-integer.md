@@ -15,7 +15,7 @@ UNSIGNED-INTEGER는 부호 없는 정수 값을 나타내는 Value다. Value 직
 ## 레이아웃
 
 ```
-TAG WORD          0000 1LLL LCCC CCCC      Codec 0x02
+TAG WORD          0000 0100 0010 LLLL      Codec 0x042L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st  (상위 WORD)   Unsigned Magnitude 1st
 ...

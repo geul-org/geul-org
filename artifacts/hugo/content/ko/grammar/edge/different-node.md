@@ -17,7 +17,7 @@ DIFFERENT-NODE는 두 Reference가 서로 다른 referent를 지시한다는 비
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L000 0010
+TAG WORD          0000 1000 0010 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Subject           Reference 레코드 1개

@@ -17,7 +17,7 @@ QUALIFIER는 다른 Edge(주로 [TRIPLE](/ko/grammar/edge/triple/))가 담은 �
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L000 1011
+TAG WORD          0000 1000 1011 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Property          Reference 레코드 (WIKIDATA-PID 등)

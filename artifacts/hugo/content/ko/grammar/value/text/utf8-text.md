@@ -18,7 +18,7 @@ UTF8-TEXT는 RFC 3629의 valid UTF-8 바이트열을 담는 Value다. 식별자,
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
-TAG WORD          0000 1LLL LCCC CCCC      Codec 0x40/0x41
+TAG WORD          0000 0101 001P LLLL      Codec 0x052L/0x053L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st ... Nth          UTF-8 bytes / final zero padding
 ```

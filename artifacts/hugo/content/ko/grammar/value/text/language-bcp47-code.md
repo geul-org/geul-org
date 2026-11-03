@@ -19,7 +19,7 @@ LANGUAGE-BCP47-CODE는 완전한 BCP 47 language tag를 담는 Value다. script,
 - Payload는 UTF-8 텍스트가 아니라 BCP 47 tag의 ASCII 바이트열이다.
 
 ```
-TAG WORD          0000 1LLL LCCC CCCC      Codec 0x46/0x47
+TAG WORD          0000 0101 011P LLLL      Codec 0x056L/0x057L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st ... Nth          BCP 47 tag bytes / final zero padding
 ```

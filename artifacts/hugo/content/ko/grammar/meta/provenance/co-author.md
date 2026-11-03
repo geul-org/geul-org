@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L010 0001      Codec 0x21
+TAG WORD          0001 1100 1100 LLLL      Codec 0x1CCL
 [Length 확장 TAG]
 Payload           Reference 레코드 하나 (EXTERNAL-ISSUER-*, GEUL, WIKIDATA-QID, LOCAL 등)
 ```
 
-- Codec: Meta `0x21`, 출처 클래스(`010`)
+- Codec: Meta `0x1CCL`, 출처 클래스
 - Payload: 내장 Reference
 - 개수: 여럿 가능
 

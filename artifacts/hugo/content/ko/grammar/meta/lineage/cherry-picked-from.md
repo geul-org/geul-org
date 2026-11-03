@@ -15,12 +15,12 @@ image: "/images/og-default.webp"
 ## 레이아웃
 
 ```
-TAG WORD          0001 1LLL L011 0100      Codec 0x34
+TAG WORD          0001 1101 0101 LLLL      Codec 0x1D5L
 [Length 확장 TAG]
 Payload           SHA-256-DIGEST Value 하나 (16 WORD)
 ```
 
-- Codec: Meta `0x34`, 계보 클래스(`011`)
+- Codec: Meta `0x1D5L`, 계보 클래스
 - Payload: 내장 Value([SHA-256-DIGEST](/ko/grammar/value/binary/sha-256-digest/))
 - 개수: 여럿 가능
 

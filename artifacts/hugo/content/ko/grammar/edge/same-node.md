@@ -17,7 +17,7 @@ SAME-NODE는 두 Reference가 같은 referent를 지시한다고 선언하는 �
 ## 레이아웃
 
 ```
-TAG WORD          0001 0LLL L000 0001
+TAG WORD          0000 1000 0001 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 Subject           Reference 레코드 1개

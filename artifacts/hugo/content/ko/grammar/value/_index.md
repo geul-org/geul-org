@@ -120,7 +120,7 @@ Codec의 상위 2비트가 계열이다. 직접 코드(7비트)와 Issuer 형식
 
 ```
 UTF8-LANGUAGE-TEXT
-TAG WORD          0000 1LLL L100 101P   (P = 텍스트가 홀수 바이트)
+TAG WORD          0000 0101 100P LLLL   (P = 텍스트가 홀수 바이트)
 [Length 확장 TAG]
 언어              LANGUAGE-SHORT-CODE 또는 LANGUAGE-BCP47-CODE 레코드
 텍스트            UTF-8 바이트 (홀수면 마지막 0x00)
@@ -143,7 +143,7 @@ TAG   언어 en    D o  u g  l a  s ␠  A d  a m  s (패딩)
 QUANTITY는 양과 단위, 경계를 하나의 값으로 담는다.
 
 ```
-TAG WORD          0000 1LLL L000 0110
+TAG WORD          0000 0100 0110 LLLL
 [Length 확장 TAG]
 양                수치 Value 레코드 (정수·BINARY-FLOAT·10진수·분수)
 단위              Reference 레코드 (단위 항목), 무단위면 0x0000

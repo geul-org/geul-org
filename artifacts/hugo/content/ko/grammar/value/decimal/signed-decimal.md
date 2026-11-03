@@ -15,7 +15,7 @@ SIGNED-DECIMAL은 부호 있는 coefficient를 가진 정확한 10진수(exact d
 ## 레이아웃
 
 ```
-TAG WORD          0000 1LLL LCCC CCCC      Codec 0x10
+TAG WORD          0000 0100 1000 LLLL      Codec 0x048L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st–2nd (32비트)       Signed Base-10 Exponent E
 Payload WORD 3rd–Nth (1 WORD 이상)  Signed Two's-complement Coefficient C

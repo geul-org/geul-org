@@ -66,7 +66,7 @@ Edge Id           LOCAL Reference 레코드
 자세히: [TRIPLE](/ko/grammar/edge/triple/)
 
 ```
-TAG WORD          0001 0LLL L000 1010
+TAG WORD          0000 1000 1010 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference
 Predicate         Reference (위키데이터 속성 등)
@@ -96,7 +96,7 @@ TAG   #2         P31        Q42        Q5         normal
 자세히: [QUALIFIER](/ko/grammar/edge/qualifier/)
 
 ```
-TAG WORD          0001 0LLL L000 1011
+TAG WORD          0000 1000 1011 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference
 Property          Reference
@@ -120,7 +120,7 @@ Value             Reference 또는 Value
 자세히: [LABEL](/ko/grammar/edge/label/), [ALIAS](/ko/grammar/edge/alias/), [DESCRIPTION](/ko/grammar/edge/description/)
 
 ```
-TAG WORD          0001 0LLL L000 0100   (LABEL)
+TAG WORD          0000 1000 0100 LLLL   (LABEL)
 [Length 확장 TAG]
 Edge Id           LOCAL Reference
 Subject           Reference
@@ -166,7 +166,7 @@ BODY 안의 개별 레코드, 또는 문서 전체(HEAD)에 근거를 붙인다.
 자세히: [SOURCE](/ko/grammar/edge/source/)
 
 ```
-TAG WORD          0001 0LLL L010 0000
+TAG WORD          0000 1010 0000 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference
 Target            LOCAL Reference (근거를 붙이는 BODY Edge의 Edge Id, HEAD에서는 0 = 문서 전체)

@@ -18,7 +18,7 @@ GEDCOM-DATE는 [GEDCOM 7](https://gedcom.io/specifications/FamilySearchGEDCOMv7.
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
-TAG WORD          0000 1LLL L010 011P      Codec 0x26/0x27 (P = 홀수 바이트)
+TAG WORD          0000 0101 000P LLLL      Codec 0x050L/0x051L (P = 홀수 바이트)
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st ... Nth          GEDCOM 날짜 문자열의 ASCII 바이트 / 홀수면 마지막 0x00
 ```
