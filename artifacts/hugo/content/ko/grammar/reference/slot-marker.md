@@ -4,13 +4,13 @@ weight: 1
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "reference", "ABSENT", "UNKNOWN-VALUE", "NO-VALUE"]
-summary: "자리 표지는 Reserved Reference 코드 0x000L~0x002L에 둔 1 WORD 레코드 묶음이다. 0x0000 ABSENT(적지 않음), 0x0010 UNKNOWN-VALUE(알 수 없음), 0x0020 NO-VALUE(없음)가 레코드 필드 자리를 채운다."
+summary: "자리 표지는 Reference 섹션 0의 첫 세 칸 0x000L~0x002L에 배정한 1 WORD 레코드 묶음이다. 0x0000 ABSENT(적지 않음), 0x0010 UNKNOWN-VALUE(알 수 없음), 0x0020 NO-VALUE(없음)가 레코드 필드 자리를 채운다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-자리 표지(slot marker)는 레코드 필드 자리를 채우는 1 WORD 레코드다. 아무것도 가리키지 않는다. Reserved Reference 코드 `0x000L~0x002L`에 둔다.
+자리 표지(slot marker)는 레코드 필드 자리를 채우는 1 WORD 레코드다. 아무것도 가리키지 않는다. Reference 섹션 0의 첫 세 칸 `0x000L~0x002L`에 배정한 코드다.
 
 값 자리에 올 수 있는 말은 셋이다. 값을 적지 않았다, 값이 있지만 무엇인지 모른다, 값이 없다. 셋은 다른 것이다. 자리 표지는 이 셋을 이웃한 세 WORD로 나눠 쓴다.
 
@@ -26,7 +26,7 @@ TAG WORD          0000 0000 00CC 0000
 | `0x0000` | ABSENT | 적지 않음 | `ABSENT` |
 | `0x0010` | UNKNOWN-VALUE | 알 수 없음: 값이 있다. 무엇인지 모른다 | `UNKNOWN` |
 | `0x0020` | NO-VALUE | 없음: 값이 없다 | `NONE` |
-| Codec 0~2, LLLL ≥ `0001` | Reserved | Payload가 있는 표지는 뒤에 정한다 | |
+| Codec 0~2, LLLL ≥ `0001` | Reserved | 이 TAG 형태(Payload가 있는 표지)는 배정하지 않았다 | |
 
 - 표지에는 **Quantifier가 없다.** 양화는 5Q 체계(섹션 0의 `5 <= C < 30`, 섹션 1의 `C < 30`)에서만 읽는다. `0x0010` UNKNOWN-VALUE를 `C % 5`로 읽어 Generic으로 해석하지 않는다([Reference](/ko/grammar/reference/) Quantifier).
 - Payload가 없다. 대상 ID도 없다.
@@ -56,7 +56,7 @@ TAG WORD          0000 0000 00CC 0000
 - 날값 필드에는 표지를 쓸 수 없다. 날값은 TAG가 없어 1 WORD 표지가 들어갈 자리가 없다.
 - 표지 대상만 있는 CODEC 목록(항상 표지)은 invalid다.
 - 표지의 뜻(무엇이 있고 무엇이 없는지)은 그 표지를 받는 Edge 규격이 정한다. 양화와 부정은 Reference가 아니라 Edge가 정한다는 원칙과 같다.
-- 자리 표지는 Codec 규격 문서가 없다. [0층](/ko/grammar/publishing/#층)(디코더 내장)이다. 셋 다 Payload가 없어 내장 비용도 없다.
+- 표지의 뜻과 수용 규칙은 [0층](/ko/grammar/publishing/#층)(디코더 내장)이다. 셋 다 Payload가 없어 내장 비용도 없다. 그래도 코드마다 코덱 문서를 둔다. 코덱 문서는 DECLARE만 두고 FIELD가 없다.
 
 ## 읽는 쪽의 의무
 

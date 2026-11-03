@@ -39,8 +39,8 @@ Codec 규격으로 레코드를 읽고 표기하는 규칙이다.
 
 ## 유효성
 
-- 대상의 Kind는 Reference, Value, Edge, Meta 중 하나다. Reference의 5Q 체계는 체계 머리 코드(Identified, C가 5의 배수)로 둔다. 포인터는 그 코드(`0x040L`, `0x041L`, `0x042L`) 그대로다. REFERENCE-ISSUER의 코덱은 그 Issuer의 문서가 정의한다.
-- [자리 표지](/ko/grammar/reference/slot-marker/)(Reference `0x000L~0x002L`)는 DECLARE의 대상이 될 수 없다. 디코더에 내장한다(0층).
+- 대상의 Kind는 Reference, Value, Edge, Meta 중 하나다. GEUL 직접 코드의 규격 문서는 코드마다 하나다. Reference의 5Q 체계도 양화 코드마다 따로 선언한다(LOCAL Identified `0050`, Generic `0060`, …). 포인터(`0x040L`, `0x041L`, `0x042L`), 자리 표지, ISSUER 코드도 그 코드 그대로다. ISSUER 코드 뒤 Issuer·코덱 번호로 정해지는 Issuer 코덱은 그 Issuer의 문서가 정의한다.
+- [자리 표지](/ko/grammar/reference/slot-marker/)(Reference `0x000L~0x002L`)도 DECLARE의 대상이다. Payload가 없어 FIELD 없이 DECLARE만 둔다. 표지의 뜻과 수용 규칙은 디코더에 내장한다(0층). 레이아웃을 아직 정하지 않은 Codec(SUPERSEDE-CHAIN, VERDICT, EVIDENCE 등)도 DECLARE만 둔다.
 - Edge의 Edge Id는 FIELD로 선언하지 않는다. 모든 Edge의 첫 요소라 암묵적이다([Edge](/ko/grammar/edge/)).
 - DECLARE의 필드는 그것을 가리키는 FIELD들이며, 0개일 수 있다. FIELD 하나는 DECLARE 하나에만 속한다. 같은 모양의 필드라도 DECLARE마다 FIELD를 따로 둔다.
 - DECLARE에는 대상(과 Issuer 형식 대상의 Issuer·코덱 번호) 말고 아무것도 없다.

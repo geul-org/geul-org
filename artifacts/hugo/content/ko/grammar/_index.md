@@ -46,7 +46,7 @@ TAG WORD는 `000K KKKC CCCC LLLL`다. 상위 4비트 `KKKK`는 섹션, `C`는 �
 
 | TAG ID | 이름 | 분류 | 대상 ID |
 |---|---|---|---|
-| `0x000L~0x002L` | [자리 표지](/ko/grammar/reference/slot-marker/) | Reserved | 대상을 가리키지 않는 1 WORD 표지 묶음(아래 표) |
+| `0x000L~0x002L` | [자리 표지](/ko/grammar/reference/slot-marker/) | 자리 표지 | 대상을 가리키지 않는 1 WORD 표지 묶음(아래 표) |
 | `0x005L~0x009L` | [LOCAL](/ko/grammar/reference/local/) | 선언 | 이 문서가 발급한 ID |
 | `0x00AL~0x00EL` | [GEUL](/ko/grammar/reference/geul/) | 선언 | geul.org가 CC0로 발급하는 엔티티. 작은 번호를 고빈도 엔티티에 배정한다 |
 | `0x00FL~0x013L` | [GEUL-SIDX](/ko/grammar/reference/geul-sidx/) | 선언 | GEUL SIDX(Semantic-aligned Index). 비트에 의미를 담은 식별자 |

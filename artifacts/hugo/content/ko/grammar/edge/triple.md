@@ -43,7 +43,7 @@ Rank              1 WORD (ENUM)
 - Predicate, Subject는 정확히 하나의 완전한 Reference 레코드다.
 - Object는 정확히 하나의 완전한 Reference 또는 Value 레코드, 또는 [자리 표지](/ko/grammar/reference/slot-marker/) `0x0010`(UNKNOWN-VALUE)·`0x0020`(NO-VALUE) 1 WORD다. ABSENT(`0x0000`)는 받지 않는다. Object는 선택 필드가 아니다.
 - Object를 읽은 뒤 정확히 1 WORD(Rank)가 남아야 한다.
-- geul.org 규격 문서는 Rank 날값 필드에 [CODEC](/ko/grammar/edge/codec/) UNSIGNED-INTEGER(`0620`)와 [ENUM](/ko/grammar/edge/enum/) 0·1·2를 둔다. Object 필드에는 CODEC `000F`·`020F`·`040F`(아무 Reference), `060F`·`080F`(아무 Value), `0010`(UNKNOWN-VALUE), `0020`(NO-VALUE)을 둔다. Predicate·Subject는 자리 표지를 받지 않는다.
+- geul.org 규격 문서는 Rank 날값 필드에 [CODEC](/ko/grammar/edge/codec/) UNSIGNED-INTEGER(`0620`)와 [ENUM](/ko/grammar/edge/enum/) 0·1·2를 둔다. Object 필드에는 CODEC `000F`·`020F`·`040F`(아무 Reference), `060F`·`080F`(아무 Value), `0010`(UNKNOWN-VALUE), `0020`(NO-VALUE)을 둔다. Predicate·Subject 필드에는 CODEC `000F`·`020F`·`040F`(아무 Reference)를 둔다. 와일드카드라 자리 표지는 받지 않는다.
 - **TRIPLE의 의미는 같은 문서에서 그 Edge Id를 가리키는 QUALIFIER를 모두 모은 것이다.** 읽는 쪽은 TRIPLE을 해석하기 전에 QUALIFIER를 모은다. QUALIFIER 없이 읽은 TRIPLE은 한정이 빠진 명제일 수 있다(예: 시간 한정이 빠진 "행정부 수반").
 
 ## 알 수 없음과 없음

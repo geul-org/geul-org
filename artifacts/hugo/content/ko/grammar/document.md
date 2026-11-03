@@ -59,7 +59,7 @@ END              ← 문서를 닫는다
 | [DOC-ID](/ko/grammar/meta/declaration/doc-id/) | 문서 자신의 식별자. 문서 밖에서 이 문서와 그 안의 대상을 가리키려면 있어야 한다 | `.well-known/geul/` 아래 `docs/<문서 ID>/`·`codecs/<코덱 ID>/`의 버전 문서(규격 문서 포함). 버전 목록 `versions.geul`과 목록 문서(`issuers/`)에는 두지 않는다 |
 
 - `SPEC-VERSION`은 어느 판의 디코더든 읽을 수 있게 정수 하나만 담는다(v1은 `1C51 0001`). Value 코드에 기대지 않는다.
-- `DOC-ID`는 자기 자신을 가리키는 DOC-POINTER(Issuer, 문서 ID, 버전 `0`)다. 문서 ID는 4 WORD다. 모든 Issuer는 문서 ID `0x0000000000000000`과 `0xFFFFFFFFFFFFFFFF`를 예약한다([Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)).
+- `DOC-ID`는 자기 자신을 가리키는 DOC-POINTER(Issuer, 문서 ID, 버전 `0`)다. 문서 ID는 4 WORD다. 코덱 문서는 문서 ID가 없어 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)(Issuer, 코덱 ID, 버전 `0`)를 쓴다. 모든 Issuer는 문서 ID `0x0000000000000000`과 `0xFFFFFFFFFFFFFFFF`를 예약한다([Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)).
 - `DOC-ID`가 없는 문서는 이름 없는 문서다. 내용 해시로만 가리킬 수 있다.
 
 ## 내용 해시

@@ -95,7 +95,7 @@ Fetch(ctx, Addr) ([]byte, error)    // geul get = ParseAddr → Fetch → 표준
 
 ### 형식 지정
 
-- 확장자가 있으면 형식을 지정한 것이다. `.geul`은 바이너리(`application/vnd.geul`)다.
+- 공표 주소는 `.geul`로 끝나고 바이너리(`application/vnd.geul`)다.
 - 문서는 바이너리가 정본이다. 내용 해시와 서명은 바이너리로만 계산한다.
 
 ### 목록 문서
@@ -143,8 +143,8 @@ BODY
 
 ### 삭제된 문서
 
-- 법적 삭제·직권 삭제된 버전의 주소는 `410 Gone`과 묘비(버전 ID, 내용 해시, 삭제 일자, 사유 범주)를 돌려준다.
-- 버전 목록에는 [TOMBSTONE](/ko/grammar/edge/publication/) 레코드로 남는다.
+- 법적 삭제·직권 삭제로 폐기된 버전(TOMBSTONE)의 주소도 다른 없는 주소처럼 404(없음)다.
+- 삭제는 버전 목록에 [TOMBSTONE](/ko/grammar/edge/publication/) 레코드(그 버전의 DOC-POINTER, 사유 범주)로 남는다.
 
 ## 층
 

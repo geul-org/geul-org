@@ -15,7 +15,7 @@ Meta는 세계에 관한 내용이 아니라 문서에 관한 레코드다. 문�
 ## 레이아웃
 
 ```
-TAG WORD          0001 11CC CCCC LLLL
+TAG WORD          000K KKKC CCCC LLLL      섹션 14·15 (0x1C0L~0x1FFL)
 [Length 확장 TAG]
 Payload           날값 또는 내장 Value·Reference 레코드
 ```

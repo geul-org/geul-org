@@ -15,7 +15,7 @@ REFERENCE-ISSUER는 Issuer가 정의한 Reference 형식이다. Reference 구역
 ## 레이아웃
 
 ```
-TAG WORD          0000 0101 11CC LLLL      Codec 0x05DL / 0x05EL / 0x05FL
+TAG WORD          0000 0101 11WW LLLL      Codec 0x05DL / 0x05EL / 0x05FL (WW = Issuer 폭: 01 2, 10 4, 11 16 WORD)
 [Length 확장 TAG]
 Issuer            2/4/16 WORD (Codec이 폭을 정한다)
 코덱 번호         2 WORD. Issuer가 정의한다
@@ -27,6 +27,8 @@ Payload           Issuer가 발행한 Codec 문서가 정한다
 | `0x05DL` | REFERENCE-ISSUER-2WORD | 2 WORD |
 | `0x05EL` | REFERENCE-ISSUER-4WORD | 4 WORD |
 | `0x05FL` | REFERENCE-ISSUER-16WORD | 16 WORD |
+
+- GEUL Issuer의 코덱 문서는 코드마다 하나이고 FIELD 셋을 둔다: Issuer(2·4·16 WORD), 코덱 번호(2 WORD), Payload(Issuer 코덱이 정한다).
 
 ## 해석과 유효성
 

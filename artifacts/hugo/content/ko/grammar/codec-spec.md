@@ -29,14 +29,14 @@ Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다. GEUL의
 
 디코더는 TAG WORD만 보고 규격 문서의 주소를 만든다. 모르는 Codec을 만나면 그 문서를 받아 읽으면 된다.
 
-- `<TAG>`는 대상 TAG WORD의 hex 4자리(대문자)다. Length 자리는 `0000`이고, Reference 5Q 체계는 체계 머리 코드(Identified)를 쓴다(LOCAL은 `0050`). 직접 코드와 Issuer 코덱이 같은 주소 규칙 `<Issuer>/codecs/<코덱 ID>/`를 쓴다([공표 주소와 버전 목록](/ko/grammar/publishing/#공표-주소)).
-- [자리 표지](/ko/grammar/reference/slot-marker/)(`0x0000`, `0x0010`, `0x0020`)는 규격 문서가 없다. 디코더에 내장한다([0층](/ko/grammar/publishing/#층)).
+- `<TAG>`는 대상 TAG WORD의 hex 4자리(대문자)다. Length 자리는 `0000`이다. 코덱 문서는 코드마다 하나다. Reference 5Q 체계도 양화 코드마다 따로 둔다(LOCAL Identified `0050`, LOCAL Generic `0060`). 직접 코드와 Issuer 코덱이 같은 주소 규칙 `<Issuer>/codecs/<코덱 ID>/`를 쓴다([공표 주소와 버전 목록](/ko/grammar/publishing/#공표-주소)).
+- [자리 표지](/ko/grammar/reference/slot-marker/)(`0x0000`, `0x0010`, `0x0020`)도 규격 문서를 둔다. Payload가 없어 DECLARE만 두고 FIELD가 없다. 표지의 뜻과 수용 규칙은 디코더에 내장한다([0층](/ko/grammar/publishing/#층)). 레이아웃을 아직 정하지 않은 Codec도 DECLARE만 둔 규격 문서로 시작한다.
 - 규격 문서는 `DOC-ID`로 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)(`0x00000000`, `0x0000<TAG>`, `0`)를 둔다. 버전 목록 레코드도 이 CODEC-POINTER를 쓴다.
 - 버전·정본 주소·서명 규칙은 일반 공표 문서와 같다.
 
 ### 코덱북과 명세 판
 
-- 코덱북 문서는 `IMPORT-DOC`으로 가져오지 않는다. 문서 HEAD의 [SPEC-VERSION](/ko/grammar/meta/declaration/spec-version/)이 어느 코덱북을 따르는지 정한다.
+- 코덱 문서도 [IMPORT-DOC](/ko/grammar/meta/import/import-doc/)으로 가져올 수 있다. 그때 문서 자리에는 DOC-POINTER 대신 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)를 쓴다. 문서 HEAD의 [SPEC-VERSION](/ko/grammar/meta/declaration/spec-version/)이 어느 코덱북을 따르는지 정한다.
 - 모든 디코더는 핵심 코덱북을 내장하거나 이 주소에서 받는다.
 - 제안(Prefix `000`)이 표준으로 채택되면 레이아웃은 그대로 두고 Prefix만 `001`로 바뀐다([개요](/ko/grammar/overview/#영역-구조)). 대상 TAG WORD가 달라지므로 채택본은 다른 코덱 ID의 새 규격 문서가 되고, 제안 문서는 불변으로 남는다.
 
@@ -84,7 +84,7 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 
 ### 선택 필드와 자리 표지
 
-[자리 표지](/ko/grammar/reference/slot-marker/)는 Reserved Reference 코드 `0x000L~0x002L`의 1 WORD 레코드 묶음이다. 필드의 CODEC 목록이 그 WORD를 정확한 대상으로 둘 때만 그 자리에 올 수 있다.
+[자리 표지](/ko/grammar/reference/slot-marker/)는 Reference 섹션 0의 첫 세 칸 `0x000L~0x002L`에 배정한 1 WORD 레코드 묶음이다. 필드의 CODEC 목록이 그 WORD를 정확한 대상으로 둘 때만 그 자리에 올 수 있다.
 
 | CODEC 대상 | 표지 | 그 필드는 |
 |---|---|---|
@@ -94,7 +94,7 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 
 - **수용 규칙:** 표지는 그 필드의 CODEC 목록에 같은 WORD가 정확한 대상으로 있을 때만 유효하다. 와일드카드(`000F`, `060F` …)와 CODEC이 없는 필드("아무 레코드")는 표지를 받지 않는다. HEAD·BODY 레코드 자리, Edge Id 자리에서는 invalid다.
 - 선택 필드를 생략할 때는 그 자리에 WORD `0x0000` 하나(ABSENT)를 쓴다. 선택 필드도 자리는 항상 차지한다. 그래서 레코드 하나의 표기는 하나이고, 분해는 위치만으로 정해진다.
-- 표지는 Reserved Reference Codec이라 다른 레코드와 겹치지 않고, 규격을 모르는 디코더도 1 WORD 레코드로 건너뛴다.
+- 표지는 자기 Reference 코드를 가져 다른 레코드와 겹치지 않고, 규격을 모르는 디코더도 1 WORD 레코드로 건너뛴다.
 - 세 표지는 다른 말이다. ABSENT는 문서에 관한 말(이 자리를 채우지 않았다)이라 세계에 관해 아무것도 단언하지 않는다. UNKNOWN-VALUE는 값이 있다는 단언(`∃x`), NO-VALUE는 값이 없다는 단언(`¬∃x`, 한정 조건 안에서)이다. 생략은 "값이 없음"이 아니라 "적지 않음"이다.
 - 표지가 무엇을 뜻하는지는 그 표지를 받는 Codec 규격이 정한다([TRIPLE](/ko/grammar/edge/triple/), [QUALIFIER](/ko/grammar/edge/qualifier/)).
 
@@ -113,6 +113,8 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 | #17 CODEC | #5는 UNSIGNED-INTEGER(`0620`)로 해석 | |
 | #18~#22 CODEC | #4는 아무 Reference(`000F`·`020F`·`040F`) 또는 아무 Value(`060F`·`080F`) | |
 | #23, #24 CODEC | #4는 UNKNOWN-VALUE(`0010`), NO-VALUE(`0020`)도 받는다 | |
+| #25~#27 CODEC | #2는 아무 Reference(`000F`·`020F`·`040F`) | |
+| #28~#30 CODEC | #3은 아무 Reference(`000F`·`020F`·`040F`) | |
 
 이 문서 하나로 디코더는 TRIPLE 레코드를 필드로 나누고, 필드 이름을 붙여 보여 주고, 형식이 맞는지 검사한다.
 

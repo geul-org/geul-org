@@ -15,7 +15,7 @@ Value는 값 자체를 담는 레코드다. Codec이 Payload의 해석을 정한
 ## 레이아웃
 
 ```
-TAG WORD          0000 01CC CCCC LLLL
+TAG WORD          000K KKKC CCCC LLLL      섹션 3·4 (0x060L~0x09FL)
 [Length 확장 TAG]
 [Codec 확장 TAG]  Issuer 형식일 때
 Payload

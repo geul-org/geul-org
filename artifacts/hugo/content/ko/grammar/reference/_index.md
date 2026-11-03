@@ -15,7 +15,7 @@ Reference는 대상을 가리키는 레코드다. 대상은 엔티티, 개념, �
 ## 레이아웃
 
 ```
-TAG WORD          0000 0KCC CCCC LLLL      섹션 0~2 (0x000L~0x05FL)
+TAG WORD          000K KKKC CCCC LLLL      섹션 0~2 (0x000L~0x05FL)
 [Length 확장 TAG]
 [IMPORT ID]       EXTERNAL-POINTER일 때 (1/2/4 WORD)
 [Issuer]          EXTERNAL-ISSUER일 때 (2/4/16 WORD)
@@ -37,7 +37,7 @@ TAG WORD          0000 0KCC CCCC LLLL      섹션 0~2 (0x000L~0x05FL)
 
 | TAG ID | 이름 | 분류 | 대상 |
 |---|---|---|---|
-| `0x000L~0x002L` | [자리 표지](/ko/grammar/reference/slot-marker/) | Reserved | 대상을 가리키지 않는다. 1 WORD 표지만 쓴다: `0x0000` ABSENT(적지 않음), `0x0010` UNKNOWN-VALUE(알 수 없음), `0x0020` NO-VALUE(없음) |
+| `0x000L~0x002L` | [자리 표지](/ko/grammar/reference/slot-marker/) | 자리 표지 | 대상을 가리키지 않는다. 1 WORD 표지만 쓴다: `0x0000` ABSENT(적지 않음), `0x0010` UNKNOWN-VALUE(알 수 없음), `0x0020` NO-VALUE(없음) |
 | `0x005L~0x009L` | [LOCAL](/ko/grammar/reference/local/) | 선언 | 이 문서가 발급한 ID |
 | `0x00AL~0x00EL` | [GEUL](/ko/grammar/reference/geul/) | 선언 | geul.org가 발급하는 엔티티 |
 | `0x00FL~0x013L` | [GEUL-SIDX](/ko/grammar/reference/geul-sidx/) | 선언 | 비트에 의미를 담은 의미정렬 식별자 |
@@ -71,7 +71,7 @@ TAG WORD          0000 0KCC CCCC LLLL      섹션 0~2 (0x000L~0x05FL)
 - **지시**는 IMPORT ID로 가져온 문서 안의 LOCAL을 가리킨다. IMPORT ID 폭은 체계로 정해진다: 체계 − 6이 0, 1, 2이면 1, 2, 4 WORD다.
 - **지시선언**은 IMPORT 없이 레코드 하나로 다른 문서와 그 안의 대상을 가리킨다. EXTERNAL-ISSUER의 Issuer 폭은 체계 − 9가 0, 1, 2이면 2, 4, 16 WORD다.
 - `0x020L~0x03DL`(섹션 1, 체계 6~11)은 다른 문서의 LOCAL을 가리킨다. 그 밖의 선언 체계는 대상을 직접 식별한다(이 문서의 LOCAL, 발급 ID). 포인터(섹션 2, `0x040L~0x042L`)는 Issuer·문서·코덱 자체를 가리킨다. REFERENCE-ISSUER는 이 구분 밖이다.
-- `0x000L~0x002L`은 Reserved이고, 대상을 가리키는 Reference로는 쓰지 않는다. WORD `0x0000`, `0x0010`, `0x0020`(L 0, 1 WORD)은 [자리 표지](/ko/grammar/reference/slot-marker/)다(`0x0000` ABSENT, `0x0010` UNKNOWN-VALUE, `0x0020` NO-VALUE). 표지는 그 WORD를 CODEC 대상으로 정확히 둔 레코드 필드 자리에서만 유효하다. 와일드카드와 CODEC 없는 필드는 받지 않고, HEAD·BODY 레코드 자리와 Edge Id 자리에서는 invalid다. C 0~2에 Payload가 있는 레코드(L ≥ 1)는 예약이다.
+- `0x000L~0x002L`은 자리 표지에 배정한 코드이고, 대상을 가리키는 Reference로는 쓰지 않는다. WORD `0x0000`, `0x0010`, `0x0020`(L 0, 1 WORD)은 [자리 표지](/ko/grammar/reference/slot-marker/)다(`0x0000` ABSENT, `0x0010` UNKNOWN-VALUE, `0x0020` NO-VALUE). 표지는 그 WORD를 CODEC 대상으로 정확히 둔 레코드 필드 자리에서만 유효하다. 와일드카드와 CODEC 없는 필드는 받지 않고, HEAD·BODY 레코드 자리와 Edge Id 자리에서는 invalid다. C 0~2에 Payload가 있는 TAG 형태(L ≥ 1)는 Reserved다.
 - geul.org가 제공하는 직접 코드와 공표물만 CC0다. CC0가 아닌 식별 체계(WordNet 등)를 직접 코드로 두지 않는다. Issuer 형식의 라이선스는 그 Issuer가 정한다.
 
 ### 자주 쓰는 TAG
@@ -115,7 +115,7 @@ LOCAL은 이 문서가 발급한 ID다.
 | 공표 문서 안의 대상 (최신) | `EXTERNAL-ISSUER-*`(Issuer, 문서 ID, LOCAL ID) |
 | 가져온 문서 안의 대상 (판본 고정) | Meta `IMPORT-DOC`으로 IMPORT ID를 배정하고 `EXTERNAL-POINTER-*`(IMPORT ID, LOCAL ID) |
 
-- 문서 자체는 그 문서 안에서든 밖에서든 DOC-POINTER 하나로만 가리킨다. 자기 자신은 자기 `DOC-ID`의 DOC-POINTER다.
+- 문서 자체는 그 문서 안에서든 밖에서든 DOC-POINTER 하나로만 가리킨다. 자기 자신은 자기 `DOC-ID`의 DOC-POINTER다. 코덱 문서는 예외로 CODEC-POINTER로 가리킨다(`DOC-ID`도 CODEC-POINTER).
 - EXTERNAL-ISSUER는 최신 버전을 따른다. 판본을 고정하려면 IMPORT를 쓴다.
 - Issuer는 값이 들어가는 가장 짧은 폭(2/4/16 WORD)으로 쓰고, 그 폭에 맞는 Codec을 고른다. EXTERNAL-ISSUER와 REFERENCE-ISSUER가 같다.
 - 각 Issuer의 문서 ID `0`은 그 Issuer가 정의한 용어(도구, 역할 등)의 색인 문서로 예약한다. 색인 문서는 모든 Issuer에 권고하며 필수가 아니다([Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)).

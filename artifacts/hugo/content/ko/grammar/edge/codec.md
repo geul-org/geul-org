@@ -50,7 +50,7 @@ Edge Id           LOCAL Reference 레코드
 
 ### 자리 표지 (대상 `0000`, `0010`, `0020`)
 
-[자리 표지](/ko/grammar/reference/slot-marker/)는 Reserved Reference 코드 `0x000L~0x002L`의 1 WORD 레코드 묶음이다. 양화가 없다.
+[자리 표지](/ko/grammar/reference/slot-marker/)는 Reference 섹션 0의 첫 세 칸 `0x000L~0x002L`에 배정한 1 WORD 레코드 묶음이다. 양화가 없다.
 
 | 대상 | 표지 | 뜻 |
 |---|---|---|
