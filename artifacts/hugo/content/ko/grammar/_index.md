@@ -25,7 +25,7 @@ GEUL v1 문법 명세다. 처음 읽는다면 아래 순서로 읽는다.
 
 ## Kind
 
-TAG WORD는 `000K KKCC CCCC LLLL`다. `KKKCCCCCC` 9비트는 Kind와 Codec 자리, `LLLL`은 Length다. TAG ID는 `0x000L`로 쓴다. 앞 세 자리가 Kind와 Codec이고 `L`은 Length 자리다([레코드와 TAG WORD](/ko/grammar/record/)).
+TAG WORD는 `000K KKKC CCCC LLLL`다. 상위 4비트 `KKKK`는 섹션, `C`는 섹션 안 5비트 오프셋, `LLLL`은 Length다. 섹션과 `C`를 합친 9비트가 Codec 자리다. TAG ID는 `0x000L`로 쓴다. 앞 세 자리가 이 9비트(`w >> 4`)이고 `L`은 Length 자리다([레코드와 TAG WORD](/ko/grammar/record/)).
 
 | 섹션 | TAG ID | 분류 | 설명 |
 |---|---|---|---|
@@ -80,7 +80,7 @@ TAG WORD는 `000K KKCC CCCC LLLL`다. `KKKCCCCCC` 9비트는 Kind와 Codec 자�
 
 ### Quantifier
 
-| `o % 5` | 이름 | 의미 | 예시 |
+| `C % 5` | 이름 | 의미 | 예시 |
 |---|---|---|---|
 | `0` | Identified | 식별된 개체 | 일론 머스크, 대한민국 |
 | `1` | Generic | 종류 전체에 관한 일반적·정의적 진술. 예외를 허용한다. | 병사는 명령에 복종한다 |
@@ -88,7 +88,7 @@ TAG WORD는 `000K KKCC CCCC LLLL`다. `KKKCCCCCC` 9비트는 Kind와 Codec 자�
 | `3` | Universal | 주어진 범위에 속하는 모든 대상 | 모든 병사 |
 | `4` | Variable | 담화 변수 | 그 사람, 이 여자 |
 
-- 양화는 섹션 안 오프셋 `o = C & 0x1F`로 읽는다. 섹션 0에서 `5 <= o < 30`이면 양화는 `o % 5`, 체계는 `o / 5`(1~5)다. 섹션 1에서 `o < 30`이면 양화는 `o % 5`, 체계는 `6 + o / 5`(6~11)다. 표지(섹션 0, `C < 3`)와 섹션 2(포인터, REFERENCE-ISSUER)에는 쓰지 않는다.
+- 양화는 섹션 안 오프셋 `C`로 읽는다. 섹션 0에서 `5 <= C < 30`이면 양화는 `C % 5`, 체계는 `C / 5`(1~5)다. 섹션 1에서 `C < 30`이면 양화는 `C % 5`, 체계는 `6 + C / 5`(6~11)다. 표지(섹션 0, `C < 3`)와 섹션 2(포인터, REFERENCE-ISSUER)에는 쓰지 않는다.
 - ISSUER-POINTER, DOC-POINTER, CODEC-POINTER는 양화가 없는 한 칸이다. REFERENCE-ISSUER의 양화는 Issuer가 발행한 Codec 문서가 정한다.
 
 ## Issuer
@@ -160,7 +160,7 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 | `0x0BBL` | [DECLARE](/ko/grammar/edge/declare/) |  | Codec 하나의 Payload 구성 선언. 대상 Kind·Codec |
 | `0x0BCL` | [FIELD](/ko/grammar/edge/field/) |  | Payload 필드 하나. 속한 DECLARE, 폭: 레코드(TAG의 Length) 또는 날값 n WORD |
 | `0x0BDL` | [ENUM](/ko/grammar/edge/enum/) |  | 날값 필드의 코드값 하나. 필드, 코드값 |
-| `0x0BEL` | [CODEC](/ko/grammar/edge/codec/) |  | 필드가 받는 Kind·Codec 하나. 필드, 대상 WORD(`000K KKCC CCCC LLLL`, LLLL 0000 정확·1111 와일드카드(Kind 전체), 자리 표지는 정확한 대상 `0000`·`0010`·`0020`로만). 레코드 필드는 여러 개(닫힌 목록), 날값 필드는 하나(TAG 없는 그 Value) |
+| `0x0BEL` | [CODEC](/ko/grammar/edge/codec/) |  | 필드가 받는 Kind·Codec 하나. 필드, 대상 WORD(`000K KKKC CCCC LLLL`, LLLL 0000 정확·1111 와일드카드(그 섹션 32칸 전체), 자리 표지는 정확한 대상 `0000`·`0010`·`0020`로만). 레코드 필드는 여러 개(닫힌 목록), 날값 필드는 하나(TAG 없는 그 Value) |
 | `0x0BFL` | Reserved |  |  |
 
 | TAG ID | 묶음 |
@@ -396,7 +396,7 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x060L~0x081L`�
 
 `0x1C0L~0x1FFL` — [Meta](/ko/grammar/meta/)
 
-Meta 번호는 비트로 클래스를 나타내지 않는다. 클래스는 아래 구간 표로 안다. 검증 클래스는 Kind가 Meta이고 `C >= 0x25`인 레코드로, 코덱북 없이 안다. Meta에는 ISSUER 코드가 없다.
+Meta 번호는 비트로 클래스를 나타내지 않는다. 클래스는 아래 구간 표로 안다. 검증 클래스는 섹션 15에서 `C >= 5`, 곧 `w >= 0x1E50`인 레코드로, 코덱북 없이 안다. Meta에는 ISSUER 코드가 없다.
 
 | 클래스 | 직접 코드 | 다루는 것 |
 |---|---|---|

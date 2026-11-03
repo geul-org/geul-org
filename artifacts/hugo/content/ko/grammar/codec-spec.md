@@ -14,7 +14,7 @@ Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다. GEUL의
 
 ## 규격 문서의 위치
 
-직접 코드의 규격 문서는 GEUL Issuer(`0x00000000`)가 공표한다. 규격 문서는 코덱 문서이고 문서 ID가 없다. 코덱 ID는 그 Codec의 TAG WORD(Kind·Codec 자리만, Length는 0)를 32비트로 쓴 값이다.
+직접 코드의 규격 문서는 GEUL Issuer(`0x00000000`)가 공표한다. 규격 문서는 코덱 문서이고 문서 ID가 없다. 코덱 ID는 그 Codec의 TAG WORD(섹션과 `C`의 Codec 자리만, Length는 0)를 32비트로 쓴 값이다.
 
 ```
 /.well-known/geul/0x00000000/codecs/0x0000<TAG>/<버전 ID>.geul
@@ -69,13 +69,14 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 
 ### CODEC
 
-필드가 받는 형식을 지정한다. 대상 WORD는 TAG WORD의 Kind·Codec 자리를 그대로 쓴다.
+필드가 받는 형식을 지정한다. 대상 WORD는 TAG WORD의 Codec 자리(섹션 `KKKK`와 `C`)를 그대로 쓴다.
 
 | Length 자리 | 뜻 | 예 |
 |---|---|---|
 | `0000` | 정확한 Codec | `0680` SIGNED-DECIMAL, `0050` LOCAL |
-| `1111` | 와일드카드: 섹션 구간이 가리키는 Kind 전체다. Kind 구역의 첫 코드를 권고한다 | `000F` 아무 Reference, `060F` 아무 Value |
+| `1111` | 와일드카드: `C` 값과 무관하게 그 섹션 `KKKK`(32칸) 전체다. 섹션 첫 칸(`C = 0`)을 권고한다 | `000F` 섹션 0 전체, `060F` 섹션 3 전체 |
 
+- Kind가 여러 섹션에 걸치면 섹션마다 CODEC을 나열한다. 아무 Reference는 `000F`·`020F`·`040F`, 아무 Value는 `060F`·`080F`다.
 - 양화 무관이나 묶음은 정확한 Codec을 나열한다. 위키데이터 QID(양화 무관)는 `0140`, `0150`, `0160`, `0170`, `0180` 다섯 개다.
 
 - 레코드 필드에 CODEC이 없으면 아무 레코드나 받는다(자리 표지는 빼고). 하나 이상 있으면 그중 하나여야 한다(닫힌 목록).
@@ -110,8 +111,8 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 | #5 FIELD | #1의 필드, 날값 1 WORD | `rank` |
 | #6~#8 ENUM | #5의 코드값 0, 1, 2 | `normal`, `preferred`, `deprecated` |
 | #17 CODEC | #5는 UNSIGNED-INTEGER(`0620`)로 해석 | |
-| #18, #19 CODEC | #4는 아무 Reference(`000F`) 또는 아무 Value(`060F`) | |
-| #20, #21 CODEC | #4는 UNKNOWN-VALUE(`0010`), NO-VALUE(`0020`)도 받는다 | |
+| #18~#22 CODEC | #4는 아무 Reference(`000F`·`020F`·`040F`) 또는 아무 Value(`060F`·`080F`) | |
+| #23, #24 CODEC | #4는 UNKNOWN-VALUE(`0010`), NO-VALUE(`0020`)도 받는다 | |
 
 이 문서 하나로 디코더는 TRIPLE 레코드를 필드로 나누고, 필드 이름을 붙여 보여 주고, 형식이 맞는지 검사한다.
 
@@ -122,7 +123,7 @@ Value QUANTITY(`0660`)는 필드 네 개가 모두 레코드다.
 | 필드 | CODEC |
 |---|---|
 | `amount` | `0610` SIGNED-INTEGER, `0620` UNSIGNED-INTEGER, `0630` BINARY-FLOAT(유한한 값만), `0670` FRACTION, `0680` SIGNED-DECIMAL, `0690` UNSIGNED-DECIMAL |
-| `unit` | `000F` 아무 Reference, `0000` 선택 |
+| `unit` | `000F`·`020F`·`040F` 아무 Reference, `0000` 선택 |
 | `lower` | `0610`·`0620`·`0630`·`0670`·`0680`·`0690`(amount와 같음), `0000` 선택 |
 | `upper` | `0610`·`0620`·`0630`·`0670`·`0680`·`0690`(amount와 같음), `0000` 선택 |
 

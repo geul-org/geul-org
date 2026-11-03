@@ -27,7 +27,7 @@ IMPORT ID         Codec이 정한 폭 (1/2/4 WORD)
 | `0x025L~0x029L` | EXTERNAL-POINTER-2WORD | 2 WORD |
 | `0x02AL~0x02EL` | EXTERNAL-POINTER-4WORD | 4 WORD |
 
-- 폭은 체계 번호로 정해진다: 체계 − 6(섹션 안 오프셋 `o = C & 0x1F`의 `o / 5`)이 0, 1, 2이면 1, 2, 4 WORD다. 양화는 `o % 5`다.
+- 폭은 체계 번호로 정해진다: 체계 − 6(섹션 안 오프셋 `C`의 `C / 5`)이 0, 1, 2이면 1, 2, 4 WORD다. 양화는 `C % 5`다.
 
 - IMPORT ID 값이 들어가는 가장 좁은 Codec을 쓴다.
 - IMPORT ID는 이 문서의 `IMPORT-DOC`이 배정한 값이다. EXTERNAL-POINTER에는 Issuer를 적지 않는다. Issuer와 문서 ID는 그 `IMPORT-DOC`에서 얻는다. 버전도 그 `IMPORT-DOC`이 정한다(고정 또는 최신).

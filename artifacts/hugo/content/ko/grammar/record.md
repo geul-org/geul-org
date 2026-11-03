@@ -4,7 +4,7 @@ weight: 20
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "record", "TAG"]
-summary: "모든 레코드는 TAG WORD 16비트로 시작한다. Prefix 3비트, Kind·Codec 9비트, Length 4비트로 레코드의 종류와 길이를 정한다. Kind는 섹션 구간으로 판정한다."
+summary: "모든 레코드는 TAG WORD 16비트로 시작한다. Prefix 3비트, 섹션 4비트와 C 5비트(Codec 자리 9비트), Length 4비트로 레코드의 종류와 길이를 정한다. Kind는 섹션 구간으로 판정한다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -16,20 +16,19 @@ GEUL 데이터는 레코드의 연속이다. 모든 레코드는 TAG WORD 하나
 
 ```
 TAG WORD (16비트)
-┌──────────┬───────────────────────────┬──────────┐
-│  Prefix  │        Kind·Codec         │  Length  │
-│   3bit   │           9bit            │   4bit   │
-│   000    │         KKKCCCCCC         │   LLLL   │
-└──────────┴───────────────────────────┴──────────┘
+┌──────────┬──────────┬──────────┬──────────┐
+│  Prefix  │   섹션   │    C     │  Length  │
+│   3bit   │   4bit   │   5bit   │   4bit   │
+│   000    │   KKKK   │  CCCCC   │   LLLL   │
+└──────────┴──────────┴──────────┴──────────┘
 [Length 확장 TAG]
 [Codec 확장 TAG]
 [Codec별 TAG]
 Payload
 ```
 
-- TAG WORD는 `000K KKCC CCCC LLLL`다. `C`는 하위 6비트 `CCCCCC`다.
-- 섹션은 `S = w >> 9`(4비트, `KKK`와 C 맨 위 1비트)이고 한 섹션은 32칸이다. 섹션 안 오프셋은 `o = C & 0x1F`다.
-- TAG ID는 `0x000L`로 쓴다. 앞 세 자리가 Kind와 Codec 자리(`w >> 4`)이고, `L`은 Length 자리다. 실제 WORD 값은 L 자리에 숫자를 쓴다(예: TRIPLE은 `0x0AAL`, 10 WORD TRIPLE의 TAG WORD는 `0x0AA9`).
+- TAG WORD는 `000K KKKC CCCC LLLL`다. 상위 4비트 `KKKK`가 섹션 `S = w >> 9`이고 한 섹션은 32칸이다. `C`는 섹션 안 5비트 오프셋 `(w >> 4) & 0x1F`다.
+- TAG ID는 `0x000L`로 쓴다. 앞 세 자리가 섹션과 `C`를 합친 9비트 Codec 자리(`w >> 4`)이고, `L`은 Length 자리다. 실제 WORD 값은 L 자리에 숫자를 쓴다(예: TRIPLE은 `0x0AAL`, 10 WORD TRIPLE의 TAG WORD는 `0x0AA9`).
 - 확장 TAG는 위 순서대로만 둔다. Length 확장 TAG는 항상 TAG WORD 바로 다음이다.
 - Codec별 TAG와 Payload의 구성은 각 Codec 규격이 정한다. Codec별 TAG의 길이는 TAG WORD에 적지 않는다. Payload를 해석하려면 어차피 코덱북이 필요하기 때문이다.
 - 하위 형식이 있는 Codec은 Codec별 TAG 1 WORD로 하위 형식을 지정한다(Edge WORLD 등).
@@ -72,7 +71,7 @@ Length는 레코드가 차지하는 **전체 WORD 수**다. TAG WORD, 확장 TAG
 - 1 WORD 레코드는 Payload 없이 TAG WORD 하나다. Codec 규격이 허용할 때만 쓴다(예: Meta `BODY`, `END`, 빈 바이트열, 자리 표지).
 - 코덱북이 없어도 `다음 레코드 위치 = 현재 레코드 시작 + Length`로 레코드를 건너뛸 수 있다.
 
-## Codec (6비트)
+## Codec (섹션과 C, 9비트)
 
 | TAG ID | 이름 | 뜻 |
 |---|---|---|
@@ -82,7 +81,7 @@ Length는 레코드가 차지하는 **전체 WORD 수**다. TAG WORD, 확장 TAG
 | `0x05FL`, `0x09FL`, `0x1BFL` | REFERENCE-ISSUER-16WORD, VALUE-ISSUER-16WORD, EDGE-ISSUER-16WORD | Codec 확장 TAG에 Issuer 16 WORD와 코덱 번호 2 WORD |
 
 - **각 Kind 구역의 끝 세 칸이 ISSUER다.** Issuer 폭은 C의 하위 2비트다(`01` 2 WORD, `10` 4 WORD, `11` 16 WORD). Meta는 Issuer 형식이 없다.
-- 직접 코드의 Codec 자리는 Kind마다 따로 있다. 같은 Codec 자리 값이라도 Kind가 다르면 다른 Codec이다. 직접 코드의 코덱 ID는 TAG WORD 전체(L=0)라 Kind가 들어 있다.
+- 직접 코드의 `C`는 섹션마다 따로 있다. 같은 `C` 값이라도 섹션이 다르면 다른 Codec이다. 직접 코드의 코덱 ID는 TAG WORD 전체(L=0)라 Kind가 들어 있다.
 - Issuer 코덱 번호는 Kind와 상관없이 Issuer마다 한 공간이다. Issuer가 자기 `codecs/` 안에서 겹치지 않게 배정한다([공표 주소와 버전 목록](/ko/grammar/publishing/#id-표기)).
 - 직접 코드가 아닌 Codec은 `(Issuer, 코덱 번호)` 쌍이다. 코덱 번호는 그 Issuer가 정의한다([Issuer와 공표](/ko/grammar/issuer/)). 확장 형식은 그 형식을 제정한 단체의 Issuer 아래에 둔다.
 - 직접 코드가 있는 Codec은 Issuer 형식으로 따로 등재하지 않는다.
@@ -120,7 +119,7 @@ Payload           Issuer가 발행한 Codec 문서가 정한다
 ```
 0x0AA9 = 0000 1010 1010 1001
          000 | 0101 | 01010 | 1001
-Prefix 000, 섹션 0101(5, Edge), 오프셋 01010, Codec 0x0AAL(TRIPLE), Length 1001(10 WORD)
+Prefix 000, 섹션 0101(5, Edge), C 01010, Codec 0x0AAL(TRIPLE), Length 1001(10 WORD)
 ```
 
 이 레코드는 10 WORD짜리 Edge이고 Codec은 TRIPLE이다. 코덱북이 없어도 다음 레코드가 10 WORD 뒤에 있다는 것을 안다.
@@ -131,7 +130,7 @@ TAG WORD `0x0000`, `0x0010`, `0x0020`은 Reference 자리 표지의 1 WORD 레�
 
 ```
 0x0000, 0x0010, 0x0020 = 0000 0000 00CC 0000
-                         Prefix 000, 섹션 0(Reference), Codec 0~2, LLLL 0000(1 WORD)
+                         Prefix 000, 섹션 0(Reference), C 0~2, LLLL 0000(1 WORD)
 ```
 
 | WORD | 이름 | 뜻 | 무엇에 관한 말인가 | 논리 | 세계 가정 | 위키데이터 |
@@ -156,4 +155,4 @@ TAG WORD `0x0000`, `0x0010`, `0x0020`은 Reference 자리 표지의 1 WORD 레�
 - 길이는 가장 짧은 표기를 쓴다(1~14 WORD는 직접 길이).
 - 정수는 가장 짧은 폭으로 쓴다. 각 Codec 규격이 정한 정규형을 따른다.
 - 정규형이 아닌 레코드는 거부한다.
-- 예외: [CODEC](/ko/grammar/edge/codec/) 대상 WORD의 `L=1111`은 섹션 구간이 가리키는 Kind만 본다. Kind 구역의 첫 코드를 권고하며 같은 Kind의 다른 코드여도 거부하지 않는다.
+- 예외: [CODEC](/ko/grammar/edge/codec/) 대상 WORD의 `L=1111`은 `C` 값과 무관하게 섹션 `KKKK`만 본다. 섹션 첫 칸(`C = 0`)을 권고하며 같은 섹션의 다른 `C`여도 거부하지 않는다.

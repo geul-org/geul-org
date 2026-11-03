@@ -15,7 +15,7 @@ Edge는 다른 레코드를 구성요소로 묶어 서술하는 레코드다. "Q
 ## 레이아웃
 
 ```
-TAG WORD          000K KKCC CCCC LLLL      섹션 5~13 (0x0A0L~0x1BFL)
+TAG WORD          000K KKKC CCCC LLLL      섹션 5~13 (0x0A0L~0x1BFL)
 [Length 확장 TAG]
 [Codec 확장 TAG]  Issuer 형식일 때
 Edge Id           LOCAL Reference 레코드

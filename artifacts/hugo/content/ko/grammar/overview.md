@@ -59,10 +59,10 @@ TAG WORD의 상위 비트는 영역을 나눈다.
 | Kind | 안다 | TAG WORD의 섹션 `w >> 9` 구간(Reference 0~2, Value 3·4, Edge 5~13, Meta 14·15) |
 | 레코드 전체 길이, 다음 레코드 위치 | 안다 | TAG WORD의 Length |
 | Codec 번호 | 안다 | TAG WORD (Issuer 형식이면 확장 TAG의 Issuer와 코덱 번호) |
-| 계열·클래스 | 일부 안다 | Edge 직접 코드의 계열만 비트로 안다. Value 직접 코드와 Issuer 형식의 계열, Meta 클래스는 비트로 모른다. Issuer 형식은 Issuer와 코덱 번호까지 안다. Meta 검증 클래스는 Kind Meta이고 `C >= 0x25`로 안다 |
+| 계열·클래스 | 일부 안다 | Edge 직접 코드의 계열만 비트로 안다. Value 직접 코드와 Issuer 형식의 계열, Meta 클래스는 비트로 모른다. Issuer 형식은 Issuer와 코덱 번호까지 안다. Meta 검증 클래스는 섹션 15의 `C >= 5`(`w >= 0x1E50`)로 안다 |
 | Edge의 Edge Id | 안다 | Edge(섹션 5~13)의 첫 구성요소는 항상 LOCAL Reference |
 | 자리 표지(적지 않음·알 수 없음·없음) | 안다 | WORD 값이 `0x0000`, `0x0010`, `0x0020`(Reference, C < 3, L 0). [자리 표지](/ko/grammar/reference/slot-marker/) |
-| Quantifier | 안다 | 섹션 안 오프셋 `o = C & 0x1F`로, 섹션 0의 `5 <= o < 30`, 섹션 1의 `o < 30`이면 `o % 5` |
+| Quantifier | 안다 | 섹션 안 오프셋 `C`로, 섹션 0의 `5 <= C < 30`, 섹션 1의 `C < 30`이면 `C % 5` |
 | Codec별 TAG 길이, Payload 시작 위치 | 모른다 | 코덱북 |
 | Payload 해석, Edge 구성요소의 역할 | 모른다 | 코덱북 |
 

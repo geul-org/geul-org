@@ -28,7 +28,7 @@ TAG WORD          0000 0000 00CC 0000
 | `0x0020` | NO-VALUE | 없음: 값이 없다 | `NONE` |
 | Codec 0~2, LLLL ≥ `0001` | 예약 | Payload가 있는 표지는 뒤에 정한다 | |
 
-- 표지에는 **Quantifier가 없다.** 양화는 5Q 체계(섹션 0의 `5 <= o < 30`, 섹션 1의 `o < 30`, `o = C & 0x1F`)에서만 읽는다. `0x0010` UNKNOWN-VALUE를 `o % 5`로 읽어 Generic으로 해석하지 않는다([Reference](/ko/grammar/reference/) Quantifier).
+- 표지에는 **Quantifier가 없다.** 양화는 5Q 체계(섹션 0의 `5 <= C < 30`, 섹션 1의 `C < 30`)에서만 읽는다. `0x0010` UNKNOWN-VALUE를 `C % 5`로 읽어 Generic으로 해석하지 않는다([Reference](/ko/grammar/reference/) Quantifier).
 - Payload가 없다. 대상 ID도 없다.
 - 코덱북이 없는 디코더도 TAG WORD만 보고 Kind Reference, 1 WORD임을 알아 건너뛴다. "WORD 값이 `0x0000`, `0x0010`, `0x0020`이면 자리 표지"는 `w & 0xF == 0 && w <= 0x0020`으로 안다.
 - 표기 `ABSENT`·`UNKNOWN`·`NONE`은 `geul show`·`geul add`의 텍스트 표기다.
@@ -50,7 +50,7 @@ TAG WORD          0000 0000 00CC 0000
 ## 수용 규칙
 
 - 자리 표지는 그 필드의 [CODEC](/ko/grammar/edge/codec/) 목록에 **같은 WORD가 정확한 대상으로 있을 때만** 유효하다. 대상 `0000`은 "선택 필드", `0010`은 "알 수 없음을 받는다", `0020`은 "없음을 받는다"는 뜻이다.
-- 와일드카드(`000F`, `060F` 등, `L=1111`)는 표지를 받지 않는다. 아무 Reference(`000F`)도 표지와 겹치지 않는다.
+- 와일드카드(`000F`, `060F` 등, `L=1111`)는 표지를 받지 않는다. 아무 Reference(`000F`·`020F`·`040F`)도 표지와 겹치지 않는다.
 - CODEC이 없는 레코드 필드("아무 레코드")도 표지를 받지 않는다.
 - HEAD·BODY 레코드 자리, Edge Id 자리의 표지는 invalid다.
 - 날값 필드에는 표지를 쓸 수 없다. 날값은 TAG가 없어 1 WORD 표지가 들어갈 자리가 없다.

@@ -39,7 +39,7 @@ Unit              Reference 레코드 1개, 또는 자리 표지 0x0000 ABSENT
 - **미상**: Unit 자리에 [ABSENT](/ko/grammar/reference/slot-marker/)(`0x0000`)를 쓰고 Uncertainty는 `+0`(`0000 0000`)으로 둔다. RFC 5870에서 `u`를 생략한 경우와 같다. ABSENT인데 Uncertainty가 `+0`이 아니면 invalid다(표현을 하나로 고정한다).
 - 고도는 담지 않는다. 필요하면 별도 형식으로 정한다. 위키데이터 altitude는 표본에서 쓰이지 않았고(0/23,066), 값이 있으면 변환하지 않고 원문을 UTF8-TEXT로 보존한다.
 - 지구 좌표는 이 형식을 쓰기를 권한다. COORDINATE-GEO에 지구(Q2)를 적은 좌표도 invalid는 아니며, 비교하는 쪽이 같은 좌표로 맞춰 본다.
-- geul.org 규격 문서 `0x00000000/codecs/0x00000640`은 Latitude·Longitude·Uncertainty 날값 필드에 [CODEC](/ko/grammar/edge/codec/) BINARY-FLOAT(`0630`)를 두고(4 WORD = binary64, 2 WORD = binary32), Unit 레코드 필드에 CODEC `000F`(아무 Reference)·`0000`(ABSENT)을 둔다.
+- geul.org 규격 문서 `0x00000000/codecs/0x00000640`은 Latitude·Longitude·Uncertainty 날값 필드에 [CODEC](/ko/grammar/edge/codec/) BINARY-FLOAT(`0630`)를 두고(4 WORD = binary64, 2 WORD = binary32), Unit 레코드 필드에 CODEC `000F`·`020F`·`040F`(아무 Reference)·`0000`(ABSENT)을 둔다.
 
 ## 길이
 

@@ -20,7 +20,7 @@ DECLARE는 Codec 하나의 Payload 구성을 선언하는 서술 Edge다. Codec 
 TAG WORD          0000 1011 1011 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
-대상              1 WORD. 선언하는 Codec의 TAG WORD에서 Kind·Codec 자리만 쓴다 (LLLL = 0)
+대상              1 WORD. 선언하는 Codec의 TAG WORD에서 Codec 자리(섹션과 C)만 쓴다 (LLLL = 0)
 [Issuer·코덱 번호] 대상이 Issuer 형식일 때. Issuer와 코덱 번호 2 WORD. Codec 확장 TAG와 같은 레이아웃이고 세 Kind가 같다
 ```
 

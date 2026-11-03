@@ -32,7 +32,7 @@ Unit              Reference 레코드 1개, 또는 자리 표지 0x0000 ABSENT
 - 좌표계는 천체마다 그 천체의 관례를 따른다(행성중심 위도, 동경 또는 서경 0~360° 등). 천체별 좌표계는 별도의 GEUL 문서로 정한다.
 - 거리 단위(미터 등)의 Uncertainty는 천체 표면 위의 거리다. 각도 단위(도·각분·각초)는 천체 크기와 상관없이 위도·경도의 각도 반경이다.
 - 지구(Q2) 좌표는 COORDINATE-EARTH를 쓰기를 권한다. 이 형식에 지구를 적어도 invalid는 아니며, 비교하는 쪽이 같은 좌표로 맞춰 본다.
-- geul.org 규격 문서 `0x00000000/codecs/0x00000650`은 Latitude·Longitude·Uncertainty 날값 필드에 [CODEC](/ko/grammar/edge/codec/) BINARY-FLOAT(`0630`)를, Unit 레코드 필드에 CODEC `000F`(아무 Reference)·`0000`(ABSENT)을 둔다.
+- geul.org 규격 문서 `0x00000000/codecs/0x00000650`은 Latitude·Longitude·Uncertainty 날값 필드에 [CODEC](/ko/grammar/edge/codec/) BINARY-FLOAT(`0630`)를, Unit 레코드 필드에 CODEC `000F`·`020F`·`040F`(아무 Reference)·`0000`(ABSENT)을 둔다.
 
 ## 길이
 
