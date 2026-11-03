@@ -44,34 +44,34 @@ GEUL은 식별 체계를 한곳에 모으지 않는다. 각 Issuer가 대상과 
 
 ## 2 WORD 배정표
 
-geul.org는 표준 제정 단체와 주요 기관에 2 WORD Issuer 번호를 앞에서부터 순서대로 배정한다. 제정 단체가 없는 사실상 표준이나 관례 형식은 `ADHOC`(`adhoc.geul.org`) 아래에 둔다. GEUL이 설계한 고유 형식은 직접 코드다. 표준 제정 단체의 Issuer는 geul.org 서브도메인 Issuer다(예: `iso.geul.org`, `iec.geul.org`).
+geul.org는 표준 제정 단체와 주요 기관에 2 WORD Issuer 번호를 앞에서부터 순서대로 배정한다. 제정 단체가 없는 사실상 표준이나 관례 형식은 `ADHOC`(`adhoc.geul.org`) 아래에 둔다. GEUL이 설계한 고유 형식은 직접 코드다. 표준 제정 단체의 Issuer는 geul.org 서브도메인 Issuer다. 서브도메인 이름은 소문자 기관 이름이다(`<기관명>.geul.org`, 예: `iso.geul.org`, `iec.geul.org`). 도메인은 아래 표에 적는다.
 
-| Issuer | 이름 | 단체 | 대표 형식 |
-|---|---|---|---|
-| `0x00000000` | GEUL | geul.org | 직접 코드 규격 문서(코덱북) |
-| `0x00000001` | wikidata.geul.org | geul.org | 위키데이터 항목·속성 문서 |
-| `0x00000002` | ADHOC | geul.org | 제정 단체가 없는 관례 형식. BFLOAT16, BLAKE3, 복소수·분수·구간·사원수, 벡터·텐서 |
-| `0x00000003` | ISO | International Organization for Standardization | ISO 8601, ISO 4217(통화), ISO 3166(국가) |
-| `0x00000004` | IEC | International Electrotechnical Commission | IEC 80000(단위 표기) |
-| `0x00000005` | ISO-IEC-JTC1 | ISO/IEC Joint Technical Committee 1 | ISO/IEC 정보기술 표준 |
-| `0x00000006` | ITU-T | ITU Telecommunication Standardization Sector | X.509, X.690(ASN.1 인코딩) |
-| `0x00000007` | IETF | Internet Engineering Task Force | URI(RFC 3986), UUID(RFC 9562), CRC32C, IPv4·IPv6 |
-| `0x00000008` | IANA | Internet Assigned Numbers Authority | 미디어 타입, 언어 부태그 레지스트리 |
-| `0x00000009` | W3C | World Wide Web Consortium | XML Schema 데이터 타입, RDF |
-| `0x0000000A` | WHATWG | Web Hypertext Application Technology Working Group | URL, HTML |
-| `0x0000000B` | UNICODE | Unicode Consortium | 문자 인코딩, 정규화, CLDR |
-| `0x0000000C` | ECMA | Ecma International | JSON(ECMA-404) |
-| `0x0000000D` | IEEE | Institute of Electrical and Electronics Engineers | IEEE 754 부동소수점·decimal, MAC 주소(802) |
-| `0x0000000E` | KHRONOS | Khronos Group | 픽셀 형식(RGBA8·BGRA8 UNORM), glTF |
-| `0x0000000F` | OGC | Open Geospatial Consortium | 좌표·경계 상자, GeoJSON 계열 |
-| `0x00000010` | ONNX | ONNX (LF AI & Data Foundation) | FP8 E4M3FN·E4M3FNUZ·E5M2·E5M2FNUZ |
-| `0x00000011` | OCP | Open Compute Project | Microscaling 형식(E8M0, FP4 E2M1) |
-| `0x00000012` | OASIS | OASIS Open | 문서·보안 표준 |
-| `0x00000013` | BIPM | Bureau International des Poids et Mesures | SI 단위, TAI |
-| `0x00000014` | IERS | International Earth Rotation and Reference Systems Service | 윤초, UTC−TAI |
-| `0x00000015` | NIST | National Institute of Standards and Technology | SHA-2(FIPS 180-4), SHA-3(FIPS 202) |
-| `0x00000016` | GPS | GPS 정부 운영 주체 | GPS 시각 |
-| `0x00000017` | KATS | 국가기술표준원 | KS 표준 |
+| Issuer | 이름 | 도메인 | 단체 | 대표 형식 |
+|---|---|---|---|---|
+| `0x00000000` | GEUL | `geul.org` | geul.org | 직접 코드 규격 문서(코덱북) |
+| `0x00000001` | wikidata.geul.org | `wikidata.geul.org` | geul.org | 위키데이터 항목·속성 문서 |
+| `0x00000002` | ADHOC | `adhoc.geul.org` | geul.org | 제정 단체가 없는 관례 형식. BFLOAT16, BLAKE3, 복소수·분수·구간·사원수, 벡터·텐서 |
+| `0x00000003` | ISO | `iso.geul.org` | International Organization for Standardization | ISO 8601, ISO 4217(통화), ISO 3166(국가) |
+| `0x00000004` | IEC | `iec.geul.org` | International Electrotechnical Commission | IEC 80000(단위 표기) |
+| `0x00000005` | ISO-IEC-JTC1 | `iso-iec-jtc1.geul.org` | ISO/IEC Joint Technical Committee 1 | ISO/IEC 정보기술 표준 |
+| `0x00000006` | ITU-T | `itu-t.geul.org` | ITU Telecommunication Standardization Sector | X.509, X.690(ASN.1 인코딩) |
+| `0x00000007` | IETF | `ietf.geul.org` | Internet Engineering Task Force | URI(RFC 3986), UUID(RFC 9562), CRC32C, IPv4·IPv6 |
+| `0x00000008` | IANA | `iana.geul.org` | Internet Assigned Numbers Authority | 미디어 타입, 언어 부태그 레지스트리 |
+| `0x00000009` | W3C | `w3c.geul.org` | World Wide Web Consortium | XML Schema 데이터 타입, RDF |
+| `0x0000000A` | WHATWG | `whatwg.geul.org` | Web Hypertext Application Technology Working Group | URL, HTML |
+| `0x0000000B` | UNICODE | `unicode.geul.org` | Unicode Consortium | 문자 인코딩, 정규화, CLDR |
+| `0x0000000C` | ECMA | `ecma.geul.org` | Ecma International | JSON(ECMA-404) |
+| `0x0000000D` | IEEE | `ieee.geul.org` | Institute of Electrical and Electronics Engineers | IEEE 754 부동소수점·decimal, MAC 주소(802) |
+| `0x0000000E` | KHRONOS | `khronos.geul.org` | Khronos Group | 픽셀 형식(RGBA8·BGRA8 UNORM), glTF |
+| `0x0000000F` | OGC | `ogc.geul.org` | Open Geospatial Consortium | 좌표·경계 상자, GeoJSON 계열 |
+| `0x00000010` | ONNX | `onnx.geul.org` | ONNX (LF AI & Data Foundation) | FP8 E4M3FN·E4M3FNUZ·E5M2·E5M2FNUZ |
+| `0x00000011` | OCP | `ocp.geul.org` | Open Compute Project | Microscaling 형식(E8M0, FP4 E2M1) |
+| `0x00000012` | OASIS | `oasis.geul.org` | OASIS Open | 문서·보안 표준 |
+| `0x00000013` | BIPM | `bipm.geul.org` | Bureau International des Poids et Mesures | SI 단위, TAI |
+| `0x00000014` | IERS | `iers.geul.org` | International Earth Rotation and Reference Systems Service | 윤초, UTC−TAI |
+| `0x00000015` | NIST | `nist.geul.org` | National Institute of Standards and Technology | SHA-2(FIPS 180-4), SHA-3(FIPS 202) |
+| `0x00000016` | GPS | `gps.geul.org` | GPS 정부 운영 주체 | GPS 시각 |
+| `0x00000017` | KATS | `kats.geul.org` | 국가기술표준원 | KS 표준 |
 
 - 확장 형식은 그 형식을 제정한 단체의 Issuer 아래에 둔다. Issuer 아래의 코덱 번호는 각 Issuer가 정의한다.
 - 코덱 번호는 Issuer가 정한다. GEUL은 뜻을 정하지 않는다. 코덱 번호는 Kind와 상관없이 그 Issuer 안에서 겹치지 않는다([공표 주소와 버전 목록](/ko/grammar/publishing/#id-표기)).
