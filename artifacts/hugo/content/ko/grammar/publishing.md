@@ -144,6 +144,7 @@ BODY
 ### 삭제된 문서
 
 - 법적 삭제·직권 삭제로 폐기된 버전(TOMBSTONE)의 주소도 다른 없는 주소처럼 404(없음)다.
+- 사용 중단을 권고한 버전(DEPRECATION)은 404가 아니다. 그 버전 주소로 계속 내준다.
 - 삭제는 버전 목록에 [TOMBSTONE](/ko/grammar/edge/publication/) 레코드(그 버전의 DOC-POINTER, 사유 범주)로 남는다.
 
 ## 층

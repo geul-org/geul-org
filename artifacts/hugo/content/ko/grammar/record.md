@@ -100,6 +100,7 @@ Payload           Issuer가 발행한 Codec 문서가 정한다
 ```
 
 - 세 Kind의 레이아웃이 같다. 번호가 모자라면 Issuer를 하나 더 발급받는다.
+- Edge(EDGE-ISSUER)의 Payload는 다른 Edge처럼 Edge Id로 시작한다. 그래서 순서는 TAG, Issuer, 코덱 번호, Edge Id, 나머지 Payload다.
 - 형식을 모르는 디코더는 Issuer와 코덱 번호까지 알고 Length로 건너뛴다.
 
 ## 가변 길이 바이트열

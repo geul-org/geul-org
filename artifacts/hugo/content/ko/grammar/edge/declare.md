@@ -21,7 +21,8 @@ TAG WORD          0000 1011 1011 LLLL
 [Length 확장 TAG]
 Edge Id           LOCAL Reference 레코드
 대상              1 WORD. 선언하는 Codec의 TAG WORD에서 Codec 자리(섹션과 C)만 쓴다 (LLLL = 0)
-[Issuer·코덱 번호] 대상이 Issuer 형식일 때. Issuer와 코덱 번호 2 WORD. Codec 확장 TAG와 같은 레이아웃이고 세 Kind가 같다
+[Issuer·코덱 번호] Issuer 코덱을 선언할 때. Issuer와 코덱 번호 2 WORD. Codec 확장 TAG와 같은 레이아웃이고 세 Kind가 같다
+                  ISSUER 코드 자체의 규격 문서(GEUL Issuer)는 대상만 둔다
 ```
 
 - 필드 목록은 DECLARE에 두지 않는다. 각 [FIELD](/ko/grammar/edge/field/)가 자기 DECLARE를 가리키며, 그 FIELD들의 문서 안 순서가 Payload 필드 순서다.
@@ -41,7 +42,7 @@ Codec 규격으로 레코드를 읽고 표기하는 규칙이다.
 
 - 대상의 Kind는 Reference, Value, Edge, Meta 중 하나다. GEUL 직접 코드의 규격 문서는 코드마다 하나다. Reference의 5Q 체계도 양화 코드마다 따로 선언한다(LOCAL Identified `0050`, Generic `0060`, …). 포인터(`0x040L`, `0x041L`, `0x042L`), 자리 표지, ISSUER 코드도 그 코드 그대로다. ISSUER 코드 뒤 Issuer·코덱 번호로 정해지는 Issuer 코덱은 그 Issuer의 문서가 정의한다.
 - [자리 표지](/ko/grammar/reference/slot-marker/)(Reference `0x000L~0x002L`)도 DECLARE의 대상이다. Payload가 없어 FIELD 없이 DECLARE만 둔다. 표지의 뜻과 수용 규칙은 디코더에 내장한다(0층). 레이아웃을 아직 정하지 않은 Codec(SUPERSEDE-CHAIN, VERDICT, EVIDENCE 등)도 DECLARE만 둔다.
-- Edge의 Edge Id는 FIELD로 선언하지 않는다. 모든 Edge의 첫 요소라 암묵적이다([Edge](/ko/grammar/edge/)).
+- Edge의 Edge Id는 FIELD로 선언하지 않는다. 모든 Edge의 첫 요소라 암묵적이다([Edge](/ko/grammar/edge/)). EDGE-ISSUER는 Issuer·코덱 번호 뒤의 첫 요소다([Issuer 형식 Edge](/ko/grammar/edge/#issuer-형식-edge)).
 - DECLARE의 필드는 그것을 가리키는 FIELD들이며, 0개일 수 있다. FIELD 하나는 DECLARE 하나에만 속한다. 같은 모양의 필드라도 DECLARE마다 FIELD를 따로 둔다.
 - DECLARE에는 대상(과 Issuer 형식 대상의 Issuer·코덱 번호) 말고 아무것도 없다.
 - 필드를 차례로 읽은 커서는 레코드 끝과 정확히 맞아야 한다. 남거나 모자라면 그 레코드는 규격 위반이다.
@@ -67,11 +68,12 @@ PUBLICATION(Edge `0x0B8L`)의 규격 문서 `0x00000000/codecs/0x00000B80/`: Edg
 0BB3 0051 0001 0B80                 DECLARE #1  Edge 0x0B8L               (BIND "PUBLICATION")
 0BC5 0051 0002 0051 0001 0000       FIELD #2    DECLARE #1, 레코드         (BIND "doc")
 0BE5 0051 0009 0051 0002 0410       CODEC #9    FIELD #2, DOC-POINTER
+0BE5 0051 000A 0051 0002 0420       CODEC #10   FIELD #2, CODEC-POINTER (코덱 버전 목록)
 0BC5 0051 0004 0051 0001 0010       FIELD #4    DECLARE #1, 날값 16 WORD   (BIND "hash")
 ```
 
 - DECLARE: TAG 1 + Edge Id 2 + 대상 1 = 4 WORD, `LLLL = 0011`.
-- FIELD: TAG 1 + Edge Id 2 + DECLARE 2 + 폭 1 = 6 WORD(`LLLL = 0101`). 받는 Kind·Codec은 [CODEC](/ko/grammar/edge/codec/)으로 따로 둔다(`0410` = DOC-POINTER).
+- FIELD: TAG 1 + Edge Id 2 + DECLARE 2 + 폭 1 = 6 WORD(`LLLL = 0101`). 받는 Kind·Codec은 [CODEC](/ko/grammar/edge/codec/)으로 따로 둔다(`0410` = DOC-POINTER, `0420` = CODEC-POINTER).
 - 선택 필드는 CODEC 대상 `0000`으로 선언한다. 생략한 자리에는 ABSENT(`0x0000`)를 쓴다([CODEC](/ko/grammar/edge/codec/) 선택 필드).
 - 필드 순서는 FIELD #2, #4가 문서에 놓인 순서다. Edge Id는 이어지지 않아도 된다(LOCAL AUTO INCREMENT는 권고).
 

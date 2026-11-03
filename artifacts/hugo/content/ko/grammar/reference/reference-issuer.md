@@ -28,7 +28,7 @@ Payload           Issuer가 발행한 Codec 문서가 정한다
 | `0x05EL` | REFERENCE-ISSUER-4WORD | 4 WORD |
 | `0x05FL` | REFERENCE-ISSUER-16WORD | 16 WORD |
 
-- GEUL Issuer의 코덱 문서는 코드마다 하나이고 FIELD 셋을 둔다: Issuer(2·4·16 WORD), 코덱 번호(2 WORD), Payload(Issuer 코덱이 정한다).
+- GEUL Issuer의 코덱 문서는 코드마다 하나이고 FIELD 셋을 둔다: `issuer`(날값 2·4·16 WORD), `codec`(코덱 번호, 날값 2 WORD), `payload`(나머지 날값, 구성은 Issuer 코덱이 정한다). VALUE-ISSUER·EDGE-ISSUER도 같다. EDGE-ISSUER의 Edge Id는 FIELD로 선언하지 않고 코덱 번호 뒤 `payload` 앞에 온다.
 
 ## 해석과 유효성
 

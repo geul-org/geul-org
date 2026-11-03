@@ -64,7 +64,7 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 - 레코드 필드는 TAG WORD로 시작하고 그 Length만큼 읽는다.
 - 날값 필드는 정해진 WORD 수만큼 읽는 부호 없는 정수다. 부호·소수·날짜처럼 해석이 필요한 값은 날값이 아니라 Value 레코드로 둔다.
 - 나머지 날값(`0xFFFF`)은 하나만 둘 수 있고, 그 뒤에는 고정 폭 날값만 온다.
-- Edge의 Edge Id는 FIELD로 선언하지 않는다. 모든 Edge의 첫 요소라 암묵적이다.
+- Edge의 Edge Id는 FIELD로 선언하지 않는다. 모든 Edge의 첫 요소라 암묵적이다. EDGE-ISSUER는 Issuer·코덱 번호 뒤의 첫 요소다([Issuer 형식 Edge](/ko/grammar/edge/#issuer-형식-edge)).
 - 필드를 차례로 읽은 위치는 레코드 끝과 정확히 맞아야 한다.
 
 ### CODEC
@@ -111,8 +111,8 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 | #5 FIELD | #1의 필드, 날값 1 WORD | `rank` |
 | #6~#8 ENUM | #5의 코드값 0, 1, 2 | `normal`, `preferred`, `deprecated` |
 | #17 CODEC | #5는 UNSIGNED-INTEGER(`0620`)로 해석 | |
-| #18~#22 CODEC | #4는 아무 Reference(`000F`·`020F`·`040F`) 또는 아무 Value(`060F`·`080F`) | |
-| #23, #24 CODEC | #4는 UNKNOWN-VALUE(`0010`), NO-VALUE(`0020`)도 받는다 | |
+| #18, #22, #23, #19, #24 CODEC | #4는 아무 Reference(`000F`·`020F`·`040F`) 또는 아무 Value(`060F`·`080F`) | |
+| #20, #21 CODEC | #4는 UNKNOWN-VALUE(`0010`), NO-VALUE(`0020`)도 받는다 | |
 | #25~#27 CODEC | #2는 아무 Reference(`000F`·`020F`·`040F`) | |
 | #28~#30 CODEC | #3은 아무 Reference(`000F`·`020F`·`040F`) | |
 
