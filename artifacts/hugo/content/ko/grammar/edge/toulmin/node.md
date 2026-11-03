@@ -10,26 +10,26 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-NODE는 TOULMIN 판정·실행 그래프의 노드를 쓰는 레이아웃이다. 노드 종류는 Codec(또는 GEUL ISSUER 형식 번호)이 정하고, 헤더 1 WORD가 역할·Level·Claim 형태와 조건부 필드를 정한다.
+NODE는 TOULMIN 판정·실행 그래프의 노드를 쓰는 레이아웃이다. 노드 종류는 Codec(또는 GEUL ISSUER 코덱 번호)이 정하고, 헤더 1 WORD가 역할·Level·Claim 형태와 조건부 필드를 정한다.
 
 ## Codec
 
 | Codec | 이름 | TANGEUL | 노드 |
 |---|---|---|---|
-| `0x60` | CASE-DECLARE | `in case of` | 사안 |
-| `0x62` | SPEC-DECLARE | Definitions 항목(`means`, `has`) | 판단 기준(Backing). role이 정의 종류 |
-| `0x63` | RULE-DECLARE | general rule | 주장(Warrant) |
-| `0x64` | COUNTER-DECLARE | counter rule | 반박(Rebuttal) |
-| `0x65` | EXCEPT-DECLARE | except rule | 예외(Defeater) |
-| `0x75` | ENTRY | `provides x` | 외부 진입점 |
-| `0x76` | TRIGGER | `on`, `every`, `until` | 이벤트·주기 진입점 |
-| ISSUER `0x0000`/`0xC010` | NAMESPACE | `this document is` | 문서 이름공간 |
-| ISSUER `0x0000`/`0xC011` | FUNC | 함수 참조 | 바깥 함수(예: `bank.withdraw`) |
-| ISSUER `0x0000`/`0xC012` | FIELD | `x is required [as Type]` | 필수 필드 |
-| ISSUER `0x0000`/`0xC013` | ALIAS | `see a from path` | 가져온 패키지 별칭 |
-| ISSUER `0x0000`/`0xC014` | GROUP | `1.` 순서 목록 | 순서 있는 실행 묶음 |
+| `0x0E0L` | CASE-DECLARE | `in case of` | 사안 |
+| `0x0E2L` | SPEC-DECLARE | Definitions 항목(`means`, `has`) | 판단 기준(Backing). role이 정의 종류 |
+| `0x0E3L` | RULE-DECLARE | general rule | 주장(Warrant) |
+| `0x0E4L` | COUNTER-DECLARE | counter rule | 반박(Rebuttal) |
+| `0x0E5L` | EXCEPT-DECLARE | except rule | 예외(Defeater) |
+| `0x0F5L` | ENTRY | `provides x` | 외부 진입점 |
+| `0x0F6L` | TRIGGER | `on`, `every`, `until` | 이벤트·주기 진입점 |
+| ISSUER `0x00000000`/`0x0000C010` | NAMESPACE | `this document is` | 문서 이름공간 |
+| ISSUER `0x00000000`/`0x0000C011` | FUNC | 함수 참조 | 바깥 함수(예: `bank.withdraw`) |
+| ISSUER `0x00000000`/`0x0000C012` | FIELD | `x is required [as Type]` | 필수 필드 |
+| ISSUER `0x00000000`/`0x0000C013` | ALIAS | `see a from path` | 가져온 패키지 별칭 |
+| ISSUER `0x00000000`/`0x0000C014` | GROUP | `1.` 순서 목록 | 순서 있는 실행 묶음 |
 
-ISSUER 형식은 `ISSUER-1WORD`(`0x7C`) 뒤 Codec 확장 TAG에 Issuer `0x0000`과 형식 번호를 둔다([TOULMIN](/ko/grammar/edge/toulmin/)).
+ISSUER 형식은 `EDGE-ISSUER-2WORD`(`0x1BDL`) 뒤 Codec 확장 TAG에 Issuer `0x00000000`과 코덱 번호를 둔다([TOULMIN](/ko/grammar/edge/toulmin/)).
 
 ## 레이아웃
 

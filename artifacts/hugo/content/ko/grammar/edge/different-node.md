@@ -4,13 +4,13 @@ weight: 3
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge"]
-summary: "DIFFERENT-NODE는 두 Reference가 서로 다른 대상을 지시한다는 비동일성 서술 Edge다(Codec 0x02)."
+summary: "DIFFERENT-NODE는 두 Reference가 서로 다른 대상을 지시한다는 비동일성 서술 Edge다(Codec 0x082L)."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-DIFFERENT-NODE는 두 Reference가 서로 다른 referent를 지시한다는 비동일성 서술 Edge다. Codec `0x02`.
+DIFFERENT-NODE는 두 Reference가 서로 다른 referent를 지시한다는 비동일성 서술 Edge다. Codec `0x082L`.
 
 두 Reference 레코드의 byte 인코딩, Codec, ID가 다르다는 뜻이 아니다. [REFERENCE-NODE](/ko/grammar/edge/reference-node/)의 방향성 바인딩, [SAME-NODE](/ko/grammar/edge/same-node/)의 동일성과 구분한다.
 
@@ -45,10 +45,10 @@ Object            Reference 레코드 1개
 
 Edge Id `000a`, Subject는 LOCAL 1, Object는 LOCAL 2다.
 
-- Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 2 = 7 WORD, `LLLL=0110`이다. TAG는 `0001 0 0110 0000010` = `1302`다.
+- Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 2 = 7 WORD, `LLLL=0110`이다. TAG는 `0000 1000 0010 0110` = `0826`다.
 
 ```
-1302 0088 000a 0088 0001 0088 0002
+0826 0051 000a 0051 0001 0051 0002
 ```
 
 이 예시의 LOCAL ID 차이는 인코딩을 보여 주려는 것일 뿐이다. ID 1과 ID 2가 서로 다른 referent를 지시한다는 주장이 따로 있을 때에만 이 sequence를 DIFFERENT-NODE로 만든다.

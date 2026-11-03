@@ -4,13 +4,13 @@ weight: 97
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-31T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
-summary: "TOULMIN Edge(Codec 0x60~0x7B)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 이 페이지는 TOULMIN 문서 규칙, 공통 필드, 코드 표, 수치 규칙과 자기 개정의 고정 핵심을 정한다."
+summary: "TOULMIN Edge(Codec 0x0E0L~0x0FBL)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 이 페이지는 TOULMIN 문서 규칙, 공통 필드, 코드 표, 수치 규칙과 자기 개정의 고정 핵심을 정한다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-TOULMIN 계열 Edge(Codec 상위 2비트 `11`, 직접 코드 `0x60`~`0x7B`)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 주장·반박·예외의 선언, 공격·배제 관계, 실행 연결, 판정 결과가 모두 Edge다. TANGEUL 문서(toulmin 엔진의 규칙 언어) 하나가 GEUL 문서 하나가 된다. 파일 확장자는 다른 문서와 같은 `.geul`이다.
+TOULMIN 계열 Edge(직접 코드 `0x0E0L~0x0FBL`)는 툴민 논증 모델로 판정·실행 그래프를 쓴다. 주장·반박·예외의 선언, 공격·배제 관계, 실행 연결, 판정 결과가 모두 Edge다. TANGEUL 문서(toulmin 엔진의 규칙 언어) 하나가 GEUL 문서 하나가 된다. 파일 확장자는 다른 문서와 같은 `.geul`이다.
 
 이 페이지가 정하지 않은 것은 [Edge](/ko/grammar/edge/)와 [레코드와 TAG WORD](/ko/grammar/record/)의 공통 규칙을 따른다.
 
@@ -28,7 +28,7 @@ TOULMIN이 GEUL Codec인 이유는 GEUL이 자기 자신을 메타 인지하기 
 
 ## 코드
 
-TOULMIN 레코드는 세 가지 레이아웃 중 하나를 쓴다. 레이아웃은 Codec(또는 형식 번호)이 정한다.
+TOULMIN 레코드는 세 가지 레이아웃 중 하나를 쓴다. 레이아웃은 Codec(또는 코덱 번호)이 정한다.
 
 | 레이아웃 | 쓰임 | 페이지 |
 |---|---|---|
@@ -42,69 +42,69 @@ TOULMIN 레코드는 세 가지 레이아웃 중 하나를 쓴다. 레이아웃�
 
 | Codec | 이름 | 레이아웃 | TANGEUL | 뜻 |
 |---|---|---|---|---|
-| `0x60` | [CASE-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | `in case of` | 사안 선언. 노드와 관계를 담는 판정 그래프 |
-| `0x61` | [PREDICATE-DECLARE](/ko/grammar/edge/toulmin/expr/) | EXPR | Rules의 조건식 | 술어 선언. 판정 식 |
-| `0x62` | [SPEC-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | Definitions 항목 | 판단 기준 선언(Backing). role 비트가 정의 종류 |
-| `0x63` | [RULE-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | general rule, Rules의 규칙 이름 | 주장 선언(Warrant). 공격받을 수 있다 |
-| `0x64` | [COUNTER-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | counter rule | 반박 선언. 자기 결론을 가지고 공격한다. 기본 Level은 Fail |
-| `0x65` | [EXCEPT-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | except rule | 예외 선언. 자기 결론 없이 공격한다. 기본 Level은 Review |
-| `0x68` | [ATTACKS](/ko/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | 공격 관계. 공격자의 판정이 대상의 판정을 공격 세기(0~1, 기본 1)만큼 점진적으로 깎는다 |
-| `0x69` | [SUPERSEDES](/ko/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | 배제 관계. 공격자가 Active이면 대상을 집계에서 결정적으로 뺀다. 사슬(`A > B > C`)은 쌍마다 하나씩 쓴다 |
-| `0x6A` | SUPERSEDE-CHAIN | — | | 우선순위 사슬 `A > B > C`. 쌍별 SUPERSEDES의 축약. 코드만 배정했고 레이아웃은 아직 없다 |
-| `0x70` | [RUN](/ko/grammar/edge/toulmin/link/) | LINK | `run c when n` | 실행 합성. 노드가 Active이면 하위 사안을 실행한다(DAG) |
-| `0x71` | [DO](/ko/grammar/edge/toulmin/link/) | LINK | `do fn when n` | 노드가 Active이면 수행하는 동작 |
-| `0x72` | [DO-ONCE](/ko/grammar/edge/toulmin/link/) | LINK | `do fn once when n` | 재시도해도 한 번만 수행하는 동작 |
-| `0x73` | [UNDO](/ko/grammar/edge/toulmin/link/) | LINK | `undo fn when n` | DO의 보상 동작(saga). 이후 단계가 실패하면 역순으로 수행한다 |
-| `0x74` | [CHECKING](/ko/grammar/edge/toulmin/link/) | LINK | `checking c` | 부작용 없이 판정만 하는 연결 |
-| `0x75` | [ENTRY](/ko/grammar/edge/toulmin/node/) | NODE | `provides x` | 외부 진입점. 사안을 실행하거나 판정한다 |
-| `0x76` | [TRIGGER](/ko/grammar/edge/toulmin/node/) | NODE | `on`, `every`, `until` | 외부 호출 없는 이벤트·주기 진입점 |
-| `0x78` | VERDICT | — | | 노드·레코드의 판정 결과. 결과(Pass, Review, Fail), 판정값, Activated, Excluded, Level. 코드만 배정했고 레이아웃은 아직 없다 |
-| `0x79` | EVIDENCE | — | | 판정의 증거. 위치, 기대값, 실제값(Fact). 코드만 배정했고 레이아웃은 아직 없다 |
-| `0x7C`~`0x7F` | ISSUER-* | | | Issuer가 정의한 형식. 아래 ISSUER 형식 |
+| `0x0E0L` | [CASE-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | `in case of` | 사안 선언. 노드와 관계를 담는 판정 그래프 |
+| `0x0E1L` | [PREDICATE-DECLARE](/ko/grammar/edge/toulmin/expr/) | EXPR | Rules의 조건식 | 술어 선언. 판정 식 |
+| `0x0E2L` | [SPEC-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | Definitions 항목 | 판단 기준 선언(Backing). role 비트가 정의 종류 |
+| `0x0E3L` | [RULE-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | general rule, Rules의 규칙 이름 | 주장 선언(Warrant). 공격받을 수 있다 |
+| `0x0E4L` | [COUNTER-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | counter rule | 반박 선언. 자기 결론을 가지고 공격한다. 기본 Level은 Fail |
+| `0x0E5L` | [EXCEPT-DECLARE](/ko/grammar/edge/toulmin/node/) | NODE | except rule | 예외 선언. 자기 결론 없이 공격한다. 기본 Level은 Review |
+| `0x0E8L` | [ATTACKS](/ko/grammar/edge/toulmin/link/) | LINK | `don't X when Y` | 공격 관계. 공격자의 판정이 대상의 판정을 공격 세기(0~1, 기본 1)만큼 점진적으로 깎는다 |
+| `0x0E9L` | [SUPERSEDES](/ko/grammar/edge/toulmin/link/) | LINK | `X supersedes Y` | 배제 관계. 공격자가 Active이면 대상을 집계에서 결정적으로 뺀다. 사슬(`A > B > C`)은 쌍마다 하나씩 쓴다 |
+| `0x0EAL` | SUPERSEDE-CHAIN | — | | 우선순위 사슬 `A > B > C`. 쌍별 SUPERSEDES의 축약. 코드만 배정했고 레이아웃은 아직 없다 |
+| `0x0F0L` | [RUN](/ko/grammar/edge/toulmin/link/) | LINK | `run c when n` | 실행 합성. 노드가 Active이면 하위 사안을 실행한다(DAG) |
+| `0x0F1L` | [DO](/ko/grammar/edge/toulmin/link/) | LINK | `do fn when n` | 노드가 Active이면 수행하는 동작 |
+| `0x0F2L` | [DO-ONCE](/ko/grammar/edge/toulmin/link/) | LINK | `do fn once when n` | 재시도해도 한 번만 수행하는 동작 |
+| `0x0F3L` | [UNDO](/ko/grammar/edge/toulmin/link/) | LINK | `undo fn when n` | DO의 보상 동작(saga). 이후 단계가 실패하면 역순으로 수행한다 |
+| `0x0F4L` | [CHECKING](/ko/grammar/edge/toulmin/link/) | LINK | `checking c` | 부작용 없이 판정만 하는 연결 |
+| `0x0F5L` | [ENTRY](/ko/grammar/edge/toulmin/node/) | NODE | `provides x` | 외부 진입점. 사안을 실행하거나 판정한다 |
+| `0x0F6L` | [TRIGGER](/ko/grammar/edge/toulmin/node/) | NODE | `on`, `every`, `until` | 외부 호출 없는 이벤트·주기 진입점 |
+| `0x0F8L` | VERDICT | — | | 노드·레코드의 판정 결과. 결과(Pass, Review, Fail), 판정값, Activated, Excluded, Level. 코드만 배정했고 레이아웃은 아직 없다 |
+| `0x0F9L` | EVIDENCE | — | | 판정의 증거. 위치, 기대값, 실제값(Fact). 코드만 배정했고 레이아웃은 아직 없다 |
+| `0x0FCL~0x0FFL` | Reserved | | | |
 
-- 표에 없는 직접 코드(`0x66`·`0x67`, `0x6B`~`0x6F`, `0x77`, `0x7A`·`0x7B`)는 예약이다.
-- Codec 하위 5비트의 상위 2비트가 묶음이다: `00` 선언, `01` 관계, `10` 실행, `11` 결과(`0x7C`~`0x7F`는 ISSUER).
-- 문서 전체의 판정은 Meta [VERDICT](/ko/grammar/meta/verification/verdict/)(`0x44`)가, 노드·레코드의 판정은 TOULMIN `VERDICT`(Edge `0x78`)가 맡는다. 둘은 Kind가 다른 별개의 Codec이다.
+- 표에 없는 직접 코드(`0x0E6L`·`0x0E7L`, `0x0EBL`~`0x0EFL`, `0x0F7L`, `0x0FAL`·`0x0FBL`)는 예약이다.
+- 묶음은 `0x0E0L~0x0E7L` 선언, `0x0E8L~0x0EFL` 관계, `0x0F0L~0x0F7L` 실행, `0x0F8L~0x0FFL` 결과다(`0x0FCL~0x0FFL`은 Reserved).
+- 문서 전체의 판정은 Meta [VERDICT](/ko/grammar/meta/verification/verdict/)(`0x1E9L`)가, 노드·레코드의 판정은 TOULMIN `VERDICT`(Edge `0x0F8L`)가 맡는다. 둘은 Kind가 다른 별개의 Codec이다.
 
 ### ISSUER 형식
 
-직접 코드가 모자란 TOULMIN 레코드는 `ISSUER-1WORD`(`0x7C`), Issuer `0x0000`(GEUL) 아래 형식 번호로 둔다. 형식 번호는 TOULMIN 계열(`0xC000`~`0xFFFF`, 상위 2비트 `11`)이다.
+직접 코드가 모자란 TOULMIN 레코드는 `EDGE-ISSUER-2WORD`(`0x1BDL`), Issuer `0x00000000`(GEUL) 아래 코덱 번호로 둔다. 코덱 번호는 GEUL Issuer가 정한다.
 
 ```
-TAG WORD          0001 0LLL L111 1100      Edge, Codec 0x7C
+TAG WORD          0001 1011 1101 LLLL      Edge, Codec 0x1BDL
 [Length 확장 TAG]
-Issuer            0x0000
-형식 번호         0xC000~0xC029
+Issuer            0x00000000 (2 WORD)
+코덱 번호         0x0000C000~0x0000C029 (2 WORD)
 Edge Id           LOCAL Reference 레코드
 구성요소          형식이 정한 레이아웃
 ```
 
-| 형식 번호 | 이름 | 레이아웃 | 뜻 |
+| 코덱 번호 | 이름 | 레이아웃 | 뜻 |
 |---|---|---|---|
-| `0xC000` | [SOURCE](/ko/grammar/edge/toulmin/source/) | ID, SPAN 폭 WORD, UTF8 Value | 저작 원문 |
-| `0xC001` | [TEXT](/ko/grammar/edge/toulmin/source/) | ID, UTF8 Value | 이름·문자열 |
-| `0xC002` | [SECTION](/ko/grammar/edge/toulmin/source/) | ID, 섹션 코드 1 WORD | 섹션 시작 |
-| `0xC003` | [CASE-BEGIN](/ko/grammar/edge/toulmin/source/) | ID, REF(사안) | 사안 범위 시작 |
-| `0xC004` | [CASE-END](/ko/grammar/edge/toulmin/source/) | ID, REF(사안) | 사안 범위 끝 |
-| `0xC005` | [PROSE](/ko/grammar/edge/toulmin/source/) | ID, SPAN | 서술 문단 |
-| `0xC010` | [NAMESPACE](/ko/grammar/edge/toulmin/node/) | NODE | `this document is` |
-| `0xC011` | [FUNC](/ko/grammar/edge/toulmin/node/) | NODE | 함수 참조 |
-| `0xC012` | [FIELD](/ko/grammar/edge/toulmin/node/) | NODE | `is required` |
-| `0xC013` | [ALIAS](/ko/grammar/edge/toulmin/node/) | NODE | `see … from` |
-| `0xC014` | [GROUP](/ko/grammar/edge/toulmin/node/) | NODE | 순서 있는 실행 묶음 |
-| `0xC020` | [REQUIRES](/ko/grammar/edge/toulmin/link/) | LINK | 사안 → 필드 |
-| `0xC021` | [MEANS](/ko/grammar/edge/toulmin/link/) | LINK | 정의 항목 → 값·타입 |
-| `0xC022` | [HAS](/ko/grammar/edge/toulmin/link/) | LINK | 정의 항목 → 필드 |
-| `0xC023` | [RUNS](/ko/grammar/edge/toulmin/link/) | LINK | 진입점 → 사안, 실행 |
-| `0xC024` | [EVALUATES](/ko/grammar/edge/toulmin/link/) | LINK | 진입점 → 사안, 판정 |
-| `0xC025` | [TRIGGERS](/ko/grammar/edge/toulmin/link/) | LINK | 트리거 → 사안 |
-| `0xC026` | [UNTIL](/ko/grammar/edge/toulmin/link/) | LINK | 트리거 → 사안(`every … until`) |
-| `0xC027` | [SAME-AS](/ko/grammar/edge/toulmin/link/) | LINK | 노드 → 전역 식별자 |
-| `0xC028` | [IMPORTED-FROM](/ko/grammar/edge/toulmin/link/) | LINK | 별칭 → 경로(TEXT) |
-| `0xC029` | [LABEL](/ko/grammar/edge/toulmin/link/) | LINK | 노드 → TEXT, 이름 표기 |
+| `0x0000C000` | [SOURCE](/ko/grammar/edge/toulmin/source/) | ID, SPAN 폭 WORD, UTF8 Value | 저작 원문 |
+| `0x0000C001` | [TEXT](/ko/grammar/edge/toulmin/source/) | ID, UTF8 Value | 이름·문자열 |
+| `0x0000C002` | [SECTION](/ko/grammar/edge/toulmin/source/) | ID, 섹션 코드 1 WORD | 섹션 시작 |
+| `0x0000C003` | [CASE-BEGIN](/ko/grammar/edge/toulmin/source/) | ID, REF(사안) | 사안 범위 시작 |
+| `0x0000C004` | [CASE-END](/ko/grammar/edge/toulmin/source/) | ID, REF(사안) | 사안 범위 끝 |
+| `0x0000C005` | [PROSE](/ko/grammar/edge/toulmin/source/) | ID, SPAN | 서술 문단 |
+| `0x0000C010` | [NAMESPACE](/ko/grammar/edge/toulmin/node/) | NODE | `this document is` |
+| `0x0000C011` | [FUNC](/ko/grammar/edge/toulmin/node/) | NODE | 함수 참조 |
+| `0x0000C012` | [FIELD](/ko/grammar/edge/toulmin/node/) | NODE | `is required` |
+| `0x0000C013` | [ALIAS](/ko/grammar/edge/toulmin/node/) | NODE | `see … from` |
+| `0x0000C014` | [GROUP](/ko/grammar/edge/toulmin/node/) | NODE | 순서 있는 실행 묶음 |
+| `0x0000C020` | [REQUIRES](/ko/grammar/edge/toulmin/link/) | LINK | 사안 → 필드 |
+| `0x0000C021` | [MEANS](/ko/grammar/edge/toulmin/link/) | LINK | 정의 항목 → 값·타입 |
+| `0x0000C022` | [HAS](/ko/grammar/edge/toulmin/link/) | LINK | 정의 항목 → 필드 |
+| `0x0000C023` | [RUNS](/ko/grammar/edge/toulmin/link/) | LINK | 진입점 → 사안, 실행 |
+| `0x0000C024` | [EVALUATES](/ko/grammar/edge/toulmin/link/) | LINK | 진입점 → 사안, 판정 |
+| `0x0000C025` | [TRIGGERS](/ko/grammar/edge/toulmin/link/) | LINK | 트리거 → 사안 |
+| `0x0000C026` | [UNTIL](/ko/grammar/edge/toulmin/link/) | LINK | 트리거 → 사안(`every … until`) |
+| `0x0000C027` | [SAME-AS](/ko/grammar/edge/toulmin/link/) | LINK | 노드 → 전역 식별자 |
+| `0x0000C028` | [IMPORTED-FROM](/ko/grammar/edge/toulmin/link/) | LINK | 별칭 → 경로(TEXT) |
+| `0x0000C029` | [LABEL](/ko/grammar/edge/toulmin/link/) | LINK | 노드 → TEXT, 이름 표기 |
 
-- 형식 번호 공간은 Kind마다 따로다. Value의 GEUL 형식 `0xC000`(OPAQUE-BYTES-EVEN)과 Edge의 `0xC000`(SOURCE)은 다른 형식이다.
-- 형식 번호는 추가만 한다. 배정한 번호는 다른 형식에 다시 쓰지 않는다.
+- 코덱 번호 공간은 Kind마다 따로다. Value의 GEUL 형식 `0x0000C000`(OPAQUE-BYTES-EVEN)과 Edge의 `0x0000C000`(SOURCE)은 다른 형식이다.
+- 코덱 번호는 추가만 한다. 배정한 번호는 다른 형식에 다시 쓰지 않는다.
 
 ## 문서
 
@@ -136,7 +136,7 @@ END
 | REF | LOCAL Reference 레코드 | 이 문서의 다른 레코드를 가리키는 Edge Id. `0`은 없음 |
 | SPAN | SOURCE가 정한 폭 × 2 | 저작 원문 안의 범위. 시작 바이트, 바이트 수 |
 
-- ID와 REF는 내장 [LOCAL](/ko/grammar/reference/local/) Reference 레코드(`0000 0LLL L000 1000` + 가장 짧은 폭의 ID)다. 폭은 그 레코드의 Length가 정하며 문서 단위로 선언하지 않는다.
+- ID와 REF는 내장 [LOCAL](/ko/grammar/reference/local/) Reference 레코드(`0000 0000 0101 LLLL` + 가장 짧은 폭의 ID)다. 폭은 그 레코드의 Length가 정하며 문서 단위로 선언하지 않는다.
 - REF `0`(LOCAL `0`)은 "없음"이다. LOCAL `0`을 없음으로 쓰는 Codec 규칙이다([LOCAL](/ko/grammar/reference/local/)).
 - Edge Id는 1부터 배정하며 문서 안에서 중복하지 않는다. `0`은 REF의 "없음"이라 Edge Id로 쓰지 않는다.
 - 노드는 다른 레코드가 전방 참조하므로 문서 선언 순서로 먼저 번호를 받는다. 그 밖의 레코드(SOURCE, TEXT, LINK, FUNC, 구획 레코드)는 노드 다음 번호부터 인코더가 배정한다.
@@ -183,12 +183,12 @@ END
 
 ## 열린 문제
 
-- SUPERSEDE-CHAIN(`0x6A`), VERDICT(`0x78`), EVIDENCE(`0x79`)의 레이아웃. SUPERSEDES를 쌍마다 쓰는 지금 방식으로 사슬이 충분한지.
+- SUPERSEDE-CHAIN(`0x0EAL`), VERDICT(`0x0F8L`), EVIDENCE(`0x0F9L`)의 레이아웃. SUPERSEDES를 쌍마다 쓰는 지금 방식으로 사슬이 충분한지.
 - 노드 강도(Strict, Defeasible, Defeater)의 배치.
 - 공격 세기 1을 적은 ATTACKS와 적지 않은 ATTACKS는 판정이 같지만 바이트가 다르다. 판정이 같은지는 바이트가 아니라 해석한 값으로 비교해야 한다.
 - EXPR 안의 노드 수, 라벨 수, 라벨 인덱스는 1 WORD이고 자식 수는 13비트다. 상한이 고정되어 있다.
 - PROVENANCE(규칙 출처·전제) 레이아웃.
-- 백틱 이름을 TEXT + LABEL(`0xC029`) 대신 서술 [LABEL](/ko/grammar/edge/label/)·[BIND](/ko/grammar/edge/bind/)로 둘지.
+- 백틱 이름을 TEXT + LABEL(`0x0000C029`) 대신 서술 [LABEL](/ko/grammar/edge/label/)·[BIND](/ko/grammar/edge/bind/)로 둘지.
 - Claim의 predicate·mode 코드값과 FuncRef의 VerbCode 코드값 표.
 - 닫힌 세계 선언(ABSENT를 empty로 읽기)을 판단 기준(SPEC)으로 할지 사안 단위로 할지.
 - TOULMIN Codec의 [Codec 규격 문서](/ko/grammar/codec-spec/). NODE·LINK의 조건부 필드와 SOURCE가 정하는 SPAN 폭은 FIELD로 선언할 수 없는 레이아웃이다.

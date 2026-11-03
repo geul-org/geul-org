@@ -4,13 +4,13 @@ weight: 98
 date: 2026-10-27T12:00:00+09:00
 lastmod: 2026-10-27T12:00:00+09:00
 tags: ["grammar", "edge", "toulmin"]
-summary: "EXPR는 PREDICATE-DECLARE(Codec 0x61)가 쓰는 조건식 레이아웃이다. 자체 라벨 표와 전위 순서로 펼친 식 레코드로 조건식 트리를 담는다."
+summary: "EXPR는 PREDICATE-DECLARE(Codec 0x0E1L)가 쓰는 조건식 레이아웃이다. 자체 라벨 표와 전위 순서로 펼친 식 레코드로 조건식 트리를 담는다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-EXPR는 TANGEUL Rules의 조건식을 쓰는 레이아웃이다. Codec `0x61` PREDICATE-DECLARE(술어 선언)가 쓴다. 조건식 트리를 전위 순서로 펼쳐 담고, 식 안의 문자열은 레코드 안의 라벨 표로 가리킨다. 그래서 TEXT 레코드 없이 혼자 완결된다.
+EXPR는 TANGEUL Rules의 조건식을 쓰는 레이아웃이다. Codec `0x0E1L` PREDICATE-DECLARE(술어 선언)가 쓴다. 조건식 트리를 전위 순서로 펼쳐 담고, 식 안의 문자열은 레코드 안의 라벨 표로 가리킨다. 그래서 TEXT 레코드 없이 혼자 완결된다.
 
 ## 레이아웃
 

@@ -10,29 +10,29 @@ authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-LINK는 TOULMIN 그래프에서 노드 사이의 관계를 쓰는 레이아웃이다. 관계의 종류는 Codec(또는 GEUL ISSUER 형식 번호)이 정한다.
+LINK는 TOULMIN 그래프에서 노드 사이의 관계를 쓰는 레이아웃이다. 관계의 종류는 Codec(또는 GEUL ISSUER 코덱 번호)이 정한다.
 
 ## Codec
 
 | Codec | 이름 | TANGEUL | src → dst |
 |---|---|---|---|
-| `0x68` | ATTACKS | `don't X when Y` | 규칙 → 규칙. 판정을 공격 세기만큼 점진적으로 깎는다 |
-| `0x69` | SUPERSEDES | `X supersedes Y` | 규칙 → 규칙. Active이면 대상을 집계에서 뺀다 |
-| `0x70` | RUN | `run c when n` | 규칙 → 사안 |
-| `0x71` | DO | `do fn when n` | 규칙 → FuncRef |
-| `0x72` | DO-ONCE | `do fn once when n` | 규칙 → FuncRef |
-| `0x73` | UNDO | `undo fn when n` | 규칙 → FuncRef |
-| `0x74` | CHECKING | `checking c` | 규칙 → 사안. 부작용 없는 판정 |
-| ISSUER `0x0000`/`0xC020` | REQUIRES | `f is required` | 사안 → 필드 |
-| ISSUER `0x0000`/`0xC021` | MEANS | Definitions `means` | 정의 항목 → 값·타입 |
-| ISSUER `0x0000`/`0xC022` | HAS | Definitions `has` | 정의 항목 → 필드 |
-| ISSUER `0x0000`/`0xC023` | RUNS | 진입점 `run c` | 진입점 → 사안(실행) |
-| ISSUER `0x0000`/`0xC024` | EVALUATES | 진입점 `check c` | 진입점 → 사안(판정) |
-| ISSUER `0x0000`/`0xC025` | TRIGGERS | 트리거 `run c` | 트리거 → 사안 |
-| ISSUER `0x0000`/`0xC026` | UNTIL | `every … until c` | 트리거 → 사안 |
-| ISSUER `0x0000`/`0xC027` | SAME-AS | | 노드 → 전역 식별자 |
-| ISSUER `0x0000`/`0xC028` | IMPORTED-FROM | `see a from path` | 별칭 → 경로(TEXT) |
-| ISSUER `0x0000`/`0xC029` | LABEL | 백틱 이름 | 노드 → TEXT. 이름 표기 |
+| `0x0E8L` | ATTACKS | `don't X when Y` | 규칙 → 규칙. 판정을 공격 세기만큼 점진적으로 깎는다 |
+| `0x0E9L` | SUPERSEDES | `X supersedes Y` | 규칙 → 규칙. Active이면 대상을 집계에서 뺀다 |
+| `0x0F0L` | RUN | `run c when n` | 규칙 → 사안 |
+| `0x0F1L` | DO | `do fn when n` | 규칙 → FuncRef |
+| `0x0F2L` | DO-ONCE | `do fn once when n` | 규칙 → FuncRef |
+| `0x0F3L` | UNDO | `undo fn when n` | 규칙 → FuncRef |
+| `0x0F4L` | CHECKING | `checking c` | 규칙 → 사안. 부작용 없는 판정 |
+| ISSUER `0x00000000`/`0x0000C020` | REQUIRES | `f is required` | 사안 → 필드 |
+| ISSUER `0x00000000`/`0x0000C021` | MEANS | Definitions `means` | 정의 항목 → 값·타입 |
+| ISSUER `0x00000000`/`0x0000C022` | HAS | Definitions `has` | 정의 항목 → 필드 |
+| ISSUER `0x00000000`/`0x0000C023` | RUNS | 진입점 `run c` | 진입점 → 사안(실행) |
+| ISSUER `0x00000000`/`0x0000C024` | EVALUATES | 진입점 `check c` | 진입점 → 사안(판정) |
+| ISSUER `0x00000000`/`0x0000C025` | TRIGGERS | 트리거 `run c` | 트리거 → 사안 |
+| ISSUER `0x00000000`/`0x0000C026` | UNTIL | `every … until c` | 트리거 → 사안 |
+| ISSUER `0x00000000`/`0x0000C027` | SAME-AS | | 노드 → 전역 식별자 |
+| ISSUER `0x00000000`/`0x0000C028` | IMPORTED-FROM | `see a from path` | 별칭 → 경로(TEXT) |
+| ISSUER `0x00000000`/`0x0000C029` | LABEL | 백틱 이름 | 노드 → TEXT. 이름 표기 |
 
 ## 레이아웃
 
@@ -78,16 +78,16 @@ SPAN             SOURCE가 정한 폭 × 2
 `` `Y` 면 `X` 를 0.5의 세기로 공격한다``. Edge Id 5, 공격자 Y는 Edge Id 3, 대상 X는 Edge Id 2, SPAN 폭 1 WORD.
 
 ```
-16E8                  TAG WORD: Edge, 전체 14 WORD, Codec 0x68 (ATTACKS)
-0088 0005             ID      LOCAL 5
-0088 0003             src     LOCAL 3 (Y, 공격자)
-0088 0002             dst     LOCAL 2 (X, 대상)
+0E8D                  TAG WORD: Edge, Codec 0x0E8L (ATTACKS), 전체 14 WORD
+0051 0005             ID      LOCAL 5
+0051 0003             src     LOCAL 3 (Y, 공격자)
+0051 0002             dst     LOCAL 2 (X, 대상)
 0010                  flags   F_FORCE
-0990 FFFF FFFF 0005   F_FORCE SIGNED-DECIMAL, E=−1, C=5 (0.5)
+0483 FFFF FFFF 0005   F_FORCE SIGNED-DECIMAL, E=−1, C=5 (0.5)
 0040 001A             SPAN    시작 바이트 0x40, 바이트 수 0x1A
 ```
 
-세기를 적지 않은 같은 간선은 flags가 `0000`이고 F_FORCE 필드가 없다. TAG WORD는 `14E8`(전체 10 WORD)이다.
+세기를 적지 않은 같은 간선은 flags가 `0000`이고 F_FORCE 필드가 없다. TAG WORD는 `0E89`(전체 10 WORD)이다.
 
 ## 해석과 유효성
 
