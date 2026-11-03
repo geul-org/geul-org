@@ -105,8 +105,9 @@ Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ 서명 알고리즘 ID(2바이트) ‖ 
 - Issuer가 정의한 용어(도구, 프로그램, 역할, 조직 안의 개념)는 **용어 하나에 문서 하나**로 둔다. 용어는 그 문서의 LOCAL이고, 이름은 [BIND](/ko/grammar/edge/bind/)로, 가리키는 외부 대상(URI 등)은 [REFERENCE-NODE](/ko/grammar/edge/reference-node/)로 잇는다.
 - 다른 문서는 `EXTERNAL-ISSUER-*`(Issuer, 문서 ID, LOCAL ID)로 용어를 가리킨다. 같은 정의를 문서마다 반복하지 않는다. 예: [TRANSFORMED-BY](/ko/grammar/meta/lineage/transformed-by/)의 도구.
 - 용어 정의 문서의 문서 ID 구간은 Issuer가 정한다. geul.org(`0x00000000`)는 `0x0001xxxx xxxxxxxx`를 쓴다.
-- 각 Issuer의 문서 ID `0x0000000000000000`은 그 Issuer의 **용어 정의 색인 문서**로 예약한다: `<Issuer>/docs/0x0000000000000000/`. 용어 정의 문서들을 나열하는 자리다.
-- 문서 ID `0xFFFFFFFFFFFFFFFF`는 Issuer 목록 `issuers/`(Issuer geul.org `0x00000000`)에 예약한다. 이 ID는 `0x00000000/docs/<문서 ID>/` 주소로 받지 않는다(404)([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)).
+- 모든 Issuer는 문서 ID `0x0000000000000000`과 `0xFFFFFFFFFFFFFFFF`를 예약한다. 지금 쓰임은 아래 두 가지다.
+- 문서 ID `0x0000000000000000`은 그 Issuer의 **용어 정의 색인 문서** 자리다: `<Issuer>/docs/0x0000000000000000/`. 용어 정의 문서들을 나열하는 자리다.
+- 문서 ID `0xFFFFFFFFFFFFFFFF`는 Issuer geul.org(`0x00000000`)의 Issuer 목록 `issuers/`에 쓴다. 다른 Issuer는 이 ID를 쓰지 않는다. 이 ID는 어느 Issuer에서도 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않는다(404)([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)).
 - 색인 문서는 모든 Issuer에 **권고**한다. 필수는 아니다.
 - 외부 대상을 가리키는 순서: (1) 맞는 Reference Codec이 있으면 그것(WIKIDATA-QID 등), (2) 그 대상을 정의한 GEUL 문서가 있으면 그것(DOC-POINTER·EXTERNAL-ISSUER), (3) 없으면 자기 용어 정의 문서에 LOCAL로 정의하고 가리킨다.
 

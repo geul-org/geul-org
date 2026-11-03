@@ -100,11 +100,11 @@ Fetch(ctx, Addr) ([]byte, error)    // geul get = ParseAddr → Fetch → 표준
 
 ### 목록 문서
 
-목록 문서는 Issuer 목록 `issuers/` 하나다. Issuer와 도메인을 묶는다([Issuer 목록](#issuer-목록)). 버전 1부터이고 `versions.geul`을 둔다. 예약 문서 ID는 `0xFFFFFFFFFFFFFFFF`(Issuer geul.org `0x00000000`)다.
+목록 문서는 Issuer 목록 `issuers/` 하나다. Issuer와 도메인을 묶는다([Issuer 목록](#issuer-목록)). 버전 1부터이고 `versions.geul`을 둔다. 목록의 문서 ID는 예약 문서 ID `0xFFFFFFFFFFFFFFFF`(Issuer geul.org `0x00000000`)다. 모든 Issuer는 문서 ID `0x0000000000000000`과 `0xFFFFFFFFFFFFFFFF`를 예약한다([Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)).
 
 - `latest.geul`은 저장하지 않는 별칭이다. `versions.geul`에서 가장 최근 버전을 찾아 그 바이트를 낸다.
 - `issuers/versions.geul`의 PUBLICATION·DEPRECATION·TOMBSTONE은 DOC-POINTER(`0x00000000`, `0xFFFFFFFFFFFFFFFF`, 버전 ID)로 목록 버전을 가리킨다. 그래서 `hashes/`로 받아도 무엇의 목록인지 안다([PUBLICATION](/ko/grammar/edge/publication/#목록-문서의-버전-목록)).
-- 예약 문서 ID는 `0x00000000/docs/<문서 ID>/` 주소로 받지 않는다(404). 문서 ID `0x0000000000000000`(용어 정의 색인, [Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)) 예약과 같은 방식이다.
+- 문서 ID `0xFFFFFFFFFFFFFFFF`는 어느 Issuer에서도 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않는다(404). 다른 예약 문서 ID `0x0000000000000000`은 그 Issuer의 용어 정의 색인 문서로 `docs/` 아래에 둔다([Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)).
 - 목록 문서에는 `DOC-ID`를 두지 않는다. 무엇의 목록인지는 레코드의 DOC-POINTER가 말한다([DOC-ID](/ko/grammar/meta/declaration/doc-id/)).
 - 문서와 코덱은 목록 없이 레코드에서 계산한 ID로 바로 찾는다([문서 이름](#문서-이름)).
 

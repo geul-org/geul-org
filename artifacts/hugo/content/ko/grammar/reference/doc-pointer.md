@@ -28,7 +28,7 @@ Issuer            2/4/16 WORD
 - 버전 ID는 생략하지 않는다. 생략을 허용하면 Payload 길이만으로 Issuer 폭을 정할 수 없다(Issuer 4 WORD·버전 없음과 Issuer 2 WORD·버전 있음이 같은 8 WORD).
 - 버전 ID `0`은 최신 버전이다. 해석하는 시점의 현행 버전에 묶인다. 그 밖의 값은 그 버전에 고정된다([PUBLICATION](/ko/grammar/edge/publication/)).
 - 문서 ID `0`은 Issuer의 용어 정의 색인 문서다. Issuer 자신은 [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)로 가리킨다.
-- 문서 ID `0xFFFFFFFFFFFFFFFF`(Issuer 목록 `issuers/`, Issuer `0x00000000`)는 목록 문서에 예약했다. `issuers/versions.geul`의 PUBLICATION·DEPRECATION·TOMBSTONE이 이 값으로 목록 버전을 가리킨다([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)).
+- 모든 Issuer는 문서 ID `0x0000000000000000`과 `0xFFFFFFFFFFFFFFFF`를 예약한다([Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)). `0xFFFFFFFFFFFFFFFF`는 Issuer `0x00000000`의 Issuer 목록 `issuers/`에 쓰고, 다른 Issuer는 쓰지 않는다. `issuers/versions.geul`의 PUBLICATION·DEPRECATION·TOMBSTONE이 이 값으로 목록 버전을 가리킨다([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)).
 - Codec `0x041L` 한 칸이다. 양화가 없다(Identified).
 - Issuer의 문서를 가리키는 형식은 DOC-POINTER 하나다. `EXTERNAL-ISSUER-*`(Issuer, 문서 ID, 대상 ID `0`)나 `EXTERNAL-POINTER-*`(IMPORT ID, 대상 ID `0`)로 문서를 가리키는 것은 invalid다.
 - 쓰는 곳: Meta [DOC-ID](/ko/grammar/meta/declaration/doc-id/)·[IMPORT-DOC](/ko/grammar/meta/import/import-doc/), 버전 목록의 PUBLICATION·DEPRECATION·TOMBSTONE.
