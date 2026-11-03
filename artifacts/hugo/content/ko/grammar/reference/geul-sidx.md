@@ -27,7 +27,7 @@ SIDX              나머지 전부
 
 | SIDX | WORD sequence |
 |---|---|
-| (비규범) 64비트 `0x1234 5678 9abc def0`, Identified | `00f4 1234 5678 9abc def0` |
+| (비규범) 64비트 `0x1234 5678 9ABC DEF0`, Identified | `00F4 1234 5678 9ABC DEF0` |
 
 ## 배정 방침
 

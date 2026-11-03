@@ -45,4 +45,4 @@ Payload: [binary16 bits 1st: 1 WORD] ... [binary16 bits Nth: 1 WORD]
 
 ## 예시
 
-- Payload `3c00 8000`은 binary16 `1.0`과 `-0`이고, 전체 7 WORD 레코드다.
+- Payload `3C00 8000`은 binary16 `1.0`과 `-0`이고, 전체 7 WORD 레코드다.

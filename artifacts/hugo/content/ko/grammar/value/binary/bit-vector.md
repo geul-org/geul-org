@@ -40,4 +40,4 @@ Payload WORD 3rd ... Nth   Payload bits, MSB-first
 ## 예시
 
 - 빈 bit vector는 count `0000 0000`, payload 없음, 전체 3 WORD, `LLLL=0010`이다. 전체는 `0802 0000 0000`이다.
-- bit sequence `101`은 count `0000 0003`, payload `a000`, 전체 4 WORD, `LLLL=0011`이다. 전체는 `0803 0000 0003 a000`이다.
+- bit sequence `101`은 count `0000 0003`, payload `A000`, 전체 4 WORD, `LLLL=0011`이다. 전체는 `0803 0000 0003 A000`이다.

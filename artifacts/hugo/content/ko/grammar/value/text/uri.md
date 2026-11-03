@@ -18,7 +18,7 @@ URI는 RFC 3986 `URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]` 문�
 - 바이트 수는 Codec의 최하위 비트와 Payload WORD 수로 정한다. `2 × Payload WORD 수 − 최하위 비트`이며 Byte Count는 두지 않는다([Value](/ko/grammar/value/)).
 
 ```
-TAG WORD          0000 0101 010P LLLL      Codec 0x074L/0x075L
+TAG WORD          0000 0111 010P LLLL      Codec 0x074L/0x075L
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st ... Nth          URI bytes / final zero padding
 ```
@@ -44,8 +44,8 @@ Payload WORD 1st ... Nth          URI bytes / final zero padding
 ## 예시
 
 - `https://example.com/`은 ASCII 20 byte(짝수)이므로 `URI-EVEN`(`0x074L`)이다.
-- Payload는 `6874 7470 733a 2f2f 6578 616d 706c 652e 636f 6d2f`의 10 WORD다.
-- TAG 1 WORD와 Payload 10 WORD를 합쳐 전체 11 WORD이므로 `LLLL=1010`이다. 전체는 `074A 6874 7470 733a 2f2f 6578 616d 706c 652e 636f 6d2f`다.
+- Payload는 `6874 7470 733A 2F2F 6578 616D 706C 652E 636F 6D2F`의 10 WORD다.
+- TAG 1 WORD와 Payload 10 WORD를 합쳐 전체 11 WORD이므로 `LLLL=1010`이다. 전체는 `074A 6874 7470 733A 2F2F 6578 616D 706C 652E 636F 6D2F`다.
 
 ## GEUL Archive URI
 

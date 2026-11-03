@@ -46,7 +46,7 @@ Payload           8 WORD (128비트)  UUID octet 0 → octet 15
 RFC 9562 Appendix A.6의 UUIDv7 test vector `017f22e2-79b0-7cc3-98c4-dc0c0c07398f`:
 
 ```
-07b8 017f 22e2 79b0 7cc3 98c4 dc0c 0c07 398f
+07B8 017F 22E2 79B0 7CC3 98C4 DC0C 0C07 398F
 ```
 
-- TAG `07b8`, Payload `017f 22e2 79b0 7cc3 98c4 dc0c 0c07 398f`.
+- TAG `07B8`, Payload `017F 22E2 79B0 7CC3 98C4 DC0C 0C07 398F`.

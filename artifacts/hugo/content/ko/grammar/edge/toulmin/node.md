@@ -35,7 +35,7 @@ NODE는 TOULMIN 판정·실행 그래프의 노드를 쓰는 레이아웃이다.
 
 ```
 ID               LOCAL Reference 레코드 (Edge Id)
-헤더 1 WORD      role 2b | 예약 2b | F_GROUNDS 1b | level 2b | object 종류 2b | flags 7b
+헤더 1 WORD      role 2b | Reserved 2b | F_GROUNDS 1b | level 2b | object 종류 2b | flags 7b
 [F_FUNC]         FuncRef: REF(ALIAS, 없으면 0) + VerbCode 1 WORD
 [F_QUAL]         SIGNED-DECIMAL Value. Qualifier
 [F_CHECK]        REF(사안)
@@ -51,9 +51,9 @@ SPAN             SOURCE가 정한 폭 × 2 (시작 바이트, 바이트 수)
 | 비트 | 필드 | 값 |
 |---|---|---|
 | 15–14 | role | 0 general, 1 counter, 2 except |
-| 13–12 | 예약 | 0 |
+| 13–12 | Reserved | 0 |
 | 11 | F_GROUNDS | 근거 목록이 있다 |
-| 10–9 | level | 0 Unset, 1 Fail, 2 Review (3 예약) |
+| 10–9 | level | 0 Unset, 1 Fail, 2 Review (3 Reserved) |
 | 8–7 | object 종류 | Claim object의 형태. 0 REF, 1 UNSIGNED-INTEGER Value, 2 SPAN |
 | 6–0 | flags | 아래 표 |
 
@@ -92,7 +92,7 @@ SPAN             SOURCE가 정한 폭 × 2 (시작 바이트, 바이트 수)
 - role은 RULE·COUNTER·EXCEPT-DECLARE에서 Codec과 같아야 한다(0 general, 1 counter, 2 except). SPEC-DECLARE에서는 정의 종류다. 그 밖의 Codec에서는 0이다.
 - level이 0(Unset)이면 엔진의 기본값을 쓴다: COUNTER-DECLARE는 Fail, EXCEPT-DECLARE는 Review.
 - TANGEUL `tangl:규칙`의 호스트 함수 규칙(`쓰는 규칙이다`)은 사안 밖의 RULE-DECLARE NODE로 쓴다. 함수는 F_FUNC, 기준은 F_WITH, 근거는 F_GROUNDS다. 조건식 규칙만 앞에 [PREDICATE-DECLARE](/ko/grammar/edge/toulmin/expr/)를 둔다.
-- 예약 비트(13–12)는 0이어야 한다. 예약 비트가 켜졌거나 role이 Codec과 맞지 않으면 거부한다.
+- Reserved 비트(13–12)는 0이어야 한다. Reserved 비트가 켜졌거나 role이 Codec과 맞지 않으면 거부한다.
 
 ## 관련 페이지
 

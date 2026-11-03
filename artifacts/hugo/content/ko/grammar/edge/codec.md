@@ -50,7 +50,7 @@ Edge Id           LOCAL Reference 레코드
 
 ### 자리 표지 (대상 `0000`, `0010`, `0020`)
 
-[자리 표지](/ko/grammar/reference/slot-marker/)는 예약 Reference 코드 `0x000L~0x002L`의 1 WORD 레코드 묶음이다. 양화가 없다.
+[자리 표지](/ko/grammar/reference/slot-marker/)는 Reserved Reference 코드 `0x000L~0x002L`의 1 WORD 레코드 묶음이다. 양화가 없다.
 
 | 대상 | 표지 | 뜻 |
 |---|---|---|
@@ -66,7 +66,7 @@ Edge Id           LOCAL Reference 레코드
 ### 선택 필드 (대상 `0000`)
 
 - 레코드 필드의 CODEC 목록에 대상 `0000`을 두면 그 필드는 **선택 필드**다. 생략할 때는 그 자리에 WORD `0x0000` 1 WORD를 쓴다. 이 1 WORD 레코드가 자리 표지 ABSENT(적지 않음)다.
-- `0x0000`은 Reference, Codec `0x000L`(예약), `LLLL = 0000`(전체 1 WORD)이다. 다른 레코드와 겹치지 않고, 규격을 모르는 디코더도 1 WORD 레코드로 건너뛴다.
+- `0x0000`은 Reference, Codec `0x000L`(Reserved), `LLLL = 0000`(전체 1 WORD)이다. 다른 레코드와 겹치지 않고, 규격을 모르는 디코더도 1 WORD 레코드로 건너뛴다.
 - 선택 필드도 자리는 항상 차지한다. 생략하면 반드시 `0x0000`을 쓰고 자리를 비우지 않는다(뒤쪽 필드여도 같다). 그래서 레코드 하나의 표기는 하나뿐이고, 분해는 위치만으로 정해진다. 선택 필드의 위치와 개수, 다른 필드와 목록이 겹치는지는 제약이 없다.
 - ABSENT는 선택 필드 자리에서만 유효하다. HEAD·BODY 레코드 자리, 필수 필드 자리, Edge Id 자리의 `0x0000`은 invalid다.
 - 생략은 "값이 없음"이 아니라 "적지 않음"이다. 세계에 관해 아무것도 단언하지 않는다. "값이 없다"는 NO-VALUE(`0020`)로 적는다. 생략이 무엇을 뜻하는지(예: TAG의 대상이 없으면 이 버전)는 각 형식의 명세가 정한다.
@@ -89,11 +89,11 @@ Edge Id           LOCAL Reference 레코드
 
 ## 예시
 
-LABEL 규격 문서 `0x00000000/codecs/0x00000a40/`에서 Object 필드(FIELD #3)가 UTF8-LANGUAGE-TEXT(짝수·홀수)와 LOCAL을 받는다. Edge Id 7~9.
+LABEL 규격 문서 `0x00000000/codecs/0x00000A40/`에서 Object 필드(FIELD #3)가 UTF8-LANGUAGE-TEXT(짝수·홀수)와 LOCAL을 받는다. Edge Id 7~9.
 
 ```
-0BE5 0051 0007 0051 0003 0580
-0BE5 0051 0008 0051 0003 0590
+0BE5 0051 0007 0051 0003 0780
+0BE5 0051 0008 0051 0003 0790
 0BE5 0051 0009 0051 0003 0050
 ```
 

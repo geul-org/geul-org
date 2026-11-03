@@ -38,7 +38,7 @@ Payload WORD 3rd–Nth (1 WORD 이상)  Unsigned Coefficient C
 | 값 표현 | Payload (`E` + `C`) | 판정 |
 |---|---|---|
 | `1×10^0` | `0000 0000 0001` | 바이트 표현 정규 |
-| `10×10^-1` | `ffff ffff 000a` | 바이트 표현 정규, 위 표현과의 canonical 관계는 열린 문제 |
+| `10×10^-1` | `FFFF FFFF 000A` | 바이트 표현 정규, 위 표현과의 canonical 관계는 열린 문제 |
 | `1×10^0` | `0000 0000 0000 0001` | 비정규: coefficient 선행 `0000` 불필요 |
 | 음수 coefficient | 해당 없음 | invalid |
 

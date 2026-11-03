@@ -17,7 +17,7 @@ image: "/images/og-default.webp"
 ```
 TAG WORD          0001 1101 1111 LLLL      Codec 0x1DFL
 [Length 확장 TAG]
-등급              1 WORD (0 공개, 1 내부, 2 대외비, 그 밖 예약)
+등급              1 WORD (0 공개, 1 내부, 2 대외비, 그 밖 Reserved)
 ```
 
 - Codec: Meta `0x1DFL`, 정책 클래스

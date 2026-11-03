@@ -36,7 +36,7 @@ TAG WORD          0001 1100 0111 LLLL      Codec 0x1C7L
 - `.well-known/geul/` 아래 `<Issuer>/docs/<문서 ID>/`와 `<Issuer>/codecs/<코덱 ID>/`의 버전 문서 `<버전 ID>.geul`(규격 문서 포함)은 `DOC-ID`가 필수다.
 - 목록 문서는 예외로 `DOC-ID`를 두지 않는다: 버전 목록 `versions.geul`([PUBLICATION](/ko/grammar/edge/publication/))과 Issuer 목록 `issuers/`의 버전 `<버전 ID>.geul`([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)). 무엇의 목록인지는 레코드의 DOC-POINTER가 말한다. 목록 문서의 버전은 그 `versions.geul`의 PUBLICATION이 DOC-POINTER(`0x00000000`, 예약 문서 ID, 버전 ID)로 가리킨다. 내용 해시 주소 `<Issuer>/hashes/`는 위 문서들의 사본이라 원본을 따른다.
 - 문서 ID `0xFFFFFFFFFFFFFFFF`는 Issuer 목록에 예약했다. 목록 문서는 `DOC-ID`가 없으므로 이 값은 `issuers/versions.geul` 레코드의 DOC-POINTER에만 나온다.
-- Codec 규격 문서는 GEUL Issuer `0x00000000`의 코덱 문서다. 문서 ID가 없고, `DOC-ID`로 CODEC-POINTER(`0x00000000`, 코덱 ID, `0`)를 둔다. 코덱 ID는 Kind·Codec TAG WORD를 32비트로 쓴 값이다(`0x0B80` → `0x00000b80`)([규격 문서](/ko/grammar/codec-spec/)).
+- Codec 규격 문서는 GEUL Issuer `0x00000000`의 코덱 문서다. 문서 ID가 없고, `DOC-ID`로 CODEC-POINTER(`0x00000000`, 코덱 ID, `0`)를 둔다. 코덱 ID는 Kind·Codec TAG WORD를 32비트로 쓴 값이다(`0x0B80` → `0x00000B80`)([규격 문서](/ko/grammar/codec-spec/)).
 
 ## 예시
 

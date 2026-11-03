@@ -38,7 +38,7 @@ Payload           1 WORD  Boolean Code
 | `0601 0000` | `0000` | false, 정규 |
 | `0601 0001` | `0001` | true, 정규 |
 | `0601 0002` | `0002` | invalid |
-| `0601 ffff` | `ffff` | invalid |
+| `0601 FFFF` | `FFFF` | invalid |
 | Length가 `0001`이 아닌 TAG + `0000` 또는 `0001` | `0000` 또는 `0001` | invalid |
 
 ## 형식 지위

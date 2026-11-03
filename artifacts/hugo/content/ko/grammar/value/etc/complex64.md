@@ -39,4 +39,4 @@ Payload           [real binary32: 2 WORD][imag binary32: 2 WORD]
 
 ## 예시
 
-- Payload `3f80 0000 4000 0000`은 `1.0 + 2.0i`다.
+- Payload `3F80 0000 4000 0000`은 `1.0 + 2.0i`다.

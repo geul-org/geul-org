@@ -46,4 +46,4 @@ Payload WORD 2nd: [R: 상위 8bit][A: 하위 8bit]
 
 ## 예시
 
-- Payload `0000 ff80`은 bytes `B=00, G=00, R=ff, A=80`이다.
+- Payload `0000 FF80`은 bytes `B=00, G=00, R=FF, A=80`이다.

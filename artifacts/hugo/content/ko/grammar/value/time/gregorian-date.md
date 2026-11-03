@@ -41,7 +41,7 @@ Payload WORD 2nd (bits 15..0)      Signed Day Count low 16bit
 |---|---|---:|
 | `1970-01-01` | `0000 0000` | 3 WORD (`LLLL=0010`) |
 | `1970-01-02` | `0000 0001` | 3 WORD (`LLLL=0010`) |
-| `1969-12-31` | `ffff ffff` | 3 WORD (`LLLL=0010`) |
+| `1969-12-31` | `FFFF FFFF` | 3 WORD (`LLLL=0010`) |
 
 ## EDTF와의 관계
 

@@ -15,7 +15,7 @@ OPAQUE-BYTES는 의미와 형식을 이 형식 자체에서 정하지 않는 임
 ## 레이아웃
 
 ```
-TAG WORD          0000 0101 111P LLLL      Codec 0x07EL/0x07FL
+TAG WORD          0000 0111 111P LLLL      Codec 0x07EL/0x07FL
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Payload WORD 1st ... Nth   바이트 / 마지막 zero padding
 ```
@@ -37,10 +37,10 @@ Payload WORD 1st ... Nth   바이트 / 마지막 zero padding
 
 ## 예시
 
-byte `ab cd ef`는 3 byte(홀수)라 `OPAQUE-BYTES-ODD`(`0x07FL`), Payload `abcd ef00`이다. 전체 3 WORD이므로 `LLLL=0010`이다.
+byte `AB CD EF`는 3 byte(홀수)라 `OPAQUE-BYTES-ODD`(`0x07FL`), Payload `ABCD EF00`이다. 전체 3 WORD이므로 `LLLL=0010`이다.
 
 ```
-07F2 abcd ef00
+07F2 ABCD EF00
 ```
 
 빈 바이트열은 `07E0`(`OPAQUE-BYTES-EVEN`, TAG WORD만) 1 WORD다.

@@ -49,11 +49,11 @@ Edge Id `0008`, Subject는 LOCAL 1, Object는 `Donald Trump`(en)의 [UTF8-LANGUA
 
 - Edge Id는 `0051 0008`로 2 WORD다.
 - Subject는 `0051 0001`로 2 WORD다.
-- Object는 언어 `0761 656e`(BCP47 `en`) + 텍스트 12 byte(짝수)라 `UTF8-LANGUAGE-TEXT-EVEN`(`0x078L`), 전체 9 WORD다. TAG는 `0788`이다.
+- Object는 언어 `0761 656E`(BCP47 `en`) + 텍스트 12 byte(짝수)라 `UTF8-LANGUAGE-TEXT-EVEN`(`0x078L`), 전체 9 WORD다. TAG는 `0788`이다.
 - Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 9 = 14 WORD, `LLLL=1101`이다. TAG는 `0A0D`다.
 
 ```
-0A0D 0051 0008 0051 0001 0588 0561 656e 446f 6e61 6c64 2054 7275 6d70
+0A0D 0051 0008 0051 0001 0788 0761 656E 446F 6E61 6C64 2054 7275 6D70
 ```
 
 ## 관련 페이지

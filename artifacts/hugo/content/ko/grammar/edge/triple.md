@@ -70,7 +70,7 @@ Q42(Douglas Adams) P31(instance of) Q5(human), normal. Edge Id `0005`.
 - TAG 1 + Edge Id 2 + Predicate 2 + Subject 2 + Object 2 + Rank 1 = 10 WORD, `LLLL=1001`. TAG는 `0000 1010 1010 1001` = `0AA9`다.
 
 ```
-0AA9 0051 0005 0191 001f 0141 002a 0141 0005 0000
+0AA9 0051 0005 0191 001F 0141 002A 0141 0005 0000
 ```
 
 Q30(미국) P1304(중앙은행) NO-VALUE, normal. 1811~1816년에는 중앙은행이 없었다(P580·P582 QUALIFIER는 [QUALIFIER](/ko/grammar/edge/qualifier/) 예시). Edge Id `3161`.

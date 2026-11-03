@@ -42,7 +42,7 @@ Edge 구역은 `0x0A0L~0x1BFL`이다. 직접 코드의 계열은 `(코드 − 0x
 | 8 | [TOULMIN](/ko/grammar/edge/toulmin/) | `0x100L~0x11BL` | 논증 그래프: 주장·반박·예외, 공격 관계, 실행, 판정 결과 |
 | 9 | [TOULMIN](/ko/grammar/edge/toulmin/) 형식 | `0x120L~0x134L` | TOULMIN 문서의 원문·구획·보조 노드와 관계 |
 
-- 배정된 직접 코드는 이 다섯 계열이다. `0x11CL~0x11FL`은 Reserved이고, `0x135L~0x1BCL`은 빈칸이다(섹션 10~12는 빈 섹션).
+- 배정된 직접 코드는 이 다섯 계열이다. `0x11CL~0x11FL`은 Reserved이고, `0x135L~0x1BCL`은 Reserved다(섹션 10~12는 섹션 전체가 Reserved).
 - `0x1BDL~0x1BFL`(섹션 13의 끝 세 칸)은 EDGE-ISSUER다(아래 Issuer 형식 Edge). Issuer 형식에는 계열 규칙이 없다.
 
 ## 서술 Edge

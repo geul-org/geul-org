@@ -16,7 +16,7 @@ GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를
 
 주소에 쓰는 ID는 hex로 쓴다.
 
-- 접두어는 소문자 `0x`, hex 숫자도 소문자다.
+- 접두어는 소문자 `0x`, hex 숫자는 대문자(`A`~`F`)다.
 - 자릿수는 폭 × 4로 고정한다. 앞의 0을 생략하지 않으며, 자릿수가 곧 폭이다.
 - 주소를 쓸 때 Issuer는 발급 폭의 자릿수로 쓴다: 2 WORD 8자리, 4 WORD 16자리, 16 WORD 64자리.
 - 읽을 때 Issuer는 8자리, 16자리, 64자리 모두 받는다. 짧은 Issuer ID에 앞 0을 붙인 긴 표기는 같은 Issuer로 찾는다(`0x00000001`과 `0x0000000000000001`은 같은 Issuer다, [Issuer와 공표](/ko/grammar/issuer/#issuer-등급)).
@@ -26,13 +26,13 @@ GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를
 | Issuer | 2 WORD | 8 | `0x00000001` |
 | Issuer | 4 WORD | 16 | `0x0000000100000000` |
 | Issuer | 16 WORD | 64 | `0x` + 64자리 |
-| 코덱 ID | 2 WORD | 8 | `0x00000aa0` |
+| 코덱 ID | 2 WORD | 8 | `0x00000AA0` |
 | 문서 ID | 4 WORD | 16 | `0x0000000000000000` |
 | 버전 ID | 2 WORD | 8 | `0x00000003` |
 | 내용 해시 | 16 WORD | 64 | `0x` + 64자리 |
 
-- GEUL 직접 코드의 코덱 ID는 그 TAG WORD(L=0)를 32비트로 쓴 값이다(TRIPLE `0x0AAL` → `0x00000aa0`). Kind가 TAG에 들어 있어 겹치지 않는다.
-- 다른 Issuer의 ISSUER 형식 코덱은 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000c000/`.
+- GEUL 직접 코드의 코덱 ID는 그 TAG WORD(L=0)를 32비트로 쓴 값이다(TRIPLE `0x0AAL` → `0x00000AA0`). Kind가 TAG에 들어 있어 겹치지 않는다.
+- 다른 Issuer의 ISSUER 형식 코덱은 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000C000/`.
 - Issuer 코덱의 코덱 ID는 레코드의 코덱 번호(2 WORD)다. Issuer는 Kind(Reference, Value, Edge)와 상관없이 자기 `<Issuer>/codecs/` 안에서 코덱 번호가 겹치지 않게 배정한다. 주소는 Kind로 나누지 않는다(`references/`, `values/`, `edges/` 같은 폴더는 없다).
 - 해석기는 레코드의 Kind와 그 코덱 문서 [DECLARE](/ko/grammar/edge/declare/) 대상의 Kind가 다르면 오류로 본다.
 - 공표는 같은 코덱 ID에 다른 코덱을 올리는 것을 거부한다.

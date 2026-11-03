@@ -77,9 +77,9 @@ LOCAL ID          가장 짧은 폭의 unsigned big-endian
 | LOCAL ID | WORD sequence |
 |---:|---|
 | 1 | `0051 0001` |
-| 65535 | `0051 ffff` |
+| 65535 | `0051 FFFF` |
 | 65536 | `0052 0001 0000` |
-| 4294967295 | `0052 ffff ffff` |
+| 4294967295 | `0052 FFFF FFFF` |
 | 1, Variable | `0091 0001` |
 
 ## 관련 페이지

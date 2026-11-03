@@ -43,28 +43,28 @@ Object            UTF8-LANGUAGE-TEXT Value 또는 LOCAL Reference 레코드 1개
 
 ## 예시 (비규범)
 
-`en`의 언어 코드 `0784`는 GEUL Language Registry v2(규격 문서 `0x00000000/codecs/0x000007a0` 버전 2)의 번호다.
+`en`의 언어 코드 `0784`는 GEUL Language Registry v2(규격 문서 `0x00000000/codecs/0x000007A0` 버전 2)의 번호다.
 
 ### LANGUAGE-SHORT-CODE
 
-Edge Id `0007`, Subject Q22686(`0141 589e`), Object `Donald Trump`(en).
+Edge Id `0007`, Subject Q22686(`0141 589E`), Object `Donald Trump`(en).
 
-- Object는 언어 `07A1 0784`(SHORT-CODE 2 WORD) + 텍스트 12 byte(짝수, 6 WORD)라 `UTF8-LANGUAGE-TEXT-EVEN`(`0x078L`), 전체 9 WORD `0788 07A1 0784 446f 6e61 6c64 2054 7275 6d70`이다.
+- Object는 언어 `07A1 0784`(SHORT-CODE 2 WORD) + 텍스트 12 byte(짝수, 6 WORD)라 `UTF8-LANGUAGE-TEXT-EVEN`(`0x078L`), 전체 9 WORD `0788 07A1 0784 446F 6E61 6C64 2054 7275 6D70`이다.
 - Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 9 = 14 WORD, `LLLL=1101`이다. TAG는 `0A4D`다.
 
 ```
-0A4D 0051 0007 0141 589e 0788 07A1 0784 446f 6e61 6c64 2054 7275 6d70
+0A4D 0051 0007 0141 589E 0788 07A1 0784 446F 6E61 6C64 2054 7275 6D70
 ```
 
 ### LANGUAGE-BCP47-CODE
 
-Edge Id `0008`, Subject Q155(`0141 009b`), Object `Brasil`(pt-BR).
+Edge Id `0008`, Subject Q155(`0141 009B`), Object `Brasil`(pt-BR).
 
-- Object는 언어 `0773 7074 2d42 5200`(BCP47 `pt-BR`, 4 WORD) + 텍스트 6 byte(짝수, 3 WORD)라 전체 8 WORD `0787 0773 7074 2d42 5200 4272 6173 696c`이다.
+- Object는 언어 `0773 7074 2D42 5200`(BCP47 `pt-BR`, 4 WORD) + 텍스트 6 byte(짝수, 3 WORD)라 전체 8 WORD `0787 0773 7074 2D42 5200 4272 6173 696C`이다.
 - Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 8 = 13 WORD, `LLLL=1100`이다. TAG는 `0A4C`다.
 
 ```
-0A4C 0051 0008 0141 009b 0787 0773 7074 2d42 5200 4272 6173 696c
+0A4C 0051 0008 0141 009B 0787 0773 7074 2D42 5200 4272 6173 696C
 ```
 
 ## 관련 페이지

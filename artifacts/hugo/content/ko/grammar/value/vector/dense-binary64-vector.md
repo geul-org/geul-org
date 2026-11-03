@@ -44,4 +44,4 @@ Payload: [binary64 bits 1st: 4 WORD] ... [binary64 bits Nth: 4 WORD]
 
 ## 예시
 
-- Payload `3ff0 0000 0000 0000`은 binary64 `[1.0]`이고, 전체 9 WORD 레코드다.
+- Payload `3FF0 0000 0000 0000`은 binary64 `[1.0]`이고, 전체 9 WORD 레코드다.

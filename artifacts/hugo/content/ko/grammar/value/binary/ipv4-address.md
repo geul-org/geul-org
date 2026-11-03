@@ -45,5 +45,5 @@ Payload           2 WORD  address octet 1–2 │ address octet 3–4
 IPv4 주소 `1.2.3.4`:
 
 ```
-09d6 0000 0007 0000 c001 0102 0304
+09D6 0000 0007 0000 C001 0102 0304
 ```

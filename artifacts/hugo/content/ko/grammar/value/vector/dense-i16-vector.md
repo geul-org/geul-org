@@ -45,4 +45,4 @@ Payload: [int16 1st: 1 WORD] ... [int16 Nth: 1 WORD]
 
 ## 예시
 
-- Payload `ffff 0002`는 원소 `[-1, 2]`이고, 직접 길이 `LLLL=0110`인 전체 7 WORD 레코드다.
+- Payload `FFFF 0002`는 원소 `[-1, 2]`이고, 직접 길이 `LLLL=0110`인 전체 7 WORD 레코드다.

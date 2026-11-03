@@ -33,12 +33,12 @@ Object            UTF8-LANGUAGE-TEXT Value 또는 LOCAL Reference 레코드 1개
 
 ## 예시 (비규범)
 
-Edge Id `0003`, Subject Q42(`0141 002a`), Object `DNA`(en): 언어 `0761 656e`(BCP47 `en`) + 텍스트 3 byte(홀수) → `UTF8-LANGUAGE-TEXT-ODD`(`0x079L`), `0794 0761 656e 444e 4100`.
+Edge Id `0003`, Subject Q42(`0141 002A`), Object `DNA`(en): 언어 `0761 656E`(BCP47 `en`) + 텍스트 3 byte(홀수) → `UTF8-LANGUAGE-TEXT-ODD`(`0x079L`), `0794 0761 656E 444E 4100`.
 
 - TAG 1 + Edge Id 2 + Subject 2 + Object 5 = 10 WORD, `LLLL=1001`. TAG는 `0A59`다.
 
 ```
-0a59 0051 0003 0141 002a 0794 0761 656e 444e 4100
+0A59 0051 0003 0141 002A 0794 0761 656E 444E 4100
 ```
 
 ## 관련 페이지

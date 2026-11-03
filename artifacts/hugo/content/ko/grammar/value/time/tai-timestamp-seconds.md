@@ -41,7 +41,7 @@ Payload WORD 4th (bits 15..0)      Signed SI Seconds low 16bit
 
 - GEUL TAI epoch는 Payload `0000 0000 0000 0000`, 전체 9 WORD, `LLLL=1000`이다.
 - epoch 뒤 1초는 Payload `0000 0000 0000 0001`이다.
-- epoch 1초 전은 Payload `ffff ffff ffff ffff`이다.
+- epoch 1초 전은 Payload `FFFF FFFF FFFF FFFF`이다.
 
 ## 표준 근거와 형식 지위
 

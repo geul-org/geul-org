@@ -23,7 +23,7 @@ Payload           2 WORD  CRC32C 상위 16bit │ 하위 16bit
 
 ## 해석과 유효성
 
-- CRC parameter 표기로 width 32, Castagnoli polynomial `0x1EDC6F41`, refin/refout true, init `0xffffffff`, xorout `0xffffffff`다.
+- CRC parameter 표기로 width 32, Castagnoli polynomial `0x1EDC6F41`, refin/refout true, init `0xFFFFFFFF`, xorout `0xFFFFFFFF`다.
 - 계산 결과인 unsigned 32bit 정수를 big-endian WORD 순서로 저장한다. 이 직렬화는 RFC 3309의 SCTP Checksum field 배치나 RFC 3720의 iSCSI digest byte mapping 자체가 아니다.
 - Payload가 2 WORD가 아니면 거부한다.
 
@@ -39,8 +39,8 @@ Payload           2 WORD  CRC32C 상위 16bit │ 하위 16bit
 
 ## 예시
 
-ASCII `123456789`의 CRC-32C check value `0xe3069283`:
+ASCII `123456789`의 CRC-32C check value `0xE3069283`:
 
 ```
-09D6 0000 0007 0000 C000 e306 9283
+09D6 0000 0007 0000 C000 E306 9283
 ```

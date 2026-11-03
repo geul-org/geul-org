@@ -44,7 +44,7 @@ ID                     LOCAL Reference 레코드 (Edge Id)
 | 4 | EXISTS | 1 | 양화 연산자 1 WORD, 대상 피연산자, 묶는 이름 라벨 1 WORD |
 | 5 | CALL | 0 | 별칭 라벨 1 WORD, 함수 이름 라벨 1 WORD |
 | 6 | COMPARE-X | 0 | 비교 연산자 1 WORD, 필드 라벨 1 WORD, 왼쪽 표지 1 WORD [+ 피연산자], 값 자리 |
-| 7 | 예약 | | |
+| 7 | Reserved | | |
 
 - 자식 레코드는 헤더 뒤 필드 다음에 이어진다. EXISTS의 자식은 조건 하나다.
 - COMPARE는 양쪽에 피연산자가 없는 비교 `<필드> <연산자> <값>`이다. 피연산자가 한쪽이라도 있으면 COMPARE-X를 쓴다.

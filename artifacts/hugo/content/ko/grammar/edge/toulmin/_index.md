@@ -62,7 +62,7 @@ TOULMIN 레코드는 세 가지 레이아웃 중 하나를 쓴다. 레이아웃�
 | `0x119L` | EVIDENCE | — | | 판정의 증거. 위치, 기대값, 실제값(Fact). 코드만 배정했고 레이아웃은 아직 없다 |
 | `0x11CL~0x11FL` | Reserved | | | |
 
-- 표에 없는 직접 코드(`0x106L`·`0x107L`, `0x10BL`~`0x10FL`, `0x117L`, `0x11AL`·`0x11BL`)는 예약이다.
+- 표에 없는 직접 코드(`0x106L`·`0x107L`, `0x10BL`~`0x10FL`, `0x117L`, `0x11AL`·`0x11BL`)는 Reserved다.
 - 묶음은 `0x100L~0x107L` 선언, `0x108L~0x10FL` 관계, `0x110L~0x117L` 실행, `0x118L~0x11FL` 결과다(`0x11CL~0x11FL`은 Reserved).
 - 문서 전체의 판정은 Meta [VERDICT](/ko/grammar/meta/verification/verdict/)(`0x1E9L`)가, 노드·레코드의 판정은 TOULMIN `VERDICT`(Edge `0x118L`)가 맡는다. 둘은 Kind가 다른 별개의 Codec이다.
 

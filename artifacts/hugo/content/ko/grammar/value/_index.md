@@ -73,7 +73,7 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 비트로 계열
 | `0x081L` | [DURATION-NANOSECONDS](/ko/grammar/value/time/duration-nanoseconds/) | TIME | 경과 시간(나노초) |
 
 - 짝수·홀수로 짝지은 코드는 가변 길이 바이트열이다. 짝수 코드는 바이트 수가 짝수, 홀수 코드는 홀수다([레코드와 TAG WORD](/ko/grammar/record/)).
-- 직접 코드는 `0x060L~0x081L`에 빈칸 없이 있다. `0x082L~0x09CL`은 빈칸이고 `0x09DL~0x09FL`은 VALUE-ISSUER-2/4/16WORD다.
+- 직접 코드는 `0x060L~0x081L`에 Reserved 없이 있다. `0x082L~0x09CL`은 Reserved이고 `0x09DL~0x09FL`은 VALUE-ISSUER-2/4/16WORD다.
 
 ## Issuer 형식
 
@@ -91,7 +91,7 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 비트로 계열
 | GPS `0x00000016` | GPS 타임스탬프 |
 
 - 형식을 모르는 디코더는 Issuer와 코덱 번호까지 알고 Length로 건너뛴다.
-- 코덱 문서는 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000c000/`([공표 주소와 버전 목록](/ko/grammar/publishing/)).
+- 코덱 문서는 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000C000/`([공표 주소와 버전 목록](/ko/grammar/publishing/)).
 - 이미지·영상 같은 큰 값은 직접 넣기보다 URI와 SHA-256으로 참조하기를 권장한다.
 - 바이트열 안의 저작물은 원래 라이선스를 따른다. 출처와 라이선스는 Meta로 기록한다.
 
@@ -123,7 +123,7 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 비트로 계열
 
 ```
 UTF8-LANGUAGE-TEXT
-TAG WORD          0000 0101 100P LLLL   (P = 텍스트가 홀수 바이트)
+TAG WORD          0000 0111 100P LLLL   (P = 텍스트가 홀수 바이트)
 [Length 확장 TAG]
 언어              LANGUAGE-SHORT-CODE 또는 LANGUAGE-BCP47-CODE 레코드
 텍스트            UTF-8 바이트 (홀수면 마지막 0x00)

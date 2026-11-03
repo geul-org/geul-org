@@ -37,7 +37,7 @@ TAG WORD          0000 0KCC CCCC LLLL      섹션 0~2 (0x000L~0x05FL)
 
 | TAG ID | 이름 | 분류 | 대상 |
 |---|---|---|---|
-| `0x000L~0x002L` | [자리 표지](/ko/grammar/reference/slot-marker/) | 예약 | 대상을 가리키지 않는다. 1 WORD 표지만 쓴다: `0x0000` ABSENT(적지 않음), `0x0010` UNKNOWN-VALUE(알 수 없음), `0x0020` NO-VALUE(없음) |
+| `0x000L~0x002L` | [자리 표지](/ko/grammar/reference/slot-marker/) | Reserved | 대상을 가리키지 않는다. 1 WORD 표지만 쓴다: `0x0000` ABSENT(적지 않음), `0x0010` UNKNOWN-VALUE(알 수 없음), `0x0020` NO-VALUE(없음) |
 | `0x005L~0x009L` | [LOCAL](/ko/grammar/reference/local/) | 선언 | 이 문서가 발급한 ID |
 | `0x00AL~0x00EL` | [GEUL](/ko/grammar/reference/geul/) | 선언 | geul.org가 발급하는 엔티티 |
 | `0x00FL~0x013L` | [GEUL-SIDX](/ko/grammar/reference/geul-sidx/) | 선언 | 비트에 의미를 담은 의미정렬 식별자 |
@@ -50,7 +50,7 @@ TAG WORD          0000 0KCC CCCC LLLL      섹션 0~2 (0x000L~0x05FL)
 | `0x042L` | [CODEC-POINTER](/ko/grammar/reference/codec-pointer/) | 지시선언 | Issuer가 공표한 코덱의 한 버전 |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer가 정의한다. 분류와 대상 ID 칸은 Issuer 문서가 정한다 |
 
-- 빈칸은 `0x003L~0x004L`, `0x01EL~0x01FL`(섹션 0), `0x03EL~0x03FL`(섹션 1), `0x043L~0x05CL`(섹션 2, 새 식별 체계 자리)이다.
+- Reserved는 `0x003L~0x004L`, `0x01EL~0x01FL`(섹션 0), `0x03EL~0x03FL`(섹션 1), `0x043L~0x05CL`(섹션 2, 새 식별 체계 자리)이다.
 - 체계 번호는 섹션 안 오프셋 `C`로 읽는다. 섹션 0에서 `5 <= C < 30`이면 체계 `C / 5`(1~5), 섹션 1에서 `C < 30`이면 체계 `6 + C / 5`(6~11)다.
 
 | 체계 | 이름 | Identified | Generic | Free-choice | Universal | Variable |
@@ -71,7 +71,7 @@ TAG WORD          0000 0KCC CCCC LLLL      섹션 0~2 (0x000L~0x05FL)
 - **지시**는 IMPORT ID로 가져온 문서 안의 LOCAL을 가리킨다. IMPORT ID 폭은 체계로 정해진다: 체계 − 6이 0, 1, 2이면 1, 2, 4 WORD다.
 - **지시선언**은 IMPORT 없이 레코드 하나로 다른 문서와 그 안의 대상을 가리킨다. EXTERNAL-ISSUER의 Issuer 폭은 체계 − 9가 0, 1, 2이면 2, 4, 16 WORD다.
 - `0x020L~0x03DL`(섹션 1, 체계 6~11)은 다른 문서의 LOCAL을 가리킨다. 그 밖의 선언 체계는 대상을 직접 식별한다(이 문서의 LOCAL, 발급 ID). 포인터(섹션 2, `0x040L~0x042L`)는 Issuer·문서·코덱 자체를 가리킨다. REFERENCE-ISSUER는 이 구분 밖이다.
-- `0x000L~0x002L`은 예약이고, 대상을 가리키는 Reference로는 쓰지 않는다. WORD `0x0000`, `0x0010`, `0x0020`(L 0, 1 WORD)은 [자리 표지](/ko/grammar/reference/slot-marker/)다(`0x0000` ABSENT, `0x0010` UNKNOWN-VALUE, `0x0020` NO-VALUE). 표지는 그 WORD를 CODEC 대상으로 정확히 둔 레코드 필드 자리에서만 유효하다. 와일드카드와 CODEC 없는 필드는 받지 않고, HEAD·BODY 레코드 자리와 Edge Id 자리에서는 invalid다. C 0~2에 Payload가 있는 레코드(L ≥ 1)는 예약이다.
+- `0x000L~0x002L`은 Reserved이고, 대상을 가리키는 Reference로는 쓰지 않는다. WORD `0x0000`, `0x0010`, `0x0020`(L 0, 1 WORD)은 [자리 표지](/ko/grammar/reference/slot-marker/)다(`0x0000` ABSENT, `0x0010` UNKNOWN-VALUE, `0x0020` NO-VALUE). 표지는 그 WORD를 CODEC 대상으로 정확히 둔 레코드 필드 자리에서만 유효하다. 와일드카드와 CODEC 없는 필드는 받지 않고, HEAD·BODY 레코드 자리와 Edge Id 자리에서는 invalid다. C 0~2에 Payload가 있는 레코드(L ≥ 1)는 예약이다.
 - geul.org가 제공하는 직접 코드와 공표물만 CC0다. CC0가 아닌 식별 체계(WordNet 등)를 직접 코드로 두지 않는다. Issuer 형식의 라이선스는 그 Issuer가 정한다.
 
 ### 자주 쓰는 TAG
@@ -81,8 +81,8 @@ TAG WORD          0000 0KCC CCCC LLLL      섹션 0~2 (0x000L~0x05FL)
 | LOCAL 1 | `0051 0001` |
 | LOCAL 65536 | `0052 0001 0000` |
 | 위키데이터 Q5 (사람) | `0141 0005` |
-| 위키데이터 Q691283 | `0142 000a 8c53` |
-| 위키데이터 P31 (instance of) | `0191 001f` |
+| 위키데이터 Q691283 | `0142 000A 8C53` |
+| 위키데이터 P31 (instance of) | `0191 001F` |
 | 자리 표지 ABSENT / UNKNOWN-VALUE / NO-VALUE | `0000` / `0010` / `0020` |
 
 ## LOCAL

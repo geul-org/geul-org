@@ -45,4 +45,4 @@ Payload: [uint16 1st: 1 WORD] ... [uint16 Nth: 1 WORD]
 
 ## 예시
 
-- Payload `0000 ffff`는 원소 `[0, 65535]`이고, 직접 길이 `LLLL=0110`인 전체 7 WORD 레코드다.
+- Payload `0000 FFFF`는 원소 `[0, 65535]`이고, 직접 길이 `LLLL=0110`인 전체 7 WORD 레코드다.

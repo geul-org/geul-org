@@ -44,4 +44,4 @@ Payload: [binary32 bits 1st: 2 WORD] ... [binary32 bits Nth: 2 WORD]
 
 ## 예시
 
-- Payload `3f80 0000 8000 0000`은 binary32 `[1.0, -0]`이고, 전체 9 WORD 레코드다.
+- Payload `3F80 0000 8000 0000`은 binary32 `[1.0, -0]`이고, 전체 9 WORD 레코드다.

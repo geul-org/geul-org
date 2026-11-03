@@ -46,11 +46,11 @@ Subject           Reference 레코드 1개, 또는 코덱 TAG WORD 1 WORD
 
 프로그램 기호: Edge Id `0003`, Subject LOCAL 7, 이름 `main`.
 
-- 이름 `main`은 4 byte(짝수)라 `0722 6d61 696e` 3 WORD다.
+- 이름 `main`은 4 byte(짝수)라 `0722 6D61 696E` 3 WORD다.
 - Edge는 TAG 1 + Edge Id 2 + Subject 2 + 이름 3 = 8 WORD, TAG `0A37`이다.
 
 ```
-0a37 0051 0003 0051 0007 0722 6d61 696e
+0A37 0051 0003 0051 0007 0722 6D61 696E
 ```
 
 ## 관련 페이지

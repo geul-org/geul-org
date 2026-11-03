@@ -25,7 +25,7 @@ Payload WORD 3rd–Nth (1 WORD 이상)  Signed Two's-complement Coefficient C
 
 - `E`는 상위 WORD부터 기록한 signed 32bit big-endian 2의 보수 정수다.
 - `C`는 나머지 WORD 전체를 상위 WORD부터 이어 붙인 임의 정밀도 2의 보수 정수다.
-- `C`는 [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/)와 같은 최소 WORD 규칙을 따른다. 지울 수 있는 선행 `0000` 또는 `ffff` WORD는 금지한다.
+- `C`는 [SIGNED-INTEGER](/ko/grammar/value/numeric/signed-integer/)와 같은 최소 WORD 규칙을 따른다. 지울 수 있는 선행 `0000` 또는 `FFFF` WORD는 금지한다.
 
 ## 길이와 유효성
 
@@ -38,7 +38,7 @@ Payload WORD 3rd–Nth (1 WORD 이상)  Signed Two's-complement Coefficient C
 | 값 표현 | Payload (`E` + `C`) | 판정 |
 |---|---|---|
 | `1×10^0` | `0000 0000 0001` | 바이트 표현 정규 |
-| `10×10^-1` | `ffff ffff 000a` | 바이트 표현 정규, 위 표현과의 canonical 관계는 열린 문제 |
+| `10×10^-1` | `FFFF FFFF 000A` | 바이트 표현 정규, 위 표현과의 canonical 관계는 열린 문제 |
 | `1×10^0` | `0000 0000 0000 0001` | 비정규: coefficient 선행 `0000` 불필요 |
 | Payload 7 WORD | 직접 길이 `LLLL=0111`, 전체 8 WORD | 정규 길이 구조 |
 

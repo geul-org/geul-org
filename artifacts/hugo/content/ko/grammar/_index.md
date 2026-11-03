@@ -21,7 +21,7 @@ GEUL v1 문법 명세다. 처음 읽는다면 아래 순서로 읽는다.
 7. [Codec 규격 문서](/ko/grammar/codec-spec/) — Codec 레이아웃을 GEUL 문서로 쓰는 법
 8. [예시: 위키데이터 항목](/ko/grammar/example/) — 실제 문서 한 벌
 
-이 페이지는 모든 Codec의 색인이다. 이름을 누르면 그 Codec의 상세 문서로 간다. 링크가 없는 이름은 아직 상세 문서가 없다. 표에 없는 직접 코드는 예약이다.
+이 페이지는 모든 Codec의 색인이다. 이름을 누르면 그 Codec의 상세 문서로 간다. 링크가 없는 이름은 아직 상세 문서가 없다. 표에 없는 직접 코드는 Reserved다.
 
 ## Kind
 
@@ -46,7 +46,7 @@ TAG WORD는 `000K KKKC CCCC LLLL`다. 상위 4비트 `KKKK`는 섹션, `C`는 �
 
 | TAG ID | 이름 | 분류 | 대상 ID |
 |---|---|---|---|
-| `0x000L~0x002L` | [자리 표지](/ko/grammar/reference/slot-marker/) | 예약 | 대상을 가리키지 않는 1 WORD 표지 묶음(아래 표) |
+| `0x000L~0x002L` | [자리 표지](/ko/grammar/reference/slot-marker/) | Reserved | 대상을 가리키지 않는 1 WORD 표지 묶음(아래 표) |
 | `0x005L~0x009L` | [LOCAL](/ko/grammar/reference/local/) | 선언 | 이 문서가 발급한 ID |
 | `0x00AL~0x00EL` | [GEUL](/ko/grammar/reference/geul/) | 선언 | geul.org가 CC0로 발급하는 엔티티. 작은 번호를 고빈도 엔티티에 배정한다 |
 | `0x00FL~0x013L` | [GEUL-SIDX](/ko/grammar/reference/geul-sidx/) | 선언 | GEUL SIDX(Semantic-aligned Index). 비트에 의미를 담은 식별자 |
@@ -65,7 +65,7 @@ TAG WORD는 `000K KKKC CCCC LLLL`다. 상위 4비트 `KKKK`는 섹션, `C`는 �
 | `0x05EL` | [REFERENCE-ISSUER-4WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer 4 WORD와 코덱 번호 2 WORD. 위와 같음 |
 | `0x05FL` | [REFERENCE-ISSUER-16WORD](/ko/grammar/reference/reference-issuer/) | Issuer 형식 | Issuer 16 WORD와 코덱 번호 2 WORD. 위와 같음 |
 
-- Reference는 섹션 세 개다. 섹션 0 엔티티 `0x000L~0x01FL`(자리 표지, 5Q 체계), 섹션 1 EXTERNAL `0x020L~0x03FL`, 섹션 2 기타 `0x040L~0x05FL`(포인터, REFERENCE-ISSUER). 빈칸은 `0x003L~0x004L`, `0x01EL~0x01FL`, `0x03EL~0x03FL`, `0x043L~0x05CL`이다.
+- Reference는 섹션 세 개다. 섹션 0 엔티티 `0x000L~0x01FL`(자리 표지, 5Q 체계), 섹션 1 EXTERNAL `0x020L~0x03FL`, 섹션 2 기타 `0x040L~0x05FL`(포인터, REFERENCE-ISSUER). Reserved는 `0x003L~0x004L`, `0x01EL~0x01FL`, `0x03EL~0x03FL`, `0x043L~0x05CL`이다.
 - 5칸 묶음(LOCAL부터 EXTERNAL-ISSUER-16WORD까지)은 아래 Quantifier 순서로 한 칸씩이다. 예: WIKIDATA-QID Identified `0x014L`, Generic `0x015L`.
 
 ### 자리 표지 (`0x000L~0x002L`)
@@ -114,13 +114,13 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 | 서명 알고리즘 ID | 알고리즘 |
 |---|---|
 | `0x0001` | Ed25519 |
-| 그 외 | 예약 |
+| 그 외 | Reserved |
 
 ## Edge
 
 `0x0A0L~0x1BFL` — [Edge](/ko/grammar/edge/)
 
-직접 코드의 계열은 `(코드 − 0xA0) >> 5`다(코드는 TAG ID의 앞 세 자리). 계열은 32칸씩이고 섹션 `w >> 9`에서 5를 뺀 값과 같다. 배정된 직접 코드는 아래 다섯 계열이다. `0x135L~0x1BCL`은 빈칸이다(섹션 10~12는 빈 섹션). Issuer 형식에는 계열 규칙이 없다.
+직접 코드의 계열은 `(코드 − 0xA0) >> 5`다(코드는 TAG ID의 앞 세 자리). 계열은 32칸씩이고 섹션 `w >> 9`에서 5를 뺀 값과 같다. 배정된 직접 코드는 아래 다섯 계열이다. `0x135L~0x1BCL`은 Reserved다(섹션 10~12는 섹션 전체가 Reserved). Issuer 형식에는 계열 규칙이 없다.
 
 | 섹션 | 계열 | 직접 코드 |
 |---|---|---|
@@ -279,7 +279,7 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 | `0x133L` | [IMPORTED-FROM](/ko/grammar/edge/toulmin/link/) | LINK. 별칭 → 경로(TEXT) |
 | `0x134L` | [LABEL](/ko/grammar/edge/toulmin/link/) | LINK. 노드 → TEXT, 이름 표기 |
 
-- `0x135L~0x1BCL`은 빈칸이다.
+- `0x135L~0x1BCL`은 Reserved다.
 
 ### Edge ISSUER 형식
 
@@ -289,7 +289,7 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](/ko/
 
 `0x060L~0x09FL` — [Value](/ko/grammar/value/)
 
-Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x060L~0x081L`에 빈칸 없이 둔다. `0x082L~0x09CL`은 빈칸이고, `0x09DL~0x09FL`은 VALUE-ISSUER다. 계열 이름(NUMERIC, DECIMAL, TIME, TEXT, BINARY)은 주제 묶음이다. 짝수·홀수 쌍은 짝수 코드에서 시작한다.
+Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x060L~0x081L`에 Reserved 없이 둔다. `0x082L~0x09CL`은 Reserved이고, `0x09DL~0x09FL`은 VALUE-ISSUER다. 계열 이름(NUMERIC, DECIMAL, TIME, TEXT, BINARY)은 주제 묶음이다. 짝수·홀수 쌍은 짝수 코드에서 시작한다.
 
 | 계열 | 직접 코드 |
 |---|---|
@@ -338,7 +338,7 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x060L~0x081L`�
 
 ### Value ISSUER 형식
 
-`0x09DL`~`0x09FL`(VALUE-ISSUER-2/4/16WORD) 뒤 Codec 확장 TAG에 Issuer와 코덱 번호 2 WORD를 둔다. 코덱 문서는 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000c000/`([공표 주소와 버전 목록](/ko/grammar/publishing/)).
+`0x09DL`~`0x09FL`(VALUE-ISSUER-2/4/16WORD) 뒤 Codec 확장 TAG에 Issuer와 코덱 번호 2 WORD를 둔다. 코덱 문서는 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000C000/`([공표 주소와 버전 목록](/ko/grammar/publishing/)).
 
 | Issuer | 코덱 번호 | 이름 | 설명 |
 |---|---|---|---|
@@ -407,9 +407,9 @@ Meta 번호는 비트로 클래스를 나타내지 않는다. 클래스는 아�
 | [정책](/ko/grammar/meta/policy/) | `0x1DEL~0x1E3L` | 어떻게 취급하는가 |
 | [IMPORT](/ko/grammar/meta/import/) | `0x1E4L` | 외부 문서를 IMPORT ID로 가져온다 (`IMPORT-DOC`) |
 | [검증](/ko/grammar/meta/verification/) | `0x1E5L~0x1E9L` | 믿을 수 있는가 |
-| 빈칸(검증 전용) | `0x1EAL~0x1FFL` |  |
+| Reserved(검증 전용) | `0x1EAL~0x1FFL` |  |
 
-- 번호는 `0x1C0L`부터 빈칸 없이 이어진다. 검증 밖의 새 Meta는 검증 앞에 넣을 수 없다. 뒤 빈칸 `0x1EAL~0x1FFL`은 검증 전용이다. 검증 밖의 Meta를 여기에 두면 내용 해시에서 빠진다.
+- 번호는 `0x1C0L`부터 Reserved 없이 이어진다. 검증 밖의 새 Meta는 검증 앞에 넣을 수 없다. 뒤 Reserved `0x1EAL~0x1FFL`은 검증 전용이다. 검증 밖의 Meta를 여기에 두면 내용 해시에서 빠진다.
 
 ### 구조 (`0x1C0L~0x1C4L`)
 

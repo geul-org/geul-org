@@ -44,4 +44,4 @@ Payload: [int64 1st: 4 WORD] ... [int64 Nth: 4 WORD]
 
 ## 예시
 
-- Payload `ffff ffff ffff ffff`는 원소 `[-1]`이고, 전체 9 WORD 레코드다.
+- Payload `FFFF FFFF FFFF FFFF`는 원소 `[-1]`이고, 전체 9 WORD 레코드다.

@@ -31,7 +31,7 @@ Payload           UTF8-TEXT Value "<이름>-<major>.<minor>"
 
 ## 예시
 
-- `tangeul-1.0`: `0x1C67 0x0736 7461 6e67 6575 6c2d 312e 3000`
+- `tangeul-1.0`: `0x1C67 0x0736 7461 6E67 6575 6C2D 312E 3000`
 
 ## 열린 문제
 

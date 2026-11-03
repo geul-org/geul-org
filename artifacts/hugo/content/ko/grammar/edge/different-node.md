@@ -43,12 +43,12 @@ Object            Reference 레코드 1개
 
 ## 예시 (비규범)
 
-Edge Id `000a`, Subject는 LOCAL 1, Object는 LOCAL 2다.
+Edge Id `000A`, Subject는 LOCAL 1, Object는 LOCAL 2다.
 
 - Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 2 = 7 WORD, `LLLL=0110`이다. TAG는 `0000 1010 0010 0110` = `0A26`다.
 
 ```
-0a26 0051 000a 0051 0001 0051 0002
+0A26 0051 000A 0051 0001 0051 0002
 ```
 
 이 예시의 LOCAL ID 차이는 인코딩을 보여 주려는 것일 뿐이다. ID 1과 ID 2가 서로 다른 referent를 지시한다는 주장이 따로 있을 때에만 이 sequence를 DIFFERENT-NODE로 만든다.

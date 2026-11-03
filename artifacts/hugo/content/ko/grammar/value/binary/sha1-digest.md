@@ -41,7 +41,7 @@ Payload           10 WORD  SHA-1 Digest
 git 커밋 `ddc0719974a32aaa7b422ee84221a9721085ce4c`:
 
 ```
-07DA ddc0 7199 74a3 2aaa 7b42 2ee8 4221 a972 1085 ce4c
+07DA DDC0 7199 74A3 2AAA 7B42 2EE8 4221 A972 1085 CE4C
 ```
 
 ## 관련 페이지

@@ -42,7 +42,7 @@ Payload WORD 4th (bits 15..0)      Signed Nanoseconds low 16bit
 - 자정은 Payload `0000 0000 0000 0000`, 전체 5 WORD, `LLLL=0100`이다.
 - 자정 후 1ns는 Payload `0000 0000 0000 0001`이다.
 - `86,400×10^9`ns는 상한과 같으므로 유효하지 않다.
-- `ffff ffff ffff ffff`는 signed int64로 -1이므로 유효하지 않다.
+- `FFFF FFFF FFFF FFFF`는 signed int64로 -1이므로 유효하지 않다.
 
 ## 표준 근거
 

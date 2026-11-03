@@ -88,7 +88,7 @@ Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ 서명 알고리즘 ID(2바이트) ‖ 
 
 - 결과 32바이트를 16 WORD에 상위 바이트부터 쓴다.
 - 등록 없이 누구나 만들 수 있다. 소유는 그 개인키의 서명으로 증명한다.
-- 공개키와 알고리즘은 문서 HEAD의 [ISSUER-KEY](/ko/grammar/meta/verification/issuer-key/)로 선언한다. 서명 알고리즘 `0x0001`은 Ed25519이고, 그 밖의 값은 예약이다.
+- 공개키와 알고리즘은 문서 HEAD의 [ISSUER-KEY](/ko/grammar/meta/verification/issuer-key/)로 선언한다. 서명 알고리즘 `0x0001`은 Ed25519이고, 그 밖의 값은 Reserved다.
 - 접두사 `GEUL-ISSUER-v1`은 같은 키를 다른 용도에 쓸 때 같은 ID가 나오지 않게 한다(용도 분리).
 - 서명 알고리즘이 바뀌어도(예: Ed25519 → ML-DSA) ID 폭은 16 WORD로 같다.
 - 결과가 `2^64` 미만이면(확률은 사실상 0) 그 키로는 Issuer를 만들지 않는다. 가장 짧은 폭 규칙과 겹치기 때문이다.

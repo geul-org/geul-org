@@ -46,7 +46,7 @@ Payload WORD 1st ... Nth          relative-ref bytes / final zero padding
 
 ## 예시
 
-- `a/b?x=1`은 7 byte(홀수)라 코덱 번호 `0x00008001`, Payload `612f 623f 783d 3100`이다. 전체 9 WORD이므로 `LLLL=1000`이다. 전체는 `09D8 0000 0007 0000 8001 612f 623f 783d 3100`이다.
+- `a/b?x=1`은 7 byte(홀수)라 코덱 번호 `0x00008001`, Payload `612F 623F 783D 3100`이다. 전체 9 WORD이므로 `LLLL=1000`이다. 전체는 `09D8 0000 0007 0000 8001 612F 623F 783D 3100`이다.
 
 ## 열린 문제
 

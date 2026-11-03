@@ -19,7 +19,7 @@ UTF8-LANGUAGE-TEXT는 언어가 붙은 텍스트다. 언어 Value 레코드 하�
 - 코드: Value 직접 코드 `0x078L`(텍스트 짝수 바이트)·`0x079L`(텍스트 홀수 바이트). 계열 TEXT.
 
 ```
-TAG WORD          0000 0101 100P LLLL      Codec 0x078L/0x079L (P = 텍스트가 홀수 바이트)
+TAG WORD          0000 0111 100P LLLL      Codec 0x078L/0x079L (P = 텍스트가 홀수 바이트)
 [Length 확장 TAG] 전체 15 WORD 이상일 때
 Language          LANGUAGE-SHORT-CODE 또는 LANGUAGE-BCP47-CODE Value 레코드 1개 (TAG 포함)
 Text WORD 1st ... Nth             UTF-8 bytes / 홀수면 마지막 0x00

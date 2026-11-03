@@ -49,5 +49,5 @@ Payload           3 WORD  octet 0 → 1 │ octet 2 → 3 │ octet 4 → 5
 locally administered individual(unicast) 주소 `02:00:5e:10:00:00`(첫 octet `0x02`의 I/G=0, U/L=1):
 
 ```
-09d7 0000 000d 0000 c000 0200 5e10 0000
+09D7 0000 000D 0000 C000 0200 5E10 0000
 ```

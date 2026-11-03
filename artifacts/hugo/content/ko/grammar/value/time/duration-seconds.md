@@ -40,7 +40,7 @@ Payload WORD 4th (bits 15..0)      Signed Seconds low 16bit
 
 - 0초는 Payload `0000 0000 0000 0000`, 전체 5 WORD, `LLLL=0100`이다.
 - 1초는 Payload `0000 0000 0000 0001`이다.
-- -1초는 Payload `ffff ffff ffff ffff`이다.
+- -1초는 Payload `FFFF FFFF FFFF FFFF`이다.
 
 ## 표준 근거
 
