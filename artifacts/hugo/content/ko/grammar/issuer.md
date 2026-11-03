@@ -12,7 +12,7 @@ image: "/images/og-default.webp"
 
 GEUL은 식별 체계를 한곳에 모으지 않는다. 각 Issuer가 대상과 형식을 정의하고, 다른 문서는 공표된 정의를 가져다 쓴다. 정의는 대외비로 쓰거나, geul.org(CC0) 또는 사설 공표(Issuer가 정한 라이선스)로 공표한다. 어느 정의를 믿고 쓸지는 사용자가 정한다.
 
-공표 주소, 형식 지정, 이름 색인, 버전 목록, 신뢰 층은 [공표 주소와 버전 목록](/ko/grammar/publishing/)이 정한다.
+공표 주소, 형식 지정, Issuer 목록, 버전 목록, 신뢰 층은 [공표 주소와 버전 목록](/ko/grammar/publishing/)이 정한다.
 
 ## Issuer가 정의하는 것
 
@@ -106,8 +106,8 @@ Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ 서명 알고리즘 ID(2바이트) ‖ 
 - 다른 문서는 `EXTERNAL-ISSUER-*`(Issuer, 문서 ID, LOCAL ID)로 용어를 가리킨다. 같은 정의를 문서마다 반복하지 않는다. 예: [TRANSFORMED-BY](/ko/grammar/meta/lineage/transformed-by/)의 도구.
 - 용어 정의 문서의 문서 ID 구간은 Issuer가 정한다. geul.org(`0x00000000`)는 `0x0001xxxx xxxxxxxx`를 쓴다.
 - 각 Issuer의 문서 ID `0x0000000000000000`은 그 Issuer의 **용어 정의 색인 문서**로 예약한다: `<Issuer>/docs/0x0000000000000000/`. 용어 정의 문서들을 나열하는 자리다.
-- 문서 ID 위쪽 끝 세 값은 목록 문서에 예약한다: `0xFFFFFFFFFFFFFFFF` Issuer 목록 `issuers/`(Issuer geul.org `0x00000000`), `0xFFFFFFFFFFFFFFFE` 문서 목록 `docs/`, `0xFFFFFFFFFFFFFFFD` 코덱 목록 `codecs/`. 이 ID는 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않고(404) `docs/` 목록에 올리지 않는다([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)).
-- 색인 문서는 모든 Issuer에 **권고**한다. 필수는 아니다. 색인이 없으면 용어 정의 문서는 문서 목록 `<Issuer>/docs/`로 찾는다.
+- 문서 ID `0xFFFFFFFFFFFFFFFF`는 Issuer 목록 `issuers/`(Issuer geul.org `0x00000000`)에 예약한다. 이 ID는 `0x00000000/docs/<문서 ID>/` 주소로 받지 않는다(404)([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)).
+- 색인 문서는 모든 Issuer에 **권고**한다. 필수는 아니다.
 - 외부 대상을 가리키는 순서: (1) 맞는 Reference Codec이 있으면 그것(WIKIDATA-QID 등), (2) 그 대상을 정의한 GEUL 문서가 있으면 그것(DOC-POINTER·EXTERNAL-ISSUER), (3) 없으면 자기 용어 정의 문서에 LOCAL로 정의하고 가리킨다.
 
 ## 문서 공개 방식

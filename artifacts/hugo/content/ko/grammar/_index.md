@@ -17,7 +17,7 @@ GEUL v1 문법 명세다. 처음 읽는다면 아래 순서로 읽는다.
 3. [문서](/ko/grammar/document/) — HEAD와 BODY, 내용 해시, 버전과 개정
 4. [Reference](/ko/grammar/reference/), [Value](/ko/grammar/value/), [Edge](/ko/grammar/edge/), [Meta](/ko/grammar/meta/) — 네 가지 Kind
 5. [Issuer와 공표](/ko/grammar/issuer/) — 문서와 형식을 내는 주체, 2 WORD 배정표, 공개 방식, 서명과 검증키
-6. [공표 주소와 버전 목록](/ko/grammar/publishing/) — ID 표기, 공표 주소, 형식 지정, Issuer·문서 목록, 버전 목록, 신뢰 층
+6. [공표 주소와 버전 목록](/ko/grammar/publishing/) — ID 표기, 공표 주소, 형식 지정, Issuer 목록, 버전 목록, 신뢰 층
 7. [Codec 규격 문서](/ko/grammar/codec-spec/) — Codec 레이아웃을 GEUL 문서로 쓰는 법
 8. [예시: 위키데이터 항목](/ko/grammar/example/) — 실제 문서 한 벌
 

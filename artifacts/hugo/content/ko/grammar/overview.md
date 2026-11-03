@@ -82,7 +82,7 @@ TAG WORD의 상위 비트는 영역을 나눈다.
 | [Edge](/ko/grammar/edge/) | 서술·근거·실행·TOULMIN 계열, TRIPLE·QUALIFIER·LABEL |
 | [Meta](/ko/grammar/meta/) | 구조·정의·출처·계보·검증·정책·IMPORT |
 | [Issuer와 공표](/ko/grammar/issuer/) | Issuer 등급, 2 WORD 배정표, 공개 방식, 서명, 검증키 |
-| [공표 주소와 버전 목록](/ko/grammar/publishing/) | ID 표기, 공표 주소, 형식 지정, Issuer·문서 목록, 버전 목록, 신뢰 층 |
+| [공표 주소와 버전 목록](/ko/grammar/publishing/) | ID 표기, 공표 주소, 형식 지정, Issuer 목록, 버전 목록, 신뢰 층 |
 | [Codec 규격 문서](/ko/grammar/codec-spec/) | DECLARE·FIELD·ENUM·CODEC으로 쓰는 코덱북 |
 | [예시: 위키데이터 항목](/ko/grammar/example/) | 문서 하나를 워드 단위로 읽기 |
 

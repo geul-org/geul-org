@@ -82,7 +82,7 @@ Meta 번호는 `0x1C0L`부터 빈칸 없이 이어진다. 번호의 비트는 �
 | `0x1C9L` | [EFFECTIVE-UNTIL](/ko/grammar/meta/declaration/effective-until/) | 이 버전의 유효기간 끝(한시법). 없으면 다음 버전이 시행될 때까지 |
 | `0x1CAL` | [DEFAULT-LANGUAGE](/ko/grammar/meta/declaration/default-language/) | 기본 언어 |
 
-- 문서의 주소용 이름은 Meta로 두지 않는다. Issuer의 문서 목록 `docs/`가 BIND로 붙인다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)). 사람이 읽는 제목은 BODY의 LABEL로 붙인다.
+- 문서의 주소용 이름은 Meta로 두지 않는다. 버전 목록 문서에 BIND로 붙일 수 있다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)). 사람이 읽는 제목은 BODY의 LABEL로 붙인다.
 
 ## 출처
 

@@ -29,7 +29,7 @@ Issuer            2/4/16 WORD
 - 코덱 ID는 32비트다. GEUL 직접 코드의 코덱 ID는 그 TAG WORD(L=0)를 32비트로 쓴 값이다(TRIPLE `0x08AL` → `0x000008a0`). Issuer 코덱은 Issuer가 번호를 정한다([공표 주소와 버전 목록](/ko/grammar/publishing/#id-표기)).
 - 버전 ID `0`은 최신 버전이다. 그 밖의 값은 그 버전에 고정된다.
 - Codec `0x03CL` 한 칸이다. 양화가 없다(Identified). `C % 5`, `C / 5`로 읽지 않는다.
-- 쓰는 곳: 코덱 문서의 Meta [DOC-ID](/ko/grammar/meta/declaration/doc-id/), 코덱 버전 목록의 [PUBLICATION](/ko/grammar/edge/publication/)·DEPRECATION·TOMBSTONE, 코덱 목록 `codecs/`의 [BIND](/ko/grammar/edge/bind/) Subject, 코덱 문서를 가져오는 [IMPORT-DOC](/ko/grammar/meta/import/import-doc/). 이 자리들에서 DOC-POINTER를 대신한다.
+- 쓰는 곳: 코덱 문서의 Meta [DOC-ID](/ko/grammar/meta/declaration/doc-id/), 코덱 버전 목록의 [PUBLICATION](/ko/grammar/edge/publication/)·DEPRECATION·TOMBSTONE, 코덱 문서를 가져오는 [IMPORT-DOC](/ko/grammar/meta/import/import-doc/). 이 자리들에서 DOC-POINTER를 대신한다.
 - 공표 주소는 `/.well-known/geul/<Issuer>/codecs/<코덱 ID>/<버전 ID>.geul`이다([공표 주소와 버전 목록](/ko/grammar/publishing/#공표-주소)).
 
 ## 예시

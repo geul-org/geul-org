@@ -88,7 +88,7 @@ Edge Id           LOCAL Reference 레코드
 
 ## 예시
 
-LABEL 규격 문서 `geul.org/label`에서 Object 필드(FIELD #3)가 UTF8-LANGUAGE-TEXT(짝수·홀수)와 LOCAL을 받는다. Edge Id 7~9.
+LABEL 규격 문서 `0x00000000/codecs/0x00000840/`에서 Object 필드(FIELD #3)가 UTF8-LANGUAGE-TEXT(짝수·홀수)와 LOCAL을 받는다. Edge Id 7~9.
 
 ```
 09E5 0051 0007 0051 0003 0580

@@ -60,7 +60,7 @@ Codec 규격으로 레코드를 읽고 표기하는 규칙이다.
 
 ## 예시
 
-PUBLICATION(Edge `0x098L`)의 규격 문서 `geul.org/publication`: Edge Id 다음에 DOC-POINTER 레코드, 내용 해시 16 WORD.
+PUBLICATION(Edge `0x098L`)의 규격 문서 `0x00000000/codecs/0x00000980/`: Edge Id 다음에 DOC-POINTER 레코드, 내용 해시 16 WORD.
 
 ```
 09B3 0051 0001 0980                 DECLARE #1  Edge 0x098L               (BIND "PUBLICATION")

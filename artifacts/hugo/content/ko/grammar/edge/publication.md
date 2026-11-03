@@ -46,7 +46,7 @@ Edge Id           LOCAL Reference 레코드
 
 ## 버전 목록 문서
 
-공표처는 문서마다 버전 목록 문서 하나를 이어 쓴다: `/<Issuer>/docs/<문서 ID>/versions.geul`(코덱은 `/<Issuer>/codecs/<코덱 ID>/versions.geul`, 목록 문서는 [아래](#목록-문서의-버전-목록)). 그 문서가 그 공표처에서 공표된 모든 버전이 한 목록에 들어간다.
+공표처는 문서마다 버전 목록 문서 하나를 이어 쓴다: `/<Issuer>/docs/<문서 ID>/versions.geul`(코덱은 `/<Issuer>/codecs/<코덱 ID>/versions.geul`, Issuer 목록은 [아래](#목록-문서의-버전-목록)). 그 문서가 그 공표처에서 공표된 모든 버전이 한 목록에 들어간다.
 
 ```
 DOC-1WORD/2WORD/4WORD     전체 길이
@@ -63,24 +63,18 @@ END
 - HEAD Meta: [SPEC-VERSION](/ko/grammar/meta/declaration/spec-version/), [PARENT](/ko/grammar/meta/lineage/parent/), [RECORDED-AT](/ko/grammar/meta/provenance/recorded-at/), [NEXT-LOCAL-ID](/ko/grammar/meta/lineage/next-local-id/), [SIGNATURE](/ko/grammar/meta/verification/signature/).
 - 버전 목록 문서에는 `DOC-ID`를 두지 않는다(목록 문서의 예외, [DOC-ID](/ko/grammar/meta/declaration/doc-id/)). 목록은 공표 문서가 아니라 그 문서에 딸린 기록이다. 어느 문서의 목록인지는 레코드의 DOC-POINTER(문서 ID)가 말한다. 그래서 경로 없이(`hashes/`, 덤프) 받아도 무엇의 목록인지 안다.
 - 레코드의 문서 ID는 모두 그 목록이 다루는 문서여야 한다. 다른 문서의 레코드는 거부한다.
-- 버전 목록 문서는 IMPORT를 두지 않고 0층 Codec만 쓴다. 문서 목록 `docs/`에 올리지 않는다.
+- 버전 목록 문서는 IMPORT를 두지 않고 0층 Codec만 쓴다.
 - 새 목록 문서는 직전 목록 문서의 BODY를 그대로 앞에 두고 레코드를 덧붙인다. 고치거나 지우거나 순서를 바꾸지 않는다.
 - 공표처가 목록에 서명한다. geul.org 공표는 geul.org(GEUL Issuer)가, 사설 공표는 그 Issuer가 서명한다.
 - 문서 ID `0x0000000000000000`은 Issuer의 용어 정의 색인 문서다([Issuer와 공표](/ko/grammar/issuer/)). Issuer 자신은 [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)로 가리킨다.
 
 ## 목록 문서의 버전 목록
 
-Issuer 목록 `issuers/`, 문서 목록 `<Issuer>/docs/`, 코덱 목록 `<Issuer>/codecs/`도 버전 1부터이고 버전 목록 `versions.geul`을 둔다([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)). 레코드는 예약 문서 ID의 DOC-POINTER로 목록 버전을 가리킨다.
-
-| 목록 | 버전 목록 | DOC-POINTER |
-|---|---|---|
-| Issuer 목록 | `issuers/versions.geul` | (`0x00000000`, `0xFFFFFFFFFFFFFFFF`, 버전 ID) |
-| 문서 목록 | `<Issuer>/docs/versions.geul` | (Issuer, `0xFFFFFFFFFFFFFFFE`, 버전 ID) |
-| 코덱 목록 | `<Issuer>/codecs/versions.geul` | (Issuer, `0xFFFFFFFFFFFFFFFD`, 버전 ID) |
+목록 문서는 Issuer 목록 `issuers/` 하나다([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)). Issuer 목록도 버전 1부터이고 버전 목록 `issuers/versions.geul`을 둔다. 레코드는 예약 문서 ID의 DOC-POINTER(`0x00000000`, `0xFFFFFFFFFFFFFFFF`, 버전 ID)로 목록 버전을 가리킨다.
 
 - 레코드 형식은 위와 같다. 그래서 `hashes/`로 받아도 무엇의 목록인지 안다.
 - 목록 문서 자신(`<버전 ID>.geul`)도 `DOC-ID`를 두지 않는다.
-- 예약 문서 ID는 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않고(404) 문서 목록 `docs/`에 올리지 않는다.
+- 예약 문서 ID는 `0x00000000/docs/<문서 ID>/` 주소로 받지 않는다(404).
 - 목록의 `latest.geul`은 저장하지 않는 별칭이다. 이 버전 목록에서 가장 최근 버전을 찾아 그 바이트를 낸다.
 
 ## 규칙
@@ -94,13 +88,13 @@ Issuer 목록 `issuers/`, 문서 목록 `<Issuer>/docs/`, 코덱 목록 `<Issuer
 
 ## 문서 이름
 
-문서의 주소용 이름은 Issuer의 문서 목록 `/<Issuer>/docs/`가 [BIND](/ko/grammar/edge/bind/)로 묶는다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)). 해석기는 이 목록만 읽는다.
+문서 이름을 ID로 바꾸는 색인은 두지 않는다([공표 주소와 버전 목록](/ko/grammar/publishing/#문서-이름)).
 
-목록 문서에도 같은 BIND를 둘 수 있다(선택). 두면 다음을 지킨다.
+버전 목록 문서에 문서 이름 [BIND](/ko/grammar/edge/bind/)를 둘 수 있다(선택). 두면 다음을 지킨다.
 
 - Subject는 `DOC-POINTER`(Issuer, 그 목록의 문서 ID, 버전 `0`)다. 이름은 버전이 아니라 문서에 묶이므로 버전은 `0`이다.
 - 앞에 PUBLICATION이 나온 문서에만 묶는다. 공표된 적 없는 문서에 이름을 묶지 않는다.
-- 이름은 문서 이름 규칙(소문자 ASCII 슬러그)을 따르고, 문서 목록의 BIND와 같아야 한다.
+- 이름은 문서 이름 규칙(소문자 ASCII 슬러그)을 따른다.
 - 이름을 바꾸면 새 BIND를 덧붙인다. 옛 이름은 그대로 남아 같은 문서를 가리킨다. 대표 이름은 마지막 BIND다.
 - 문서 안에는 자기 이름을 적지 않는다.
 
@@ -110,8 +104,6 @@ Issuer 목록 `issuers/`, 문서 목록 `<Issuer>/docs/`, 코덱 목록 `<Issuer
 /.well-known/geul/<Issuer>/docs/<문서 ID>/versions.geul        최신 목록 문서 (가변)
 /.well-known/geul/<Issuer>/codecs/<코덱 ID>/versions.geul      코덱의 최신 목록 문서 (가변)
 /.well-known/geul/issuers/versions.geul                       Issuer 목록의 최신 버전 목록 (가변)
-/.well-known/geul/<Issuer>/docs/versions.geul                 문서 목록의 최신 버전 목록 (가변)
-/.well-known/geul/<Issuer>/codecs/versions.geul               코덱 목록의 최신 버전 목록 (가변)
 /.well-known/geul/<Issuer>/hashes/<내용 해시>.geul             지난 목록 문서 (불변)
 ```
 
@@ -130,7 +122,6 @@ Issuer 목록 `issuers/`, 문서 목록 `<Issuer>/docs/`, 코덱 목록 `<Issuer
 - 사유 범주 코드표.
 - 서명 알고리즘 기본값과 `SIGNATURE` Payload 레이아웃.
 - 목록이 커질 때 Merkle 로그(포함·일관성 증명)로 옮기는 시점과 형식.
-- 목록의 BIND와 문서 목록 `docs/`를 하나로 합칠지, 목록의 서명.
 - Issuer 단위 되감기 방지. 목록이 문서마다 따로 사슬을 이루므로, 한 문서의 목록만 옛것으로 내미는 공격은 그 문서의 사슬로만 막힌다.
 
 ## 관련 페이지
