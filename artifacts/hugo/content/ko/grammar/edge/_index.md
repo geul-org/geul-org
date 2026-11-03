@@ -224,6 +224,6 @@ QUALIFIER  #1348  P1417  #1347  "biography/Douglas-Adams"
 
 ## Issuer 형식 Edge
 
-Issuer는 자기 Edge 형식을 정의해 쓸 수 있다(EDGE-ISSUER-2/4/16WORD, Codec `0x1BDL`~`0x1BFL`). Edge 구역의 끝 세 칸이다. Codec 확장 TAG에 Issuer와 코덱 번호 2 WORD를 둔다. 코덱 번호는 Issuer가 정하고 계열 규칙이 없다. 코덱 문서는 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다([공표 주소와 버전 목록](/ko/grammar/publishing/)).
+Issuer는 자기 Edge 형식을 정의해 쓸 수 있다(EDGE-ISSUER-2/4/16WORD, Codec `0x1BDL`~`0x1BFL`). Edge 구역의 끝 세 칸이다. Codec 확장 TAG에 Issuer와 코덱 번호 2 WORD를 둔다. 코덱 번호는 Issuer가 정하고 계열 규칙이 없다. Kind와 상관없이 그 Issuer의 `codecs/` 안에서 겹치지 않는다. 코덱 문서는 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다([공표 주소와 버전 목록](/ko/grammar/publishing/)).
 
 - 지금 등재한 Edge ISSUER 형식은 없다.

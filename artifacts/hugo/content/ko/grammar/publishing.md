@@ -33,6 +33,9 @@ GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를
 
 - GEUL 직접 코드의 코덱 ID는 그 TAG WORD(L=0)를 32비트로 쓴 값이다(TRIPLE `0x08AL` → `0x000008a0`). Kind가 TAG에 들어 있어 겹치지 않는다.
 - 다른 Issuer의 ISSUER 형식 코덱은 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000c000/`.
+- Issuer 코덱의 코덱 ID는 레코드의 코덱 번호(2 WORD)다. Issuer는 Kind(Reference, Value, Edge)와 상관없이 자기 `<Issuer>/codecs/` 안에서 코덱 번호가 겹치지 않게 배정한다. 주소는 Kind로 나누지 않는다(`references/`, `values/`, `edges/` 같은 폴더는 없다).
+- 해석기는 레코드의 Kind와 그 코덱 문서 [DECLARE](/ko/grammar/edge/declare/) 대상의 Kind가 다르면 오류로 본다.
+- 공표는 같은 코덱 ID에 다른 코덱을 올리는 것을 거부한다.
 - 버전 ID의 규칙(1부터, `0`은 최신, 공표처 배정, 다 쓰면 새 문서 ID)은 [문서](/ko/grammar/document/#버전)가 정한다.
 
 ## 공표 주소

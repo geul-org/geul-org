@@ -51,6 +51,7 @@ Codec 규격으로 레코드를 읽고 표기하는 규칙이다.
 ## 규격 문서
 
 - 직접 코드의 규격 문서는 GEUL Issuer `0x00000000`의 코덱 문서다. 코덱 ID는 대상 TAG WORD(L=0)를 32비트로 쓴 값이며(`0x0980` → `0x00000980`), `<Issuer>/codecs/<코덱 ID>/`에 버전 ID와 `versions.geul`로 공표한다([Codec 규격 문서](/ko/grammar/codec-spec/)).
+- Issuer 코덱의 코덱 문서는 그 Issuer의 `<Issuer>/codecs/<코덱 번호>/`에 둔다. 코덱 번호는 Kind와 상관없이 그 Issuer 안에서 겹치지 않는다. 해석기는 레코드의 Kind와 DECLARE 대상의 Kind가 다르면 오류로 본다([공표 주소와 버전 목록](/ko/grammar/publishing/#id-표기)).
 - 규격 문서 하나에 DECLARE는 하나이며, 그 대상이 코덱 ID의 TAG WORD와 같아야 한다. `DOC-ID`는 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)(`0x00000000`, 그 코덱 ID, `0`)다.
 
 ## 이름

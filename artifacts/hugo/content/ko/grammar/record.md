@@ -81,7 +81,8 @@ Length는 레코드가 차지하는 **전체 WORD 수**다. TAG WORD, 확장 TAG
 | `0x03FL`, `0x07FL`, `0x1BFL` | REFERENCE-ISSUER-16WORD, VALUE-ISSUER-16WORD, EDGE-ISSUER-16WORD | Codec 확장 TAG에 Issuer 16 WORD와 코덱 번호 2 WORD |
 
 - **각 Kind 구역의 끝 세 칸이 ISSUER다.** Issuer 폭은 C의 하위 2비트다(`01` 2 WORD, `10` 4 WORD, `11` 16 WORD). Meta는 Issuer 형식이 없다.
-- Codec 번호 공간은 Kind마다 따로 있다. 같은 번호라도 Kind가 다르면 다른 Codec이다.
+- 직접 코드의 Codec 자리는 Kind마다 따로 있다. 같은 Codec 자리 값이라도 Kind가 다르면 다른 Codec이다. 직접 코드의 코덱 ID는 TAG WORD 전체(L=0)라 Kind가 들어 있다.
+- Issuer 코덱 번호는 Kind와 상관없이 Issuer마다 한 공간이다. Issuer가 자기 `codecs/` 안에서 겹치지 않게 배정한다([공표 주소와 버전 목록](/ko/grammar/publishing/#id-표기)).
 - 직접 코드가 아닌 Codec은 `(Issuer, 코덱 번호)` 쌍이다. 코덱 번호는 그 Issuer가 정의한다([Issuer와 공표](/ko/grammar/issuer/)). 확장 형식은 그 형식을 제정한 단체의 Issuer 아래에 둔다.
 - 직접 코드가 있는 Codec은 Issuer 형식으로 따로 등재하지 않는다.
 - Issuer 형식은 Reference, Value, Edge에 있다. Meta는 GEUL만 정의하는 공통 규격이다.
