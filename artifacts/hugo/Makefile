@@ -12,7 +12,7 @@ GSC_SCOPE := https://www.googleapis.com/auth/webmasters
 # GEUL 공표 아카이브(/.well-known/geul/): git 추적 파일 + 아직 커밋하지 않은 규격 문서와 그 h/ 사본만 geul build로 구워 올린다
 # (목록은 ../scripts/archive-files.sh, 위키데이터 변환 문서 제외)
 GEUL ?= geul
-ARCHIVE_REPO := ../geul
+ARCHIVE_REPO := ../../..
 ARCHIVE_TMP ?= $(CURDIR)/resources/geul-archive
 ARCHIVE_DST := s3://$(S3_BUCKET)/.well-known/geul/
 
