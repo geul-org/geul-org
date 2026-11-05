@@ -1,14 +1,14 @@
 ---
 title: "Repositories"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-10-29T12:00:00+09:00
-summary: "GEUL의 공개 GitHub 저장소 목록. Go 라이브러리와 geul CLI, 위키데이터 적재·변환, 탐색 엔진 SILK, v1 이전 코드북, 웹사이트."
+lastmod: 2026-11-05T12:00:00+09:00
+summary: "GEUL의 공개 GitHub 저장소 목록. Go 라이브러리와 geul CLI, 위키데이터 적재·변환, 탐색 엔진 SILK, 아카이브 통계, 한국어 분석기, v1 이전 코드북, 웹사이트."
 image: "/images/og-default.webp"
 ---
 
 GEUL의 공개 저장소는 [geul-org](https://github.com/geul-org) GitHub 조직에 있다. 문법 명세는 이 사이트의 [GEUL 문법](/ko/grammar/)이 정본이다.
 
-GEUL 문서는 16비트 WORD의 연속이다. 데이터의 단위는 TAG WORD 하나로 시작하는 레코드이고, 레코드들은 문서 하나에 담긴다. 문서는 Issuer가 내고, 버전마다 내용 해시로 고정된다. 아래 저장소들은 이 문서를 쓰고, 읽고, 옮기고, 찾는 도구다.
+GEUL 문서는 16비트 WORD의 연속이다. 데이터의 단위는 TAG WORD 하나로 시작하는 레코드이고, 레코드들은 문서 하나에 담긴다. 문서는 Issuer가 내고, 버전마다 내용 해시로 고정된다. 아래 저장소들은 이 문서를 쓰고, 읽고, 옮기고, 찾고, 세는 도구와 한국어 분석기다.
 
 ---
 
@@ -72,6 +72,38 @@ GEUL pack 아카이브의 레코드를 파티션·정렬 색인으로 만들어,
 
 ---
 
+## 통계
+
+### statistics
+
+GEUL pack 아카이브의 TAG 사용량을 Issuer별로 센다.
+
+TAG WORD에서 Length만 뺀 9비트 코드(TAG ID `0x000L`~`0x1FFL`)마다 레코드 수를 센다. 아카이브 폴더나 pack 세트 폴더를 여러 개 주면 합쳐 센다.
+
+| | |
+|---|---|
+| GitHub | [geul-org/statistics](https://github.com/geul-org/statistics) |
+| 언어 | Go |
+| 라이선스 | CC0 |
+
+---
+
+## 한국어
+
+### koparse
+
+한국어 분석기.
+
+어절에서 명사와 조사·어미를 떼어 내는 일부터 시작해, 필요하면 형태소 분석기로 키운다. 기존 형태소 분석기·사전을 가져다 쓰지 않고 직접 만들며, 사전은 CC0 원천(위키데이터 라벨·Lexeme)과 자체 생성 자료만 쓴다. 초기 개발 단계다.
+
+| | |
+|---|---|
+| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| 언어 | Go |
+| 라이선스 | CC0 |
+
+---
+
 ## 코드북 (v1 이전)
 
 아래 두 저장소는 현행 v1 문법 이전에 설계한 자료다. 현 문법과 맞지 않는 부분이 있다.
@@ -117,20 +149,3 @@ Hugo 정적 사이트로 12개 언어를 지원하며, S3 + CloudFront로 배포
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | 언어 | Hugo |
 | 라이선스 | CC0 |
-
----
-
-## 관련 저장소
-
-geul-org 조직 밖의 저장소다.
-
-### toulmin
-
-툴민 논증 모델 기반 규칙 엔진(TypeScript, Python, Go, C).
-
-규칙은 함수이고, 예외는 그래프의 공격 관계다. GEUL 문법의 [TOULMIN](/ko/grammar/toulmin/) Edge(직접 코드 `0x60`~`0x7B`)가 이 판정·실행 그래프를 GEUL 문서로 쓴다.
-
-| | |
-|---|---|
-| GitHub | [park-jun-woo/toulmin](https://github.com/park-jun-woo/toulmin) |
-| 라이선스 | MIT |

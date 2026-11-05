@@ -1,14 +1,14 @@
 ---
 title: "Dépôts"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-10-29T12:00:00+09:00
-summary: "Dépôts GitHub publics de GEUL : la bibliothèque Go et la CLI geul, le chargement et la conversion de Wikidata, le moteur de recherche SILK, des codebooks antérieurs à la v1 et ce site web."
+lastmod: 2026-11-05T12:00:00+09:00
+summary: "Dépôts GitHub publics de GEUL : la bibliothèque Go et la CLI geul, le chargement et la conversion de Wikidata, le moteur de recherche SILK, des statistiques d'archives, un analyseur de texte coréen, des codebooks antérieurs à la v1 et ce site web."
 image: "/images/og-default.webp"
 ---
 
 Les dépôts publics de GEUL se trouvent dans l'organisation [geul-org](https://github.com/geul-org) sur GitHub. La grammaire normative est la [Grammaire GEUL](/fr/grammar/) de ce site.
 
-Un document GEUL est une suite de WORD de 16 bits. L'unité de données est l'enregistrement, qui commence par un TAG WORD, et les enregistrements sont contenus dans un document. Les documents sont publiés par un Issuer, et chaque version est figée par un hash de contenu. Les dépôts ci-dessous sont des outils pour écrire, lire, convertir et rechercher ces documents.
+Un document GEUL est une suite de WORD de 16 bits. L'unité de données est l'enregistrement, qui commence par un TAG WORD, et les enregistrements sont contenus dans un document. Les documents sont publiés par un Issuer, et chaque version est figée par un hash de contenu. Les dépôts ci-dessous sont des outils pour écrire, lire, convertir, rechercher et compter ces documents, ainsi qu'un analyseur de texte coréen.
 
 ---
 
@@ -34,7 +34,7 @@ La bibliothèque Go de GEUL et l'outil en ligne de commande `geul`.
 
 Conversion Wikidata → GEUL (anciennement gogeulwiki).
 
-Lit un dump Wikidata que wikipg a chargé dans PostgreSQL et publie un document GEUL par élément ou propriété, avec les libellés, descriptions, alias, déclarations avec leurs qualificatifs et références, et les liens de sites dans toutes les langues. Tous les documents sont publiés sous l'Issuer `wikidata.geul.org` (`0x00010000`).
+Lit directement les dumps JSON de Wikidata et produit un document GEUL par élément ou propriété, avec les libellés, descriptions, alias, déclarations avec leurs qualificatifs et références, et les liens de sites dans toutes les langues. Tous les documents sont publiés sous l'Issuer `wikidata.geul.org` (`0x00000001`).
 
 | | |
 |---|---|
@@ -44,13 +44,13 @@ Lit un dump Wikidata que wikipg a chargé dans PostgreSQL et publie un document 
 
 ### wikipg
 
-Chargement sans perte des dumps JSON de Wikidata dans PostgreSQL.
+Chargement sans perte des dumps JSON de Wikidata dans PostgreSQL. Abandonné (deprecated) depuis le 2026-11-03 ; utilisez [wikigeul](#wikigeul), qui lit directement les dumps.
 
 Stocke entités, libellés, descriptions, alias, déclarations, qualificatifs, références, liens de sites et Lexemes dans l'ordre du dump, et conserve chaque ligne du dump telle quelle. Le dump lui-même (fichier, URL, taille, sommes de contrôle, commit du chargeur) est aussi enregistré. wikipg ne dépend pas de GEUL.
 
 | | |
 |---|---|
-| GitHub | [geul-org/wikipg](https://github.com/geul-org/wikipg) |
+| GitHub | [geul-org/wikipgeul](https://github.com/geul-org/wikipgeul) |
 | Langage | Go |
 | Licence | CC0 |
 
@@ -67,6 +67,38 @@ Construit des index partitionnés et triés des enregistrements d'une archive pa
 | | |
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
+| Langage | Go |
+| Licence | CC0 |
+
+---
+
+## Statistiques
+
+### statistics
+
+Compte l'usage des TAG dans les archives pack GEUL, par Issuer.
+
+Compte les enregistrements pour chaque code de 9 bits obtenu en retirant le Length d'un TAG WORD (TAG ID `0x000L`–`0x1FFL`). Avec plusieurs dossiers d'archives ou de jeux pack, il les compte ensemble.
+
+| | |
+|---|---|
+| GitHub | [geul-org/statistics](https://github.com/geul-org/statistics) |
+| Langage | Go |
+| Licence | CC0 |
+
+---
+
+## Coréen
+
+### koparse
+
+Un analyseur de texte coréen.
+
+Il commence par séparer les noms des particules et terminaisons qui leur sont attachées dans les mots coréens (eojeol), et deviendra si besoin un analyseur morphologique. Il est écrit de zéro, sans reprendre d'analyseurs morphologiques ni de dictionnaires existants, et son dictionnaire n'utilise que des sources CC0 (libellés et Lexemes de Wikidata) et des données produites par le projet. Il est en début de développement.
+
+| | |
+|---|---|
+| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
 | Langage | Go |
 | Licence | CC0 |
 
@@ -117,20 +149,3 @@ Site statique Hugo en 12 langues, déployé avec S3 + CloudFront.
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | Langage | Hugo |
 | Licence | CC0 |
-
----
-
-## Dépôts liés
-
-Dépôts hors de l'organisation geul-org.
-
-### toulmin
-
-Un moteur de règles fondé sur le modèle d'argumentation de Toulmin (TypeScript, Python, Go, C).
-
-Les règles sont des fonctions, et les exceptions sont des relations d'attaque dans un graphe. L'Edge [TOULMIN](/fr/grammar/edge/toulmin/) de la grammaire GEUL (codes directs `0x60`–`0x7B`) écrit ces graphes de jugement et d'exécution sous forme de documents GEUL.
-
-| | |
-|---|---|
-| GitHub | [park-jun-woo/toulmin](https://github.com/park-jun-woo/toulmin) |
-| Licence | MIT |

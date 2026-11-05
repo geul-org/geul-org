@@ -1,14 +1,14 @@
 ---
 title: "代码仓库"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-10-29T12:00:00+09:00
-summary: "GEUL的公开GitHub仓库列表。Go库与geul CLI、维基数据导入与转换、检索引擎SILK、v1之前的码本、网站。"
+lastmod: 2026-11-05T12:00:00+09:00
+summary: "GEUL的公开GitHub仓库列表。Go库与geul CLI、维基数据导入与转换、检索引擎SILK、归档统计、韩语分析器、v1之前的码本、网站。"
 image: "/images/og-default.webp"
 ---
 
 GEUL的公开仓库位于[geul-org](https://github.com/geul-org) GitHub组织下。文法规范以本站的[GEUL文法](/zh/grammar/)为准。
 
-GEUL文档是16位WORD的序列。数据的单位是以一个TAG WORD开头的记录，记录装在一个文档中。文档由Issuer发布，每个版本由内容哈希固定。下面的仓库是编写、读取、转换和检索这些文档的工具。
+GEUL文档是16位WORD的序列。数据的单位是以一个TAG WORD开头的记录，记录装在一个文档中。文档由Issuer发布，每个版本由内容哈希固定。下面的仓库是编写、读取、转换、检索和统计这些文档的工具，以及一个韩语分析器。
 
 ---
 
@@ -34,7 +34,7 @@ GEUL Go库与`geul`命令行工具。
 
 维基数据 → GEUL转换（旧名gogeulwiki）。
 
-读取由wikipg导入PostgreSQL的维基数据转储，为每个条目和属性发布一个GEUL文档，以所有语言收录标签、描述、别名、带限定符和参考来源的陈述以及站点链接。所有文档都在Issuer `wikidata.geul.org`（`0x00010000`）下发布。
+直接读取维基数据JSON转储，为每个条目和属性生成一个GEUL文档，以所有语言收录标签、描述、别名、带限定符和参考来源的陈述以及站点链接。所有文档都在Issuer `wikidata.geul.org`（`0x00000001`）下发布。
 
 | | |
 |---|---|
@@ -44,13 +44,13 @@ GEUL Go库与`geul`命令行工具。
 
 ### wikipg
 
-将维基数据JSON转储无损导入PostgreSQL。
+将维基数据JSON转储无损导入PostgreSQL。自2026-11-03起不再使用（deprecated），请改用直接读取转储的[wikigeul](#wikigeul)。
 
 按转储顺序存储实体、标签、描述、别名、陈述、限定符、参考来源、站点链接和Lexeme，并原样保留转储的每一行。转储本身（文件、URL、大小、校验和、导入器提交）也会被记录。wikipg不依赖GEUL。
 
 | | |
 |---|---|
-| GitHub | [geul-org/wikipg](https://github.com/geul-org/wikipg) |
+| GitHub | [geul-org/wikipgeul](https://github.com/geul-org/wikipgeul) |
 | 语言 | Go |
 | 许可证 | CC0 |
 
@@ -67,6 +67,38 @@ GEUL Go库与`geul`命令行工具。
 | | |
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
+| 语言 | Go |
+| 许可证 | CC0 |
+
+---
+
+## 统计
+
+### statistics
+
+按Issuer统计GEUL pack归档中的TAG使用量。
+
+对TAG WORD去掉Length后剩下的9位代码（TAG ID `0x000L`～`0x1FFL`）逐一统计记录数。给出多个归档文件夹或pack集文件夹时，合并统计。
+
+| | |
+|---|---|
+| GitHub | [geul-org/statistics](https://github.com/geul-org/statistics) |
+| 语言 | Go |
+| 许可证 | CC0 |
+
+---
+
+## 韩语
+
+### koparse
+
+韩语文本分析器。
+
+从把韩语语节（词）中的名词与助词、词尾分离开始，必要时扩展为形态分析器。不借用现有的形态分析器或词典，而是自行开发；词典只使用CC0来源（维基数据标签与Lexeme）和自行生成的资料。目前处于早期开发阶段。
+
+| | |
+|---|---|
+| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
 | 语言 | Go |
 | 许可证 | CC0 |
 
@@ -117,20 +149,3 @@ Hugo静态站点，支持12种语言，通过S3 + CloudFront部署。
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | 语言 | Hugo |
 | 许可证 | CC0 |
-
----
-
-## 相关仓库
-
-geul-org组织之外的仓库。
-
-### toulmin
-
-基于图尔敏论证模型的规则引擎（TypeScript、Python、Go、C）。
-
-规则是函数，例外是图中的攻击关系。GEUL文法的[TOULMIN](/zh/grammar/edge/toulmin/) Edge（直接代码`0x60`~`0x7B`）将这些判定与执行图写成GEUL文档。
-
-| | |
-|---|---|
-| GitHub | [park-jun-woo/toulmin](https://github.com/park-jun-woo/toulmin) |
-| 许可证 | MIT |

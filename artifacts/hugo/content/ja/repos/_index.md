@@ -1,14 +1,14 @@
 ---
 title: "リポジトリ"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-10-29T12:00:00+09:00
-summary: "GEULの公開GitHubリポジトリ一覧。Goライブラリとgeul CLI、ウィキデータの取り込みと変換、探索エンジンSILK、v1以前のコードブック、ウェブサイト。"
+lastmod: 2026-11-05T12:00:00+09:00
+summary: "GEULの公開GitHubリポジトリ一覧。Goライブラリとgeul CLI、ウィキデータの取り込みと変換、探索エンジンSILK、アーカイブ統計、韓国語解析器、v1以前のコードブック、ウェブサイト。"
 image: "/images/og-default.webp"
 ---
 
 GEULの公開リポジトリは[geul-org](https://github.com/geul-org) GitHub組織にある。文法仕様はこのサイトの[GEUL文法](/ja/grammar/)が正本である。
 
-GEUL文書は16ビットWORDの連続である。データの単位はTAG WORD一つで始まるレコードで、レコードは一つの文書に収められる。文書はIssuerが発行し、バージョンごとに内容ハッシュで固定される。以下のリポジトリは、この文書を書き、読み、変換し、探すための道具である。
+GEUL文書は16ビットWORDの連続である。データの単位はTAG WORD一つで始まるレコードで、レコードは一つの文書に収められる。文書はIssuerが発行し、バージョンごとに内容ハッシュで固定される。以下のリポジトリは、この文書を書き、読み、変換し、探し、数えるための道具と、韓国語解析器である。
 
 ---
 
@@ -34,7 +34,7 @@ GEUL文書（`.geul`）を書き、読み、検査し、公表する。形式検
 
 ウィキデータ → GEUL変換（旧名gogeulwiki）。
 
-wikipgがPostgreSQLに取り込んだウィキデータのダンプを読み、項目・プロパティごとにGEUL文書を一つ公表する。ラベル、説明、別名、修飾子と出典付きの記述、サイトリンクをすべての言語で収める。すべての文書はIssuer `wikidata.geul.org`（`0x00010000`）の下で公表される。
+ウィキデータのJSONダンプを直接読み、項目・プロパティごとにGEUL文書を一つ出力する。ラベル、説明、別名、修飾子と出典付きの記述、サイトリンクをすべての言語で収める。すべての文書はIssuer `wikidata.geul.org`（`0x00000001`）の下で公表される。
 
 | | |
 |---|---|
@@ -44,13 +44,13 @@ wikipgがPostgreSQLに取り込んだウィキデータのダンプを読み、�
 
 ### wikipg
 
-ウィキデータJSONダンプ → PostgreSQLへの無損失取り込み。
+ウィキデータJSONダンプ → PostgreSQLへの無損失取り込み。2026-11-03から使っていない（deprecated）。ダンプを直接読む[wikigeul](#wikigeul)を使う。
 
 エンティティ、ラベル、説明、別名、記述、修飾子、出典、サイトリンク、Lexemeをダンプの順序どおりに保存し、ダンプのすべての行を原文のまま保存する。ダンプ自体（ファイル、URL、サイズ、チェックサム、取り込みツールのコミット）も記録する。wikipgはGEULに依存しない。
 
 | | |
 |---|---|
-| GitHub | [geul-org/wikipg](https://github.com/geul-org/wikipg) |
+| GitHub | [geul-org/wikipgeul](https://github.com/geul-org/wikipgeul) |
 | 言語 | Go |
 | ライセンス | CC0 |
 
@@ -67,6 +67,38 @@ GEUL packアーカイブのレコードからパーティション・ソート�
 | | |
 |---|---|
 | GitHub | [geul-org/silk](https://github.com/geul-org/silk) |
+| 言語 | Go |
+| ライセンス | CC0 |
+
+---
+
+## 統計
+
+### statistics
+
+GEUL packアーカイブのTAG使用量をIssuerごとに数える。
+
+TAG WORDからLengthだけを除いた9ビットコード（TAG ID `0x000L`～`0x1FFL`）ごとにレコード数を数える。アーカイブフォルダやpackセットフォルダを複数与えると、合算して数える。
+
+| | |
+|---|---|
+| GitHub | [geul-org/statistics](https://github.com/geul-org/statistics) |
+| 言語 | Go |
+| ライセンス | CC0 |
+
+---
+
+## 韓国語
+
+### koparse
+
+韓国語テキスト解析器。
+
+韓国語の語節（分かち書きの単位）から名詞と助詞・語尾を切り離すことから始め、必要なら形態素解析器へと育てる。既存の形態素解析器や辞書を流用せずに自前で作り、辞書にはCC0の原典（ウィキデータのラベル・Lexeme）と自前で生成した資料だけを使う。初期開発段階である。
+
+| | |
+|---|---|
+| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
 | 言語 | Go |
 | ライセンス | CC0 |
 
@@ -117,20 +149,3 @@ WordNetから派生した資料を含むため、**CC0の成果物ではない�
 | GitHub | [geul-org/geul-org](https://github.com/geul-org/geul-org) |
 | 言語 | Hugo |
 | ライセンス | CC0 |
-
----
-
-## 関連リポジトリ
-
-geul-org組織の外にあるリポジトリ。
-
-### toulmin
-
-トゥールミン論証モデルに基づくルールエンジン（TypeScript、Python、Go、C）。
-
-ルールは関数であり、例外はグラフ上の攻撃関係である。GEUL文法の[TOULMIN](/ja/grammar/edge/toulmin/) Edge（直接コード`0x60`〜`0x7B`）が、この判定・実行グラフをGEUL文書として書く。
-
-| | |
-|---|---|
-| GitHub | [park-jun-woo/toulmin](https://github.com/park-jun-woo/toulmin) |
-| ライセンス | MIT |
