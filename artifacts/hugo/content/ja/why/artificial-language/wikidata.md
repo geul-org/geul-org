@@ -96,7 +96,7 @@ GEULはウィキデータのために新しい識別子を作らない。
 そのまま使う。
 
 GEULの文法には、ウィキデータを指す専用のReferenceがある。
-[WIKIDATA-QID](/ja/grammar/reference/wikidata-qid/)はQ-IDの数字を、[WIKIDATA-PID](/ja/grammar/reference/wikidata-pid/)はP-IDの数字を、符号なし整数で書く。
+[WIKIDATA-QID](/ja/grammar/reference/0x014l-wikidata-qid/)はQ-IDの数字を、[WIKIDATA-PID](/ja/grammar/reference/0x019l-wikidata-pid/)はP-IDの数字を、符号なし整数で書く。
 Q42は整数42だ。P31は整数31だ。
 文字列ではなく整数なので、同じかどうかの比較に正規化はいらない。
 
@@ -149,7 +149,7 @@ Q-IDは登録順に振られた番号だ。
 Q42はダグラス・アダムズで、Q41はギリシャ、Q43はトルコだ。
 
 GEULは別の種類の識別子も研究している。
-[SIDX](/ja/grammar/reference/geul-sidx/)（Semantic-aligned Index）、意味の近い対象に近い値を与える意味整列識別子だ。
+[SIDX](/ja/grammar/reference/0x00fl-geul-sidx/)（Semantic-aligned Index）、意味の近い対象に近い値を与える意味整列識別子だ。
 目標はビットそのものに意味を持たせることだ。
 上位ビットを見るだけで「これは人か、場所か、組織か」がわかるように。
 
@@ -158,7 +158,7 @@ SIDXはまだv1以前の研究段階だ。
 幅は決まっていない。64ビットや256ビットなどを検討しており、統計を見て決める。
 割り当て結果もまだない。
 だからいまのウィキデータ文書は、SIDXなしでQ-IDで書く。
-SIDXが割り当てられたら、同じ対象の既存の識別子とSIDXを[SAME-NODE](/ja/grammar/edge/same-node/)で結ぶ。
+SIDXが割り当てられたら、同じ対象の既存の識別子とSIDXを[SAME-NODE](/ja/grammar/edge/0x0a1l-same-node/)で結ぶ。
 
 ここでウィキデータが再び使われる。
 SIDXの研究は、ウィキデータの分類体系と頻度統計から出発する。

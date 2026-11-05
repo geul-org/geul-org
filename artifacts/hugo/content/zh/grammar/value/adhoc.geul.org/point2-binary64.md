@@ -1,0 +1,47 @@
+---
+title: "POINT2-BINARY64"
+weight: 1017
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "value", "vector"]
+summary: "POINT2-BINARY64 是由 (x, y) 顺序的 IEEE 754 binary64 两个分量构成的二维点。"
+author: "朴俊宇"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+POINT2-BINARY64 是由 `(x, y)` 顺序的 IEEE 754 binary64 两个分量构成的二维点。
+
+## 布局 {#레이아웃}
+
+- 码：Value `VALUE-ISSUER-2WORD`（`0x09DL`），Issuer `0x00000002` ADHOC，Codec 编号 `0x0000050A`。系列 NUMERIC。
+
+```
+TAG WORD          0x09DC (0000 1001 1101 1100)  总计 13 WORD
+Issuer            2 WORD  0x00000002 (ADHOC)
+Codec 编号        2 WORD  0x0000050A
+Payload: [x binary64: 4 WORD][y binary64: 4 WORD]
+```
+
+## 解释规则 {#해석-규칙}
+
+- 每个分量从高位 WORD 起读取，保留 NaN payload 和 signed zero bit pattern。
+- CRS、轴的含义·顺序和单位属于外部上下文。没有 ABI padding。
+
+## 有效性 {#유효성}
+
+- Payload 恰好是 8 WORD，每个 4 WORD 区间都是 binary64 interchange bits。
+
+## 标准依据与形式地位 {#표준-근거와-형식-지위}
+
+- 点的 `x, y` 坐标顺序参考 OGC [GeoPackage Encoding Standard](https://docs.ogc.org/is/12-128r19/12-128r19.html) 的 Point/WKB axis order，每个分量遵循 [IEEE 754 binary64](https://standards.ieee.org/ieee/754/6210/)。
+- 此 Payload 是不承载 WKB type/byte-order header 或 GeoPackage header 的 GEUL compact profile，不是 OGC WKB wire format。CRS、轴的含义和单位属于外部上下文。
+
+## 长度 {#길이}
+
+- 总计是 TAG 1 WORD、Issuer 2 WORD、Codec 编号 2 WORD 与 Payload 8 WORD 之和，恰好 13 WORD，使用直接长度 `LLLL=1100`。没有 Length 扩展 TAG、descriptor、padding。
+- Payload 不是恰好 8 WORD 则拒绝。
+
+## 示例 {#예시}
+
+- Payload `3FF0 0000 0000 0000 4000 0000 0000 0000` 是 `(1.0, 2.0)`。

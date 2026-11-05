@@ -281,9 +281,9 @@ Lorsqu'une phrase en langage naturel est transformée en représentation structu
 **Avec quel degré de certitude** --- Niveau de confiance
 
 GEUL dispose de ces places.
-Une Edge [SOURCE](/fr/grammar/edge/source/) relie un énoncé à son origine.
-Le moment où une proposition vaut est précisé par un [QUALIFIER](/fr/grammar/edge/qualifier/).
-Les mondes et les scènes relèvent des Edge WORLD et SCENE, et la confiance d'un document entier de la Meta [CONFIDENCE](/fr/grammar/meta/verification/confidence/).
+Une Edge [SOURCE](/fr/grammar/edge/0x0c0l-source/) relie un énoncé à son origine.
+Le moment où une proposition vaut est précisé par un [QUALIFIER](/fr/grammar/edge/0x0abl-qualifier/).
+Les mondes et les scènes relèvent des Edge WORLD et SCENE, et la confiance d'un document entier de la Meta [CONFIDENCE](/fr/grammar/meta/0x1e8l-confidence/).
 
 Il n'est pas obligatoire de tout remplir.
 Mais ce qui n'est pas écrit apparaît comme non écrit.

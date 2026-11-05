@@ -134,7 +134,7 @@ Die Kosten des Füllens? IPv4 hat es gezeigt. Sie sind irreversibel.
 
 ## Designprinzip
 
-Das fünfte Designprinzip der GEUL-v1-[Grammatik](/de/grammar/overview/):
+Das fünfte Designprinzip der GEUL-v1-[Grammatik](/de/grammar/):
 
 > **Leer lassen.** Der größte Teil des Bitraums bleibt der Zukunft vorbehalten. Direktcodes lassen sich nicht zurücknehmen, daher bekommen nur Formate mit bestätigter Häufigkeit einen.
 

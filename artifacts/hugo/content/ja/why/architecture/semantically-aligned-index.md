@@ -95,7 +95,7 @@ JOINは不要になる。
 ## 意味をIDに整列させる
 
 SIDX（Semantically-Aligned Index）は、こうしたIDを作るための研究だ。
-GEULの文法には、SIDXで対象を指すReferenceの場所（[GEUL-SIDX](/ja/grammar/reference/geul-sidx/)）がすでにある。
+GEULの文法には、SIDXで対象を指すReferenceの場所（[GEUL-SIDX](/ja/grammar/reference/0x00fl-geul-sidx/)）がすでにある。
 しかし幅と割り当て方はまだ決めていない。使用統計を積み上げて決める。
 以下では説明のため64ビットを例にとる。
 

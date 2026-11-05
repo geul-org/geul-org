@@ -112,7 +112,7 @@ Os dois repositórios abaixo foram projetados antes da gramática v1 atual. Algu
 
 Pesquisa sobre a atribuição de SIDX (Semantic-aligned Index).
 
-Material de pesquisa para atribuir SIDX, um endereço semântico que dá números próximos a entidades de significado próximo, a partir de estatísticas de uso do Wikidata. Contém o antigo esquema de atributos de Entity de 48 bits, scripts codificadores e codebooks; ainda não foi produzida nenhuma atribuição de SIDX. A definição normativa de SIDX é [GEUL-SIDX](/pt/grammar/reference/geul-sidx/) na gramática.
+Material de pesquisa para atribuir SIDX, um endereço semântico que dá números próximos a entidades de significado próximo, a partir de estatísticas de uso do Wikidata. Contém o antigo esquema de atributos de Entity de 48 bits, scripts codificadores e codebooks; ainda não foi produzida nenhuma atribuição de SIDX. A definição normativa de SIDX é [GEUL-SIDX](/pt/grammar/reference/0x00fl-geul-sidx/) na gramática.
 
 | | |
 |---|---|

@@ -95,7 +95,7 @@ JOIN变得不必要了。
 ## 将意义对齐到ID中
 
 SIDX（Semantically-Aligned Index）是构建这种ID的研究。
-GEUL语法中已经有用SIDX指向对象的Reference位置（[GEUL-SIDX](/zh/grammar/reference/geul-sidx/)）。
+GEUL语法中已经有用SIDX指向对象的Reference位置（[GEUL-SIDX](/zh/grammar/reference/0x00fl-geul-sidx/)）。
 但宽度和分配方式尚未确定，将根据积累的使用统计来决定。
 下面为了说明，以64位为例。
 

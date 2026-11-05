@@ -191,9 +191,9 @@ Saat kalimat bahasa alami diubah menjadi representasi terstruktur, harus ada tem
 **Seberapa yakin** --- Tingkat keyakinan
 
 GEUL memiliki tempat-tempat itu.
-Edge [SOURCE](/id/grammar/edge/source/) menautkan pernyataan ke asalnya.
-Waktu berlakunya proposisi dibatasi dengan [QUALIFIER](/id/grammar/edge/qualifier/).
-Dunia dan adegan ditangani Edge WORLD dan SCENE, dan tingkat keyakinan seluruh dokumen oleh Meta [CONFIDENCE](/id/grammar/meta/verification/confidence/).
+Edge [SOURCE](/id/grammar/edge/0x0c0l-source/) menautkan pernyataan ke asalnya.
+Waktu berlakunya proposisi dibatasi dengan [QUALIFIER](/id/grammar/edge/0x0abl-qualifier/).
+Dunia dan adegan ditangani Edge WORLD dan SCENE, dan tingkat keyakinan seluruh dokumen oleh Meta [CONFIDENCE](/id/grammar/meta/0x1e8l-confidence/).
 
 Tidak semuanya wajib diisi.
 Tetapi yang tidak ditulis tampak sebagai tidak ditulis.

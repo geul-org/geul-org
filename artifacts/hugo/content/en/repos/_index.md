@@ -112,7 +112,7 @@ The two repositories below were designed before the current v1 grammar. Parts of
 
 Research on SIDX (Semantic-aligned Index) assignment.
 
-Research material toward assigning SIDX, a semantic address that gives close numbers to entities with close meanings, from Wikidata usage statistics. It holds the earlier 48-bit Entity attribute schema, encoder scripts and codebooks; no SIDX assignment has been produced yet. The normative definition of SIDX is [GEUL-SIDX](/grammar/reference/geul-sidx/) in the grammar.
+Research material toward assigning SIDX, a semantic address that gives close numbers to entities with close meanings, from Wikidata usage statistics. It holds the earlier 48-bit Entity attribute schema, encoder scripts and codebooks; no SIDX assignment has been produced yet. The normative definition of SIDX is [GEUL-SIDX](/grammar/reference/0x00fl-geul-sidx/) in the grammar.
 
 | | |
 |---|---|

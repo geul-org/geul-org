@@ -281,9 +281,9 @@ Quando uma frase em linguagem natural é convertida em representação estrutura
 **Com que grau de certeza** --- Nível de confiança
 
 O GEUL tem esses lugares.
-Uma Edge [SOURCE](/pt/grammar/edge/source/) liga uma afirmação à sua origem.
-O momento em que uma proposição vale é delimitado com um [QUALIFIER](/pt/grammar/edge/qualifier/).
-Mundos e cenas ficam com as Edges WORLD e SCENE, e a confiança do documento inteiro com a Meta [CONFIDENCE](/pt/grammar/meta/verification/confidence/).
+Uma Edge [SOURCE](/pt/grammar/edge/0x0c0l-source/) liga uma afirmação à sua origem.
+O momento em que uma proposição vale é delimitado com um [QUALIFIER](/pt/grammar/edge/0x0abl-qualifier/).
+Mundos e cenas ficam com as Edges WORLD e SCENE, e a confiança do documento inteiro com a Meta [CONFIDENCE](/pt/grammar/meta/0x1e8l-confidence/).
 
 Não é preciso preencher todos.
 Mas o que não é escrito aparece como não escrito.

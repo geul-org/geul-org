@@ -1,83 +1,125 @@
 ---
 title: "Adresse de publication et liste des versions"
-weight: 85
+weight: 30
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "issuer", "publication", "signature"]
-summary: "Un document GEUL publié est servi à une adresse fixe déterminée par son ID (Issuer, ID de document, ID de version) et vérifié par la liste des versions signée par l'éditeur. Cette page fixe la notation des ID, les adresses, la spécification de format, l'index des noms, la liste des versions et les niveaux de confiance."
+summary: "GEUL désigne un document non par une chaîne URL mais par un ID (Issuer, ID de document, ID de version)."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-GEUL désigne un document non par une URL sous forme de chaîne, mais par un ID (Issuer, ID de document, ID de version). L'adresse est déterminée par l'ID. Cette page fixe les règles de publication nécessaires pour que encodeurs, décodeurs et interpréteurs fonctionnent ensemble. Les niveaux d'Issuer et les modes de publication sont fixés par [Issuer et publication](/fr/grammar/issuer/).
+GEUL désigne un document non par une chaîne URL mais par un ID (Issuer, ID de document, ID de version). L'adresse découle de l'ID. Cette page fixe les règles de publication nécessaires pour que l'encodeur, le décodeur et l'interpréteur fonctionnent ensemble. Les catégories d'Issuer et les modes de publication sont fixés par [Issuer et publication](issuer.md).
 
-## Notation des ID
+## Notation des ID {#id-표기}
 
-Les ID employés dans les adresses s'écrivent en hex.
+Les ID utilisés dans les adresses s'écrivent en hexadécimal.
 
-- Le préfixe est `0x` en minuscules, et les chiffres hex sont aussi en minuscules.
-- Le nombre de chiffres est fixé à largeur × 4. On n'omet pas les zéros de tête, et le nombre de chiffres est la largeur.
-- L'ID d'Issuer s'écrit sur la largeur la plus courte qui contienne la valeur. Il n'existe pas de notation élargie comme `0x00000005` (on écrit `0x0005`).
+- Le préfixe est `0x` en minuscules. L'hexadécimal s'écrit avec A-F en majuscules. L'interpréteur convertit en majuscules une adresse écrite en minuscules avant de la chercher.
+- Le nombre de chiffres est fixé à largeur × 4. On n'omet pas les zéros initiaux, et le nombre de chiffres vaut la largeur.
+- Dans une adresse, l'Issuer s'écrit avec le nombre de chiffres de sa largeur d'émission : 8 chiffres pour 2 WORD, 16 pour 4 WORD, 64 pour 16 WORD.
+- À la lecture, l'Issuer est accepté en 8, 16 ou 64 chiffres. Une notation longue obtenue en ajoutant des zéros devant un ID d'Issuer court est cherchée comme le même Issuer (`0x00000001` et `0x0000000000000001` sont le même Issuer, [Issuer et publication](issuer.md#issuer-등급)).
 
 | Objet | Largeur | Chiffres | Exemple |
 |---|---|---|---|
-| Issuer | 1 WORD | 4 | `0x0001` |
-| Issuer | 2 WORD | 8 | `0x00010000` |
+| Issuer | 2 WORD | 8 | `0x00000001` |
 | Issuer | 4 WORD | 16 | `0x0000000100000000` |
 | Issuer | 16 WORD | 64 | `0x` + 64 chiffres |
+| ID de Codec | 2 WORD | 8 | `0x00000AA0` |
 | ID de document | 4 WORD | 16 | `0x0000000000000000` |
 | ID de version | 2 WORD | 8 | `0x00000003` |
 | Hachage du contenu | 16 WORD | 64 | `0x` + 64 chiffres |
 
-- Une requête non canonique (`0X`, majuscules, zéros omis) est redirigée en `301` vers l'adresse canonique. La clé de cache et l'objet de la signature sont ainsi uniques.
-- Les règles de l'ID de version (à partir de 1, `0` = dernière, attribué par l'éditeur, nouvel ID de document quand ils sont épuisés) sont fixées par [Document](/fr/grammar/document/#versions).
+- L'ID de Codec d'un code direct GEUL est son TAG WORD (L=0) écrit sur 32 bits (TRIPLE `0x0AAL` → `0x00000AA0`). Le Kind étant contenu dans le TAG, il n'y a pas de chevauchement.
+- Un Codec au format ISSUER d'un autre Issuer se place sous le `codecs/` de cet Issuer avec le numéro de Codec de l'enregistrement. Exemple : CRC32C de l'IETF est `0x00000007/codecs/0x0000C000/`.
+- L'ID de Codec d'un Codec d'Issuer est le numéro de Codec de l'enregistrement (2 WORD). L'Issuer attribue les numéros de Codec sans chevauchement dans son propre `<Issuer>/codecs/`, quel que soit le Kind (Reference, Value, Edge). L'adresse n'est pas répartie par Kind (il n'y a pas de dossiers comme `references/`, `values/`, `edges/`).
+- L'interpréteur considère comme une erreur le cas où le Kind de l'enregistrement diffère du Kind de la cible du [DECLARE](edge/0x0BBL-declare.md) de son document de Codec.
+- La publication refuse de déposer un autre Codec sous le même ID de Codec.
+- Les règles de l'ID de version (à partir de 1, `0` pour la dernière, attribué par l'éditeur, nouvel ID de document quand l'espace est épuisé) sont fixées par [Document](document.md#버전).
 
-## Adresse de publication
-
-```
-/.well-known/geul/<Issuer>/<ID de document>.geul              dernière version. Envoyée en 302 vers l'adresse canonique (variable)
-/.well-known/geul/<Issuer>/<ID de document>/<ID de version>.geul    un exemplaire de document (immuable, adresse canonique)
-/.well-known/geul/<Issuer>/<ID de document>/versions.geul     document de liste des versions (variable, signé)
-/.well-known/geul/h/<hachage du contenu>.geul                 recherche par hachage du contenu (immuable)
-```
-
-Exemple : `/.well-known/geul/0x0001/0x0000000000000000.geul`
-
-- Le chemin suit le `.well-known` de la RFC 8615. geul.org et les publications privées emploient le même chemin et ne diffèrent que par le domaine. Le seul suffixe à enregistrer est `geul`.
-- Le contenu d'un document ne sort que des adresses immuables. L'adresse de la dernière version ne donne pas de contenu mais renvoie en `302` vers l'adresse canonique de cette version.
-- L'adresse canonique d'une version est `/<Issuer>/<ID de document>/<ID de version>.geul`. Une autre adresse donnant le même contenu désigne l'adresse canonique par `Link: rel=canonical`.
-- Les adresses immuables peuvent se placer dans des caches permanents et des CDN. Le destinataire vérifie avec le hachage du contenu de la liste des versions (ou du fichier de verrouillage).
-- Un ID commence toujours par `0x`. Ainsi, les noms réservés (`h`, `keys`, `issuers.geul`, `documents.geul`, `versions.geul`) et les noms donnés par des humains ne se confondent pas avec un ID, même un mot composé uniquement de chiffres hex comme `add` ou `cafe`.
-- La localisation (de quel serveur on le reçoit) ne se met pas dans le contenu du document. Sinon, le hachage du contenu changerait quand l'adresse change. La localisation est fixée par la configuration de celui qui reçoit le document.
-
-### Spécification de format
-
-- Si l'adresse a une extension, elle fixe le format. `.geul` est le binaire (`application/vnd.geul`).
-- Sans extension, on suit l'en-tête `Accept`. On donne une vue HTML au navigateur et le binaire aux outils. Exemple : `/<Issuer>/<ID de document>/<ID de version>`
-- Le binaire fait foi pour un document. Le hachage du contenu et la signature ne se calculent que sur le binaire.
-
-### Nom de domaine
-
-Un Issuer ayant passé la preuve de propriété d'un domaine peut employer ce domaine à la place de l'ID dans l'emplacement `<Issuer>` de l'adresse.
+## Adresse de publication {#공표-주소}
 
 ```
-/.well-known/geul/<domaine>/<ID de document>.geul              → 302 → /<Issuer>/<ID de document>.geul
-/.well-known/geul/<domaine>/<ID de document>/<ID de version>.geul    → 302 → /<Issuer>/<ID de document>/<ID de version>.geul
-/.well-known/geul/<domaine>/<ID de document>/                  → 302 → /<Issuer>/<ID de document>/
+/.well-known/geul/issuers/latest.geul                              dernière liste des Issuer
+/.well-known/geul/issuers/<ID de version>.geul                     liste des Issuer, version indiquée
+/.well-known/geul/issuers/versions.geul                            liste des versions de la liste des Issuer
+/.well-known/geul/<Issuer>/codecs/<ID de Codec>/latest.geul        dernier Codec
+/.well-known/geul/<Issuer>/codecs/<ID de Codec>/<ID de version>.geul   Codec, version indiquée
+/.well-known/geul/<Issuer>/codecs/<ID de Codec>/versions.geul      liste des versions du Codec
+/.well-known/geul/<Issuer>/docs/<ID de document>/latest.geul       dernier document
+/.well-known/geul/<Issuer>/docs/<ID de document>/<ID de version>.geul  document, version indiquée
+/.well-known/geul/<Issuer>/docs/<ID de document>/versions.geul     liste des versions du document
+/.well-known/geul/<Issuer>/hashes/<hachage du contenu>.geul        recherche par hachage du contenu
 ```
 
-Exemple : `/.well-known/geul/geul.org/0x0000000000001018/0x00000001.geul`
+Exemple : `/.well-known/geul/0x00000002/docs/0x0000000000000000/latest.geul`
 
-- L'adresse de domaine ne donne pas de contenu et renvoie en `302` vers l'adresse d'ID. L'adresse canonique, la clé de cache et l'objet de la signature sont l'adresse d'ID. La correspondance pouvant changer, on n'emploie pas de redirection permanente.
-- Le domaine s'écrit en minuscules, et un domaine internationalisé sous forme IDNA (punycode). On n'ajoute pas de `.` final. Si ce n'est pas la forme canonique, on redirige en `301` vers elle.
-- Un domaine contenant un `.`, il ne se confond pas avec un ID commençant par `0x` ni avec un nom réservé.
-- Quand l'interpréteur reçoit une adresse de domaine, il vérifie la correspondance avec l'index des noms d'Issuer, la convertit en ID et la consigne dans le fichier de verrouillage.
-- Les Issuer de 16 WORD, qui n'ont pas de registre, et les environnements isolés qui n'atteignent pas geul.org ne peuvent pas employer de nom de domaine. Ils emploient l'adresse d'ID.
+- Le chemin suit le `.well-known` de la RFC 8615. geul.org et la publication privée utilisent le même chemin et ne diffèrent que par le domaine. Le seul suffixe à enregistrer est `geul`.
+- La liste des Issuer est `issuers/`. Les Codecs, les documents ordinaires et les hachages se répartissent sous le dossier de l'Issuer en `codecs/<ID de Codec>/`, `docs/<ID de document>/` et `hashes/`. La liste des Issuer commence elle aussi à la version 1 et possède un `versions.geul` ([documents de liste](#목록-문서)).
+- `latest.geul` est un mot réservé et un alias. Il n'est pas stocké. On cherche la version la plus récente dans le `versions.geul` du même emplacement et l'on renvoie tels quels les octets de cette version. Il n'y a pas de redirection. Tous les `latest.geul` (liste des Issuer, Codec, document) sont identiques.
+- L'adresse canonique d'une version est `/<Issuer>/docs/<ID de document>/<ID de version>.geul`. Pour un Codec, `/<Issuer>/codecs/<ID de Codec>/<ID de version>.geul`. Une autre adresse donnant le même contenu désigne l'adresse canonique par `Link: rel=canonical`.
+- Une adresse à version indiquée et une adresse par hachage du contenu sont immuables. Les adresses immuables peuvent être placées dans un cache permanent et un CDN. Le récepteur vérifie avec le hachage du contenu de la liste des versions (ou de l'enregistrement de verrouillage).
+- Pour chercher par hachage du contenu, il faut connaître l'Issuer. Il n'existe pas de recherche globale par le seul hachage.
+- Un document de Codec n'a pas d'ID de document. Il se désigne lui-même, avec sa version, par un [CODEC-POINTER](reference/0x042L-codec-pointer.md) (Issuer, ID de Codec, ID de version).
+- Un ID commence toujours par `0x`. Ainsi les noms réservés (`issuers`, `codecs`, `docs`, `hashes`, `latest.geul`, `versions.geul`) et les noms donnés par des humains ne chevauchent jamais un ID, même s'ils sont des mots composés uniquement d'hexadécimal comme `add` ou `cafe`.
+- L'emplacement (depuis quel serveur on reçoit) n'entre pas dans le contenu du document. S'il y entrait, le hachage du contenu changerait quand l'adresse change. L'emplacement est fixé par la configuration de celui qui reçoit le document.
 
-### Nom d'Issuer
+### Forme de publication et recherche {#공표-형태와-조회}
 
-L'index des noms d'Issuer est un seul document, `/.well-known/geul/issuers.geul`.
+- L'adresse est une adresse logique. L'éditeur peut publier en fichiers individuels ou en pack ; pour un pack, on ne peut pas le recevoir directement par l'URL de l'adresse et on le lit avec un interpréteur GEUL.
+- Que le stockage soit en fichiers individuels, en pack ou en pack zstd, on le retrouve par la même adresse. Une adresse hors des 10 formes ci-dessus, ou inexistante, donne 404 (introuvable).
+
+Outil en ligne de commande `geul` ([gogeul](https://github.com/geul-org/gogeul)) :
+
+```
+geul get <adresse>     écrit sur la sortie standard le binaire du document GEUL pur
+geul show <adresse>    montre le document en texte
+```
+
+- `geul get` accepte les adresses `file://` et `https://`. Une adresse hors des 10 formes ou inexistante se termine par 404 (introuvable).
+
+Le `pkg/resolve` de la bibliothèque Go gogeul a une fonction de recherche par adresse. Toutes renvoient un binaire GEUL pur (`[]byte`). L'ID de version commençant à 1, `Latest` (0) désigne la dernière. Une adresse inexistante donne l'erreur d'absence (`ErrNotFound`).
+
+```go
+const Latest uint32 = 0
+
+Issuers(ctx, v)               / IssuersVersions(ctx)
+Codec(ctx, issuer, codec, v)  / CodecVersions(ctx, issuer, codec)
+Doc(ctx, issuer, doc, v)      / DocVersions(ctx, issuer, doc)
+Hash(ctx, issuer, hash)
+
+ParseAddr(s string) (Addr, error)   // format hors des 10 formes : 404 (introuvable)
+Fetch(ctx, Addr) ([]byte, error)    // geul get = ParseAddr → Fetch → sortie standard
+```
+
+### Désignation du format {#형식-지정}
+
+- Une adresse de publication se termine par `.geul` et est un binaire (`application/vnd.geul`).
+- Le binaire fait foi pour un document. Le hachage du contenu et la signature se calculent uniquement sur le binaire.
+
+### Documents de liste {#목록-문서}
+
+Le document de liste est unique : la liste des Issuer `issuers/`. Elle lie les Issuer et les domaines ([liste des Issuer](#issuer-목록)). Elle commence à la version 1 et possède un `versions.geul`. L'ID de document de la liste est l'ID de document réservé `0xFFFFFFFFFFFFFFFF` (Issuer geul.org `0x00000000`). Tout Issuer réserve les ID de document `0x0000000000000000` et `0xFFFFFFFFFFFFFFFF` ([Issuer et publication](issuer.md#용어-정의-문서)).
+
+- `latest.geul` est un alias non stocké. On cherche la version la plus récente dans `versions.geul` et l'on renvoie ses octets.
+- Les PUBLICATION, DEPRECATION et TOMBSTONE de `issuers/versions.geul` désignent la version de la liste par un DOC-POINTER (`0x00000000`, `0xFFFFFFFFFFFFFFFF`, ID de version). Ainsi, même reçu par `hashes/`, on sait de quoi il est la liste ([PUBLICATION](edge/0x0B8L-publication.md#목록-문서의-버전-목록)).
+- L'ID de document `0xFFFFFFFFFFFFFFFF` n'est reçu pour aucun Issuer à l'adresse `<Issuer>/docs/<ID de document>/` (404). L'autre ID de document réservé, `0x0000000000000000`, se place sous `docs/` comme document d'index des définitions de termes de cet Issuer ([Issuer et publication](issuer.md#용어-정의-문서)).
+- Un document de liste n'a pas de `DOC-ID`. Ce dont il est la liste est indiqué par le DOC-POINTER de l'enregistrement ([DOC-ID](meta/0x1C7L-doc-id.md)).
+- Les documents et les Codecs se retrouvent directement par l'ID calculé à partir de l'enregistrement, sans liste ([nom de document](#문서-이름)).
+
+### Nom de domaine {#도메인-이름}
+
+Un nom de domaine n'est pas une adresse URL de publication. Une adresse qui met un domaine à la place de `<Issuer>` ou un nom à la place d'un ID est hors des 10 formes ci-dessus, donc 404 (introuvable). Il n'y a pas non plus de redirection d'un nom vers une adresse par ID.
+
+- Le nom de domaine est une entrée de l'interpréteur et de la CLI. L'interpréteur convertit le domaine en ID d'Issuer par le BIND de la liste des Issuer `issuers/`. L'ID obtenu est consigné dans l'enregistrement de verrouillage. Il n'y a pas d'adresse par nom de document ([nom de document](#문서-이름)).
+- L'adresse canonique, la clé de cache et la cible de signature sont l'adresse par ID.
+- Le domaine s'écrit en minuscules et un domaine internationalisé sous forme IDNA (punycode). On n'ajoute pas de `.` final.
+- Un Issuer de 16 WORD, qui n'a pas de registre, et un environnement isolé qui ne peut joindre geul.org ne peuvent pas utiliser de nom de domaine. Ils utilisent l'ID.
+
+### Liste des Issuer {#issuer-목록}
+
+La liste des Issuer est un document sous `/.well-known/geul/issuers/` (la dernière est `issuers/latest.geul`). Elle lie les Issuer et leurs noms (domaines).
 
 ```
 BODY
@@ -85,68 +127,48 @@ BODY
   …
 ```
 
-- Le Subject est [ISSUER-POINTER](/fr/grammar/reference/issuer-pointer/) (l'Issuer lui-même), et le nom se lie par [BIND](/fr/grammar/edge/bind/).
-- Le nom est un domaine ayant passé la preuve de propriété. Il est en minuscules, et un domaine internationalisé s'écrit en IDNA (punycode). Un nom n'est lié qu'à un seul Issuer.
-- Le nom d'affichage de l'Issuer lisible par l'humain (par langue) s'attache au même Subject par une description [LABEL](/fr/grammar/edge/label/).
-- Il est signé par geul.org (Issuer GEUL), et quand il change on ajoute sans corriger (même règle de chaîne que la liste des versions).
-- Le nom réservé `issuers.geul` contient un `.` et ressemble à un domaine. Même si un domaine de ce nom apparaît, ce chemin reste l'index des noms d'Issuer.
+- Le Subject est un [ISSUER-POINTER](reference/0x040L-issuer-pointer.md) (l'Issuer lui-même) et le nom est lié par [BIND](edge/0x0A3L-bind.md).
+- Le nom est un domaine ayant passé la preuve de propriété. Il est en minuscules et un domaine internationalisé s'écrit en IDNA (punycode). Un nom n'est lié qu'à un seul Issuer.
+- Le nom d'affichage de l'Issuer lisible par l'humain (par langue) s'attache au même Subject par un Edge d'énoncé [LABEL](edge/0x0A4L-label.md).
+- Il est signé par geul.org (Issuer GEUL), et lorsqu'il change, on ajoute et l'on ne corrige pas (même règle de chaîne que la liste des versions).
 
-### Nom du document
+### Nom de document {#문서-이름}
 
-On peut aussi employer l'adresse avec un nom de document à la place de l'ID de document. À l'emplacement `<Issuer>`, on met l'ID ou le nom de domaine.
+**Il n'existe pas d'adresse par nom de document.** Les documents et les Codecs se retrouvent par ID.
 
-```
-/.well-known/geul/<Issuer|domaine>/<nom du document>.geul              → 302 → /<Issuer>/<ID de document>.geul
-/.well-known/geul/<Issuer|domaine>/<nom du document>/<ID de version>.geul    → 302 → /<Issuer>/<ID de document>/<ID de version>.geul
-/.well-known/geul/<Issuer|domaine>/<nom du document>/                  → 302 → /<Issuer>/<ID de document>/
-```
+- On ne tient pas d'index convertissant un nom de document ou un nom de Codec en ID. La liste des versions ne place pas non plus de [BIND](edge/0x0A3L-bind.md) de nom de document ([PUBLICATION](edge/0x0B8L-publication.md#버전-목록-문서)).
+- L'index que l'humain parcourt est produit par un outil (visionneuse) à partir de l'inventaire des packs.
+- L'adresse canonique, la clé de cache et la cible de signature sont l'adresse par ID. IMPORT et les citations dans un document se font uniquement par ID.
+- Le titre lisible par l'humain (par langue) s'attache par un Edge d'énoncé [LABEL](edge/0x0A4L-label.md).
 
-Exemple : `/.well-known/geul/geul.org/publication/0x00000001.geul` → `/0x0000/0x0000000000001018/0x00000001.geul`
+### Documents supprimés {#삭제된-문서}
 
-**Les noms de documents sont liés par BIND dans l'index des noms de l'Issuer, `/<Issuer>/documents.geul`.** L'interpréteur fait correspondre le nom à l'ID de document par cet index.
+- L'adresse d'une version abandonnée par suppression légale ou d'office (TOMBSTONE) donne elle aussi 404 (introuvable), comme les autres adresses inexistantes.
+- Une version dont l'abandon est recommandé (DEPRECATION) ne donne pas 404. Elle continue d'être servie à l'adresse de cette version.
+- La suppression est consignée dans la liste des versions par un enregistrement [TOMBSTONE](edge/0x0BAL-tombstone.md) (DOC-POINTER de cette version, catégorie de motif).
 
-```
-BODY
-  BIND   Subject = DOC-POINTER(Issuer, ID de document, version 0)   nom = "publication"
-  …
-```
+## Couches {#층}
 
-- Le Subject est un [DOC-POINTER](/fr/grammar/reference/doc-pointer/) (Issuer, ID de document, version `0`). Le nom se lie au document, non à une version.
-- L'Issuer du Subject doit être le même que celui qui tient l'index. Les documents d'un autre Issuer sont ignorés.
-- Un nom ne se lie qu'à un document publié.
-- Un nom de document est un slug ASCII en minuscules : `a-z`, `0-9`, `-`. Il ne commence ni ne finit par `-` et ne commence pas par `0x`. Il ne se confond ainsi ni avec un ID de document (`0x…`) ni avec un nom réservé (`h`, `versions.geul`, etc.) ([BIND](/fr/grammar/edge/bind/)).
-- Dans un Issuer, un nom n'est lié qu'à un seul document, et un nom une fois lié n'est pas réutilisé pour un autre document. Pour renommer, on ajoute un nouveau BIND. L'ancien nom continue de renvoyer au même document. Si le même nom apparaît plusieurs fois, le dernier BIND fait foi.
-- Le document n'écrit pas son propre nom. L'adresse canonique, la clé de cache et l'objet de la signature sont l'adresse d'ID. IMPORT et les citations dans un document se font par ID seulement.
-- Le titre lisible par l'humain (par langue) n'est pas un nom. On l'attache par une description `LABEL`.
-- Le document de liste des versions peut aussi porter le même BIND de nom de document ([PUBLICATION](/fr/grammar/edge/publication/#nom-du-document)). S'il en porte, il doit être identique à l'index des noms. L'interpréteur ne lit que l'index des noms.
-
-### Document supprimé
-
-- L'adresse d'une version supprimée légalement ou d'office renvoie `410 Gone` et une pierre tombale (ID de version, hachage du contenu, date de suppression, catégorie de motif).
-- Dans la liste des versions, elle subsiste sous forme d'enregistrement [TOMBSTONE](/fr/grammar/edge/publication/).
-
-## Couches
-
-GEUL exprime en documents GEUL jusqu'à la provenance, les métadonnées et les listes. Le minimum nécessaire pour les lire est intégré au décodeur, ce qui coupe la circularité. Chaque couche ne s'appuie que sur les couches inférieures.
+GEUL exprime en documents GEUL jusqu'à la provenance, les Meta et les listes. Le minimum nécessaire pour les lire est intégré au décodeur pour rompre la circularité. Chaque couche ne s'appuie que sur les couches inférieures.
 
 | Couche | Contenu | S'appuie sur |
 |---|---|---|
-| Couche 0 | Règles intégrées au décodeur : cadrage, hachage du contenu, vérification de signature, Codec des enregistrements de la liste des versions (`PUBLICATION`, `DEPRECATION`, `TOMBSTONE`), vocabulaire de spécification de Codec (`DECLARE`, `FIELD`, `ENUM`, `CODEC`), [marqueurs d'emplacement](/fr/grammar/reference/slot-marker/) (`0x0000`~`0x0002`), clés de confiance reçues hors du document | Rien. Pas de consultation |
+| Couche 0 | Règles intégrées au décodeur : cadrage, hachage du contenu, vérification de signature, Codecs d'enregistrement de la liste des versions (`PUBLICATION`, `DEPRECATION`, `TOMBSTONE`), vocabulaire de spécification de Codec (`DECLARE`, `FIELD`, `ENUM`, `CODEC`), [marqueurs d'emplacement](slot-marker.md) (`0x0000`, `0x0010`, `0x0020`), clés de confiance reçues hors du document | Rien. Pas de recherche |
 | Couche 1 | Documents de liste des versions | Couche 0 |
-| Couche 2 | Documents ordinaires, livre de codes, documents de spécification de Codec, documents de clés de vérification des Issuer | Se trouvent par la couche 1 et se vérifient par la couche 0 |
+| Couche 2 | Documents ordinaires, livres de codes, documents de spécification de Codec, documents de clés de vérification des Issuer | Trouvés par la couche 1 et vérifiés par la couche 0 |
 
-- Aucune couche ne s'appuie sur elle-même ni sur une couche supérieure.
-- On distingue ce qui s'exprime en GEUL de ce qui ne se lit qu'en interprétant du GEUL. La couche 0 peut s'exprimer en GEUL, mais son interprétation ne demande aucune consultation.
-- Le noyau fixe qui ne peut pas être converti en documents TOULMIN, comme le sens du jugement, se place lui aussi ici ([TOULMIN](/fr/grammar/edge/toulmin/#méta-cognition-et-auto-révision)).
+- Aucune couche ne s'appuie sur sa propre couche ni sur une couche supérieure.
+- On distingue ce qui s'exprime en GEUL de ce qui ne se lit qu'en interprétant du GEUL. La couche 0 peut s'exprimer en GEUL, mais son interprétation n'exige aucune recherche.
+- Le noyau fixe qui ne peut pas être converti en document TOULMIN, comme le sens d'un verdict, se place aussi ici ([TOULMIN](toulmin/_index.md#메타-인지와-자기-개정)).
 
-## Liste des versions
+## Liste des versions {#버전-목록}
 
-L'éditeur tient, pour chaque document, un document de liste des versions en ajout continu (`/<Issuer>/<ID de document>/versions.geul`). Le format des enregistrements et la structure du document sont fixés par [PUBLICATION](/fr/grammar/edge/publication/).
+L'éditeur tient à la suite, pour chaque document, un document de liste des versions (`/<Issuer>/docs/<ID de document>/versions.geul`, pour un Codec `/<Issuer>/codecs/<ID de Codec>/versions.geul`, pour la liste des Issuer `issuers/versions.geul`). Le format des enregistrements et la structure du document sont fixés par [PUBLICATION](edge/0x0B8L-publication.md).
 
 ```
 DOC-*
   SPEC-VERSION
-  PARENT          hachage du contenu de la liste précédente
+  PARENT          hachage du contenu de la liste des versions précédente
   RECORDED-AT     instant où cette liste a été émise
   NEXT-LOCAL-ID   prochain LOCAL ID à attribuer
   SIGNATURE       signature de l'éditeur
@@ -161,56 +183,52 @@ END
 | Edge | Sens |
 |---|---|
 | PUBLICATION | Publie une version du document et son hachage du contenu |
-| DEPRECATION | Appose sur une version publiée une recommandation d'abandon. Elle continue d'être interprétée |
-| TOMBSTONE | Supprime une version publiée (suppression légale ou d'office). Indique une catégorie de motif |
+| DEPRECATION | Marque une version publiée d'une recommandation d'abandon. Elle continue d'être interprétée |
+| TOMBSTONE | Supprime une version publiée (suppression légale ou d'office). On note la catégorie de motif |
 
-- On n'ajoute que des enregistrements. On ne corrige ni n'efface ni ne réordonne. Déprécier et supprimer ajoutent aussi des enregistrements. La nouvelle liste garde en tête le BODY de la liste précédente tel quel et y ajoute des enregistrements, et les listes sont reliées par la chaîne de hachages `PARENT`.
-- Cela signifie qu'on ne corrige pas le registre de publication, ce qui diffère de la révision du contenu d'un document ([Document](/fr/grammar/document/#révision)). L'état actuel d'une version se calcule en appliquant les enregistrements dans l'ordre.
-- Les ID de version sont croissants à partir de 1, sans trou. On ne republie pas le même contenu.
-- La dernière version est la version la plus élevée qui n'est ni recommandée à l'abandon ni supprimée.
-- Les enregistrements ne contiennent pas d'instant. Le `RECORDED-AT` de la première liste où l'enregistrement figure est l'instant de publication.
-- Le document de liste n'a pas de `DOC-ID`. C'est l'ID de document des enregistrements qui dit de quoi c'est la liste.
-- Le document de liste n'a pas d'IMPORT et n'emploie que des Codec de la couche 0.
-- Le document de liste ne se place pas dans une autre liste (pas de liste de listes). Les listes passées ne se désignent que par le hachage du contenu (`h/<hachage du contenu>.geul`), et l'historique se relie par la chaîne `PARENT`.
-- La seule adresse variable est celle de la dernière liste (`/<Issuer>/<ID de document>/versions.geul`). Un pointeur variable ne pouvant pas être fait en document, on le vérifie par la signature, le `RECORDED-AT` et le `PARENT` de la liste reçue.
+- On ne fait qu'ajouter des enregistrements. On ne corrige, ne supprime ni ne réordonne. Une dépréciation ou une suppression s'ajoute aussi comme enregistrement. La nouvelle liste place telle quelle en tête le BODY de la liste précédente et y ajoute des enregistrements, et les listes sont reliées entre elles par la chaîne de hachages `PARENT`.
+- Cela signifie qu'on ne corrige pas l'enregistrement de publication, ce qui diffère de la révision du contenu d'un document ([Document](document.md#개정)). L'état courant d'une version se calcule en appliquant les enregistrements dans l'ordre.
+- Les ID de version croissent à partir de 1 sans trou. On ne republie pas le même contenu.
+- La dernière version est la plus haute version qui n'est ni dépréciée ni supprimée.
+- On ne met pas d'instant dans l'enregistrement. L'instant de publication est le `RECORDED-AT` de la première liste où cet enregistrement figure.
+- La liste des versions n'a pas de `DOC-ID`. Le DOC-POINTER des enregistrements (ID de document, ou ID de document réservé pour la liste des Issuer) dit de quoi elle est la liste.
+- La liste des versions ne place pas d'IMPORT et n'utilise que des Codecs de la couche 0. Le BODY ne contient que PUBLICATION, DEPRECATION et TOMBSTONE.
+- Les listes de versions passées ne sont désignées que par le hachage du contenu (`<Issuer>/hashes/<hachage du contenu>.geul`), et l'historique est relié par la chaîne `PARENT`.
+- Les adresses variables sont `latest.geul` et `versions.geul`. Un pointeur variable ne pouvant pas être fait en document, on le vérifie par la signature de la liste reçue, `RECORDED-AT` et `PARENT`.
 
-### Signataire
+### Signataire {#서명-주체}
 
-| Signature | Signataire | Objet |
+| Signature | Signataire | Cible |
 |---|---|---|
-| Signature de document | L'Issuer de ce document | Hachage du contenu du document ([Issuer et publication](/fr/grammar/issuer/#signature)) |
-| Signature de liste | L'éditeur qui a attribué les ID de version | Hachage du contenu du document de liste |
+| Signature de document | L'Issuer de ce document | Hachage du contenu du document ([Issuer et publication](issuer.md#서명)) |
+| Signature de liste | L'éditeur qui a attribué les ID de version | Hachage du contenu de la liste des versions |
 
-- Pour la publication sur geul.org, c'est geul.org (Issuer GEUL) qui attribue les ID de version et signe la liste ; pour la publication privée, c'est l'Issuer.
+- Pour la publication geul.org, c'est geul.org (Issuer GEUL), et pour la publication privée, cet Issuer, qui attribue les ID de version et signe la liste.
 - L'auteur répond du contenu, l'éditeur du numéro et de l'ordre.
 
-### Vérification
+### Vérification {#검증}
 
-- La signature étant exclue du hachage du contenu, l'effacer laisse le hachage inchangé. On vérifie donc non par « si une signature existe, on la contrôle » mais par « il faut la signature de la clé prescrite ». Les clés exigées sont fixées par la configuration de confiance de l'interpréteur et le fichier de verrouillage.
-- L'interpréteur consigne dans le fichier de verrouillage le hachage du contenu de la dernière liste vue. Si ce hachage n'est pas dans la chaîne `PARENT` d'une liste nouvellement reçue, il rejette (protection contre le retour en arrière et la bifurcation).
-- Les miroirs et environnements isolés copient aussi la chaîne des documents de liste. Avec la seule clé publique, la vérification se fait hors ligne.
-- Un document reçu, de quelque source qu'il vienne, se vérifie par son hachage du contenu. Il n'est pas nécessaire de faire confiance à la source.
+- La signature étant exclue du hachage du contenu, la supprimer laisse le hachage inchangé. On vérifie donc non pas « si une signature existe, on la contrôle » mais « une signature de la clé prescrite doit exister ». La clé exigée est fixée par la configuration de confiance de l'interpréteur et l'enregistrement de verrouillage.
+- L'interpréteur consigne dans l'enregistrement de verrouillage le hachage du contenu de la dernière liste vue. Si ce hachage ne figure pas dans la chaîne `PARENT` d'une liste nouvellement reçue, on rejette (prévention du retour en arrière et de la bifurcation).
+- Les miroirs et les environnements isolés copient aussi la chaîne des listes de versions. Avec la seule clé publique, la vérification se fait hors ligne.
+- Un document reçu, d'où qu'il vienne, se vérifie par le hachage du contenu. Il n'est pas nécessaire de faire confiance à la source.
 
-## Résolution des dépendances
+## Résolution des dépendances {#의존성-해석}
 
-- Un document indique ses documents dépendants par [IMPORT-DOC](/fr/grammar/meta/import/import-doc/) dans le HEAD.
-- Une nouvelle version ne promet pas de compatibilité avec la précédente. On ne ramène donc pas à une seule les versions d'un document dans tout le graphe (on n'emploie pas la sélection de version minimale).
-- Chaque `IMPORT-DOC` est lié à l'édition qu'il a figée. Plusieurs éditions d'un même document peuvent coexister dans un graphe (un jugement qui cite l'ancienne loi et un jugement qui cite la loi en vigueur). Les références se résolvent par (document, version, LOCAL ID).
-- Un import de la dernière version (version `0`) est lié à la dernière édition au moment de l'interprétation. Si l'on interprète à un instant donné, il est lié à l'édition en vigueur à cet instant ([Document](/fr/grammar/document/#révision)).
-- Un import figé par ID de version est reproductible (le contenu d'un ID de version est immuable et se vérifie par le fichier de verrouillage).
+- Un document note ses documents dépendants par [IMPORT-DOC](meta/0x1E4L-import-doc.md) dans le HEAD.
+- Une nouvelle version ne promet aucune compatibilité avec la précédente. On ne réunit donc pas en une seule les versions d'un document dans tout le graphe (on n'utilise pas la sélection de version minimale).
+- Chaque `IMPORT-DOC` est lié à l'édition qu'il a fixée. Plusieurs éditions d'un même document peuvent coexister dans un graphe (un jugement citant l'ancienne loi et un jugement citant la loi en vigueur). Une référence se résout par (document, version, LOCAL ID).
+- Une importation de la dernière version (version `0`) est liée à la dernière édition au moment de l'interprétation. Si l'on interprète à un instant donné, elle est liée à l'édition en vigueur à cet instant ([Document](document.md#개정)).
+- Une importation fixée par ID de version est reproductible (le contenu d'un ID de version est immuable et se vérifie par l'enregistrement de verrouillage).
 
-## Type de média
+## Type de média {#미디어-타입}
 
 - Le type de média d'un document GEUL est `application/vnd.geul`. L'extension est `.geul`.
 - Même si l'on passe à l'arbre standard `application/geul`, on continue d'accepter `application/vnd.geul`.
 
-## Problèmes ouverts
+## Problèmes ouverts {#열린-문제}
 
-- Jusqu'où geul.org sert directement les documents des Issuer de 1, 2, 4 et 16 WORD, et à partir d'où il renvoie vers l'adresse du registre. Codes d'état à ce moment (canonique 308, dernière 302 ou 307).
-- Traitement des divergences d'ID de version (même ID de version, contenus différents) dans les publications privées, les Issuer de 16 WORD et les environnements isolés.
-- Définition de la représentation textuelle et négociation de contenu (binaire, texte ou vue HTML selon `Accept`).
-- Relation entre l'index des noms de documents `documents.geul` et le BIND de la liste des versions (les fusionner ou non), signature de l'index.
-- Composition du HEAD de `issuers.geul` et format de signature et de chaîne. Règle de nom pour les Issuer sans domaine (1 et 4 WORD), traitement des litiges de noms et plafond de longueur.
-- Permettre ou non aux Issuer de 1 WORD de passer facultativement la preuve de domaine pour employer un nom de domaine.
-- Moment et format du passage, quand la liste grossit, à un journal de Merkle (preuves d'inclusion et de cohérence) plutôt qu'à la chaîne entière.
-- Meta indiquant dans le HEAD l'Issuer fournisseur de localisation.
+- Le traitement des divergences d'ID de version (même ID de version, contenu différent) en publication privée, pour les Issuer de 16 WORD et en environnement isolé.
+- La composition du HEAD de la liste des Issuer `issuers/` et le format de signature et de chaîne. Les règles de nom pour les Issuer sans domaine (4 WORD), le traitement des litiges de nom et la limite de longueur.
+- Le moment et le format du passage, quand les listes grossissent, de la chaîne entière à un journal de Merkle (preuves d'inclusion et de cohérence).
+- Un Meta notant dans le HEAD l'Issuer qui fournit l'emplacement.

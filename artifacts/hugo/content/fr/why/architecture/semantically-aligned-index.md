@@ -95,7 +95,7 @@ C'est l'idee centrale de l'index semantiquement aligne.
 ## Aligner le sens dans l'identifiant
 
 SIDX (Semantically-Aligned Index) est une recherche visant à construire un tel identifiant.
-La grammaire GEUL possède déjà un emplacement de Reference qui désigne une cible par SIDX ([GEUL-SIDX](/fr/grammar/reference/geul-sidx/)).
+La grammaire GEUL possède déjà un emplacement de Reference qui désigne une cible par SIDX ([GEUL-SIDX](/fr/grammar/reference/0x00fl-geul-sidx/)).
 Mais sa largeur et sa méthode d'attribution ne sont pas encore décidées. Elles seront fixées à partir des statistiques d'usage accumulées.
 Ci-dessous, 64 bits servent d'exemple pour l'explication.
 

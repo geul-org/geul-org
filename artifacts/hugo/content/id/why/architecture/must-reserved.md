@@ -126,7 +126,7 @@ Biaya mengisi? IPv4 sudah menunjukkannya. Tidak dapat dipulihkan.
 
 ## Prinsip Desain
 
-Prinsip desain kelima dari [tata bahasa](/id/grammar/overview/) GEUL v1:
+Prinsip desain kelima dari [tata bahasa](/id/grammar/) GEUL v1:
 
 > **Biarkan kosong.** Sebagian besar ruang bit disimpan untuk masa depan. Kode langsung tidak dapat ditarik kembali, jadi hanya format yang frekuensinya sudah terbukti yang mendapatkannya.
 

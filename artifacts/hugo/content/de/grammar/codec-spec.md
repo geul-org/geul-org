@@ -1,148 +1,142 @@
 ---
 title: "Codec-Spezifikationsdokument"
-weight: 90
+weight: 40
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-28T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
-summary: "Auch das Codebook ist ein GEUL-Dokument. Mit den vier Edges DECLARE, FIELD, ENUM und CODEC wird der Payload-Aufbau eines Codecs deklariert, und dieses eine Dokument dient zugleich der Prüfung, Zerlegung und Anzeige."
+summary: "Wie ein Codec seinen Payload aufbaut, legt das Codebook fest."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Wie ein Codec seinen Payload aufbaut, legt das Codebook fest. Das Codebook von GEUL ist kein eigenes Format, sondern ein **GEUL-Dokument**. Zu jedem Codec gibt es ein Spezifikationsdokument.
+Wie ein Codec seinen Payload aufbaut, legt das Codebook fest. Das Codebook von GEUL ist kein eigenes Format, sondern ein **GEUL-Dokument**. Zu jedem Codec gibt es genau ein Spezifikationsdokument.
 
-## Ort des Spezifikationsdokuments
+## Ort des Spezifikationsdokuments {#규격-문서의-위치}
 
-Die Spezifikationsdokumente der direkten Codes veröffentlicht der GEUL-Issuer (`0x0000`). Die Dokument-ID ist das TAG WORD des Codecs (nur die Stellen für Kind und Codec, Length ist 0), auf 4 WORD erweitert.
+Die Spezifikationsdokumente der direkten Codes veröffentlicht der GEUL-Issuer (`0x00000000`). Ein Spezifikationsdokument ist ein Codec-Dokument und hat keine Dokument-ID. Die Codec ID ist das TAG WORD des Codecs (nur Abschnitt und Codec-Stelle `C`, Length ist 0), geschrieben als 32-Bit-Wert.
 
 ```
-/.well-known/geul/0x0000/0x000000000000<TAG>.geul
+/.well-known/geul/0x00000000/codecs/0x0000<TAG>/<Versions-ID>.geul
 ```
 
 | Codec | TAG | Spezifikationsdokument |
 |---|---|---|
-| Reference LOCAL | `0008` | `0x0000/0x0000000000000008` |
-| Value QUANTITY | `0806` | `0x0000/0x0000000000000806` |
-| Edge TRIPLE | `100A` | `0x0000/0x000000000000100A` |
-| Edge PUBLICATION | `1018` | `0x0000/0x0000000000001018` |
+| Reference LOCAL | `0050` | `0x00000000/codecs/0x00000050` |
+| Value QUANTITY | `0660` | `0x00000000/codecs/0x00000660` |
+| Edge TRIPLE | `0AA0` | `0x00000000/codecs/0x00000AA0` |
+| Edge PUBLICATION | `0B80` | `0x00000000/codecs/0x00000B80` |
 
-Der Decoder bildet allein aus dem TAG WORD die Adresse des Spezifikationsdokuments. Begegnet er einem unbekannten Codec, lädt und liest er dessen Dokument.
+Der Decoder bildet die Adresse des Spezifikationsdokuments allein aus dem TAG WORD. Trifft er auf einen unbekannten Codec, lädt und liest er dieses Dokument.
 
-- `<TAG>` sind die 4 Hex-Stellen des TAG WORD des Ziels. Die Length-Stelle ist `0000`, bei Reference werden die Quantifier-Bits auf `000` gesetzt (LOCAL ist `0008`).
-- Der Reference-Codec `0000` ist reserviert, daher gibt es kein Spezifikationsdokument mit dem Ziel-TAG-WORD `0x0000`. So überschneiden sich Spezifikationsdokumente nicht mit dem Begriffsdefinitions-Indexdokument des GEUL-Issuers (Dokument-ID `0`, [Issuer und Veröffentlichung](/de/grammar/issuer/#begriffsdefinitionsdokumente)). Auch für den [Slot-Marker](/de/grammar/reference/slot-marker/) (`0x0000`~`0x0002`) des Codecs `0000` gibt es kein Spezifikationsdokument. Er ist im Decoder eingebaut ([Ebene 0](/de/grammar/publishing/#ebenen)).
-- Ein Spezifikationsdokument enthält als `DOC-ID` den DOC-POINTER (`0x0000`, `0x000000000000<TAG>`, `0`). Auch die Records der Versionsliste verwenden diesen DOC-POINTER.
-- Wie andere Dokumente bindet auch ein Spezifikationsdokument im Namensindex `0x0000/documents.geul` des GEUL-Issuers einen kleingeschriebenen Slug-Namen. Beispiel: `publication` → `geul.org/publication/` = `0x0000/0x0000000000001018/` ([Veröffentlichungsadresse und Versionsliste](/de/grammar/publishing/#dokumentname)).
-- Versionen, kanonische Adresse und Signaturregeln sind dieselben wie bei gewöhnlichen veröffentlichten Dokumenten.
+- `<TAG>` ist das Ziel-TAG-WORD als vierstelliger Hex-Wert (Großbuchstaben). Die Length-Stelle ist `0000`. Es gibt ein Codec-Dokument pro Code. Auch das Reference-5Q-System erhält je Quantifizierungscode ein eigenes Dokument (LOCAL Identified `0050`, LOCAL Generic `0060`). Direkte Codes und Issuer-Codecs verwenden dieselbe Adressregel `<Issuer>/codecs/<Codec ID>/` ([Veröffentlichungsadresse und Versionsliste](publishing.md#공표-주소)).
+- Auch [Slot-Marker](slot-marker.md) (`0x0000`, `0x0010`, `0x0020`) haben ein Spezifikationsdokument. Da sie keinen Payload haben, enthält es nur DECLARE und kein FIELD. Bedeutung und Annahmeregel der Marker sind im Decoder eingebaut ([Schicht 0](publishing.md#층)). Auch ein Codec, dessen Layout noch nicht festgelegt ist, beginnt als Spezifikationsdokument mit nur DECLARE.
+- Ein Spezifikationsdokument verwendet als `DOC-ID` einen [CODEC-POINTER](reference/0x042L-codec-pointer.md) (`0x00000000`, `0x0000<TAG>`, `0`). Auch der Versionslisten-Record verwendet diesen CODEC-POINTER.
+- Regeln für Version, kanonische Adresse und Signatur sind dieselben wie bei allgemeinen veröffentlichten Dokumenten.
 
-### Dokument-ID des GEUL-Issuers
+### Codebook und Spezifikationsausgabe {#코덱북과-명세-판}
 
-| Dokument-ID | Verwendung |
-|---|---|
-| `0x0000000000000000` | Begriffsdefinitions-Indexdokument |
-| `0x00000000 0000xxxx` | Codec-Spezifikationsdokument. `xxxx` ist das Ziel-TAG-WORD |
-| `0x0001xxxx xxxxxxxx` | Begriffsdefinitionsdokument von geul.org. Ein Dokument je Begriff ([Issuer und Veröffentlichung](/de/grammar/issuer/#begriffsdefinitionsdokumente)) |
-
-- `0x00000000 0000xxxx` ist für Codec-Spezifikationsdokumente reserviert. Andere Dokumente des GEUL-Issuers (etwa Dokumente für GEUL-eigene ISSUER-Formate, wenn direkte Codes knapp werden) verwenden diesen Bereich nicht.
-
-### Codebook und Spezifikationsausgabe
-
-- Codebook-Dokumente werden nicht per `IMPORT-DOC` importiert. Welchem Codebook ein Dokument folgt, bestimmt [SPEC-VERSION](/de/grammar/meta/declaration/spec-version/) im HEAD.
+- Auch ein Codec-Dokument kann mit [IMPORT-DOC](meta/0x1E4L-import-doc.md) importiert werden. Dann steht an der Dokumentstelle statt eines DOC-POINTER ein [CODEC-POINTER](reference/0x042L-codec-pointer.md). [SPEC-VERSION](meta/0x1C5L-spec-version.md) im Dokument-HEAD bestimmt, welchem Codebook das Dokument folgt.
 - Jeder Decoder bringt das Kern-Codebook mit oder lädt es von dieser Adresse.
-- Wird ein Vorschlag (Prefix `000`) als Standard übernommen, bleibt das Layout unverändert, und nur der Prefix wechselt auf `001` ([Überblick](/de/grammar/overview/#bereichsstruktur)). Da sich das Ziel-TAG-WORD ändert, wird die übernommene Fassung ein neues Spezifikationsdokument mit anderer Dokument-ID, und das Vorschlagsdokument bleibt unverändert.
+- Wird ein Vorschlag (Prefix `000`) zum Standard erhoben, bleibt das Layout unverändert, und nur der Prefix wechselt zu `001` ([Überblick](_index.md#영역-구조)). Da sich das Ziel-TAG-WORD ändert, wird die angenommene Fassung ein neues Spezifikationsdokument mit anderer Codec ID, und das Vorschlagsdokument bleibt unveränderlich bestehen.
 
-## Vier Vokabeln
+## Vier Vokabeln {#네-어휘}
 
 | Edge | Codec | Aufgabe |
 |---|---|---|
-| DECLARE | `0x1B` | Deklariert den Payload-Aufbau eines Codecs. Ziel-TAG-WORD 1 WORD |
-| FIELD | `0x1C` | Ein Payload-Feld. Zugehöriges DECLARE und Breite |
-| ENUM | `0x1D` | Gibt einem Codewert eines Rohwert-Feldes eine Bedeutung |
-| CODEC | `0x1E` | Legt ein Kind/Codec fest, das ein Feld akzeptiert |
+| DECLARE | `0x0BBL` | Deklariert den Payload-Aufbau eines Codecs. Ziel-TAG-WORD, 1 WORD |
+| FIELD | `0x0BCL` | Ein Payload-Feld. Zugehöriges DECLARE und Breite |
+| ENUM | `0x0BDL` | Gibt einem Codewert eines Rohwert-Felds eine Bedeutung |
+| CODEC | `0x0BEL` | Bestimmt ein Kind oder einen Codec, den ein Feld annimmt |
 
-- Die Layouts der vier Edges sind im Decoder eingebaut ([Ebene 0](/de/grammar/publishing/#ebenen)), denn Spezifikationsdokumente müssen ohne Codebook lesbar sein. Zum Lesen eines Spezifikationsdokuments braucht man kein weiteres Spezifikationsdokument.
+- Das Layout der vier Edges ist im Decoder eingebaut ([Schicht 0](publishing.md#층)), weil ein Spezifikationsdokument ohne Codebook lesbar sein muss. Zum Lesen eines Spezifikationsdokuments ist kein weiteres Spezifikationsdokument nötig.
 - Namen (Codec-Name, Feldname, Name des Codewerts) werden alle per BIND gebunden.
 
-### FIELD
+### FIELD {#field}
 
 ```
 Edge Id           LOCAL
 DECLARE           LOCAL (das DECLARE, zu dem dieses Feld gehört)
-Breite            1 WORD: 0 = Record, n = Rohwert n WORD, 0xFFFF = restlicher Rohwert
+Breite            1 WORD: 0 = Record, n = Rohwert aus n WORD, 0xFFFF = restlicher Rohwert
 ```
 
-- Die **Reihenfolge im Dokument** der FIELDs, die auf dasselbe DECLARE verweisen, ist die Reihenfolge der Payload-Felder.
-- Ein Record-Feld beginnt mit einem TAG WORD und wird in dessen Length gelesen.
-- Ein Rohwert-Feld ist eine vorzeichenlose Ganzzahl, die in der festgelegten WORD-Zahl gelesen wird. Werte, die eine Interpretation brauchen, wie Vorzeichen, Dezimalstellen oder Datum, sind keine Rohwerte, sondern Value-Records.
-- Der restliche Rohwert (`0xFFFF`) darf nur einmal vorkommen, und danach folgen nur Rohwerte fester Breite.
-- Die Edge Id eines Edge wird nicht als FIELD deklariert. Als erste Komponente jedes Edge ist sie implizit.
+- Die **Reihenfolge innerhalb des Dokuments** der FIELDs, die auf dasselbe DECLARE zeigen, ist die Reihenfolge der Payload-Felder.
+- Ein Record-Feld beginnt mit einem TAG WORD und wird in der Länge seines Length gelesen.
+- Ein Rohwert-Feld ist eine vorzeichenlose ganze Zahl, die in der festgelegten Anzahl WORD gelesen wird. Werte, die eine Interpretation brauchen, etwa Vorzeichen, Dezimalstellen oder Datum, sind kein Rohwert, sondern ein Value-Record.
+- Ein restlicher Rohwert (`0xFFFF`) darf nur einmal vorkommen, und danach folgen nur Rohwerte fester Breite.
+- Die Edge Id eines Edge wird nicht als FIELD deklariert. Sie ist das erste Element jedes Edge und daher implizit. EDGE-ISSUER ist das erste Element nach Issuer und Codec-Nummer ([EDGE-ISSUER-2WORD](edge/0x1BDL-edge-issuer-2word.md)).
 - Die Position nach dem Lesen aller Felder muss genau mit dem Ende des Records übereinstimmen.
 
-### CODEC
+### CODEC {#codec}
 
-Legt das Format fest, das ein Feld akzeptiert. Das Ziel-WORD verwendet die Stellen für Kind und Codec des TAG WORD unverändert.
+Bestimmt das Format, das ein Feld annimmt. Das Ziel-WORD verwendet die Codec-Stelle des TAG WORD (Abschnitt `KKKK` und `C`) unverändert.
 
 | Length-Stelle | Bedeutung | Beispiel |
 |---|---|---|
-| `0000` | Exakter Codec | `0810` SIGNED-DECIMAL, `0008` LOCAL |
-| `1111` | Wildcard: Codec-Bits, die 0 sind, passen auf alles | `0780` beliebiges Reference, `0F80` beliebiger Value, `07A0` Wikidata QID (unabhängig vom Quantifier) |
+| `0000` | genauer Codec | `0680` SIGNED-DECIMAL, `0050` LOCAL |
+| `1111` | Wildcard: unabhängig vom Wert `C` der gesamte Abschnitt `KKKK` (32 Plätze). Empfohlen ist der erste Platz des Abschnitts (`C = 0`) | `000F` ganzer Abschnitt 0, `060F` ganzer Abschnitt 3 |
 
-- Hat ein Record-Feld kein CODEC, akzeptiert es jeden Record (ohne Slot-Marker). Hat es eines oder mehrere, muss es einer davon sein (geschlossene Liste).
-- Setzt man bei einem Rohwert-Feld ein CODEC, wird dieser Rohwert als dieser Value ohne TAG interpretiert.
+- Erstreckt sich ein Kind über mehrere Abschnitte, wird CODEC für jeden Abschnitt aufgeführt. Beliebige Reference sind `000F`, `020F`, `040F`, beliebige Value sind `060F`, `080F`.
+- Bei Quantifizierung-unabhängig oder bei Gruppen werden die genauen Codecs aufgeführt. Wikidata-QID (Quantifizierung-unabhängig) sind fünf: `0140`, `0150`, `0160`, `0170`, `0180`.
 
-### Optionale Felder und Slot-Marker
+- Hat ein Record-Feld kein CODEC, nimmt es beliebige Records an (Slot-Marker ausgenommen). Hat es eines oder mehrere, muss es eines davon sein (geschlossene Liste).
+- Wird bei einem Rohwert-Feld ein CODEC gesetzt, wird der Rohwert als dieser Value ohne TAG interpretiert.
 
-[Slot-Marker](/de/grammar/reference/slot-marker/) sind eine Gruppe von 1-WORD-Records des reservierten Reference-Codecs `0000`. Sie können nur dann an einer Stelle stehen, wenn die CODEC-Liste des Feldes dieses WORD als exaktes Ziel enthält.
+### Optionale Felder und Slot-Marker {#선택-필드와-자리-표지}
 
-| CODEC-Ziel | Marker | Dieses Feld |
+Ein [Slot-Marker](slot-marker.md) ist eine Gruppe von 1-WORD-Records, die den ersten drei Plätzen `0x000L~0x002L` in Reference-Abschnitt 0 zugewiesen sind. Er darf nur an einer Stelle stehen, an der die CODEC-Liste des Felds genau dieses WORD als exaktes Ziel führt.
+
+| CODEC-Ziel | Marker | Das Feld ist dann |
 |---|---|---|
-| `0000` | ABSENT, nicht angegeben | ist ein **optionales Feld**. Es darf ausgelassen werden |
-| `0001` | UNKNOWN-VALUE, unbekannt | akzeptiert die Behauptung, dass es einen Wert gibt, dieser aber unbekannt ist |
-| `0002` | NO-VALUE, kein Wert | akzeptiert die Behauptung, dass es keinen Wert gibt |
+| `0000` | ABSENT, nicht angegeben | ein **optionales Feld**. Es darf entfallen |
+| `0010` | UNKNOWN-VALUE, unbekannt | nimmt die Aussage an, dass es einen Wert gibt, dieser aber unbekannt ist |
+| `0020` | NO-VALUE, kein Wert | nimmt die Aussage an, dass es keinen Wert gibt |
 
-- **Akzeptanzregel:** Ein Marker ist nur gültig, wenn dasselbe WORD in der CODEC-Liste des Feldes als exaktes Ziel steht. Wildcards (`0780`, `0781`, `0F80` …) und Felder ohne CODEC („beliebiger Record“) akzeptieren keine Marker. An Stellen für HEAD-/BODY-Records und für Edge Ids ist er invalid.
-- Lässt man ein optionales Feld aus, schreibt man an dessen Stelle ein einzelnes WORD `0x0000` (ABSENT). Auch ein optionales Feld belegt immer seine Stelle. Dadurch hat jeder Record genau eine Schreibweise, und die Zerlegung ergibt sich allein aus der Position.
-- Marker sind ein reservierter Reference-Codec, überschneiden sich also nicht mit anderen Records, und auch ein Decoder, der die Spezifikation nicht kennt, überspringt sie als 1-WORD-Records.
-- Die drei Marker sagen Verschiedenes. ABSENT ist eine Aussage über das Dokument (diese Stelle wurde nicht ausgefüllt) und behauptet nichts über die Welt. UNKNOWN-VALUE behauptet, dass es einen Wert gibt (`∃x`), NO-VALUE, dass es keinen gibt (`¬∃x`, innerhalb der einschränkenden Bedingungen). Auslassen bedeutet nicht „kein Wert“, sondern „nicht angegeben“.
-- Was ein Marker bedeutet, legt die Spezifikation des Codecs fest, der ihn akzeptiert ([TRIPLE](/de/grammar/edge/triple/), [QUALIFIER](/de/grammar/edge/qualifier/)).
+- **Annahmeregel:** Ein Marker ist nur gültig, wenn dasselbe WORD als exaktes Ziel in der CODEC-Liste des Felds steht. Wildcards (`000F`, `060F` …) und Felder ohne CODEC („beliebiger Record“) nehmen keine Marker an. An den Record-Stellen von HEAD und BODY sowie an der Edge-Id-Stelle ist er invalid.
+- Wird ein optionales Feld ausgelassen, steht an seiner Stelle ein einzelnes WORD `0x0000` (ABSENT). Auch ein optionales Feld belegt seine Stelle immer. Daher hat ein Record nur eine Schreibweise, und die Zerlegung ergibt sich allein aus der Position.
+- Ein Marker hat einen eigenen Reference-Code, überschneidet sich nicht mit anderen Records, und auch ein Decoder ohne Kenntnis der Spezifikation überspringt ihn als 1-WORD-Record.
+- Die drei Marker sagen Verschiedenes. ABSENT ist eine Aussage über das Dokument (diese Stelle wurde nicht gefüllt) und behauptet daher nichts über die Welt. UNKNOWN-VALUE behauptet, dass es einen Wert gibt (`∃x`), NO-VALUE, dass es keinen Wert gibt (`¬∃x`, innerhalb einer einschränkenden Bedingung). Auslassen heißt nicht „kein Wert“, sondern „nicht angegeben“.
+- Was ein Marker bedeutet, legt die Codec-Spezifikation fest, die ihn annimmt ([TRIPLE](edge/0x0AAL-triple.md), [QUALIFIER](edge/0x0ABL-qualifier.md)).
 
-## Beispiel: Spezifikationsdokument von TRIPLE
+## Beispiel: Spezifikationsdokument von TRIPLE {#예-triple-규격-문서}
 
-Der BODY von `0x0000/0x000000000000100A`.
+Der BODY von `0x00000000/codecs/0x00000AA0`.
 
 | Edge | Inhalt | Name (BIND) |
 |---|---|---|
-| #1 DECLARE | Ziel `100A` | `TRIPLE` |
+| #1 DECLARE | Ziel `0AA0` | `TRIPLE` |
 | #2 FIELD | Feld von #1, Record | `predicate` |
 | #3 FIELD | Feld von #1, Record | `subject` |
 | #4 FIELD | Feld von #1, Record | `object` |
 | #5 FIELD | Feld von #1, Rohwert 1 WORD | `rank` |
 | #6~#8 ENUM | Codewerte 0, 1, 2 von #5 | `normal`, `preferred`, `deprecated` |
-| #17 CODEC | #5 wird als UNSIGNED-INTEGER (`0802`) interpretiert | |
-| #18, #19 CODEC | #4 ist ein beliebiges Reference (`0780`) oder ein beliebiger Value (`0F80`) | |
-| #20, #21 CODEC | #4 akzeptiert auch UNKNOWN-VALUE (`0001`) und NO-VALUE (`0002`) | |
+| #17 CODEC | #5 wird als UNSIGNED-INTEGER (`0620`) interpretiert | |
+| #18, #22, #23, #19, #24 CODEC | #4 ist beliebige Reference (`000F`·`020F`·`040F`) oder beliebiger Value (`060F`·`080F`) | |
+| #20, #21 CODEC | #4 nimmt auch UNKNOWN-VALUE (`0010`) und NO-VALUE (`0020`) an | |
+| #25~#27 CODEC | #2 ist beliebige Reference (`000F`·`020F`·`040F`) | |
+| #28~#30 CODEC | #3 ist beliebige Reference (`000F`·`020F`·`040F`) | |
 
-Mit diesem einen Dokument zerlegt der Decoder einen TRIPLE-Record in Felder, zeigt ihn mit Feldnamen an und prüft, ob das Format stimmt.
+Mit diesem einen Dokument zerlegt ein Decoder einen TRIPLE-Record in Felder, zeigt ihn mit Feldnamen an und prüft, ob das Format stimmt.
 
-## Beispiel: Spezifikationsdokument von QUANTITY
+## Beispiel: Spezifikationsdokument von QUANTITY {#예-quantity-규격-문서}
 
-Beim Value QUANTITY (`0806`) sind alle vier Felder Records.
+Bei Value QUANTITY (`0660`) sind alle vier Felder Records.
 
 | Feld | CODEC |
 |---|---|
-| `amount` | `0801` SIGNED-INTEGER, `0802` UNSIGNED-INTEGER, `0803` BINARY-FLOAT (nur endliche Werte), `0807` FRACTION, `0810` SIGNED-DECIMAL, `0811` UNSIGNED-DECIMAL |
-| `unit` | `0780` beliebiges Reference, `0000` optional |
-| `lower` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (wie amount), `0000` optional |
-| `upper` | `0801`·`0802`·`0803`·`0807`·`0810`·`0811` (wie amount), `0000` optional |
+| `amount` | `0610` SIGNED-INTEGER, `0620` UNSIGNED-INTEGER, `0630` BINARY-FLOAT (nur endliche Werte), `0670` FRACTION, `0680` SIGNED-DECIMAL, `0690` UNSIGNED-DECIMAL |
+| `unit` | `000F`·`020F`·`040F` beliebige Reference, `0000` optional |
+| `lower` | `0610`·`0620`·`0630`·`0670`·`0680`·`0690` (wie amount), `0000` optional |
+| `upper` | `0610`·`0620`·`0630`·`0670`·`0680`·`0690` (wie amount), `0000` optional |
 
-## Regeln
+## Regeln {#규칙}
 
-- In einem Spezifikationsdokument gibt es ein DECLARE. Das Ziel des DECLARE ist gleich dem TAG WORD der Dokument-ID.
+- Ein Spezifikationsdokument enthält genau ein DECLARE. Das Ziel des DECLARE ist gleich dem TAG WORD der Codec ID.
 - Dasselbe Ziel wird in einem Dokument nicht zweimal deklariert.
-- Varianten mit anderem Feldaufbau werden nicht als Verzweigung geschrieben. Jeder Codec wird einzeln deklariert.
-- Layouts mit mehr als einem variablen Rohwert oder mit einer Rohwertbreite, die vom Wert eines anderen abhängt, lassen sich nicht deklarieren. Solche Teile werden in einen Record gekapselt.
-- Spezifikationsdokumente werden wie andere Dokumente als Versionen veröffentlicht. Das Binärlayout eines Codecs wird jedoch nicht revidiert. Um es zu ändern, vergibt man einen neuen Codec.
+- Varianten mit unterschiedlichem Feldaufbau werden nicht über Verzweigungen ausgedrückt. Jeder Codec wird einzeln deklariert.
+- Layouts mit mehr als einem variablen Rohwert oder mit einer Rohwert-Breite, die vom Wert eines anderen abhängt, sind nicht deklarierbar. Solche Teile werden in einen Record eingepackt.
+- Ein Spezifikationsdokument wird wie andere Dokumente nach Versionen veröffentlicht. Das binäre Layout eines Codecs wird jedoch nicht überarbeitet. Um es zu ändern, wird ein neuer Codec zugewiesen.
 
-## Offene Fragen
+## Offene Probleme {#열린-문제}
 
-- Die Zuordnung vom Wert `SPEC-VERSION` (v1 ist `0x0001`) zur Version des Codebook-Dokuments. Ein Abstammungs-Meta, das übernommene Fassung und Vorschlagsfassung verbindet.
+- Die Zuordnung vom `SPEC-VERSION`-Wert (in v1 `0x0001`) zur Version des Codebook-Dokuments. Ein Abstammungs-Meta, das die angenommene Fassung mit der Vorschlagsfassung verbindet.

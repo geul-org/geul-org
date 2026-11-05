@@ -281,9 +281,9 @@ Q50184 (يي سون شين)
 **ما درجة اليقين** -- مستوى الثقة
 
 في GEUL هذه الأماكن موجودة.
-تربط Edge من نوع [SOURCE](/ar/grammar/edge/source/) العبارة بأصلها.
-ويُقيَّد زمن صحة القضية بـ[QUALIFIER](/ar/grammar/edge/qualifier/).
-وتتولى WORLD وSCENE العوالم والمشاهد، وتتولى Meta [CONFIDENCE](/ar/grammar/meta/verification/confidence/) ثقة المستند كله.
+تربط Edge من نوع [SOURCE](/ar/grammar/edge/0x0c0l-source/) العبارة بأصلها.
+ويُقيَّد زمن صحة القضية بـ[QUALIFIER](/ar/grammar/edge/0x0abl-qualifier/).
+وتتولى WORLD وSCENE العوالم والمشاهد، وتتولى Meta [CONFIDENCE](/ar/grammar/meta/0x1e8l-confidence/) ثقة المستند كله.
 
 لا يلزم ملؤها كلها.
 لكن ما لم يُكتب يظهر على أنه لم يُكتب.

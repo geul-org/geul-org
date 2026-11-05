@@ -96,7 +96,7 @@ GEUL n'invente pas de nouveaux identifiants pour Wikidata.
 Il les utilise tels quels.
 
 La grammaire de GEUL a des References dédiées à Wikidata.
-[WIKIDATA-QID](/fr/grammar/reference/wikidata-qid/) écrit le nombre d'un Q-ID, et [WIKIDATA-PID](/fr/grammar/reference/wikidata-pid/) celui d'un P-ID, sous forme d'entier non signé.
+[WIKIDATA-QID](/fr/grammar/reference/0x014l-wikidata-qid/) écrit le nombre d'un Q-ID, et [WIKIDATA-PID](/fr/grammar/reference/0x019l-wikidata-pid/) celui d'un P-ID, sous forme d'entier non signé.
 Q42 est l'entier 42. P31 est l'entier 31.
 Comme ce sont des entiers et non des chaînes, les comparer ne demande aucune normalisation.
 
@@ -149,7 +149,7 @@ Des numéros proches ne veulent pas dire des sens proches.
 Q42 est Douglas Adams ; Q41 est la Grèce, et Q43 la Turquie.
 
 GEUL étudie aussi un autre type d'identifiant.
-[SIDX](/fr/grammar/reference/geul-sidx/) (Semantic-aligned Index), un identifiant sémantiquement aligné qui donne des valeurs proches à des choses de sens proche.
+[SIDX](/fr/grammar/reference/0x00fl-geul-sidx/) (Semantic-aligned Index), un identifiant sémantiquement aligné qui donne des valeurs proches à des choses de sens proche.
 Le but est de mettre le sens dans les bits eux-mêmes,
 pour que les bits de poids fort suffisent à dire s'il s'agit d'une personne, d'un lieu ou d'une organisation.
 
@@ -158,7 +158,7 @@ La grammaire ne lui réserve qu'une place : la Reference GEUL-SIDX.
 Sa largeur n'est pas fixée. 64 bits, 256 bits et d'autres sont à l'étude, et le choix suivra les statistiques.
 Aucun SIDX n'a encore été attribué.
 C'est pourquoi les documents Wikidata actuels s'écrivent avec des Q-ID, sans SIDX.
-Une fois les SIDX attribués, l'identifiant existant et le SIDX d'une même chose seront reliés par [SAME-NODE](/fr/grammar/edge/same-node/).
+Une fois les SIDX attribués, l'identifiant existant et le SIDX d'une même chose seront reliés par [SAME-NODE](/fr/grammar/edge/0x0a1l-same-node/).
 
 C'est là que Wikidata intervient de nouveau.
 La recherche sur SIDX part du système de classification et des statistiques de fréquence de Wikidata.

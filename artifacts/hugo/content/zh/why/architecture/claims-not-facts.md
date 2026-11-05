@@ -281,9 +281,9 @@ LLM在数十亿句子上训练。
 **有多确定** -- 置信度
 
 GEUL有这些位置。
-[SOURCE](/zh/grammar/edge/source/) Edge把陈述连到它的来源。
-命题成立的时间用[QUALIFIER](/zh/grammar/edge/qualifier/)限定。
-世界观和场景由WORLD·SCENE Edge负责，整个文档的置信度由[CONFIDENCE](/zh/grammar/meta/verification/confidence/) Meta负责。
+[SOURCE](/zh/grammar/edge/0x0c0l-source/) Edge把陈述连到它的来源。
+命题成立的时间用[QUALIFIER](/zh/grammar/edge/0x0abl-qualifier/)限定。
+世界观和场景由WORLD·SCENE Edge负责，整个文档的置信度由[CONFIDENCE](/zh/grammar/meta/0x1e8l-confidence/) Meta负责。
 
 不必全部填写。
 但没有写的，就会显示为没有写。

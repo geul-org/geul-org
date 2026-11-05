@@ -95,7 +95,7 @@ JOIN-ים הופכים למיותרים.
 ## יישור משמעות לתוך המזהה
 
 SIDX (Semantically-Aligned Index) הוא מחקר שמטרתו לבנות מזהה כזה.
-בדקדוק של GEUL כבר יש מקום ל-Reference שמצביע על יעד באמצעות SIDX ([GEUL-SIDX](/he/grammar/reference/geul-sidx/)).
+בדקדוק של GEUL כבר יש מקום ל-Reference שמצביע על יעד באמצעות SIDX ([GEUL-SIDX](/he/grammar/reference/0x00fl-geul-sidx/)).
 אבל הרוחב ושיטת ההקצאה טרם הוכרעו. הם ייקבעו לפי סטטיסטיקות שימוש מצטברות.
 להלן, לשם ההסבר, נשתמש ב-64 ביטים כדוגמה.
 

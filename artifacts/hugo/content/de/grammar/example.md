@@ -1,152 +1,152 @@
 ---
 title: "Beispiel: Wikidata-Eintrag"
-weight: 100
+weight: 140
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "example", "wikidata"]
-summary: "Ein GEUL-Dokument mit 63 WORD zu Wikidata Q42 (Douglas Adams), das einen Namen, zwei Propositionen und eine einschränkende Bedingung enthält, wird von Anfang bis Ende gelesen."
+summary: "Ein kleines Dokument über den Wikidata-Eintrag Q42 (Douglas Adams) wird von Anfang bis Ende gelesen."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Wir lesen ein kleines Dokument über den Wikidata-Eintrag Q42 (Douglas Adams) von Anfang bis Ende. Es enthält Folgendes:
+Ein kleines Dokument über den Wikidata-Eintrag Q42 (Douglas Adams) wird von Anfang bis Ende gelesen. Es enthält Folgendes.
 
 - Englischer Name: Douglas Adams
 - Q42 ist eine Instanz von Mensch (Q5) (P31).
 - Q42 wurde am St John's College (Q691283) ausgebildet (P69). Der Beginn (P580) ist das Jahr 1971.
 
-Das Dokument gehört zu Issuer `0x00010000`, hat die Dokument-ID `0x510000000000002a` und umfasst insgesamt 63 WORD (126 Bytes).
+Das Dokument ist das Dokument `0x510000000000002A` des Issuers `0x00000001` und umfasst insgesamt 63 WORD (126 Byte).
 
-## Gesamtes Dokument
-
-```
-1880 003f 1890 0001 1c92 0438 0001 0000 5100 0000 0000 002a 0000 0000
-180e
-1704 0010 0088 0001 00a0 002a 0ccb 08c6 656e 446f 7567 6c61 7320 4164 616d 7300
-148a 0088 0002 00a8 001f 00a0 002a 00a0 0005 0000
-150a 0088 0003 00a8 0045 00a0 002a 0120 000a 8c53 0000
-148b 0088 0004 00a8 0244 0088 0003 0924 3139 3731
-180f
-```
-
-## HEAD
+## Gesamt {#전체}
 
 ```
-1880 003f
+1C01 003F 1C51 0001 1C79 0418 0000 0001 5100 0000 0000 002A 0000 0000
+1C30
+0A4E 0010 0051 0001 0141 002A 0799 0761 656E 446F 7567 6C61 7320 4164 616D 7300
+0AA9 0051 0002 0191 001F 0141 002A 0141 0005 0000
+0AAA 0051 0003 0191 0045 0141 002A 0142 000A 8C53 0000
+0AB9 0051 0004 0191 0244 0051 0003 06E2 3139 3731
+1C40
 ```
 
-`1880` ist Meta (`11`), Length 2 WORD, Codec `0x00` (DOC-1WORD). Der Wert `003f` (63) ist die Gesamtzahl der WORD des Dokuments. Der Decoder kennt damit das Ende des Dokuments im Voraus.
+## HEAD {#head}
 
 ```
-1890 0001
+1C01 003F
 ```
 
-Meta `0x10` SPEC-VERSION. Die Spezifikationsausgabe, der dieses Dokument folgt. v1 ist `0001`.
+`1C01` ist Meta (Abschnitt 14), Codec `0x1C0L` (DOC-1WORD), Length 2 WORD. Der Wert `003F` (63) ist die Gesamtzahl der WORD des Dokuments. Anhand dieses Wertes kennt der Decoder das Ende des Dokuments im Voraus.
 
 ```
-1c92 0438 0001 0000 5100 0000 0000 002a 0000 0000
+1C51 0001
 ```
 
-Meta `0x12` DOC-ID, insgesamt 10 WORD. Der Payload ist ein DOC-POINTER-Reference.
+Meta `0x1C5L` SPEC-VERSION. Das ist die Fassung der Spezifikation, der dieses Dokument folgt. Bei v1 ist es `0001`.
+
+```
+1C79 0418 0000 0001 5100 0000 0000 002A 0000 0000
+```
+
+Meta `0x1C7L` DOC-ID, insgesamt 10 WORD. Der Payload ist eine einzelne DOC-POINTER Reference.
 
 | WORD | Bedeutung |
 |---|---|
-| `0438` | Reference, 9 WORD, Codec `0111` (DOC-POINTER), Quantifier `000` |
-| `0001 0000` | Issuer `0x00010000` (2 WORD) |
-| `5100 0000 0000 002a` | Dokument-ID `0x510000000000002a` |
+| `0418` | Reference, Codec `0x041L` (DOC-POINTER), 9 WORD |
+| `0000 0001` | Issuer `0x00000001` (2 WORD) |
+| `5100 0000 0000 002A` | Dokument-ID `0x510000000000002A` |
 | `0000 0000` | Version `0` (das Dokument selbst) |
 
 ```
-180e
+1C30
 ```
 
-BODY. Der HEAD endet, und der BODY beginnt.
+BODY. Hier endet HEAD, und BODY beginnt.
 
-## BODY
+## BODY {#body}
 
-### #1 LABEL — Englischer Name
-
-```
-1704 0010 0088 0001 00a0 002a 0ccb 08c6 656e 446f 7567 6c61 7320 4164 616d 7300
-```
-
-| WORD | Bedeutung |
-|---|---|
-| `1704` | Edge, Length `1110` (erweitert), Codec `0x04` LABEL |
-| `0010` | Erweiterte Länge: insgesamt 16 WORD |
-| `0088 0001` | Edge Id: LOCAL 1 |
-| `00a0 002a` | Subject: Wikidata Q42 |
-| `0ccb` | Object: UTF8-LANGUAGE-TEXT, 10 WORD, ungerade Bytezahl (`0x4B`) |
-| `08c6 656e` | Sprache: BCP 47 `en` |
-| `446f … 7300` | `Douglas Adams` 13 Bytes + Padding `00` |
-
-### #2 TRIPLE — Q42 ist ein Mensch
+### #1 LABEL — englischer Name {#1-label--영어-이름}
 
 ```
-148a 0088 0002 00a8 001f 00a0 002a 00a0 0005 0000
+0A4E 0010 0051 0001 0141 002A 0799 0761 656E 446F 7567 6C61 7320 4164 616D 7300
 ```
 
 | WORD | Bedeutung |
 |---|---|
-| `148a` | Edge, 10 WORD, Codec `0x0A` TRIPLE |
-| `0088 0002` | Edge Id: LOCAL 2 |
-| `00a8 001f` | Predicate: P31 (instance of) |
-| `00a0 002a` | Subject: Q42 |
-| `00a0 0005` | Object: Q5 (Mensch) |
+| `0A4E` | Edge, Codec `0x0A4L` LABEL, Length `1110` (erweitert) |
+| `0010` | erweiterte Length: insgesamt 16 WORD |
+| `0051 0001` | Edge Id: LOCAL 1 |
+| `0141 002A` | Subject: Wikidata Q42 |
+| `0799` | Object: UTF8-LANGUAGE-TEXT, ungerade Byteanzahl (`0x079L`), 10 WORD |
+| `0761 656E` | Sprache: BCP 47 `en` |
+| `446F … 7300` | `Douglas Adams` 13 Byte + Padding `00` |
+
+### #2 TRIPLE — Q42 ist ein Mensch {#2-triple--q42는-사람이다}
+
+```
+0AA9 0051 0002 0191 001F 0141 002A 0141 0005 0000
+```
+
+| WORD | Bedeutung |
+|---|---|
+| `0AA9` | Edge, Codec `0x0AAL` TRIPLE, 10 WORD |
+| `0051 0002` | Edge Id: LOCAL 2 |
+| `0191 001F` | Predicate: P31 (instance of) |
+| `0141 002A` | Subject: Q42 |
+| `0141 0005` | Object: Q5 (Mensch) |
 | `0000` | Rank: normal |
 
-### #3 TRIPLE — Q42 wurde am St John's College ausgebildet
+### #3 TRIPLE — Q42 wurde am St John's College ausgebildet {#3-triple--q42는-st-johns-college에서-교육받았다}
 
 ```
-150a 0088 0003 00a8 0045 00a0 002a 0120 000a 8c53 0000
+0AAA 0051 0003 0191 0045 0141 002A 0142 000A 8C53 0000
 ```
 
 | WORD | Bedeutung |
 |---|---|
-| `150a` | Edge, 11 WORD, TRIPLE |
-| `0088 0003` | Edge Id: LOCAL 3 |
-| `00a8 0045` | Predicate: P69 (educated at) |
-| `00a0 002a` | Subject: Q42 |
-| `0120 000a 8c53` | Object: Q691283. Der Wert übersteigt 16 Bit, daher ein Reference aus 3 WORD |
+| `0AAA` | Edge, TRIPLE, 11 WORD |
+| `0051 0003` | Edge Id: LOCAL 3 |
+| `0191 0045` | Predicate: P69 (educated at) |
+| `0141 002A` | Subject: Q42 |
+| `0142 000A 8C53` | Object: Q691283. Der Wert überschreitet 16 Bit und ist daher eine Reference mit 3 WORD |
 | `0000` | Rank: normal |
 
-### #4 QUALIFIER — Beginn im Jahr 1971
+### #4 QUALIFIER — Beginn im Jahr 1971 {#4-qualifier--시작-시점-1971년}
 
 ```
-148b 0088 0004 00a8 0244 0088 0003 0924 3139 3731
+0AB9 0051 0004 0191 0244 0051 0003 06E2 3139 3731
 ```
 
 | WORD | Bedeutung |
 |---|---|
-| `148b` | Edge, 10 WORD, Codec `0x0B` QUALIFIER |
-| `0088 0004` | Edge Id: LOCAL 4 |
-| `00a8 0244` | Property: P580 (start time) |
-| `0088 0003` | Target: #3 (das TRIPLE oben) |
-| `0924 3139 3731` | Value: EDTF `1971` (Genauigkeit Jahr, daher EDTF statt GREGORIAN-DATE) |
+| `0AB9` | Edge, Codec `0x0ABL` QUALIFIER, 10 WORD |
+| `0051 0004` | Edge Id: LOCAL 4 |
+| `0191 0244` | Property: P580 (start time) |
+| `0051 0003` | Target: #3 (das TRIPLE oben) |
+| `06E2 3139 3731` | Value: EDTF `1971` (wegen der Jahresgenauigkeit EDTF statt GREGORIAN-DATE) |
 
-Die Bedeutung von #3 ist die Gesamtheit von #3 selbst und aller QUALIFIER, die auf #3 verweisen: „Q42 wurde seit 1971 am St John's College ausgebildet.“
+Die Bedeutung von #3 ist die Gesamtheit aus #3 selbst und allen QUALIFIER, die auf #3 verweisen: „Q42 wurde ab 1971 am St John's College ausgebildet.“
 
 ```
-180f
+1C40
 ```
 
-END. Bis hierher sind es 63 WORD.
+END. Bis hierhin sind es 63 WORD.
 
-## Lesen ohne Codebook
+## Lesen ohne Codebook {#코덱북-없이-읽으면}
 
-Auch ein Decoder, der das Codebook nicht kennt, weiß Folgendes:
+Auch ein Decoder, der das Codebook nicht kennt, weiß Folgendes.
 
-- Das Dokument umfasst 63 WORD und hat im HEAD 2 Meta und im BODY 4 Edges.
-- Den Codec jedes Edge (LABEL, TRIPLE, TRIPLE, QUALIFIER) und seine Edge Id (1, 2, 3, 4).
+- Das Dokument hat 63 WORD, im HEAD stehen 2 Meta, im BODY 4 Edge.
+- Der Codec jeder Edge (LABEL, TRIPLE, TRIPLE, QUALIFIER) und die Edge Id (1, 2, 3, 4).
 - Die Position des jeweils nächsten Records.
 
-Die Rolle der Komponenten (Predicate, Subject, Object, Rank) erfährt man erst aus dem [Spezifikationsdokument](/de/grammar/codec-spec/) des jeweiligen Codecs.
+Die Rollen der Komponenten (Predicate, Subject, Object, Rank) erfährt man erst aus dem [Spezifikationsdokument](codec-spec.md) des jeweiligen Codec.
 
-## Inhaltshash
+## Inhaltshash {#내용-해시}
 
-Der Inhaltshash (SHA-256) dieses Dokuments lautet wie folgt. Bei einer Veröffentlichung wird dieser Hash zusammen mit der Versions-ID in der Versionsliste festgehalten.
+Der Inhaltshash (SHA-256) dieses Dokuments lautet wie folgt. Bei der Veröffentlichung wird dieser Hash zusammen mit der Versions-ID in der Versionsliste eingetragen.
 
 ```
-0x4f05137f92de70951f581156cf90f15471c254c7e87ad1ba100bf91dd705ebc1
+0x561C157203D51AF8C754D53E20AD190F17E73ACDC4235BA47C87F608C946737F
 ```

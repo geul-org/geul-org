@@ -1,0 +1,58 @@
+---
+title: "IMPORTED-FROM (0x133L)"
+weight: 307
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "edge", "toulmin"]
+summary: "IMPORTED-FROM ist ein LINK-Codec, der eine Relation des TOULMIN-Graphen schreibt."
+author: "Junwoo Park"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+IMPORTED-FROM ist ein LINK-Codec, der eine Relation des TOULMIN-Graphen schreibt. Bedeutung: Alias → Pfad (TEXT).
+
+| Eigenschaft | Wert |
+|---|---|
+| Name | `IMPORTED-FROM` (BIND `IMPORTED-FROM` des Spezifikationsdokuments) |
+| TAG ID | `0x133L` |
+| Codec ID | `0x00001330` |
+| Spezifikationsdokument | `0x00000000/codecs/0x00001330/` (DECLARE-Ziel `1330`) |
+| Abschnitt | 9 `1001` (Edge TOULMIN-Format), Offset im Abschnitt C = 19 |
+| Kind | Edge · Familie: TOULMIN-Format, Layout: LINK |
+| TAG WORD | `0001 0011 0011 LLLL` (`000K KKKC CCCC LLLL`) |
+| Indexbeschreibung | Alias → Pfad (TEXT) |
+| Hugo-Seite | `edge/toulmin/link.md` |
+
+## Layout {#레이아웃}
+
+Das Layout ist [LINK](_index.md#link) (ID, src, dst, flags, bedingte Felder, SPAN).
+
+| Eigenschaft | Wert |
+|---|---|
+| TANGEUL | `see a from path` |
+| src → dst | Alias → Pfad (TEXT) |
+
+- dst ist der REF eines TEXT-Records.
+- F_FORCE wird nicht verwendet (ist es gesetzt, wird abgelehnt).
+- Gemeinsame Felder (ID, REF, SPAN) und numerische Regeln folgen [TOULMIN](_index.md#공통-필드).
+
+## Codec-Dokument {#코덱-문서}
+
+Das Codec-Dokument enthält DECLARE (Ziel `1330`). Die bedingten Felder des LINK-Layouts und die vom SOURCE bestimmte SPAN-Breite lassen sich nicht mit FIELD deklarieren; die Felddeklaration ist daher ein offenes Problem ([TOULMIN](_index.md#열린-문제)).
+
+## Verwandte Seiten {#관련-페이지}
+
+- [LINK](_index.md#link), [TOULMIN](_index.md)
+
+## Wortlaut des Spezifikationsdokuments {#규격-문서-원문}
+
+So sieht das Spezifikationsdokument `0x00000000/codecs/0x00001330/latest.geul` aus, gelesen mit `geul show` (Hexadezimalwerte in Großbuchstaben).
+
+```
+SPEC-VERSION 0x0001
+DOC-ID 0x0426000000000000133000000000
+BODY
+#1 DECLARE 0x1330
+#2 BIND #1 "IMPORTED-FROM"
+```

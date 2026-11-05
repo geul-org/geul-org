@@ -96,7 +96,7 @@ GEUL不为维基数据另造标识符。
 而是原样使用。
 
 GEUL语法中有专门指向维基数据的Reference。
-[WIKIDATA-QID](/zh/grammar/reference/wikidata-qid/)把Q-ID的数字部分，[WIKIDATA-PID](/zh/grammar/reference/wikidata-pid/)把P-ID的数字部分，写成无符号整数。
+[WIKIDATA-QID](/zh/grammar/reference/0x014l-wikidata-qid/)把Q-ID的数字部分，[WIKIDATA-PID](/zh/grammar/reference/0x019l-wikidata-pid/)把P-ID的数字部分，写成无符号整数。
 Q42就是整数42。P31就是整数31。
 因为是整数而不是字符串，比较是否相同时不需要规范化。
 
@@ -149,7 +149,7 @@ Q-ID是按注册顺序分配的编号。
 Q42是道格拉斯·亚当斯，Q41是希腊，Q43是土耳其。
 
 GEUL也在研究另一种标识符。
-[SIDX](/zh/grammar/reference/geul-sidx/)（Semantic-aligned Index），一种给意义相近的对象分配相近值的语义对齐标识符。
+[SIDX](/zh/grammar/reference/0x00fl-geul-sidx/)（Semantic-aligned Index），一种给意义相近的对象分配相近值的语义对齐标识符。
 目标是让比特本身承载意义，
 只看高位就能知道"这是人、地点还是组织"。
 
@@ -158,7 +158,7 @@ SIDX仍处于v1之前的研究阶段。
 宽度尚未确定。正在考虑64位、256位等，将根据统计决定。
 也还没有分配结果。
 因此现在的维基数据文档不用SIDX，而用Q-ID书写。
-SIDX分配之后，同一对象的现有标识符和SIDX用[SAME-NODE](/zh/grammar/edge/same-node/)连接。
+SIDX分配之后，同一对象的现有标识符和SIDX用[SAME-NODE](/zh/grammar/edge/0x0a1l-same-node/)连接。
 
 在这里维基数据再次派上用场。
 SIDX研究从维基数据的分类体系和频率统计出发。

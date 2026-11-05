@@ -1,0 +1,48 @@
+---
+title: "DENSE-BFLOAT16-VECTOR"
+weight: 1005
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "value", "vector"]
+summary: "DENSE-BFLOAT16-VECTOR stores bfloat16 16-bit element bit patterns back to back without a descriptor."
+author: "Junwoo Park"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+DENSE-BFLOAT16-VECTOR stores bfloat16 16-bit element bit patterns back to back without a descriptor. It is a different format from binary16.
+
+## Layout {#레이아웃}
+
+- Code: Value `VALUE-ISSUER-2WORD` (`0x09DL`), Issuer `0x00000002` ADHOC, codec number `0x00000507`. Family NUMERIC.
+
+```
+TAG WORD          0000 1001 1101 LLLL      Codec 0x09DL
+[Length ext. TAG] when the total is 15 WORD or more
+Issuer            2 WORD  0x00000002 (ADHOC)
+Codec number      2 WORD  0x00000507
+Payload: [BF16 bits 1st: 1 WORD] ... [BF16 bits Nth: 1 WORD]
+```
+
+## Interpretation rules {#해석-규칙}
+
+- The number of elements is the number of Payload WORD. The bit pattern, including NaN payload and signed zero, is preserved as is.
+- There is no ABI padding between elements or at the end.
+
+## Validity {#유효성}
+
+- The Payload must be at least 1 WORD. This format has no descriptor and does not allow an empty vector.
+- The Payload size must be an integer multiple of the element width of 1 WORD.
+
+## Standards basis and formal status {#표준-근거와-형식-지위}
+
+- The separate 16-bit dtype bfloat16 and its distinction from binary16 follow the [tensor element type of the ONNX IR](https://onnx.ai/onnx/repo-docs/IR.html) and [DLPack `kDLBfloat`](https://dmlc.github.io/dlpack/latest/c_api.html).
+- The descriptor-less 1-dimensional contiguous run of bit patterns and the placement in GEUL TAG/Length and 16-bit big-endian WORD are specific to GEUL. DLPack assumes native endianness, so this Payload is not the wire serialization of DLPack, Arrow, or ONNX.
+
+## Length {#길이}
+
+- The total is the number of WORD obtained by adding TAG 1 WORD, the Length extension TAG (if present), Issuer 2 WORD, codec number 2 WORD, and the Payload. 14 WORD or fewer use the direct length, and 15 WORD or more use the `1110` or `1111` extended length, and the extension TAG is included in the total ([Length](../../record.md)).
+
+## Example {#예시}
+
+- The Payload `3F80 8000` is BF16 `1.0` and `-0`, and the record is 7 WORD in total.

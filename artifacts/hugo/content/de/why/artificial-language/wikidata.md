@@ -96,7 +96,7 @@ GEUL erfindet keine neuen Identifikatoren für Wikidata.
 Es verwendet sie, wie sie sind.
 
 Die Grammatik von GEUL hat eigene References für Wikidata.
-[WIKIDATA-QID](/de/grammar/reference/wikidata-qid/) schreibt die Zahl einer Q-ID, [WIKIDATA-PID](/de/grammar/reference/wikidata-pid/) die Zahl einer P-ID als vorzeichenlose Ganzzahl.
+[WIKIDATA-QID](/de/grammar/reference/0x014l-wikidata-qid/) schreibt die Zahl einer Q-ID, [WIKIDATA-PID](/de/grammar/reference/0x019l-wikidata-pid/) die Zahl einer P-ID als vorzeichenlose Ganzzahl.
 Q42 ist die Ganzzahl 42. P31 ist die Ganzzahl 31.
 Weil es Ganzzahlen und keine Zeichenketten sind, braucht ein Gleichheitsvergleich keine Normalisierung.
 
@@ -149,7 +149,7 @@ Nahe Nummern bedeuten keine nahe Bedeutung.
 Q42 ist Douglas Adams; Q41 ist Griechenland, Q43 die Türkei.
 
 GEUL erforscht auch eine andere Art von Identifikator.
-[SIDX](/de/grammar/reference/geul-sidx/) (Semantic-aligned Index), ein semantisch ausgerichteter Identifikator, der Dingen mit naher Bedeutung nahe Werte gibt.
+[SIDX](/de/grammar/reference/0x00fl-geul-sidx/) (Semantic-aligned Index), ein semantisch ausgerichteter Identifikator, der Dingen mit naher Bedeutung nahe Werte gibt.
 Das Ziel ist, die Bedeutung in die Bits selbst zu legen,
 sodass schon die oberen Bits verraten, ob etwas eine Person, ein Ort oder eine Organisation ist.
 
@@ -158,7 +158,7 @@ Die Grammatik reserviert nur einen Platz dafür: die Reference GEUL-SIDX.
 Die Breite steht nicht fest. 64 Bit, 256 Bit und andere werden geprüft; die Wahl richtet sich nach der Statistik.
 Es ist noch keine SIDX vergeben.
 Deshalb werden die heutigen Wikidata-Dokumente mit Q-IDs geschrieben, ohne SIDX.
-Sobald SIDX-Werte vergeben sind, werden der bestehende Identifikator und die SIDX desselben Dings mit [SAME-NODE](/de/grammar/edge/same-node/) verbunden.
+Sobald SIDX-Werte vergeben sind, werden der bestehende Identifikator und die SIDX desselben Dings mit [SAME-NODE](/de/grammar/edge/0x0a1l-same-node/) verbunden.
 
 Hier kommt Wikidata erneut ins Spiel.
 Die SIDX-Forschung geht vom Klassifikationssystem und den Häufigkeitsstatistiken von Wikidata aus.

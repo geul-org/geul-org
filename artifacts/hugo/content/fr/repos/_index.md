@@ -112,7 +112,7 @@ Les deux dépôts ci-dessous ont été conçus avant la grammaire v1 actuelle. C
 
 Recherche sur l'attribution des SIDX (Semantic-aligned Index).
 
-Matériel de recherche pour attribuer les SIDX, une adresse sémantique qui donne des numéros proches à des entités de sens proche, à partir des statistiques d'usage de Wikidata. Il contient l'ancien schéma d'attributs Entity sur 48 bits, des scripts d'encodage et des codebooks ; aucune attribution de SIDX n'a encore été produite. La définition normative des SIDX est [GEUL-SIDX](/fr/grammar/reference/geul-sidx/) dans la grammaire.
+Matériel de recherche pour attribuer les SIDX, une adresse sémantique qui donne des numéros proches à des entités de sens proche, à partir des statistiques d'usage de Wikidata. Il contient l'ancien schéma d'attributs Entity sur 48 bits, des scripts d'encodage et des codebooks ; aucune attribution de SIDX n'a encore été produite. La définition normative des SIDX est [GEUL-SIDX](/fr/grammar/reference/0x00fl-geul-sidx/) dans la grammaire.
 
 | | |
 |---|---|

@@ -1,0 +1,79 @@
+---
+title: "REFERENCE-ISSUER-4WORD (0x05EL)"
+weight: 94
+date: 2026-11-03T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "reference", "issuer"]
+summary: "REFERENCE-ISSUER-4WORD — форма Reference, определяемая Issuer."
+author: "Джунву Пак"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+REFERENCE-ISSUER-4WORD — форма Reference, определяемая Issuer. Это одна из трёх последних ячеек зоны Reference, ширина Issuer — 4 WORD. Раскладка ISSUER у трёх Kind одинакова ([запись и TAG WORD](../record.md#issuer-형식-레코드)).
+
+| Пункт | Значение |
+|---|---|
+| Имя | `REFERENCE-ISSUER-4WORD` (BIND `REFERENCE-ISSUER-4WORD` в документе спецификации) |
+| TAG ID | `0x05EL` |
+| Codec ID | `0x000005E0` |
+| Документ спецификации | `0x00000000/codecs/0x000005E0/` (цель DECLARE `05E0`) |
+| Раздел | 2 `0010` (Reference прочее), смещение внутри раздела C = 30 |
+| Kind | Reference · классификация: форма Issuer |
+| TAG WORD | `0000 0101 1110 LLLL` (`000K KKKC CCCC LLLL`) |
+| Описание в индексе | Issuer 4 WORD и номер Codec 2 WORD. Форму определяет документ Codec Issuer |
+| Сторона Hugo | `reference/reference-issuer.md` |
+
+## Раскладка {#레이아웃}
+
+```
+TAG WORD          0000 0101 1110 LLLL      Codec 0x05EL
+[расширяющий TAG Length]
+Issuer            4 WORD
+Номер Codec       2 WORD. Определяет Issuer
+Payload           Определяет документ Codec, выпущенный Issuer
+```
+
+## Поля (документ спецификации) {#필드-규격-문서}
+
+Порядок FIELD в документе — это порядок полей Payload ([документ спецификации Codec](../codec-spec.md)).
+
+| Порядок | Поле (BIND) | FIELD | Ширина | Принимаемая форма (CODEC) | ENUM |
+|---|---|---|---|---|---|
+| 1 | `issuer` | #2 | простое значение 4 WORD |  |  |
+| 2 | `codec` | #3 | простое значение 2 WORD |  |  |
+| 3 | `payload` | #4 | остаток, простое значение (`0xFFFF`) |  |  |
+
+Состав `payload` определяет документ Codec этого Issuer.
+
+## Интерпретация и действительность {#해석과-유효성}
+
+- GEUL по Length знает только границу Payload. Декодер, не знающий форму, знает Kind, Length, Issuer и номер Codec и пропускает остальное по Length.
+- Смысл номера Codec, квантификацию и то, на что он указывает, определяет документ Codec, выпущенный Issuer. Общие правила Reference — наименьшая ширина ID цели, чтение квантификации — не применяются ([REFERENCE-ISSUER](_index.md#해석과-유효성)).
+- Issuer записывают наименьшей шириной, в которую помещается значение ([Issuer и публикация](../issuer.md#issuer-등급)). Если старшие 2 WORD значения Issuer равны 0, это invalid. Такое значение записывают кодом 2 WORD ([REFERENCE-ISSUER-2WORD](0x05DL-reference-issuer-2word.md)).
+- Номер Codec — 2 WORD. Issuer назначает его так, чтобы он не повторялся внутри его `codecs/`, независимо от Kind. Если номеров не хватает, получают ещё один Issuer.
+- Документ Codec размещают под `<Issuer>/codecs/<номер Codec>/` этого Issuer ([адреса публикации и список версий](../publishing.md#id-표기)).
+- Лицензию формы Issuer определяет этот Issuer ([Issuer и публикация](../issuer.md#라이선스)).
+
+## Связанные страницы {#관련-페이지}
+
+- [REFERENCE-ISSUER](_index.md#reference-issuer), [REFERENCE-ISSUER-2WORD](0x05DL-reference-issuer-2word.md), [REFERENCE-ISSUER-16WORD](0x05FL-reference-issuer-16word.md)
+- [запись и TAG WORD](../record.md#issuer-형식-레코드), [Issuer и публикация](../issuer.md)
+
+## Исходный текст документа спецификации {#규격-문서-원문}
+
+Документ спецификации `0x00000000/codecs/0x000005E0/latest.geul`, прочитанный командой `geul show` (шестнадцатеричные значения в верхнем регистре).
+
+```
+SPEC-VERSION 0x0001
+DOC-ID 0x042600000000000005E000000000
+BODY
+#1 DECLARE 0x05E0
+#2 FIELD #1 0x0004
+#3 FIELD #1 0x0002
+#4 FIELD #1 rest
+#5 BIND #1 "REFERENCE-ISSUER-4WORD"
+#6 BIND #2 "issuer"
+#7 BIND #3 "codec"
+#8 BIND #4 "payload"
+```

@@ -95,7 +95,7 @@ Inilah ide inti di balik Indeks yang Selaras Secara Semantik.
 ## Menyelaraskan Makna ke dalam ID
 
 SIDX (Semantically-Aligned Index) adalah penelitian untuk membangun ID seperti itu.
-Tata bahasa GEUL sudah memiliki tempat Reference yang menunjuk target lewat SIDX ([GEUL-SIDX](/id/grammar/reference/geul-sidx/)).
+Tata bahasa GEUL sudah memiliki tempat Reference yang menunjuk target lewat SIDX ([GEUL-SIDX](/id/grammar/reference/0x00fl-geul-sidx/)).
 Namun lebar dan cara penetapannya belum diputuskan. Keduanya akan ditentukan dari statistik penggunaan yang terkumpul.
 Di bawah ini, 64 bit dipakai sebagai contoh untuk penjelasan.
 

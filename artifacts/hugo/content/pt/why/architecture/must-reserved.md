@@ -126,7 +126,7 @@ O custo de preencher? O IPv4 nos mostrou. É irreversível.
 
 ## Princípio de design
 
-O quinto princípio de design da [gramática](/pt/grammar/overview/) GEUL v1:
+O quinto princípio de design da [gramática](/pt/grammar/) GEUL v1:
 
 > **Deixar vazio.** A maior parte do espaço de bits é guardada para o futuro. Códigos diretos não podem ser recuperados, então só os recebem formatos com frequência confirmada.
 

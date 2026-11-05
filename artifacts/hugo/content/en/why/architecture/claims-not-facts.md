@@ -281,9 +281,9 @@ When a natural language sentence is turned into a structured representation, the
 **How confident is it** --- Confidence level
 
 GEUL has these places.
-A [SOURCE](/grammar/edge/source/) Edge links a statement to its origin.
-The time at which a proposition holds is narrowed with a [QUALIFIER](/grammar/edge/qualifier/).
-Worlds and scenes are handled by WORLD and SCENE Edges, and the confidence of a whole document by the [CONFIDENCE](/grammar/meta/verification/confidence/) Meta.
+A [SOURCE](/grammar/edge/0x0c0l-source/) Edge links a statement to its origin.
+The time at which a proposition holds is narrowed with a [QUALIFIER](/grammar/edge/0x0abl-qualifier/).
+Worlds and scenes are handled by WORLD and SCENE Edges, and the confidence of a whole document by the [CONFIDENCE](/grammar/meta/0x1e8l-confidence/) Meta.
 
 Not all of them must be filled.
 But what is not written shows up as not written.

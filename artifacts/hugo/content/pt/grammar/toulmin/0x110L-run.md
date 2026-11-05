@@ -1,0 +1,58 @@
+---
+title: "RUN (0x110L)"
+weight: 272
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "edge", "toulmin"]
+summary: "RUN é um Codec LINK que escreve uma relação do grafo TOULMIN."
+author: "Junwoo Park"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+RUN é um Codec LINK que escreve uma relação do grafo TOULMIN. Significado: composição de execução. Se o nó estiver Active, executa o caso subordinado (DAG).
+
+| Item | Valor |
+|---|---|
+| Nome | `RUN` (BIND do documento de especificação `RUN`) |
+| TAG ID | `0x110L` |
+| Codec ID | `0x00001100` |
+| Documento de especificação | `0x00000000/codecs/0x00001100/` (alvo do DECLARE `1100`) |
+| Seção | 8 `1000` (Edge TOULMIN), deslocamento dentro da seção C = 16 |
+| Kind | Edge · família: TOULMIN, grupo: execução, layout: LINK |
+| TAG WORD | `0001 0001 0000 LLLL` (`000K KKKC CCCC LLLL`) |
+| Descrição no índice | composição de execução. Se o nó estiver Active, executa o caso subordinado (DAG) |
+| Lado Hugo | `edge/toulmin/link.md` |
+
+## Layout {#레이아웃}
+
+O layout é [LINK](_index.md#link) (ID, src, dst, flags, campos condicionais, SPAN).
+
+| Item | Valor |
+|---|---|
+| TANGEUL | `run c when n` |
+| src → dst | regra → caso |
+
+- dst é o REF de um nó.
+- F_FORCE não é usado (se estiver ligado, é rejeitado).
+- Os campos comuns (ID, REF, SPAN) e as regras numéricas seguem [TOULMIN](_index.md#공통-필드).
+
+## Documento do Codec {#코덱-문서}
+
+O documento do Codec contém um DECLARE (alvo `1100`). Os campos condicionais do layout LINK e a largura do SPAN definida por SOURCE não podem ser declarados com FIELD; a declaração de campos é um problema em aberto ([TOULMIN](_index.md#열린-문제)).
+
+## Páginas relacionadas {#관련-페이지}
+
+- [LINK](_index.md#link), [TOULMIN](_index.md)
+
+## Texto original do documento de especificação {#규격-문서-원문}
+
+Documento de especificação `0x00000000/codecs/0x00001100/latest.geul` lido com `geul show` (hexadecimal em maiúsculas).
+
+```
+SPEC-VERSION 0x0001
+DOC-ID 0x0426000000000000110000000000
+BODY
+#1 DECLARE 0x1100
+#2 BIND #1 "RUN"
+```

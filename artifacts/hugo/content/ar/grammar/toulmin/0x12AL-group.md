@@ -1,0 +1,57 @@
+---
+title: "GROUP (0x12AL)"
+weight: 298
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "edge", "toulmin"]
+summary: "GROUP هو Codec من نوع NODE يكتب عقدة في رسم TOULMIN."
+author: "جونو بارك"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+GROUP هو Codec من نوع NODE يكتب عقدة في رسم TOULMIN. المعنى: حزمة تنفيذ مرتبة.
+
+| البند | القيمة |
+|---|---|
+| الاسم | `GROUP` (مستند المواصفة BIND `GROUP`) |
+| TAG ID | `0x12AL` |
+| Codec ID | `0x000012A0` |
+| مستند المواصفة | `0x00000000/codecs/0x000012A0/` (هدف DECLARE هو `12A0`) |
+| القسم | 9 `1001` (Edge صيغة TOULMIN)، الإزاحة داخل القسم C = 10 |
+| Kind | Edge · العائلة: صيغة TOULMIN، التخطيط: NODE |
+| TAG WORD | `0001 0010 1010 LLLL` (`000K KKKC CCCC LLLL`) |
+| وصف الفهرس | حزمة تنفيذ مرتبة |
+| جهة Hugo | `edge/toulmin/node.md` |
+
+## التخطيط {#레이아웃}
+
+التخطيط هو [NODE](_index.md#node). تحدد ترويسة من 1 WORD قيمة role وlevel وشكل Claim والحقول الشرطية.
+
+| البند | القيمة |
+|---|---|
+| TANGEUL | قائمة مرقمة `1.` |
+| العقدة | حزمة تنفيذ مرتبة |
+
+- يجب أن يكون role بالقيمة 0.
+- تتبع الحقول المشتركة (ID وREF وSPAN) وقواعد الأعداد ما في [TOULMIN](_index.md#공통-필드).
+
+## مستند Codec {#코덱-문서}
+
+يتضمن مستند Codec عنصر DECLARE (الهدف `12A0`). لا يمكن إعلان الحقول الشرطية في تخطيط NODE وعرض SPAN الذي يحدده SOURCE بواسطة FIELD، لذا فإعلان الحقول مسألة مفتوحة ([TOULMIN](_index.md#열린-문제)).
+
+## صفحات ذات صلة {#관련-페이지}
+
+- [NODE](_index.md#node)، [TOULMIN](_index.md)
+
+## نص مستند المواصفة {#규격-문서-원문}
+
+هذا ما يعرضه `geul show` عند قراءة مستند المواصفة `0x00000000/codecs/0x000012A0/latest.geul` (الأرقام السداسية عشرية بأحرف كبيرة).
+
+```
+SPEC-VERSION 0x0001
+DOC-ID 0x042600000000000012A000000000
+BODY
+#1 DECLARE 0x12A0
+#2 BIND #1 "GROUP"
+```

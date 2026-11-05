@@ -1,75 +1,81 @@
 ---
 title: "Edge"
-weight: 60
+weight: 120
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "edge", "triple", "qualifier", "label"]
-summary: "An Edge is a record that binds References, Values, and other Edges to make a statement. Its first component is always the Edge Id, and the upper 2 bits of the Codec give the family (description, evidence, execution, TOULMIN)."
+summary: "An Edge is a record that binds other records as components and makes a statement about them."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-An Edge is a record that binds other records as components to make a statement. A statement such as "Q42 is a human" or "The English name of Q42 is Douglas Adams" is one Edge.
+An Edge is a record that binds other records as components and makes a statement about them. A statement such as "Q42 is a human" or "Q42's English name is Douglas Adams" is one Edge.
 
-## Layout
+## Layout {#레이아웃}
 
 ```
-TAG WORD          0001 0LLL LCCC CCCC
+TAG WORD          000K KKKC CCCC LLLL      Sections 5-13 (0x0A0L~0x1BFL)
 [Length extension TAG]
-[Codec extension TAG]  for an Issuer format
+[Codec extension TAG]  for the Issuer form
 Edge Id           LOCAL Reference record
-Components        in the order the Codec sets
+Components        in the order set by the Codec
 ```
 
-- `LLLL` is the total WORD count including the TAG WORD, minus 1. A decoder skips to the next record from the Length alone, without knowing the Codec.
-- **The first component is always the Edge Id (a LOCAL Reference).** Since it is a LOCAL Reference (`0088` + ID, Quantifier `000`), the Edge Id can be read without knowing the codec.
-- Each component finds its boundary with its own Length. The position after reading the last component must match the end of the Edge exactly.
-- The composition (Payload) of the components is set by each Edge Codec page.
-- For Codecs that have subformats (WORLD, TIMELINE, SCENE), one Codec-specific TAG WORD specifies the subformat.
-- The order among Edge records has no meaning (except where a Codec sets it separately, for example the [TOULMIN](/grammar/edge/toulmin/) pages).
-- Another Edge is pointed to by its Edge Id. An Edge in this document is pointed to with a LOCAL, and an Edge in another document with a pointer Reference (`EXTERNAL-POINTER-*`, `EXTERNAL-ISSUER-*`).
+- `LLLL` is the total WORD count including the TAG WORD, minus 1. A decoder can skip to the next record from Length alone, without knowing the Codec.
+- **The first component is always the Edge Id (a LOCAL Reference).** Because it is a LOCAL Reference (`0051` + ID, Identified `0x005L`), the Edge Id can be read without knowing the codec.
+- Each component finds its own boundary through its own Length. The position after the last component must coincide exactly with the end of the Edge.
+- The composition (Payload) of the components is set by each Edge Codec document.
+- A Codec with subforms (WORLD, TIMELINE, SCENE) specifies the subform with one Codec-specific TAG WORD.
+- The order among Edge records carries no meaning (except where a Codec sets it separately, e.g. the [TOULMIN](../toulmin/_index.md) documents).
+- Another Edge is pointed to by its Edge Id. An Edge in this document is pointed to as LOCAL; an Edge in another document is pointed to by a pointing Reference (`EXTERNAL-POINTER-*`, `EXTERNAL-ISSUER-*`).
 
-## Families
+## Families {#계열}
 
-| Upper 2 bits | Family | Direct codes | What it does |
+The Edge zone is `0x0A0L~0x1BFL`. The family of a direct code is `(code − 0xA0) >> 5` (the code is the first three digits of the TAG ID). Families are 32 slots each and equal `w >> 9` of the section minus 5. Edge occupies sections 5-13.
+
+| Section | Family | Direct codes | Role |
 |---|---|---|---|
-| `00` | Description | `0x00`-`0x1F` | Builds content about the world and events |
-| `01` | Evidence | `0x20`-`0x3F` | Where records and documents came from ([SOURCE](/grammar/edge/source/)) |
-| `10` | Execution | `0x40`-`0x5F` | An executable program structure (AST) |
-| `11` | [TOULMIN](/grammar/edge/toulmin/) | `0x60`-`0x7B` | Argument graph: claims, rebuttals, exceptions, attack relations, execution, judgment results |
+| 5 | Statement | `0x0A0L~0x0BFL` | Composes content about the world and events |
+| 6 | Evidence | `0x0C0L~0x0DFL` | Where records and documents came from ([SOURCE](0x0C0L-source.md)) |
+| 7 | Execution | `0x0E0L~0x0FFL` | Executable program structure (AST) |
+| 8 | [TOULMIN](../toulmin/_index.md) | `0x100L~0x11BL` | Argument graph: claims, rebuttals, exceptions, attack relations, execution, verdict results |
+| 9 | [TOULMIN](../toulmin/_index.md) form | `0x120L~0x134L` | Source text, sections, auxiliary nodes and relations of a TOULMIN document |
 
-## Description Edges
+- These five families are the assigned direct codes. `0x11CL~0x11FL` is Reserved, and `0x135L~0x1BCL` is Reserved (sections 10-12 are Reserved in their entirety).
+- `0x1BDL~0x1BFL` (the last three slots of section 13) are EDGE-ISSUER (see Issuer-form Edge below). The Issuer form has no family rule.
+
+## Statement Edge {#서술-edge}
 
 | Codec | Name | Components |
 |---|---|---|
-| `0x00` | [REFERENCE-NODE](/grammar/edge/reference-node/) | A directional binding saying that Subject (Reference) denotes Object |
-| `0x01` | [SAME-NODE](/grammar/edge/same-node/) | Two References denote the same target |
-| `0x02` | [DIFFERENT-NODE](/grammar/edge/different-node/) | Two References denote different targets |
-| `0x03` | [BIND](/grammar/edge/bind/) | Binds a machine-oriented name (UTF8-TEXT) to Subject |
-| `0x04` | [LABEL](/grammar/edge/label/) | A per-language name of Subject (UTF8-LANGUAGE-TEXT) |
-| `0x05` | [ALIAS](/grammar/edge/alias/) | Another name of Subject. The layout is the same as LABEL |
-| `0x06` | [DESCRIPTION](/grammar/edge/description/) | A per-language description of Subject. The layout is the same as LABEL |
-| `0x08`/`0x09` | VERB-SHORT / VERB | Verb statement |
-| `0x0A` | [TRIPLE](/grammar/edge/triple/) | One proposition (Predicate, Subject, Object) and a rank |
-| `0x0B` | [QUALIFIER](/grammar/edge/qualifier/) | One condition that qualifies the proposition of another Edge |
-| `0x10`-`0x12` | WORLD / TIMELINE / SCENE | Worldview, event order, scene structure |
-| `0x18`-`0x1A` | [PUBLICATION](/grammar/edge/publication/) / DEPRECATION / TOMBSTONE | Publication, deprecation advisory, and deletion of document versions ([Publication Addresses and Version Lists](/grammar/publishing/#version-lists)) |
-| `0x1B`-`0x1E` | [DECLARE](/grammar/edge/declare/) / [FIELD](/grammar/edge/field/) / [ENUM](/grammar/edge/enum/) / [CODEC](/grammar/edge/codec/) | The vocabulary for writing Codec specifications ([Codec specification document](/grammar/codec-spec/)) |
+| `0x0A0L` | [REFERENCE-NODE](0x0A0L-reference-node.md) | A directional binding: Subject (Reference) points to Object |
+| `0x0A1L` | [SAME-NODE](0x0A1L-same-node.md) | Two References point to the same target |
+| `0x0A2L` | [DIFFERENT-NODE](0x0A2L-different-node.md) | Two References point to different targets |
+| `0x0A3L` | [BIND](0x0A3L-bind.md) | Binds a machine-oriented name (UTF8-TEXT) to Subject |
+| `0x0A4L` | [LABEL](0x0A4L-label.md) | A per-language name of Subject (UTF8-LANGUAGE-TEXT) |
+| `0x0A5L` | [ALIAS](0x0A5L-alias.md) | Another name of Subject. The layout is the same as LABEL |
+| `0x0A6L` | [DESCRIPTION](0x0A6L-description.md) | A per-language description of Subject. The layout is the same as LABEL |
+| `0x0A8L`/`0x0A9L` | [VERB-SHORT](0x0A8L-verb-short.md) / [VERB](0x0A9L-verb.md) | Verb statement |
+| `0x0AAL` | [TRIPLE](0x0AAL-triple.md) | One proposition (Predicate, Subject, Object) with a rank |
+| `0x0ABL` | [QUALIFIER](0x0ABL-qualifier.md) | One condition qualifying another Edge's proposition |
+| `0x0B0L~0x0B2L` | [WORLD](0x0B0L-world.md) / [TIMELINE](0x0B1L-timeline.md) / [SCENE](0x0B2L-scene.md) | Worldview, event order, scene structure |
+| `0x0B8L~0x0BAL` | [PUBLICATION](0x0B8L-publication.md) / [DEPRECATION](0x0B9L-deprecation.md) / [TOMBSTONE](0x0BAL-tombstone.md) | Publication, deprecation advisory, and deletion of a document version ([publication addresses and version list](../publishing.md#버전-목록)) |
+| `0x0BBL~0x0BEL` | [DECLARE](0x0BBL-declare.md) / [FIELD](0x0BCL-field.md) / [ENUM](0x0BDL-enum.md) / [CODEC](0x0BEL-codec.md) | Vocabulary for writing Codec specifications ([Codec specification document](../codec-spec.md)) |
 
-- A `-SHORT` form and the general form are placed as an even-odd pair (VERB-SHORT `0x08` / VERB `0x09`). LABEL takes the language inside the language record in Object (UTF8-LANGUAGE-TEXT), so only `0x04` is used.
-- PUBLICATION, DEPRECATION, and TOMBSTONE are written by the version list document. The version list must be readable without a codebook, so they are built into the decoder (Layer 0 in [Publication Addresses and Version Lists](/grammar/publishing/#layers)).
-- DECLARE, FIELD, ENUM, and CODEC are the vocabulary for writing Codec specifications. A specification document must be readable without a codebook, so their layouts are built into the decoder (Layer 0). Each Codec specification document written in that vocabulary is an ordinary document.
+- A `-SHORT` form and its general form are placed as an even-odd pair (VERB-SHORT `0x0A8L` / VERB `0x0A9L`). LABEL takes the language as a language record inside Object (UTF8-LANGUAGE-TEXT), so it uses only `0x0A4L`.
+- PUBLICATION, DEPRECATION, and TOMBSTONE are used by version-list documents. Because a version list must be readable without a codebook, they are built into the decoder (layer 0 of [publication addresses and version list](../publishing.md#층)).
+- DECLARE, FIELD, ENUM, and CODEC are the vocabulary for writing Codec specifications. Because a specification document must be readable without a codebook, their layouts are built into the decoder (layer 0). Each Codec specification document written in that vocabulary is an ordinary document.
 
-### TRIPLE
+### TRIPLE {#triple}
 
-Details: [TRIPLE](/grammar/edge/triple/)
+Details: [TRIPLE](0x0AAL-triple.md)
 
 ```
-TAG WORD          0001 0LLL L000 1010
+TAG WORD          0000 1010 1010 LLLL
 [Length extension TAG]
 Edge Id           LOCAL Reference
-Predicate         Reference (a Wikidata property and so on)
+Predicate         Reference (Wikidata property, etc.)
 Subject           Reference
 Object            Reference or Value
 Rank              1 WORD
@@ -78,150 +84,134 @@ Rank              1 WORD
 | Rank | Name | Meaning |
 |---|---|---|
 | `0` | normal | Default |
-| `1` | preferred | The current value, the most authoritative value |
+| `1` | preferred | Current value, the most authoritative value |
 | `2` | deprecated | A value judged wrong or outdated but kept as a record |
 
-- Rank is the same as the Wikidata statement rank. A source that does not assign ranks uses `0`.
-- **The meaning of a TRIPLE is everything gathered from the QUALIFIERs that point to its Edge Id.** The reader gathers the QUALIFIERs before interpreting the TRIPLE.
+- Rank is the same as the Wikidata statement rank. A source that assigns no rank uses `0`.
+- **The meaning of a TRIPLE is the collection of all QUALIFIERs that point to its Edge Id.** The reader collects the QUALIFIERs before interpreting the TRIPLE.
 
 Example: Q42 — P31 (instance of) — Q5 (human), normal, Edge Id 2
 
 ```
-148A  0088 0002  00A8 001F  00A0 002A  00A0 0005  0000
+0AA9  0051 0002  0191 001F  0141 002A  0141 0005  0000
 TAG   #2         P31        Q42        Q5         normal
 ```
 
-### QUALIFIER
+### QUALIFIER {#qualifier}
 
-Details: [QUALIFIER](/grammar/edge/qualifier/)
+Details: [QUALIFIER](0x0ABL-qualifier.md)
 
 ```
-TAG WORD          0001 0LLL L000 1011
+TAG WORD          0000 1010 1011 LLLL
 [Length extension TAG]
 Edge Id           LOCAL Reference
 Property          Reference
-Target            LOCAL Reference (the Edge Id of the Edge being qualified)
+Target            LOCAL Reference (Edge Id of the Edge being qualified)
 Value             Reference or Value
 ```
 
-- A QUALIFIER is part of a proposition. It is not a separate claim about the proposition; it qualifies the conditions under which the proposition is true (start and end time, scope of application, and so on).
-- A separate claim about a proposition (who claimed it and so on) is written as a TRIPLE.
-- Target is an Edge in the same document. The order of QUALIFIERs with the same Target is the order in the document.
+- A QUALIFIER is part of a proposition. It is not a separate claim about the proposition; it qualifies the conditions under which the proposition holds (start and end time, scope of application, etc.).
+- A separate claim about a proposition (who asserted it, etc.) is written as a TRIPLE.
+- Target is an Edge in the same document. The order of QUALIFIERs with the same Target is their order in the document.
 
 Example: Q42 — P69 (educated at) — Q691283, start (P580) 1971
 
 ```
-150A 0088 0003 00A8 0045 00A0 002A 0120 000A 8C53 0000   TRIPLE    #3 P69 Q42 Q691283 normal
-148B 0088 0004 00A8 0244 0088 0003 0924 3139 3731        QUALIFIER #4 P580 #3 EDTF "1971"
+0AAA 0051 0003 0191 0045 0141 002A 0142 000A 8C53 0000   TRIPLE    #3 P69 Q42 Q691283 normal
+0AB9 0051 0004 0191 0244 0051 0003 06E2 3139 3731        QUALIFIER #4 P580 #3 EDTF "1971"
 ```
 
-### LABEL, ALIAS, DESCRIPTION
+### LABEL, ALIAS, DESCRIPTION {#label-alias-description}
 
-Details: [LABEL](/grammar/edge/label/), [ALIAS](/grammar/edge/alias/), [DESCRIPTION](/grammar/edge/description/)
+Details: [LABEL](0x0A4L-label.md), [ALIAS](0x0A5L-alias.md), [DESCRIPTION](0x0A6L-description.md)
 
 ```
-TAG WORD          0001 0LLL L000 0100   (LABEL)
+TAG WORD          0000 1010 0100 LLLL   (LABEL)
 [Length extension TAG]
 Edge Id           LOCAL Reference
 Subject           Reference
 Object            UTF8-LANGUAGE-TEXT
 ```
 
-- The name and its language are held in one Object (UTF8-LANGUAGE-TEXT).
+- The name and the language go into one Object (UTF8-LANGUAGE-TEXT).
 - There is at most one LABEL per Subject and language. Other names are written as ALIAS.
-- A machine-oriented name with no language is written as BIND. A LABEL must have a language.
+- A language-less machine-oriented name is written as BIND. A LABEL must have a language.
 
-### BIND
+### BIND {#bind}
 
-Details: [BIND](/grammar/edge/bind/)
+Details: [BIND](0x0A3L-bind.md)
 
-- Binds a name that machines match against (UTF8-TEXT) to Subject. It has no language and is not normalized. Names are the same only if the bytes are the same.
-- The scope of a name is the document that holds the BIND. The same name is not bound to different Subjects in one document.
-- Other records are pointed to by LOCAL ID, not by name. A name is used to match the outside (host functions, address input, people).
+- Binds to Subject a name (UTF8-TEXT) that machines match against. It has no language and is not normalized. Names are the same only if their bytes are the same.
+- The scope of a name is the document containing the BIND. Within one document, the same name is not bound to different Subjects.
+- Other records point by LOCAL ID, not by name. Names are used to match the outside (host functions, address input, people).
 
-### SAME-NODE, DIFFERENT-NODE, REFERENCE-NODE
+### SAME-NODE, DIFFERENT-NODE, REFERENCE-NODE {#same-node-different-node-reference-node}
 
-Details: [SAME-NODE](/grammar/edge/same-node/), [DIFFERENT-NODE](/grammar/edge/different-node/), [REFERENCE-NODE](/grammar/edge/reference-node/)
+Details: [SAME-NODE](0x0A1L-same-node.md), [DIFFERENT-NODE](0x0A2L-different-node.md), [REFERENCE-NODE](0x0A0L-reference-node.md)
 
-- SAME-NODE is the identity that two References point to the same target. It is reflexive, symmetric, and transitive.
-- DIFFERENT-NODE is the non-identity that two References are different targets.
-- REFERENCE-NODE is a directional binding that defines what Subject (a Reference) is, by Object. It is not an identity claim. For example, it defines the URI that a LOCAL node points to.
+- SAME-NODE is an identity: two References point to the same target. It is reflexive, symmetric, and transitive.
+- DIFFERENT-NODE is a non-identity: two References are different targets.
+- REFERENCE-NODE is a directional binding that defines, through Object, what Subject (a Reference) is. It is not an identity claim. Example: defining the URI that a LOCAL node points to.
 
-## Evidence Edges
+## Evidence Edge {#근거-edge}
 
-Attaches evidence to an individual record inside the BODY, or to the whole document (HEAD). The only direct code of the evidence family is [SOURCE](/grammar/edge/source/) (`0x20`).
+Attaches evidence to an individual record in BODY, or to the whole document (HEAD). The evidence family has a single direct code, [SOURCE](0x0C0L-source.md) (`0x0C0L`).
 
 | Codec | Name | Components |
 |---|---|---|
-| `0x20` | [SOURCE](/grammar/edge/source/) | Target (the Edge Id of the BODY Edge the evidence is attached to; in the HEAD, `0` = the whole document), Origin (a source Reference, ABSENT, or UNKNOWN-VALUE) |
-| `0x21`-`0x3F` | Reserved | |
+| `0x0C0L` | [SOURCE](0x0C0L-source.md) | Target (Edge Id of the BODY Edge to which evidence is attached; in HEAD, `0` = the whole document), Origin (origin Reference, ABSENT or UNKNOWN-VALUE) |
+| `0x0C1L~0x0DFL` | Reserved | |
 
-- The properties of the source itself (URL, title, author, publication date, and so on) are written as a TRIPLE with the source as Subject, and the properties of the citation (retrieval date, position within the source, and so on) as a QUALIFIER whose Target is the Edge Id of the SOURCE.
-- The source of the whole document is written in the HEAD as a SOURCE with Target `0`, and the QUALIFIERs that have it as their Target are also placed in the HEAD. These are the only Edges that come in the HEAD, and the HEAD and the BODY share one Edge Id number space ([Source of the Whole Document](/grammar/edge/source/#source-of-the-whole-document)).
-- Other evidence (range within the source, creating party, confidence, per-article period in force, old records) is written as a QUALIFIER, and the version in which a record first appeared is calculated from the version history ([SOURCE](/grammar/edge/source/#expressing-other-evidence)).
-- The judgment result for an individual record is handled by TOULMIN `VERDICT`.
+- Properties of the origin itself (URL, title, author, publication date, ...) are written as a TRIPLE whose Subject is the origin. Properties of the citation (access date, location within the origin, ...) are written as a QUALIFIER whose Target is the SOURCE's Edge Id.
+- The origin of the whole document is written in HEAD as a SOURCE with Target `0`, and the QUALIFIERs that target it are also placed in HEAD. These are the only Edges that appear in HEAD, and HEAD and BODY share one Edge Id number space ([provenance of the whole document](0x0C0L-source.md#문서-전체의-출처)).
+- Other evidence (source text range, creator, confidence, per-article effective period, older records) is written as QUALIFIER, and the version in which a record first entered is computed from the version history ([SOURCE](0x0C0L-source.md#다른-근거의-표현)).
+- The verdict result for a single record is handled by TOULMIN `VERDICT`.
 
-### SOURCE
+### SOURCE {#source}
 
-Details: [SOURCE](/grammar/edge/source/)
+Details: [SOURCE](0x0C0L-source.md)
 
 ```
-TAG WORD          0001 0LLL L010 0000
+TAG WORD          0000 1100 0000 LLLL
 [Length extension TAG]
 Edge Id           LOCAL Reference
-Target            LOCAL Reference (the Edge Id of the BODY Edge the evidence is attached to; in the HEAD, 0 = the whole document)
-Origin            Reference, or the slot marker 0x0000 ABSENT or 0x0001 UNKNOWN-VALUE
+Target            LOCAL Reference (Edge Id of the BODY Edge to which evidence is attached; in HEAD, 0 = the whole document)
+Origin            Reference or slot marker 0x0000 ABSENT / 0x0010 UNKNOWN-VALUE
 ```
 
-Example: the source of the Q42 P19 TRIPLE `#178` is Encyclopaedia Britannica (Q5375741), with the identifier P1417 inside it
+Example: the provenance of Q42 P19 TRIPLE `#178` is Britannica (Q5375741), with identifier P1417 inside it
 
 ```
 SOURCE     #1347  #178   Q5375741
 QUALIFIER  #1348  P1417  #1347  "biography/Douglas-Adams"
 ```
 
-## Execution Edges
+## Execution Edge {#실행-edge}
 
-A program structure not tied to a particular programming language. Components are pointed to by LOCAL ID of this document.
+A program structure not bound to any particular programming language. Components are pointed to by this document's LOCAL IDs.
 
-| Group | Codecs |
+| Group | Codec |
 |---|---|
-| Declarations | FUNCTION-DECLARE, TYPE-DECLARE |
-| Expressions | CONST, UNARY, BINARY, CALL, MEMBER, INDEX, CONSTRUCT, CONDITIONAL |
-| Statements | BLOCK, ASSIGN, IF, SWITCH, WHILE, FOREACH, JUMP, RETURN |
-| Errors | RAISE, TRY |
+| Declaration | [FUNCTION-DECLARE](0x0E1L-function-declare.md), [TYPE-DECLARE](0x0E2L-type-declare.md) |
+| Expression | [CONST](0x0E8L-const.md), [UNARY](0x0E9L-unary.md), [BINARY](0x0EAL-binary.md), [CALL](0x0EBL-call.md), [MEMBER](0x0ECL-member.md), [INDEX](0x0EDL-index.md), [CONSTRUCT](0x0EEL-construct.md), [CONDITIONAL](0x0EFL-conditional.md) |
+| Statement | [BLOCK](0x0F0L-block.md), [ASSIGN](0x0F1L-assign.md), [IF](0x0F2L-if.md), [SWITCH](0x0F3L-switch.md), [WHILE](0x0F4L-while.md), [FOREACH](0x0F5L-foreach.md), [JUMP](0x0F6L-jump.md), [RETURN](0x0F7L-return.md) |
+| Error | [RAISE](0x0F8L-raise.md), [TRY](0x0F9L-try.md) |
 
-- It is not a format that holds the code of an outside language as it is. The code of an outside language is placed in an Issuer format.
-- Components are pointed to by LOCAL ID (REF) of this document. An expression position holds an expression Edge or a symbol. REF `0` means none.
-- An expression yields a value; a statement does not. An expression can be placed in a statement position of a BLOCK (the value is discarded).
-- A C-style `for` is written as BLOCK (initialization, WHILE), and `else if` as an IF in the false position.
-- A symbol is a LOCAL ID, and its name is bound with BIND. Other records point to a symbol by LOCAL ID, not by name. Even if the names are the same, symbols with different LOCAL IDs are different symbols.
-- What a symbol is (variable, parameter, function, type) is set by the record that points to it. A symbol with no definition in the document is provided by the outside (the host); if it is the target of a CALL, it is a host function.
+- This is not a format that carries foreign-language code as is. Code in an external language is placed in the Issuer form.
+- Components are pointed to by this document's LOCAL ID (REF). An expression slot holds an expression Edge or a symbol. REF `0` means none.
+- An expression yields a value; a statement does not. An expression may be placed in a statement slot of a BLOCK (the value is discarded).
+- A C-style `for` is written as BLOCK (initialization, WHILE), and `else if` as an IF in the false slot.
+- A symbol is a LOCAL ID, and its name is bound by BIND. Other records point to a symbol by LOCAL ID, not by name. Even with the same name, different LOCAL IDs are different symbols.
+- What a symbol is (variable, parameter, function, type) is determined by the record that points to it. A symbol with no definition in the document is provided from outside (the host); if it is the target of a CALL, it is a host function.
 
-Open questions: operator codes, type representation, and the Payload layout of each Codec.
+Open problems: operator codes, type representation, and the Payload layout of each Codec.
 
-## TOULMIN Edges
+## TOULMIN Edge {#toulmin-edge}
 
-Details: [TOULMIN](/grammar/edge/toulmin/)
+Writes verdict and execution graphs with the Toulmin argument model. Direct codes are `0x100L~0x11BL`; auxiliary records are in the TOULMIN form family `0x120L~0x134L`. Details: [TOULMIN](../toulmin/_index.md)
 
-Writes judgment and execution graphs with the Toulmin model of argument. This is the core family that lets GEUL describe its own rules in GEUL and correct itself.
+## Issuer-form Edge {#issuer-형식-edge}
 
-| Group | Codecs |
-|---|---|
-| Declarations | CASE-DECLARE (case), [PREDICATE-DECLARE](/grammar/edge/toulmin/expr/) (predicate), SPEC-DECLARE (criterion), RULE-DECLARE (claim), COUNTER-DECLARE (rebuttal), EXCEPT-DECLARE (exception) — [NODE](/grammar/edge/toulmin/node/) |
-| Relations | ATTACKS (attack), SUPERSEDES (override) — [LINK](/grammar/edge/toulmin/link/), SUPERSEDE-CHAIN (priority chain, layout undecided) |
-| Execution | RUN, DO, DO-ONCE, UNDO, CHECKING — [LINK](/grammar/edge/toulmin/link/), ENTRY, TRIGGER — [NODE](/grammar/edge/toulmin/node/) |
-| Results | VERDICT (judgment result: Pass, Review, Fail), EVIDENCE (evidence of the judgment) — layout undecided |
+An Issuer can define and use its own Edge forms ([EDGE-ISSUER-2WORD](0x1BDL-edge-issuer-2word.md), [4WORD](0x1BEL-edge-issuer-4word.md), [16WORD](0x1BFL-edge-issuer-16word.md), Codec `0x1BDL`~`0x1BFL`). These are the last three slots of the Edge zone. The Codec extension TAG holds the Issuer and a 2-WORD codec number. The Edge Id is the first element of the Payload that follows (TAG, Issuer, codec number, Edge Id, rest of the Payload). The codec number is set by the Issuer and has no family rule. Regardless of Kind, it does not collide within that Issuer's `codecs/`. The codec document is placed under that Issuer's `codecs/` by the record's codec number ([publication addresses and version list](../publishing.md)).
 
-- The source text, sections, auxiliary nodes, and relations are the ISSUER formats (`0xC000`-`0xC029`) of the GEUL Issuer ([SOURCE and Sections](/grammar/edge/toulmin/source/)).
-- A judgment result is placed in a document different from the one being judged. The result document imports the target document and points to it. So judging does not change the content hash of the target document.
-
-## Issuer Format Edges
-
-An Issuer can define and use its own Edge formats (Codec `0x7C`-`0x7F`). The direct codes `0x7C`-`0x7F` lie inside the TOULMIN range but are common ISSUER codes, and the family is set by the upper 2 bits of the format number.
-
-| Issuer | Format numbers | Names | Family |
-|---|---|---|---|
-| `0x0000` GEUL | `0xC000`-`0xC005` | [SOURCE, TEXT, SECTION, CASE-BEGIN, CASE-END, PROSE](/grammar/edge/toulmin/source/) | TOULMIN |
-| `0x0000` GEUL | `0xC010`-`0xC014` | [NAMESPACE, FUNC, FIELD, ALIAS, GROUP](/grammar/edge/toulmin/node/) | TOULMIN |
-| `0x0000` GEUL | `0xC020`-`0xC029` | [REQUIRES … LABEL](/grammar/edge/toulmin/link/) | TOULMIN |
+- No Edge ISSUER form is registered at present.

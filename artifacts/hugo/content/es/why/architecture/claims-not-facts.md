@@ -281,9 +281,9 @@ Cuando una oración en lenguaje natural se convierte en una representación estr
 **Con qué grado de certeza** --- Nivel de confianza
 
 GEUL tiene esos lugares.
-Una Edge [SOURCE](/es/grammar/edge/source/) enlaza una afirmación con su origen.
-El momento en que una proposición es válida se acota con un [QUALIFIER](/es/grammar/edge/qualifier/).
-Los mundos y las escenas los cubren las Edge WORLD y SCENE, y la confianza de todo un documento, la Meta [CONFIDENCE](/es/grammar/meta/verification/confidence/).
+Una Edge [SOURCE](/es/grammar/edge/0x0c0l-source/) enlaza una afirmación con su origen.
+El momento en que una proposición es válida se acota con un [QUALIFIER](/es/grammar/edge/0x0abl-qualifier/).
+Los mundos y las escenas los cubren las Edge WORLD y SCENE, y la confianza de todo un documento, la Meta [CONFIDENCE](/es/grammar/meta/0x1e8l-confidence/).
 
 No hace falta llenarlos todos.
 Pero lo que no se escribe se ve como no escrito.

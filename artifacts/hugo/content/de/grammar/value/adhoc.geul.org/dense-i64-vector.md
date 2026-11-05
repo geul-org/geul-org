@@ -1,0 +1,47 @@
+---
+title: "DENSE-I64-VECTOR"
+weight: 1011
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "value", "vector"]
+summary: "DENSE-I64-VECTOR ist ein homogener eindimensionaler Value, der int64-Elemente im Big-Endian-Format ohne Descriptor aneinanderreiht."
+author: "Junwoo Park"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+DENSE-I64-VECTOR ist ein homogener eindimensionaler Value, der int64-Elemente im Big-Endian-Format ohne Descriptor aneinanderreiht.
+
+## Layout {#레이아웃}
+
+- Code: Value `VALUE-ISSUER-2WORD` (`0x09DL`), Issuer `0x00000002` ADHOC, Codec-Nummer `0x00000504`. Familie NUMERIC.
+
+```
+TAG WORD          0000 1001 1101 LLLL      Codec 0x09DL
+[Length-Erweiterungs-TAG] ab insgesamt 15 WORD
+Issuer            2 WORD  0x00000002 (ADHOC)
+Codec-Nummer      2 WORD  0x00000504
+Payload: [int64 1st: 4 WORD] ... [int64 Nth: 4 WORD]
+```
+
+## Interpretationsregeln {#해석-규칙}
+
+- Je 4 aufeinanderfolgende WORD werden ab dem höchstwertigen WORD zusammengesetzt und als 64-Bit-Ganzzahl im Zweierkomplement gelesen.
+- Die Elementzahl ist 1/4 der Zahl der Payload-WORD, und es gibt kein ABI-Padding.
+
+## Gültigkeit {#유효성}
+
+- Der Payload muss mindestens 4 WORD umfassen und ein ganzzahliges Vielfaches von 4 WORD sein. Dieses Format ohne Descriptor lässt keinen leeren Vektor zu.
+
+## Normgrundlage und Formatstatus {#표준-근거와-형식-지위}
+
+- Vorzeichenbehaftung und 64-Bit-Breite des signed-integer-dtype richten sich nach den Industrie-dtypes des [ONNX-IR-Tensor-Elementtyps](https://onnx.ai/onnx/repo-docs/IR.html) und von [DLPack `DLDataType`](https://dmlc.github.io/dlpack/latest/c_api.html).
+- Die Zweierkomplement-Interpretation, die eindimensionale zusammenhängende Folge ohne Descriptor sowie GEUL-TAG/Length und die Big-Endian-WORD-Anordnung sind ein GEUL-eigenes Format. Da DLPack für dtypes Native-Endian annimmt, ist dieser Payload keine Wire-Serialisierung von DLPack oder ONNX.
+
+## Länge {#길이}
+
+- Die Gesamtlänge ist die Summe der WORD aus 1 WORD TAG, Length-Erweiterungs-TAG (falls vorhanden), 2 WORD Issuer, 2 WORD Codec-Nummer und Payload. Bis 14 WORD wird die direkte Länge verwendet, ab 15 WORD die erweiterte Länge `1110`/`1111`, und der Erweiterungs-TAG zählt zur Gesamtzahl ([Length](../../record.md)).
+
+## Beispiel {#예시}
+
+- Der Payload `FFFF FFFF FFFF FFFF` ergibt das Element `[-1]` und ist ein Record mit insgesamt 9 WORD.

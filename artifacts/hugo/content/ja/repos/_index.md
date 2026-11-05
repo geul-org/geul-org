@@ -112,7 +112,7 @@ TAG WORDからLengthだけを除いた9ビットコード（TAG ID `0x000L`～`0
 
 SIDX（Semantic-aligned Index）割り当ての研究。
 
-意味の近いエンティティに近い番号を与える意味アドレスSIDXを、ウィキデータの利用統計から割り当てるための研究資料である。旧Entity 48ビット属性スキーマ、エンコーダスクリプト、コードブックを含み、SIDXの割り当て結果はまだない。SIDXの規範的定義は文法の[GEUL-SIDX](/ja/grammar/reference/geul-sidx/)である。
+意味の近いエンティティに近い番号を与える意味アドレスSIDXを、ウィキデータの利用統計から割り当てるための研究資料である。旧Entity 48ビット属性スキーマ、エンコーダスクリプト、コードブックを含み、SIDXの割り当て結果はまだない。SIDXの規範的定義は文法の[GEUL-SIDX](/ja/grammar/reference/0x00fl-geul-sidx/)である。
 
 | | |
 |---|---|

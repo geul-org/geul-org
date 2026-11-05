@@ -95,7 +95,7 @@ Esta es la idea central detras del Indice Semanticamente Alineado.
 ## Alinear el significado en el ID
 
 SIDX (Semantically-Aligned Index) es la investigación para construir un ID así.
-La gramática GEUL ya tiene un espacio de Reference que apunta a un objeto mediante SIDX ([GEUL-SIDX](/es/grammar/reference/geul-sidx/)).
+La gramática GEUL ya tiene un espacio de Reference que apunta a un objeto mediante SIDX ([GEUL-SIDX](/es/grammar/reference/0x00fl-geul-sidx/)).
 Pero su anchura y su método de asignación aún no están decididos. Se fijarán a partir de estadísticas de uso acumuladas.
 A continuación, se usan 64 bits como ejemplo para la explicación.
 

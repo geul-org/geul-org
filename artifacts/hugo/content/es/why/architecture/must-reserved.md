@@ -126,7 +126,7 @@ El costo de dejar vacío son tres bits de la TAG WORD por registro. Esos tres bi
 
 ## Principio de diseño
 
-El quinto principio de diseño de la [gramática](/es/grammar/overview/) GEUL v1:
+El quinto principio de diseño de la [gramática](/es/grammar/) GEUL v1:
 
 > **Dejarlo vacío.** La mayor parte del espacio de bits se guarda para el futuro. Los códigos directos no se pueden recuperar, así que solo los reciben formatos de frecuencia comprobada.
 

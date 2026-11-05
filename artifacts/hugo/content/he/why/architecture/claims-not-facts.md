@@ -281,9 +281,9 @@ LLM-ים מאומנים על מיליארדי משפטים.
 **עד כמה בטוחים** -- רמת ביטחון
 
 ב-GEUL יש את המקומות האלה.
-Edge מסוג [SOURCE](/he/grammar/edge/source/) מקשר היגד למקורו.
-הזמן שבו טענה תקפה מוגבל באמצעות [QUALIFIER](/he/grammar/edge/qualifier/).
-עולמות וסצנות באחריות ה-Edge‏ WORLD ו-SCENE, ורמת הביטחון של מסמך שלם באחריות ה-Meta‏ [CONFIDENCE](/he/grammar/meta/verification/confidence/).
+Edge מסוג [SOURCE](/he/grammar/edge/0x0c0l-source/) מקשר היגד למקורו.
+הזמן שבו טענה תקפה מוגבל באמצעות [QUALIFIER](/he/grammar/edge/0x0abl-qualifier/).
+עולמות וסצנות באחריות ה-Edge‏ WORLD ו-SCENE, ורמת הביטחון של מסמך שלם באחריות ה-Meta‏ [CONFIDENCE](/he/grammar/meta/0x1e8l-confidence/).
 
 לא חייבים למלא את כולם.
 אבל מה שלא נכתב נראה כמה שלא נכתב.

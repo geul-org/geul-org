@@ -1,174 +1,220 @@
 ---
 title: "Meta"
-weight: 70
+weight: 110
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "meta", "provenance", "lineage", "import"]
-summary: "Meta سجلات عن المستند لا عن العالم. تنقسم إلى سبع فئات: البنية والتعريف والمصدر والنسب والتحقق والسياسة وIMPORT، وتوضع في HEAD المستند."
+summary: "Meta سجلات تخص المستند نفسه لا مضمون العالم."
 author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Meta سجلات عن المستند لا عن محتوى العالم. ما عدا سجلات بنية المستند (DOC وBODY وEND) توضع كلها في HEAD المستند. ويأتي في HEAD إلى جانب Meta أيضاً Edge الدليل [SOURCE](/ar/grammar/edge/source/#مصدر-المستند-كله) للمستند كله وQUALIFIER الخاصة به.
+Meta سجلات تخص المستند نفسه لا مضمون العالم. وتوضع كلها في HEAD الخاص بالمستند باستثناء سجلات بنية المستند (DOC وBODY وEND). ويأتي في HEAD إلى جانب Meta أيضاً Edge الدليل [SOURCE](../edge/0x0C0L-source.md#문서-전체의-출처) للمستند كله مع QUALIFIER الخاص به.
 
-## التخطيط
+## التخطيط {#레이아웃}
 
 ```
-TAG WORD          0001 1LLL LCCC CCCC
-[Length ممتد TAG]
-Payload           قيمة خام أو سجل Value أو Reference مضمّن
+TAG WORD          000K KKKC CCCC LLLL      القسمان 14 و15 (0x1C0L~0x1FFL)
+[Length TAG ممتد]
+Payload           قيمة خام، أو سجلات Value وReference مضمّنة
 ```
 
-- لا توجد صيغ Issuer في Meta. فـ Meta مواصفة مشتركة يتبعها كل Issuer ولا يعرّفها إلا GEUL.
-- `LLLL` هو العدد الكلي لـ WORD شاملاً TAG WORD ناقص 1. وCodec غير المذكور في الجدول محجوز.
+- ليست لـ Meta صيغة Issuer. فهي مواصفة مشتركة يتبعها كل Issuer ولا يعرّفها إلا GEUL.
+- `LLLL` هو العدد الكلي لـ WORD بما فيها TAG WORD ناقصاً 1. وأي Codec غير مذكور في الجدول فهو Reserved.
 
-## صيغة Payload
+## صيغة Payload {#payload-형식}
 
 | الصيغة | متى | مثال |
 |---|---|---|
-| قيمة خام | عندما تتحدد صيغة واحدة. ولا تعتمد على Codec سجل آخر | الطول في `DOC-*` و`SPEC-VERSION` و`ISSUER-KEY` |
-| Value مضمّنة | عند الاختيار بين عدة صيغ. يدل TAG الخاص بـ Value على الصيغة | `PROFILE` و`EFFECTIVE-*` والوقت وتجزئة المحتوى |
-| Reference مضمّن | عند الإشارة إلى هدف مثل شخص أو منظمة أو أداة أو مستند | `DOC-ID` و`AUTHOR` و`CO-AUTHOR` و`RECORDED-BY` و`SIGNED-OFF` وموقِّع `SIGNATURE` |
+| قيمة خام | حين تتعين صيغة واحدة. ولا تعتمد على Codec سجل آخر | طول `DOC-*` و`SPEC-VERSION` و`ISSUER-KEY` |
+| Value مضمّنة | حين يُختار من عدة صيغ. ويدل TAG الخاص بـ Value على الصيغة | `PROFILE` و`EFFECTIVE-*` والوقت وتجزئة المحتوى |
+| Reference مضمّن | حين يُشار إلى هدف مثل شخص أو منظمة أو أداة أو مستند | `DOC-ID` و`AUTHOR` و`CO-AUTHOR` و`RECORDED-BY` و`SIGNED-OFF` وموقِّع `SIGNATURE` |
 | لا شيء | علامة من 1 WORD | `BODY` و`END` |
 
-- السجلات المضمّنة ليست سجلات مستقلة بل تتبع ذلك Meta. يجد كل منها حدوده بـ Length الخاص به، ويجب أن يتطابق الموضع بعد قراءة آخر سجل مع نهاية Meta تماماً.
-- كون Meta يوضع منه واحد فقط في المستند أو عدة يحدده "العدد" في وثيقة كل Codec.
+- السجل المضمّن ليس سجلاً مستقلاً بل يتبع Meta الذي هو فيه. ويجد كل منها حدّه بـ Length الخاص به، ويجب أن يطابق موضع قراءة آخر سجل نهاية Meta تماماً.
+- ما يجوز وضع واحد منه فقط في المستند وما يجوز وضع عدة منه، يحدده «العدد» في مستند كل Codec.
 
-## الفئات
+## الفئات {#클래스}
 
-أعلى 3 بتات في Codec هي الفئة.
+تتتابع أرقام Meta من `0x1C0L` بلا Reserved. ولا تدل بتات الرقم على الفئة. وتُعرف الفئة من جدول النطاقات أدناه.
 
-| أعلى 3 بتات | الفئة | الرمز المباشر | ما تتناوله |
-|---|---|---|---|
-| `000` | البنية | `0x00`~`0x0F` | حدود المستند وطوله |
-| `001` | التعريف | `0x10`~`0x1F` | تصريحات التفسير |
-| `010` | المصدر | `0x20`~`0x2F` | من ومتى وأين |
-| `011` | النسب | `0x30`~`0x3F` | مم جاء وكيف |
-| `100` | التحقق | `0x40`~`0x4F` | هل يمكن الوثوق به |
-| `101` | السياسة | `0x50`~`0x5F` | كيف يُعامَل |
-| `110` | IMPORT | `0x60`~`0x6F` | استيراد مستند خارجي |
-| `111` | محجوز | `0x70`~`0x7F` | |
-
-- **Meta اللازم للتفسير**: البنية والتعريف وIMPORT. إذا حُذفت تعذّرت قراءة السجلات أو تغيّر تفسيرها. ويجب أن يعالجها كل مفكك. وهذه الـ Codec من **codebook النواة في GEUL**.
-- **Meta الذي لا يغيّر التفسير**: المصدر والنسب والتحقق والسياسة. إذا حُذفت بقي محتوى الوصف كما هو. ولا تضيع إلا مواد الحكم على الثقة وعلى المعاملة.
-- الأدلة لا تُكتب بـ Meta بل بـ Edge الدليل [SOURCE](/ar/grammar/edge/source/) وQUALIFIER. ودليل السجلات المفردة في BODY، ومصدر المستند كله يوضع في HEAD بـ SOURCE ذي Target `0` ([المستند](/ar/grammar/document/#head-وbody)).
-
-## البنية
-
-وثيقة الحزمة: [Meta — البنية](/ar/grammar/meta/structure/)
-
-| Codec | الاسم | المعنى |
+| الفئة | الرمز المباشر | ما تتناوله |
 |---|---|---|
-| `0x00`~`0x02` | [DOC-1WORD / 2WORD / 4WORD](/ar/grammar/meta/structure/doc/) | يفتح المستند بتحديد الطول الكلي |
-| `0x0E` | [BODY](/ar/grammar/meta/structure/body/) | ينهي HEAD ويفتح BODY |
-| `0x0F` | [END](/ar/grammar/meta/structure/end/) | يغلق المستند |
+| البنية | `0x1C0L~0x1C4L` | حدود المستند وطوله |
+| التعريف | `0x1C5L~0x1CAL` | تصريحات التفسير |
+| المصدر | `0x1CBL~0x1D0L` | من وفي أي وقت وأين |
+| النسب | `0x1D1L~0x1DDL` | مما جاء وكيف |
+| السياسة | `0x1DEL~0x1E3L` | كيف يُعامل |
+| IMPORT | `0x1E4L` | استيراد مستند خارجي |
+| التحقق | `0x1E5L~0x1E9L` | هل يمكن الوثوق به |
+| Reserved (للتحقق فقط) | `0x1EAL~0x1FFL` | |
 
-القواعد التفصيلية في [المستند](/ar/grammar/document/).
+- فئة التحقق هي السجلات التي `C >= 5` في القسم 15، أي `w >= 0x1E50`. وبهذا تُعرف فئة التحقق دون codebook وتُستثنى من تجزئة المحتوى.
+- الـ Reserved اللاحق `0x1EAL~0x1FFL` للتحقق فقط. فأي Meta جديد خارج التحقق لا يمكن وضعه قبل التحقق، وإن وُضع في الـ Reserved اللاحق استُثني من تجزئة المحتوى.
+- لا تُقرأ فئات البنية والتعريف وIMPORT بالبتات. فيعرفها المفكك من جدول الأرقام المضمّن.
+- **Meta اللازم للتفسير**: البنية والتعريف وIMPORT. فبحذفه لا يمكن قراءة السجلات أو يتغير التفسير. ويجب أن يعالجه كل مفكك. وهذه الـ Codec ضمن **codebook GEUL الأساسي**.
+- **Meta الذي لا يغيّر التفسير**: المصدر والنسب والتحقق والسياسة. فبحذفه يبقى مضمون العبارات كما هو. ولا يضيع إلا مادة الحكم على الموثوقية والتعامل.
+- الدليل لا يُكتب بـ Meta بل بـ Edge الدليل [SOURCE](../edge/0x0C0L-source.md) وQUALIFIER. فدليل السجل المفرد في BODY، والمصدر الأصلي للمستند كله في HEAD بـ SOURCE الذي Target فيه `0` ([المستند](../document.md#head와-body)).
 
-## التعريف
+## البنية {#구조}
 
-وثيقة الحزمة: [Meta — التعريف](/ar/grammar/meta/declaration/)
-
-| Codec | الاسم | المعنى |
-|---|---|---|
-| `0x10` | [SPEC-VERSION](/ar/grammar/meta/declaration/spec-version/) | إصدار المواصفة المتبع. عدد صحيح واحد |
-| `0x11` | [PROFILE](/ar/grammar/meta/declaration/profile/) | الـ profile المطبَّق |
-| `0x12` | [DOC-ID](/ar/grammar/meta/declaration/doc-id/) | معرّف هذا المستند. DOC-POINTER يشير إلى نفسه (الإصدار 0) |
-| `0x13` | [EFFECTIVE-FROM](/ar/grammar/meta/declaration/effective-from/) | تاريخ سريان هذا الإصدار. فإن غاب فوقت النشر |
-| `0x14` | [EFFECTIVE-UNTIL](/ar/grammar/meta/declaration/effective-until/) | نهاية مدة سريان هذا الإصدار (قانون مؤقت). فإن غاب فحتى سريان الإصدار التالي |
-| `0x16` | [DEFAULT-LANGUAGE](/ar/grammar/meta/declaration/default-language/) | اللغة الافتراضية |
-
-- الاسم المستخدم في عنوان المستند لا يوضع في Meta. بل يربطه فهرس أسماء Issuer `documents.geul` بـ BIND ([عنوان النشر وقائمة الإصدارات](/ar/grammar/publishing/#اسم-المستند)). والعنوان الذي يقرؤه الإنسان يُربط بـ LABEL في BODY.
-
-## المصدر
-
-وثيقة الحزمة: [Meta — المصدر](/ar/grammar/meta/provenance/)
-
-| Codec | الاسم | المعنى |
-|---|---|---|
-| `0x20` | [AUTHOR](/ar/grammar/meta/provenance/author/) | المؤلف (Reference) |
-| `0x21` | [CO-AUTHOR](/ar/grammar/meta/provenance/co-author/) | مؤلف مشارك |
-| `0x22` | [CREATED-AT](/ar/grammar/meta/provenance/created-at/) | وقت التأليف |
-| `0x23` | [MODIFIED-AT](/ar/grammar/meta/provenance/modified-at/) | وقت التعديل |
-| `0x24` | [RECORDED-BY](/ar/grammar/meta/provenance/recorded-by/) | الجهة التي سجّلت |
-| `0x25` | [RECORDED-AT](/ar/grammar/meta/provenance/recorded-at/) | وقت التسجيل |
-| `0x26`~`0x2F` | Reserved | |
-
-- المادة المصدرية لا تُكتب بـ Meta بل بـ Edge الدليل [SOURCE](/ar/grammar/edge/source/#مصدر-المستند-كله) في HEAD (Target `0`)، ونطاق النص الأصلي ووقت الحصول وتجزئة النص الأصلي تُكتب بـ QUALIFIER تُلحق بذلك SOURCE.
-
-## النسب
-
-وثيقة الحزمة: [Meta — النسب](/ar/grammar/meta/lineage/)
-
-النسب يتبع نموذج commit في git. والوحدة المقابلة لـ commit هي المستند.
-
-| Codec | الاسم | المعنى |
-|---|---|---|
-| `0x30` | [PARENT](/ar/grammar/meta/lineage/parent/) | تجزئة محتوى الإصدار السابق. إن كانت عدة فهو دمج |
-| `0x31` | [DERIVED-FROM](/ar/grammar/meta/lineage/derived-from/) | مشتق من مادة في نسب آخر |
-| `0x32` | [GENERATED-BY](/ar/grammar/meta/lineage/generated-by/) | الجهة المولِّدة (إنسان أو نموذج أو محرك قواعد) |
-| `0x33` | [TRANSFORMED-BY](/ar/grammar/meta/lineage/transformed-by/) | أداة التحويل وإصدار مصدرها (digest الـ commit) |
-| `0x34` | [CHERRY-PICKED-FROM](/ar/grammar/meta/lineage/cherry-picked-from/) | الإصدار الأصلي للتغيير المنقول |
-| `0x35` | [REVERTS](/ar/grammar/meta/lineage/reverts/) | الإصدار الهدف الذي جرى التراجع عنه |
-| `0x36` | [REPLACES](/ar/grammar/meta/lineage/replaces/) | الإصدار الهدف الذي أُعيدت كتابته. ولا يُحذف الإصدار الأصلي |
-| `0x37` | [SQUASHED-FROM](/ar/grammar/meta/lineage/squashed-from/) | الإصدارات الأصلية التي دُمجت في واحد |
-| `0x38` | [MESSAGE](/ar/grammar/meta/lineage/message/) | سبب التغيير. واحد لكل لغة |
-| `0x39` | [TAG](/ar/grammar/meta/lineage/tag/) | اسم ثابت يُلحق بإصدار |
-| `0x3A` | [DELTA-BASE](/ar/grammar/meta/lineage/delta-base/) | هذا الملف diff بالنسبة إلى إصدار أساس |
-| `0x3B` | [DELTA-REMOVE](/ar/grammar/meta/lineage/delta-remove/) | قائمة LOCAL ID التي تُحذف في diff |
-| `0x3C` | [NEXT-LOCAL-ID](/ar/grammar/meta/lineage/next-local-id/) | LOCAL ID التالي الذي سيُخصَّص. يوضع في مستند قائمة الإصدارات |
-
-- لا يُمحى السجل التاريخي. وما صُحح يصدر في إصدار جديد.
-- المؤشرات المتغيرة مثل branch لا توضع في المستند. بل يديرها المستودع والفهرس.
-
-## التحقق
-
-وثيقة الحزمة: [Meta — التحقق](/ar/grammar/meta/verification/)
-
-| Codec | الاسم | المعنى |
-|---|---|---|
-| `0x40` | [ISSUER-KEY](/ar/grammar/meta/verification/issuer-key/) | خوارزمية التوقيع والمفتاح العام لـ Issuer ذاتي الإصدار |
-| `0x41` | [SIGNATURE](/ar/grammar/meta/verification/signature/) | توقيع على تجزئة المحتوى. الخوارزمية والموقِّع والتوقيع |
-| `0x42` | [SIGNED-OFF](/ar/grammar/meta/verification/signed-off/) | إقرار بحق المساهمة |
-| `0x43` | [CONFIDENCE](/ar/grammar/meta/verification/confidence/) | الموثوقية |
-| `0x44` | [VERDICT](/ar/grammar/meta/verification/verdict/) | نتيجة الحكم على المستند كله (Pass وReview وFail) |
-
-- تُستثنى فئة التحقق من حساب تجزئة المحتوى. لذلك لا تتغير تجزئة المحتوى بوضع التوقيع داخل المستند ولا بإضافة عدة توقيعات.
-
-## السياسة
-
-وثيقة الحزمة: [Meta — السياسة](/ar/grammar/meta/policy/)
-
-| Codec | الاسم | المعنى |
-|---|---|---|
-| `0x50` | [LICENSE](/ar/grammar/meta/policy/license/) | الترخيص |
-| `0x51` | [ACCESS](/ar/grammar/meta/policy/access/) | نطاق الإتاحة |
-| `0x52` | [PRIVACY](/ar/grammar/meta/policy/privacy/) | درجة الخصوصية |
-| `0x53` | [RETENTION](/ar/grammar/meta/policy/retention/) | مدة الاحتفاظ |
-| `0x54` | [CONSENT](/ar/grammar/meta/policy/consent/) | نطاق الموافقة وأساسها |
-| `0x55` | [USAGE](/ar/grammar/meta/policy/usage/) | قيود الاستخدام |
-
-- السياسة لا تغيّر التفسير بل تحدد طريقة المعاملة.
-
-## IMPORT
-
-وثيقة الحزمة: [Meta — IMPORT](/ar/grammar/meta/import/)
+فئة البنية في Meta (Codec `0x1C0L~0x1C4L`) تحدد حدود المستند وطوله. ووحدة بيانات GEUL هي مستند واحد.
 
 ```
-TAG WORD          0001 1LLL L110 0000      IMPORT-DOC (0x60)
-[Length ممتد TAG]
-المستند           سجل DOC-POINTER (Issuer ومعرّف المستند ومعرّف الإصدار)
+DOC-*                  ← بداية HEAD
+  Meta للتعريف والمصدر والنسب والتحقق والسياسة وIMPORT
+  SOURCE للمستند كله مع QUALIFIER الخاص به
+BODY                   ← بداية BODY
+  Reference وValue وEdge
+END                    ← إغلاق المستند
+```
+
+- يُفتح كل مستند بـ `DOC-1WORD/2WORD/4WORD` الذي يحدد الطول الكلي. ويستطيع المفكك بهذا الطول أن يتخطى المستند كله دفعة واحدة.
+- `BODY` و`END` سجلان من 1 WORD بلا Payload. و`END` إلزامي.
+- لا تتداخل المستندات. وتُشار المستندات الأخرى بـ IMPORT.
+- إذا كان HEAD (Meta، و SOURCE للمستند كله مع QUALIFIER الخاص به) فارغاً فيُحذف `BODY`. ولا يوضع `BODY` إلا مرة واحدة في المستند.
+
+بنية المستند كاملة في [المستند](../document.md).
+
+| Codec | الاسم | المعنى |
+|---|---|---|
+| `0x1C0L~0x1C2L` | [DOC-1WORD / 2WORD / 4WORD](0x1C0L-doc-1word.md) | يفتح المستند بتحديد الطول الكلي |
+| `0x1C3L` | [BODY](0x1C3L-body.md) | ينهي HEAD ويفتح BODY |
+| `0x1C4L` | [END](0x1C4L-end.md) | يغلق المستند |
+
+التفاصيل في [المستند](../document.md).
+
+## التعريف {#정의}
+
+فئة التعريف في Meta (Codec `0x1C5L~0x1CAL`) هي تصريحات التفسير. والتصريح يغيّر قواعد التفسير فيجب أن يعالجه كل مفكك. ونطاق التصريح هو ذلك المستند.
+
+- `SPEC-VERSION` يحدد كيف تُقرأ بقية السجلات فيوضع عدد صحيح فقط دون Value مضمّن. وGEUL v1 هو `0x0001` (السجل `1C51 0001`).
+- `DOC-ID` هو `DOC-POINTER` (Issuer، معرّف المستند، الإصدار `0`) الذي يشير إلى المستند نفسه. ومستند Codec يستخدم `CODEC-POINTER` (Issuer، Codec ID، الإصدار `0`). وإذا غاب فالمستند بلا اسم ولا يمكن الإشارة إليه إلا بتجزئة المحتوى.
+- لا يوجد عنوان باسم المستند. والعنوان الذي يقرأه الإنسان يُلحق بـ `LABEL` من نوع العبارة ([عناوين النشر وقوائم الإصدارات](../publishing.md#문서-이름)).
+
+| Codec | الاسم | المعنى |
+|---|---|---|
+| `0x1C5L` | [SPEC-VERSION](0x1C5L-spec-version.md) | إصدار المواصفة المتبَع. عدد صحيح واحد |
+| `0x1C6L` | [PROFILE](0x1C6L-profile.md) | الـ profile المطبَّق |
+| `0x1C7L` | [DOC-ID](0x1C7L-doc-id.md) | معرّف هذا المستند. DOC-POINTER يشير إلى نفسه (الإصدار 0). ومستند Codec يستخدم CODEC-POINTER (الإصدار 0) |
+| `0x1C8L` | [EFFECTIVE-FROM](0x1C8L-effective-from.md) | تاريخ سريان هذا الإصدار. وإذا غاب فهو وقت النشر |
+| `0x1C9L` | [EFFECTIVE-UNTIL](0x1C9L-effective-until.md) | نهاية مدة سريان هذا الإصدار (قانون مؤقت). وإذا غاب فحتى سريان الإصدار التالي |
+| `0x1CAL` | [DEFAULT-LANGUAGE](0x1CAL-default-language.md) | اللغة الافتراضية |
+
+- لا يوجد عنوان باسم المستند ([عناوين النشر وقوائم الإصدارات](../publishing.md#문서-이름)). والعنوان الذي يقرأه الإنسان يُلحق بـ LABEL في BODY.
+
+## المصدر {#출처}
+
+فئة المصدر في Meta (Codec `0x1CBL~0x1D0L`) تكتب من أنشأ المستند وسجّله ومتى.
+
+- المؤلف والمسجِّل ووقتاهما يتبعان نموذج author وcommitter في git (`AUTHOR` و`CREATED-AT`، `RECORDED-BY` و`RECORDED-AT`).
+- بحذف المصدر لا يتغير مضمون العبارات. ولا يضيع إلا مادة الحكم على الموثوقية.
+- المادة المصدرية ليست في هذه الفئة. فالمصدر الأصلي للمستند كله يُكتب في HEAD، ومصدر السجل المفرد في BODY، بـ Edge الدليل [SOURCE](../edge/0x0C0L-source.md). ونطاق التقابل في النص الأصلي ووقت الحصول وتجزئة النص الأصلي هي QUALIFIER تُلحق بذلك SOURCE (الصفحة P304 والفقرة P958 وتاريخ الاطلاع P813 والمجموع الاختباري P4092).
+- إذا وُضعت صفات تتبع المصدر (نطاق النص الأصلي ووقت الحصول) في Meta فلا يمكن تحديد صاحبها حين تتعدد المصادر. ولذلك تُكتب بـ QUALIFIER يكون SOURCE هو Target لها.
+
+| Codec | الاسم | المعنى |
+|---|---|---|
+| `0x1CBL` | [AUTHOR](0x1CBL-author.md) | المؤلف (Reference) |
+| `0x1CCL` | [CO-AUTHOR](0x1CCL-co-author.md) | المؤلف المشارك |
+| `0x1CDL` | [CREATED-AT](0x1CDL-created-at.md) | وقت التأليف |
+| `0x1CEL` | [MODIFIED-AT](0x1CEL-modified-at.md) | وقت التعديل |
+| `0x1CFL` | [RECORDED-BY](0x1CFL-recorded-by.md) | الجهة المسجِّلة |
+| `0x1D0L` | [RECORDED-AT](0x1D0L-recorded-at.md) | وقت التسجيل |
+
+- المادة المصدرية لا تُكتب بـ Meta بل بـ Edge الدليل [SOURCE](../edge/0x0C0L-source.md#문서-전체의-출처) (Target `0`) في HEAD، ونطاق النص الأصلي ووقت الحصول وتجزئة النص الأصلي تُكتب بـ QUALIFIER تُلحق بذلك SOURCE.
+
+## النسب {#계보}
+
+فئة النسب في Meta (Codec `0x1D1L~0x1DDL`) تكتب مم جاء المستند وكيف. ويتبع النسب نموذج commit في git، والوحدة المقابلة لـ commit هي المستند.
+
+- **تجزئة المحتوى** تشير إلى محتوى نسخة واحدة من المستند (git commit id). وهي SHA-256 من السجل الفاتح (`DOC-*`) إلى ما قبل `END` مباشرة، وتُستثنى من الحساب سجلات فئة التحقق (`C >= 5` في القسم 15، أي `w >= 0x1E50`).
+- **معرّف الإصدار** عدد صحيح من 2 WORD يُرقَّم من 1 بترتيب النشر داخل المستند ذي الاسم. و`0` تعني أن الإصدار لم يُكتب.
+- يشير Meta النسب إلى الإصدار بتجزئة المحتوى. و`PARENT` داخل المستند يدخل في التجزئة أيضاً، فتصير تجزئة المحتوى سلسلة تجزئات تصل التاريخ كله.
+- لا يُحذف التاريخ. وما عُدّل يُصدر إصداراً جديداً. ولا يوضع في المستند مؤشر متغير مثل branch.
+- `DELTA-BASE` و`DELTA-REMOVE` صيغة لحفظ الإصدار بوصفه diff بالنسبة إلى إصدار أساس. ويُعرَّف الإصدار دائماً بوصفه snapshot.
+
+قواعد التعديل في [المستند](../document.md).
+
+يتبع النسب نموذج commit في git. والوحدة المقابلة لـ commit هي المستند.
+
+| Codec | الاسم | المعنى |
+|---|---|---|
+| `0x1D1L` | [PARENT](0x1D1L-parent.md) | تجزئة محتوى الإصدار السابق مباشرة. وإذا تعدد فهو دمج |
+| `0x1D2L` | [DERIVED-FROM](0x1D2L-derived-from.md) | مشتق من مادة في نسب آخر |
+| `0x1D3L` | [GENERATED-BY](0x1D3L-generated-by.md) | الجهة المنتِجة (إنسان أو نموذج أو محرك قواعد) |
+| `0x1D4L` | [TRANSFORMED-BY](0x1D4L-transformed-by.md) | أداة التحويل وإصدار مصدرها (digest الـ commit) |
+| `0x1D5L` | [CHERRY-PICKED-FROM](0x1D5L-cherry-picked-from.md) | الإصدار الأصلي للتغيير المأخوذ |
+| `0x1D6L` | [REVERTS](0x1D6L-reverts.md) | الإصدار الهدف الذي جرى التراجع عنه |
+| `0x1D7L` | [REPLACES](0x1D7L-replaces.md) | الإصدار الهدف الذي أُعيدت كتابته. ولا يُحذف الإصدار الأصلي |
+| `0x1D8L` | [SQUASHED-FROM](0x1D8L-squashed-from.md) | الإصدارات الأصلية التي دُمجت في واحد |
+| `0x1D9L` | [MESSAGE](0x1D9L-message.md) | سبب التغيير. واحد لكل لغة |
+| `0x1DAL` | [TAG](0x1DAL-tag.md) | اسم ثابت يُلحق بإصدار |
+| `0x1DBL` | [DELTA-BASE](0x1DBL-delta-base.md) | هذا الملف diff بالنسبة إلى إصدار أساس |
+| `0x1DCL` | [DELTA-REMOVE](0x1DCL-delta-remove.md) | قائمة LOCAL ID التي تُحذف في الـ diff |
+| `0x1DDL` | [NEXT-LOCAL-ID](0x1DDL-next-local-id.md) | LOCAL ID التالي الذي سيُخصَّص. ويوضع في مستند قائمة الإصدارات |
+
+- لا يُحذف التاريخ. وما عُدّل يُصدر إصداراً جديداً.
+- لا يوضع في المستند مؤشر متغير مثل branch. فالمستودع والفهرس يديرانه.
+
+## التحقق {#검증}
+
+فئة التحقق في Meta (Codec `0x1E5L~0x1E9L`) تكتب مواد الحكم على إمكانية الوثوق بالمستند. وهي المفتاح العام لـ Issuer ذاتي الإصدار، والتوقيع، والإقرار بحق المساهمة، والموثوقية، ونتيجة الحكم على المستند كله.
+
+- تُستثنى فئة التحقق من حساب تجزئة المحتوى. ولذلك فوضع التوقيع داخل المستند، أو إضافة عدة توقيعات، لا يغيّر تجزئة المحتوى (بالطريقة نفسها لـ git `gpgsig`).
+- فئة التحقق هي السجلات التي `C >= 5` في القسم 15، أي `w >= 0x1E50`، فيمكن حساب التجزئة دون codebook. والـ Reserved اللاحق `0x1EAL~0x1FFL` للتحقق فقط فيُستثنى من التجزئة أيضاً.
+- الحكم على مستوى العقدة والسجل يتولاه Edge [TOULMIN](../toulmin/_index.md) `VERDICT` (`0x118L`).
+
+| Codec | الاسم | المعنى |
+|---|---|---|
+| `0x1E5L` | [ISSUER-KEY](0x1E5L-issuer-key.md) | خوارزمية التوقيع والمفتاح العام لـ Issuer ذاتي الإصدار |
+| `0x1E6L` | [SIGNATURE](0x1E6L-signature.md) | توقيع على تجزئة المحتوى. الخوارزمية والموقِّع والتوقيع |
+| `0x1E7L` | [SIGNED-OFF](0x1E7L-signed-off.md) | إقرار بحق المساهمة |
+| `0x1E8L` | [CONFIDENCE](0x1E8L-confidence.md) | الموثوقية |
+| `0x1E9L` | [VERDICT](0x1E9L-verdict.md) | نتيجة الحكم على المستند كله (Pass وReview وFail) |
+
+- تُستثنى فئة التحقق من حساب تجزئة المحتوى. ولذلك فوضع التوقيع داخل المستند، أو إضافة عدة توقيعات، لا يغيّر تجزئة المحتوى.
+
+## السياسة {#정책}
+
+فئة السياسة في Meta (Codec `0x1DEL~0x1E3L`) تحدد كيف يُعامَل المستند: الترخيص ونطاق الإتاحة ودرجة الخصوصية وأجل الاحتفاظ والموافقة وقيود الاستخدام.
+
+- السياسة لا تغيّر التفسير بل تحدد طريقة التعامل.
+- يُسجَّل الترخيص الأصلي للمصنف داخل سلسلة البايتات بـ `LICENSE`.
+
+| Codec | الاسم | المعنى |
+|---|---|---|
+| `0x1DEL` | [LICENSE](0x1DEL-license.md) | الترخيص |
+| `0x1DFL` | [ACCESS](0x1DFL-access.md) | نطاق الإتاحة |
+| `0x1E0L` | [PRIVACY](0x1E0L-privacy.md) | درجة الخصوصية |
+| `0x1E1L` | [RETENTION](0x1E1L-retention.md) | أجل الاحتفاظ |
+| `0x1E2L` | [CONSENT](0x1E2L-consent.md) | نطاق الموافقة وأساسها |
+| `0x1E3L` | [USAGE](0x1E3L-usage.md) | قيود الاستخدام |
+
+- السياسة لا تغيّر التفسير بل تحدد طريقة التعامل.
+
+## IMPORT {#import}
+
+فئة IMPORT في Meta (Codec `0x1E4L`) تستورد مستنداً خارجياً بـ IMPORT ID. والـ Codec هو `IMPORT-DOC` (`0x1E4L`) وحده.
+
+- يستورد IMPORT المستند فقط. أما الأهداف داخل المستند المستورَد فيُشار إليها في BODY بـ Reference `EXTERNAL-POINTER-*` (IMPORT ID، LOCAL ID) ([Reference](../reference/_index.md)).
+- إذا كُتب معرّف الإصدار فالربط بتلك النسخة، وإذا كان `0` فالربط بأحدث نسخة وقت التفسير. والمستند المنشور يكتب الإصدار.
+- لا يُستورد HEAD للمستند المستورَد. ولا تُستورد سجلات Reference وValue بل تُنسخ.
+
+```
+TAG WORD          0001 1110 0100 LLLL      IMPORT-DOC (0x1E4L)
+[Length TAG ممتد]
+المستند           سجل DOC-POINTER (Issuer، معرّف المستند، معرّف الإصدار). ومستند Codec يستخدم CODEC-POINTER
 IMPORT ID         الباقي. عدد صحيح بأقصر عرض
 ```
 
-- لا يُستخدم إلا [IMPORT-DOC](/ar/grammar/meta/import/import-doc/) (`0x60`). فـ IMPORT يستورد المستندات فقط. ويُشار إلى الهدف داخل المستند المستورد في BODY بـ `EXTERNAL-POINTER-*` (IMPORT ID وLOCAL ID).
-- إذا كُتب معرّف الإصدار ارتبط بذلك الإصدار، وإذا كان `0` ارتبط بأحدث إصدار وقت التفسير. والمستند المنشور يكتب الإصدار.
-- لا يُخصَّص IMPORT ID نفسه مرتين في مستند واحد.
-- لا يُستورد HEAD المستند المستورد. ويُفسَّر هدف ذلك المستند بتصريحات ذلك المستند.
+- يُستخدم [IMPORT-DOC](0x1E4L-import-doc.md) (`0x1E4L`) وحده. يستورد IMPORT المستند فقط. أما الأهداف داخل المستند المستورَد فيُشار إليها في BODY بـ `EXTERNAL-POINTER-*` (IMPORT ID، LOCAL ID).
+- إذا كُتب معرّف الإصدار فالربط بتلك النسخة، وإذا كان `0` فالربط بأحدث نسخة وقت التفسير. والمستند المنشور يكتب الإصدار.
+- لا يُعيَّن IMPORT ID نفسه مرتين في مستند واحد.
+- لا يُستورد HEAD للمستند المستورَد. وتُفسَّر أهداف ذلك المستند وفق تصريحاته هو.
 
-مثال: استيراد أحدث إصدار من مستند Issuer `0x0001` ورقمه `0x0000000000000002` بـ IMPORT ID 1.
+مثال: استيراد أحدث إصدار من المستند `0x0000000000000002` لدى Issuer `0x00000002` بـ IMPORT ID 1.
 
 ```
-1CE0 03B8 0001 0000 0000 0000 0002 0000 0000 0001
+1E4A 0418 0000 0002 0000 0000 0000 0002 0000 0000 0001
 ```

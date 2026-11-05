@@ -281,9 +281,9 @@ LLMは数十億の文で訓練される。
 **どれほど確信しているか** -- 確信度
 
 GEULにはこの場所がある。
-[SOURCE](/ja/grammar/edge/source/) Edgeが記述をその源につなぐ。
-命題が成り立つ時点は[QUALIFIER](/ja/grammar/edge/qualifier/)で限定する。
-世界観と場面はWORLD・SCENE Edgeが、文書全体の確信度は[CONFIDENCE](/ja/grammar/meta/verification/confidence/) Metaが受け持つ。
+[SOURCE](/ja/grammar/edge/0x0c0l-source/) Edgeが記述をその源につなぐ。
+命題が成り立つ時点は[QUALIFIER](/ja/grammar/edge/0x0abl-qualifier/)で限定する。
+世界観と場面はWORLD・SCENE Edgeが、文書全体の確信度は[CONFIDENCE](/ja/grammar/meta/0x1e8l-confidence/) Metaが受け持つ。
 
 すべてを埋める必要はない。
 しかし書かなかったものは、書かなかったものとして現れる。

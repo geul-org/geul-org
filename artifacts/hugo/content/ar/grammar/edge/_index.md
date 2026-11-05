@@ -1,75 +1,81 @@
 ---
 title: "Edge"
-weight: 60
+weight: 120
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "edge", "triple", "qualifier", "label"]
-summary: "Edge سجل يجمع Reference وValue وEdge آخر ويصفها. أول مكوّن فيه دائماً Edge Id، وأعلى بتّين في Codec هما العائلة (وصف ودليل وتنفيذ وTOULMIN)."
+summary: "Edge سجلّ يربط سجلات أخرى بوصفها مكوّنات له ليعبّر عن عبارة."
 author: "جونو بارك"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Edge سجل يجمع سجلات أخرى كمكوّنات ويصفها. عبارات مثل "Q42 إنسان" و"الاسم الإنجليزي لـ Q42 هو Douglas Adams" كل منها Edge واحد.
+Edge سجلّ يربط سجلات أخرى بوصفها مكوّنات له ليعبّر عن عبارة. عبارات مثل «Q42 إنسان» و«الاسم الإنجليزي لـ Q42 هو Douglas Adams» كلٌّ منها Edge واحد.
 
-## التخطيط
+## التخطيط {#레이아웃}
 
 ```
-TAG WORD          0001 0LLL LCCC CCCC
-[Length ممتد TAG]
-[Codec ممتد TAG]  في صيغة Issuer
-Edge Id           سجل Reference من نوع LOCAL
-المكوّنات         بالترتيب الذي يحدده Codec
+TAG WORD          000K KKKC CCCC LLLL      القسم 5~13 (0x0A0L~0x1BFL)
+[Length TAG ممتد]
+[Codec TAG ممتد]  عند صيغة Issuer
+Edge Id           سجل LOCAL Reference
+المكوّنات          بالترتيب الذي يحدده Codec
 ```
 
-- `LLLL` هو العدد الكلي لـ WORD شاملاً TAG WORD ناقص 1. يتخطى المفكك إلى السجل التالي بـ Length وحده دون معرفة Codec.
-- **أول مكوّن دائماً هو Edge Id (Reference من نوع LOCAL).** وبما أنه LOCAL Reference (`0088` + المعرّف، وQuantifier `000`) يمكن قراءة Edge Id دون معرفة الـ codec.
-- يجد كل مكوّن حدوده بـ Length الخاص به. ويجب أن يتطابق موضع القراءة بعد آخر مكوّن مع نهاية Edge تماماً.
-- بنية المكوّنات (Payload) يحددها مستند كل Edge Codec.
-- الـ Codec ذات الصيغ الفرعية (WORLD وTIMELINE وSCENE) يحدد فيها TAG من 1 WORD لكل Codec الصيغة الفرعية.
-- ترتيب سجلات Edge لا معنى له (ما لم يحدده Codec على حدة. مثال: مستند [TOULMIN](/ar/grammar/edge/toulmin/)).
-- يُشار إلى Edge آخر بـ Edge Id. فيُشار إلى Edge في هذا المستند بـ LOCAL، وإلى Edge في مستند آخر بـ Reference إشارة (`EXTERNAL-POINTER-*` و`EXTERNAL-ISSUER-*`).
+- `LLLL` هو عدد WORD الكلي شاملاً TAG WORD ناقص 1. يتخطى المفكِّك إلى السجل التالي بالاعتماد على Length وحده دون معرفة Codec.
+- **أول مكوّن هو دائماً Edge Id (LOCAL Reference).** وبما أنه LOCAL Reference (`0051` + ID، Identified `0x005L`) فيمكن قراءة Edge Id دون معرفة الـ Codec.
+- يجد كل مكوّن حدوده بـ Length الخاص به. ويجب أن يطابق موضع انتهاء قراءة آخر مكوّن نهاية Edge تماماً.
+- تحدد وثيقة كل Codec لـ Edge تركيب المكوّنات (Payload).
+- يحدد TAG واحد من WORD واحد خاص بكل Codec الصيغةَ الفرعية في الـ Codec ذات الصيغ الفرعية (WORLD وTIMELINE وSCENE).
+- لا معنى للترتيب بين سجلات Edge (باستثناء ما يحدده Codec على حدة. مثال: وثيقة [TOULMIN](../toulmin/_index.md)).
+- يُشار إلى Edge آخر بـ Edge Id. يُشار إلى Edge هذه الوثيقة بـ LOCAL، وإلى Edge وثيقة أخرى بـ Reference الإشاري (`EXTERNAL-POINTER-*` و`EXTERNAL-ISSUER-*`).
 
-## العائلات
+## العائلة {#계열}
 
-| أعلى بتّين | العائلة | الرمز المباشر | وظيفتها |
+نطاق Edge هو `0x0A0L~0x1BFL`. عائلة الرمز المباشر هي `(الرمز − 0xA0) >> 5` (الرمز هو الأرقام الثلاثة الأولى من TAG ID). كل عائلة 32 خانة، وتساوي القسم `w >> 9` مطروحاً منه 5. Edge هي الأقسام 5~13.
+
+| القسم | العائلة | الرمز المباشر | وظيفتها |
 |---|---|---|---|
-| `00` | وصف | `0x00`~`0x1F` | تبني المحتوى عن العالم والأحداث |
-| `01` | دليل | `0x20`~`0x3F` | من أين جاءت السجلات والمستندات ([SOURCE](/ar/grammar/edge/source/)) |
-| `10` | تنفيذ | `0x40`~`0x5F` | بنية برنامج قابلة للتنفيذ (AST) |
-| `11` | [TOULMIN](/ar/grammar/edge/toulmin/) | `0x60`~`0x7B` | رسم الحجج: الدعاوى والدحض والاستثناءات وعلاقات الهجوم والتنفيذ ونتائج الحكم |
+| 5 | العبارة | `0x0A0L~0x0BFL` | تبني المحتوى المتعلق بالعالم والأحداث |
+| 6 | الدليل | `0x0C0L~0x0DFL` | من أين جاءت السجلات والوثائق ([SOURCE](0x0C0L-source.md)) |
+| 7 | التنفيذ | `0x0E0L~0x0FFL` | بنية البرنامج القابلة للتنفيذ (AST) |
+| 8 | [TOULMIN](../toulmin/_index.md) | `0x100L~0x11BL` | رسم الحجة: الادعاء والدحض والاستثناء وعلاقات الهجوم والتنفيذ ونتيجة الحكم |
+| 9 | صيغة [TOULMIN](../toulmin/_index.md) | `0x120L~0x134L` | النص الأصلي لوثيقة TOULMIN وأجزاؤها وعقدها المساعدة وعلاقاتها |
 
-## Edge الوصف
+- الرموز المباشرة المخصصة هي هذه العائلات الخمس. `0x11CL~0x11FL` Reserved، و`0x135L~0x1BCL` Reserved (الأقسام 10~12 Reserved بكاملها).
+- `0x1BDL~0x1BFL` (الخانات الثلاث الأخيرة من القسم 13) هي EDGE-ISSUER (انظر Edge بصيغة Issuer أدناه). لا قاعدة للعائلة في صيغة Issuer.
+
+## Edge العبارة {#서술-edge}
 
 | Codec | الاسم | المكوّنات |
 |---|---|---|
-| `0x00` | [REFERENCE-NODE](/ar/grammar/edge/reference-node/) | ربط اتجاهي: Subject (Reference) يشير إلى Object |
-| `0x01` | [SAME-NODE](/ar/grammar/edge/same-node/) | سجلا Reference يشيران إلى الهدف نفسه |
-| `0x02` | [DIFFERENT-NODE](/ar/grammar/edge/different-node/) | سجلا Reference يشيران إلى هدفين مختلفين |
-| `0x03` | [BIND](/ar/grammar/edge/bind/) | يربط Subject باسم للآلة (UTF8-TEXT) |
-| `0x04` | [LABEL](/ar/grammar/edge/label/) | اسم Subject بحسب اللغة (UTF8-LANGUAGE-TEXT) |
-| `0x05` | [ALIAS](/ar/grammar/edge/alias/) | اسم آخر لـ Subject. تخطيطه مثل LABEL |
-| `0x06` | [DESCRIPTION](/ar/grammar/edge/description/) | وصف Subject بحسب اللغة. تخطيطه مثل LABEL |
-| `0x08`/`0x09` | VERB-SHORT / VERB | وصف الفعل |
-| `0x0A` | [TRIPLE](/ar/grammar/edge/triple/) | قضية واحدة (Predicate وSubject وObject) وrank |
-| `0x0B` | [QUALIFIER](/ar/grammar/edge/qualifier/) | شرط واحد يقيّد قضية Edge آخر |
-| `0x10`~`0x12` | WORLD / TIMELINE / SCENE | العالم الروائي وترتيب الأحداث وبنية المشهد |
-| `0x18`~`0x1A` | [PUBLICATION](/ar/grammar/edge/publication/) / DEPRECATION / TOMBSTONE | نشر إصدار المستند وتوصية بإهماله وحذفه ([عنوان النشر وقائمة الإصدارات](/ar/grammar/publishing/#قائمة-الإصدارات)) |
-| `0x1B`~`0x1E` | [DECLARE](/ar/grammar/edge/declare/) / [FIELD](/ar/grammar/edge/field/) / [ENUM](/ar/grammar/edge/enum/) / [CODEC](/ar/grammar/edge/codec/) | مفردات كتابة مواصفة Codec ([مواصفة Codec](/ar/grammar/codec-spec/)) |
+| `0x0A0L` | [REFERENCE-NODE](0x0A0L-reference-node.md) | ربط موجَّه: Subject (Reference) يشير إلى Object |
+| `0x0A1L` | [SAME-NODE](0x0A1L-same-node.md) | سجلا Reference يشيران إلى الهدف نفسه |
+| `0x0A2L` | [DIFFERENT-NODE](0x0A2L-different-node.md) | سجلا Reference يشيران إلى هدفين مختلفين |
+| `0x0A3L` | [BIND](0x0A3L-bind.md) | يربط اسماً للآلة (UTF8-TEXT) بـ Subject |
+| `0x0A4L` | [LABEL](0x0A4L-label.md) | اسم Subject بحسب اللغة (UTF8-LANGUAGE-TEXT) |
+| `0x0A5L` | [ALIAS](0x0A5L-alias.md) | اسم آخر لـ Subject. تخطيطه مثل LABEL |
+| `0x0A6L` | [DESCRIPTION](0x0A6L-description.md) | وصف Subject بحسب اللغة. تخطيطه مثل LABEL |
+| `0x0A8L`/`0x0A9L` | [VERB-SHORT](0x0A8L-verb-short.md) / [VERB](0x0A9L-verb.md) | عبارة فعلية |
+| `0x0AAL` | [TRIPLE](0x0AAL-triple.md) | قضية واحدة (Predicate وSubject وObject) وrank |
+| `0x0ABL` | [QUALIFIER](0x0ABL-qualifier.md) | شرط واحد يحدِّد قضية Edge آخر |
+| `0x0B0L~0x0B2L` | [WORLD](0x0B0L-world.md) / [TIMELINE](0x0B1L-timeline.md) / [SCENE](0x0B2L-scene.md) | رؤية العالم، وترتيب الأحداث، وبنية المشهد |
+| `0x0B8L~0x0BAL` | [PUBLICATION](0x0B8L-publication.md) / [DEPRECATION](0x0B9L-deprecation.md) / [TOMBSTONE](0x0BAL-tombstone.md) | نشر إصدار الوثيقة، والتوصية بإهماله، وحذفه ([عنوان النشر وقائمة الإصدارات](../publishing.md#버전-목록)) |
+| `0x0BBL~0x0BEL` | [DECLARE](0x0BBL-declare.md) / [FIELD](0x0BCL-field.md) / [ENUM](0x0BDL-enum.md) / [CODEC](0x0BEL-codec.md) | مفردات لكتابة مواصفة Codec ([مستند مواصفة Codec](../codec-spec.md)) |
 
-- الصيغة `-SHORT` والصيغة العامة توضعان في زوج زوجي/فردي (VERB-SHORT `0x08`/VERB `0x09`). وLABEL يستقبل اللغة داخل سجل اللغة في Object (UTF8-LANGUAGE-TEXT) فيُستخدم له `0x04` وحده.
-- PUBLICATION وDEPRECATION وTOMBSTONE يكتبها مستند قائمة الإصدارات. ولأن قائمة الإصدارات يجب أن تُقرأ دون كتاب رموز فهي مدمجة في المفكك (الطبقة 0 في [عنوان النشر وقائمة الإصدارات](/ar/grammar/publishing/#الطبقات)).
-- DECLARE وFIELD وENUM وCODEC مفردات تكتب مواصفة Codec. ولأن مستند المواصفة يجب أن يُقرأ دون كتاب رموز فتخطيطها مدمج في المفكك (الطبقة 0). أما كل مستند مواصفة Codec مكتوب بتلك المفردات فهو مستند عادي.
+- يوضع `-SHORT` والصيغة العادية زوجاً زوجياً/فردياً (VERB-SHORT `0x0A8L`/VERB `0x0A9L`). يتلقى LABEL اللغةَ بوصفها سجل لغة داخل Object (UTF8-LANGUAGE-TEXT)، فيُستخدم `0x0A4L` وحده.
+- تستخدم وثيقة قائمة الإصدارات PUBLICATION وDEPRECATION وTOMBSTONE. ولأن قائمة الإصدارات يجب أن تُقرأ دون codebook فهي مضمَّنة في المفكِّك (الطبقة 0 في [عنوان النشر وقائمة الإصدارات](../publishing.md#층)).
+- DECLARE وFIELD وENUM وCODEC مفردات تكتب مواصفة Codec. ولأن مستند المواصفة يجب أن يُقرأ دون codebook فتخطيطها مضمَّن في المفكِّك (الطبقة 0). أما مستند مواصفة كل Codec المكتوب بهذه المفردات فهو وثيقة عادية.
 
-### TRIPLE
+### TRIPLE {#triple}
 
-التفاصيل: [TRIPLE](/ar/grammar/edge/triple/)
+التفاصيل: [TRIPLE](0x0AAL-triple.md)
 
 ```
-TAG WORD          0001 0LLL L000 1010
-[Length ممتد TAG]
+TAG WORD          0000 1010 1010 LLLL
+[Length TAG ممتد]
 Edge Id           LOCAL Reference
-Predicate         Reference (خاصية ويكي بيانات وغيرها)
+Predicate         Reference (خاصية ويكيداتا ونحوها)
 Subject           Reference
 Object            Reference أو Value
 Rank              1 WORD
@@ -77,151 +83,135 @@ Rank              1 WORD
 
 | Rank | الاسم | المعنى |
 |---|---|---|
-| `0` | normal | افتراضي |
-| `1` | preferred | القيمة الحالية، الأكثر موثوقية |
-| `2` | deprecated | قيمة حُكم بأنها خاطئة أو قديمة لكنها بقيت مسجلة |
+| `0` | normal | الافتراضي |
+| `1` | preferred | القيمة الحالية، الأكثر حجية |
+| `2` | deprecated | قيمة حُكم بأنها خاطئة أو قديمة لكنها بقيت مسجَّلة |
 
-- Rank هو نفسه statement rank في ويكي بيانات. والمصدر الذي لا يمنح rank يستخدم `0`.
-- **معنى TRIPLE هو مجموع كل QUALIFIER التي تشير إلى Edge Id الخاص بها.** وتجمع جهة القراءة QUALIFIER قبل تفسير TRIPLE.
+- Rank مثل statement rank في ويكيداتا. المصدر الذي لا يمنح rank يستخدم `0`.
+- **معنى TRIPLE هو مجموع كل QUALIFIER التي تشير إلى Edge Id الخاص به.** يجمع القارئ QUALIFIER قبل أن يفسّر TRIPLE.
 
-مثال: Q42 — P31 (instance of) — Q5 (إنسان)، normal، وEdge Id 2
+مثال: Q42 — P31 (instance of) — Q5 (إنسان)، normal، Edge Id 2
 
 ```
-148A  0088 0002  00A8 001F  00A0 002A  00A0 0005  0000
+0AA9  0051 0002  0191 001F  0141 002A  0141 0005  0000
 TAG   #2         P31        Q42        Q5         normal
 ```
 
-### QUALIFIER
+### QUALIFIER {#qualifier}
 
-التفاصيل: [QUALIFIER](/ar/grammar/edge/qualifier/)
+التفاصيل: [QUALIFIER](0x0ABL-qualifier.md)
 
 ```
-TAG WORD          0001 0LLL L000 1011
-[Length ممتد TAG]
+TAG WORD          0000 1010 1011 LLLL
+[Length TAG ممتد]
 Edge Id           LOCAL Reference
 Property          Reference
-Target            LOCAL Reference (Edge Id الخاص بالـ Edge الذي يقيّده)
+Target            LOCAL Reference (Edge Id للـ Edge المحدَّد)
 Value             Reference أو Value
 ```
 
-- QUALIFIER جزء من القضية. ليس دعوى مستقلة عن القضية بل يقيّد الشروط التي تصح بها القضية (وقت البداية والنهاية ونطاق التطبيق وغيرها).
-- الدعاوى المستقلة عن القضية (من ادّعاها وغيره) تُكتب بـ TRIPLE.
-- Target هو Edge في المستند نفسه. وترتيب QUALIFIER ذات Target واحد هو ترتيبها في المستند.
+- QUALIFIER جزء من القضية. وهو ليس ادعاءً منفصلاً عن القضية، بل يحدِّد الشروط التي تصير بها القضية صحيحة (وقت البدء والانتهاء، ونطاق التطبيق، ونحوها).
+- يُكتب الادعاء المنفصل عن القضية (من ادّعى ذلك، ونحوه) بـ TRIPLE.
+- Target هو Edge في الوثيقة نفسها. ترتيب QUALIFIER ذات Target نفسه هو ترتيبها في الوثيقة.
 
-مثال: Q42 — P69 (educated at) — Q691283، والبداية (P580) 1971
-
-```
-150A 0088 0003 00A8 0045 00A0 002A 0120 000A 8C53 0000   TRIPLE    #3 P69 Q42 Q691283 normal
-148B 0088 0004 00A8 0244 0088 0003 0924 3139 3731        QUALIFIER #4 P580 #3 EDTF "1971"
-```
-
-### LABEL وALIAS وDESCRIPTION
-
-التفاصيل: [LABEL](/ar/grammar/edge/label/)، [ALIAS](/ar/grammar/edge/alias/)، [DESCRIPTION](/ar/grammar/edge/description/)
+مثال: Q42 — P69 (educated at) — Q691283، البدء (P580) 1971
 
 ```
-TAG WORD          0001 0LLL L000 0100   (LABEL)
-[Length ممتد TAG]
+0AAA 0051 0003 0191 0045 0141 002A 0142 000A 8C53 0000   TRIPLE    #3 P69 Q42 Q691283 normal
+0AB9 0051 0004 0191 0244 0051 0003 06E2 3139 3731        QUALIFIER #4 P580 #3 EDTF "1971"
+```
+
+### LABEL, ALIAS, DESCRIPTION {#label-alias-description}
+
+التفاصيل: [LABEL](0x0A4L-label.md)، [ALIAS](0x0A5L-alias.md)، [DESCRIPTION](0x0A6L-description.md)
+
+```
+TAG WORD          0000 1010 0100 LLLL   (LABEL)
+[Length TAG ممتد]
 Edge Id           LOCAL Reference
 Subject           Reference
 Object            UTF8-LANGUAGE-TEXT
 ```
 
-- يُحمل الاسم واللغة في Object واحد (UTF8-LANGUAGE-TEXT).
-- لا يكون لـ Subject واللغة نفسيهما أكثر من LABEL واحد. والأسماء الأخرى تُكتب بـ ALIAS.
-- الاسم بلا لغة للآلة يُكتب بـ BIND. أما LABEL فيجب أن تكون له لغة.
+- يوضع الاسم واللغة في Object واحد (UTF8-LANGUAGE-TEXT).
+- لا يزيد LABEL لـ Subject واللغة نفسيهما على واحد. تُكتب الأسماء الأخرى بـ ALIAS.
+- يُكتب الاسم الآلي بلا لغة بـ BIND. أما LABEL فلا بد أن تكون له لغة.
 
-### BIND
+### BIND {#bind}
 
-التفاصيل: [BIND](/ar/grammar/edge/bind/)
+التفاصيل: [BIND](0x0A3L-bind.md)
 
-- يربط Subject باسم تطابقه الآلة (UTF8-TEXT). لا لغة له ولا يُطبَّع. يجب أن تتطابق البايتات ليكون الاسم نفسه.
-- نطاق الاسم هو المستند الذي يحمل BIND. ولا يُربط الاسم نفسه بـ Subject مختلفين في مستند واحد.
-- لا تشير السجلات الأخرى بالاسم بل بمعرّف LOCAL. ويُستخدم الاسم للمطابقة مع الخارج (دالة المضيف وإدخال العنوان والإنسان).
+- يربط بـ Subject اسماً تطابقه الآلة (UTF8-TEXT). لا لغة له ولا يُطبَّع. لا يكون الاسمان متماثلين إلا إذا تطابقت البايتات.
+- نطاق الاسم هو الوثيقة التي تحوي BIND. لا يُربط الاسم نفسه بـ Subject مختلفين في وثيقة واحدة.
+- تُشير السجلات الأخرى بـ LOCAL ID لا بالاسم. يُستخدم الاسم للمطابقة مع الخارج (دوال المضيف، ومدخلات العناوين، والبشر).
 
-### SAME-NODE وDIFFERENT-NODE وREFERENCE-NODE
+### SAME-NODE, DIFFERENT-NODE, REFERENCE-NODE {#same-node-different-node-reference-node}
 
-التفاصيل: [SAME-NODE](/ar/grammar/edge/same-node/)، [DIFFERENT-NODE](/ar/grammar/edge/different-node/)، [REFERENCE-NODE](/ar/grammar/edge/reference-node/)
+التفاصيل: [SAME-NODE](0x0A1L-same-node.md)، [DIFFERENT-NODE](0x0A2L-different-node.md)، [REFERENCE-NODE](0x0A0L-reference-node.md)
 
-- SAME-NODE تطابق يعني أن سجلَّي Reference يشيران إلى الهدف نفسه. وهو انعكاسي ومتناظر ومتعدٍّ.
-- DIFFERENT-NODE عدم تطابق يعني أن سجلَّي Reference يشيران إلى هدفين مختلفين.
-- REFERENCE-NODE ربط اتجاهي يعرّف بـ Object ما هو Subject (Reference). وليس دعوى تطابق. مثال: يعرّف URI الذي تشير إليه عقدة LOCAL.
+- SAME-NODE هو تطابق يفيد أن سجلَّي Reference يشيران إلى الهدف نفسه. وهو انعكاسي ومتماثل ومتعدٍّ.
+- DIFFERENT-NODE هو عدم تطابق يفيد أن Reference هدفان مختلفان.
+- REFERENCE-NODE ربط موجَّه يعرِّف بـ Object ما هو Subject (Reference). وليس ادعاء تطابق. مثال: يعرِّف URI الذي تشير إليه عقدة LOCAL.
 
-## Edge الدليل
+## Edge الدليل {#근거-edge}
 
-يُلحق دليلاً بسجل مفرد في BODY أو بالمستند كله (HEAD). والرمز المباشر الوحيد في عائلة الدليل هو [SOURCE](/ar/grammar/edge/source/) (`0x20`).
+يُلحق دليلاً بسجل مفرد داخل BODY، أو بالوثيقة كلها (HEAD). الرمز المباشر الوحيد لعائلة الدليل هو [SOURCE](0x0C0L-source.md) (`0x0C0L`).
 
 | Codec | الاسم | المكوّنات |
 |---|---|---|
-| `0x20` | [SOURCE](/ar/grammar/edge/source/) | Target (Edge Id الخاص بـ Edge في BODY يُلحق به الدليل، وفي HEAD `0` = المستند كله)، وOrigin (Reference المصدر، أو ABSENT أو UNKNOWN-VALUE) |
-| `0x21`~`0x3F` | Reserved | |
+| `0x0C0L` | [SOURCE](0x0C0L-source.md) | Target (Edge Id للـ Edge في BODY الذي يُلحق به الدليل، وفي HEAD يعني `0` الوثيقة كلها)، Origin (Reference الأصل، أو ABSENT أو UNKNOWN-VALUE) |
+| `0x0C1L~0x0DFL` | Reserved | |
 
-- خصائص المصدر نفسه (URL والعنوان والمؤلف وتاريخ النشر …) تُكتب بـ TRIPLE يكون المصدر فيه Subject، وخصائص الاقتباس (تاريخ الاطلاع والموضع داخل المصدر …) تُكتب بـ QUALIFIER يكون Target فيه هو Edge Id الخاص بـ SOURCE.
-- مصدر المستند كله يُكتب في HEAD بـ SOURCE ذي Target `0`، وتوضع في HEAD أيضاً QUALIFIER التي تجعله Target. والـ Edge التي تأتي في HEAD هاتان فقط، ويشترك HEAD وBODY في فضاء أرقام واحد لـ Edge Id ([مصدر المستند كله](/ar/grammar/edge/source/#مصدر-المستند-كله)).
-- الأدلة الأخرى (نطاق النص الأصلي والجهة المنتِجة والموثوقية وفترة سريان كل مادة والسجلات القديمة) تُكتب بـ QUALIFIER، ويُحسب الإصدار الذي دخلت فيه أول مرة من سجل الإصدارات ([SOURCE](/ar/grammar/edge/source/#تمثيل-الأدلة-الأخرى)).
-- نتيجة الحكم على مستوى السجل من شأن `VERDICT` في TOULMIN.
+- تُكتب خصائص الأصل نفسه (URL والعنوان والمؤلف وتاريخ النشر …) بـ TRIPLE يكون الأصل Subject فيه، وخصائص الاقتباس (تاريخ الاطلاع، والموضع داخل الأصل …) بـ QUALIFIER يكون Target فيه هو Edge Id لـ SOURCE.
+- يُكتب أصل الوثيقة كلها في HEAD بـ SOURCE ذي Target `0`، ويوضع في HEAD أيضاً QUALIFIER الذي هو Target له. وهذان فقط ما يرد من Edge في HEAD، ويشترك HEAD وBODY في فضاء ترقيم واحد لـ Edge Id ([مصدر الوثيقة كلها](0x0C0L-source.md#문서-전체의-출처)).
+- تُكتب الأدلة الأخرى (نطاق النص الأصلي، والجهة المنشئة، والموثوقية، وفترة سريان كل مادة، والسجلات القديمة) بـ QUALIFIER، ويُحسب الإصدار الذي دخلت فيه أول مرة من تاريخ الإصدارات ([SOURCE](0x0C0L-source.md#다른-근거의-표현)).
+- نتيجة الحكم على مستوى السجل مسؤولية `VERDICT` في TOULMIN.
 
-### SOURCE
+### SOURCE {#source}
 
-التفاصيل: [SOURCE](/ar/grammar/edge/source/)
+التفاصيل: [SOURCE](0x0C0L-source.md)
 
 ```
-TAG WORD          0001 0LLL L010 0000
-[Length ممتد TAG]
+TAG WORD          0000 1100 0000 LLLL
+[Length TAG ممتد]
 Edge Id           LOCAL Reference
-Target            LOCAL Reference (Edge Id الخاص بـ Edge في BODY يُلحق به الدليل، وفي HEAD يكون 0 = المستند كله)
-Origin            Reference أو علامة موضع 0x0000 ABSENT·0x0001 UNKNOWN-VALUE
+Target            LOCAL Reference (Edge Id للـ Edge في BODY الذي يُلحق به الدليل، وفي HEAD يعني 0 الوثيقة كلها)
+Origin            Reference أو علامة الموضع 0x0000 ABSENT·0x0010 UNKNOWN-VALUE
 ```
 
-مثال: مصدر TRIPLE `#178` لـ Q42 P19 هو بريتانيكا (Q5375741)، والمعرّف داخله P1417
+مثال: مصدر TRIPLE `#178` لـ Q42 P19 هو Britannica (Q5375741)، والمعرِّف داخله P1417
 
 ```
 SOURCE     #1347  #178   Q5375741
 QUALIFIER  #1348  P1417  #1347  "biography/Douglas-Adams"
 ```
 
-## Edge التنفيذ
+## Edge التنفيذ {#실행-edge}
 
-بنية برنامج غير مقيدة بلغة برمجة بعينها. تُشار مكوّناتها بمعرّفات LOCAL في هذا المستند.
-
-| الحزمة | Codec |
-|---|---|
-| التصريح | FUNCTION-DECLARE, TYPE-DECLARE |
-| التعبيرات | CONST, UNARY, BINARY, CALL, MEMBER, INDEX, CONSTRUCT, CONDITIONAL |
-| العبارات | BLOCK, ASSIGN, IF, SWITCH, WHILE, FOREACH, JUMP, RETURN |
-| الأخطاء | RAISE, TRY |
-
-- ليست صيغة تحمل كود لغة خارجية كما هو. وكود اللغات الخارجية يوضع في صيغة Issuer.
-- تُشار المكوّنات بمعرّف LOCAL في هذا المستند (REF). وفي موضع التعبير يوضع Edge تعبير أو رمز. وREF `0` تعني لا شيء.
-- التعبير ينتج قيمة والعبارة لا تنتج. ويمكن وضع التعبير في موضع العبارة في BLOCK (وتُهمل القيمة).
-- حلقة `for` على نمط C تُكتب بـ BLOCK (التهيئة، WHILE)، و`else if` بـ IF في موضع الخطأ (false).
-- الرمز هو معرّف LOCAL، ويُربط اسمه بـ BIND. والسجلات الأخرى تشير إلى الرمز بمعرّف LOCAL لا بالاسم. وإذا تطابق الاسم واختلف معرّف LOCAL فهما رمزان مختلفان.
-- ما هو الرمز (متغير أو معامل أو دالة أو نوع) يحدده السجل الذي يشير إليه. والرمز الذي لا تعريف له في المستند يوفره الخارج (المضيف)، وإذا كان هدف CALL فهو دالة المضيف.
-
-مسائل مفتوحة: رموز العمليات وتمثيل الأنواع وتخطيط Payload لكل Codec.
-
-## Edge الخاص بـ TOULMIN
-
-التفاصيل: [TOULMIN](/ar/grammar/edge/toulmin/)
-
-يكتب رسم الأحكام والتنفيذ بنموذج الحجة عند Toulmin. وهي العائلة الجوهرية التي يصف بها GEUL قواعده بنفسه ويصحح نفسه.
+بنية برنامج غير مرتبطة بلغة برمجة بعينها. تُشار المكوّنات بـ LOCAL ID لهذه الوثيقة.
 
 | الحزمة | Codec |
 |---|---|
-| التصريح | CASE-DECLARE (القضية) وPREDICATE-DECLARE ([PREDICATE-DECLARE](/ar/grammar/edge/toulmin/expr/)) (المحمول) وSPEC-DECLARE (معيار الحكم) وRULE-DECLARE (الدعوى) وCOUNTER-DECLARE (الدحض) وEXCEPT-DECLARE (الاستثناء) — [NODE](/ar/grammar/edge/toulmin/node/) |
-| العلاقات | ATTACKS (الهجوم) وSUPERSEDES (الإقصاء) — [LINK](/ar/grammar/edge/toulmin/link/)، وSUPERSEDE-CHAIN (سلسلة الأولوية، التخطيط غير محدد) |
-| التنفيذ | RUN, DO, DO-ONCE, UNDO, CHECKING — [LINK](/ar/grammar/edge/toulmin/link/)، وENTRY, TRIGGER — [NODE](/ar/grammar/edge/toulmin/node/) |
-| النتيجة | VERDICT (نتيجة الحكم: Pass وReview وFail) وEVIDENCE (دليل الحكم) — التخطيط غير محدد |
+| التصريح | [FUNCTION-DECLARE](0x0E1L-function-declare.md)، [TYPE-DECLARE](0x0E2L-type-declare.md) |
+| التعبير | [CONST](0x0E8L-const.md)، [UNARY](0x0E9L-unary.md)، [BINARY](0x0EAL-binary.md)، [CALL](0x0EBL-call.md)، [MEMBER](0x0ECL-member.md)، [INDEX](0x0EDL-index.md)، [CONSTRUCT](0x0EEL-construct.md)، [CONDITIONAL](0x0EFL-conditional.md) |
+| الجملة | [BLOCK](0x0F0L-block.md)، [ASSIGN](0x0F1L-assign.md)، [IF](0x0F2L-if.md)، [SWITCH](0x0F3L-switch.md)، [WHILE](0x0F4L-while.md)، [FOREACH](0x0F5L-foreach.md)، [JUMP](0x0F6L-jump.md)، [RETURN](0x0F7L-return.md) |
+| الخطأ | [RAISE](0x0F8L-raise.md)، [TRY](0x0F9L-try.md) |
 
-- النص الأصلي والأقسام والعقد المساعدة والعلاقات هي صيغة ISSUER (`0xC000`~`0xC029`) في GEUL Issuer ([SOURCE والأقسام](/ar/grammar/edge/toulmin/source/)).
-- نتيجة الحكم توضع في مستند مختلف عن مستند موضوع الحكم. يستورد مستند النتيجة مستند الموضوع ويشير إليه. لذلك لا يتغير تجزئة محتوى مستند الموضوع بالحكم.
+- ليست صيغة تحمل شيفرة لغة خارجية كما هي. تُوضع شيفرة اللغات الخارجية بصيغة Issuer.
+- تُشار المكوّنات بـ LOCAL ID (REF) لهذه الوثيقة. يوضع في موضع التعبير Edge تعبير أو رمز. REF `0` يعني لا شيء.
+- التعبير يُنتج قيمة، والجملة لا تُنتج قيمة. يمكن وضع تعبير في موضع جملة داخل BLOCK (تُهمل قيمته).
+- تُكتب حلقة `for` بأسلوب C بـ BLOCK (تهيئة، WHILE)، و`else if` بـ IF في موضع الفرع الخاطئ.
+- الرمز هو LOCAL ID، ويُربط اسمه بـ BIND. تشير السجلات الأخرى إلى الرمز بـ LOCAL ID لا بالاسم. وإن تطابق الاسمان فإن اختلاف LOCAL ID يعني رمزين مختلفين.
+- ما هو الرمز (متغير، معامل، دالة، نوع) يحدده السجل الذي يشير إليه. الرمز الذي لا تعريف له داخل الوثيقة يوفره الخارج (المضيف)، وإن كان هدفاً لـ CALL فهو دالة مضيف.
 
-## Edge صيغة Issuer
+مسائل مفتوحة: رموز العوامل، وتمثيل الأنواع، وتخطيط Payload لكل Codec.
 
-يمكن لـ Issuer أن يعرّف صيغ Edge خاصة به ويستخدمها (Codec `0x7C`~`0x7F`). الرموز المباشرة `0x7C`~`0x7F` داخل نطاق TOULMIN لكنها رموز ISSUER عامة، وتتحدد العائلة بأعلى بتّين من رقم الصيغة.
+## Edge TOULMIN {#toulmin-edge}
 
-| Issuer | رقم الصيغة | الاسم | العائلة |
-|---|---|---|---|
-| `0x0000` GEUL | `0xC000`~`0xC005` | [SOURCE, TEXT, SECTION, CASE-BEGIN, CASE-END, PROSE](/ar/grammar/edge/toulmin/source/) | TOULMIN |
-| `0x0000` GEUL | `0xC010`~`0xC014` | [NAMESPACE, FUNC, FIELD, ALIAS, GROUP](/ar/grammar/edge/toulmin/node/) | TOULMIN |
-| `0x0000` GEUL | `0xC020`~`0xC029` | [REQUIRES … LABEL](/ar/grammar/edge/toulmin/link/) | TOULMIN |
+يكتب رسم الحكم والتنفيذ بنموذج تولمين للحجة. الرمز المباشر `0x100L~0x11BL`، والسجلات المساعدة هي عائلة صيغة TOULMIN `0x120L~0x134L`. التفاصيل: [TOULMIN](../toulmin/_index.md)
+
+## Edge بصيغة Issuer {#issuer-형식-edge}
+
+يستطيع Issuer تعريف صيغة Edge خاصة به واستخدامها ([EDGE-ISSUER-2WORD](0x1BDL-edge-issuer-2word.md) و[4WORD](0x1BEL-edge-issuer-4word.md) و[16WORD](0x1BFL-edge-issuer-16word.md)، Codec `0x1BDL`~`0x1BFL`). وهي الخانات الثلاث الأخيرة من نطاق Edge. يوضع في Codec TAG الممتد Issuer ورقم Codec في 2 WORD. Edge Id هو أول عنصر في Payload بعدها (TAG وIssuer ورقم Codec وEdge Id وبقية Payload). يحدد Issuer رقم Codec ولا قاعدة عائلة له. ولا يتكرر الرقم داخل `codecs/` لذلك Issuer مهما كان Kind. توضع وثيقة Codec تحت `codecs/` لذلك Issuer برقم Codec للسجل ([عنوان النشر وقائمة الإصدارات](../publishing.md)).
+
+- لا توجد حالياً صيغة Edge ISSUER مسجَّلة.

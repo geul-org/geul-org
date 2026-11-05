@@ -281,9 +281,9 @@ Wird ein Satz in natürlicher Sprache in eine strukturierte Darstellung überfü
 **Wie sicher ist sie** --- Konfidenzniveau
 
 GEUL hat diese Plätze.
-Eine [SOURCE](/de/grammar/edge/source/)-Edge verknüpft eine Aussage mit ihrem Ursprung.
-Der Zeitpunkt, zu dem eine Proposition gilt, wird mit einem [QUALIFIER](/de/grammar/edge/qualifier/) eingegrenzt.
-Welten und Szenen übernehmen die Edges WORLD und SCENE, die Konfidenz eines ganzen Dokuments die Meta [CONFIDENCE](/de/grammar/meta/verification/confidence/).
+Eine [SOURCE](/de/grammar/edge/0x0c0l-source/)-Edge verknüpft eine Aussage mit ihrem Ursprung.
+Der Zeitpunkt, zu dem eine Proposition gilt, wird mit einem [QUALIFIER](/de/grammar/edge/0x0abl-qualifier/) eingegrenzt.
+Welten und Szenen übernehmen die Edges WORLD und SCENE, die Konfidenz eines ganzen Dokuments die Meta [CONFIDENCE](/de/grammar/meta/0x1e8l-confidence/).
 
 Nicht alle müssen ausgefüllt sein.
 Aber was nicht geschrieben ist, zeigt sich als nicht geschrieben.

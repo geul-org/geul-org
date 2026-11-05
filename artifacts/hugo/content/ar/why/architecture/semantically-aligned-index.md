@@ -95,7 +95,7 @@ UUID كذلك. `550e8400-e29b-41d4-a716-446655440000`.
 ## محاذاة المعنى في المعرّف
 
 SIDX (Semantically-Aligned Index) بحثٌ لبناء معرّف كهذا.
-في قواعد GEUL خانة Reference تشير إلى الهدف عبر SIDX ([GEUL-SIDX](/ar/grammar/reference/geul-sidx/)).
+في قواعد GEUL خانة Reference تشير إلى الهدف عبر SIDX ([GEUL-SIDX](/ar/grammar/reference/0x00fl-geul-sidx/)).
 لكن عرضه وطريقة تخصيصه لم يُحسما بعد، وسيُحدَّدان من إحصاءات الاستخدام المتراكمة.
 فيما يلي نأخذ 64 بت مثالًا للشرح.
 

@@ -1,205 +1,204 @@
 ---
 title: "Issuer e publicação"
-weight: 80
+weight: 20
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "issuer", "publication", "signature"]
-summary: "O Issuer é a entidade que define documentos e formatos. O modo de emissão varia conforme a largura (1, 2, 4 ou 16 WORDs). Esta página define os níveis de Issuer, a tabela de atribuição de 1 WORD, o modo de divulgação dos documentos, a assinatura e a publicação das chaves de verificação."
+summary: "O GEUL não concentra o sistema de identificação em um único lugar."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-O GEUL não concentra o sistema de identificação em um só lugar. Cada Issuer define seus alvos e formatos, e os outros documentos usam as definições publicadas. A definição pode ser mantida confidencial, publicada no geul.org (CC0) ou publicada em caráter privado (com a licença que o Issuer determinar). Qual definição merece confiança é decisão do usuário.
+O GEUL não concentra o sistema de identificação em um único lugar. Cada Issuer define seus objetos e formatos, e os demais documentos usam as definições publicadas. As definições podem ser mantidas confidenciais, publicadas em geul.org (CC0) ou publicadas de forma privada (com a licença que o Issuer determinar). Em qual definição confiar é decisão do usuário.
 
-Endereço de publicação, especificação de formato, índice de nomes, lista de versões e camadas de confiança são definidos em [Endereço de publicação e lista de versões](/pt/grammar/publishing/).
+O endereço de publicação, a especificação de formato, a lista de Issuers, a lista de versões e as camadas de confiança são definidos em [endereço de publicação e lista de versões](publishing.md).
 
-## O que o Issuer define
+## O que o Issuer define {#issuer가-정의하는-것}
 
 | Objeto | Método |
 |---|---|
-| Alvos (entidades, conceitos, termos) | declarados como LOCAL do seu próprio documento |
-| Formato de Value | definido por um número de formato sob o código do Issuer |
-| Formato de Edge | definido por um número de formato sob o código do Issuer |
+| Objetos (entidades, conceitos, termos) | Declarados como LOCAL no próprio documento |
+| Formato de Reference | Definido por um número de Codec de 2 WORD sob o código do Issuer |
+| Formato de Value | Definido por um número de Codec de 2 WORD sob o código do Issuer |
+| Formato de Edge | Definido por um número de Codec de 2 WORD sob o código do Issuer |
 
-- A definição de formatos de Value e Edge também é publicada como documento.
+- As definições dos formatos de Reference, Value e Edge também são publicadas como documentos.
 
-## Princípios
+## Princípios {#원칙}
 
-- Todo ID tem o documento como âmbito. O LOCAL ID (inclusive Edge Id e variáveis) e o IMPORT ID só valem dentro desse documento.
-- O alvo definido por um Issuer é o LOCAL de um documento publicado por esse Issuer. Outros documentos o citam diretamente por indicação-declaração (`EXTERNAL-ISSUER-*`) ou o importam com `IMPORT-DOC` e o apontam com `EXTERNAL-POINTER-*`.
-- Para um alvo que precisa ser apontado de fora do documento, emite-se um LOCAL em um documento publicado. Esse documento deve ter [DOC-ID](/pt/grammar/meta/declaration/doc-id/).
+- Um objeto definido por um Issuer é um LOCAL de um documento publicado por esse Issuer. Outros documentos o citam diretamente com uma declaração indicativa (`EXTERNAL-ISSUER-*`) ou o importam com `IMPORT-DOC` e o apontam com `EXTERNAL-POINTER-*`. O significado de um registro [REFERENCE-ISSUER](reference/_index.md#reference-issuer) é determinado pelo documento de Codec emitido pelo Issuer.
+- Para objetos que precisam ser apontados de fora do documento, emite-se um LOCAL do documento publicado. Esse documento deve ter [DOC-ID](meta/0x1C7L-doc-id.md).
 
-## Níveis de Issuer
+## Níveis de Issuer {#issuer-등급}
 
-| Largura | Faixa de valores | Emissão |
+| Largura | Intervalo de valores | Emissão |
 |---|---|---|
-| 1 WORD | `0x0000`~`0xFFFF` | atribuído pelo geul.org a entidades de normalização e a grandes instituições ([tabela de atribuição de 1 WORD](#tabela-de-atribuição-de-1-word)) |
-| 2 WORD | `0x00010000`~`0xFFFFFFFF` | registro no geul.org. Passa por prova de propriedade do domínio |
-| 4 WORD | `2^32`~`2^64−1` | registro no geul.org. Sem prova de propriedade |
-| 16 WORD | `2^64` ou mais | autoemissão. Calculado a partir da chave pública |
+| 2 WORD | `0x00000000`~`0xFFFFFFFF` | Registro em geul.org. Passa por prova de propriedade do domínio. Os números que geul.org atribui a organismos de normalização e instituições principais também têm esta largura ([tabela de atribuições de 2 WORD](#2-word-배정표)) |
+| 4 WORD | `2^32`~`2^64−1` | Registro em geul.org. Sem prova de propriedade |
+| 16 WORD | `2^64` ou mais | Autoemissão. Calculado a partir da chave pública |
 
-- **O Issuer ID é um valor inteiro.** Valores iguais são o mesmo Issuer (`0x0001` e `0x00000001` são o mesmo valor). A largura não faz parte do identificador.
-- **A forma canônica é a menor largura.** Escreve-se na menor largura em que o valor cabe, e a notação em largura maior é rejeitada. Por isso a atribuição de cada largura começa no valor seguinte ao fim da faixa da largura imediatamente inferior (2 WORD começa em `0x00010000`).
+- **O Issuer ID é um valor inteiro.** Valores iguais são o mesmo Issuer. A largura não faz parte do identificador.
+- **A notação mais longa de um Issuer ID curto, com zeros à esquerda, é o mesmo Issuer** (2 → 4, 2 → 16, 4 → 16 WORD). `0x00000001` e `0x0000000000000001` são o mesmo Issuer. Por isso não se atribui `0x00000000XXXXXXXX` a um Issuer de 4 WORD, nem valores com os 12 WORD superiores iguais a 0 a um Issuer de 16 WORD.
+- **A forma canônica é a menor largura.** Nos registros, escreve-se com a menor largura em que o valor cabe, e a notação com largura maior é rejeitada. Por isso, a atribuição de cada largura começa no valor seguinte ao fim do intervalo da largura imediatamente inferior. 2 WORD é a menor largura. Ao usar em um endereço de publicação, escreve-se com o número de dígitos da largura de emissão (8 dígitos para 2 WORD, 16 para 4 WORD, 64 para 16 WORD) em hexadecimal maiúsculo (um endereço em minúsculas também é procurado convertido para maiúsculas); ao ler, a notação ampliada também é aceita como o mesmo Issuer ([endereço de publicação e lista de versões](publishing.md#id-표기)).
 
-## Tabela de atribuição de 1 WORD
+## Tabela de atribuições de 2 WORD {#2-word-배정표}
 
-Os Issuers de 1 WORD são atribuídos pelo geul.org a entidades de normalização e a grandes instituições. Os formatos próprios projetados pelo GEUL ficam em `GEUL`; os formatos de fato ou por convenção, sem entidade normativa, ficam em `ADHOC`.
+geul.org atribui números de Issuer de 2 WORD, em ordem a partir do início, a organismos de normalização e instituições principais. Formatos que são padrões de fato ou convenções sem organismo de normalização ficam sob `ADHOC` (`adhoc.geul.org`). Os formatos próprios projetados pelo GEUL são códigos diretos. O Issuer de um organismo de normalização é um Issuer de subdomínio de geul.org. O nome do subdomínio é o nome da instituição em minúsculas (`<nome da instituição>.geul.org`, por exemplo `iso.geul.org`, `iec.geul.org`). Os domínios constam da tabela abaixo.
 
-| Issuer | Nome | Entidade | Formatos representativos |
-|---|---|---|---|
-| `0x0000` | GEUL | geul.org | formatos próprios do GEUL, codebooks |
-| `0x0001` | ADHOC | geul.org | formatos por convenção sem entidade normativa. BFLOAT16, BLAKE3, complexos, frações, intervalos, quaternions, vetores e tensores |
-| `0x0002`~`0x000F` | reservado | | |
-| `0x0010` | ISO | International Organization for Standardization | ISO 8601, ISO 4217 (moedas), ISO 3166 (países) |
-| `0x0011` | IEC | International Electrotechnical Commission | IEC 80000 (notação de unidades) |
-| `0x0012` | ISO-IEC-JTC1 | ISO/IEC Joint Technical Committee 1 | normas de tecnologia da informação ISO/IEC |
-| `0x0013` | ITU-T | ITU Telecommunication Standardization Sector | X.509, X.690 (codificação ASN.1) |
-| `0x0014`~`0x001F` | reservado | entidades internacionais de normalização | |
-| `0x0020` | IETF | Internet Engineering Task Force | URI (RFC 3986), UUID (RFC 9562), CRC32C, IPv4 e IPv6 |
-| `0x0021` | IANA | Internet Assigned Numbers Authority | tipos de mídia, registro de subtags de idioma |
-| `0x0022` | W3C | World Wide Web Consortium | tipos de dados XML Schema, RDF |
-| `0x0023` | WHATWG | Web Hypertext Application Technology Working Group | URL, HTML |
-| `0x0024` | UNICODE | Unicode Consortium | codificação de caracteres, normalização, CLDR |
-| `0x0025` | ECMA | Ecma International | JSON (ECMA-404) |
-| `0x0026`~`0x003F` | reservado | entidades de normalização da internet e da web | |
-| `0x0040` | IEEE | Institute of Electrical and Electronics Engineers | ponto flutuante e decimal IEEE 754, endereço MAC (802) |
-| `0x0041` | KHRONOS | Khronos Group | formatos de pixel (RGBA8, BGRA8 UNORM), glTF |
-| `0x0042` | OGC | Open Geospatial Consortium | coordenadas e caixas delimitadoras, família GeoJSON |
-| `0x0043` | ONNX | ONNX (LF AI & Data Foundation) | FP8 E4M3FN, E4M3FNUZ, E5M2, E5M2FNUZ |
-| `0x0044` | OCP | Open Compute Project | formatos Microscaling (E8M0, FP4 E2M1) |
-| `0x0045` | OASIS | OASIS Open | normas de documentos e segurança |
-| `0x0046`~`0x005F` | reservado | entidades de normalização industrial | |
-| `0x0060` | BIPM | Bureau International des Poids et Mesures | unidades SI, TAI |
-| `0x0061` | IERS | International Earth Rotation and Reference Systems Service | segundo intercalar, UTC−TAI |
-| `0x0062` | NIST | National Institute of Standards and Technology | SHA-2 (FIPS 180-4), SHA-3 (FIPS 202) |
-| `0x0063` | GPS | entidade governamental que opera o GPS | tempo GPS |
-| `0x0064`~`0x00FF` | reservado | instituições de metrologia e governamentais | |
-| `0x0100` | KATS | Agência Coreana de Tecnologia e Normas (KATS) | normas KS |
-| `0x0101`~`0x01FF` | reservado | instituições nacionais de normalização | |
-| `0x0200`~`0xFFFF` | reservado | atribuição posterior | |
+| Issuer | Nome | Domínio | Organismo | Formatos representativos |
+|---|---|---|---|---|
+| `0x00000000` | GEUL | `geul.org` | geul.org | Documentos de especificação de códigos diretos (codebook) |
+| `0x00000001` | wikidata.geul.org | `wikidata.geul.org` | geul.org | Documentos de itens e propriedades do Wikidata |
+| `0x00000002` | ADHOC | `adhoc.geul.org` | geul.org | Formatos por convenção sem organismo de normalização. BFLOAT16, BLAKE3, números complexos, frações, intervalos, quatérnios, vetores e tensores |
+| `0x00000003` | ISO | `iso.geul.org` | International Organization for Standardization | ISO 8601, ISO 4217 (moedas), ISO 3166 (países) |
+| `0x00000004` | IEC | `iec.geul.org` | International Electrotechnical Commission | IEC 80000 (notação de unidades) |
+| `0x00000005` | ISO-IEC-JTC1 | `iso-iec-jtc1.geul.org` | ISO/IEC Joint Technical Committee 1 | Normas ISO/IEC de tecnologia da informação |
+| `0x00000006` | ITU-T | `itu-t.geul.org` | ITU Telecommunication Standardization Sector | X.509, X.690 (codificação ASN.1) |
+| `0x00000007` | IETF | `ietf.geul.org` | Internet Engineering Task Force | URI (RFC 3986), UUID (RFC 9562), CRC32C, IPv4 e IPv6 |
+| `0x00000008` | IANA | `iana.geul.org` | Internet Assigned Numbers Authority | Tipos de mídia, registro de subtags de idioma |
+| `0x00000009` | W3C | `w3c.geul.org` | World Wide Web Consortium | Tipos de dados XML Schema, RDF |
+| `0x0000000A` | WHATWG | `whatwg.geul.org` | Web Hypertext Application Technology Working Group | URL, HTML |
+| `0x0000000B` | UNICODE | `unicode.geul.org` | Unicode Consortium | Codificação de caracteres, normalização, CLDR |
+| `0x0000000C` | ECMA | `ecma.geul.org` | Ecma International | JSON (ECMA-404) |
+| `0x0000000D` | IEEE | `ieee.geul.org` | Institute of Electrical and Electronics Engineers | Ponto flutuante e decimal IEEE 754, endereço MAC (802) |
+| `0x0000000E` | KHRONOS | `khronos.geul.org` | Khronos Group | Formatos de pixel (RGBA8·BGRA8 UNORM), glTF |
+| `0x0000000F` | OGC | `ogc.geul.org` | Open Geospatial Consortium | Coordenadas e caixas delimitadoras, família GeoJSON |
+| `0x00000010` | ONNX | `onnx.geul.org` | ONNX (LF AI & Data Foundation) | FP8 E4M3FN·E4M3FNUZ·E5M2·E5M2FNUZ |
+| `0x00000011` | OCP | `ocp.geul.org` | Open Compute Project | Formatos Microscaling (E8M0, FP4 E2M1) |
+| `0x00000012` | OASIS | `oasis.geul.org` | OASIS Open | Normas de documentos e de segurança |
+| `0x00000013` | BIPM | `bipm.geul.org` | Bureau International des Poids et Mesures | Unidades SI, TAI |
+| `0x00000014` | IERS | `iers.geul.org` | International Earth Rotation and Reference Systems Service | Segundo intercalar, UTC−TAI |
+| `0x00000015` | NIST | `nist.geul.org` | National Institute of Standards and Technology | SHA-2 (FIPS 180-4), SHA-3 (FIPS 202) |
+| `0x00000016` | GPS | `gps.geul.org` | Entidade governamental operadora do GPS | Hora GPS |
+| `0x00000017` | KATS | `kats.geul.org` | Agência Coreana de Tecnologia e Padrões (국가기술표준원) | Normas KS |
 
-- Os formatos de extensão ficam sob o Issuer da entidade que normatizou o formato. Os números de formato sob um Issuer são definidos por cada Issuer.
-- Os bits superiores do número de formato devem seguir a regra de famílias do Kind correspondente. Assim a família é conhecida sem codebook.
-- Se uma entidade de normalização não administra diretamente os números de formato do GEUL, o geul.org registra a norma dela com um número em seu lugar. O número é registrado junto com o identificador do documento da norma.
-- A atribuição é feita dos números menores para os maiores, dentro da faixa de cada categoria de entidade. A faixa serve à conveniência de classificação, e o decodificador não é obrigado a interpretá-la.
+- Formatos de extensão ficam sob o Issuer do organismo que os normalizou. Os números de Codec sob um Issuer são definidos por cada Issuer.
+- O número de Codec é definido pelo Issuer. O GEUL não determina seu significado. Os números de Codec não se repetem dentro do Issuer, independentemente do Kind ([endereço de publicação e lista de versões](publishing.md#id-표기)).
+- Se um organismo de normalização não gerencia diretamente os números de Codec do GEUL, geul.org registra suas normas por números em seu lugar. O número é registrado junto com o identificador do documento da norma.
+- Um novo organismo de normalização recebe o próximo número livre.
+- **Os domínios podem mudar.** A ligação entre Issuer e domínio pode mudar depois. O Issuer ID não muda. Quando a instituição passar a gerenciá-lo diretamente, troca-se pelo domínio oficial da instituição.
+- **Os subdomínios de geul.org não são editores oficiais.** Um subdomínio de geul.org que usa o nome de um organismo de normalização não é o editor oficial dessa instituição. Por exemplo, `iso.geul.org` não é o editor oficial da ISO.
 
-## Issuer de 16 WORD
+## Issuer de 16 WORD {#16-word-issuer}
 
 ```
 Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ ID do algoritmo de assinatura (2 bytes) ‖ chave pública)
 ```
 
-- Os 32 bytes do resultado são escritos nas 16 WORDs, a partir do byte mais significativo.
-- Qualquer pessoa pode criá-lo sem registro. A propriedade é provada pela assinatura com a chave privada.
-- A chave pública e o algoritmo são declarados no HEAD do documento com [ISSUER-KEY](/pt/grammar/meta/verification/issuer-key/). O algoritmo de assinatura `0x0001` é Ed25519; os demais valores são reservados.
-- O prefixo `GEUL-ISSUER-v1` evita que a mesma chave gere o mesmo ID quando usada para outra finalidade (separação de uso).
-- Mesmo que o algoritmo de assinatura mude (ex.: Ed25519 → ML-DSA), a largura do ID continua sendo 16 WORDs.
-- Se o resultado for menor que `2^64` (probabilidade praticamente nula), não se cria um Issuer com essa chave, porque colidiria com a regra da menor largura.
+- Os 32 bytes do resultado são escritos nos 16 WORD, a partir do byte mais significativo.
+- Qualquer pessoa pode criar um sem registro. A propriedade é provada pela assinatura da chave privada correspondente.
+- A chave pública e o algoritmo são declarados com [ISSUER-KEY](meta/0x1E5L-issuer-key.md) no HEAD do documento. O ID de algoritmo de assinatura `0x0001` é Ed25519, e os demais valores são Reserved.
+- O prefixo `GEUL-ISSUER-v1` impede que a mesma chave gere o mesmo ID quando usada para outra finalidade (separação de uso).
+- Mesmo que o algoritmo de assinatura mude (por exemplo, Ed25519 → ML-DSA), a largura do ID continua sendo 16 WORD.
+- Se o resultado for menor que `2^64` (probabilidade praticamente nula), não se cria um Issuer com essa chave, pois colidiria com a regra da menor largura.
 
-## Prova de domínio
+## Prova de domínio {#도메인-증명}
 
 - A prova de propriedade do domínio de um Issuer de 2 WORD é verificada apenas no momento do registro. Depois, a gestão do domínio é responsabilidade do Issuer.
-- Um domínio corresponde a um só Issuer. Um Issuer pode ter vários domínios. A correspondência é escrita com BIND no índice de nomes de Issuer `issuers.geul` ([Endereço de publicação e lista de versões](/pt/grammar/publishing/#nome-do-issuer)).
-- Mesmo que o domínio expire ou mude de mãos, a correspondência permanece com o Issuer que o provou primeiro. O novo titular não pode usar esse domínio como nome de Issuer.
-- O nome de domínio serve para digitar e exibir endereços. Dentro de um documento GEUL escreve-se apenas o Issuer ID.
+- Um domínio corresponde a um único Issuer. Um Issuer pode ter vários domínios. A correspondência é escrita com BIND na lista de Issuers `issuers/` ([endereço de publicação e lista de versões](publishing.md#issuer-목록)).
+- Mesmo que o domínio expire ou mude de dono, a correspondência permanece com o Issuer que o provou primeiro. O novo dono não pode usar esse domínio como nome de Issuer.
+- O nome de domínio serve para entrada e exibição em resolvedores e na CLI. Não é um endereço URL de publicação ([endereço de publicação e lista de versões](publishing.md#도메인-이름)). Dentro de um documento GEUL escreve-se apenas o Issuer ID.
 
-## Documento de definição de termos
+## Documento de definição de termos {#용어-정의-문서}
 
-- Os termos definidos por um Issuer (ferramentas, programas, papéis, conceitos dentro da organização) ficam em **um documento por termo**. O termo é o LOCAL desse documento; o nome é ligado por [BIND](/pt/grammar/edge/bind/) e o alvo externo apontado (URI etc.) por [REFERENCE-NODE](/pt/grammar/edge/reference-node/).
-- Os outros documentos apontam para o termo com `EXTERNAL-ISSUER-*` (Issuer, ID do documento, LOCAL ID). A mesma definição não se repete em cada documento. Exemplo: a ferramenta de [TRANSFORMED-BY](/pt/grammar/meta/lineage/transformed-by/).
-- A faixa de IDs de documentos de definição de termos é decidida pelo Issuer. O geul.org (`0x0000`) usa `0x0001xxxx xxxxxxxx` ([Documento de especificação de Codec](/pt/grammar/codec-spec/#id-de-documento-do-issuer-geul)).
-- O ID de documento `0x0000000000000000` de cada Issuer é reservado ao seu **documento de índice de definição de termos**: `<Issuer>/0x0000000000000000/`. É o lugar onde se listam os documentos de definição de termos.
-- O documento de índice é **recomendado** a todos os Issuers, mas não é obrigatório. Sem índice, os documentos de definição de termos são encontrados pelo índice de nomes `documents.geul`.
-- Ordem para apontar um alvo externo: (1) se houver um Reference Codec adequado, usá-lo (WIKIDATA-QID etc.); (2) se houver um documento GEUL que defina esse alvo, usá-lo (DOC-POINTER, EXTERNAL-ISSUER); (3) se não houver, defini-lo como LOCAL no próprio documento de definição de termos e apontar para ele.
+- Os termos definidos por um Issuer (ferramentas, programas, papéis, conceitos dentro de uma organização) são mantidos em **um documento por termo**. O termo é o LOCAL desse documento, o nome é ligado por [BIND](edge/0x0A3L-bind.md), e o objeto externo apontado (URI etc.) é ligado por [REFERENCE-NODE](edge/0x0A0L-reference-node.md).
+- Outros documentos apontam o termo com `EXTERNAL-ISSUER-*` (Issuer, ID do documento, LOCAL ID). A mesma definição não é repetida em cada documento. Exemplo: a ferramenta de [TRANSFORMED-BY](meta/0x1D4L-transformed-by.md).
+- O intervalo de IDs de documento para documentos de definição de termos é determinado pelo Issuer. geul.org (`0x00000000`) usa `0x0001xxxx xxxxxxxx`.
+- Todo Issuer reserva os IDs de documento `0x0000000000000000` e `0xFFFFFFFFFFFFFFFF`. Os usos atuais são os dois a seguir.
+- O ID de documento `0x0000000000000000` é o lugar do **documento de índice de definição de termos** daquele Issuer: `<Issuer>/docs/0x0000000000000000/`. É o lugar que lista os documentos de definição de termos.
+- O ID de documento `0xFFFFFFFFFFFFFFFF` é usado na lista de Issuers `issuers/` do Issuer geul.org (`0x00000000`). Outros Issuers não usam este ID. Este ID não é obtido em nenhum Issuer pelo endereço `<Issuer>/docs/<ID do documento>/` (404) ([endereço de publicação e lista de versões](publishing.md#목록-문서)).
+- O documento de índice é **recomendado** a todo Issuer. Não é obrigatório.
+- Ordem para apontar um objeto externo: (1) se há um Codec de Reference adequado, usá-lo (WIKIDATA-QID etc.); (2) se há um documento GEUL que define o objeto, usá-lo (DOC-POINTER, EXTERNAL-ISSUER); (3) caso contrário, defini-lo como LOCAL no próprio documento de definição de termos e apontá-lo.
 
-## Modo de divulgação dos documentos
+## Formas de publicação de documentos {#문서-공개-방식}
 
-| Modo | Para quem | Licença | Gestão de versões | Permanência |
+| Forma | Destino | Licença | Gestão de versões | Permanência |
 |---|---|---|---|---|
-| Confidencial | todos os Issuers | interna do Issuer | Issuer | depende do Issuer |
-| Publicação no geul.org | Issuers de 1 e 2 WORD | CC0 | geul.org | preservado pelo geul.org |
-| Publicação privada | todos os Issuers | definida pelo Issuer | Issuer | depende do Issuer |
+| Confidencial | Todos os Issuers | Interna do Issuer | Issuer | Depende do Issuer |
+| Publicação em geul.org | Issuer de 2 WORD | CC0 | geul.org | geul.org preserva |
+| Publicação privada | Todos os Issuers | Definida pelo Issuer | Issuer | Depende do Issuer |
 
-### Publicação no geul.org
+### Publicação em geul.org {#geulorg-공표}
 
-- Os Issuers de 1 e 2 WORD podem registrar documentos no geul.org e publicá-los. Os documentos registrados são CC0.
-  - O Issuer de 1 WORD publica após análise prévia do geul.org.
-  - O Issuer de 2 WORD é publicado logo ao registrar, e os problemas são tratados depois.
-- O que se pode publicar são definições de conceitos e Codecs. **Uma Reference que aponte para uma pessoa natural não pode ser publicada no geul.org.** Usa-se o modo confidencial ou a publicação privada.
-  - Exceção: apontar uma pessoa natural por [WIKIDATA-QID](/pt/grammar/reference/wikidata-qid/) é permitido.
-- Uma versão registrada não se altera nem se apaga, e o documento permanece mesmo que o Issuer desapareça (preservação da lei antiga). As exceções são a exclusão legal e a exclusão de ofício ([TOMBSTONE](/pt/grammar/edge/publication/)).
-- O Issuer só pode marcar numa definição uma recomendação de descontinuação (deprecated). A definição desaconselhada continua a ser interpretada.
-- Uma nova versão do mesmo documento pode criar, revisar e excluir definições ([Documento](/pt/grammar/document/#revisão)). **O ID de entidade e o número de formato excluídos não são reutilizados para outros alvos.** O layout wire de um número de formato não é revisado.
+- Um Issuer de 2 WORD pode registrar documentos em geul.org e publicá-los. Os documentos registrados são CC0. Registrado, é publicado de imediato, e os problemas são tratados a posteriori.
+- As definições que podem ser publicadas são conceitos e Codecs. **Uma Reference que aponte uma pessoa física não pode ser publicada em geul.org.** Faz-se de forma confidencial ou por publicação privada.
+  - Exceção: apontar uma pessoa física com [WIKIDATA-QID](reference/0x014L-wikidata-qid.md) é permitido.
+- Uma versão registrada não é alterada nem apagada, e o documento permanece mesmo que o Issuer desapareça (preservação da lei antiga). As exceções são a exclusão legal e a exclusão de ofício ([TOMBSTONE](edge/0x0BAL-tombstone.md)).
+- O Issuer só pode marcar uma definição com recomendação de descontinuação (deprecated). Uma definição desaconselhada continua sendo interpretada.
+- Uma nova versão do mesmo documento pode criar, revisar ou excluir definições ([documento](document.md#개정)). **IDs de entidade e números de Codec excluídos não são reutilizados para outros objetos.** O layout wire de um número de Codec não é revisado.
 
-### Publicação privada
+### Publicação privada {#사설-공표}
 
-- O Issuer que quer publicar com uma licença diferente de CC0 serve os documentos em rede privada (domínio próprio etc.). A licença é declarada no HEAD do documento com [LICENSE](/pt/grammar/meta/policy/license/).
-- A publicação privada usa os mesmos caminhos do geul.org ([Endereço de publicação e lista de versões](/pt/grammar/publishing/)).
-- Gestão de versões, disponibilidade, manutenção do domínio e condições de licença são decididos pelo Issuer. O geul.org não interfere na publicação privada nem a garante.
+- Um Issuer que queira publicar com licença diferente de CC0 serve os documentos em uma rede privada (domínio próprio etc.). A licença é declarada por [LICENSE](meta/0x1DEL-license.md) no HEAD do documento.
+- A publicação privada usa os mesmos caminhos de geul.org ([endereço de publicação e lista de versões](publishing.md)).
+- Gestão de versões, disponibilidade, manutenção do domínio e condições de licença são definidas pelo Issuer. geul.org não interfere nem garante a publicação privada.
 
-### Confidencial
+### Confidencial {#대외비}
 
-- Documentos confidenciais não são publicados. Aplica-se controle de acesso e marca-se com [ACCESS](/pt/grammar/meta/policy/access/).
-- Se um documento que usa definições confidenciais for enviado para fora, quem o recebe não consegue interpretar essas Reference, Value e Edge e as pula. As definições que serão trocadas com o exterior devem ser publicadas.
+- Documentos confidenciais não são publicados. Aplica-se controle de acesso e marca-se com [ACCESS](meta/0x1DFL-access.md).
+- Se um documento que usa definições confidenciais é enviado para fora, o receptor não consegue interpretar essas Reference, Value e Edge, e os salta. As definições a trocar com o exterior devem ser publicadas.
 
-### Escolha do usuário
+### Escolha do usuário {#사용자의-선택}
 
-- O usuário escolhe os documentos a usar observando a licença declarada e a probabilidade de permanência do Issuer.
-- As definições de licenças excessivamente restritivas ou de Issuers de permanência incerta acabam não sendo usadas.
-- Para referências que precisam ser preservadas por muito tempo, usam-se documentos publicados no geul.org.
+- O usuário escolhe os documentos a usar observando a licença declarada e a possibilidade de permanência do Issuer.
+- Definições com licenças excessivamente restritivas ou de Issuers de permanência incerta não serão usadas.
+- Para referências que precisam ser preservadas por muito tempo, usam-se documentos publicados em geul.org.
 
-## Assinatura
+## Assinatura {#서명}
 
-- A assinatura é obrigatória em documentos publicados. Fica no HEAD como [SIGNATURE](/pt/grammar/meta/verification/signature/). Um documento sem assinatura também é um documento GEUL válido; documentos confidenciais e internos também devem ser assinados sempre que possível.
-- O alvo da assinatura é o **hash de conteúdo** do documento ([Documento](/pt/grammar/document/#hash-de-conteúdo)). Não se assina apenas o BODY.
-  - O HEAD contém regras de interpretação. Se o alvo de `IMPORT-DOC` mudar, o mesmo BODY passa a apontar para outro alvo.
+- A assinatura é obrigatória em documentos publicados. Fica no HEAD como [SIGNATURE](meta/0x1E6L-signature.md). Um documento sem assinatura também é um documento GEUL válido, e os documentos confidenciais e internos também são assinados, se possível.
+- O objeto da assinatura é o **hash de conteúdo** do documento ([documento](document.md#내용-해시)). Não se assina apenas o BODY.
+  - O HEAD contém regras de interpretação. Se o destino de um `IMPORT-DOC` mudar, o mesmo BODY passa a apontar outro objeto.
   - Se `LICENSE` e `PARENT` não forem assinados, a licença e o histórico podem ser falsificados.
 - Um documento pode ter várias assinaturas. Como todas assinam o mesmo hash de conteúdo, acrescentar assinaturas não altera o hash de conteúdo.
 - Verificação da chave de assinatura:
-  - Issuers de 1, 2 e 4 WORD: a chave registrada no geul.org (publicação das chaves de verificação, abaixo).
-  - Issuers de 16 WORD: o `ISSUER-KEY` do mesmo documento. O Issuer ID calculado a partir dessa chave pública deve ser igual ao do signatário.
-- Quem lê reduz a confiança quando não há assinatura; e quando há assinatura mas a verificação falha, reduz ainda mais, pois é indício de adulteração ou falsificação de identidade.
-- A assinatura do documento é feita pelo Issuer desse documento, e a da lista de versões é feita pelo local de publicação que atribuiu os IDs de versão ([Endereço de publicação e lista de versões](/pt/grammar/publishing/#entidade-de-assinatura)).
+  - Issuer de 2 e 4 WORD: a chave registrada em geul.org (chaves de verificação publicadas abaixo).
+  - Issuer de 16 WORD: o `ISSUER-KEY` do mesmo documento. O Issuer ID calculado a partir dessa chave pública deve ser igual ao do assinante.
+- O leitor reduz a confiança se não há assinatura e a reduz ainda mais se há assinatura mas a verificação falha, pois é evidência de adulteração ou de falsificação de identidade.
+- A assinatura do documento é feita pelo Issuer do documento, e a assinatura da lista de versões, pelo publicador que atribuiu os IDs de versão ([endereço de publicação e lista de versões](publishing.md#서명-주체)).
 
-## Publicação das chaves de verificação
+## Publicação das chaves de verificação {#검증키-공개}
 
-- O geul.org publica as chaves de verificação de assinatura dos Issuers registrados (1, 2 e 4 WORD).
-- A lista de chaves sai como documento publicado do Issuer GEUL (`0x0000`). É CC0 e assinada pelo geul.org.
+- geul.org publica as chaves de verificação de assinatura dos Issuers registrados (2 e 4 WORD).
+- A lista de chaves é emitida como documento publicado do Issuer GEUL (`0x00000000`). É CC0 e assinada por geul.org.
   - Itens: Issuer, ID do algoritmo de assinatura, chave pública, instante de início da validade, instante e motivo da revogação.
-- Chaves revogadas também não são apagadas. Assinaturas antigas são verificadas com a chave que era válida no momento da assinatura.
-- A troca de chave é registrada assinando a nova chave com a chave antiga. Quem verifica pode confirmar a continuidade da chave sem precisar confiar no geul.org.
-- O histórico de mudanças de chave é mantido em um log somente de acréscimo (como Certificate Transparency e o sumdb do Go). Se o histórico for alterado, isso fica evidente.
-- Se a chave for perdida e não for possível assinar com a chave antiga, o geul.org verifica novamente a identidade e registra a nova chave. O Issuer de 2 WORD passa de novo pela prova de propriedade do domínio. Nesse caso é preciso confiar no geul.org, e o motivo é registrado no log.
-- Não se aplica ao Issuer de 16 WORD. Como o Issuer ID é calculado a partir da chave pública, a verificação se faz apenas com o `ISSUER-KEY` dentro do documento.
+- Chaves revogadas também não são apagadas. As assinaturas passadas são verificadas com a chave que era válida no momento da assinatura.
+- A troca de chave é registrada assinando a nova chave com a antiga. Quem verifica pode confirmar a continuidade da chave sem confiar em geul.org.
+- O registro de alterações de chave é mantido em um log somente de acréscimo (como Certificate Transparency e Go sumdb). Alterar o histórico fica evidente.
+- Se a chave foi perdida e não é possível assinar com a antiga, geul.org reconfirma a identidade e registra a nova chave. O Issuer de 2 WORD passa novamente pela prova de propriedade do domínio. Neste caso é preciso confiar em geul.org, e o motivo é registrado no log.
+- Não se aplica a Issuers de 16 WORD. Como o Issuer ID é calculado a partir da chave pública, verifica-se apenas com o `ISSUER-KEY` dentro do documento.
 
-## Importação
+## Importação {#가져오기}
 
-O IMPORT importa apenas documentos.
+IMPORT importa apenas documentos.
 
 ```
 IMPORT-DOC                      DOC-POINTER(Issuer + ID do documento + ID da versão) + IMPORT ID
-EXTERNAL-POINTER-1/2/4/8WORD    IMPORT ID + LOCAL ID
-EXTERNAL-ISSUER-1/2/4/16WORD    Issuer + ID do documento + LOCAL ID (sem IMPORT)
+                                documento de Codec: CODEC-POINTER(Issuer + Codec ID + ID da versão) + IMPORT ID
+EXTERNAL-POINTER-1/2/4WORD      IMPORT ID + LOCAL ID
+EXTERNAL-ISSUER-2/4/16WORD      Issuer + ID do documento + LOCAL ID (sem IMPORT)
 ISSUER-POINTER                  Issuer (o próprio Issuer)
-DOC-POINTER                     Issuer + ID do documento + ID da versão (2 WORD, 0 = mais recente)
+DOC-POINTER                     Issuer + ID do documento + ID da versão (2 WORD, 0 é a mais recente)
+CODEC-POINTER                   Issuer + Codec ID + ID da versão (2 WORD, 0 é a mais recente)
 ```
 
-- O Issuer de qualquer largura e o seu documento podem ser apontados sem IMPORT, por indicação-declaração. O próprio Issuer é `ISSUER-POINTER`, o próprio documento é `DOC-POINTER` e o LOCAL de um documento é `EXTERNAL-ISSUER-*`. A indicação-declaração segue a versão mais recente; para fixar a versão, usam-se `IMPORT-DOC` (ID de versão) e `EXTERNAL-POINTER-*`.
-- As Reference do corpo usam apenas IMPORT ID + ID do alvo, em vez do caminho completo (Issuer + documento + ID do alvo).
-- A largura do IMPORT ID é determinada pelo comprimento em `IMPORT-DOC` e pelo Codec em `EXTERNAL-POINTER-*`. Só vale dentro desse documento ([IMPORT-DOC](/pt/grammar/meta/import/import-doc/)).
-- Importar sem ID de versão segue a versão mais recente. Escrever o ID de versão fixa nessa versão. Os documentos publicados escrevem o ID de versão.
+- Um Issuer de qualquer largura e seus documentos podem ser apontados por declaração indicativa sem IMPORT. O próprio Issuer é `ISSUER-POINTER`, o próprio documento é `DOC-POINTER` e o LOCAL de um documento é `EXTERNAL-ISSUER-*`. A declaração indicativa segue a versão mais recente; para fixar a versão, usam-se `IMPORT-DOC` (ID da versão) e `EXTERNAL-POINTER-*`.
+- Uma Reference do corpo que aponta um objeto de um documento externo usa apenas IMPORT ID + ID do objeto, em vez do caminho completo (Issuer + documento + ID do objeto). [REFERENCE-ISSUER](reference/_index.md#reference-issuer) escreve o Issuer e o número de Codec.
+- A largura do IMPORT ID é determinada pelo comprimento em `IMPORT-DOC` e pelo Codec em `EXTERNAL-POINTER-*` ([IMPORT-DOC](meta/0x1E4L-import-doc.md)).
+- Importar sem ID de versão segue a versão mais recente. Com ID de versão, fica fixado nessa versão. Documentos publicados escrevem o ID da versão.
 
-## Licença
+## Licença {#라이선스}
 
-- Os documentos publicados no geul.org e os documentos do Issuer GEUL (`0x0000`) são CC0.
-- A licença dos documentos de publicação privada é decidida pelo Issuer. O GEUL não a impõe.
-- Os artefatos centrais do GEUL não copiam o conteúdo de documentos de Issuers que não sejam CC0.
+- Os documentos publicados em geul.org e os documentos do Issuer GEUL (`0x00000000`) são CC0.
+- A licença dos documentos de publicação privada é definida pelo Issuer. O GEUL não a impõe.
+- **Licença dos formatos de Issuer.** Apenas os códigos diretos e as publicações fornecidos por geul.org são CC0. A licença dos formatos de um Issuer é definida por esse Issuer.
+- **Exibição do Issuer.** O GEUL faz o Resolve depender da exibição do Issuer. Em um documento que usa Codecs de outro Issuer, esse Issuer é sempre exibido.
+- Os produtos centrais do GEUL não copiam o conteúdo de documentos de Issuers que não sejam CC0.
 
-## Questões em aberto
+## Problemas em aberto {#열린-문제}
 
-- Se Issuers de 4 WORD e 16 WORD podem publicar no geul.org.
-- Método de prova de propriedade do domínio (DNS TXT `_geul.<domínio>`, HTTP `.well-known`) e se vale vincular a impressão digital da chave de assinatura ao valor da prova.
-- Resposta ao sequestro de domínio na recuperação de chave perdida. Se a nova chave for registrada só com nova prova de domínio, quem sequestrou o domínio pode tomar o Issuer. Examinam-se a confirmação do contato de registro, um período de carência com contestação pela chave antiga e a aplicação do resultado de disputas de domínio.
-- Formato do registro do documento de índice de definição de termos (ID de documento `0`) (o Edge que lista os documentos de definição de termos).
-- Valor padrão do algoritmo de assinatura (recomenda-se Ed25519).
+- O método de prova de propriedade do domínio (DNS TXT `_geul.<domínio>`, HTTP `.well-known`) e se o valor da prova deve incluir a impressão digital da chave de assinatura.
+- Resposta ao sequestro de domínio na recuperação de chave perdida. Se a nova chave for registrada apenas com nova prova do domínio, quem sequestrou o domínio pode tomar o Issuer. Examinam-se a confirmação do contato de registro, um período de carência com objeção pela chave antiga e a aplicação do resultado da disputa de domínio.
+- O formato dos registros do documento de índice de definição de termos (ID de documento `0`) (Edges que listam os documentos de definição de termos).
+- O valor padrão do algoritmo de assinatura (Ed25519 recomendado).

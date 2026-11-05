@@ -1,73 +1,79 @@
 ---
 title: "Edge"
-weight: 60
+weight: 120
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "edge", "triple", "qualifier", "label"]
-summary: "Edge -- запись, которая связывает Reference, Value и другие Edge в одно утверждение. Первый компонент всегда Edge Id, а два старших бита Codec задают семейство (описание, основание, исполнение, TOULMIN)."
+summary: "Edge — запись, которая описывает утверждение, связывая другие записи как компоненты."
 author: "Джунву Пак"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Edge -- запись, которая связывает другие записи в одно утверждение. Утверждения вроде «Q42 -- человек» или «английское имя Q42 -- Douglas Adams» -- это по одному Edge.
+Edge — запись, которая описывает утверждение, связывая другие записи как компоненты. Утверждения вроде «Q42 — человек» или «Английское имя Q42 — Douglas Adams» — это по одному Edge.
 
-## Раскладка
+## Раскладка {#레이아웃}
 
 ```
-TAG WORD          0001 0LLL LCCC CCCC
-[Length extension TAG]
-[TAG расширения Codec]  для формата Issuer
+TAG WORD          000K KKKC CCCC LLLL      разделы 5~13 (0x0A0L~0x1BFL)
+[Length, расширяющий TAG]
+[Codec, расширяющий TAG]  в формате Issuer
 Edge Id           запись LOCAL Reference
 компоненты        в порядке, заданном Codec
 ```
 
-- `LLLL` -- общее число WORD вместе с TAG WORD, минус 1. Декодер переходит к следующей записи только по Length, не зная Codec.
-- **Первый компонент всегда Edge Id (LOCAL Reference).** Это LOCAL Reference (`0088` + ID, Quantifier `000`), поэтому Edge Id читается и без знания кодека.
-- Каждый компонент находит свою границу по собственному Length. Позиция после чтения последнего компонента должна точно совпасть с концом Edge.
-- Состав (Payload) компонентов задаёт документ каждого Edge Codec.
-- У Codec с подформатами (WORLD, TIMELINE, SCENE) подформат задаёт 1 WORD TAG, свой у каждого Codec.
-- Порядок между записями Edge не несёт смысла (кроме случаев, когда Codec задаёт его отдельно; например, документ [TOULMIN](/ru/grammar/edge/toulmin/)).
-- На другие Edge указывают через Edge Id. Edge этого документа -- через LOCAL, Edge другого документа -- через указывающий Reference (`EXTERNAL-POINTER-*`, `EXTERNAL-ISSUER-*`).
+- `LLLL` — число всех WORD, включая TAG WORD, минус 1. Декодер переходит к следующей записи по одному лишь Length, не зная Codec.
+- **Первый компонент всегда Edge Id (LOCAL Reference).** Это LOCAL Reference (`0051` + ID, Identified `0x005L`), поэтому Edge Id читается без знания Codec.
+- Каждый компонент находит свою границу по собственному Length. Позиция после чтения последнего компонента должна точно совпадать с концом Edge.
+- Состав компонентов (Payload) задаёт документ каждого Edge Codec.
+- Codec с подформатами (WORLD, TIMELINE, SCENE) указывает подформат одним TAG из 1 WORD для данного Codec.
+- Порядок между записями Edge значения не имеет (кроме случаев, когда его отдельно задаёт Codec. Например, документ [TOULMIN](../toulmin/_index.md)).
+- На другие Edge ссылаются через Edge Id. Edge этого документа — через LOCAL, Edge другого документа — через указывающие Reference (`EXTERNAL-POINTER-*`, `EXTERNAL-ISSUER-*`).
 
-## Семейства
+## Семейства {#계열}
 
-| Старшие 2 бита | Семейство | Прямой код | Что делает |
+Область Edge — `0x0A0L~0x1BFL`. Семейство прямого кода — `(код − 0xA0) >> 5` (код — первые три цифры TAG ID). Семейства идут по 32 позиции и равны значению раздела `w >> 9` минус 5. Edge занимает разделы 5~13.
+
+| Раздел | Семейство | Прямой код | Назначение |
 |---|---|---|---|
-| `00` | описание | `0x00`~`0x1F` | Строит содержимое о мире и событиях |
-| `01` | основание | `0x20`~`0x3F` | Откуда взялись запись и документ ([SOURCE](/ru/grammar/edge/source/)) |
-| `10` | исполнение | `0x40`~`0x5F` | Структура исполняемой программы (AST) |
-| `11` | [TOULMIN](/ru/grammar/edge/toulmin/) | `0x60`~`0x7B` | Граф аргументации: утверждения, возражения, исключения, отношения атаки, исполнение, результат вердикта |
+| 5 | высказывание | `0x0A0L~0x0BFL` | Строит содержание о мире и событиях |
+| 6 | основание | `0x0C0L~0x0DFL` | Откуда взяты записи и документы ([SOURCE](0x0C0L-source.md)) |
+| 7 | исполнение | `0x0E0L~0x0FFL` | Исполняемая структура программы (AST) |
+| 8 | [TOULMIN](../toulmin/_index.md) | `0x100L~0x11BL` | Граф аргументации: утверждения, возражения, исключения, отношения атаки, исполнение, результаты вердикта |
+| 9 | формат [TOULMIN](../toulmin/_index.md) | `0x120L~0x134L` | Исходный текст, членение, вспомогательные узлы документа TOULMIN и их отношения |
 
-## Описательные Edge
+- Назначенные прямые коды — эти пять семейств. `0x11CL~0x11FL` — Reserved, `0x135L~0x1BCL` — Reserved (разделы 10~12 целиком Reserved).
+- `0x1BDL~0x1BFL` (последние три позиции раздела 13) — EDGE-ISSUER (см. ниже Edge формата Issuer). У формата Issuer правила семейств нет.
 
-| Codec | Название | Компоненты |
+## Edge-высказывание {#서술-edge}
+
+| Codec | Имя | Компоненты |
 |---|---|---|
-| `0x00` | [REFERENCE-NODE](/ru/grammar/edge/reference-node/) | Направленная привязка: Subject (Reference) указывает на Object |
-| `0x01` | [SAME-NODE](/ru/grammar/edge/same-node/) | Два Reference указывают на один и тот же объект |
-| `0x02` | [DIFFERENT-NODE](/ru/grammar/edge/different-node/) | Два Reference указывают на разные объекты |
-| `0x03` | [BIND](/ru/grammar/edge/bind/) | Привязывает к Subject машинное имя (UTF8-TEXT) |
-| `0x04` | [LABEL](/ru/grammar/edge/label/) | Имя Subject на конкретном языке (UTF8-LANGUAGE-TEXT) |
-| `0x05` | [ALIAS](/ru/grammar/edge/alias/) | Другое имя Subject. Раскладка та же, что у LABEL |
-| `0x06` | [DESCRIPTION](/ru/grammar/edge/description/) | Описание Subject на конкретном языке. Раскладка та же, что у LABEL |
-| `0x08`/`0x09` | VERB-SHORT / VERB | Описание глагола |
-| `0x0A` | [TRIPLE](/ru/grammar/edge/triple/) | Одно высказывание (Predicate, Subject, Object) и rank |
-| `0x0B` | [QUALIFIER](/ru/grammar/edge/qualifier/) | Одно условие, уточняющее высказывание другого Edge |
-| `0x10`~`0x12` | WORLD / TIMELINE / SCENE | Картина мира, порядок событий, структура сцены |
-| `0x18`~`0x1A` | [PUBLICATION](/ru/grammar/edge/publication/) / DEPRECATION / TOMBSTONE | Публикация версии документа, рекомендация прекратить использование, удаление ([адрес публикации и список версий](/ru/grammar/publishing/#список-версий)) |
-| `0x1B`~`0x1E` | [DECLARE](/ru/grammar/edge/declare/) / [FIELD](/ru/grammar/edge/field/) / [ENUM](/ru/grammar/edge/enum/) / [CODEC](/ru/grammar/edge/codec/) | Словарь для записи спецификации Codec ([документ спецификации Codec](/ru/grammar/codec-spec/)) |
+| `0x0A0L` | [REFERENCE-NODE](0x0A0L-reference-node.md) | Направленная привязка: Subject (Reference) указывает на Object |
+| `0x0A1L` | [SAME-NODE](0x0A1L-same-node.md) | Две Reference указывают на один и тот же объект |
+| `0x0A2L` | [DIFFERENT-NODE](0x0A2L-different-node.md) | Две Reference указывают на разные объекты |
+| `0x0A3L` | [BIND](0x0A3L-bind.md) | Привязывает к Subject машинное имя (UTF8-TEXT) |
+| `0x0A4L` | [LABEL](0x0A4L-label.md) | Имя Subject на конкретном языке (UTF8-LANGUAGE-TEXT) |
+| `0x0A5L` | [ALIAS](0x0A5L-alias.md) | Другое имя Subject. Раскладка та же, что у LABEL |
+| `0x0A6L` | [DESCRIPTION](0x0A6L-description.md) | Описание Subject на конкретном языке. Раскладка та же, что у LABEL |
+| `0x0A8L`/`0x0A9L` | [VERB-SHORT](0x0A8L-verb-short.md) / [VERB](0x0A9L-verb.md) | Высказывание с глаголом |
+| `0x0AAL` | [TRIPLE](0x0AAL-triple.md) | Одно предложение (Predicate, Subject, Object) и rank |
+| `0x0ABL` | [QUALIFIER](0x0ABL-qualifier.md) | Одно условие, уточняющее предложение другого Edge |
+| `0x0B0L~0x0B2L` | [WORLD](0x0B0L-world.md) / [TIMELINE](0x0B1L-timeline.md) / [SCENE](0x0B2L-scene.md) | Картина мира, порядок событий, структура сцены |
+| `0x0B8L~0x0BAL` | [PUBLICATION](0x0B8L-publication.md) / [DEPRECATION](0x0B9L-deprecation.md) / [TOMBSTONE](0x0BAL-tombstone.md) | Публикация, рекомендация об отзыве и удаление версии документа ([адрес публикации и список версий](../publishing.md#버전-목록)) |
+| `0x0BBL~0x0BEL` | [DECLARE](0x0BBL-declare.md) / [FIELD](0x0BCL-field.md) / [ENUM](0x0BDL-enum.md) / [CODEC](0x0BEL-codec.md) | Словарь для записи спецификации Codec ([документ спецификации Codec](../codec-spec.md)) |
 
-- Формы `-SHORT` и обычная образуют пару чётный-нечётный код (VERB-SHORT `0x08` / VERB `0x09`). LABEL принимает язык как языковую запись внутри Object (UTF8-LANGUAGE-TEXT), поэтому ему достаточно одного кода `0x04`.
-- PUBLICATION, DEPRECATION и TOMBSTONE пишет документ списка версий. Список версий нужно читать без кодбука, поэтому они встроены в декодер (слой 0 в разделе [адрес публикации и список версий](/ru/grammar/publishing/#уровни)).
-- DECLARE, FIELD, ENUM и CODEC -- словарь для записи спецификации Codec. Спецификацию нужно читать без кодбука, поэтому раскладка встроена в декодер (слой 0). Каждый документ спецификации Codec, написанный этим словарём, -- обычный документ.
+- `-SHORT` и обычная форма образуют пару чётный·нечётный (VERB-SHORT `0x0A8L`/VERB `0x0A9L`). LABEL принимает язык как языковую запись внутри Object (UTF8-LANGUAGE-TEXT), поэтому используется только один `0x0A4L`.
+- PUBLICATION, DEPRECATION и TOMBSTONE использует документ списка версий. Список версий нужно читать без кодовой книги, поэтому они встроены в декодер (слой 0 в разделе [адрес публикации и список версий](../publishing.md#층)).
+- DECLARE, FIELD, ENUM и CODEC — словарь для записи спецификации Codec. Документ спецификации нужно читать без кодовой книги, поэтому их раскладка встроена в декодер (слой 0). Каждый документ спецификации Codec, записанный этим словарём, — обычный документ.
 
-### TRIPLE
+### TRIPLE {#triple}
 
-Подробнее: [TRIPLE](/ru/grammar/edge/triple/)
+Подробнее: [TRIPLE](0x0AAL-triple.md)
 
 ```
-TAG WORD          0001 0LLL L000 1010
-[Length extension TAG]
+TAG WORD          0000 1010 1010 LLLL
+[Length, расширяющий TAG]
 Edge Id           LOCAL Reference
 Predicate         Reference (свойство Wikidata и т. п.)
 Subject           Reference
@@ -75,153 +81,137 @@ Object            Reference или Value
 Rank              1 WORD
 ```
 
-| Rank | Название | Смысл |
+| Rank | Имя | Смысл |
 |---|---|---|
-| `0` | normal | По умолчанию |
-| `1` | preferred | Текущее, наиболее авторитетное значение |
-| `2` | deprecated | Значение, признанное неверным или устаревшим, но оставленное в записи |
+| `0` | normal | по умолчанию |
+| `1` | preferred | текущее значение, наиболее авторитетное значение |
+| `2` | deprecated | значение, признанное ошибочным или устаревшим, но оставленное как запись |
 
-- Rank совпадает со statement rank в Wikidata. Источник, который не ставит rank, использует `0`.
-- **Смысл TRIPLE -- это совокупность всех QUALIFIER, указывающих на его Edge Id.** Перед интерпретацией TRIPLE читающая сторона собирает QUALIFIER.
+- Rank совпадает с рангом утверждения (statement rank) Wikidata. Для источников, не ставящих rank, используется `0`.
+- **Смысл TRIPLE — это совокупность всех QUALIFIER, указывающих на его Edge Id.** Перед интерпретацией TRIPLE читающая сторона собирает QUALIFIER.
 
-Пример: Q42 -- P31 (instance of) -- Q5 (human), normal, Edge Id 2
+Пример: Q42 — P31 (instance of) — Q5 (человек), normal, Edge Id 2
 
 ```
-148A  0088 0002  00A8 001F  00A0 002A  00A0 0005  0000
+0AA9  0051 0002  0191 001F  0141 002A  0141 0005  0000
 TAG   #2         P31        Q42        Q5         normal
 ```
 
-### QUALIFIER
+### QUALIFIER {#qualifier}
 
-Подробнее: [QUALIFIER](/ru/grammar/edge/qualifier/)
+Подробнее: [QUALIFIER](0x0ABL-qualifier.md)
 
 ```
-TAG WORD          0001 0LLL L000 1011
-[Length extension TAG]
+TAG WORD          0000 1010 1011 LLLL
+[Length, расширяющий TAG]
 Edge Id           LOCAL Reference
 Property          Reference
 Target            LOCAL Reference (Edge Id уточняемого Edge)
 Value             Reference или Value
 ```
 
-- QUALIFIER -- часть высказывания. Это не отдельное утверждение о высказывании, а условие, при котором оно истинно (время начала и конца, область применения и т. п.).
-- Отдельное утверждение о высказывании (например, кто его выдвинул) записывается как TRIPLE.
-- Target -- Edge того же документа. Порядок QUALIFIER с одним Target -- порядок в документе.
+- QUALIFIER — часть предложения. Это не отдельное утверждение о предложении, а уточнение условий, при которых предложение истинно (момент начала и окончания, область применения и т. п.).
+- Отдельное утверждение о предложении (например, кто это утверждал) записывается как TRIPLE.
+- Target — Edge того же документа. Порядок QUALIFIER с одним Target — это порядок в документе.
 
-Пример: Q42 -- P69 (educated at) -- Q691283, начало (P580) 1971
-
-```
-150A 0088 0003 00A8 0045 00A0 002A 0120 000A 8C53 0000   TRIPLE    #3 P69 Q42 Q691283 normal
-148B 0088 0004 00A8 0244 0088 0003 0924 3139 3731        QUALIFIER #4 P580 #3 EDTF "1971"
-```
-
-### LABEL, ALIAS, DESCRIPTION
-
-Подробнее: [LABEL](/ru/grammar/edge/label/), [ALIAS](/ru/grammar/edge/alias/), [DESCRIPTION](/ru/grammar/edge/description/)
+Пример: Q42 — P69 (educated at) — Q691283, начало (P580) 1971
 
 ```
-TAG WORD          0001 0LLL L000 0100   (LABEL)
-[Length extension TAG]
+0AAA 0051 0003 0191 0045 0141 002A 0142 000A 8C53 0000   TRIPLE    #3 P69 Q42 Q691283 normal
+0AB9 0051 0004 0191 0244 0051 0003 06E2 3139 3731        QUALIFIER #4 P580 #3 EDTF "1971"
+```
+
+### LABEL, ALIAS, DESCRIPTION {#label-alias-description}
+
+Подробнее: [LABEL](0x0A4L-label.md), [ALIAS](0x0A5L-alias.md), [DESCRIPTION](0x0A6L-description.md)
+
+```
+TAG WORD          0000 1010 0100 LLLL   (LABEL)
+[Length, расширяющий TAG]
 Edge Id           LOCAL Reference
 Subject           Reference
 Object            UTF8-LANGUAGE-TEXT
 ```
 
 - Имя и язык хранятся в одном Object (UTF8-LANGUAGE-TEXT).
-- LABEL с одним Subject и языком -- не более одного. Другие имена записываются как ALIAS.
+- LABEL с одним Subject и языком — не более одного. Другие имена записываются как ALIAS.
 - Машинное имя без языка записывается как BIND. У LABEL язык обязателен.
 
-### BIND
+### BIND {#bind}
 
-Подробнее: [BIND](/ru/grammar/edge/bind/)
+Подробнее: [BIND](0x0A3L-bind.md)
 
-- Привязывает к Subject имя (UTF8-TEXT), по которому его находит машина. Языка нет, нормализации нет. Имена совпадают только при совпадении байтов.
-- Область имени -- документ, содержащий BIND. В одном документе одно и то же имя не привязывают к разным Subject.
+- Привязывает к Subject имя (UTF8-TEXT), с которым сверяется машина. Языка нет, нормализации нет. Имена одинаковы, только если совпадают байты.
+- Область имени — документ, содержащий BIND. В одном документе одно имя не привязывают к разным Subject.
 - Другие записи указывают не на имя, а на LOCAL ID. Имя служит для сопоставления с внешним миром (функции хоста, ввод адреса, человек).
 
-### SAME-NODE, DIFFERENT-NODE, REFERENCE-NODE
+### SAME-NODE, DIFFERENT-NODE, REFERENCE-NODE {#same-node-different-node-reference-node}
 
-Подробнее: [SAME-NODE](/ru/grammar/edge/same-node/), [DIFFERENT-NODE](/ru/grammar/edge/different-node/), [REFERENCE-NODE](/ru/grammar/edge/reference-node/)
+Подробнее: [SAME-NODE](0x0A1L-same-node.md), [DIFFERENT-NODE](0x0A2L-different-node.md), [REFERENCE-NODE](0x0A0L-reference-node.md)
 
-- SAME-NODE -- тождество: два Reference указывают на один и тот же объект. Рефлексивно, симметрично, транзитивно.
-- DIFFERENT-NODE -- нетождество: два Reference указывают на разные объекты.
-- REFERENCE-NODE -- направленная привязка, определяющая через Object, чем является Subject (Reference). Это не утверждение тождества. Пример: определяет URI, на который указывает узел LOCAL.
+- SAME-NODE — тождество: две Reference указывают на один и тот же объект. Рефлексивно, симметрично и транзитивно.
+- DIFFERENT-NODE — нетождество: две Reference указывают на разные объекты.
+- REFERENCE-NODE — направленная привязка, определяющая через Object, что такое Subject (Reference). Это не утверждение о тождестве. Например, определяет URI, на который указывает узел LOCAL.
 
-## Edge оснований
+## Edge основания {#근거-edge}
 
-К отдельным записям в BODY или ко всему документу (HEAD) прикрепляют основание. Единственный прямой код семейства оснований -- [SOURCE](/ru/grammar/edge/source/) (`0x20`).
+К отдельным записям внутри BODY или ко всему документу (HEAD) прикрепляется основание. Единственный прямой код семейства основания — [SOURCE](0x0C0L-source.md) (`0x0C0L`).
 
-| Codec | Название | Компоненты |
+| Codec | Имя | Компоненты |
 |---|---|---|
-| `0x20` | [SOURCE](/ru/grammar/edge/source/) | Target (Edge Id Edge из BODY, к которому прикрепляется основание; в HEAD `0` = весь документ), Origin (Reference первоисточника, ABSENT или UNKNOWN-VALUE) |
-| `0x21`~`0x3F` | Reserved | |
+| `0x0C0L` | [SOURCE](0x0C0L-source.md) | Target (Edge Id Edge из BODY, к которому прикрепляется основание; в HEAD `0` = весь документ), Origin (Reference первоисточника, ABSENT или UNKNOWN-VALUE) |
+| `0x0C1L~0x0DFL` | Reserved | |
 
-- Свойства самого первоисточника (URL, название, автор, дата выпуска …) записываются как TRIPLE с первоисточником в роли Subject, а свойства цитирования (дата обращения, место внутри первоисточника …) -- как QUALIFIER с Edge Id SOURCE в роли Target.
-- Первоисточник всего документа записывается в HEAD как SOURCE с Target `0`, а QUALIFIER, у которых он Target, тоже помещаются в HEAD. В HEAD допустимы только эти два Edge, а Edge Id в HEAD и BODY используют одно пространство номеров ([Источник всего документа](/ru/grammar/edge/source/#источник-всего-документа)).
-- Прочие основания (диапазон в исходном тексте, создавший субъект, достоверность, срок действия по статьям, прежние записи) записываются как QUALIFIER, а версия, в которой запись появилась впервые, вычисляется по истории версий ([SOURCE](/ru/grammar/edge/source/#представление-других-оснований)).
-- Результат вердикта по записи ведёт TOULMIN `VERDICT`.
+- Свойства самого первоисточника (URL, название, автор, дата выхода …) записываются как TRIPLE с первоисточником в роли Subject, а свойства цитирования (дата обращения, место внутри первоисточника …) — как QUALIFIER с Edge Id из SOURCE в роли Target.
+- Первоисточник всего документа записывается в HEAD как SOURCE с Target `0`, и QUALIFIER с ним в роли Target тоже кладётся в HEAD. В HEAD допускаются только эти два Edge, а Edge Id в HEAD и BODY используют одно пространство номеров ([происхождение всего документа](0x0C0L-source.md#문서-전체의-출처)).
+- Прочие основания (диапазон исходного текста, создавший субъект, достоверность, срок действия по статьям, прежние записи) записываются как QUALIFIER, а первая включившая версия вычисляется по истории версий ([SOURCE](0x0C0L-source.md#다른-근거의-표현)).
+- Результат вердикта для отдельной записи ведёт TOULMIN `VERDICT`.
 
-### SOURCE
+### SOURCE {#source}
 
-Подробнее: [SOURCE](/ru/grammar/edge/source/)
+Подробнее: [SOURCE](0x0C0L-source.md)
 
 ```
-TAG WORD          0001 0LLL L010 0000
-[Length extension TAG]
+TAG WORD          0000 1100 0000 LLLL
+[Length, расширяющий TAG]
 Edge Id           LOCAL Reference
 Target            LOCAL Reference (Edge Id Edge из BODY, к которому прикрепляется основание; в HEAD 0 = весь документ)
-Origin            Reference или маркер слота 0x0000 ABSENT, 0x0001 UNKNOWN-VALUE
+Origin            Reference или маркер места 0x0000 ABSENT·0x0010 UNKNOWN-VALUE
 ```
 
-Пример: источник TRIPLE `#178` для Q42 P19 -- Britannica (Q5375741), идентификатор внутри неё P1417
+Пример: первоисточник TRIPLE `#178` для Q42 P19 — Британника (Q5375741), идентификатор внутри неё P1417
 
 ```
 SOURCE     #1347  #178   Q5375741
 QUALIFIER  #1348  P1417  #1347  "biography/Douglas-Adams"
 ```
 
-## Исполняемые Edge
+## Исполняемый Edge {#실행-edge}
 
 Структура программы, не привязанная к конкретному языку программирования. Компоненты указываются через LOCAL ID этого документа.
 
 | Группа | Codec |
 |---|---|
-| Объявления | FUNCTION-DECLARE, TYPE-DECLARE |
-| Выражения | CONST, UNARY, BINARY, CALL, MEMBER, INDEX, CONSTRUCT, CONDITIONAL |
-| Операторы | BLOCK, ASSIGN, IF, SWITCH, WHILE, FOREACH, JUMP, RETURN |
-| Ошибки | RAISE, TRY |
+| объявление | [FUNCTION-DECLARE](0x0E1L-function-declare.md), [TYPE-DECLARE](0x0E2L-type-declare.md) |
+| выражение | [CONST](0x0E8L-const.md), [UNARY](0x0E9L-unary.md), [BINARY](0x0EAL-binary.md), [CALL](0x0EBL-call.md), [MEMBER](0x0ECL-member.md), [INDEX](0x0EDL-index.md), [CONSTRUCT](0x0EEL-construct.md), [CONDITIONAL](0x0EFL-conditional.md) |
+| оператор | [BLOCK](0x0F0L-block.md), [ASSIGN](0x0F1L-assign.md), [IF](0x0F2L-if.md), [SWITCH](0x0F3L-switch.md), [WHILE](0x0F4L-while.md), [FOREACH](0x0F5L-foreach.md), [JUMP](0x0F6L-jump.md), [RETURN](0x0F7L-return.md) |
+| ошибка | [RAISE](0x0F8L-raise.md), [TRY](0x0F9L-try.md) |
 
-- Это не формат для хранения кода внешнего языка как есть. Код внешнего языка хранится в формате Issuer.
-- Компоненты указываются через LOCAL ID (REF) этого документа. На месте выражения стоит Edge выражения или символ. REF `0` означает «нет».
-- Выражение даёт значение, оператор -- нет. Выражение можно поставить на место оператора в BLOCK (значение отбрасывается).
-- `for` в стиле C записывается как BLOCK (инициализация, WHILE), а `else if` -- как IF на месте ложной ветви.
-- Символ -- это LOCAL ID, а имя привязывается через BIND. Другие записи указывают на символ не по имени, а по LOCAL ID. Если имена совпадают, но LOCAL ID разные, это разные символы.
-- Чем является символ (переменная, параметр, функция, тип), определяет запись, которая на него указывает. Символ без определения в документе предоставляет внешний мир (хост); если он цель CALL, это функция хоста.
+- Это не формат, хранящий код внешнего языка как есть. Код внешнего языка помещается в формат Issuer.
+- Компоненты указываются через LOCAL ID этого документа (REF). На месте выражения стоит Edge-выражение или символ. REF `0` означает «нет».
+- Выражение даёт значение, оператор — нет. Выражение можно поставить на место оператора в BLOCK (значение отбрасывается).
+- Цикл `for` в стиле C записывается как BLOCK (инициализация, WHILE), а `else if` — как IF на месте ложной ветви.
+- Символ — это LOCAL ID, а имя привязывается через BIND. Другие записи указывают на символ не по имени, а по LOCAL ID. Если имена совпадают, но LOCAL ID различаются, это разные символы.
+- Чем является символ (переменная, параметр, функция, тип), определяет запись, указывающая на этот символ. Символ, определения которого в документе нет, предоставляет внешняя сторона (хост); если он цель CALL, это функция хоста.
 
-Открытые вопросы: коды операторов, представление типов, раскладка Payload каждого Codec.
+Открытые проблемы: коды операторов, представление типов, раскладка Payload каждого Codec.
 
-## Edge TOULMIN
+## Edge TOULMIN {#toulmin-edge}
 
-Подробнее: [TOULMIN](/ru/grammar/edge/toulmin/)
+Граф вердиктов и исполнения записывается по модели аргументации Тулмина. Прямые коды — `0x100L~0x11BL`, вспомогательные записи — семейство формата TOULMIN `0x120L~0x134L`. Подробнее: [TOULMIN](../toulmin/_index.md)
 
-Граф вердиктов и исполнения записывается по модели аргументации Тулмина. Это ключевое семейство, с помощью которого GEUL описывает собственные правила на GEUL и сам их исправляет.
+## Edge формата Issuer {#issuer-형식-edge}
 
-| Группа | Codec |
-|---|---|
-| Объявления | CASE-DECLARE (случай), [PREDICATE-DECLARE](/ru/grammar/edge/toulmin/expr/) (предикат), SPEC-DECLARE (критерий оценки), RULE-DECLARE (утверждение), COUNTER-DECLARE (возражение), EXCEPT-DECLARE (исключение) -- [NODE](/ru/grammar/edge/toulmin/node/) |
-| Отношения | ATTACKS (атака), SUPERSEDES (вытеснение) -- [LINK](/ru/grammar/edge/toulmin/link/), SUPERSEDE-CHAIN (цепочка приоритетов, раскладка не определена) |
-| Исполнение | RUN, DO, DO-ONCE, UNDO, CHECKING -- [LINK](/ru/grammar/edge/toulmin/link/), ENTRY, TRIGGER -- [NODE](/ru/grammar/edge/toulmin/node/) |
-| Результат | VERDICT (результат вердикта: Pass, Review, Fail), EVIDENCE (доказательство вердикта) -- раскладка не определена |
+Issuer может определять и использовать собственные форматы Edge ([EDGE-ISSUER-2WORD](0x1BDL-edge-issuer-2word.md), [4WORD](0x1BEL-edge-issuer-4word.md), [16WORD](0x1BFL-edge-issuer-16word.md), Codec `0x1BDL`~`0x1BFL`). Это последние три позиции области Edge. В расширяющем TAG Codec помещаются Issuer и номер Codec — 2 WORD. Edge Id — первый элемент Payload после них (TAG, Issuer, номер Codec, Edge Id, остальной Payload). Номер Codec задаёт Issuer, правила семейств нет. Независимо от Kind он не повторяется внутри `codecs/` этого Issuer. Документ Codec лежит под `codecs/` этого Issuer по номеру Codec записи ([адрес публикации и список версий](../publishing.md)).
 
-- Исходный текст, разделы, вспомогательные узлы и отношения -- это формат ISSUER (`0xC000`~`0xC029`) GEUL Issuer ([SOURCE и разделы](/ru/grammar/edge/toulmin/source/)).
-- Результат вердикта помещается в документ, отличный от оцениваемого. Документ результата импортирует документ-цель и указывает на него. Поэтому вердикт не меняет хеш содержимого документа-цели.
-
-## Edge формата Issuer
-
-Issuer может определять и использовать собственные форматы Edge (Codec `0x7C`~`0x7F`). Прямые коды `0x7C`~`0x7F` лежат внутри диапазона TOULMIN, но это общие коды ISSUER; семейство определяется двумя старшими битами номера формата.
-
-| Issuer | Номер формата | Название | Семейство |
-|---|---|---|---|
-| `0x0000` GEUL | `0xC000`~`0xC005` | [SOURCE, TEXT, SECTION, CASE-BEGIN, CASE-END, PROSE](/ru/grammar/edge/toulmin/source/) | TOULMIN |
-| `0x0000` GEUL | `0xC010`~`0xC014` | [NAMESPACE, FUNC, FIELD, ALIAS, GROUP](/ru/grammar/edge/toulmin/node/) | TOULMIN |
-| `0x0000` GEUL | `0xC020`~`0xC029` | [REQUIRES … LABEL](/ru/grammar/edge/toulmin/link/) | TOULMIN |
+- Зарегистрированных сейчас Edge формата ISSUER нет.

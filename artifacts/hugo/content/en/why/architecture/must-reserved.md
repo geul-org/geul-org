@@ -126,7 +126,7 @@ The cost of filling? IPv4 showed us. It is irreversible.
 
 ## Design Principle
 
-The fifth design principle of the GEUL v1 [grammar](/grammar/overview/):
+The fifth design principle of the GEUL v1 [grammar](/grammar/):
 
 > **Leave it empty.** Most of the bit space is kept for the future. Direct codes cannot be reclaimed, so only formats with confirmed frequency get one.
 

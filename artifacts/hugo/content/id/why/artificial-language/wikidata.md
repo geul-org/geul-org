@@ -96,7 +96,7 @@ GEUL tidak membuat pengidentifikasi baru untuk Wikidata.
 GEUL memakainya apa adanya.
 
 Tata bahasa GEUL punya Reference khusus untuk Wikidata.
-[WIKIDATA-QID](/id/grammar/reference/wikidata-qid/) menulis angka dari Q-ID, dan [WIKIDATA-PID](/id/grammar/reference/wikidata-pid/) angka dari P-ID, sebagai bilangan bulat tak bertanda.
+[WIKIDATA-QID](/id/grammar/reference/0x014l-wikidata-qid/) menulis angka dari Q-ID, dan [WIKIDATA-PID](/id/grammar/reference/0x019l-wikidata-pid/) angka dari P-ID, sebagai bilangan bulat tak bertanda.
 Q42 adalah bilangan bulat 42. P31 adalah bilangan bulat 31.
 Karena berupa bilangan bulat, bukan string, membandingkannya tidak memerlukan normalisasi.
 
@@ -149,7 +149,7 @@ Nomor yang berdekatan tidak berarti maknanya berdekatan.
 Q42 adalah Douglas Adams; Q41 adalah Yunani, dan Q43 adalah Turki.
 
 GEUL juga meneliti jenis pengidentifikasi lain.
-[SIDX](/id/grammar/reference/geul-sidx/) (Semantic-aligned Index), pengidentifikasi yang selaras makna, yang memberi nilai berdekatan kepada hal-hal yang maknanya berdekatan.
+[SIDX](/id/grammar/reference/0x00fl-geul-sidx/) (Semantic-aligned Index), pengidentifikasi yang selaras makna, yang memberi nilai berdekatan kepada hal-hal yang maknanya berdekatan.
 Tujuannya adalah menaruh makna di dalam bit itu sendiri,
 sehingga bit atas saja cukup untuk mengetahui apakah sesuatu itu orang, tempat, atau organisasi.
 
@@ -158,7 +158,7 @@ Tata bahasa hanya menyediakan tempat untuknya: Reference GEUL-SIDX.
 Lebarnya belum ditetapkan. 64 bit, 256 bit, dan lainnya sedang dikaji, dan pilihannya akan mengikuti statistik.
 Belum ada SIDX yang ditetapkan.
 Karena itu dokumen Wikidata saat ini ditulis dengan Q-ID, tanpa SIDX.
-Setelah nilai SIDX ditetapkan, pengidentifikasi yang ada dan SIDX untuk hal yang sama akan dihubungkan dengan [SAME-NODE](/id/grammar/edge/same-node/).
+Setelah nilai SIDX ditetapkan, pengidentifikasi yang ada dan SIDX untuk hal yang sama akan dihubungkan dengan [SAME-NODE](/id/grammar/edge/0x0a1l-same-node/).
 
 Di sinilah Wikidata dipakai lagi.
 Riset SIDX berangkat dari sistem klasifikasi dan statistik frekuensi Wikidata.

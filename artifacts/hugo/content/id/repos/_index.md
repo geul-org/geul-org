@@ -112,7 +112,7 @@ Dua repositori di bawah ini dirancang sebelum tata bahasa v1 saat ini. Sebagian 
 
 Riset penetapan SIDX (Semantic-aligned Index).
 
-Bahan riset untuk menetapkan SIDX, alamat semantik yang memberi nomor berdekatan kepada entitas yang maknanya berdekatan, berdasarkan statistik penggunaan Wikidata. Berisi skema atribut Entity 48-bit lama, skrip encoder, dan codebook; belum ada hasil penetapan SIDX. Definisi normatif SIDX adalah [GEUL-SIDX](/id/grammar/reference/geul-sidx/) dalam tata bahasa.
+Bahan riset untuk menetapkan SIDX, alamat semantik yang memberi nomor berdekatan kepada entitas yang maknanya berdekatan, berdasarkan statistik penggunaan Wikidata. Berisi skema atribut Entity 48-bit lama, skrip encoder, dan codebook; belum ada hasil penetapan SIDX. Definisi normatif SIDX adalah [GEUL-SIDX](/id/grammar/reference/0x00fl-geul-sidx/) dalam tata bahasa.
 
 | | |
 |---|---|

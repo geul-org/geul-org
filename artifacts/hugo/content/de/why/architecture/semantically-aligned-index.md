@@ -95,7 +95,7 @@ Das ist die Kernidee hinter dem semantisch ausgerichteten Index.
 ## Bedeutung in die ID einbetten
 
 SIDX (Semantically-Aligned Index) ist die Forschung an einer solchen ID.
-Die GEUL-Grammatik hat bereits einen Reference-Platz, der ein Ziel per SIDX bezeichnet ([GEUL-SIDX](/de/grammar/reference/geul-sidx/)).
+Die GEUL-Grammatik hat bereits einen Reference-Platz, der ein Ziel per SIDX bezeichnet ([GEUL-SIDX](/de/grammar/reference/0x00fl-geul-sidx/)).
 Breite und Vergabeverfahren sind aber noch nicht entschieden. Sie werden aus gesammelten Nutzungsstatistiken bestimmt.
 Im Folgenden dienen 64 Bit als Beispiel zur Erklärung.
 

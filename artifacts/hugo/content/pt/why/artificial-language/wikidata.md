@@ -96,7 +96,7 @@ O GEUL não inventa identificadores novos para o Wikidata.
 Usa-os como são.
 
 A gramática do GEUL tem References dedicadas ao Wikidata.
-[WIKIDATA-QID](/pt/grammar/reference/wikidata-qid/) escreve o número de um Q-ID, e [WIKIDATA-PID](/pt/grammar/reference/wikidata-pid/) o de um P-ID, como inteiro sem sinal.
+[WIKIDATA-QID](/pt/grammar/reference/0x014l-wikidata-qid/) escreve o número de um Q-ID, e [WIKIDATA-PID](/pt/grammar/reference/0x019l-wikidata-pid/) o de um P-ID, como inteiro sem sinal.
 Q42 é o inteiro 42. P31 é o inteiro 31.
 Como são inteiros e não strings, compará-los não exige normalização.
 
@@ -149,7 +149,7 @@ Números próximos não significam significados próximos.
 Q42 é Douglas Adams; Q41 é a Grécia, e Q43 é a Turquia.
 
 O GEUL também pesquisa outro tipo de identificador.
-O [SIDX](/pt/grammar/reference/geul-sidx/) (Semantic-aligned Index), um identificador semanticamente alinhado que dá valores próximos a coisas de significado próximo.
+O [SIDX](/pt/grammar/reference/0x00fl-geul-sidx/) (Semantic-aligned Index), um identificador semanticamente alinhado que dá valores próximos a coisas de significado próximo.
 O objetivo é colocar o significado nos próprios bits,
 de modo que os bits superiores bastem para dizer se algo é uma pessoa, um lugar ou uma organização.
 
@@ -158,7 +158,7 @@ A gramática só reserva um lugar para ele: a Reference GEUL-SIDX.
 A largura não está decidida. 64 bits, 256 bits e outras estão em estudo, e a escolha seguirá as estatísticas.
 Nenhum SIDX foi atribuído ainda.
 Por isso os documentos atuais do Wikidata são escritos com Q-IDs, sem SIDX.
-Quando valores SIDX forem atribuídos, o identificador existente e o SIDX da mesma coisa serão ligados com [SAME-NODE](/pt/grammar/edge/same-node/).
+Quando valores SIDX forem atribuídos, o identificador existente e o SIDX da mesma coisa serão ligados com [SAME-NODE](/pt/grammar/edge/0x0a1l-same-node/).
 
 É aqui que o Wikidata entra de novo.
 A pesquisa do SIDX parte do sistema de classificação e das estatísticas de frequência do Wikidata.

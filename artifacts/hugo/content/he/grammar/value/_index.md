@@ -1,183 +1,254 @@
 ---
 title: "Value"
-weight: 50
+weight: 100
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-28T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "value", "text", "decimal", "time"]
-summary: "Value היא רשומה שמכילה את הערך עצמו. שני הביטים העליונים של ה-Codec קובעים את המשפחה (מספרים ועשרוני, זמן, טקסט, בינארי). פורמטים נפוצים הם קודים ישירים, והשאר הם פורמטי Issuer לפי גוף התקינה."
+summary: "Value הוא רשומה הנושאת את הערך עצמו."
 author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Value היא רשומה שמכילה את הערך עצמו. ה-Codec קובע את פירוש ה-Payload.
+Value הוא רשומה הנושאת את הערך עצמו. ה-Codec קובע את פירוש ה-Payload.
 
-## פריסה
+## פריסה {#레이아웃}
 
 ```
-TAG WORD          0000 1LLL LCCC CCCC
-[Length extension TAG]
-[Codec extension TAG]  בפורמט Issuer
+TAG WORD          000K KKKC CCCC LLLL      קטעים 3·4 (0x060L~0x09FL)
+[Length TAG הרחבה]
+[Codec TAG הרחבה] כשזה פורמט Issuer
 Payload
 ```
 
-- `LLLL` הוא מספר ה-WORD הכולל, כולל TAG WORD, פחות 1. 1~14 WORD הם אורך ישיר, ו-15 WORD ומעלה הם אורך מורחב.
-- בפורמט Issuer, ב-TAG הרחבת ה-Codec מוצבים ה-Issuer (ברוחב 1/2/4/16 WORD שה-Codec קובע) ומספר פורמט של WORD אחד. שני הביטים העליונים של מספר הפורמט הם המשפחה.
-- המפענח יודע את המשפחה ואת ה-Length גם בלי להכיר את הפורמט.
+- `LLLL` הוא מספר ה-WORD הכולל, כולל ה-TAG WORD, פחות 1. ל-1~14 WORD יש אורך ישיר, ומ-15 WORD ומעלה אורך מורחב.
+- בפורמט Issuer, ב-Codec TAG של ההרחבה מונחים ה-Issuer (ברוחב 2/4/16 WORD שה-Codec קובע) ומספר Codec של 2 WORD. מספר ה-Codec נקבע על ידי ה-Issuer.
+- מפענח יודע גם בלי להכיר את הפורמט עד Kind, ‏Length, ‏Issuer ומספר Codec.
 
-## משפחות
+## משפחה {#계열}
 
-שני הביטים העליונים של ה-Codec הם המשפחה. אותו כלל חל על קוד ישיר (7 ביט) ועל מספר פורמט Issuer (16 ביט). לכן יודעים את המשפחה גם בלי codebook.
+מספר Value אינו מציין משפחה. הקוד הישיר אינו מציין משפחה בסיביות, ולפורמטי Issuer אין כלל משפחה. משפחה היא קבוצה לפי נושא.
 
-| שני הביטים העליונים | משפחה | קוד ישיר | מספר פורמט |
-|---|---|---|---|
-| `00` | NUMERIC / DECIMAL | `0x00`~`0x1F` | `0x0000`~`0x3FFF` |
-| `01` | TIME | `0x20`~`0x3F` | `0x4000`~`0x7FFF` |
-| `10` | TEXT | `0x40`~`0x5F` | `0x8000`~`0xBFFF` |
-| `11` | BINARY | `0x60`~`0x7B` | `0xC000`~`0xFFFF` |
+| משפחה | קודים ישירים |
+|---|---|
+| NUMERIC | `0x060L~0x067L` |
+| DECIMAL | `0x068L~0x069L` |
+| TIME | `0x06AL~0x071L`, `0x081L` |
+| TEXT | `0x072L~0x07AL` |
+| BINARY | `0x07BL~0x080L` |
 
-- NUMERIC / DECIMAL מתחלקים עוד לפי הביט השלישי. `000` הוא NUMERIC ו-`001` הוא DECIMAL.
-- ערכים מספריים כמו וקטור, טנסור, מספר מרוכב, שבר וקטע הם NUMERIC. חריג: BIT-VECTOR הוא BINARY. קוד שפה הוא TEXT.
-- רשומת פורמט Issuer נושאת TAG הרחבת Codec (Issuer ומספר פורמט). אם ה-Payload ארוך (15 WORD ומעלה בסך הכול), משתמשים ב-TAG הרחבת Length.
+- ערכים מספריים כמו וקטורים, טנזורים, מספרים מרוכבים, שברים וטווחים הם NUMERIC. היוצא מן הכלל הוא BIT-VECTOR, שהוא BINARY. קודי שפה הם TEXT.
+- רשומת פורמט Issuer מקבלת Codec TAG של הרחבה (Issuer ומספר Codec). אם ה-Payload ארוך (סך הכול 15 WORD ומעלה) משתמשים ב-Length TAG של הרחבה.
 
-## קודים ישירים
+## קודים ישירים {#직접-코드}
 
 | Codec | שם | משפחה | תיאור |
 |---|---|---|---|
-| `0x00` | [BOOL](/he/grammar/value/numeric/bool/) | NUMERIC | false או true |
-| `0x01` | [SIGNED-INTEGER](/he/grammar/value/numeric/signed-integer/) | NUMERIC | מספר שלם בשיטת המשלים ל-2 במינימום WORD |
-| `0x02` | [UNSIGNED-INTEGER](/he/grammar/value/numeric/unsigned-integer/) | NUMERIC | מספר שלם בלי סימן במינימום WORD |
-| `0x03` | [BINARY-FLOAT](/he/grammar/value/numeric/binary-float/) | NUMERIC | IEEE 754 binary16/32/64/128 |
-| `0x04` | [COORDINATE-EARTH](/he/grammar/value/numeric/coordinate-earth/) | NUMERIC | קו רוחב וקו אורך על כדור הארץ (WGS 84) ואי-ודאות (Reference של יחידה) |
-| `0x05` | [COORDINATE-GEO](/he/grammar/value/numeric/coordinate-geo/) | NUMERIC | Reference של גרם שמים, קו רוחב וקו אורך, ואי-ודאות (Reference של יחידה) |
-| `0x06` | [QUANTITY](/he/grammar/value/numeric/quantity/) | NUMERIC | כמות מספרית (שלם, BINARY-FLOAT, עשרוני, שבר), Reference של יחידה, גבול תחתון ועליון |
-| `0x07` | [FRACTION](/he/grammar/value/numeric/fraction/) | NUMERIC | שבר ששומר על הכתיב שלו (רשומות מונה ומכנה, בלי צמצום) |
-| `0x10` | [SIGNED-DECIMAL](/he/grammar/value/decimal/signed-decimal/) | DECIMAL | `C × 10^E`, מקדם חתום |
-| `0x11` | [UNSIGNED-DECIMAL](/he/grammar/value/decimal/unsigned-decimal/) | DECIMAL | `C × 10^E`, מקדם בלי סימן |
-| `0x20` | [GREGORIAN-DATE](/he/grammar/value/time/gregorian-date/) | TIME | מספר ימים מאז 1970-01-01 (לוח גרגוריאני) |
-| `0x21` | [CIVIL-TIME-NANOSECONDS](/he/grammar/value/time/civil-time-nanoseconds/) | TIME | ננו-שניות מאז חצות |
-| `0x22` | [POSIX-TIMESTAMP-SECONDS](/he/grammar/value/time/posix-timestamp-seconds/) | TIME | שניות מאז epoch של Unix |
-| `0x23` | [DURATION-SECONDS](/he/grammar/value/time/duration-seconds/) | TIME | זמן שחלף (שניות) |
-| `0x24`/`0x25` | [EDTF](/he/grammar/value/time/edtf/) | TIME | מחרוזת תאריך מורחבת של ISO 8601-2 (דיוק של שנה·חודש, אי-ודאות, קטע) |
-| `0x26`/`0x27` | [GEDCOM-DATE](/he/grammar/value/time/gedcom-date/) | TIME | מחרוזת תאריך של GEDCOM 7 (לוחות שנה אחרים כמו יוליאני) |
-| `0x40`/`0x41` | [UTF8-TEXT](/he/grammar/value/text/utf8-text/) | TEXT | מחרוזת UTF-8 בלי שפה |
-| `0x44`/`0x45` | [URI](/he/grammar/value/text/uri/) | TEXT | URI לפי RFC 3986 |
-| `0x46`/`0x47` | [LANGUAGE-BCP47-CODE](/he/grammar/value/text/language-bcp47-code/) | TEXT | תג שפה של BCP 47 |
-| `0x48` | [LANGUAGE-SHORT-CODE](/he/grammar/value/text/language-short-code/) | TEXT | קוד שפה דחוס של WORD אחד |
-| `0x4A`/`0x4B` | [UTF8-LANGUAGE-TEXT](/he/grammar/value/text/utf8-language-text/) | TEXT | טקסט עם שפה |
-| `0x60` | [UUID](/he/grammar/value/binary/uuid/) | BINARY | UUID לפי RFC 9562 |
-| `0x61` | [SHA-256-DIGEST](/he/grammar/value/binary/sha-256-digest/) | BINARY | תוצאת SHA-256 |
-| `0x62` | [SHA1-DIGEST](/he/grammar/value/binary/sha1-digest/) | BINARY | תוצאת SHA-1 (לצורכי זיהוי כמו מזהה אובייקט של git) |
+| `0x060L` | [BOOL](0x060L-bool.md) | NUMERIC | false או true |
+| `0x061L` | [SIGNED-INTEGER](0x061L-signed-integer.md) | NUMERIC | מספר שלם במשלים ל-2 ב-WORD המינימלי |
+| `0x062L` | [UNSIGNED-INTEGER](0x062L-unsigned-integer.md) | NUMERIC | מספר שלם ללא סימן ב-WORD המינימלי |
+| `0x063L` | [BINARY-FLOAT](0x063L-binary-float.md) | NUMERIC | IEEE 754 binary16/32/64/128 |
+| `0x064L` | [COORDINATE-EARTH](0x064L-coordinate-earth.md) | NUMERIC | קו רוחב וקו אורך של כדור הארץ (WGS 84) וחוסר ודאות (Reference של יחידה) |
+| `0x065L` | [COORDINATE-GEO](0x065L-coordinate-geo.md) | NUMERIC | Reference של גרם שמים, קו רוחב וקו אורך, וחוסר ודאות (Reference של יחידה) |
+| `0x066L` | [QUANTITY](0x066L-quantity.md) | NUMERIC | כמות מספרית (מספר שלם, BINARY-FLOAT, מספר עשרוני, שבר), Reference של יחידה, חסם תחתון ועליון |
+| `0x067L` | [FRACTION](0x067L-fraction.md) | NUMERIC | שבר ששומר על הכתיב (רשומות מונה ומכנה, ללא צמצום) |
+| `0x068L` | [SIGNED-DECIMAL](0x068L-signed-decimal.md) | DECIMAL | `C × 10^E`, מקדם עם סימן |
+| `0x069L` | [UNSIGNED-DECIMAL](0x069L-unsigned-decimal.md) | DECIMAL | `C × 10^E`, מקדם ללא סימן |
+| `0x06AL` | [GREGORIAN-DATE](0x06AL-gregorian-date.md) | TIME | מספר הימים מ-1970-01-01 (לוח גרגוריאני) |
+| `0x06BL` | [CIVIL-TIME-NANOSECONDS](0x06BL-civil-time-nanoseconds.md) | TIME | ננו-שניות מחצות |
+| `0x06CL` | [POSIX-TIMESTAMP-SECONDS](0x06CL-posix-timestamp-seconds.md) | TIME | שניות מ-Unix epoch |
+| `0x06DL` | [DURATION-SECONDS](0x06DL-duration-seconds.md) | TIME | זמן שחלף (שניות) |
+| `0x06EL`/`0x06FL` | [EDTF](0x06EL-edtf.md) | TIME | מחרוזת תאריך מורחבת של ISO 8601-2 (דיוק של שנה וחודש, אי-ודאות, טווח) |
+| `0x070L`/`0x071L` | [GEDCOM-DATE](0x070L-gedcom-date.md) | TIME | מחרוזת תאריך של GEDCOM 7 (לוח יוליאני וכו', לוחות שנה אחרים) |
+| `0x072L`/`0x073L` | [UTF8-TEXT](0x072L-utf8-text.md) | TEXT | מחרוזת UTF-8 חסרת שפה |
+| `0x074L`/`0x075L` | [URI](0x074L-uri.md) | TEXT | URI לפי RFC 3986 |
+| `0x076L`/`0x077L` | [LANGUAGE-BCP47-CODE](0x076L-language-bcp47-code.md) | TEXT | תג שפה של BCP 47 |
+| `0x078L`/`0x079L` | [UTF8-LANGUAGE-TEXT](0x078L-utf8-language-text.md) | TEXT | טקסט בעל שפה |
+| `0x07AL` | [LANGUAGE-SHORT-CODE](0x07AL-language-short-code.md) | TEXT | קוד שפה דחוס של WORD אחד |
+| `0x07BL` | [UUID](0x07BL-uuid.md) | BINARY | UUID לפי RFC 9562 |
+| `0x07CL` | [SHA-256-DIGEST](0x07CL-sha-256-digest.md) | BINARY | תוצאת SHA-256 |
+| `0x07DL` | [SHA1-DIGEST](0x07DL-sha1-digest.md) | BINARY | תוצאת SHA-1 (למטרות זיהוי כמו מזהה אובייקט של git) |
+| `0x07EL`/`0x07FL` | [OPAQUE-BYTES](0x07EL-opaque-bytes.md) | BINARY | רצף בייטים שמשמעותו וצורתו אינן ידועות. בייטים זוגיים ואי-זוגיים |
+| `0x080L` | [BIT-VECTOR](0x080L-bit-vector.md) | BINARY | N סיביות השמורות MSB-first אחרי bit-count |
+| `0x081L` | [DURATION-NANOSECONDS](0x081L-duration-nanoseconds.md) | TIME | זמן שחלף (ננו-שניות) |
 
-- קודים שמזווגים כזוגי-אי-זוגי הם רצפי בייטים באורך משתנה. קוד זוגי הוא מספר זוגי של בייטים, וקוד אי-זוגי הוא מספר אי-זוגי ([רשומות ו-TAG WORD](/he/grammar/record/)).
-- קוד ישיר שאינו בטבלה שמור.
+- קודים המזווגים כזוגי/אי-זוגי הם רצפי בייטים באורך משתנה. בקוד הזוגי מספר הבייטים זוגי, ובקוד האי-זוגי הוא אי-זוגי ([רשומה ו-TAG WORD](../record.md)).
+- הקודים הישירים נמצאים ב-`0x060L~0x081L` ללא Reserved. ‏`0x082L~0x09CL` הם Reserved, ו-`0x09DL~0x09FL` הם [VALUE-ISSUER-2WORD](0x09DL-value-issuer-2word.md)·[4WORD](0x09EL-value-issuer-4word.md)·[16WORD](0x09FL-value-issuer-16word.md).
 
-## פורמטי Issuer
+## פורמט Issuer {#issuer-형식}
 
-פורמט שאין לו קוד ישיר מוצב כמספר פורמט תחת ה-Issuer של הגוף שקבע אותו. פורמט מקובל שאין לו גוף מתקנן מוצב תחת ADHOC (`0x0001`), ופורמט ייחודי של GEUL מוצב תחת GEUL (`0x0000`).
+פורמט שאינו בקוד ישיר ממוקם תחת ה-Issuer של הגוף שקבע אותו, כמספר Codec. פורמט מקובל שאין לו גוף קובע ממוקם תחת ADHOC (‏`0x00000002`). פורמטים ייחודיים ל-GEUL (OPAQUE-BYTES, ‏BIT-VECTOR, ‏DURATION-NANOSECONDS) הם קודים ישירים.
 
-| Issuer | פורמטים לדוגמה |
+| Issuer | דוגמאות לפורמטים |
 |---|---|
-| GEUL `0x0000` | DURATION-NANOSECONDS, OPAQUE-BYTES, BIT-VECTOR |
-| ADHOC `0x0001` | BFLOAT16, וקטורים של מספרים שלמים וממשיים, טנסורים, מספרים מרוכבים, שברים, קטעים, קווטרניונים, BLAKE3 |
-| IETF `0x0020` | URI יחסי, CRC32C, כתובות IPv4·IPv6 |
-| IEEE `0x0040` | IEEE 754 decimal32/64/128, חותמת זמן POSIX בננו-שניות, כתובת MAC |
-| KHRONOS `0x0041` | פיקסלים RGBA8·BGRA8 |
-| ONNX `0x0043`, OCP `0x0044` | FP8, FP4 |
-| BIPM `0x0060` | חותמת זמן TAI |
-| NIST `0x0062` | SHA-512, SHA3-256 |
-| GPS `0x0063` | חותמת זמן GPS |
+| ADHOC `0x00000002` | BFLOAT16, וקטורים של מספרים שלמים וממשיים, טנזורים, מספרים מרוכבים, שברים, טווחים, קווטרניונים, BLAKE3 |
+| IETF `0x00000007` | URI יחסי, CRC32C, כתובות IPv4·IPv6 |
+| IEEE `0x0000000D` | IEEE 754 decimal32/64/128, חותמת זמן POSIX בננו-שניות, כתובת MAC |
+| KHRONOS `0x0000000E` | פיקסלים RGBA8·BGRA8 |
+| ONNX `0x00000010`, OCP `0x00000011` | FP8, FP4 |
+| BIPM `0x00000013` | חותמת זמן TAI |
+| NIST `0x00000015` | SHA-512, SHA3-256 |
+| GPS `0x00000016` | חותמת זמן GPS |
 
-- מפענח שאינו מכיר את הפורמט יודע רק את המשפחה לפי מספר הפורמט, ומדלג על ה-Payload.
-- ערכים גדולים כמו תמונות וסרטונים מומלץ להצביע עליהם באמצעות URI ו-SHA-256 ולא להטמיע אותם ישירות.
-- יצירה שבתוך רצף בייטים כפופה לרישיון המקורי שלה. המקור והרישיון נרשמים ב-Meta.
+- מפענח שאינו מכיר את הפורמט יודע עד ה-Issuer ומספר ה-Codec, ומדלג באמצעות Length.
+- מסמך ה-Codec מונח תחת `codecs/` של אותו Issuer, לפי מספר ה-Codec של הרשומה. לדוגמה: CRC32C של IETF נמצא ב-`0x00000007/codecs/0x0000C000/` ([כתובת פרסום ורשימת גרסאות](../publishing.md)).
+- ביצירות גדולות כמו תמונות וסרטונים מומלץ להפנות באמצעות URI ו-SHA-256 ולא להכניסן ישירות.
+- יצירה שבתוך רצף הבייטים כפופה לרישיון המקורי שלה. מקור ורישיון נרשמים כ-Meta.
 
-## קבוצות פורמטים
+## קבוצות פורמטים {#형식-묶음}
 
-הפריסה, הפירוש, התקינות והדוגמאות של כל פורמט נמצאים במסמך של הקבוצה.
+התיאור לכל קבוצה נמצא להלן. הפריסה, הפירוש, התוקף והדוגמאות של כל פורמט נמצאים במסמך הפורמט.
 
 | קבוצה | משפחה | פורמטים |
 |---|---|---|
-| [numeric](/he/grammar/value/numeric/) | NUMERIC | BOOL, מספרים שלמים, נקודה צפה, קואורדינטות, QUANTITY, FRACTION |
-| [decimal](/he/grammar/value/decimal/) | DECIMAL | SIGNED-DECIMAL, UNSIGNED-DECIMAL, IEEE 754 decimal32/64/128 |
-| [time](/he/grammar/value/time/) | TIME | תאריך, שעה, חותמת זמן, זמן שחלף, EDTF, תאריך GEDCOM |
-| [text](/he/grammar/value/text/) | TEXT | טקסט UTF-8, טקסט עם שפה, URI, קוד שפה |
-| [binary](/he/grammar/value/binary/) | BINARY | UUID, digest, CRC, כתובות רשת, רצף בייטים לא מזוהה, וקטור ביטים |
-| [vector](/he/grammar/value/vector/) | NUMERIC | וקטורים צפופים של מספרים שלמים וממשיים, נקודות ותיבות תוחמות, פיקסלים RGBA·BGRA |
-| [tensor](/he/grammar/value/tensor/) | NUMERIC | טנסורים dense ו-packed עם פורמט, rank ו-shape |
-| [etc](/he/grammar/value/etc/) | NUMERIC | מספרים מרוכבים, שברים, קטעים סגורים, קווטרניונים |
+| [numeric](#numeric) | NUMERIC | BOOL, מספרים שלמים, נקודה צפה, קואורדינטות, QUANTITY, FRACTION |
+| [decimal](#decimal) | DECIMAL | SIGNED-DECIMAL, UNSIGNED-DECIMAL, IEEE 754 decimal32/64/128 |
+| [time](#time) | TIME | תאריך, שעה, חותמת זמן, זמן שחלף, EDTF, תאריך GEDCOM |
+| [text](#text) | TEXT | טקסט UTF-8, טקסט בעל שפה, URI, קוד שפה |
+| [binary](#binary) | BINARY | UUID, digest, CRC, כתובת רשת, רצף בייטים לא ידוע, וקטור סיביות |
+| [vector](#vector) | NUMERIC | וקטורים צפופים של מספרים שלמים וממשיים, נקודה ותיבה תוחמת, פיקסלים RGBA·BGRA |
+| [tensor](#tensor) | NUMERIC | טנזורים dense·packed עם פורמט, rank ו-shape |
+| [etc](#etc) | NUMERIC | מספרים מרוכבים, שברים, טווחים סגורים, קווטרניונים |
 
-- הקבוצות vector, tensor ו-etc הן כולן פורמטי Issuer (ADHOC, KHRONOS) של משפחת NUMERIC.
+- הקבוצות vector, ‏tensor ו-etc הן כולן פורמטי Issuer (ADHOC, ‏KHRONOS) של משפחת NUMERIC.
 
-## טקסט
+### numeric {#numeric}
 
-טקסט עם שפה וטקסט בלי שפה הם ערכים שונים. "Paris" (מחרוזת) ו-"Paris" (בצרפתית) אינם זהים.
+פורמטי המספרים הבסיסיים של משפחת NUMERIC. ממוקמים בקודים הישירים `0x060L~0x067L`.
 
-| פורמט | איפה משתמשים |
-|---|---|
-| UTF8-TEXT | מחרוזת בלי שפה כמו מזהה, קוד, שם קובץ ו-ID חיצוני |
-| UTF8-LANGUAGE-TEXT | טקסט עם שפה כמו שם, כותרת ומשפט |
+- יש BOOL, מספרים שלמים עם סימן וללא סימן, נקודה צפה בינארית של IEEE 754, קואורדינטות של כדור הארץ (WGS 84) ושל גרמי שמים, QUANTITY המאגד כמות, יחידה וגבולות, ו-FRACTION, שבר בכתיב המקור.
+- מספר שלם נכתב ב-WORD המינימלי שהערך נכנס בו.
+- לפורמטי Issuer סקלריים קטנים (BFLOAT16, ‏FP8, ‏FP4) הוקצו רק מספרי Codec ואין להם מפרט מפורט (בעיה פתוחה ב-[Value](#열린-문제)).
+- וקטורים, טנזורים, מספרים מרוכבים, שבר מצומצם (RATIONAL-I64) וטווחים הם גם משפחת NUMERIC, אך מכיוון שהם פורמטי Issuer הם ממוקמים בקבוצות [vector](#vector), ‏[tensor](#tensor) ו-[etc](#etc).
 
-```
-UTF8-LANGUAGE-TEXT
-TAG WORD          0000 1LLL L100 101P   (P = הטקסט במספר אי-זוגי של בייטים)
-[Length extension TAG]
-שפה               רשומת LANGUAGE-SHORT-CODE או LANGUAGE-BCP47-CODE
-טקסט              בייטים של UTF-8 (אם אי-זוגי, 0x00 בסוף)
-```
+### decimal {#decimal}
 
-- הטקסט הוא UTF-8 תקין ונשמר כמות שהוא במקור. נרמול הוא באחריות מי שמשווה ומאנדקס.
-- שם משותף לכמה שפות נכתב עם שפה `mul`, ושפה לא מוכרעת עם `und`. מחרוזת שאין לה תוכן לשוני היא UTF8-TEXT.
+משפחת DECIMAL היא פורמטים של מספרים עשרוניים מדויקים. ממוקמים בקודים הישירים `0x068L~0x069L`.
 
-דוגמה: `"Douglas Adams"@en` (13 בייטים, אי-זוגי)
+- הקודים הישירים SIGNED-DECIMAL ו-UNSIGNED-DECIMAL נכתבים כ-`C × 10^E` ונושאים כפי שהם את מספר הספרות של הכתיב המקורי. `1.20` (‏`C=120, E=−2`) ו-`1.2` (‏`C=12, E=−1`) הן רשומות שונות. שוויון ערכים ושימור ה-quantum הם בעיה פתוחה של [SIGNED-DECIMAL](0x068L-signed-decimal.md#열린-문제).
+- קידוד DPD·BID של IEEE 754 decimal32/64/128 הוא פורמט של ה-Issuer ‏IEEE (‏`0x0000000D`).
 
-```
-0CCB  08C6 656E  446F 7567 6C61 7320 4164 616D 7300
-TAG   שפה en     D o  u g  l a  s ␠  A d  a m  s (ריפוד)
-```
+### time {#time}
 
-## עשרוני וכמות
-
-מספר עשרוני מדויק נכתב כ-`C × 10^E`. המעריך `E` הוא 32 ביט, והמקדם `C` הוא בשיטת המשלים ל-2 במינימום WORD. הוא שומר את מספר הספרות של הכתיב המקורי: `1.20` הוא `C=120, E=−2`, ו-`1.2` הוא `C=12, E=−1`. שני הכתיבים מייצגים את אותו מספר אך הם רשומות נפרדות עם בייטים שונים. המקודד אינו מנרמל את הכתיב באופן שרירותי. שוויון הערכים של שתי הרשומות והמשמעות של quantum (ספרות משמעותיות) הם שאלה פתוחה ([SIGNED-DECIMAL](/he/grammar/value/decimal/signed-decimal/#שאלות-פתוחות)).
-
-QUANTITY מכילה כמות, יחידה וגבולות כערך אחד.
-
-```
-TAG WORD          0000 1LLL L000 0110
-[Length extension TAG]
-כמות              רשומת Value מספרית (שלם, BINARY-FLOAT, עשרוני, שבר)
-יחידה             רשומת Reference (פריט יחידה), 0x0000 אם אין יחידה
-גבול תחתון        רשומת Value מספרית, 0x0000 ABSENT אם הושמט
-גבול עליון        רשומת Value מספרית, 0x0000 ABSENT אם הושמט
-```
-
-- היחידה היא חלק מהערך. לא כותבים אותה בנפרד במקום אחר (בלעדיה אי אפשר לדעת אם `652` הוא ק"מ או מטר).
-- לא שומרים ערך שהומר ליחידות SI. אפשר לחשב אותו מהיחידה ומטבלת ההמרה.
-- `0x0000` (ABSENT) הוא סמן שמציין ששדה רשות הושמט ([מסמך מפרט Codec](/he/grammar/codec-spec/)).
-
-דוגמה: `652 km`, טווח `[651, 653]` (km = Q828224 ב-Wikidata)
-
-```
-0F06 0011                    TAG (אורך מורחב 17 WORD)
-0990 0000 0000 028C          כמות 652
-0120 000C A340               יחידה Q828224
-0990 0000 0000 028B          גבול תחתון 651
-0990 0000 0000 028D          גבול עליון 653
-```
-
-## תאריך
+משפחת TIME היא פורמטים של תאריך ושעה. ממוקמים בקודים הישירים `0x06AL~0x071L` ו-`0x081L` (DURATION-NANOSECONDS).
 
 | דיוק | פורמט |
 |---|---|
 | תאריך (לוח גרגוריאני) | GREGORIAN-DATE |
-| שנה·חודש, אי-ודאות (`1971~`), קטע | EDTF |
-| כתיב מקורי של לוח שנה אחר (יוליאני וכד') | GEDCOM-DATE |
+| שנה וחודש, אי-ודאות, טווח | EDTF |
+| כתיב מקורי של לוח שנה אחר (יוליאני וכו') | GEDCOM-DATE |
+| שעה | חותמות זמן POSIX·TAI·GPS |
+| זמן שחלף | DURATION-SECONDS, DURATION-NANOSECONDS |
+
+- תאריך שאפשר לכתוב ב-GREGORIAN-DATE אינו נכתב ב-EDTF.
+- חותמות זמן בננו-שניות ופורמטי TAI·GPS הם פורמטים תחת ה-Issuer של גוף התקינה המתאים (IEEE, ‏BIPM, ‏GPS).
+
+### text {#text}
+
+משפחת TEXT היא פורמטים של טקסט ושל מזהי מחרוזת. ממוקמים בקודים הישירים `0x072L~0x07AL`.
+
+- מחרוזת חסרת שפה היא UTF8-TEXT, וטקסט בעל שפה כמו שם, כותרת ומשפט הוא UTF8-LANGUAGE-TEXT.
+- גם קודי שפה (LANGUAGE-SHORT-CODE, ‏LANGUAGE-BCP47-CODE) הם משפחת TEXT.
+- רצף בייטים באורך משתנה מוצג בזוג Codec זוגי/אי-זוגי. אם הסיבית הנמוכה ביותר היא `1`, מספר הבייטים אי-זוגי והבייט התחתון של ה-WORD האחרון הוא padding של `0x00` ([רשומה ו-TAG WORD](../record.md)).
+
+### binary {#binary}
+
+משפחת BINARY היא פורמטים של רצפי בייטים. ממוקמים בקודים הישירים `0x07BL~0x080L`.
+
+- UUID, ‏SHA-256, ‏SHA-1, רצף בייטים לא ידוע (OPAQUE-BYTES) ווקטור סיביות (BIT-VECTOR) הם קודים ישירים. שאר ה-digest, ‏CRC32C וכתובות IPv4·IPv6·MAC הם פורמטי Issuer.
+- ערכים בגודל קבוע (UUID, ‏digest, כתובת) גודלם קבוע, ולכן אין להם זוג זוגי/אי-זוגי.
+- מדיה ציבורית כמו תמונות וסרטונים ממוקמת בפורמטים של ה-Issuer ‏IANA (‏`0x00000008`). מספרי Codec מוקצים בזוגות זוגי/אי-זוגי וה-Payload הוא רצף בייטים. תקרת ה-Length היא 2^32−1 WORD. ערכים גדולים מומלץ להפנות אליהם באמצעות URI ו-SHA-256 ולא להכניס ישירות.
+- יצירה שבתוך רצף הבייטים כפופה לרישיון המקורי שלה. מקור ורישיון נרשמים כ-Meta.
+
+### vector {#vector}
+
+פורמטי וקטור הם פורמטי Issuer של משפחת NUMERIC. וקטורים צפופים של מספרים שלמים וממשיים ונקודה ותיבה תוחמת ממוקמים ב-ADHOC (‏`0x00000002`) במספרי Codec ‏`0x00000500`~`0x0000050C`, ופורמטי פיקסלים תחת KHRONOS (‏`0x0000000E`).
+
+- רכיבי וקטור צפוף נשמרים ברצף ב-big-endian.
+- מכיוון שהם פורמטי Issuer, ב-Codec TAG של ההרחבה מצטרפים Issuer של 2 WORD ומספר Codec של 2 WORD.
+
+### tensor {#tensor}
+
+פורמטי טנזור הם פורמטי Issuer של משפחת NUMERIC. ממוקמים ב-ADHOC (‏`0x00000002`) במספרי Codec ‏`0x00000600`~`0x00000601`.
+
+- DESCRIBED-DENSE-TENSOR נושא פורמט רכיב, ‏rank, ‏shape ו-payload צפוף C-contiguous.
+- DESCRIBED-PACKED-TENSOR נושא פורמט packed, ‏rank, ‏shape ו-payload ארוז low-bit-first בתוך octet.
+
+### etc {#etc}
+
+פורמטי מספרים אחרים הם פורמטי Issuer של משפחת NUMERIC. ממוקמים ב-ADHOC (‏`0x00000002`) במספרי Codec ‏`0x00000700`~`0x00000704`.
+
+- יש מספרים מרוכבים (COMPLEX64, ‏COMPLEX128), שבר מנורמל (RATIONAL-I64), טווח סגור של binary64 וקווטרניון של binary32.
+
+## טקסט {#텍스트}
+
+טקסט בעל שפה וטקסט חסר שפה הם ערכים שונים. "Paris" (מחרוזת) ו-"Paris" (צרפתית) אינם שווים.
+
+| פורמט | היכן משתמשים |
+|---|---|
+| UTF8-TEXT | מחרוזת חסרת שפה כמו מזהה, קוד, שם קובץ ו-ID חיצוני |
+| UTF8-LANGUAGE-TEXT | טקסט בעל שפה כמו שם, כותרת ומשפט |
+
+```
+UTF8-LANGUAGE-TEXT
+TAG WORD          0000 0111 100P LLLL   (P = בייטי הטקסט אי-זוגיים)
+[Length TAG הרחבה]
+שפה               רשומת LANGUAGE-SHORT-CODE או LANGUAGE-BCP47-CODE
+טקסט              בייטי UTF-8 (אם אי-זוגי, האחרון 0x00)
+```
+
+- הטקסט הוא UTF-8 well-formed ונשמר כפי שהוא במקור. הנרמול באחריות הצד שמשווה ומאנדקס.
+- שם משותף לשפות רבות נכתב עם השפה `mul`, ושפה לא מוגדרת עם `und`. מחרוזת חסרת תוכן לשוני היא UTF8-TEXT.
+
+דוגמה: `"Douglas Adams"@en` (13 בייטים, אי-זוגי)
+
+```
+0799  0761 656E  446F 7567 6C61 7320 4164 616D 7300
+TAG   שפה en    D o  u g  l a  s ␠  A d  a m  s (padding)
+```
+
+## מספרים עשרוניים וכמויות {#10진수와-수량}
+
+מספר עשרוני מדויק נכתב כ-`C × 10^E`. המעריך `E` הוא 32 סיביות, והמקדם `C` הוא במשלים ל-2 ב-WORD המינימלי. מספר הספרות של הכתיב המקורי נשמר כפי שהוא: `1.20` הוא `C=120, E=−2`, ו-`1.2` הוא `C=12, E=−1`. שני הכתיבים מייצגים אותו מספר אך הם רשומות נפרדות שהבייטים שלהן שונים. המקודד אינו מנרמל את הכתיב באופן שרירותי. שוויון הערכים של שתי הרשומות ומשמעות ה-quantum (ספרות משמעותיות) הם בעיה פתוחה ([SIGNED-DECIMAL](0x068L-signed-decimal.md#열린-문제)).
+
+QUANTITY נושא כמות, יחידה וגבולות כערך אחד.
+
+```
+TAG WORD          0000 0110 0110 LLLL
+[Length TAG הרחבה]
+כמות              רשומת Value מספרית (מספר שלם, BINARY-FLOAT, מספר עשרוני, שבר)
+יחידה             רשומת Reference (פריט יחידה), ללא יחידה 0x0000
+חסם תחתון         רשומת Value מספרית, אם מושמט 0x0000 ABSENT
+חסם עליון         רשומת Value מספרית, אם מושמט 0x0000 ABSENT
+```
+
+- היחידה היא חלק מהערך. לא רושמים את היחידה בנפרד במקום אחר (אם מפרידים, אי אפשר לדעת אם `652` הוא ק"מ או מטר).
+- לא נושאים ערך שהומר ליחידות SI. אפשר לחשב אותו מהיחידה ומטבלת ההמרה.
+- ‏`0x0000` הוא סימן ABSENT שפירושו ששדה אופציונלי הושמט ([מסמך המפרט של Codec](../codec-spec.md)).
+
+דוגמה: `652 km`, טווח `[651, 653]` (ק"מ = Q828224 ב-Wikidata)
+
+```
+066E 0011                    TAG (אורך מורחב 17 WORD)
+0683 0000 0000 028C          כמות 652
+0142 000C A340               יחידה Q828224
+0683 0000 0000 028B          חסם תחתון 651
+0683 0000 0000 028D          חסם עליון 653
+```
+
+## תאריך {#날짜}
+
+| דיוק | פורמט |
+|---|---|
+| תאריך (לוח גרגוריאני) | GREGORIAN-DATE |
+| שנה וחודש, אי-ודאות (`1971~`), טווח | EDTF |
+| כתיב מקורי של לוח שנה אחר (יוליאני וכו') | GEDCOM-DATE |
 | שעה | חותמות זמן POSIX·TAI·GPS |
 
-- תאריך שאפשר לכתוב ב-GREGORIAN-DATE לא נכתב ב-EDTF.
+- תאריך שאפשר לכתוב ב-GREGORIAN-DATE אינו נכתב ב-EDTF.
 
-## שאלות פתוחות
+## בעיות פתוחות {#열린-문제}
 
-- פורמטי מדיה פומביים (JPEG, PNG, MP4, MOV וכד') מוצבים כמספרי פורמט BINARY תחת ה-Issuer של IANA (`0x0021`). איך מנהלים את טבלת ההתאמה בין סוג מדיה למספר פורמט.
-- הרשימה הסופית של קודים ישירים ל-Value. נקבעת אחרי מדידת תדירות ה-Value במדגם של חקיקה ושיחות עסקיות (מועמדים: סכום כסף, אחוז, טווח תאריכים).
-- המפרט המפורט והמיקום של שבעה סקלרים קטנים (ADHOC BFLOAT16, ארבעה FP8 של ONNX, OCP FP8-E8M0FNU ו-FP4-E2M1FN). טרם הוחלט אם להעביר אותם לטווח השמור של קודים ישירים של NUMERIC (`0x08`~`0x0F`). כרגע הוקצו להם רק מספרי פורמט.
+- פורמטי מדיה ציבוריים (JPEG, ‏PNG, ‏MP4, ‏MOV וכו') ממוקמים במספרי Codec של ה-Issuer ‏IANA (‏`0x00000008`). דרך לנהל את טבלת ההתאמה בין סוג מדיה למספר Codec.
+- הרשימה הסופית של הקודים הישירים של Value. תיקבע לאחר מדידת תדירות ה-Value במדגם של חוקים ושיחות עבודה (מועמדים: סכום כסף, אחוז, טווח תאריכים).
+- המפרט המפורט והפריסה של 7 הסקלרים הקטנים (ADHOC ‏BFLOAT16, ארבעת ה-FP8 של ONNX, ‏FP8-E8M0FNU·FP4-E2M1FN של OCP). טרם הוחלט אם להעבירם לקודים ישירים. כרגע הוקצו רק מספרי Codec.

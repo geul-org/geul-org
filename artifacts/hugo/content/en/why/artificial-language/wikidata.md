@@ -96,7 +96,7 @@ GEUL does not invent new identifiers for Wikidata.
 It uses them as they are.
 
 GEUL's grammar has dedicated References for Wikidata.
-[WIKIDATA-QID](/grammar/reference/wikidata-qid/) writes the number of a Q-ID, and [WIKIDATA-PID](/grammar/reference/wikidata-pid/) the number of a P-ID, as an unsigned integer.
+[WIKIDATA-QID](/grammar/reference/0x014l-wikidata-qid/) writes the number of a Q-ID, and [WIKIDATA-PID](/grammar/reference/0x019l-wikidata-pid/) the number of a P-ID, as an unsigned integer.
 Q42 is the integer 42. P31 is the integer 31.
 Because they are integers, not strings, comparing them for equality needs no normalization.
 
@@ -149,7 +149,7 @@ Numbers that are close are not close in meaning.
 Q42 is Douglas Adams; Q41 is Greece, and Q43 is Turkey.
 
 GEUL is also researching another kind of identifier.
-[SIDX](/grammar/reference/geul-sidx/) (Semantic-aligned Index), a semantically aligned identifier that gives close values to things that are close in meaning.
+[SIDX](/grammar/reference/0x00fl-geul-sidx/) (Semantic-aligned Index), a semantically aligned identifier that gives close values to things that are close in meaning.
 The goal is to put meaning into the bits themselves,
 so that the upper bits alone tell you whether something is a person, a place, or an organization.
 
@@ -158,7 +158,7 @@ The grammar only reserves a place for it: the GEUL-SIDX Reference.
 Its width is not decided. 64 bits, 256 bits and others are under consideration, and the choice will follow the statistics.
 No SIDX has been assigned yet.
 So today's Wikidata documents are written with Q-IDs, without SIDX.
-Once SIDX values are assigned, an existing identifier and the SIDX of the same thing will be linked with [SAME-NODE](/grammar/edge/same-node/).
+Once SIDX values are assigned, an existing identifier and the SIDX of the same thing will be linked with [SAME-NODE](/grammar/edge/0x0a1l-same-node/).
 
 This is where Wikidata comes in again.
 SIDX research starts from Wikidata's classification system and frequency statistics.

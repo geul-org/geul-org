@@ -96,7 +96,7 @@ GEUL no inventa identificadores nuevos para Wikidata.
 Los usa tal como son.
 
 La gramática de GEUL tiene References dedicadas a Wikidata.
-[WIKIDATA-QID](/es/grammar/reference/wikidata-qid/) escribe el número de un Q-ID, y [WIKIDATA-PID](/es/grammar/reference/wikidata-pid/) el de un P-ID, como entero sin signo.
+[WIKIDATA-QID](/es/grammar/reference/0x014l-wikidata-qid/) escribe el número de un Q-ID, y [WIKIDATA-PID](/es/grammar/reference/0x019l-wikidata-pid/) el de un P-ID, como entero sin signo.
 Q42 es el entero 42. P31 es el entero 31.
 Como son enteros y no cadenas, compararlos no requiere normalización.
 
@@ -149,7 +149,7 @@ Números cercanos no significan significados cercanos.
 Q42 es Douglas Adams; Q41 es Grecia y Q43 es Turquía.
 
 GEUL también investiga otro tipo de identificador.
-[SIDX](/es/grammar/reference/geul-sidx/) (Semantic-aligned Index), un identificador semánticamente alineado que da valores cercanos a cosas de significado cercano.
+[SIDX](/es/grammar/reference/0x00fl-geul-sidx/) (Semantic-aligned Index), un identificador semánticamente alineado que da valores cercanos a cosas de significado cercano.
 El objetivo es poner el significado en los propios bits,
 de modo que los bits superiores basten para saber si algo es una persona, un lugar o una organización.
 
@@ -158,7 +158,7 @@ La gramática solo le reserva un lugar: la Reference GEUL-SIDX.
 Su anchura no está decidida. Se estudian 64 bits, 256 bits y otras, y se elegirá según las estadísticas.
 Todavía no se ha asignado ningún SIDX.
 Por eso los documentos actuales de Wikidata se escriben con Q-ID, sin SIDX.
-Cuando se asignen valores SIDX, el identificador existente y el SIDX de una misma cosa se enlazarán con [SAME-NODE](/es/grammar/edge/same-node/).
+Cuando se asignen valores SIDX, el identificador existente y el SIDX de una misma cosa se enlazarán con [SAME-NODE](/es/grammar/edge/0x0a1l-same-node/).
 
 Aquí vuelve a entrar Wikidata.
 La investigación de SIDX parte del sistema de clasificación y de las estadísticas de frecuencia de Wikidata.

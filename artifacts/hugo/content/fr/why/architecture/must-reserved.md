@@ -130,7 +130,7 @@ Le coût du remplissage ? IPv4 nous l'a montré. Il est irréversible.
 
 ## Principe de conception
 
-Le cinquième principe de conception de la [grammaire](/fr/grammar/overview/) GEUL v1 :
+Le cinquième principe de conception de la [grammaire](/fr/grammar/) GEUL v1 :
 
 > **Laisser vide.** La plus grande partie de l'espace de bits est gardée pour l'avenir. Les codes directs ne peuvent pas être récupérés ; seuls les formats à fréquence confirmée en reçoivent un.
 

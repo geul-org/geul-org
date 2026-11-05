@@ -112,7 +112,7 @@ GEUL Go库与`geul`命令行工具。
 
 SIDX（Semantic-aligned Index）分配研究。
 
-研究如何根据维基数据使用统计分配SIDX——一种为语义相近的实体赋予相近编号的语义地址。其中包含旧的Entity 48位属性模式、编码脚本和码本，目前尚未产出SIDX分配结果。SIDX的规范定义是文法中的[GEUL-SIDX](/zh/grammar/reference/geul-sidx/)。
+研究如何根据维基数据使用统计分配SIDX——一种为语义相近的实体赋予相近编号的语义地址。其中包含旧的Entity 48位属性模式、编码脚本和码本，目前尚未产出SIDX分配结果。SIDX的规范定义是文法中的[GEUL-SIDX](/zh/grammar/reference/0x00fl-geul-sidx/)。
 
 | | |
 |---|---|

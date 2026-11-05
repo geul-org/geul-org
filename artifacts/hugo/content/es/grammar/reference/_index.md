@@ -1,129 +1,185 @@
 ---
 title: "Reference"
-weight: 40
+weight: 90
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "reference", "LOCAL", "quantifier"]
-summary: "Reference es un registro que apunta a un objeto. Los 4 bits de Codec fijan el sistema de identificación (LOCAL, Wikidata, documento externo, etc.) y los 3 bits de Quantifier fijan la cuantificación (identificado, genérico, universal, variable, etc.). El Codec reservado 0000 es el conjunto de marcadores de posición."
+summary: "Reference es un registro que señala un objeto."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Reference es un registro que apunta a un objeto. El objeto puede ser una entidad, un concepto, un documento u otro Edge. Se apunta con un ID, no con un nombre.
+Reference es un registro que señala un objeto. El objeto puede ser una entidad, un concepto, un documento u otro Edge. Se señala con un ID, no con un nombre.
 
-## Layout
+## Layout {#레이아웃}
 
 ```
-TAG WORD          0000 0LLL LCCC CQQQ
+TAG WORD          000K KKKC CCCC LLLL      secciones 0~2 (0x000L~0x05FL)
 [TAG de extensión de Length]
-[IMPORT ID]       si es EXTERNAL-POINTER (1/2/4/8 WORD)
-[Issuer]          si es EXTERNAL-ISSUER (1/2/4/16 WORD)
-[ID de documento] si es EXTERNAL-ISSUER (4 WORD)
+[IMPORT ID]       cuando es EXTERNAL-POINTER (1/2/4 WORD)
+[Issuer]          cuando es EXTERNAL-ISSUER (2/4/16 WORD)
+[ID de documento] cuando es EXTERNAL-ISSUER (4 WORD)
 ID de destino     todo el resto
 ```
 
-- `LLLL` es el número total de WORD, incluido el TAG WORD, menos 1 ([Registro y TAG WORD](/es/grammar/record/)).
-- El Codec son los 4 bits `CCCC` y el Quantifier los 3 bits `QQQ`. Los 7 bits inferiores del TAG WORD son `CCCC << 3 | QQQ`.
-- El ID de destino es un entero sin signo big endian y se escribe con el **ancho más corto**. El ancho es lo que queda de Length al restar los campos anteriores.
-- El ID de destino `0` se escribe con 1 WORD `0x0000`. En los demás casos no se antepone un WORD `0x0000`.
-- Si el valor entero es el mismo, es el mismo ID. El ancho no forma parte del ID.
+- `LLLL` es el número total de WORD incluido el TAG WORD − 1 ([Registros y TAG WORD](../record.md)).
+- Reference ocupa 96 casillas en las secciones 0~2 (`w < 0x0600`). Sección 0, entidades: `0x000L~0x01FL`; sección 1, EXTERNAL: `0x020L~0x03FL`; sección 2, otros: `0x040L~0x05FL`.
+- El Codec se escribe como tabla de códigos (tabla de abajo). En el sistema 5Q, un código contiene a la vez el sistema de identificación y la cuantificación. La cuantificación de REFERENCE-ISSUER la fija el documento del Issuer.
+- El ID de destino es un entero big-endian sin signo y se escribe con el **ancho más corto**. El ancho es el resto de Length tras restar los campos anteriores.
+- El ID de destino `0` se escribe como 1 WORD `0x0000`. En los demás casos no se antepone ningún WORD `0x0000`.
+- Si el valor entero es igual, es el mismo ID. El ancho no forma parte del ID.
 - Todos los Codec usan el ancho más corto. El Codec no fija el ancho del ID de destino.
-- [ISSUER-POINTER](/es/grammar/reference/issuer-pointer/) y [DOC-POINTER](/es/grammar/reference/doc-pointer/) no siguen este layout. No tienen ID de destino y solo llevan el Issuer (y el ID de documento y el ID de versión).
+- [ISSUER-POINTER](0x040L-issuer-pointer.md), [DOC-POINTER](0x041L-doc-pointer.md) y [CODEC-POINTER](0x042L-codec-pointer.md) no siguen este layout. No tienen ID de destino y solo contienen el Issuer (y el ID de documento, el Codec ID y el ID de versión).
+- [REFERENCE-ISSUER](#reference-issuer) tampoco sigue este layout. Es TAG, Issuer, número de Codec de 2 WORD y Payload. El Payload lo fija el documento de Codec publicado por el Issuer.
 
-## Codec (`CCCC`)
+## Codec {#codec}
 
-| CCCC | Nombre | Clasificación | Destino |
+| TAG ID | Nombre | Clasificación | Destino |
 |---|---|---|---|
-| `0000` | [Marcador de posición](/es/grammar/reference/slot-marker/) | Reservado | No apunta a ningún objeto. Solo se usan marcadores de 1 WORD cuyos 3 bits inferiores son el número de marcador: `0x0000` ABSENT (no declarado), `0x0001` UNKNOWN-VALUE (desconocido), `0x0002` NO-VALUE (sin valor) |
-| `0001` | [LOCAL](/es/grammar/reference/local/) | Declara | ID emitido por este documento |
-| `0010` | [GEUL](/es/grammar/reference/geul/) | Declara | Entidad emitida por geul.org |
-| `0011` | [GEUL-SIDX](/es/grammar/reference/geul-sidx/) | Declara | Identificador de alineación semántica que lleva significado en sus bits |
-| `0100` | [WIKIDATA-QID](/es/grammar/reference/wikidata-qid/) | Declara | Elemento de Wikidata. El entero que sigue a `Q` |
-| `0101` | [WIKIDATA-PID](/es/grammar/reference/wikidata-pid/) | Declara | Propiedad de Wikidata. El entero que sigue a `P` |
-| `0110` | [ISSUER-POINTER](/es/grammar/reference/issuer-pointer/) | Señala y declara | El propio Issuer |
-| `0111` | [DOC-POINTER](/es/grammar/reference/doc-pointer/) | Señala y declara | Una versión de un documento publicado por un Issuer |
-| `1000`~`1011` | [EXTERNAL-POINTER-1/2/4/8WORD](/es/grammar/reference/external-pointer/) | Señala | LOCAL ID de un documento importado con IMPORT |
-| `1100`~`1111` | [EXTERNAL-ISSUER-1/2/4/16WORD](/es/grammar/reference/external-issuer/) | Señala y declara | LOCAL ID de un documento publicado por un Issuer |
+| `0x000L~0x002L` | [Marcador de posición](../slot-marker.md) | marcador de posición | No señala ningún objeto. Solo se usan marcadores de 1 WORD: `0x0000` ABSENT (no escrito), `0x0010` UNKNOWN-VALUE (desconocido), `0x0020` NO-VALUE (ninguno) |
+| `0x005L~0x009L` | [LOCAL](0x005L-local.md) | declaración | ID emitido por este documento |
+| `0x00AL~0x00EL` | [GEUL](0x00AL-geul.md) | declaración | entidad que emite geul.org |
+| `0x00FL~0x013L` | [GEUL-SIDX](0x00FL-geul-sidx.md) | declaración | identificador de alineación semántica que lleva significado en los bits |
+| `0x014L~0x018L` | [WIKIDATA-QID](0x014L-wikidata-qid.md) | declaración | elemento de Wikidata. Entero tras la `Q` |
+| `0x019L~0x01DL` | [WIKIDATA-PID](0x019L-wikidata-pid.md) | declaración | propiedad de Wikidata. Entero tras la `P` |
+| `0x020L~0x02EL` | [EXTERNAL-POINTER-1/2/4WORD](0x020L-external-pointer-1word.md) | designación | LOCAL ID de un documento importado con IMPORT |
+| `0x02FL~0x03DL` | [EXTERNAL-ISSUER-2/4/16WORD](0x02FL-external-issuer-2word.md) | designación y declaración | LOCAL ID de un documento publicado por un Issuer |
+| `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | designación y declaración | el propio Issuer |
+| `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | designación y declaración | una versión de un documento publicado por un Issuer |
+| `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | designación y declaración | una versión de un Codec publicado por un Issuer |
+| `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | formato de Issuer | Lo define el Issuer. La clasificación y la casilla del ID de destino las fija el documento del Issuer |
 
-- **Declara** identifica directamente el objeto con un ID fijado por la entidad emisora.
-- **Señala** apunta a un LOCAL dentro de un documento importado con un IMPORT ID. Los 2 bits inferiores son el ancho del IMPORT ID (`00`=1, `01`=2, `10`=4, `11`=8 WORD).
-- **Señala y declara** apunta con un solo registro, sin IMPORT, a otro documento y al objeto que contiene.
-- Si el bit más significativo es `0`, identifica directamente el objeto (un LOCAL de este documento, un ID emitido, el propio Issuer o documento), y si es `1`, apunta a un LOCAL de otro documento.
-- El Codec `0000` está reservado y no se usa como Reference que apunte a un objeto. La excepción es un único conjunto: los WORD `0x0000`~`0x0007` (Codec `0000`, 1 WORD) son [marcadores de posición](/es/grammar/reference/slot-marker/). Ahora se usan tres (`0x0000` ABSENT, `0x0001` UNKNOWN-VALUE, `0x0002` NO-VALUE). Un marcador es válido solo en una posición de campo de registro que tenga exactamente ese WORD como destino CODEC. No se aceptan comodines ni campos sin CODEC, y en las posiciones de registro de HEAD·BODY y en la posición de Edge Id es invalid. `0x0003`~`0x0007` y el Codec `0000` con Payload están reservados.
-- Los sistemas de identificación que no son CC0 (WordNet, etc.) no se ponen como Codec de Reference. Reference tampoco tiene códigos ISSUER, así que no hay dónde trasladarlos como formato Issuer.
+- Reserved son `0x003L~0x004L`, `0x01EL~0x01FL` (sección 0), `0x03EL~0x03FL` (sección 1) y `0x043L~0x05CL` (sección 2, espacio para nuevos sistemas de identificación).
+- El número de sistema se lee con el desplazamiento dentro de la sección `C`. En la sección 0, si `5 <= C < 30`, el sistema es `C / 5` (1~5); en la sección 1, si `C < 30`, el sistema es `6 + C / 5` (6~11).
 
-### TAG de uso frecuente
+| Sistema | Nombre | Identified | Generic | Free-choice | Universal | Variable |
+|---:|---|---|---|---|---|---|
+| 1 | LOCAL | `0x005L` | `0x006L` | `0x007L` | `0x008L` | `0x009L` |
+| 2 | GEUL | `0x00AL` | `0x00BL` | `0x00CL` | `0x00DL` | `0x00EL` |
+| 3 | GEUL-SIDX | `0x00FL` | `0x010L` | `0x011L` | `0x012L` | `0x013L` |
+| 4 | WIKIDATA-QID | `0x014L` | `0x015L` | `0x016L` | `0x017L` | `0x018L` |
+| 5 | WIKIDATA-PID | `0x019L` | `0x01AL` | `0x01BL` | `0x01CL` | `0x01DL` |
+| 6 | EXTERNAL-POINTER-1WORD | `0x020L` | `0x021L` | `0x022L` | `0x023L` | `0x024L` |
+| 7 | EXTERNAL-POINTER-2WORD | `0x025L` | `0x026L` | `0x027L` | `0x028L` | `0x029L` |
+| 8 | EXTERNAL-POINTER-4WORD | `0x02AL` | `0x02BL` | `0x02CL` | `0x02DL` | `0x02EL` |
+| 9 | EXTERNAL-ISSUER-2WORD | `0x02FL` | `0x030L` | `0x031L` | `0x032L` | `0x033L` |
+| 10 | EXTERNAL-ISSUER-4WORD | `0x034L` | `0x035L` | `0x036L` | `0x037L` | `0x038L` |
+| 11 | EXTERNAL-ISSUER-16WORD | `0x039L` | `0x03AL` | `0x03BL` | `0x03CL` | `0x03DL` |
+
+- La **declaración** identifica directamente el objeto con un ID fijado por quien lo emite.
+- La **designación** señala un LOCAL dentro de un documento importado con un IMPORT ID. El ancho del IMPORT ID lo fija el sistema: si sistema − 6 es 0, 1 o 2, es 1, 2 o 4 WORD.
+- La **designación y declaración** señala con un solo registro, sin IMPORT, otro documento y un objeto dentro de él. El ancho del Issuer de EXTERNAL-ISSUER es 2, 4 o 16 WORD si sistema − 9 es 0, 1 o 2.
+- `0x020L~0x03DL` (sección 1, sistemas 6~11) señalan LOCAL de otros documentos. Los demás sistemas de declaración identifican directamente el objeto (LOCAL de este documento, ID emitido). Los punteros (sección 2, `0x040L~0x042L`) señalan al propio Issuer, documento o Codec. REFERENCE-ISSUER queda fuera de esta distinción.
+- `0x000L~0x002L` son códigos asignados a marcadores de posición y no se usan como Reference que señale un objeto. Los WORD `0x0000`, `0x0010` y `0x0020` (L 0, 1 WORD) son [marcadores de posición](../slot-marker.md) (`0x0000` ABSENT, `0x0010` UNKNOWN-VALUE, `0x0020` NO-VALUE). Un marcador solo es válido en la posición de un campo de registro que tenga exactamente ese WORD como destino CODEC. No lo aceptan los comodines ni los campos sin CODEC, y en las posiciones de registro de HEAD·BODY y en las de Edge Id es invalid. La forma de TAG con Payload en C 0~2 (L ≥ 1) es Reserved.
+- Solo los códigos directos y las publicaciones que ofrece geul.org son CC0. No se ponen como código directo sistemas de identificación que no sean CC0 (WordNet, etc.). La licencia de un formato de Issuer la fija ese Issuer.
+
+### TAG de uso frecuente {#자주-쓰는-tag}
 
 | Registro | WORD |
 |---|---|
-| LOCAL 1 | `0088 0001` |
-| LOCAL 65536 | `0108 0001 0000` |
-| Q5 de Wikidata (persona) | `00A0 0005` |
-| Q691283 de Wikidata | `0120 000a 8c53` |
-| P31 de Wikidata (instance of) | `00A8 001f` |
-| Marcador de posición ABSENT / UNKNOWN-VALUE / NO-VALUE | `0000` / `0001` / `0002` |
+| LOCAL 1 | `0051 0001` |
+| LOCAL 65536 | `0052 0001 0000` |
+| Wikidata Q5 (ser humano) | `0141 0005` |
+| Wikidata Q691283 | `0142 000A 8C53` |
+| Wikidata P31 (instancia de) | `0191 001F` |
+| Marcador de posición ABSENT / UNKNOWN-VALUE / NO-VALUE | `0000` / `0010` / `0020` |
 
-## LOCAL
+## LOCAL {#local}
 
-LOCAL es un ID emitido por este documento. Solo tiene sentido dentro del documento.
+LOCAL es un ID emitido por este documento.
 
-- **Es único.** En un documento, un LOCAL ID apunta a un solo objeto.
+- **Es único.** En un documento, un LOCAL ID señala un solo objeto.
 - **El 0 no se asigna.** Los ID de destino se asignan desde 1.
-- **Se recomienda asignar de forma creciente** (auto increment). El mayor o menor valor del ID no tiene significado.
-- Apunta al mismo objeto a lo largo de las versiones. Un ID eliminado no se reutiliza ([Documento](/es/grammar/document/), Revisión).
-- Para que se pueda apuntar desde fuera del documento, el documento debe tener `DOC-ID`.
-- Que dos LOCAL ID sean distintos no significa que sean objetos distintos en la realidad. Si son iguales, se enlazan con un Edge `SAME-NODE`; si son distintos, con `DIFFERENT-NODE`.
+- **Se recomienda asignar de forma creciente** (auto increment). El tamaño del ID no significa nada.
+- Señala el mismo objeto a través de las versiones. Un ID eliminado no se vuelve a usar (revisión del [documento](../document.md)).
+- Para que se pueda señalar desde fuera del documento, el documento debe tener `DOC-ID`.
+- Que dos LOCAL ID sean distintos no significa que en la realidad sean objetos distintos. Si son iguales se unen con un Edge `SAME-NODE`, y si son distintos, con `DIFFERENT-NODE`.
 
-### Edge Id
+### Edge Id {#edge-id}
 
-Todo Edge pone como primer elemento del Payload un Reference LOCAL. Ese LOCAL ID es el **Edge Id**.
+Todo Edge pone un Reference LOCAL como primer elemento de su Payload. Ese LOCAL ID es el **Edge Id**.
 
 - El Edge Id se puede leer sin conocer el libro de códigos.
 - El LOCAL en la posición de Edge Id es una declaración, y el LOCAL en las demás posiciones del Edge es una mención.
-- El LOCAL que declara un Edge Id usa solo el Quantifier `000`.
-- Los demás Edge se señalan por su Edge Id. Los Edge de este documento, con LOCAL; los de otros documentos, con un Reference que señala.
+- Para declarar un Edge Id solo se usa LOCAL Identified (`0x005L`).
+- Los demás Edge se señalan por Edge Id. Los Edge de este documento se señalan con LOCAL y los de otros documentos con un Reference de designación.
 
-## Apuntar a otros documentos
+## Señalar otros documentos {#다른-문서-가리키기}
 
 | Qué | Cómo |
 |---|---|
 | El propio Issuer | `ISSUER-POINTER` (Issuer) |
-| Una versión de un documento | `DOC-POINTER` (Issuer, ID de documento de 4 WORD, ID de versión de 2 WORD). La versión `0` es la última |
-| Un objeto dentro de un documento publicado (última versión) | `EXTERNAL-ISSUER-*` (Issuer, ID de documento, LOCAL ID) |
-| Un objeto dentro de un documento importado (edición fijada) | Se asigna un IMPORT ID con el Meta `IMPORT-DOC` y se usa `EXTERNAL-POINTER-*` (IMPORT ID, LOCAL ID) |
+| Una versión de un documento | `DOC-POINTER` (Issuer, ID de documento de 4 WORD, ID de versión de 2 WORD). La versión `0` es la más reciente |
+| Una versión de un Codec | `CODEC-POINTER` (Issuer, Codec ID de 2 WORD, ID de versión de 2 WORD). La versión `0` es la más reciente |
+| Un objeto dentro de un documento publicado (el más reciente) | `EXTERNAL-ISSUER-*` (Issuer, ID de documento, LOCAL ID) |
+| Un objeto dentro de un documento importado (edición fija) | Asignar un IMPORT ID con el Meta `IMPORT-DOC` y usar `EXTERNAL-POINTER-*` (IMPORT ID, LOCAL ID) |
 
-- El documento en sí, tanto desde dentro como desde fuera del documento, se señala solo con un DOC-POINTER. Uno mismo es el DOC-POINTER de su propio `DOC-ID`.
-- EXTERNAL-ISSUER sigue la última versión. Para fijar la edición se usa IMPORT.
-- El Issuer se escribe con el ancho más corto en que quepa el valor (1/2/4/16 WORD) y se elige el Codec que corresponde a ese ancho.
-- El ID de documento `0` de cada Issuer se reserva para el documento índice de los términos (herramientas, roles, etc.) que ese Issuer define. El documento índice se recomienda a todos los Issuer y no es obligatorio ([Issuer y publicación](/es/grammar/issuer/#documentos-de-definición-de-términos)).
+- Un documento en sí se señala, dentro o fuera de sí mismo, únicamente con un DOC-POINTER. A sí mismo se señala con el DOC-POINTER de su propio `DOC-ID`. Como excepción, el documento de Codec se señala con CODEC-POINTER (su `DOC-ID` también es CODEC-POINTER).
+- EXTERNAL-ISSUER sigue la versión más reciente. Para fijar la edición se usa IMPORT.
+- El Issuer se escribe con el ancho más corto en que quepa el valor (2/4/16 WORD) y se elige el Codec que corresponde a ese ancho. EXTERNAL-ISSUER y REFERENCE-ISSUER son iguales.
+- El ID de documento `0` de cada Issuer se reserva como documento índice de los términos definidos por ese Issuer (herramientas, roles, etc.). El documento índice se recomienda a todo Issuer y no es obligatorio ([Issuer y publicación](../issuer.md#용어-정의-문서)).
 
-Ejemplo: LOCAL 7 dentro del documento del Issuer `0x0001` con ID de documento `0x0000000000000002`
+Ejemplo: LOCAL 7 dentro del documento `0x0000000000000002` del Issuer `0x00000002`
 
 ```
-0360 0001 0000 0000 0000 0002 0007
+02F7 0000 0002 0000 0000 0000 0002 0007
 ```
 
-## Quantifier (`QQQ`)
+## Quantifier {#quantifier}
 
-| QQQ | Nombre | Significado | Ejemplo |
+| `C % 5` | Nombre | Significado | Ejemplo |
 |---|---|---|---|
-| `000` | Identified | Entidad identificada | Elon Musk, Corea del Sur |
-| `001` | Generic | Afirmación general sobre una clase entera. Admite excepciones | Los soldados obedecen las órdenes |
-| `010` | Free-choice | Cualquier objeto que cumpla la condición | Cualquier soldado |
-| `011` | Universal | Todos los objetos del ámbito | Todos los soldados |
-| `100` | Variable | Variable del discurso | esa persona, esta mujer |
-| `101`~`111` | Reservado | | |
+| `0` | Identified | Individuo identificado | Elon Musk, Corea del Sur |
+| `1` | Generic | Enunciado general sobre toda una clase. Admite excepciones | Los soldados obedecen las órdenes |
+| `2` | Free-choice | Cualquier objeto que cumpla la condición | Cualquier soldado |
+| `3` | Universal | Todos los objetos del ámbito | Todos los soldados |
+| `4` | Variable | Variable de discurso | esa persona, esta mujer |
 
-- **Excepción: en el Codec `0000` (marcador de posición), los 3 bits inferiores no son un Quantifier sino el número de marcador.** El número de marcador y el significado del Quantifier no se corresponden (`0x0001` UNKNOWN-VALUE no es Generic). El Quantifier de esta tabla solo se aplica a los Codec `0001`~`1111`.
-- Generic, a diferencia de Universal, no significa que se aplique sin excepción a todos los objetos individuales. Una expresión de tipo definitorio como "¿qué es un soldado?" puede escribirse como Generic. Si se necesita una definición estricta de concepto o clasificación, se concreta con una relación aparte.
-- El alcance de la cuantificación y la negación los fija no el Reference sino el Edge que lo usa.
-- **Variable** es un objeto del discurso cuyo tipo se conoce pero que aún no se ha identificado.
-  - Una variable con nombre se escribe añadiendo Variable a un LOCAL. El mismo LOCAL ID es la misma variable. El tipo se enlaza con un Edge.
-  - Una variable anónima se escribe añadiendo Variable al Codec de declaración que señala el tipo (GEUL, WIKIDATA-*) (ejemplo: "presidente" de Wikidata + Variable). No se sigue la correferencia y no se puede volver a señalar. Dos variables anónimas no se consideran la misma variable.
-  - Cuando más tarde se confirma el objeto, la variable se enlaza con ese objeto mediante `SAME-NODE`. Todas las expresiones que apuntan a la misma variable se interpretan juntas como ese objeto.
-  - Que dos variables sean distintas no significa que sus objetos reales sean distintos. Si son iguales, se enlazan con `SAME-NODE`; si son distintos, con `DIFFERENT-NODE`.
-  - La variable solo es válida dentro de ese documento y no se usa como identificador permanente.
-  - La Variable de los Codec de señalamiento externo (EXTERNAL-POINTER-*, EXTERNAL-ISSUER-*) es una variable LOCAL del documento al que apunta.
-  - Ejemplo: en "El presidente pronunció un discurso", si la persona no está determinada, se usa la Variable "presidente". Para volver a mencionarla, se pone una Variable LOCAL y se enlaza el tipo "presidente" con un Edge. Si más tarde se confirma que es Obama, esa variable se enlaza con Obama Identified mediante `SAME-NODE`. Todas las expresiones que apuntan a la misma variable se interpretan juntas como Obama.
-- Ejemplo: si se usa Q5 (persona) de Wikidata como Generic, es `00A1 0005` ("las personas …").
+- **La cuantificación solo se lee en el sistema 5Q (sistemas 1~11).** Con el desplazamiento dentro de la sección `C`, la cuantificación es `C % 5` cuando `5 <= C < 30` en la sección 0 y cuando `C < 30` en la sección 1. Como una sección tiene 32 casillas, dividir entre 5 la posición del Codec de 9 bits (`w >> 4`) desalinea la sección 1. Los marcadores (sección 0, `C < 3`) y la sección 2 (punteros, REFERENCE-ISSUER) no tienen cuantificación. El marcador `0x0010` UNKNOWN-VALUE no es Generic. La cuantificación de REFERENCE-ISSUER la fija el documento de Codec publicado por el Issuer.
+- Generic, a diferencia de Universal, no significa que se aplique sin excepción a todo objeto individual. Una expresión definitoria como «qué es un soldado» puede escribirse como Generic. Si hace falta una definición estricta de concepto o clasificación, se concreta con una relación aparte.
+- El alcance y la negación de la cuantificación los fija el Edge que la usa, no el Reference.
+- **Variable** es un objeto del discurso cuyo tipo se conoce pero que aún no está identificado.
+  - Una variable con nombre se escribe añadiendo Variable a LOCAL. El mismo LOCAL ID es la misma variable. El tipo se une con un Edge.
+  - Una variable anónima se escribe añadiendo Variable a un Codec de declaración que señale el tipo (GEUL, WIKIDATA-*) (por ejemplo, «presidente» de Wikidata + Variable). No se sigue la correferencia y no se puede volver a señalar. Dos variables anónimas no se consideran la misma variable.
+  - Cuando más tarde se confirma el objeto, la variable se une a ese objeto con `SAME-NODE`. Todas las expresiones que señalan la misma variable se interpretan a la vez como ese objeto.
+  - Que dos variables sean distintas tampoco significa que los objetos reales sean distintos. Si son iguales se unen con `SAME-NODE`, y si son distintos, con `DIFFERENT-NODE`.
+  - Variable en los Codec de designación externa (EXTERNAL-POINTER-*, EXTERNAL-ISSUER-*) es la variable LOCAL del documento señalado.
+  - Ejemplo: en «El presidente dio un discurso», si la persona no está determinada, se usa Variable de «presidente». Para volver a mencionarla, se pone un LOCAL Variable y se une con un Edge al tipo «presidente». Si más tarde se confirma que es Obama, esa variable se une con `SAME-NODE` a Obama Identified. Todas las expresiones que señalan la misma variable se interpretan a la vez como Obama.
+- Ejemplo: Q5 de Wikidata (ser humano) usado como Generic es `0151 0005` («el ser humano …»).
+
+## REFERENCE-ISSUER {#reference-issuer}
+
+REFERENCE-ISSUER es un formato de Reference definido por un Issuer. Son las tres últimas casillas de la zona Reference. Su layout es igual al de ISSUER de Value y Edge ([Registros y TAG WORD](../record.md#issuer-형식-레코드)).
+
+### Layout {#레이아웃-1}
+
+```
+TAG WORD          0000 0101 11WW LLLL      Codec 0x05DL / 0x05EL / 0x05FL (WW = ancho del Issuer: 01 2, 10 4, 11 16 WORD)
+[TAG de extensión de Length]
+Issuer            2/4/16 WORD (el Codec fija el ancho)
+Número de Codec   2 WORD. Lo define el Issuer
+Payload           Lo fija el documento de Codec publicado por el Issuer
+```
+
+| Codec | Nombre | Ancho del Issuer |
+|---|---|---|
+| `0x05DL` | [REFERENCE-ISSUER-2WORD](0x05DL-reference-issuer-2word.md) | 2 WORD |
+| `0x05EL` | [REFERENCE-ISSUER-4WORD](0x05EL-reference-issuer-4word.md) | 4 WORD |
+| `0x05FL` | [REFERENCE-ISSUER-16WORD](0x05FL-reference-issuer-16word.md) | 16 WORD |
+
+- Cada código tiene su página: [REFERENCE-ISSUER-2WORD](0x05DL-reference-issuer-2word.md), [REFERENCE-ISSUER-4WORD](0x05EL-reference-issuer-4word.md), [REFERENCE-ISSUER-16WORD](0x05FL-reference-issuer-16word.md).
+- El documento de Codec del Issuer GEUL es uno por código y contiene tres FIELD: Issuer (2·4·16 WORD), número de Codec (2 WORD) y Payload (lo fija el Codec del Issuer).
+
+### Interpretación y validez {#해석과-유효성}
+
+- GEUL solo conoce por Length el límite del Payload. El Payload no se interpreta sin libro de códigos.
+- El significado del número de Codec y la cuantificación los fija el Issuer. Lo que se señala también lo fija el documento de Codec publicado por el Issuer.
+- No se aplican las reglas comunes de Reference: el ancho mínimo del ID de destino, la escritura en 1 WORD del ID de destino `0`, el Quantifier, la lectura de cuantificación y sistema por el desplazamiento dentro de la sección, la clasificación en declaración y designación, y lo que se señala.
+- El número de Codec de 2 WORD es igual al del ISSUER de Value y Edge. Si los números no alcanzan, se obtiene otro Issuer.
+- Un decodificador que no conoce el formato llega a conocer el Kind, el Length, el Issuer y el número de Codec, y salta con Length.
+- La licencia de un formato de Issuer la fija ese Issuer ([Issuer y publicación](../issuer.md#라이선스)).
+
+### Páginas relacionadas {#관련-페이지}
+
+- [Registros y TAG WORD](../record.md), [Issuer y publicación](../issuer.md)

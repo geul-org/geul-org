@@ -95,7 +95,7 @@ This is the core idea behind the Semantically-Aligned Index.
 ## Aligning Meaning into the ID
 
 SIDX (Semantically-Aligned Index) is research into building such an ID.
-The GEUL grammar already has a Reference slot that points to a target by SIDX ([GEUL-SIDX](/grammar/reference/geul-sidx/)).
+The GEUL grammar already has a Reference slot that points to a target by SIDX ([GEUL-SIDX](/grammar/reference/0x00fl-geul-sidx/)).
 But its width and assignment method are not decided yet. They will be set from accumulated usage statistics.
 Below, 64 bits is used as an example for explanation.
 

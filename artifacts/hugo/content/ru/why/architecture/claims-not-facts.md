@@ -281,9 +281,9 @@ LLM обучаются на миллиардах предложений.
 **Насколько это достоверно** -- Уровень уверенности
 
 В GEUL такие места есть.
-Edge [SOURCE](/ru/grammar/edge/source/) связывает утверждение с его источником.
-Время, когда пропозиция верна, уточняется через [QUALIFIER](/ru/grammar/edge/qualifier/).
-Миры и сцены берут на себя Edge WORLD и SCENE, а уверенность всего документа — Meta [CONFIDENCE](/ru/grammar/meta/verification/confidence/).
+Edge [SOURCE](/ru/grammar/edge/0x0c0l-source/) связывает утверждение с его источником.
+Время, когда пропозиция верна, уточняется через [QUALIFIER](/ru/grammar/edge/0x0abl-qualifier/).
+Миры и сцены берут на себя Edge WORLD и SCENE, а уверенность всего документа — Meta [CONFIDENCE](/ru/grammar/meta/0x1e8l-confidence/).
 
 Заполнять все не обязательно.
 Но то, что не записано, видно как незаписанное.

@@ -1,21 +1,21 @@
 ---
 title: "Edge"
-weight: 60
+weight: 120
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "edge", "triple", "qualifier", "label"]
-summary: "Edge היא רשומה שקושרת יחד Reference, Value ו-Edge אחרות ומתארת אותן. הרכיב הראשון הוא תמיד Edge Id, ושני הביטים העליונים של ה-Codec קובעים את המשפחה (תיאור, ראיה, ביצוע, TOULMIN)."
+summary: "Edge היא רשומה שקושרת רשומות אחרות כרכיבים ומתארת אותן."
 author: "ג'ונו פארק"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Edge היא רשומה שקושרת רשומות אחרות כרכיבים ומתארת אותן. משפטים כמו "Q42 הוא אדם" או "השם האנגלי של Q42 הוא Douglas Adams" הם כל אחד Edge אחת.
+Edge היא רשומה שקושרת רשומות אחרות כרכיבים ומתארת אותן. היגדים כמו "Q42 הוא אדם" או "השם האנגלי של Q42 הוא Douglas Adams" הם כל אחד Edge אחת.
 
-## פריסה
+## פריסה {#레이아웃}
 
 ```
-TAG WORD          0001 0LLL LCCC CCCC
+TAG WORD          000K KKKC CCCC LLLL      קטעים 5~13 (0x0A0L~0x1BFL)
 [Length extension TAG]
 [Codec extension TAG]  בפורמט Issuer
 Edge Id           רשומת LOCAL Reference
@@ -23,53 +23,59 @@ Edge Id           רשומת LOCAL Reference
 ```
 
 - `LLLL` הוא מספר ה-WORD הכולל, כולל TAG WORD, פחות 1. המפענח מדלג לרשומה הבאה לפי Length בלבד, גם בלי להכיר את ה-Codec.
-- **הרכיב הראשון הוא תמיד Edge Id (LOCAL Reference).** מכיוון שזהו LOCAL Reference (`0088` + ID, Quantifier `000`), אפשר לקרוא את ה-Edge Id גם בלי codebook.
+- **הרכיב הראשון הוא תמיד Edge Id (LOCAL Reference).** מכיוון שזהו LOCAL Reference (`0051` + ID, Identified `0x005L`), אפשר לקרוא את ה-Edge Id גם בלי להכיר את ה-Codec.
 - כל רכיב מוצא את גבולותיו לפי ה-Length של עצמו. המקום שבו נגמר הרכיב האחרון חייב להתלכד בדיוק עם סוף ה-Edge.
 - מבנה הרכיבים (Payload) נקבע במסמך ה-Codec של כל Edge.
 - ל-Codec שיש לו תת-פורמטים (WORLD, TIMELINE, SCENE) יש TAG של WORD אחד לכל Codec שקובע את התת-פורמט.
-- לסדר בין רשומות Edge אין משמעות (אלא אם Codec קבע אחרת, למשל במסמך [TOULMIN](/he/grammar/edge/toulmin/)).
+- לסדר בין רשומות Edge אין משמעות (אלא אם Codec קבע אחרת. למשל: מסמך [TOULMIN](../toulmin/_index.md)).
 - מצביעים ל-Edge אחרת באמצעות Edge Id. Edge במסמך זה מוזכרת כ-LOCAL, ו-Edge במסמך אחר מוזכרת באמצעות Reference מצביע (`EXTERNAL-POINTER-*`, `EXTERNAL-ISSUER-*`).
 
-## משפחות
+## משפחות {#계열}
 
-| שני הביטים העליונים | משפחה | קוד ישיר | תפקיד |
+אזור ה-Edge הוא `0x0A0L~0x1BFL`. המשפחה של קוד ישיר היא `(קוד − 0xA0) >> 5` (הקוד הוא שלוש הספרות הראשונות של TAG ID). כל משפחה היא 32 משבצות, והיא שווה ל-`w >> 9` של הקטע פחות 5. ה-Edge תופסת את קטעים 5~13.
+
+| קטע | משפחה | קוד ישיר | תפקיד |
 |---|---|---|---|
-| `00` | תיאור | `0x00`~`0x1F` | בונה תוכן על העולם ועל אירועים |
-| `01` | ראיה | `0x20`~`0x3F` | מאיפה באו הרשומות והמסמך ([SOURCE](/he/grammar/edge/source/)) |
-| `10` | ביצוע | `0x40`~`0x5F` | מבנה תוכנית שאפשר להריץ (AST) |
-| `11` | [TOULMIN](/he/grammar/edge/toulmin/) | `0x60`~`0x7B` | גרף טיעונים: טענה, ראיית-נגד, חריג, יחסי תקיפה, ביצוע, תוצאת הכרעה |
+| 5 | היגד | `0x0A0L~0x0BFL` | בונה תוכן על העולם ועל אירועים |
+| 6 | ראיות | `0x0C0L~0x0DFL` | מאיפה באו הרשומות והמסמך ([SOURCE](0x0C0L-source.md)) |
+| 7 | ביצוע | `0x0E0L~0x0FFL` | מבנה תוכנית שאפשר להריץ (AST) |
+| 8 | [TOULMIN](../toulmin/_index.md) | `0x100L~0x11BL` | גרף טיעונים: טענה, ראיית נגד, חריג, יחסי תקיפה, ביצוע, תוצאת פסק דין |
+| 9 | פורמט [TOULMIN](../toulmin/_index.md) | `0x120L~0x134L` | הטקסט המקורי, החלוקות, צמתי העזר והיחסים של מסמך TOULMIN |
 
-## Edge תיאורי
+- הקודים הישירים שהוקצו הם חמש המשפחות האלה. `0x11CL~0x11FL` הם Reserved, וכך גם `0x135L~0x1BCL` (קטעים 10~12 הם Reserved בשלמותם).
+- `0x1BDL~0x1BFL` (שלוש המשבצות האחרונות של קטע 13) הם EDGE-ISSUER (ראו Edge בפורמט Issuer להלן). בפורמט Issuer אין כלל משפחות.
+
+## Edge של היגד {#서술-edge}
 
 | Codec | שם | רכיבים |
 |---|---|---|
-| `0x00` | [REFERENCE-NODE](/he/grammar/edge/reference-node/) | קשירה מכוונת: Subject (Reference) מצביע על Object |
-| `0x01` | [SAME-NODE](/he/grammar/edge/same-node/) | שני Reference מצביעים על אותו יעד |
-| `0x02` | [DIFFERENT-NODE](/he/grammar/edge/different-node/) | שני Reference מצביעים על יעדים שונים |
-| `0x03` | [BIND](/he/grammar/edge/bind/) | קושרת ל-Subject שם למכונה (UTF8-TEXT) |
-| `0x04` | [LABEL](/he/grammar/edge/label/) | שם ה-Subject בכל שפה (UTF8-LANGUAGE-TEXT) |
-| `0x05` | [ALIAS](/he/grammar/edge/alias/) | שם נוסף של ה-Subject. הפריסה זהה ל-LABEL |
-| `0x06` | [DESCRIPTION](/he/grammar/edge/description/) | תיאור ה-Subject בכל שפה. הפריסה זהה ל-LABEL |
-| `0x08`/`0x09` | VERB-SHORT / VERB | תיאור פועלי |
-| `0x0A` | [TRIPLE](/he/grammar/edge/triple/) | טענה אחת (Predicate, Subject, Object) ו-rank |
-| `0x0B` | [QUALIFIER](/he/grammar/edge/qualifier/) | תנאי אחד שמגביל את הטענה של Edge אחרת |
-| `0x10`~`0x12` | WORLD / TIMELINE / SCENE | עולם, סדר אירועים, מבנה סצנה |
-| `0x18`~`0x1A` | [PUBLICATION](/he/grammar/edge/publication/) / DEPRECATION / TOMBSTONE | פרסום גרסה של מסמך, המלצה להפסיק להשתמש בה, מחיקה ([כתובת פרסום ורשימת גרסאות](/he/grammar/publishing/#רשימת-גרסאות)) |
-| `0x1B`~`0x1E` | [DECLARE](/he/grammar/edge/declare/) / [FIELD](/he/grammar/edge/field/) / [ENUM](/he/grammar/edge/enum/) / [CODEC](/he/grammar/edge/codec/) | אוצר המילים לכתיבת מפרט Codec ([מסמך מפרט Codec](/he/grammar/codec-spec/)) |
+| `0x0A0L` | [REFERENCE-NODE](0x0A0L-reference-node.md) | קשירה מכוונת: Subject (Reference) מצביע על Object |
+| `0x0A1L` | [SAME-NODE](0x0A1L-same-node.md) | שני Reference מצביעים על אותו יעד |
+| `0x0A2L` | [DIFFERENT-NODE](0x0A2L-different-node.md) | שני Reference מצביעים על יעדים שונים |
+| `0x0A3L` | [BIND](0x0A3L-bind.md) | קושרת ל-Subject שם למכונה (UTF8-TEXT) |
+| `0x0A4L` | [LABEL](0x0A4L-label.md) | שם ה-Subject בכל שפה (UTF8-LANGUAGE-TEXT) |
+| `0x0A5L` | [ALIAS](0x0A5L-alias.md) | שם נוסף של ה-Subject. הפריסה זהה ל-LABEL |
+| `0x0A6L` | [DESCRIPTION](0x0A6L-description.md) | תיאור ה-Subject בכל שפה. הפריסה זהה ל-LABEL |
+| `0x0A8L`/`0x0A9L` | [VERB-SHORT](0x0A8L-verb-short.md) / [VERB](0x0A9L-verb.md) | היגד פועלי |
+| `0x0AAL` | [TRIPLE](0x0AAL-triple.md) | טענה אחת (Predicate, Subject, Object) ו-rank |
+| `0x0ABL` | [QUALIFIER](0x0ABL-qualifier.md) | תנאי אחד שמסייג את הטענה של Edge אחרת |
+| `0x0B0L~0x0B2L` | [WORLD](0x0B0L-world.md) / [TIMELINE](0x0B1L-timeline.md) / [SCENE](0x0B2L-scene.md) | עולם, סדר אירועים, מבנה סצנה |
+| `0x0B8L~0x0BAL` | [PUBLICATION](0x0B8L-publication.md) / [DEPRECATION](0x0B9L-deprecation.md) / [TOMBSTONE](0x0BAL-tombstone.md) | פרסום גרסה של מסמך, המלצה להפסיק להשתמש בה, מחיקה ([כתובת פרסום ורשימת גרסאות](../publishing.md#버전-목록)) |
+| `0x0BBL~0x0BEL` | [DECLARE](0x0BBL-declare.md) / [FIELD](0x0BCL-field.md) / [ENUM](0x0BDL-enum.md) / [CODEC](0x0BEL-codec.md) | אוצר המילים לכתיבת מפרט Codec ([מסמך מפרט Codec](../codec-spec.md)) |
 
-- `-SHORT` והצורה הרגילה מוצבים כזוג זוגי-אי-זוגי (VERB-SHORT `0x08` / VERB `0x09`). LABEL מקבלת את השפה כרשומת שפה בתוך ה-Object (UTF8-LANGUAGE-TEXT), ולכן משתמשים רק ב-`0x04`.
-- PUBLICATION, DEPRECATION ו-TOMBSTONE נכתבות במסמך רשימת הגרסאות. מכיוון שצריך לקרוא את רשימת הגרסאות בלי codebook, הן מוטמעות במפענח (שכבה 0 ב[כתובת פרסום ורשימת גרסאות](/he/grammar/publishing/#שכבות)).
-- DECLARE, FIELD, ENUM ו-CODEC הן אוצר המילים לכתיבת מפרטי Codec. מכיוון שצריך לקרוא את מסמך המפרט בלי codebook, הפריסה מוטמעת במפענח (שכבה 0). כל מסמך מפרט Codec שנכתב באוצר מילים זה הוא מסמך רגיל.
+- `-SHORT` והצורה הרגילה מוצבים כזוג זוגי-אי-זוגי (VERB-SHORT `0x0A8L` / VERB `0x0A9L`). LABEL מקבלת את השפה כרשומת שפה בתוך ה-Object (UTF8-LANGUAGE-TEXT), ולכן משתמשים רק ב-`0x0A4L`.
+- PUBLICATION, DEPRECATION ו-TOMBSTONE נכתבות במסמך רשימת גרסאות. מפני שצריך לקרוא רשימת גרסאות בלי codebook, הן מובנות במפענח ([כתובת פרסום ורשימת גרסאות](../publishing.md#층), שכבה 0).
+- DECLARE, FIELD, ENUM ו-CODEC הן אוצר המילים לכתיבת מפרט Codec. מפני שצריך לקרוא מסמך מפרט בלי codebook, הפריסה שלהן מובנית במפענח (שכבה 0). כל מסמך מפרט Codec שנכתב באוצר מילים זה הוא מסמך רגיל.
 
-### TRIPLE
+### TRIPLE {#triple}
 
-לפירוט: [TRIPLE](/he/grammar/edge/triple/)
+פרטים: [TRIPLE](0x0AAL-triple.md)
 
 ```
-TAG WORD          0001 0LLL L000 1010
+TAG WORD          0000 1010 1010 LLLL
 [Length extension TAG]
 Edge Id           LOCAL Reference
-Predicate         Reference (מאפיין Wikidata וכד')
+Predicate         Reference (מאפיין של Wikidata וכד')
 Subject           Reference
 Object            Reference או Value
 Rank              WORD אחד
@@ -82,146 +88,130 @@ Rank              WORD אחד
 | `2` | deprecated | ערך שנקבע שהוא שגוי או מיושן אך נשמר כתיעוד |
 
 - Rank זהה ל-statement rank של Wikidata. במקור שאינו מדרג, משתמשים ב-`0`.
-- **המשמעות של TRIPLE היא אוסף כל ה-QUALIFIER שמצביעים על ה-Edge Id שלה.** הקורא אוסף את ה-QUALIFIER לפני שהוא מפרש את ה-TRIPLE.
+- **משמעות ה-TRIPLE היא הסך של כל ה-QUALIFIER שמצביעים על ה-Edge Id שלה.** הקורא אוסף את ה-QUALIFIER לפני שהוא מפרש את ה-TRIPLE.
 
 דוגמה: Q42 — P31 (instance of) — Q5 (אדם), normal, Edge Id 2
 
 ```
-148A  0088 0002  00A8 001F  00A0 002A  00A0 0005  0000
+0AA9  0051 0002  0191 001F  0141 002A  0141 0005  0000
 TAG   #2         P31        Q42        Q5         normal
 ```
 
-### QUALIFIER
+### QUALIFIER {#qualifier}
 
-לפירוט: [QUALIFIER](/he/grammar/edge/qualifier/)
+פרטים: [QUALIFIER](0x0ABL-qualifier.md)
 
 ```
-TAG WORD          0001 0LLL L000 1011
+TAG WORD          0000 1010 1011 LLLL
 [Length extension TAG]
 Edge Id           LOCAL Reference
 Property          Reference
-Target            LOCAL Reference (ה-Edge Id של ה-Edge המוגבלת)
+Target            LOCAL Reference (ה-Edge Id של ה-Edge המסויגת)
 Value             Reference או Value
 ```
 
-- QUALIFIER היא חלק מהטענה. היא אינה טענה נפרדת על הטענה, אלא מגבילה את התנאי שבו הטענה נכונה (זמן התחלה וסיום, תחום תחולה וכד').
+- QUALIFIER היא חלק מהטענה. היא אינה טענה נפרדת על הטענה, אלא מסייגת את התנאי שבו הטענה נכונה (זמן התחלה וסיום, תחום תחולה וכד').
 - טענה נפרדת על הטענה (למשל מי טען אותה) נכתבת כ-TRIPLE.
-- ה-Target הוא Edge באותו מסמך. סדר ה-QUALIFIER עם אותו Target הוא הסדר במסמך.
+- Target היא Edge באותו מסמך. סדר ה-QUALIFIER של אותו Target הוא הסדר במסמך.
 
 דוגמה: Q42 — P69 (educated at) — Q691283, התחלה (P580) 1971
 
 ```
-150A 0088 0003 00A8 0045 00A0 002A 0120 000A 8C53 0000   TRIPLE    #3 P69 Q42 Q691283 normal
-148B 0088 0004 00A8 0244 0088 0003 0924 3139 3731        QUALIFIER #4 P580 #3 EDTF "1971"
+0AAA 0051 0003 0191 0045 0141 002A 0142 000A 8C53 0000   TRIPLE    #3 P69 Q42 Q691283 normal
+0AB9 0051 0004 0191 0244 0051 0003 06E2 3139 3731        QUALIFIER #4 P580 #3 EDTF "1971"
 ```
 
-### LABEL, ALIAS, DESCRIPTION
+### LABEL, ALIAS, DESCRIPTION {#label-alias-description}
 
-לפירוט: [LABEL](/he/grammar/edge/label/), [ALIAS](/he/grammar/edge/alias/), [DESCRIPTION](/he/grammar/edge/description/)
+פרטים: [LABEL](0x0A4L-label.md), [ALIAS](0x0A5L-alias.md), [DESCRIPTION](0x0A6L-description.md)
 
 ```
-TAG WORD          0001 0LLL L000 0100   (LABEL)
+TAG WORD          0000 1010 0100 LLLL   (LABEL)
 [Length extension TAG]
 Edge Id           LOCAL Reference
 Subject           Reference
 Object            UTF8-LANGUAGE-TEXT
 ```
 
-- השם והשפה נשמרים יחד ב-Object אחד (UTF8-LANGUAGE-TEXT).
-- לכל היותר LABEL אחת לכל Subject ושפה. שמות נוספים נכתבים כ-ALIAS.
-- שם למכונה, ללא שפה, נכתב כ-BIND. ל-LABEL חייבת להיות שפה.
+- השם והשפה נכנסים יחד ב-Object אחד (UTF8-LANGUAGE-TEXT).
+- לאותו Subject ואותה שפה יש לכל היותר LABEL אחת. שמות נוספים נכתבים כ-ALIAS.
+- שם למכונה בלי שפה נכתב כ-BIND. ל-LABEL חייבת להיות שפה.
 
-### BIND
+### BIND {#bind}
 
-לפירוט: [BIND](/he/grammar/edge/bind/)
+פרטים: [BIND](0x0A3L-bind.md)
 
-- קושרת ל-Subject שם שהמכונה מתאימה אליו (UTF8-TEXT). ללא שפה וללא נרמול. שמות זהים רק אם הבייטים זהים.
-- תחום השם הוא המסמך שמכיל את ה-BIND. במסמך אחד לא קושרים את אותו שם ל-Subject שונים.
-- רשומות אחרות מצביעות על היעד באמצעות LOCAL ID ולא באמצעות שם. השם משמש להתאמה לגורמים חיצוניים (פונקציית מארח, קלט כתובת, בני אדם).
+- קושרת ל-Subject שם שהמכונה מתאימה אליו (UTF8-TEXT). אין לו שפה והוא אינו מנורמל. שמות הם אותו שם רק אם הבתים זהים.
+- תחום השם הוא המסמך שמכיל את ה-BIND. במסמך אחד לא קושרים אותו שם ל-Subject שונים.
+- רשומות אחרות מצביעות באמצעות LOCAL ID ולא באמצעות שם. השם משמש להתאמה עם החוץ (פונקציות מארח, קלט כתובת, בני אדם).
 
-### SAME-NODE, DIFFERENT-NODE, REFERENCE-NODE
+### SAME-NODE, DIFFERENT-NODE, REFERENCE-NODE {#same-node-different-node-reference-node}
 
-לפירוט: [SAME-NODE](/he/grammar/edge/same-node/), [DIFFERENT-NODE](/he/grammar/edge/different-node/), [REFERENCE-NODE](/he/grammar/edge/reference-node/)
+פרטים: [SAME-NODE](0x0A1L-same-node.md), [DIFFERENT-NODE](0x0A2L-different-node.md), [REFERENCE-NODE](0x0A0L-reference-node.md)
 
 - SAME-NODE היא זהות: שני Reference מצביעים על אותו יעד. היא רפלקסיבית, סימטרית וטרנזיטיבית.
-- DIFFERENT-NODE היא אי-זהות: שני Reference מצביעים על יעדים שונים.
-- REFERENCE-NODE היא קשירה מכוונת שמגדירה באמצעות Object מהו ה-Subject (Reference). אין זו טענת זהות. למשל: הגדרת ה-URI שאליו מצביע צומת LOCAL.
+- DIFFERENT-NODE היא אי-זהות: שני Reference הם יעדים שונים.
+- REFERENCE-NODE היא קשירה מכוונת שמגדירה באמצעות ה-Object מהו ה-Subject (Reference). היא אינה טענת זהות. למשל: מגדירה את ה-URI שצומת LOCAL מצביע עליו.
 
-## Edge של ראיות
+## Edge של ראיות {#근거-edge}
 
-מצרפת ראיה לרשומה בודדת בתוך BODY, או למסמך כולו (HEAD). הקוד הישיר היחיד במשפחת הראיות הוא [SOURCE](/he/grammar/edge/source/) (`0x20`).
+מצרפת ראיות לרשומה בודדת בתוך BODY, או למסמך כולו (HEAD). הקוד הישיר היחיד במשפחת הראיות הוא [SOURCE](0x0C0L-source.md) (`0x0C0L`).
 
 | Codec | שם | רכיבים |
 |---|---|---|
-| `0x20` | [SOURCE](/he/grammar/edge/source/) | Target (ה-Edge Id של ה-Edge ב-BODY שאליה מצרפים ראיה, ב-HEAD `0` פירושו המסמך כולו), Origin (Reference של המקור, ABSENT או UNKNOWN-VALUE) |
-| `0x21`~`0x3F` | Reserved | |
+| `0x0C0L` | [SOURCE](0x0C0L-source.md) | Target (ה-Edge Id של Edge ב-BODY שמצרפים לה ראיות. ב-HEAD: `0` = המסמך כולו), Origin (Reference של המקור, ABSENT או UNKNOWN-VALUE) |
+| `0x0C1L~0x0DFL` | Reserved | |
 
-- תכונות המקור עצמו (URL, כותרת, מחבר, תאריך פרסום ...) נכתבות כ-TRIPLE שה-Subject שלה הוא המקור. תכונות הציטוט (תאריך גישה, מיקום בתוך המקור ...) נכתבות כ-QUALIFIER שה-Target שלה הוא ה-Edge Id של ה-SOURCE.
-- המקור של המסמך כולו נכתב ב-HEAD כ-SOURCE עם Target `0`, וגם ה-QUALIFIER שה-Target שלהם הוא אותו SOURCE ממוקמים ב-HEAD. אלה שתי ה-Edge היחידות שמופיעות ב-HEAD, וה-Edge Id משותף ל-HEAD ול-BODY במרחב מספרים אחד ([מקור המסמך כולו](/he/grammar/edge/source/#מקור-המסמך-כולו)).
-- ראיות אחרות (טווח בטקסט המקור, מי יצר, מידת אמון, תקופת תוקף לפי סעיף, רשומה ישנה) נכתבות כ-QUALIFIER, והגרסה שנכנסה ראשונה מחושבת מהיסטוריית הגרסאות ([SOURCE](/he/grammar/edge/source/#ייצוג-של-ראיות-אחרות)).
-- תוצאת הכרעה ברמת רשומה היא תפקידה של `VERDICT` ב-TOULMIN.
+- תכונות המקור עצמו (URL, כותרת, מחבר, תאריך פרסום …) נכתבות כ-TRIPLE שה-Subject שלה הוא המקור. תכונות הציטוט (תאריך גישה, מיקום בתוך המקור …) נכתבות כ-QUALIFIER שה-Target שלו הוא ה-Edge Id של ה-SOURCE.
+- מקור המסמך כולו נכתב ב-HEAD כ-SOURCE עם Target `0`, וגם ה-QUALIFIER שה-Target שלו הוא אותה SOURCE נמצא ב-HEAD. אלה שתי ה-Edge היחידות שבאות ב-HEAD, ו-HEAD ו-BODY חולקים מרחב מספרים אחד של Edge Id ([מקור המסמך כולו](0x0C0L-source.md#문서-전체의-출처)).
+- ראיות אחרות (טווח בטקסט המקורי, מי יצר, מידת אמון, תקופת תוקף לפי סעיף, רשומות ישנות) נכתבות כ-QUALIFIER, והגרסה שנכנסה ראשונה מחושבת מהיסטוריית הגרסאות ([SOURCE](0x0C0L-source.md#다른-근거의-표현)).
+- תוצאת פסק דין ברמת הרשומה היא תפקידו של `VERDICT` ב-TOULMIN.
 
-### SOURCE
+### SOURCE {#source}
 
-לפירוט: [SOURCE](/he/grammar/edge/source/)
+פרטים: [SOURCE](0x0C0L-source.md)
 
 ```
-TAG WORD          0001 0LLL L010 0000
+TAG WORD          0000 1100 0000 LLLL
 [Length extension TAG]
 Edge Id           LOCAL Reference
-Target            LOCAL Reference (ה-Edge Id של ה-Edge ב-BODY שאליה מצרפים ראיה, ב-HEAD 0 פירושו המסמך כולו)
-Origin            Reference או סמן מקום 0x0000 ABSENT·0x0001 UNKNOWN-VALUE
+Target            LOCAL Reference (ה-Edge Id של Edge ב-BODY שמצרפים לה ראיות, ב-HEAD: 0 = המסמך כולו)
+Origin            Reference או סמן מקום 0x0000 ABSENT·0x0010 UNKNOWN-VALUE
 ```
 
-דוגמה: המקור של TRIPLE `#178` (Q42 P19) הוא בריטניקה (Q5375741), והמזהה בתוכו הוא P1417
+דוגמה: המקור של TRIPLE `#178` (Q42 P19) הוא Britannica (Q5375741), והמזהה בתוכו P1417
 
 ```
 SOURCE     #1347  #178   Q5375741
 QUALIFIER  #1348  P1417  #1347  "biography/Douglas-Adams"
 ```
 
-## Edge של ביצוע
+## Edge של ביצוע {#실행-edge}
 
-מבנה תוכנית שאינו קשור לשפת תכנות מסוימת. הרכיבים מוזכרים באמצעות LOCAL ID של המסמך הזה.
-
-| קבוצה | Codec |
-|---|---|
-| הצהרה | FUNCTION-DECLARE, TYPE-DECLARE |
-| ביטוי | CONST, UNARY, BINARY, CALL, MEMBER, INDEX, CONSTRUCT, CONDITIONAL |
-| פקודה | BLOCK, ASSIGN, IF, SWITCH, WHILE, FOREACH, JUMP, RETURN |
-| שגיאה | RAISE, TRY |
-
-- אין זה פורמט שמכיל קוד של שפה חיצונית כמות שהוא. קוד של שפה חיצונית מונח בפורמט Issuer.
-- הרכיבים מוזכרים באמצעות LOCAL ID (REF) של המסמך הזה. במקום של ביטוי מניחים Edge של ביטוי או סמל. REF `0` פירושו אין.
-- ביטוי מפיק ערך, ופקודה אינה מפיקה ערך. אפשר להניח ביטוי במקום של פקודה ב-BLOCK (הערך נזרק).
-- `for` בסגנון C נכתב כ-BLOCK (אתחול, WHILE), ו-`else if` נכתב כ-IF במקום של ענף השקר.
-- סמל הוא LOCAL ID, והשם נקשר באמצעות BIND. רשומות אחרות מצביעות על הסמל באמצעות LOCAL ID ולא באמצעות שם. אם ה-LOCAL ID שונה, הסמל שונה גם כששמו זהה.
-- הרשומה שמצביעה על הסמל קובעת מהו (משתנה, פרמטר, פונקציה, טיפוס). סמל שאין לו הגדרה במסמך מסופק מבחוץ (מארח), ואם הוא יעד של CALL הוא פונקציית מארח.
-
-שאלות פתוחות: קודי אופרטורים, ייצוג טיפוסים, פריסת ה-Payload של כל Codec.
-
-## Edge של TOULMIN
-
-לפירוט: [TOULMIN](/he/grammar/edge/toulmin/)
-
-כותבת גרפי הכרעה וביצוע לפי מודל הטיעון של טולמין. זוהי המשפחה המרכזית שבה GEUL מתארת את כלליה שלה ב-GEUL ומתקנת את עצמה.
+מבנה תוכנית שאינו קשור לשפת תכנות מסוימת. הרכיבים מוזכרים ב-LOCAL ID של המסמך הזה.
 
 | קבוצה | Codec |
 |---|---|
-| הצהרה | CASE-DECLARE (מקרה), [PREDICATE-DECLARE](/he/grammar/edge/toulmin/expr/) (פרדיקט), SPEC-DECLARE (קריטריון שיפוט), RULE-DECLARE (טענה), COUNTER-DECLARE (ראיית-נגד), EXCEPT-DECLARE (חריג) — [NODE](/he/grammar/edge/toulmin/node/) |
-| יחס | ATTACKS (תקיפה), SUPERSEDES (דחיקה) — [LINK](/he/grammar/edge/toulmin/link/), SUPERSEDE-CHAIN (שרשרת עדיפויות, הפריסה טרם נקבעה) |
-| ביצוע | RUN, DO, DO-ONCE, UNDO, CHECKING — [LINK](/he/grammar/edge/toulmin/link/), ENTRY, TRIGGER — [NODE](/he/grammar/edge/toulmin/node/) |
-| תוצאה | VERDICT (תוצאת הכרעה: Pass, Review, Fail), EVIDENCE (ראיה להכרעה) — הפריסה טרם נקבעה |
+| הצהרה | [FUNCTION-DECLARE](0x0E1L-function-declare.md), [TYPE-DECLARE](0x0E2L-type-declare.md) |
+| ביטוי | [CONST](0x0E8L-const.md), [UNARY](0x0E9L-unary.md), [BINARY](0x0EAL-binary.md), [CALL](0x0EBL-call.md), [MEMBER](0x0ECL-member.md), [INDEX](0x0EDL-index.md), [CONSTRUCT](0x0EEL-construct.md), [CONDITIONAL](0x0EFL-conditional.md) |
+| פקודה | [BLOCK](0x0F0L-block.md), [ASSIGN](0x0F1L-assign.md), [IF](0x0F2L-if.md), [SWITCH](0x0F3L-switch.md), [WHILE](0x0F4L-while.md), [FOREACH](0x0F5L-foreach.md), [JUMP](0x0F6L-jump.md), [RETURN](0x0F7L-return.md) |
+| שגיאה | [RAISE](0x0F8L-raise.md), [TRY](0x0F9L-try.md) |
 
-- צמתי טקסט המקור, צמתי החלוקה וצמתי העזר והיחסים הם פורמטי ISSUER של Issuer GEUL (`0xC000`~`0xC029`) ([SOURCE וחלוקה](/he/grammar/edge/toulmin/source/)).
-- תוצאת ההכרעה מונחת במסמך שונה ממסמך היעד. מסמך התוצאה מייבא את מסמך היעד ומצביע עליו. לכן גם אחרי הכרעה ה-hash של תוכן מסמך היעד אינו משתנה.
+- זה אינו פורמט שמכיל קוד משפה חיצונית כמות שהוא. קוד משפה חיצונית נכנס בפורמט Issuer.
+- הרכיבים מוזכרים ב-LOCAL ID (REF) של המסמך הזה. במקום של ביטוי באים Edge של ביטוי או סמל. REF `0` פירושו אין.
+- ביטוי מפיק ערך, ופקודה אינה מפיקה. אפשר לשים ביטוי במקום של פקודה ב-BLOCK (הערך נזרק).
+- `for` בסגנון C נכתב כ-BLOCK (אתחול, WHILE), ו-`else if` נכתב כ-IF במקום ה"שקר".
+- סמל הוא LOCAL ID, והשם נקשר באמצעות BIND. רשומות אחרות מצביעות על סמל באמצעות LOCAL ID ולא באמצעות שם. גם אם השם זהה, LOCAL ID שונה הוא סמל שונה.
+- הרשומה שמצביעה על סמל קובעת מהו הסמל (משתנה, פרמטר, פונקציה, טיפוס). סמל שאין לו הגדרה במסמך מסופק מבחוץ (על ידי המארח), ואם הוא היעד של CALL, הוא פונקציית מארח.
 
-## Edge בפורמט Issuer
+בעיות פתוחות: קודי אופרטורים, ייצוג טיפוסים, פריסת ה-Payload של כל Codec.
 
-Issuer יכול להגדיר ולהשתמש בפורמטי Edge משלו (Codec `0x7C`~`0x7F`). הקודים הישירים `0x7C`~`0x7F` נמצאים בתוך טווח TOULMIN אך הם קודי ISSUER משותפים, והמשפחה נקבעת לפי שני הביטים העליונים של מספר הפורמט.
+## Edge של TOULMIN {#toulmin-edge}
 
-| Issuer | מספר פורמט | שם | משפחה |
-|---|---|---|---|
-| `0x0000` GEUL | `0xC000`~`0xC005` | [SOURCE, TEXT, SECTION, CASE-BEGIN, CASE-END, PROSE](/he/grammar/edge/toulmin/source/) | TOULMIN |
-| `0x0000` GEUL | `0xC010`~`0xC014` | [NAMESPACE, FUNC, FIELD, ALIAS, GROUP](/he/grammar/edge/toulmin/node/) | TOULMIN |
-| `0x0000` GEUL | `0xC020`~`0xC029` | [REQUIRES … LABEL](/he/grammar/edge/toulmin/link/) | TOULMIN |
+כותבת גרף פסק דין וביצוע לפי מודל הטיעון של טולמין. הקודים הישירים הם `0x100L~0x11BL`, ורשומות העזר הן במשפחת פורמט TOULMIN `0x120L~0x134L`. פרטים: [TOULMIN](../toulmin/_index.md)
+
+## Edge בפורמט Issuer {#issuer-형식-edge}
+
+Issuer יכול להגדיר ולהשתמש בפורמט Edge משלו ([EDGE-ISSUER-2WORD](0x1BDL-edge-issuer-2word.md), [4WORD](0x1BEL-edge-issuer-4word.md), [16WORD](0x1BFL-edge-issuer-16word.md), Codec‏ `0x1BDL`~`0x1BFL`). אלה שלוש המשבצות האחרונות של אזור ה-Edge. ב-Codec extension TAG באים Issuer ומספר Codec ב-2 WORD. ה-Edge Id הוא הרכיב הראשון של ה-Payload שאחריהם (TAG, Issuer, מספר Codec, Edge Id, שאר ה-Payload). מספר ה-Codec נקבע על ידי ה-Issuer ואין לו כלל משפחות. הוא אינו מתנגש בתוך `codecs/` של אותו Issuer, בלי קשר ל-Kind. מסמך ה-Codec נמצא תחת `codecs/` של אותו Issuer, לפי מספר ה-Codec של הרשומה ([כתובת פרסום ורשימת גרסאות](../publishing.md)).
+
+- אין כרגע פורמט Edge של ISSUER שנרשם.

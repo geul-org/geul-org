@@ -1,0 +1,52 @@
+---
+title: "CALL (0x0EBL)"
+weight: 235
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "edge", "triple", "qualifier", "label"]
+summary: "CALL هو Codec لحزمة التعبير في Edge التنفيذ."
+author: "جونو بارك"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+CALL هو Codec لحزمة التعبير في Edge التنفيذ. المعنى: استدعاء.
+
+| البند | القيمة |
+|---|---|
+| الاسم | `CALL` (مستند المواصفة BIND `CALL`) |
+| TAG ID | `0x0EBL` |
+| Codec ID | `0x00000EB0` |
+| مستند المواصفة | `0x00000000/codecs/0x00000EB0/` (هدف DECLARE `0EB0`) |
+| القسم | 7 `0111` (Edge التنفيذ)، الإزاحة داخل القسم C = 11 |
+| Kind | Edge · العائلة: التنفيذ، الحزمة: التعبير |
+| TAG WORD | `0000 1110 1011 LLLL` (`000K KKKC CCCC LLLL`) |
+| وصف الفهرس | استدعاء. الدالة الهدف، عدد الوسائط، الوسيط × عدد الوسائط |
+| جانب Hugo | `edge/_index.md` |
+
+## المكوّنات {#구성요소}
+
+الدالة الهدف، عدد الوسائط، الوسيط × عدد الوسائط.
+
+- تُشار إلى المكوّنات بمعرّف LOCAL في هذا المستند (REF). REF `0` تعني لا شيء. وفي موضع التعبير يوضع Edge تعبير أو رمز ([Edge](_index.md#실행-edge)).
+- لم تُحدَّد بعد رموز العوامل وتمثيل الأنواع وتخطيط Payload ([Edge](_index.md#실행-edge)، المسائل المفتوحة).
+
+## مستند Codec {#코덱-문서}
+
+لم يُحدَّد التخطيط بعد. لا يوضع في مستند Codec إلا DECLARE (الهدف `0EB0`). يوضع FIELD عند تحديد التخطيط.
+
+## صفحات ذات صلة {#관련-페이지}
+
+- [Edge — Edge التنفيذ](_index.md#실행-edge)، [CONST](0x0E8L-const.md)، [UNARY](0x0E9L-unary.md)، [BINARY](0x0EAL-binary.md)، [MEMBER](0x0ECL-member.md)، [INDEX](0x0EDL-index.md)، [CONSTRUCT](0x0EEL-construct.md)، [CONDITIONAL](0x0EFL-conditional.md)
+
+## نص مستند المواصفة الأصلي {#규격-문서-원문}
+
+هذا مستند المواصفة `0x00000000/codecs/0x00000EB0/latest.geul` كما يُقرأ بـ `geul show` (الأرقام السداسية عشرية بحروف كبيرة).
+
+```
+SPEC-VERSION 0x0001
+DOC-ID 0x04260000000000000EB000000000
+BODY
+#1 DECLARE 0x0EB0
+#2 BIND #1 "CALL"
+```

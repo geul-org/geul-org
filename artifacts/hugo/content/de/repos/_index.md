@@ -112,7 +112,7 @@ Die beiden folgenden Repositories wurden vor der aktuellen v1-Grammatik entworfe
 
 Forschung zur Vergabe von SIDX (Semantic-aligned Index).
 
-Forschungsmaterial zur Vergabe von SIDX, einer semantischen Adresse, die bedeutungsnahen Entitäten nahe Nummern gibt, anhand von Wikidata-Nutzungsstatistiken. Es enthält das frühere 48-Bit-Attributschema für Entity, Encoder-Skripte und Codebücher; eine SIDX-Vergabe gibt es noch nicht. Die normative Definition von SIDX ist [GEUL-SIDX](/de/grammar/reference/geul-sidx/) in der Grammatik.
+Forschungsmaterial zur Vergabe von SIDX, einer semantischen Adresse, die bedeutungsnahen Entitäten nahe Nummern gibt, anhand von Wikidata-Nutzungsstatistiken. Es enthält das frühere 48-Bit-Attributschema für Entity, Encoder-Skripte und Codebücher; eine SIDX-Vergabe gibt es noch nicht. Die normative Definition von SIDX ist [GEUL-SIDX](/de/grammar/reference/0x00fl-geul-sidx/) in der Grammatik.
 
 | | |
 |---|---|

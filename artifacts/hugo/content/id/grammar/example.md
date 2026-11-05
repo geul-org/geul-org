@@ -1,152 +1,152 @@
 ---
-title: "Contoh: item Wikidata"
-weight: 100
+title: "Contoh: entri Wikidata"
+weight: 140
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "example", "wikidata"]
-summary: "Membaca dari awal sampai akhir dokumen GEUL sebesar 63 WORD yang memuat satu nama, dua proposisi, dan satu syarat pembatas Wikidata Q42 (Douglas Adams)."
+summary: "Membaca dari awal sampai akhir sebuah dokumen kecil tentang entri Wikidata Q42 (Douglas Adams)."
 author: "Junwoo Park"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-Mari baca dari awal sampai akhir sebuah dokumen kecil tentang item Wikidata Q42 (Douglas Adams). Isinya sebagai berikut.
+Kita membaca dari awal sampai akhir sebuah dokumen kecil tentang entri Wikidata Q42 (Douglas Adams). Isinya sebagai berikut.
 
 - Nama Inggris: Douglas Adams
-- Q42 adalah instance dari manusia (Q5) (P31).
-- Q42 dididik di St John's College (Q691283) (P69). Waktu mulai (P580) adalah tahun 1971.
+- Q42 adalah instans dari manusia (Q5) (P31).
+- Q42 menempuh pendidikan di St John's College (Q691283) (P69). Waktu mulai (P580) adalah tahun 1971.
 
-Dokumennya adalah dokumen `0x510000000000002a` milik Issuer `0x00010000`, total 63 WORD (126 byte).
+Dokumen ini adalah dokumen `0x510000000000002A` milik Issuer `0x00000001`, dengan total 63 WORD (126 byte).
 
-## Keseluruhan
-
-```
-1880 003f 1890 0001 1c92 0438 0001 0000 5100 0000 0000 002a 0000 0000
-180e
-1704 0010 0088 0001 00a0 002a 0ccb 08c6 656e 446f 7567 6c61 7320 4164 616d 7300
-148a 0088 0002 00a8 001f 00a0 002a 00a0 0005 0000
-150a 0088 0003 00a8 0045 00a0 002a 0120 000a 8c53 0000
-148b 0088 0004 00a8 0244 0088 0003 0924 3139 3731
-180f
-```
-
-## HEAD
+## Keseluruhan {#전체}
 
 ```
-1880 003f
+1C01 003F 1C51 0001 1C79 0418 0000 0001 5100 0000 0000 002A 0000 0000
+1C30
+0A4E 0010 0051 0001 0141 002A 0799 0761 656E 446F 7567 6C61 7320 4164 616D 7300
+0AA9 0051 0002 0191 001F 0141 002A 0141 0005 0000
+0AAA 0051 0003 0191 0045 0141 002A 0142 000A 8C53 0000
+0AB9 0051 0004 0191 0244 0051 0003 06E2 3139 3731
+1C40
 ```
 
-`1880` adalah Meta (`11`), Length 2 WORD, Codec `0x00` (DOC-1WORD). Nilai `003f` (63) adalah jumlah WORD seluruh dokumen. Decoder mengetahui akhir dokumen lebih dulu dari nilai ini.
+## HEAD {#head}
 
 ```
-1890 0001
+1C01 003F
 ```
 
-Meta `0x10` SPEC-VERSION. Ini edisi spesifikasi yang diikuti dokumen ini. v1 adalah `0001`.
+`1C01` adalah Meta (bagian 14), Codec `0x1C0L` (DOC-1WORD), Length 2 WORD. Nilai `003F` (63) adalah jumlah WORD seluruh dokumen. Dengan nilai ini decoder mengetahui akhir dokumen sejak awal.
 
 ```
-1c92 0438 0001 0000 5100 0000 0000 002a 0000 0000
+1C51 0001
 ```
 
-Meta `0x12` DOC-ID, total 10 WORD. Payload-nya adalah satu Reference DOC-POINTER.
+Meta `0x1C5L` SPEC-VERSION. Ini adalah edisi spesifikasi yang diikuti dokumen ini. v1 adalah `0001`.
+
+```
+1C79 0418 0000 0001 5100 0000 0000 002A 0000 0000
+```
+
+Meta `0x1C7L` DOC-ID, total 10 WORD. Payload-nya satu Reference DOC-POINTER.
 
 | WORD | Arti |
 |---|---|
-| `0438` | Reference, 9 WORD, Codec `0111` (DOC-POINTER), Quantifier `000` |
-| `0001 0000` | Issuer `0x00010000` (2 WORD) |
-| `5100 0000 0000 002a` | ID dokumen `0x510000000000002a` |
-| `0000 0000` | Versi `0` (dirinya sendiri) |
+| `0418` | Reference, Codec `0x041L` (DOC-POINTER), 9 WORD |
+| `0000 0001` | Issuer `0x00000001` (2 WORD) |
+| `5100 0000 0000 002A` | ID dokumen `0x510000000000002A` |
+| `0000 0000` | versi `0` (dirinya sendiri) |
 
 ```
-180e
+1C30
 ```
 
 BODY. HEAD berakhir dan BODY dimulai.
 
-## BODY
+## BODY {#body}
 
-### #1 LABEL — nama Inggris
-
-```
-1704 0010 0088 0001 00a0 002a 0ccb 08c6 656e 446f 7567 6c61 7320 4164 616d 7300
-```
-
-| WORD | Arti |
-|---|---|
-| `1704` | Edge, Length `1110` (extension), Codec `0x04` LABEL |
-| `0010` | Panjang extension: total 16 WORD |
-| `0088 0001` | Edge Id: LOCAL 1 |
-| `00a0 002a` | Subject: Wikidata Q42 |
-| `0ccb` | Object: UTF8-LANGUAGE-TEXT, 10 WORD, byte ganjil (`0x4B`) |
-| `08c6 656e` | Bahasa: BCP 47 `en` |
-| `446f … 7300` | `Douglas Adams` 13 byte + padding `00` |
-
-### #2 TRIPLE — Q42 adalah manusia
+### #1 LABEL — nama Inggris {#1-label--영어-이름}
 
 ```
-148a 0088 0002 00a8 001f 00a0 002a 00a0 0005 0000
+0A4E 0010 0051 0001 0141 002A 0799 0761 656E 446F 7567 6C61 7320 4164 616D 7300
 ```
 
 | WORD | Arti |
 |---|---|
-| `148a` | Edge, 10 WORD, Codec `0x0A` TRIPLE |
-| `0088 0002` | Edge Id: LOCAL 2 |
-| `00a8 001f` | Predicate: P31 (instance of) |
-| `00a0 002a` | Subject: Q42 |
-| `00a0 0005` | Object: Q5 (manusia) |
+| `0A4E` | Edge, Codec `0x0A4L` LABEL, Length `1110` (ekstensi) |
+| `0010` | panjang ekstensi: total 16 WORD |
+| `0051 0001` | Edge Id: LOCAL 1 |
+| `0141 002A` | Subject: Wikidata Q42 |
+| `0799` | Object: UTF8-LANGUAGE-TEXT, jumlah byte ganjil (`0x079L`), 10 WORD |
+| `0761 656E` | bahasa: BCP 47 `en` |
+| `446F … 7300` | `Douglas Adams` 13 byte + padding `00` |
+
+### #2 TRIPLE — Q42 adalah manusia {#2-triple--q42는-사람이다}
+
+```
+0AA9 0051 0002 0191 001F 0141 002A 0141 0005 0000
+```
+
+| WORD | Arti |
+|---|---|
+| `0AA9` | Edge, Codec `0x0AAL` TRIPLE, 10 WORD |
+| `0051 0002` | Edge Id: LOCAL 2 |
+| `0191 001F` | Predicate: P31 (instance of) |
+| `0141 002A` | Subject: Q42 |
+| `0141 0005` | Object: Q5 (manusia) |
 | `0000` | Rank: normal |
 
-### #3 TRIPLE — Q42 dididik di St John's College
+### #3 TRIPLE — Q42 menempuh pendidikan di St John's College {#3-triple--q42는-st-johns-college에서-교육받았다}
 
 ```
-150a 0088 0003 00a8 0045 00a0 002a 0120 000a 8c53 0000
+0AAA 0051 0003 0191 0045 0141 002A 0142 000A 8C53 0000
 ```
 
 | WORD | Arti |
 |---|---|
-| `150a` | Edge, 11 WORD, TRIPLE |
-| `0088 0003` | Edge Id: LOCAL 3 |
-| `00a8 0045` | Predicate: P69 (educated at) |
-| `00a0 002a` | Subject: Q42 |
-| `0120 000a 8c53` | Object: Q691283. Nilainya melebihi 16 bit sehingga Reference 3 WORD |
+| `0AAA` | Edge, TRIPLE, 11 WORD |
+| `0051 0003` | Edge Id: LOCAL 3 |
+| `0191 0045` | Predicate: P69 (educated at) |
+| `0141 002A` | Subject: Q42 |
+| `0142 000A 8C53` | Object: Q691283. Nilainya melebihi 16 bit sehingga berupa Reference 3 WORD |
 | `0000` | Rank: normal |
 
-### #4 QUALIFIER — waktu mulai tahun 1971
+### #4 QUALIFIER — waktu mulai tahun 1971 {#4-qualifier--시작-시점-1971년}
 
 ```
-148b 0088 0004 00a8 0244 0088 0003 0924 3139 3731
+0AB9 0051 0004 0191 0244 0051 0003 06E2 3139 3731
 ```
 
 | WORD | Arti |
 |---|---|
-| `148b` | Edge, 10 WORD, Codec `0x0B` QUALIFIER |
-| `0088 0004` | Edge Id: LOCAL 4 |
-| `00a8 0244` | Property: P580 (start time) |
-| `0088 0003` | Target: #3 (TRIPLE di atas) |
-| `0924 3139 3731` | Value: EDTF `1971` (presisi tahun sehingga EDTF, bukan GREGORIAN-DATE) |
+| `0AB9` | Edge, Codec `0x0ABL` QUALIFIER, 10 WORD |
+| `0051 0004` | Edge Id: LOCAL 4 |
+| `0191 0244` | Property: P580 (start time) |
+| `0051 0003` | Target: #3 (TRIPLE di atas) |
+| `06E2 3139 3731` | Value: EDTF `1971` (presisi tahun, sehingga EDTF dan bukan GREGORIAN-DATE) |
 
-Makna #3 adalah gabungan #3 itu sendiri dan semua QUALIFIER yang menunjuk #3: "Q42 dididik di St John's College sejak tahun 1971."
+Makna #3 adalah gabungan #3 itu sendiri dan semua QUALIFIER yang menunjuk #3: "Q42 menempuh pendidikan di St John's College sejak tahun 1971."
 
 ```
-180f
+1C40
 ```
 
-END. Sampai di sini 63 WORD.
+END. Sampai di sini totalnya 63 WORD.
 
-## Jika dibaca tanpa codebook
+## Dibaca tanpa codebook {#코덱북-없이-읽으면}
 
-Decoder yang tidak mengetahui codebook pun mengetahui hal berikut.
+Decoder yang tidak mengetahui codebook pun dapat mengetahui hal-hal berikut.
 
 - Dokumen berukuran 63 WORD, dengan 2 Meta di HEAD dan 4 Edge di BODY.
-- Codec setiap Edge (LABEL, TRIPLE, TRIPLE, QUALIFIER) dan Edge Id (1, 2, 3, 4).
+- Codec setiap Edge (LABEL, TRIPLE, TRIPLE, QUALIFIER) dan Edge Id-nya (1, 2, 3, 4).
 - Posisi record berikutnya untuk setiap record.
 
-Peran komponen (Predicate, Subject, Object, Rank) baru diketahui dengan membaca [dokumen spesifikasi](/id/grammar/codec-spec/) setiap Codec.
+Peran komponen (Predicate, Subject, Object, Rank) baru diketahui dengan membaca [dokumen spesifikasi](codec-spec.md) tiap Codec.
 
-## Hash isi
+## Hash isi {#내용-해시}
 
-Hash isi dokumen ini (SHA-256) adalah sebagai berikut. Jika diterbitkan, hash ini dicatat dalam daftar versi bersama ID versi.
+Hash isi (SHA-256) dokumen ini adalah sebagai berikut. Jika dipublikasikan, hash ini dicatat dalam daftar versi bersama ID versi.
 
 ```
-0x4f05137f92de70951f581156cf90f15471c254c7e87ad1ba100bf91dd705ebc1
+0x561C157203D51AF8C754D53E20AD190F17E73ACDC4235BA47C87F608C946737F
 ```

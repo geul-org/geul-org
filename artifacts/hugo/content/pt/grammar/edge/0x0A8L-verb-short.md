@@ -1,0 +1,49 @@
+---
+title: "VERB-SHORT (0x0A8L)"
+weight: 168
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "edge", "triple", "qualifier", "label"]
+summary: "VERB-SHORT é a forma abreviada do Edge de enunciado com verbo VERB."
+author: "Junwoo Park"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+VERB-SHORT é a forma abreviada do Edge de enunciado com verbo [VERB](0x0A9L-verb.md). `-SHORT` e a forma geral formam um par par/ímpar ([Edge](_index.md#서술-edge)).
+
+| Item | Valor |
+|---|---|
+| Nome | `VERB-SHORT` (BIND `VERB-SHORT` do documento de especificação) |
+| TAG ID | `0x0A8L` |
+| Codec ID | `0x00000A80` |
+| Documento de especificação | `0x00000000/codecs/0x00000A80/` (alvo do DECLARE `0A80`) |
+| Seção | 5 `0101` (Edge de enunciado), deslocamento C dentro da seção = 8 |
+| Kind | Edge · família: enunciado, grupo: proposição |
+| TAG WORD | `0000 1010 1000 LLLL` (`000K KKKC CCCC LLLL`) |
+| Descrição no índice | forma abreviada do enunciado com verbo |
+| Lado Hugo | `edge/_index.md` |
+
+## Layout {#레이아웃}
+
+O layout ainda não foi definido. Segue o layout comum de Edge (TAG, [TAG estendida de Length], Edge Id, componentes) ([Edge](_index.md#레이아웃)).
+
+## Documento do codec {#코덱-문서}
+
+O layout ainda não foi definido. O documento do codec contém apenas o DECLARE (alvo `0A80`). Os FIELDs serão postos quando o layout for definido.
+
+## Páginas relacionadas {#관련-페이지}
+
+- [VERB](0x0A9L-verb.md), [Edge](_index.md), [TRIPLE](0x0AAL-triple.md)
+
+## Texto original do documento de especificação {#규격-문서-원문}
+
+É o documento de especificação `0x00000000/codecs/0x00000A80/latest.geul` lido com `geul show` (hexadecimal em maiúsculas).
+
+```
+SPEC-VERSION 0x0001
+DOC-ID 0x04260000000000000A8000000000
+BODY
+#1 DECLARE 0x0A80
+#2 BIND #1 "VERB-SHORT"
+```
