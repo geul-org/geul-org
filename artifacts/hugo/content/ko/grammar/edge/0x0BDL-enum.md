@@ -1,0 +1,94 @@
+---
+title: "ENUM (0x0BDL)"
+weight: 189
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "edge"]
+summary: "ENUM은 날값 필드의 코드값 하나에 의미를 붙이는 서술 Edge다."
+author: "박준우"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+| 항목 | 값 |
+|---|---|
+| 이름 | `ENUM` (규격 문서 BIND `ENUM`) |
+| TAG ID | `0x0BDL` |
+| 코덱 ID | `0x00000BD0` |
+| 규격 문서 | `0x00000000/codecs/0x00000BD0/` (DECLARE 대상 `0BD0`) |
+| 섹션 | 5 `0101` (Edge 서술), 섹션 안 오프셋 C = 29 |
+| Kind | Edge · 계열: 서술, 묶음: 기타 |
+| TAG WORD | `0000 1011 1101 LLLL` (`000K KKKC CCCC LLLL`) |
+| 색인 설명 | 날값 필드의 코드값 하나. 필드, 코드값 |
+| Hugo 쪽 | `edge/enum.md` |
+
+## 필드 (규격 문서)
+
+FIELD의 문서 안 순서가 Payload 필드 순서다([Codec 규격 문서](../codec-spec.md)). Edge의 Edge Id는 FIELD로 선언하지 않는다.
+
+| 순서 | 필드(BIND) | FIELD | 폭 | 받는 형식(CODEC) | ENUM |
+|---|---|---|---|---|---|
+| 1 | `field` | #2 | 레코드 | `0050` LOCAL |  |
+| 2 | `code` | #3 | 나머지 날값(`0xFFFF`) |  |  |
+
+ENUM은 날값 필드의 코드값 하나에 의미를 붙이는 서술 Edge다. Codec `0x0BDL`.
+
+[FIELD](0x0BCL-field.md)와 함께 Codec 규격을 쓰는 어휘다. 레이아웃은 디코더에 내장한다([Codec 규격 문서](../codec-spec.md)).
+
+## 레이아웃
+
+```
+TAG WORD          0000 1011 1101 LLLL
+[Length 확장 TAG]
+Edge Id           LOCAL Reference 레코드
+필드              FIELD Edge를 가리키는 LOCAL Reference 레코드
+코드값            날값. 그 FIELD의 폭과 같은 WORD 수
+```
+
+## 해석과 유효성
+
+- 필드는 날값 FIELD(폭 `n ≥ 1`)여야 한다. 레코드 필드에는 ENUM을 붙이지 않는다. 레코드의 의미는 그 레코드의 Codec이 말한다.
+- 코드값은 정확히 그 FIELD의 폭만큼이다. ENUM 레코드의 Length로 경계를 확인한다.
+- 한 필드에서 같은 코드값을 두 번 선언하지 않는다.
+- 코드값의 이름은 ENUM Edge Id에 [BIND](0x0A3L-bind.md)로 묶는다. DECLARE·FIELD·ENUM·CODEC에 붙이는 UTF8-TEXT는 모두 BIND로 하며, LABEL 등 다른 Edge로 붙이지 않는다.
+- 선언되지 않은 코드값은 오류가 아니다. 뷰어는 날값 그대로 보여 준다. 허용 값을 닫을지는 Codec 규격의 몫이며, 지금 어휘에는 닫는 표시가 없다.
+
+## 길이
+
+```
+전체 = 1 + N_len + N_id + N_field + n WORD
+```
+
+## 예시 (비규범)
+
+TOMBSTONE 규격 문서의 사유 범주 필드(FIELD #4, 날값 1 WORD)에 코드 `0x0001`을 선언한다. Edge Id 10. 이름은 BIND로 따로 묶는다. 사유 범주 코드표는 아직 정해지지 않았으므로 코드값은 예시다.
+
+- TAG 1 + Edge Id 2 + 필드 2 + 코드값 1 = 6 WORD, `LLLL = 0101`.
+
+```
+0BD5 0051 000A 0051 0004 0001
+```
+
+TRIPLE 규격 문서는 Rank 필드(FIELD #5)에 ENUM 셋(`0`·`1`·`2`)을 두고 각각 `normal`·`preferred`·`deprecated`로 BIND한다([TRIPLE](0x0AAL-triple.md)).
+
+## 관련 페이지
+
+- [DECLARE](0x0BBL-declare.md), [FIELD](0x0BCL-field.md), [CODEC](0x0BEL-codec.md), [BIND](0x0A3L-bind.md)
+- [Codec 규격 문서](../codec-spec.md)
+
+## 규격 문서 원문
+
+규격 문서 `0x00000000/codecs/0x00000BD0/latest.geul`을 `geul show`로 읽은 모습이다(16진은 대문자).
+
+```
+SPEC-VERSION 0x0001
+DOC-ID 0x04260000000000000BD000000000
+BODY
+#1 DECLARE 0x0BD0
+#2 FIELD #1 record
+#3 FIELD #1 rest
+#4 BIND #1 "ENUM"
+#5 BIND #2 "field"
+#6 BIND #3 "code"
+#7 CODEC #2 0x0050
+```

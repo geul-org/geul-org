@@ -1,16 +1,16 @@
 ---
 title: "공표 주소와 버전 목록"
-weight: 85
+weight: 30
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "issuer", "publication", "signature"]
-summary: "공표한 GEUL 문서는 ID(Issuer, 문서 ID, 버전 ID)에서 정해지는 고정 주소로 서비스되고, 공표처가 서명한 버전 목록으로 검증된다. 이 페이지는 ID 표기, 주소, 형식 지정, Issuer 목록과 이름, 버전 목록, 신뢰 층을 정한다."
+summary: "GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를 가리킨다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
 ---
 
-GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를 가리킨다. 주소는 ID에서 정해진다. 이 페이지는 인코더·디코더·해석기가 서로 맞물려 동작하는 데 필요한 공표 규칙을 정한다. Issuer 등급과 공개 방식은 [Issuer와 공표](/ko/grammar/issuer/)가 정한다.
+GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를 가리킨다. 주소는 ID에서 정해진다. 이 페이지는 인코더·디코더·해석기가 서로 맞물려 동작하는 데 필요한 공표 규칙을 정한다. Issuer 등급과 공개 방식은 [Issuer와 공표](issuer.md)가 정한다.
 
 ## ID 표기
 
@@ -19,7 +19,7 @@ GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를
 - 접두어는 소문자 `0x`다. 16진은 A-F 대문자로 쓴다. 해석기는 소문자로 쓴 주소도 대문자로 바꿔 찾는다.
 - 자릿수는 폭 × 4로 고정한다. 앞의 0을 생략하지 않으며, 자릿수가 곧 폭이다.
 - 주소를 쓸 때 Issuer는 발급 폭의 자릿수로 쓴다: 2 WORD 8자리, 4 WORD 16자리, 16 WORD 64자리.
-- 읽을 때 Issuer는 8자리, 16자리, 64자리 모두 받는다. 짧은 Issuer ID에 앞 0을 붙인 긴 표기는 같은 Issuer로 찾는다(`0x00000001`과 `0x0000000000000001`은 같은 Issuer다, [Issuer와 공표](/ko/grammar/issuer/#issuer-등급)).
+- 읽을 때 Issuer는 8자리, 16자리, 64자리 모두 받는다. 짧은 Issuer ID에 앞 0을 붙인 긴 표기는 같은 Issuer로 찾는다(`0x00000001`과 `0x0000000000000001`은 같은 Issuer다, [Issuer와 공표](issuer.md#issuer-등급)).
 
 | 대상 | 폭 | 자릿수 | 예 |
 |---|---|---|---|
@@ -34,9 +34,9 @@ GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를
 - GEUL 직접 코드의 코덱 ID는 그 TAG WORD(L=0)를 32비트로 쓴 값이다(TRIPLE `0x0AAL` → `0x00000AA0`). Kind가 TAG에 들어 있어 겹치지 않는다.
 - 다른 Issuer의 ISSUER 형식 코덱은 그 Issuer의 `codecs/` 아래에 레코드의 코덱 번호로 둔다. 예: IETF CRC32C는 `0x00000007/codecs/0x0000C000/`.
 - Issuer 코덱의 코덱 ID는 레코드의 코덱 번호(2 WORD)다. Issuer는 Kind(Reference, Value, Edge)와 상관없이 자기 `<Issuer>/codecs/` 안에서 코덱 번호가 겹치지 않게 배정한다. 주소는 Kind로 나누지 않는다(`references/`, `values/`, `edges/` 같은 폴더는 없다).
-- 해석기는 레코드의 Kind와 그 코덱 문서 [DECLARE](/ko/grammar/edge/declare/) 대상의 Kind가 다르면 오류로 본다.
+- 해석기는 레코드의 Kind와 그 코덱 문서 [DECLARE](edge/0x0BBL-declare.md) 대상의 Kind가 다르면 오류로 본다.
 - 공표는 같은 코덱 ID에 다른 코덱을 올리는 것을 거부한다.
-- 버전 ID의 규칙(1부터, `0`은 최신, 공표처 배정, 다 쓰면 새 문서 ID)은 [문서](/ko/grammar/document/#버전)가 정한다.
+- 버전 ID의 규칙(1부터, `0`은 최신, 공표처 배정, 다 쓰면 새 문서 ID)은 [문서](document.md#버전)가 정한다.
 
 ## 공표 주소
 
@@ -61,7 +61,7 @@ GEUL은 문자열 URL이 아니라 ID(Issuer, 문서 ID, 버전 ID)로 문서를
 - 한 버전의 정본 주소는 `/<Issuer>/docs/<문서 ID>/<버전 ID>.geul`이다. 코덱은 `/<Issuer>/codecs/<코덱 ID>/<버전 ID>.geul`이다. 같은 내용을 주는 다른 주소는 `Link: rel=canonical`로 정본 주소를 가리킨다.
 - 버전 지정 주소와 내용 해시 주소는 불변이다. 불변 주소는 영구 캐시와 CDN에 둘 수 있다. 받은 쪽은 버전 목록(또는 잠금 기록)의 내용 해시로 검증한다.
 - 내용 해시로 찾으려면 Issuer를 알아야 한다. 해시만으로 찾는 전역 조회는 없다.
-- 코덱 문서는 문서 ID가 없다. [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)(Issuer, 코덱 ID, 버전 ID)로 자기와 버전을 가리킨다.
+- 코덱 문서는 문서 ID가 없다. [CODEC-POINTER](reference/0x042L-codec-pointer.md)(Issuer, 코덱 ID, 버전 ID)로 자기와 버전을 가리킨다.
 - ID는 항상 `0x`로 시작한다. 그래서 예약 이름(`issuers`, `codecs`, `docs`, `hashes`, `latest.geul`, `versions.geul`)이나 사람이 붙인 이름은 `add`, `cafe`처럼 hex로만 된 단어여도 ID와 겹치지 않는다.
 - 위치(어느 서버에서 받는지)는 문서 내용에 넣지 않는다. 넣으면 주소가 바뀔 때 내용 해시가 바뀐다. 위치는 문서를 받는 쪽의 설정이 정한다.
 
@@ -100,12 +100,12 @@ Fetch(ctx, Addr) ([]byte, error)    // geul get = ParseAddr → Fetch → 표준
 
 ### 목록 문서
 
-목록 문서는 Issuer 목록 `issuers/` 하나다. Issuer와 도메인을 묶는다([Issuer 목록](#issuer-목록)). 버전 1부터이고 `versions.geul`을 둔다. 목록의 문서 ID는 예약 문서 ID `0xFFFFFFFFFFFFFFFF`(Issuer geul.org `0x00000000`)다. 모든 Issuer는 문서 ID `0x0000000000000000`과 `0xFFFFFFFFFFFFFFFF`를 예약한다([Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)).
+목록 문서는 Issuer 목록 `issuers/` 하나다. Issuer와 도메인을 묶는다([Issuer 목록](#issuer-목록)). 버전 1부터이고 `versions.geul`을 둔다. 목록의 문서 ID는 예약 문서 ID `0xFFFFFFFFFFFFFFFF`(Issuer geul.org `0x00000000`)다. 모든 Issuer는 문서 ID `0x0000000000000000`과 `0xFFFFFFFFFFFFFFFF`를 예약한다([Issuer와 공표](issuer.md#용어-정의-문서)).
 
 - `latest.geul`은 저장하지 않는 별칭이다. `versions.geul`에서 가장 최근 버전을 찾아 그 바이트를 낸다.
-- `issuers/versions.geul`의 PUBLICATION·DEPRECATION·TOMBSTONE은 DOC-POINTER(`0x00000000`, `0xFFFFFFFFFFFFFFFF`, 버전 ID)로 목록 버전을 가리킨다. 그래서 `hashes/`로 받아도 무엇의 목록인지 안다([PUBLICATION](/ko/grammar/edge/publication/#목록-문서의-버전-목록)).
-- 문서 ID `0xFFFFFFFFFFFFFFFF`는 어느 Issuer에서도 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않는다(404). 다른 예약 문서 ID `0x0000000000000000`은 그 Issuer의 용어 정의 색인 문서로 `docs/` 아래에 둔다([Issuer와 공표](/ko/grammar/issuer/#용어-정의-문서)).
-- 목록 문서에는 `DOC-ID`를 두지 않는다. 무엇의 목록인지는 레코드의 DOC-POINTER가 말한다([DOC-ID](/ko/grammar/meta/declaration/doc-id/)).
+- `issuers/versions.geul`의 PUBLICATION·DEPRECATION·TOMBSTONE은 DOC-POINTER(`0x00000000`, `0xFFFFFFFFFFFFFFFF`, 버전 ID)로 목록 버전을 가리킨다. 그래서 `hashes/`로 받아도 무엇의 목록인지 안다([PUBLICATION](edge/0x0B8L-publication.md#목록-문서의-버전-목록)).
+- 문서 ID `0xFFFFFFFFFFFFFFFF`는 어느 Issuer에서도 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않는다(404). 다른 예약 문서 ID `0x0000000000000000`은 그 Issuer의 용어 정의 색인 문서로 `docs/` 아래에 둔다([Issuer와 공표](issuer.md#용어-정의-문서)).
+- 목록 문서에는 `DOC-ID`를 두지 않는다. 무엇의 목록인지는 레코드의 DOC-POINTER가 말한다([DOC-ID](meta/0x1C7L-doc-id.md)).
 - 문서와 코덱은 목록 없이 레코드에서 계산한 ID로 바로 찾는다([문서 이름](#문서-이름)).
 
 ### 도메인 이름
@@ -127,25 +127,25 @@ BODY
   …
 ```
 
-- Subject는 [ISSUER-POINTER](/ko/grammar/reference/issuer-pointer/)(Issuer 자신)이고 이름은 [BIND](/ko/grammar/edge/bind/)로 묶는다.
+- Subject는 [ISSUER-POINTER](reference/0x040L-issuer-pointer.md)(Issuer 자신)이고 이름은 [BIND](edge/0x0A3L-bind.md)로 묶는다.
 - 이름은 도메인 소유 증명을 거친 도메인이다. 소문자이며 국제화 도메인은 IDNA(punycode)로 쓴다. 이름 하나는 Issuer 하나에만 묶인다.
-- 사람이 읽는 Issuer 표시 이름(언어별)은 같은 Subject에 서술 [LABEL](/ko/grammar/edge/label/)로 붙인다.
+- 사람이 읽는 Issuer 표시 이름(언어별)은 같은 Subject에 서술 [LABEL](edge/0x0A4L-label.md)로 붙인다.
 - geul.org(GEUL Issuer)가 서명하고, 바뀌면 덧붙이며 고치지 않는다(버전 목록과 같은 사슬 규칙).
 
 ### 문서 이름
 
 **문서 이름 주소는 없다.** 문서와 코덱은 ID로 찾는다.
 
-- 문서 이름·코덱 이름을 ID로 바꾸는 색인은 두지 않는다. 버전 목록에도 문서 이름 [BIND](/ko/grammar/edge/bind/)를 두지 않는다([PUBLICATION](/ko/grammar/edge/publication/#버전-목록-문서)).
+- 문서 이름·코덱 이름을 ID로 바꾸는 색인은 두지 않는다. 버전 목록에도 문서 이름 [BIND](edge/0x0A3L-bind.md)를 두지 않는다([PUBLICATION](edge/0x0B8L-publication.md#버전-목록-문서)).
 - 사람이 둘러보는 색인은 도구(뷰어)가 pack 인벤토리로 만든다.
 - 정본 주소, 캐시 키, 서명 대상은 ID 주소다. IMPORT와 문서 안의 인용은 ID로만 한다.
-- 사람이 읽는 제목(언어별)은 서술 [LABEL](/ko/grammar/edge/label/)로 붙인다.
+- 사람이 읽는 제목(언어별)은 서술 [LABEL](edge/0x0A4L-label.md)로 붙인다.
 
 ### 삭제된 문서
 
 - 법적 삭제·직권 삭제로 폐기된 버전(TOMBSTONE)의 주소도 다른 없는 주소처럼 404(없음)다.
 - 사용 중단을 권고한 버전(DEPRECATION)은 404가 아니다. 그 버전 주소로 계속 내준다.
-- 삭제는 버전 목록에 [TOMBSTONE](/ko/grammar/edge/publication/) 레코드(그 버전의 DOC-POINTER, 사유 범주)로 남는다.
+- 삭제는 버전 목록에 [TOMBSTONE](edge/0x0BAL-tombstone.md) 레코드(그 버전의 DOC-POINTER, 사유 범주)로 남는다.
 
 ## 층
 
@@ -153,17 +153,17 @@ GEUL은 출처·메타·목록까지 GEUL 문서로 표현한다. 그것을 읽�
 
 | 층 | 내용 | 기대는 것 |
 |---|---|---|
-| 0층 | 디코더 내장 규칙: 프레이밍, 내용 해시, 서명 검증, 버전 목록 레코드 Codec(`PUBLICATION`·`DEPRECATION`·`TOMBSTONE`), Codec 규격 어휘(`DECLARE`·`FIELD`·`ENUM`·`CODEC`), [자리 표지](/ko/grammar/reference/slot-marker/)(`0x0000`, `0x0010`, `0x0020`), 문서 밖에서 받는 신뢰 키 | 없음. 조회하지 않는다 |
+| 0층 | 디코더 내장 규칙: 프레이밍, 내용 해시, 서명 검증, 버전 목록 레코드 Codec(`PUBLICATION`·`DEPRECATION`·`TOMBSTONE`), Codec 규격 어휘(`DECLARE`·`FIELD`·`ENUM`·`CODEC`), [자리 표지](slot-marker.md)(`0x0000`, `0x0010`, `0x0020`), 문서 밖에서 받는 신뢰 키 | 없음. 조회하지 않는다 |
 | 1층 | 버전 목록 문서 | 0층 |
 | 2층 | 일반 문서, 코덱북, Codec 규격 문서, Issuer 검증키 문서 | 1층으로 찾고 0층으로 검증한다 |
 
 - 어느 층도 자기 층이나 위 층에 기대지 않는다.
 - GEUL로 표현하는 것과 GEUL로 해석해야만 읽히는 것을 구분한다. 0층은 GEUL로 표현할 수는 있어도 해석에 조회가 필요하지 않다.
-- 판정의 의미처럼 TOULMIN 문서로 바꿀 수 없는 고정 핵심도 이 자리에 둔다([TOULMIN](/ko/grammar/edge/toulmin/#메타-인지와-자기-개정)).
+- 판정의 의미처럼 TOULMIN 문서로 바꿀 수 없는 고정 핵심도 이 자리에 둔다([TOULMIN](toulmin/_index.md#메타-인지와-자기-개정)).
 
 ## 버전 목록
 
-공표처는 문서마다 버전 목록 문서 하나를 이어 쓴다(`/<Issuer>/docs/<문서 ID>/versions.geul`, 코덱은 `/<Issuer>/codecs/<코덱 ID>/versions.geul`, Issuer 목록은 `issuers/versions.geul`). 레코드 형식과 문서 구조는 [PUBLICATION](/ko/grammar/edge/publication/)이 정한다.
+공표처는 문서마다 버전 목록 문서 하나를 이어 쓴다(`/<Issuer>/docs/<문서 ID>/versions.geul`, 코덱은 `/<Issuer>/codecs/<코덱 ID>/versions.geul`, Issuer 목록은 `issuers/versions.geul`). 레코드 형식과 문서 구조는 [PUBLICATION](edge/0x0B8L-publication.md)이 정한다.
 
 ```
 DOC-*
@@ -187,7 +187,7 @@ END
 | TOMBSTONE | 공표한 버전을 삭제한다(법적·직권 삭제). 사유 범주를 적는다 |
 
 - 레코드는 추가만 한다. 고치거나 지우거나 순서를 바꾸지 않는다. deprecate·삭제도 레코드를 덧붙인다. 새 목록은 직전 목록의 BODY를 그대로 앞에 두고 레코드를 덧붙이며, 목록끼리 `PARENT` 해시 사슬로 이어진다.
-- 공표 기록을 고치지 않는다는 뜻이며, 문서 내용의 개정([문서](/ko/grammar/document/#개정))과는 다르다. 버전의 현재 상태는 레코드를 차례로 적용해 계산한다.
+- 공표 기록을 고치지 않는다는 뜻이며, 문서 내용의 개정([문서](document.md#개정))과는 다르다. 버전의 현재 상태는 레코드를 차례로 적용해 계산한다.
 - 버전 ID는 1부터 빠짐없이 오름차순이다. 같은 내용을 다시 공표하지 않는다.
 - 최신 버전은 폐기 권고도 삭제도 아닌 가장 높은 버전이다.
 - 레코드에는 시각을 넣지 않는다. 그 레코드가 처음 실린 목록의 `RECORDED-AT`이 공표 시각이다.
@@ -200,7 +200,7 @@ END
 
 | 서명 | 주체 | 대상 |
 |---|---|---|
-| 문서 서명 | 그 문서의 Issuer | 문서의 내용 해시 ([Issuer와 공표](/ko/grammar/issuer/#서명)) |
+| 문서 서명 | 그 문서의 Issuer | 문서의 내용 해시 ([Issuer와 공표](issuer.md#서명)) |
 | 목록 서명 | 버전 ID를 배정한 공표처 | 버전 목록의 내용 해시 |
 
 - geul.org 공표는 geul.org(GEUL Issuer)가, 사설 공표는 그 Issuer가 버전 ID를 배정하고 목록에 서명한다.
@@ -215,10 +215,10 @@ END
 
 ## 의존성 해석
 
-- 문서는 HEAD의 [IMPORT-DOC](/ko/grammar/meta/import/import-doc/)으로 의존 문서를 적는다.
+- 문서는 HEAD의 [IMPORT-DOC](meta/0x1E4L-import-doc.md)으로 의존 문서를 적는다.
 - 새 버전은 이전 버전과의 호환을 약속하지 않는다. 그래서 그래프 전체에서 한 문서의 버전을 하나로 합치지 않는다(최소 버전 선택을 쓰지 않는다).
 - 각 `IMPORT-DOC`은 자기가 고정한 판본에 바인딩된다. 같은 문서의 여러 판본이 한 그래프에 함께 있을 수 있다(구법을 인용한 판결과 현행법을 인용한 판결). 참조는 (문서, 버전, LOCAL ID)로 푼다.
-- 최신(버전 `0`) 가져오기는 해석 시점의 최신 판본에 바인딩된다. 시점을 정해 해석하면 그 시점에 시행 중인 판본에 바인딩된다([문서](/ko/grammar/document/#개정)).
+- 최신(버전 `0`) 가져오기는 해석 시점의 최신 판본에 바인딩된다. 시점을 정해 해석하면 그 시점에 시행 중인 판본에 바인딩된다([문서](document.md#개정)).
 - 버전 ID로 고정한 가져오기는 재현된다(버전 ID의 내용은 불변이고 잠금 기록으로 검증한다).
 
 ## 미디어 타입

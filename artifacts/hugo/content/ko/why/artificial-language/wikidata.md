@@ -96,7 +96,7 @@ GEUL은 위키데이터의 식별자를 새로 만들지 않는다.
 그대로 쓴다.
 
 GEUL 문법에는 위키데이터를 가리키는 Reference가 따로 있다.
-[WIKIDATA-QID](/ko/grammar/reference/wikidata-qid/)는 Q-ID의 숫자를, [WIKIDATA-PID](/ko/grammar/reference/wikidata-pid/)는 P-ID의 숫자를 부호 없는 정수로 쓴다.
+[WIKIDATA-QID](/ko/grammar/reference/0x014l-wikidata-qid/)는 Q-ID의 숫자를, [WIKIDATA-PID](/ko/grammar/reference/0x019l-wikidata-pid/)는 P-ID의 숫자를 부호 없는 정수로 쓴다.
 Q42는 정수 42다. P31은 정수 31이다.
 문자열이 아니라 정수이므로, 같은지 비교하는 데 정규화가 필요 없다.
 
@@ -149,7 +149,7 @@ Q-ID는 등록 순서대로 붙은 번호다.
 Q42는 더글러스 애덤스이고, Q41은 그리스, Q43은 튀르키예다.
 
 GEUL은 다른 종류의 식별자도 연구하고 있다.
-[SIDX](/ko/grammar/reference/geul-sidx/)(Semantic-aligned Index), 의미가 가까운 대상에 가까운 값을 주는 의미정렬 식별자다.
+[SIDX](/ko/grammar/reference/0x00fl-geul-sidx/)(Semantic-aligned Index), 의미가 가까운 대상에 가까운 값을 주는 의미정렬 식별자다.
 목표는 비트 자체에 의미를 담는 것이다.
 상위 비트만 봐도 "이것이 사람인지, 장소인지, 조직인지" 알 수 있게.
 
@@ -158,7 +158,7 @@ SIDX는 아직 v1 이전의 연구 단계다.
 폭은 정해지지 않았다. 64비트와 256비트 등을 검토하고 있고, 통계를 보고 정한다.
 배정 결과도 아직 없다.
 그래서 지금의 위키데이터 문서는 SIDX 없이 Q-ID로 쓴다.
-SIDX가 배정되면 같은 대상의 기존 식별자와 SIDX를 [SAME-NODE](/ko/grammar/edge/same-node/)로 잇는다.
+SIDX가 배정되면 같은 대상의 기존 식별자와 SIDX를 [SAME-NODE](/ko/grammar/edge/0x0a1l-same-node/)로 잇는다.
 
 여기서 위키데이터가 다시 쓰인다.
 SIDX 연구는 위키데이터의 분류 체계와 빈도 통계에서 출발한다.

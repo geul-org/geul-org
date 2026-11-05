@@ -1,10 +1,10 @@
 ---
 title: "예시: 위키데이터 항목"
-weight: 100
+weight: 140
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "example", "wikidata"]
-summary: "위키데이터 Q42(Douglas Adams)의 이름 하나, 명제 둘, 한정 조건 하나를 담은 GEUL 문서 63 WORD를 처음부터 끝까지 읽는다."
+summary: "위키데이터 항목 Q42(Douglas Adams)에 관한 작은 문서를 처음부터 끝까지 읽어 본다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -141,7 +141,7 @@ END. 여기까지가 63 WORD다.
 - 각 Edge의 Codec(LABEL, TRIPLE, TRIPLE, QUALIFIER)과 Edge Id(1, 2, 3, 4).
 - 레코드마다 다음 레코드의 위치.
 
-구성요소의 역할(Predicate, Subject, Object, Rank)은 각 Codec의 [규격 문서](/ko/grammar/codec-spec/)를 읽어야 안다.
+구성요소의 역할(Predicate, Subject, Object, Rank)은 각 Codec의 [규격 문서](codec-spec.md)를 읽어야 안다.
 
 ## 내용 해시
 

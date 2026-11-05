@@ -278,9 +278,9 @@ LLM은 수십억 개의 문장으로 학습되었다.
 **얼마나 확신하는가** -- 확신도
 
 GEUL에는 이 자리가 있다.
-[SOURCE](/ko/grammar/edge/source/) Edge가 서술을 그 원천에 잇는다.
-명제가 성립하는 시점은 [QUALIFIER](/ko/grammar/edge/qualifier/)로 한정한다.
-세계관과 장면은 WORLD·SCENE Edge가, 문서 전체의 신뢰도는 [CONFIDENCE](/ko/grammar/meta/verification/confidence/) Meta가 맡는다.
+[SOURCE](/ko/grammar/edge/0x0c0l-source/) Edge가 서술을 그 원천에 잇는다.
+명제가 성립하는 시점은 [QUALIFIER](/ko/grammar/edge/0x0abl-qualifier/)로 한정한다.
+세계관과 장면은 WORLD·SCENE Edge가, 문서 전체의 신뢰도는 [CONFIDENCE](/ko/grammar/meta/0x1e8l-confidence/) Meta가 맡는다.
 
 모두 채워야 하는 것은 아니다.
 그러나 적지 않은 것은 적지 않은 것으로 드러난다.

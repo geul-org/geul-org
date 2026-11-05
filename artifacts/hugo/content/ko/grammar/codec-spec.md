@@ -1,10 +1,10 @@
 ---
 title: "Codec 규격 문서"
-weight: 90
+weight: 40
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-28T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "codebook", "declare", "field"]
-summary: "코덱북도 GEUL 문서다. DECLARE·FIELD·ENUM·CODEC 네 Edge로 Codec 하나의 Payload 구성을 선언하고, 그 문서 하나로 검증·분해·표시를 함께 한다."
+summary: "Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -29,16 +29,16 @@ Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다. GEUL의
 
 디코더는 TAG WORD만 보고 규격 문서의 주소를 만든다. 모르는 Codec을 만나면 그 문서를 받아 읽으면 된다.
 
-- `<TAG>`는 대상 TAG WORD의 hex 4자리(대문자)다. Length 자리는 `0000`이다. 코덱 문서는 코드마다 하나다. Reference 5Q 체계도 양화 코드마다 따로 둔다(LOCAL Identified `0050`, LOCAL Generic `0060`). 직접 코드와 Issuer 코덱이 같은 주소 규칙 `<Issuer>/codecs/<코덱 ID>/`를 쓴다([공표 주소와 버전 목록](/ko/grammar/publishing/#공표-주소)).
-- [자리 표지](/ko/grammar/reference/slot-marker/)(`0x0000`, `0x0010`, `0x0020`)도 규격 문서를 둔다. Payload가 없어 DECLARE만 두고 FIELD가 없다. 표지의 뜻과 수용 규칙은 디코더에 내장한다([0층](/ko/grammar/publishing/#층)). 레이아웃을 아직 정하지 않은 Codec도 DECLARE만 둔 규격 문서로 시작한다.
-- 규격 문서는 `DOC-ID`로 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)(`0x00000000`, `0x0000<TAG>`, `0`)를 둔다. 버전 목록 레코드도 이 CODEC-POINTER를 쓴다.
+- `<TAG>`는 대상 TAG WORD의 hex 4자리(대문자)다. Length 자리는 `0000`이다. 코덱 문서는 코드마다 하나다. Reference 5Q 체계도 양화 코드마다 따로 둔다(LOCAL Identified `0050`, LOCAL Generic `0060`). 직접 코드와 Issuer 코덱이 같은 주소 규칙 `<Issuer>/codecs/<코덱 ID>/`를 쓴다([공표 주소와 버전 목록](publishing.md#공표-주소)).
+- [자리 표지](slot-marker.md)(`0x0000`, `0x0010`, `0x0020`)도 규격 문서를 둔다. Payload가 없어 DECLARE만 두고 FIELD가 없다. 표지의 뜻과 수용 규칙은 디코더에 내장한다([0층](publishing.md#층)). 레이아웃을 아직 정하지 않은 Codec도 DECLARE만 둔 규격 문서로 시작한다.
+- 규격 문서는 `DOC-ID`로 [CODEC-POINTER](reference/0x042L-codec-pointer.md)(`0x00000000`, `0x0000<TAG>`, `0`)를 둔다. 버전 목록 레코드도 이 CODEC-POINTER를 쓴다.
 - 버전·정본 주소·서명 규칙은 일반 공표 문서와 같다.
 
 ### 코덱북과 명세 판
 
-- 코덱 문서도 [IMPORT-DOC](/ko/grammar/meta/import/import-doc/)으로 가져올 수 있다. 그때 문서 자리에는 DOC-POINTER 대신 [CODEC-POINTER](/ko/grammar/reference/codec-pointer/)를 쓴다. 문서 HEAD의 [SPEC-VERSION](/ko/grammar/meta/declaration/spec-version/)이 어느 코덱북을 따르는지 정한다.
+- 코덱 문서도 [IMPORT-DOC](meta/0x1E4L-import-doc.md)으로 가져올 수 있다. 그때 문서 자리에는 DOC-POINTER 대신 [CODEC-POINTER](reference/0x042L-codec-pointer.md)를 쓴다. 문서 HEAD의 [SPEC-VERSION](meta/0x1C5L-spec-version.md)이 어느 코덱북을 따르는지 정한다.
 - 모든 디코더는 핵심 코덱북을 내장하거나 이 주소에서 받는다.
-- 제안(Prefix `000`)이 표준으로 채택되면 레이아웃은 그대로 두고 Prefix만 `001`로 바뀐다([개요](/ko/grammar/overview/#영역-구조)). 대상 TAG WORD가 달라지므로 채택본은 다른 코덱 ID의 새 규격 문서가 되고, 제안 문서는 불변으로 남는다.
+- 제안(Prefix `000`)이 표준으로 채택되면 레이아웃은 그대로 두고 Prefix만 `001`로 바뀐다([개요](_index.md#영역-구조)). 대상 TAG WORD가 달라지므로 채택본은 다른 코덱 ID의 새 규격 문서가 되고, 제안 문서는 불변으로 남는다.
 
 ## 네 어휘
 
@@ -49,7 +49,7 @@ Codec이 Payload를 어떻게 구성하는지는 코덱북이 정한다. GEUL의
 | ENUM | `0x0BDL` | 날값 필드의 코드값 하나에 의미를 붙인다 |
 | CODEC | `0x0BEL` | 필드가 받는 Kind·Codec 하나를 지정한다 |
 
-- 네 Edge의 레이아웃은 디코더에 내장한다([0층](/ko/grammar/publishing/#층)). 규격 문서를 코덱북 없이 읽어야 하기 때문이다. 규격 문서를 읽는 데 다른 규격 문서가 필요 없다.
+- 네 Edge의 레이아웃은 디코더에 내장한다([0층](publishing.md#층)). 규격 문서를 코덱북 없이 읽어야 하기 때문이다. 규격 문서를 읽는 데 다른 규격 문서가 필요 없다.
 - 이름(Codec 이름, 필드 이름, 코드값 이름)은 모두 BIND로 묶는다.
 
 ### FIELD
@@ -64,7 +64,7 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 - 레코드 필드는 TAG WORD로 시작하고 그 Length만큼 읽는다.
 - 날값 필드는 정해진 WORD 수만큼 읽는 부호 없는 정수다. 부호·소수·날짜처럼 해석이 필요한 값은 날값이 아니라 Value 레코드로 둔다.
 - 나머지 날값(`0xFFFF`)은 하나만 둘 수 있고, 그 뒤에는 고정 폭 날값만 온다.
-- Edge의 Edge Id는 FIELD로 선언하지 않는다. 모든 Edge의 첫 요소라 암묵적이다. EDGE-ISSUER는 Issuer·코덱 번호 뒤의 첫 요소다([Issuer 형식 Edge](/ko/grammar/edge/#issuer-형식-edge)).
+- Edge의 Edge Id는 FIELD로 선언하지 않는다. 모든 Edge의 첫 요소라 암묵적이다. EDGE-ISSUER는 Issuer·코덱 번호 뒤의 첫 요소다([EDGE-ISSUER-2WORD](edge/0x1BDL-edge-issuer-2word.md)).
 - 필드를 차례로 읽은 위치는 레코드 끝과 정확히 맞아야 한다.
 
 ### CODEC
@@ -84,7 +84,7 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 
 ### 선택 필드와 자리 표지
 
-[자리 표지](/ko/grammar/reference/slot-marker/)는 Reference 섹션 0의 첫 세 칸 `0x000L~0x002L`에 배정한 1 WORD 레코드 묶음이다. 필드의 CODEC 목록이 그 WORD를 정확한 대상으로 둘 때만 그 자리에 올 수 있다.
+[자리 표지](slot-marker.md)는 Reference 섹션 0의 첫 세 칸 `0x000L~0x002L`에 배정한 1 WORD 레코드 묶음이다. 필드의 CODEC 목록이 그 WORD를 정확한 대상으로 둘 때만 그 자리에 올 수 있다.
 
 | CODEC 대상 | 표지 | 그 필드는 |
 |---|---|---|
@@ -96,7 +96,7 @@ DECLARE           LOCAL (이 필드가 속한 DECLARE)
 - 선택 필드를 생략할 때는 그 자리에 WORD `0x0000` 하나(ABSENT)를 쓴다. 선택 필드도 자리는 항상 차지한다. 그래서 레코드 하나의 표기는 하나이고, 분해는 위치만으로 정해진다.
 - 표지는 자기 Reference 코드를 가져 다른 레코드와 겹치지 않고, 규격을 모르는 디코더도 1 WORD 레코드로 건너뛴다.
 - 세 표지는 다른 말이다. ABSENT는 문서에 관한 말(이 자리를 채우지 않았다)이라 세계에 관해 아무것도 단언하지 않는다. UNKNOWN-VALUE는 값이 있다는 단언(`∃x`), NO-VALUE는 값이 없다는 단언(`¬∃x`, 한정 조건 안에서)이다. 생략은 "값이 없음"이 아니라 "적지 않음"이다.
-- 표지가 무엇을 뜻하는지는 그 표지를 받는 Codec 규격이 정한다([TRIPLE](/ko/grammar/edge/triple/), [QUALIFIER](/ko/grammar/edge/qualifier/)).
+- 표지가 무엇을 뜻하는지는 그 표지를 받는 Codec 규격이 정한다([TRIPLE](edge/0x0AAL-triple.md), [QUALIFIER](edge/0x0ABL-qualifier.md)).
 
 ## 예: TRIPLE 규격 문서
 

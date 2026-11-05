@@ -80,7 +80,7 @@ GEUL pack 아카이브의 레코드를 파티션·정렬 색인으로 만들어,
 
 SIDX(Semantic-aligned Index) 배정 연구.
 
-의미가 가까운 개체에 가까운 번호를 주는 의미 주소 SIDX를 위키데이터 사용 통계로 배정하려는 연구 자료다. 옛 Entity 48비트 속성 스키마, 인코더 스크립트, 코드북을 담고 있으며, 아직 SIDX 배정 결과는 없다. SIDX의 규범 정의는 문법의 [GEUL-SIDX](/ko/grammar/reference/geul-sidx/)다.
+의미가 가까운 개체에 가까운 번호를 주는 의미 주소 SIDX를 위키데이터 사용 통계로 배정하려는 연구 자료다. 옛 Entity 48비트 속성 스키마, 인코더 스크립트, 코드북을 담고 있으며, 아직 SIDX 배정 결과는 없다. SIDX의 규범 정의는 문법의 [GEUL-SIDX](/ko/grammar/reference/0x00fl-geul-sidx/)다.
 
 | | |
 |---|---|
@@ -128,7 +128,7 @@ geul-org 조직 밖의 저장소다.
 
 툴민 논증 모델 기반 규칙 엔진(TypeScript, Python, Go, C).
 
-규칙은 함수이고, 예외는 그래프의 공격 관계다. GEUL 문법의 [TOULMIN](/ko/grammar/edge/toulmin/) Edge(직접 코드 `0x60`~`0x7B`)가 이 판정·실행 그래프를 GEUL 문서로 쓴다.
+규칙은 함수이고, 예외는 그래프의 공격 관계다. GEUL 문법의 [TOULMIN](/ko/grammar/toulmin/) Edge(직접 코드 `0x60`~`0x7B`)가 이 판정·실행 그래프를 GEUL 문서로 쓴다.
 
 | | |
 |---|---|

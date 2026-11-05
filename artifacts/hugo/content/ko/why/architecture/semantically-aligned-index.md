@@ -95,7 +95,7 @@ JOIN이 필요 없어진다.
 ## ID에 의미를 정렬한다
 
 SIDX(Semantically-Aligned Index)는 이런 ID를 만들려는 연구다.
-GEUL 문법에는 SIDX로 대상을 가리키는 Reference 자리([GEUL-SIDX](/ko/grammar/reference/geul-sidx/))가 이미 있다.
+GEUL 문법에는 SIDX로 대상을 가리키는 Reference 자리([GEUL-SIDX](/ko/grammar/reference/0x00fl-geul-sidx/))가 이미 있다.
 그러나 폭과 배정 방식은 아직 정하지 않았다. 사용 통계를 쌓아 정한다.
 아래에서는 설명을 위해 64비트를 예로 든다.
 

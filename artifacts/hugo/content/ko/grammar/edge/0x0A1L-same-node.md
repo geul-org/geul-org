@@ -1,0 +1,94 @@
+---
+title: "SAME-NODE (0x0A1L)"
+weight: 161
+date: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
+tags: ["grammar", "edge"]
+summary: "SAME-NODE는 두 Reference가 같은 referent를 지시한다고 선언하는 방향 없는 동일성 서술 Edge다."
+author: "박준우"
+authorLink: "https://parkjunwoo.com/about"
+image: "/images/og-default.webp"
+---
+
+| 항목 | 값 |
+|---|---|
+| 이름 | `SAME-NODE` (규격 문서 BIND `SAME-NODE`) |
+| TAG ID | `0x0A1L` |
+| 코덱 ID | `0x00000A10` |
+| 규격 문서 | `0x00000000/codecs/0x00000A10/` (DECLARE 대상 `0A10`) |
+| 섹션 | 5 `0101` (Edge 서술), 섹션 안 오프셋 C = 1 |
+| Kind | Edge · 계열: 서술, 묶음: 지시와 이름 |
+| TAG WORD | `0000 1010 0001 LLLL` (`000K KKKC CCCC LLLL`) |
+| 색인 설명 | 두 Reference가 동일한 대상을 지시하는 동일성 |
+| Hugo 쪽 | `edge/same-node.md` |
+
+## 필드 (규격 문서)
+
+FIELD의 문서 안 순서가 Payload 필드 순서다([Codec 규격 문서](../codec-spec.md)). Edge의 Edge Id는 FIELD로 선언하지 않는다.
+
+| 순서 | 필드(BIND) | FIELD | 폭 | 받는 형식(CODEC) | ENUM |
+|---|---|---|---|---|---|
+| 1 | `subject` | #2 | 레코드 | 아무 레코드(자리 표지 제외) |  |
+| 2 | `object` | #3 | 레코드 | 아무 레코드(자리 표지 제외) |  |
+
+SAME-NODE는 두 Reference가 같은 referent를 지시한다고 선언하는 방향 없는 동일성 서술 Edge다. Codec `0x0A1L`.
+
+두 Reference 레코드의 byte 인코딩, Codec, ID가 같다는 뜻이 아니다. [REFERENCE-NODE](0x0A0L-reference-node.md)가 `Reference → 레코드`의 방향성 바인딩인 것과 달리, SAME-NODE는 두 Reference 사이의 동일성(referential identity)을 나타낸다.
+
+## 레이아웃
+
+```
+TAG WORD          0000 1010 0001 LLLL
+[Length 확장 TAG]
+Edge Id           LOCAL Reference 레코드
+Subject           Reference 레코드 1개
+Object            Reference 레코드 1개
+```
+
+## 해석과 유효성
+
+- Subject와 Object는 이 순서로 직렬화하며, 각각 정확히 하나의 완전한 [Reference](../reference/_index.md) 레코드여야 한다. 각 레코드의 Length로 경계를 찾는다.
+- Subject나 Object가 Value, Edge, 불완전한 레코드이면 invalid다.
+- SAME-NODE 관계는 반사적·대칭적·추이적이다. wire의 Subject/Object 순서는 framing을 위한 것이며 의미 방향을 만들지 않는다. 구현체는 이 관계를 양방향으로 탐색할 수 있어야 한다.
+- 서로 다른 [LOCAL](../reference/0x005L-local.md) ID는 서로 다른 Reference일 뿐, referent가 같거나 다르다는 증거가 아니다. 두 Reference가 같은 referent를 지시한다는 것은 SAME-NODE로 밝힌다.
+- 해석과 추론은 그 Edge를 담은 문서와 판정 그래프의 출처, 시점, world, policy scope를 보존해야 한다. SAME-NODE를 문맥과 무관한 전역 병합의 근거로 쓰지 않는다.
+- SAME-NODE가 있어도 원래 Reference 레코드나 계보를 지우거나 덮어쓰지 않는다.
+- 같은 쌍에 SAME-NODE와 [DIFFERENT-NODE](0x0A2L-different-node.md)가 함께 있어도 wire가 invalid인 것은 아니다. 각 주장의 문맥을 보존해 충돌로 평가한다.
+- Variable Reference를 Identified Reference와 SAME-NODE로 이어 변수를 해소한다([Reference](../reference/_index.md) Variable).
+
+## 길이
+
+```
+전체 = 1 + N_len + N_id + N_subject + N_object WORD
+```
+
+## 예시 (비규범)
+
+Edge Id `0009`, Subject는 LOCAL 1, Object는 LOCAL 2다.
+
+- Edge는 TAG 1 + Edge Id 2 + Subject 2 + Object 2 = 7 WORD, `LLLL=0110`이다. TAG는 `0000 1010 0001 0110` = `0A16`이다.
+
+```
+0A16 0051 0009 0051 0001 0051 0002
+```
+
+## 관련 페이지
+
+- [Edge](_index.md), [REFERENCE-NODE](0x0A0L-reference-node.md), [DIFFERENT-NODE](0x0A2L-different-node.md)
+- [Reference](../reference/_index.md), [LOCAL](../reference/0x005L-local.md)
+
+## 규격 문서 원문
+
+규격 문서 `0x00000000/codecs/0x00000A10/latest.geul`을 `geul show`로 읽은 모습이다(16진은 대문자).
+
+```
+SPEC-VERSION 0x0001
+DOC-ID 0x04260000000000000A1000000000
+BODY
+#1 DECLARE 0x0A10
+#2 FIELD #1 record
+#3 FIELD #1 record
+#4 BIND #1 "SAME-NODE"
+#5 BIND #2 "subject"
+#6 BIND #3 "object"
+```

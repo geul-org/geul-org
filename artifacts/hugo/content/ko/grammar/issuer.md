@@ -1,10 +1,10 @@
 ---
 title: "Issuer와 공표"
-weight: 80
+weight: 20
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "issuer", "publication", "signature"]
-summary: "Issuer는 문서와 형식을 정의하는 주체다. 폭(2·4·16 WORD)에 따라 발급 방식이 다르다. 이 페이지는 Issuer 등급과 2 WORD 배정표, 문서 공개 방식, 서명과 검증키 공개를 정한다."
+summary: "GEUL은 식별 체계를 한곳에 모으지 않는다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -12,7 +12,7 @@ image: "/images/og-default.webp"
 
 GEUL은 식별 체계를 한곳에 모으지 않는다. 각 Issuer가 대상과 형식을 정의하고, 다른 문서는 공표된 정의를 가져다 쓴다. 정의는 대외비로 쓰거나, geul.org(CC0) 또는 사설 공표(Issuer가 정한 라이선스)로 공표한다. 어느 정의를 믿고 쓸지는 사용자가 정한다.
 
-공표 주소, 형식 지정, Issuer 목록, 버전 목록, 신뢰 층은 [공표 주소와 버전 목록](/ko/grammar/publishing/)이 정한다.
+공표 주소, 형식 지정, Issuer 목록, 버전 목록, 신뢰 층은 [공표 주소와 버전 목록](publishing.md)이 정한다.
 
 ## Issuer가 정의하는 것
 
@@ -27,8 +27,8 @@ GEUL은 식별 체계를 한곳에 모으지 않는다. 각 Issuer가 대상과 
 
 ## 원칙
 
-- Issuer가 정의한 대상은 그 Issuer가 공표한 문서의 LOCAL이다. 다른 문서는 지시선언(`EXTERNAL-ISSUER-*`)으로 바로 인용하거나, `IMPORT-DOC`으로 가져와 `EXTERNAL-POINTER-*`로 가리킨다. [REFERENCE-ISSUER](/ko/grammar/reference/reference-issuer/) 레코드의 뜻은 Issuer가 발행한 Codec 문서가 정한다.
-- 문서 밖에서 가리켜야 하는 대상에는 공표 문서의 LOCAL을 발급한다. 그 문서에는 [DOC-ID](/ko/grammar/meta/declaration/doc-id/)가 있어야 한다.
+- Issuer가 정의한 대상은 그 Issuer가 공표한 문서의 LOCAL이다. 다른 문서는 지시선언(`EXTERNAL-ISSUER-*`)으로 바로 인용하거나, `IMPORT-DOC`으로 가져와 `EXTERNAL-POINTER-*`로 가리킨다. [REFERENCE-ISSUER](reference/_index.md#reference-issuer) 레코드의 뜻은 Issuer가 발행한 Codec 문서가 정한다.
+- 문서 밖에서 가리켜야 하는 대상에는 공표 문서의 LOCAL을 발급한다. 그 문서에는 [DOC-ID](meta/0x1C7L-doc-id.md)가 있어야 한다.
 
 ## Issuer 등급
 
@@ -40,7 +40,7 @@ GEUL은 식별 체계를 한곳에 모으지 않는다. 각 Issuer가 대상과 
 
 - **Issuer ID는 정수값이다.** 값이 같으면 같은 Issuer다. 폭은 식별자의 일부가 아니다.
 - **짧은 Issuer ID에 앞 0을 붙인 긴 표기는 같은 Issuer다**(2 → 4, 2 → 16, 4 → 16 WORD). `0x00000001`과 `0x0000000000000001`은 같은 Issuer다. 그래서 4 WORD Issuer로 `0x00000000XXXXXXXX`를, 16 WORD Issuer로 상위 12 WORD가 0인 값을 배정하지 않는다.
-- **정규형은 가장 짧은 폭이다.** 레코드에는 값이 들어가는 가장 짧은 폭으로 쓰고, 더 넓은 폭의 표기는 거부한다. 그래서 각 폭의 배정은 바로 아래 폭의 범위가 끝난 다음 값부터 시작한다. 2 WORD가 가장 짧은 폭이다. 공표 주소에 쓸 때는 발급 폭의 자릿수(2 WORD 8자리, 4 WORD 16자리, 16 WORD 64자리)와 16진 대문자로 쓰고(소문자로 쓴 주소도 대문자로 바꿔 찾는다), 읽을 때는 넓힌 표기도 같은 Issuer로 받는다([공표 주소와 버전 목록](/ko/grammar/publishing/#id-표기)).
+- **정규형은 가장 짧은 폭이다.** 레코드에는 값이 들어가는 가장 짧은 폭으로 쓰고, 더 넓은 폭의 표기는 거부한다. 그래서 각 폭의 배정은 바로 아래 폭의 범위가 끝난 다음 값부터 시작한다. 2 WORD가 가장 짧은 폭이다. 공표 주소에 쓸 때는 발급 폭의 자릿수(2 WORD 8자리, 4 WORD 16자리, 16 WORD 64자리)와 16진 대문자로 쓰고(소문자로 쓴 주소도 대문자로 바꿔 찾는다), 읽을 때는 넓힌 표기도 같은 Issuer로 받는다([공표 주소와 버전 목록](publishing.md#id-표기)).
 
 ## 2 WORD 배정표
 
@@ -74,7 +74,7 @@ geul.org는 표준 제정 단체와 주요 기관에 2 WORD Issuer 번호를 앞
 | `0x00000017` | KATS | `kats.geul.org` | 국가기술표준원 | KS 표준 |
 
 - 확장 형식은 그 형식을 제정한 단체의 Issuer 아래에 둔다. Issuer 아래의 코덱 번호는 각 Issuer가 정의한다.
-- 코덱 번호는 Issuer가 정한다. GEUL은 뜻을 정하지 않는다. 코덱 번호는 Kind와 상관없이 그 Issuer 안에서 겹치지 않는다([공표 주소와 버전 목록](/ko/grammar/publishing/#id-표기)).
+- 코덱 번호는 Issuer가 정한다. GEUL은 뜻을 정하지 않는다. 코덱 번호는 Kind와 상관없이 그 Issuer 안에서 겹치지 않는다([공표 주소와 버전 목록](publishing.md#id-표기)).
 - 표준 단체가 GEUL 코덱 번호를 직접 관리하지 않으면 geul.org가 그 단체의 표준을 대신 번호로 등재한다. 번호는 표준 문서 식별자와 함께 기록한다.
 - 새 표준 제정 단체는 다음 빈 번호를 받는다.
 - **도메인은 바뀔 수 있다.** Issuer와 도메인의 바인드는 나중에 바뀔 수 있다. Issuer ID는 바뀌지 않는다. 기관이 직접 관리하게 되면 그 기관의 공식 도메인으로 교체한다.
@@ -88,7 +88,7 @@ Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ 서명 알고리즘 ID(2바이트) ‖ 
 
 - 결과 32바이트를 16 WORD에 상위 바이트부터 쓴다.
 - 등록 없이 누구나 만들 수 있다. 소유는 그 개인키의 서명으로 증명한다.
-- 공개키와 알고리즘은 문서 HEAD의 [ISSUER-KEY](/ko/grammar/meta/verification/issuer-key/)로 선언한다. 서명 알고리즘 `0x0001`은 Ed25519이고, 그 밖의 값은 Reserved다.
+- 공개키와 알고리즘은 문서 HEAD의 [ISSUER-KEY](meta/0x1E5L-issuer-key.md)로 선언한다. 서명 알고리즘 `0x0001`은 Ed25519이고, 그 밖의 값은 Reserved다.
 - 접두사 `GEUL-ISSUER-v1`은 같은 키를 다른 용도에 쓸 때 같은 ID가 나오지 않게 한다(용도 분리).
 - 서명 알고리즘이 바뀌어도(예: Ed25519 → ML-DSA) ID 폭은 16 WORD로 같다.
 - 결과가 `2^64` 미만이면(확률은 사실상 0) 그 키로는 Issuer를 만들지 않는다. 가장 짧은 폭 규칙과 겹치기 때문이다.
@@ -96,18 +96,18 @@ Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ 서명 알고리즘 ID(2바이트) ‖ 
 ## 도메인 증명
 
 - 2 WORD Issuer의 도메인 소유 증명은 등록 시점에만 확인한다. 이후 도메인 관리는 Issuer의 책임이다.
-- 도메인 하나는 Issuer 하나에만 대응한다. Issuer 하나는 도메인을 여럿 가질 수 있다. 대응은 Issuer 목록 `issuers/`의 BIND로 적는다([공표 주소와 버전 목록](/ko/grammar/publishing/#issuer-목록)).
+- 도메인 하나는 Issuer 하나에만 대응한다. Issuer 하나는 도메인을 여럿 가질 수 있다. 대응은 Issuer 목록 `issuers/`의 BIND로 적는다([공표 주소와 버전 목록](publishing.md#issuer-목록)).
 - 도메인이 만료되거나 넘어가도 대응은 처음 증명한 Issuer에 남는다. 새 소유자는 그 도메인을 Issuer 이름으로 쓰지 못한다.
-- 도메인 이름은 해석기·CLI 입력과 표시용이다. 공표 URL 주소가 아니다([공표 주소와 버전 목록](/ko/grammar/publishing/#도메인-이름)). GEUL 문서 안에는 Issuer ID만 적는다.
+- 도메인 이름은 해석기·CLI 입력과 표시용이다. 공표 URL 주소가 아니다([공표 주소와 버전 목록](publishing.md#도메인-이름)). GEUL 문서 안에는 Issuer ID만 적는다.
 
 ## 용어 정의 문서
 
-- Issuer가 정의한 용어(도구, 프로그램, 역할, 조직 안의 개념)는 **용어 하나에 문서 하나**로 둔다. 용어는 그 문서의 LOCAL이고, 이름은 [BIND](/ko/grammar/edge/bind/)로, 가리키는 외부 대상(URI 등)은 [REFERENCE-NODE](/ko/grammar/edge/reference-node/)로 잇는다.
-- 다른 문서는 `EXTERNAL-ISSUER-*`(Issuer, 문서 ID, LOCAL ID)로 용어를 가리킨다. 같은 정의를 문서마다 반복하지 않는다. 예: [TRANSFORMED-BY](/ko/grammar/meta/lineage/transformed-by/)의 도구.
+- Issuer가 정의한 용어(도구, 프로그램, 역할, 조직 안의 개념)는 **용어 하나에 문서 하나**로 둔다. 용어는 그 문서의 LOCAL이고, 이름은 [BIND](edge/0x0A3L-bind.md)로, 가리키는 외부 대상(URI 등)은 [REFERENCE-NODE](edge/0x0A0L-reference-node.md)로 잇는다.
+- 다른 문서는 `EXTERNAL-ISSUER-*`(Issuer, 문서 ID, LOCAL ID)로 용어를 가리킨다. 같은 정의를 문서마다 반복하지 않는다. 예: [TRANSFORMED-BY](meta/0x1D4L-transformed-by.md)의 도구.
 - 용어 정의 문서의 문서 ID 구간은 Issuer가 정한다. geul.org(`0x00000000`)는 `0x0001xxxx xxxxxxxx`를 쓴다.
 - 모든 Issuer는 문서 ID `0x0000000000000000`과 `0xFFFFFFFFFFFFFFFF`를 예약한다. 지금 쓰임은 아래 두 가지다.
 - 문서 ID `0x0000000000000000`은 그 Issuer의 **용어 정의 색인 문서** 자리다: `<Issuer>/docs/0x0000000000000000/`. 용어 정의 문서들을 나열하는 자리다.
-- 문서 ID `0xFFFFFFFFFFFFFFFF`는 Issuer geul.org(`0x00000000`)의 Issuer 목록 `issuers/`에 쓴다. 다른 Issuer는 이 ID를 쓰지 않는다. 이 ID는 어느 Issuer에서도 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않는다(404)([공표 주소와 버전 목록](/ko/grammar/publishing/#목록-문서)).
+- 문서 ID `0xFFFFFFFFFFFFFFFF`는 Issuer geul.org(`0x00000000`)의 Issuer 목록 `issuers/`에 쓴다. 다른 Issuer는 이 ID를 쓰지 않는다. 이 ID는 어느 Issuer에서도 `<Issuer>/docs/<문서 ID>/` 주소로 받지 않는다(404)([공표 주소와 버전 목록](publishing.md#목록-문서)).
 - 색인 문서는 모든 Issuer에 **권고**한다. 필수는 아니다.
 - 외부 대상을 가리키는 순서: (1) 맞는 Reference Codec이 있으면 그것(WIKIDATA-QID 등), (2) 그 대상을 정의한 GEUL 문서가 있으면 그것(DOC-POINTER·EXTERNAL-ISSUER), (3) 없으면 자기 용어 정의 문서에 LOCAL로 정의하고 가리킨다.
 
@@ -123,20 +123,20 @@ Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ 서명 알고리즘 ID(2바이트) ‖ 
 
 - 2 WORD Issuer는 문서를 geul.org에 등록해 공표할 수 있다. 등록 문서는 CC0다. 등록하면 바로 공표되고, 문제는 사후에 조치한다.
 - 공표할 수 있는 정의는 개념과 코덱이다. **자연인을 가리키는 Reference는 geul.org에 공표할 수 없다.** 대외비나 사설 공표로 한다.
-  - 예외: [WIKIDATA-QID](/ko/grammar/reference/wikidata-qid/)로 자연인을 가리키는 것은 허용한다.
-- 등록한 버전은 바꾸거나 지우지 않으며, Issuer가 사라져도 문서는 남는다(구법 보존). 예외는 법적 삭제와 직권 삭제다([TOMBSTONE](/ko/grammar/edge/publication/)).
+  - 예외: [WIKIDATA-QID](reference/0x014L-wikidata-qid.md)로 자연인을 가리키는 것은 허용한다.
+- 등록한 버전은 바꾸거나 지우지 않으며, Issuer가 사라져도 문서는 남는다(구법 보존). 예외는 법적 삭제와 직권 삭제다([TOMBSTONE](edge/0x0BAL-tombstone.md)).
 - Issuer는 정의에 사용 중단 권고(deprecated)만 표시할 수 있다. 권고된 정의도 계속 해석된다.
-- 같은 문서의 새 버전은 정의를 신설·개정·삭제할 수 있다([문서](/ko/grammar/document/#개정)). **삭제한 엔티티 ID와 코덱 번호는 다른 대상에 재사용하지 않는다.** 코덱 번호의 wire 레이아웃은 개정하지 않는다.
+- 같은 문서의 새 버전은 정의를 신설·개정·삭제할 수 있다([문서](document.md#개정)). **삭제한 엔티티 ID와 코덱 번호는 다른 대상에 재사용하지 않는다.** 코덱 번호의 wire 레이아웃은 개정하지 않는다.
 
 ### 사설 공표
 
-- CC0가 아닌 라이선스로 공표하려는 Issuer는 사설망(자체 도메인 등)에서 문서를 서비스한다. 라이선스는 문서 HEAD의 [LICENSE](/ko/grammar/meta/policy/license/)로 선언한다.
-- 사설 공표도 geul.org와 같은 경로를 쓴다([공표 주소와 버전 목록](/ko/grammar/publishing/)).
+- CC0가 아닌 라이선스로 공표하려는 Issuer는 사설망(자체 도메인 등)에서 문서를 서비스한다. 라이선스는 문서 HEAD의 [LICENSE](meta/0x1DEL-license.md)로 선언한다.
+- 사설 공표도 geul.org와 같은 경로를 쓴다([공표 주소와 버전 목록](publishing.md)).
 - 버전 관리, 가용성, 도메인 유지, 라이선스 조건은 Issuer가 정한다. geul.org는 사설 공표에 관여하거나 보증하지 않는다.
 
 ### 대외비
 
-- 대외비 문서는 공표하지 않는다. 접근 제어를 걸고 [ACCESS](/ko/grammar/meta/policy/access/)로 표시한다.
+- 대외비 문서는 공표하지 않는다. 접근 제어를 걸고 [ACCESS](meta/0x1DFL-access.md)로 표시한다.
 - 대외비 정의를 쓴 문서를 외부에 보내면 받는 쪽은 그 Reference·Value·Edge를 해석하지 못하고 건너뛴다. 외부와 주고받을 정의는 공표한다.
 
 ### 사용자의 선택
@@ -147,8 +147,8 @@ Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ 서명 알고리즘 ID(2바이트) ‖ 
 
 ## 서명
 
-- 서명은 공표 문서에 필수다. HEAD에 [SIGNATURE](/ko/grammar/meta/verification/signature/)로 둔다. 서명이 없는 문서도 유효한 GEUL 문서이며, 대외비·내부 문서도 가능하면 서명한다.
-- 서명 대상은 문서의 **내용 해시**다([문서](/ko/grammar/document/#내용-해시)). BODY만 서명하지 않는다.
+- 서명은 공표 문서에 필수다. HEAD에 [SIGNATURE](meta/0x1E6L-signature.md)로 둔다. 서명이 없는 문서도 유효한 GEUL 문서이며, 대외비·내부 문서도 가능하면 서명한다.
+- 서명 대상은 문서의 **내용 해시**다([문서](document.md#내용-해시)). BODY만 서명하지 않는다.
   - HEAD에는 해석 규칙이 있다. `IMPORT-DOC`의 대상을 바꾸면 같은 BODY가 다른 대상을 가리킨다.
   - `LICENSE`·`PARENT`를 서명하지 않으면 라이선스와 이력을 위조할 수 있다.
 - 한 문서에 서명을 여럿 둘 수 있다. 모두 같은 내용 해시에 서명하므로 서명을 더해도 내용 해시는 바뀌지 않는다.
@@ -156,7 +156,7 @@ Issuer ID = SHA-256("GEUL-ISSUER-v1" ‖ 서명 알고리즘 ID(2바이트) ‖ 
   - 2·4 WORD Issuer: geul.org에 등록한 키(아래 검증키 공개).
   - 16 WORD Issuer: 같은 문서의 `ISSUER-KEY`. 그 공개키로 계산한 Issuer ID가 서명자와 같아야 한다.
 - 읽는 쪽은 서명이 없으면 신뢰도를 낮추고, 서명이 있는데 검증에 실패하면 변조·사칭의 증거이므로 더 크게 낮춘다.
-- 문서 서명은 그 문서의 Issuer가, 버전 목록 서명은 버전 ID를 배정한 공표처가 한다([공표 주소와 버전 목록](/ko/grammar/publishing/#서명-주체)).
+- 문서 서명은 그 문서의 Issuer가, 버전 목록 서명은 버전 ID를 배정한 공표처가 한다([공표 주소와 버전 목록](publishing.md#서명-주체)).
 
 ## 검증키 공개
 
@@ -184,8 +184,8 @@ CODEC-POINTER                   Issuer + 코덱 ID + 버전 ID (2 WORD, 0이면 
 ```
 
 - 어느 폭의 Issuer와 그 문서든 IMPORT 없이 지시선언으로 가리킬 수 있다. Issuer 자신은 `ISSUER-POINTER`, 문서 자신은 `DOC-POINTER`, 문서의 LOCAL은 `EXTERNAL-ISSUER-*`다. 지시선언은 최신 버전을 따르고, 버전을 고정하려면 `IMPORT-DOC`(버전 ID)과 `EXTERNAL-POINTER-*`를 쓴다.
-- 외부 문서의 대상을 가리키는 본문 Reference는 전체 경로(Issuer + 문서 + 대상 ID) 대신 IMPORT ID + 대상 ID만 쓴다. [REFERENCE-ISSUER](/ko/grammar/reference/reference-issuer/)는 Issuer와 코덱 번호를 적는다.
-- IMPORT ID의 폭은 `IMPORT-DOC`에서는 길이로, `EXTERNAL-POINTER-*`에서는 Codec으로 정해진다([IMPORT-DOC](/ko/grammar/meta/import/import-doc/)).
+- 외부 문서의 대상을 가리키는 본문 Reference는 전체 경로(Issuer + 문서 + 대상 ID) 대신 IMPORT ID + 대상 ID만 쓴다. [REFERENCE-ISSUER](reference/_index.md#reference-issuer)는 Issuer와 코덱 번호를 적는다.
+- IMPORT ID의 폭은 `IMPORT-DOC`에서는 길이로, `EXTERNAL-POINTER-*`에서는 Codec으로 정해진다([IMPORT-DOC](meta/0x1E4L-import-doc.md)).
 - 버전 ID 없이 가져오면 최신 버전을 따른다. 버전 ID를 적으면 그 버전에 고정된다. 공표 문서는 버전 ID를 적는다.
 
 ## 라이선스

@@ -1,5 +1,38 @@
-{{- if strings.HasPrefix .Destination "/" -}}
-<a href="{{ strings.TrimPrefix "/" .Destination | relURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+{{- /*
+  Link render hook.
+  - "/..."            : site-absolute, passed through relURL (unchanged behaviour).
+  - "http(s)://..." etc: external, opened in a new tab (unchanged behaviour).
+  - "#anchor"         : left as is.
+  - relative "x.md", "../d/_index.md#anchor": resolved like on GitHub (relative to the
+    source file's directory) to the Hugo page, rewritten to RelPermalink + "#anchor".
+    Unresolvable links are kept as written and reported with warnf.
+*/ -}}
+{{- $dest := .Destination -}}
+{{- $href := $dest -}}
+{{- if not (or (strings.HasPrefix $dest "/") (strings.HasPrefix $dest "#") (findRE `^[a-zA-Z][a-zA-Z0-9+.-]*:` $dest 1)) -}}
+  {{- $path := index (split $dest "#") 0 -}}
+  {{- $frag := strings.TrimPrefix $path $dest -}}
+  {{- if strings.HasSuffix (lower $path) ".md" -}}
+    {{- $page := .PageInner -}}
+    {{- $target := false -}}
+    {{- with $page.File -}}
+      {{- $abs := path.Join "/" (replace .Dir "\\" "/") $path -}}
+      {{- with site.GetPage $abs -}}{{- $target = . -}}{{- end -}}
+    {{- end -}}
+    {{- if not $target -}}
+      {{- with $page.GetPage $path -}}{{- $target = . -}}{{- end -}}
+    {{- end -}}
+    {{- if $target -}}
+      {{- $href = printf "%s%s" $target.RelPermalink $frag -}}
+    {{- else -}}
+      {{- $where := $page.RelPermalink -}}
+      {{- with $page.File -}}{{- $where = .Path -}}{{- end -}}
+      {{- warnf "render-link: %s: cannot resolve %q" $where $dest -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if strings.HasPrefix $dest "/" -}}
+<a href="{{ strings.TrimPrefix "/" $dest | relURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
 {{- else -}}
-<a href="{{ .Destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if strings.HasPrefix .Destination "http" }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>
+<a href="{{ $href | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if strings.HasPrefix $dest "http" }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>
 {{- end -}}

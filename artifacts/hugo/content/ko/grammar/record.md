@@ -1,10 +1,10 @@
 ---
-title: "레코드와 TAG WORD"
-weight: 20
+title: "레코드의 구조"
+weight: 10
 date: 2026-10-27T12:00:00+09:00
-lastmod: 2026-10-27T12:00:00+09:00
+lastmod: 2026-11-05T12:00:00+09:00
 tags: ["grammar", "record", "TAG"]
-summary: "모든 레코드는 TAG WORD 16비트로 시작한다. Prefix 3비트, 섹션 4비트와 C 5비트(Codec 자리 9비트), Length 4비트로 레코드의 종류와 길이를 정한다. Kind는 섹션 구간으로 판정한다."
+summary: "GEUL 데이터는 레코드의 연속이다."
 author: "박준우"
 authorLink: "https://parkjunwoo.com/about"
 image: "/images/og-default.webp"
@@ -17,7 +17,7 @@ GEUL 데이터는 레코드의 연속이다. 모든 레코드는 TAG WORD 하나
 ```
 TAG WORD (16비트)
 ┌──────────┬──────────┬──────────┬──────────┐
-│  Prefix  │   섹션   │    C     │  Length  │
+│  Prefix  │   Kind   │  Class   │  Length  │
 │   3bit   │   4bit   │   5bit   │   4bit   │
 │   000    │   KKKK   │  CCCCC   │   LLLL   │
 └──────────┴──────────┴──────────┴──────────┘
@@ -53,7 +53,7 @@ Payload
 
 - Kind는 Codec의 불변 속성이다. 한 번 배정한 Codec은 Kind를 옮기지 않는다.
 - Value와 Edge는 같은 "Codec + Payload" 형식이다. Edge만 다른 레코드를 구성요소로 가진다.
-- Reference는 표지, 포인터, 5Q 체계, REFERENCE-ISSUER를 코드 표로 나눈다. 양화는 체계 코드에 있다. REFERENCE-ISSUER의 양화는 Issuer 문서가 정한다([Reference](/ko/grammar/reference/)).
+- Reference는 표지, 포인터, 5Q 체계, REFERENCE-ISSUER를 코드 표로 나눈다. 양화는 체계 코드에 있다. REFERENCE-ISSUER의 양화는 Issuer 문서가 정한다([Reference](reference/_index.md)).
 
 ## Length (4비트)
 
@@ -82,8 +82,8 @@ Length는 레코드가 차지하는 **전체 WORD 수**다. TAG WORD, 확장 TAG
 
 - **각 Kind 구역의 끝 세 칸이 ISSUER다.** Issuer 폭은 C의 하위 2비트다(`01` 2 WORD, `10` 4 WORD, `11` 16 WORD). Meta는 Issuer 형식이 없다.
 - 직접 코드의 `C`는 섹션마다 따로 있다. 같은 `C` 값이라도 섹션이 다르면 다른 Codec이다. 직접 코드의 코덱 ID는 TAG WORD 전체(L=0)라 Kind가 들어 있다.
-- Issuer 코덱 번호는 Kind와 상관없이 Issuer마다 한 공간이다. Issuer가 자기 `codecs/` 안에서 겹치지 않게 배정한다([공표 주소와 버전 목록](/ko/grammar/publishing/#id-표기)).
-- 직접 코드가 아닌 Codec은 `(Issuer, 코덱 번호)` 쌍이다. 코덱 번호는 그 Issuer가 정의한다([Issuer와 공표](/ko/grammar/issuer/)). 확장 형식은 그 형식을 제정한 단체의 Issuer 아래에 둔다.
+- Issuer 코덱 번호는 Kind와 상관없이 Issuer마다 한 공간이다. Issuer가 자기 `codecs/` 안에서 겹치지 않게 배정한다([공표 주소와 버전 목록](publishing.md#id-표기)).
+- 직접 코드가 아닌 Codec은 `(Issuer, 코덱 번호)` 쌍이다. 코덱 번호는 그 Issuer가 정의한다([Issuer와 공표](issuer.md)). 확장 형식은 그 형식을 제정한 단체의 Issuer 아래에 둔다.
 - 직접 코드가 있는 Codec은 Issuer 형식으로 따로 등재하지 않는다.
 - Issuer 형식은 Reference, Value, Edge에 있다. Meta는 GEUL만 정의하는 공통 규격이다.
 - Edge 직접 코드의 섹션(`w >> 9`)이 계열이다. Value 직접 코드와 Meta는 비트로 계열·클래스를 나타내지 않는다. 코덱 번호의 뜻은 Issuer가 정한다.
@@ -127,7 +127,7 @@ Prefix 000, 섹션 0101(5, Edge), C 01010, Codec 0x0AAL(TRIPLE), Length 1001(10 
 
 ## 자리 표지
 
-TAG WORD `0x0000`, `0x0010`, `0x0020`은 Reference 자리 표지의 1 WORD 레코드다. 대상을 가리키지 않고 레코드 필드 자리를 채운다([자리 표지](/ko/grammar/reference/slot-marker/)).
+TAG WORD `0x0000`, `0x0010`, `0x0020`은 Reference 자리 표지의 1 WORD 레코드다. 대상을 가리키지 않고 레코드 필드 자리를 채운다([자리 표지](slot-marker.md)).
 
 ```
 0x0000, 0x0010, 0x0020 = 0000 0000 00CC 0000
@@ -141,7 +141,7 @@ TAG WORD `0x0000`, `0x0010`, `0x0020`은 Reference 자리 표지의 1 WORD 레�
 | `0x0020` | NO-VALUE | 없음 | 세계: 값이 없다 | `¬∃x. P(s, x)` | (s, P, 한정 조건)에 대해 닫힘 | `novalue` |
 
 - 예: 자녀(P40)가 ABSENT면 몇인지 모른다, UNKNOWN-VALUE면 1 이상, NO-VALUE면 0이다. 종료 시점(P582)이 ABSENT면 지금도 유효한지 모른다, UNKNOWN-VALUE면 끝났지만 언제인지 모른다, NO-VALUE면 끝나지 않았다.
-- 표지는 필드의 CODEC 목록이 그 WORD를 정확히 둘 때만 유효하다. 와일드카드, CODEC이 없는 필드, HEAD·BODY 레코드 자리, Edge Id 자리에서는 invalid다([CODEC](/ko/grammar/edge/codec/)).
+- 표지는 필드의 CODEC 목록이 그 WORD를 정확히 둘 때만 유효하다. 와일드카드, CODEC이 없는 필드, HEAD·BODY 레코드 자리, Edge Id 자리에서는 invalid다([CODEC](edge/0x0BEL-codec.md)).
 - 읽는 쪽의 의무:
   1. UNKNOWN-VALUE는 값이 아니라 존재 단언이다. 어떤 값과도 같지도 다르지도 않고, 두 UNKNOWN-VALUE끼리도 같은 값으로 보지 않는다. UNKNOWN-VALUE를 담은 TRIPLE은 중복 병합하지 않는다.
   2. NO-VALUE는 그 명제의 한정 조건 안에서 닫힌다. 같은 Subject·Predicate·rank에 한정 조건이 구별되지 않는 값 TRIPLE과 함께 있으면 모순이고, 검사기는 경고한다(거부하지 않는다).
@@ -156,4 +156,4 @@ TAG WORD `0x0000`, `0x0010`, `0x0020`은 Reference 자리 표지의 1 WORD 레�
 - 길이는 가장 짧은 표기를 쓴다(1~14 WORD는 직접 길이).
 - 정수는 가장 짧은 폭으로 쓴다. 각 Codec 규격이 정한 정규형을 따른다.
 - 정규형이 아닌 레코드는 거부한다.
-- 예외: [CODEC](/ko/grammar/edge/codec/) 대상 WORD의 `L=1111`은 `C` 값과 무관하게 섹션 `KKKK`만 본다. 섹션 첫 칸(`C = 0`)을 권고하며 같은 섹션의 다른 `C`여도 거부하지 않는다.
+- 예외: [CODEC](edge/0x0BEL-codec.md) 대상 WORD의 `L=1111`은 `C` 값과 무관하게 섹션 `KKKK`만 본다. 섹션 첫 칸(`C = 0`)을 권고하며 같은 섹션의 다른 `C`여도 거부하지 않는다.
