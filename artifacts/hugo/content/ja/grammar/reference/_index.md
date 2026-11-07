@@ -48,9 +48,10 @@ TAG WORD          000K KKKC CCCC LLLL      セクション 0~2 (0x000L~0x05FL)
 | `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | 指示宣言 | Issuer 自身 |
 | `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | 指示宣言 | Issuer が公表したドキュメントの 1 つのバージョン |
 | `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | 指示宣言 | Issuer が公表した Codec の 1 つのバージョン |
+| `0x043L~0x044L` | [TOKEN-0·TOKEN-1](0x043L-token.md) | 宣言 | GEUL トークン語彙の項目。トークン ID 1 WORD、全体 2 WORD |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | Issuer 形式 | Issuer が定義する。分類と対象 ID の枠は Issuer ドキュメントが定める |
 
-- Reserved は `0x003L~0x004L`、`0x01EL~0x01FL`(セクション 0)、`0x03EL~0x03FL`(セクション 1)、`0x043L~0x05CL`(セクション 2、新しい識別体系の位置)だ。
+- Reserved は `0x003L~0x004L`、`0x01EL~0x01FL`(セクション 0)、`0x03EL~0x03FL`(セクション 1)、`0x045L~0x05CL`(セクション 2、新しい識別体系の位置)だ。
 - 体系番号はセクション内オフセット `C` で読む。セクション 0 で `5 <= C < 30` なら体系 `C / 5`(1~5)、セクション 1 で `C < 30` なら体系 `6 + C / 5`(6~11)だ。
 
 | 体系 | 名前 | Identified | Generic | Free-choice | Universal | Variable |

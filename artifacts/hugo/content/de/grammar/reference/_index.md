@@ -48,9 +48,10 @@ Ziel-ID           der gesamte Rest
 | `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | Zeigen-und-Deklarieren | Der Issuer selbst |
 | `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | Zeigen-und-Deklarieren | Eine Version eines vom Issuer veröffentlichten Dokuments |
 | `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | Zeigen-und-Deklarieren | Eine Version eines vom Issuer veröffentlichten Codecs |
+| `0x043L~0x044L` | [TOKEN-0·TOKEN-1](0x043L-token.md) | Deklaration | Ein Eintrag des GEUL-Token-Vokabulars. Token-ID 1 WORD, insgesamt 2 WORD |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | Issuer-Format | Vom Issuer definiert. Klasse und Ziel-ID-Platz bestimmt das Issuer-Dokument |
 
-- Reserved sind `0x003L~0x004L`, `0x01EL~0x01FL` (Abschnitt 0), `0x03EL~0x03FL` (Abschnitt 1) und `0x043L~0x05CL` (Abschnitt 2, Platz für neue Identifikationssysteme).
+- Reserved sind `0x003L~0x004L`, `0x01EL~0x01FL` (Abschnitt 0), `0x03EL~0x03FL` (Abschnitt 1) und `0x045L~0x05CL` (Abschnitt 2, Platz für neue Identifikationssysteme).
 - Die Systemnummer liest man aus dem Offset im Abschnitt `C`. In Abschnitt 0 ist bei `5 <= C < 30` das System `C / 5` (1~5), in Abschnitt 1 bei `C < 30` das System `6 + C / 5` (6~11).
 
 | System | Name | Identified | Generic | Free-choice | Universal | Variable |

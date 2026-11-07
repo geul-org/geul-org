@@ -50,11 +50,13 @@ TAG WORD berbentuk `000K KKKC CCCC LLLL`. 4 bit atas `KKKK` adalah bagian, `C` a
 | `0x040L` | [ISSUER-POINTER](reference/0x040L-issuer-pointer.md) | penunjuk-deklarasi | Issuer itu sendiri. Payload hanya Issuer (2/4/16 WORD) dan tidak ada ID objek |
 | `0x041L` | [DOC-POINTER](reference/0x041L-doc-pointer.md) | penunjuk-deklarasi | satu versi dokumen Issuer. Issuer + ID dokumen 4 WORD + ID versi 2 WORD, tidak ada ID objek |
 | `0x042L` | [CODEC-POINTER](reference/0x042L-codec-pointer.md) | penunjuk-deklarasi | satu versi Codec Issuer. Issuer + ID Codec 2 WORD + ID versi 2 WORD, tidak ada ID objek |
+| `0x043L` | [TOKEN-0](reference/0x043L-token.md) | deklarasi | satu entri kosakata token GEUL (ID token 0~65.535). Payload 1 WORD, total 2 WORD |
+| `0x044L` | [TOKEN-1](reference/0x043L-token.md) | deklarasi | sama seperti di atas. ID token 65.536~131.071 (65.536 + Payload) |
 | `0x05DL` | [REFERENCE-ISSUER-2WORD](reference/0x05DL-reference-issuer-2word.md) | format Issuer | Issuer 2 WORD dan nomor Codec 2 WORD. Klasifikasi dan objek ditentukan dokumen Issuer |
 | `0x05EL` | [REFERENCE-ISSUER-4WORD](reference/0x05EL-reference-issuer-4word.md) | format Issuer | Issuer 4 WORD dan nomor Codec 2 WORD. Sama seperti di atas |
 | `0x05FL` | [REFERENCE-ISSUER-16WORD](reference/0x05FL-reference-issuer-16word.md) | format Issuer | Issuer 16 WORD dan nomor Codec 2 WORD. Sama seperti di atas |
 
-- Reference terdiri dari tiga bagian. Bagian 0 entitas `0x000L~0x01FL` (penanda slot, sistem 5Q), bagian 1 EXTERNAL `0x020L~0x03FL`, bagian 2 lainnya `0x040L~0x05FL` (penunjuk, REFERENCE-ISSUER). Reserved adalah `0x003L~0x004L`, `0x01EL~0x01FL`, `0x03EL~0x03FL`, `0x043L~0x05CL`.
+- Reference terdiri dari tiga bagian. Bagian 0 entitas `0x000L~0x01FL` (penanda slot, sistem 5Q), bagian 1 EXTERNAL `0x020L~0x03FL`, bagian 2 lainnya `0x040L~0x05FL` (penunjuk, REFERENCE-ISSUER). Reserved adalah `0x003L~0x004L`, `0x01EL~0x01FL`, `0x03EL~0x03FL`, `0x045L~0x05CL`.
 - Kelompok 5 slot (dari LOCAL sampai EXTERNAL-ISSUER-16WORD) masing-masing satu slot menurut urutan Quantifier di bawah. Contoh: WIKIDATA-QID Identified `0x014L`, Generic `0x015L`.
 
 ### Penanda slot (`0x000L~0x002L`) {#자리-표지-0x000l0x002l}
@@ -546,6 +548,8 @@ Nomor Meta tidak menyatakan kelas lewat bit. Kelas diketahui dari tabel rentang 
 | `0x040L` | `0x00000400` | ISSUER-POINTER | Reference | 2 | [0x040L-issuer-pointer.md](reference/0x040L-issuer-pointer.md) |  |
 | `0x041L` | `0x00000410` | DOC-POINTER | Reference | 2 | [0x041L-doc-pointer.md](reference/0x041L-doc-pointer.md) |  |
 | `0x042L` | `0x00000420` | CODEC-POINTER | Reference | 2 | [0x042L-codec-pointer.md](reference/0x042L-codec-pointer.md) |  |
+| `0x043L` | `0x00000430` | TOKEN-0 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | Pasangan `TOKEN-0`·`TOKEN-1` |
+| `0x044L` | `0x00000440` | TOKEN-1 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | Pasangan `TOKEN-0`·`TOKEN-1` |
 | `0x05DL` | `0x000005D0` | REFERENCE-ISSUER-2WORD | Reference | 2 | [0x05DL-reference-issuer-2word.md](reference/0x05DL-reference-issuer-2word.md) |  |
 | `0x05EL` | `0x000005E0` | REFERENCE-ISSUER-4WORD | Reference | 2 | [0x05EL-reference-issuer-4word.md](reference/0x05EL-reference-issuer-4word.md) |  |
 | `0x05FL` | `0x000005F0` | REFERENCE-ISSUER-16WORD | Reference | 2 | [0x05FL-reference-issuer-16word.md](reference/0x05FL-reference-issuer-16word.md) |  |

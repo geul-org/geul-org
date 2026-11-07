@@ -48,9 +48,10 @@ ID de destino     todo el resto
 | `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | designación y declaración | el propio Issuer |
 | `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | designación y declaración | una versión de un documento publicado por un Issuer |
 | `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | designación y declaración | una versión de un Codec publicado por un Issuer |
+| `0x043L~0x044L` | [TOKEN-0·TOKEN-1](0x043L-token.md) | declaración | Una entrada del vocabulario de tokens de GEUL. ID de token de 1 WORD, 2 WORD en total |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | formato de Issuer | Lo define el Issuer. La clasificación y la casilla del ID de destino las fija el documento del Issuer |
 
-- Reserved son `0x003L~0x004L`, `0x01EL~0x01FL` (sección 0), `0x03EL~0x03FL` (sección 1) y `0x043L~0x05CL` (sección 2, espacio para nuevos sistemas de identificación).
+- Reserved son `0x003L~0x004L`, `0x01EL~0x01FL` (sección 0), `0x03EL~0x03FL` (sección 1) y `0x045L~0x05CL` (sección 2, espacio para nuevos sistemas de identificación).
 - El número de sistema se lee con el desplazamiento dentro de la sección `C`. En la sección 0, si `5 <= C < 30`, el sistema es `C / 5` (1~5); en la sección 1, si `C < 30`, el sistema es `6 + C / 5` (6~11).
 
 | Sistema | Nombre | Identified | Generic | Free-choice | Universal | Variable |

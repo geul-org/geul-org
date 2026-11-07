@@ -48,9 +48,10 @@ Target ID         all the rest
 | `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | Pointer-declaration | An Issuer itself |
 | `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | Pointer-declaration | One version of a document published by an Issuer |
 | `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | Pointer-declaration | One version of a codec published by an Issuer |
+| `0x043L~0x044L` | [TOKEN-0·TOKEN-1](0x043L-token.md) | Declaration | An entry of the GEUL token vocabulary. Token ID 1 WORD, 2 WORDs in total |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | Issuer form | Defined by the Issuer. The category and the target ID slots are set by the Issuer's document |
 
-- Reserved are `0x003L~0x004L`, `0x01EL~0x01FL` (section 0), `0x03EL~0x03FL` (section 1), and `0x043L~0x05CL` (section 2, slots for new identification schemes).
+- Reserved are `0x003L~0x004L`, `0x01EL~0x01FL` (section 0), `0x03EL~0x03FL` (section 1), and `0x045L~0x05CL` (section 2, slots for new identification schemes).
 - The scheme number is read from the offset within the section, `C`. In section 0, if `5 <= C < 30` the scheme is `C / 5` (1~5); in section 1, if `C < 30` the scheme is `6 + C / 5` (6~11).
 
 | Scheme | Name | Identified | Generic | Free-choice | Universal | Variable |

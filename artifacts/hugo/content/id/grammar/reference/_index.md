@@ -48,9 +48,10 @@ ID target         seluruh sisanya
 | `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | penunjuk-deklarasi | Issuer itu sendiri |
 | `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | penunjuk-deklarasi | Satu versi dokumen yang dipublikasikan Issuer |
 | `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | penunjuk-deklarasi | Satu versi codec yang dipublikasikan Issuer |
+| `0x043L~0x044L` | [TOKEN-0·TOKEN-1](0x043L-token.md) | deklarasi | Satu entri kosakata token GEUL. ID token 1 WORD, total 2 WORD |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | format Issuer | Didefinisikan Issuer. Klasifikasi dan slot ID target ditetapkan dokumen Issuer |
 
-- Reserved adalah `0x003L~0x004L`, `0x01EL~0x01FL` (bagian 0), `0x03EL~0x03FL` (bagian 1), `0x043L~0x05CL` (bagian 2, ruang untuk sistem identifikasi baru).
+- Reserved adalah `0x003L~0x004L`, `0x01EL~0x01FL` (bagian 0), `0x03EL~0x03FL` (bagian 1), `0x045L~0x05CL` (bagian 2, ruang untuk sistem identifikasi baru).
 - Nomor sistem dibaca dari offset dalam bagian `C`. Pada bagian 0, jika `5 <= C < 30`, sistemnya `C / 5` (1~5); pada bagian 1, jika `C < 30`, sistemnya `6 + C / 5` (6~11).
 
 | Sistem | Nama | Identified | Generic | Free-choice | Universal | Variable |

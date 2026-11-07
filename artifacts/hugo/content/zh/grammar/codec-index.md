@@ -50,11 +50,13 @@ TAG WORD 是 `000K KKKC CCCC LLLL`。高 4 位 `KKKK` 是章节，`C` 是章节�
 | `0x040L` | [ISSUER-POINTER](reference/0x040L-issuer-pointer.md) | 指示声明 | Issuer 本身。Payload 只有 Issuer（2/4/16 WORD），没有对象 ID |
 | `0x041L` | [DOC-POINTER](reference/0x041L-doc-pointer.md) | 指示声明 | Issuer 文档的一个版本。Issuer + 文档 ID 4 WORD + 版本 ID 2 WORD，没有对象 ID |
 | `0x042L` | [CODEC-POINTER](reference/0x042L-codec-pointer.md) | 指示声明 | Issuer Codec 的一个版本。Issuer + Codec ID 2 WORD + 版本 ID 2 WORD，没有对象 ID |
+| `0x043L` | [TOKEN-0](reference/0x043L-token.md) | 声明 | GEUL 词元词表的条目（词元 ID 0~65,535）。Payload 1 WORD，总计 2 WORD |
+| `0x044L` | [TOKEN-1](reference/0x043L-token.md) | 声明 | 同上。词元 ID 65,536~131,071（65,536 + Payload） |
 | `0x05DL` | [REFERENCE-ISSUER-2WORD](reference/0x05DL-reference-issuer-2word.md) | Issuer 格式 | Issuer 2 WORD 与 Codec 编号 2 WORD。分类和对象由 Issuer 文档规定 |
 | `0x05EL` | [REFERENCE-ISSUER-4WORD](reference/0x05EL-reference-issuer-4word.md) | Issuer 格式 | Issuer 4 WORD 与 Codec 编号 2 WORD。同上 |
 | `0x05FL` | [REFERENCE-ISSUER-16WORD](reference/0x05FL-reference-issuer-16word.md) | Issuer 格式 | Issuer 16 WORD 与 Codec 编号 2 WORD。同上 |
 
-- Reference 有三个章节。章节 0 实体 `0x000L~0x01FL`（占位标记，5Q 体系），章节 1 EXTERNAL `0x020L~0x03FL`，章节 2 其他 `0x040L~0x05FL`（指针，REFERENCE-ISSUER）。Reserved 是 `0x003L~0x004L`、`0x01EL~0x01FL`、`0x03EL~0x03FL`、`0x043L~0x05CL`。
+- Reference 有三个章节。章节 0 实体 `0x000L~0x01FL`（占位标记，5Q 体系），章节 1 EXTERNAL `0x020L~0x03FL`，章节 2 其他 `0x040L~0x05FL`（指针，REFERENCE-ISSUER）。Reserved 是 `0x003L~0x004L`、`0x01EL~0x01FL`、`0x03EL~0x03FL`、`0x045L~0x05CL`。
 - 5 格分组（从 LOCAL 到 EXTERNAL-ISSUER-16WORD）按下面的 Quantifier 顺序各占一格。例：WIKIDATA-QID Identified `0x014L`，Generic `0x015L`。
 
 ### 占位标记（`0x000L~0x002L`） {#자리-표지-0x000l0x002l}
@@ -546,6 +548,8 @@ Meta 编号不以比特表示类。类通过下面的区间表得知。验证类
 | `0x040L` | `0x00000400` | ISSUER-POINTER | Reference | 2 | [0x040L-issuer-pointer.md](reference/0x040L-issuer-pointer.md) |  |
 | `0x041L` | `0x00000410` | DOC-POINTER | Reference | 2 | [0x041L-doc-pointer.md](reference/0x041L-doc-pointer.md) |  |
 | `0x042L` | `0x00000420` | CODEC-POINTER | Reference | 2 | [0x042L-codec-pointer.md](reference/0x042L-codec-pointer.md) |  |
+| `0x043L` | `0x00000430` | TOKEN-0 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | 成对 `TOKEN-0`·`TOKEN-1` |
+| `0x044L` | `0x00000440` | TOKEN-1 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | 成对 `TOKEN-0`·`TOKEN-1` |
 | `0x05DL` | `0x000005D0` | REFERENCE-ISSUER-2WORD | Reference | 2 | [0x05DL-reference-issuer-2word.md](reference/0x05DL-reference-issuer-2word.md) |  |
 | `0x05EL` | `0x000005E0` | REFERENCE-ISSUER-4WORD | Reference | 2 | [0x05EL-reference-issuer-4word.md](reference/0x05EL-reference-issuer-4word.md) |  |
 | `0x05FL` | `0x000005F0` | REFERENCE-ISSUER-16WORD | Reference | 2 | [0x05FL-reference-issuer-16word.md](reference/0x05FL-reference-issuer-16word.md) |  |

@@ -50,11 +50,13 @@ TAG WORD הוא `000K KKKC CCCC LLLL`. ארבעת הביטים העליונים 
 | `0x040L` | [ISSUER-POINTER](reference/0x040L-issuer-pointer.md) | הצבעה והצהרה | ה-Issuer עצמו. ה-Payload הוא רק Issuer (2/4/16 WORD) ואין ID של יעד |
 | `0x041L` | [DOC-POINTER](reference/0x041L-doc-pointer.md) | הצבעה והצהרה | גרסה אחת של מסמך Issuer. Issuer + ID של מסמך (4 WORD) + ID של גרסה (2 WORD), ואין ID של יעד |
 | `0x042L` | [CODEC-POINTER](reference/0x042L-codec-pointer.md) | הצבעה והצהרה | גרסה אחת של Codec של Issuer. Issuer + ID של Codec (2 WORD) + ID של גרסה (2 WORD), ואין ID של יעד |
+| `0x043L` | [TOKEN-0](reference/0x043L-token.md) | הצהרה | פריט באוצר המילים של אסימוני GEUL (ID אסימון 0~65,535). Payload של WORD אחד, סך הכול 2 WORD |
+| `0x044L` | [TOKEN-1](reference/0x043L-token.md) | הצהרה | כנ"ל. ID אסימון 65,536~131,071 (65,536 + Payload) |
 | `0x05DL` | [REFERENCE-ISSUER-2WORD](reference/0x05DL-reference-issuer-2word.md) | פורמט Issuer | Issuer בן 2 WORD ומספר Codec בן 2 WORD. הסיווג והיעד נקבעים במסמך ה-Issuer |
 | `0x05EL` | [REFERENCE-ISSUER-4WORD](reference/0x05EL-reference-issuer-4word.md) | פורמט Issuer | Issuer בן 4 WORD ומספר Codec בן 2 WORD. כנ"ל |
 | `0x05FL` | [REFERENCE-ISSUER-16WORD](reference/0x05FL-reference-issuer-16word.md) | פורמט Issuer | Issuer בן 16 WORD ומספר Codec בן 2 WORD. כנ"ל |
 
-- ל-Reference יש שלושה קטעים. קטע 0 ישויות `0x000L~0x01FL` (סמני מקום, מערכת 5Q), קטע 1 EXTERNAL ‏`0x020L~0x03FL`, קטע 2 שונות `0x040L~0x05FL` (מצביעים, REFERENCE-ISSUER). ה-Reserved הם `0x003L~0x004L`, ‏`0x01EL~0x01FL`, ‏`0x03EL~0x03FL`, ‏`0x043L~0x05CL`.
+- ל-Reference יש שלושה קטעים. קטע 0 ישויות `0x000L~0x01FL` (סמני מקום, מערכת 5Q), קטע 1 EXTERNAL ‏`0x020L~0x03FL`, קטע 2 שונות `0x040L~0x05FL` (מצביעים, REFERENCE-ISSUER). ה-Reserved הם `0x003L~0x004L`, ‏`0x01EL~0x01FL`, ‏`0x03EL~0x03FL`, ‏`0x045L~0x05CL`.
 - קבוצות של 5 משבצות (מ-LOCAL עד EXTERNAL-ISSUER-16WORD) הן משבצת אחת לכל אחד מסדר ה-Quantifier שלהלן. למשל: WIKIDATA-QID מסוג Identified הוא `0x014L`, ומסוג Generic הוא `0x015L`.
 
 ### סמן מקום (`0x000L~0x002L`) {#자리-표지-0x000l0x002l}
@@ -546,6 +548,8 @@ TAG WORD הוא `000K KKKC CCCC LLLL`. ארבעת הביטים העליונים 
 | `0x040L` | `0x00000400` | ISSUER-POINTER | Reference | 2 | [0x040L-issuer-pointer.md](reference/0x040L-issuer-pointer.md) |  |
 | `0x041L` | `0x00000410` | DOC-POINTER | Reference | 2 | [0x041L-doc-pointer.md](reference/0x041L-doc-pointer.md) |  |
 | `0x042L` | `0x00000420` | CODEC-POINTER | Reference | 2 | [0x042L-codec-pointer.md](reference/0x042L-codec-pointer.md) |  |
+| `0x043L` | `0x00000430` | TOKEN-0 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | זוג `TOKEN-0`·`TOKEN-1` |
+| `0x044L` | `0x00000440` | TOKEN-1 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | זוג `TOKEN-0`·`TOKEN-1` |
 | `0x05DL` | `0x000005D0` | REFERENCE-ISSUER-2WORD | Reference | 2 | [0x05DL-reference-issuer-2word.md](reference/0x05DL-reference-issuer-2word.md) |  |
 | `0x05EL` | `0x000005E0` | REFERENCE-ISSUER-4WORD | Reference | 2 | [0x05EL-reference-issuer-4word.md](reference/0x05EL-reference-issuer-4word.md) |  |
 | `0x05FL` | `0x000005F0` | REFERENCE-ISSUER-16WORD | Reference | 2 | [0x05FL-reference-issuer-16word.md](reference/0x05FL-reference-issuer-16word.md) |  |

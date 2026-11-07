@@ -50,11 +50,13 @@ A TAG WORD is `000K KKKC CCCC LLLL`. The upper 4 bits `KKKK` are the section, `C
 | `0x040L` | [ISSUER-POINTER](reference/0x040L-issuer-pointer.md) | Pointer-declaration | The Issuer itself. The Payload is only the Issuer (2/4/16 WORDs) and there is no target ID |
 | `0x041L` | [DOC-POINTER](reference/0x041L-doc-pointer.md) | Pointer-declaration | One version of an Issuer document. Issuer + 4-WORD document ID + 2-WORD version ID, no target ID |
 | `0x042L` | [CODEC-POINTER](reference/0x042L-codec-pointer.md) | Pointer-declaration | One version of an Issuer codec. Issuer + 2-WORD codec ID + 2-WORD version ID, no target ID |
+| `0x043L` | [TOKEN-0](reference/0x043L-token.md) | Declaration | An entry of the GEUL token vocabulary (token ID 0~65,535). Payload 1 WORD, 2 WORDs in total |
+| `0x044L` | [TOKEN-1](reference/0x043L-token.md) | Declaration | Same as above. Token ID 65,536~131,071 (65,536 + Payload) |
 | `0x05DL` | [REFERENCE-ISSUER-2WORD](reference/0x05DL-reference-issuer-2word.md) | Issuer format | 2-WORD Issuer and 2-WORD codec number. The category and target are decided by the Issuer document |
 | `0x05EL` | [REFERENCE-ISSUER-4WORD](reference/0x05EL-reference-issuer-4word.md) | Issuer format | 4-WORD Issuer and 2-WORD codec number. Same as above |
 | `0x05FL` | [REFERENCE-ISSUER-16WORD](reference/0x05FL-reference-issuer-16word.md) | Issuer format | 16-WORD Issuer and 2-WORD codec number. Same as above |
 
-- Reference has three sections. Section 0 is entities `0x000L~0x01FL` (slot markers, the 5Q scheme), section 1 is EXTERNAL `0x020L~0x03FL`, and section 2 is the rest `0x040L~0x05FL` (pointers, REFERENCE-ISSUER). Reserved are `0x003L~0x004L`, `0x01EL~0x01FL`, `0x03EL~0x03FL`, and `0x043L~0x05CL`.
+- Reference has three sections. Section 0 is entities `0x000L~0x01FL` (slot markers, the 5Q scheme), section 1 is EXTERNAL `0x020L~0x03FL`, and section 2 is the rest `0x040L~0x05FL` (pointers, REFERENCE-ISSUER). Reserved are `0x003L~0x004L`, `0x01EL~0x01FL`, `0x03EL~0x03FL`, and `0x045L~0x05CL`.
 - A group of 5 slots (from LOCAL to EXTERNAL-ISSUER-16WORD) has one slot each in the Quantifier order below. Example: WIKIDATA-QID Identified `0x014L`, Generic `0x015L`.
 
 ### Slot Markers (`0x000L~0x002L`) {#자리-표지-0x000l0x002l}
@@ -546,6 +548,8 @@ Meta numbers do not express the class in their bits. The class is known from the
 | `0x040L` | `0x00000400` | ISSUER-POINTER | Reference | 2 | [0x040L-issuer-pointer.md](reference/0x040L-issuer-pointer.md) |  |
 | `0x041L` | `0x00000410` | DOC-POINTER | Reference | 2 | [0x041L-doc-pointer.md](reference/0x041L-doc-pointer.md) |  |
 | `0x042L` | `0x00000420` | CODEC-POINTER | Reference | 2 | [0x042L-codec-pointer.md](reference/0x042L-codec-pointer.md) |  |
+| `0x043L` | `0x00000430` | TOKEN-0 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | Pair `TOKEN-0`·`TOKEN-1` |
+| `0x044L` | `0x00000440` | TOKEN-1 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | Pair `TOKEN-0`·`TOKEN-1` |
 | `0x05DL` | `0x000005D0` | REFERENCE-ISSUER-2WORD | Reference | 2 | [0x05DL-reference-issuer-2word.md](reference/0x05DL-reference-issuer-2word.md) |  |
 | `0x05EL` | `0x000005E0` | REFERENCE-ISSUER-4WORD | Reference | 2 | [0x05EL-reference-issuer-4word.md](reference/0x05EL-reference-issuer-4word.md) |  |
 | `0x05FL` | `0x000005F0` | REFERENCE-ISSUER-16WORD | Reference | 2 | [0x05FL-reference-issuer-16word.md](reference/0x05FL-reference-issuer-16word.md) |  |

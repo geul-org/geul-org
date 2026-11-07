@@ -50,11 +50,13 @@ TAG WORD는 `000K KKKC CCCC LLLL`다. 상위 4비트 `KKKK`는 섹션, `C`는 �
 | `0x040L` | [ISSUER-POINTER](reference/0x040L-issuer-pointer.md) | 지시선언 | Issuer 자신. Payload는 Issuer(2/4/16 WORD)뿐이며 대상 ID가 없다 |
 | `0x041L` | [DOC-POINTER](reference/0x041L-doc-pointer.md) | 지시선언 | Issuer 문서의 한 버전. Issuer + 문서 ID 4 WORD + 버전 ID 2 WORD, 대상 ID가 없다 |
 | `0x042L` | [CODEC-POINTER](reference/0x042L-codec-pointer.md) | 지시선언 | Issuer 코덱의 한 버전. Issuer + 코덱 ID 2 WORD + 버전 ID 2 WORD, 대상 ID가 없다 |
+| `0x043L` | [TOKEN-0](reference/0x043L-token.md) | 선언 | GEUL 토큰 어휘의 항목(토큰 ID 0~65,535). Payload 1 WORD, 전체 2 WORD |
+| `0x044L` | [TOKEN-1](reference/0x043L-token.md) | 선언 | 위와 같음. 토큰 ID 65,536~131,071(65,536 + Payload) |
 | `0x05DL` | [REFERENCE-ISSUER-2WORD](reference/0x05DL-reference-issuer-2word.md) | Issuer 형식 | Issuer 2 WORD와 코덱 번호 2 WORD. 분류와 대상은 Issuer 문서가 정한다 |
 | `0x05EL` | [REFERENCE-ISSUER-4WORD](reference/0x05EL-reference-issuer-4word.md) | Issuer 형식 | Issuer 4 WORD와 코덱 번호 2 WORD. 위와 같음 |
 | `0x05FL` | [REFERENCE-ISSUER-16WORD](reference/0x05FL-reference-issuer-16word.md) | Issuer 형식 | Issuer 16 WORD와 코덱 번호 2 WORD. 위와 같음 |
 
-- Reference는 섹션 세 개다. 섹션 0 엔티티 `0x000L~0x01FL`(자리 표지, 5Q 체계), 섹션 1 EXTERNAL `0x020L~0x03FL`, 섹션 2 기타 `0x040L~0x05FL`(포인터, REFERENCE-ISSUER). Reserved는 `0x003L~0x004L`, `0x01EL~0x01FL`, `0x03EL~0x03FL`, `0x043L~0x05CL`이다.
+- Reference는 섹션 세 개다. 섹션 0 엔티티 `0x000L~0x01FL`(자리 표지, 5Q 체계), 섹션 1 EXTERNAL `0x020L~0x03FL`, 섹션 2 기타 `0x040L~0x05FL`(포인터, REFERENCE-ISSUER). Reserved는 `0x003L~0x004L`, `0x01EL~0x01FL`, `0x03EL~0x03FL`, `0x045L~0x05CL`이다.
 - 5칸 묶음(LOCAL부터 EXTERNAL-ISSUER-16WORD까지)은 아래 Quantifier 순서로 한 칸씩이다. 예: WIKIDATA-QID Identified `0x014L`, Generic `0x015L`.
 
 ### 자리 표지 (`0x000L~0x002L`)
@@ -546,6 +548,8 @@ Meta 번호는 비트로 클래스를 나타내지 않는다. 클래스는 아�
 | `0x040L` | `0x00000400` | ISSUER-POINTER | Reference | 2 | [0x040L-issuer-pointer.md](reference/0x040L-issuer-pointer.md) |  |
 | `0x041L` | `0x00000410` | DOC-POINTER | Reference | 2 | [0x041L-doc-pointer.md](reference/0x041L-doc-pointer.md) |  |
 | `0x042L` | `0x00000420` | CODEC-POINTER | Reference | 2 | [0x042L-codec-pointer.md](reference/0x042L-codec-pointer.md) |  |
+| `0x043L` | `0x00000430` | TOKEN-0 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | 쌍 `TOKEN-0`·`TOKEN-1` |
+| `0x044L` | `0x00000440` | TOKEN-1 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | 쌍 `TOKEN-0`·`TOKEN-1` |
 | `0x05DL` | `0x000005D0` | REFERENCE-ISSUER-2WORD | Reference | 2 | [0x05DL-reference-issuer-2word.md](reference/0x05DL-reference-issuer-2word.md) |  |
 | `0x05EL` | `0x000005E0` | REFERENCE-ISSUER-4WORD | Reference | 2 | [0x05EL-reference-issuer-4word.md](reference/0x05EL-reference-issuer-4word.md) |  |
 | `0x05FL` | `0x000005F0` | REFERENCE-ISSUER-16WORD | Reference | 2 | [0x05FL-reference-issuer-16word.md](reference/0x05FL-reference-issuer-16word.md) |  |

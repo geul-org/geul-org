@@ -48,9 +48,10 @@ TAG WORD          000K KKKC CCCC LLLL      섹션 0~2 (0x000L~0x05FL)
 | `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | 지시선언 | Issuer 자신 |
 | `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | 지시선언 | Issuer가 공표한 문서의 한 버전 |
 | `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | 지시선언 | Issuer가 공표한 코덱의 한 버전 |
+| `0x043L~0x044L` | [TOKEN-0·TOKEN-1](0x043L-token.md) | 선언 | GEUL 토큰 어휘의 항목. 토큰 ID 1 WORD, 전체 2 WORD |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | Issuer 형식 | Issuer가 정의한다. 분류와 대상 ID 칸은 Issuer 문서가 정한다 |
 
-- Reserved는 `0x003L~0x004L`, `0x01EL~0x01FL`(섹션 0), `0x03EL~0x03FL`(섹션 1), `0x043L~0x05CL`(섹션 2, 새 식별 체계 자리)이다.
+- Reserved는 `0x003L~0x004L`, `0x01EL~0x01FL`(섹션 0), `0x03EL~0x03FL`(섹션 1), `0x045L~0x05CL`(섹션 2, 새 식별 체계 자리)이다.
 - 체계 번호는 섹션 안 오프셋 `C`로 읽는다. 섹션 0에서 `5 <= C < 30`이면 체계 `C / 5`(1~5), 섹션 1에서 `C < 30`이면 체계 `6 + C / 5`(6~11)다.
 
 | 체계 | 이름 | Identified | Generic | Free-choice | Universal | Variable |

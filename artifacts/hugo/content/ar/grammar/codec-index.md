@@ -50,11 +50,13 @@ TAG WORD هي `000K KKKC CCCC LLLL`. البتات الأربع العليا `KKK
 | `0x040L` | [ISSUER-POINTER](reference/0x040L-issuer-pointer.md) | إشارة وتعريف | Issuer نفسه. الـ Payload هو Issuer (2/4/16 WORD) فقط، ولا يوجد معرّف هدف |
 | `0x041L` | [DOC-POINTER](reference/0x041L-doc-pointer.md) | إشارة وتعريف | إصدار واحد من مستند Issuer. Issuer + معرّف المستند 4 WORD + معرّف الإصدار 2 WORD، ولا يوجد معرّف هدف |
 | `0x042L` | [CODEC-POINTER](reference/0x042L-codec-pointer.md) | إشارة وتعريف | إصدار واحد من Codec لدى Issuer. Issuer + معرّف Codec 2 WORD + معرّف الإصدار 2 WORD، ولا يوجد معرّف هدف |
+| `0x043L` | [TOKEN-0](reference/0x043L-token.md) | تعريف | مدخل من مفردات رموز GEUL (معرّف الرمز 0~65,535). Payload بـ 1 WORD، والمجموع 2 WORD |
+| `0x044L` | [TOKEN-1](reference/0x043L-token.md) | تعريف | كما سبق. معرّف الرمز 65,536~131,071 (65,536 + Payload) |
 | `0x05DL` | [REFERENCE-ISSUER-2WORD](reference/0x05DL-reference-issuer-2word.md) | صيغة Issuer | Issuer بـ 2 WORD ورقم Codec بـ 2 WORD. يحدد مستند Issuer التصنيف والهدف |
 | `0x05EL` | [REFERENCE-ISSUER-4WORD](reference/0x05EL-reference-issuer-4word.md) | صيغة Issuer | Issuer بـ 4 WORD ورقم Codec بـ 2 WORD. كما سبق |
 | `0x05FL` | [REFERENCE-ISSUER-16WORD](reference/0x05FL-reference-issuer-16word.md) | صيغة Issuer | Issuer بـ 16 WORD ورقم Codec بـ 2 WORD. كما سبق |
 
-- يتألف Reference من ثلاثة أقسام. القسم 0 كيانات `0x000L~0x01FL` (علامات الموضع، ونظام 5Q)، والقسم 1 EXTERNAL `0x020L~0x03FL`، والقسم 2 متفرقات `0x040L~0x05FL` (المؤشرات، وREFERENCE-ISSUER). وReserved هو `0x003L~0x004L` و`0x01EL~0x01FL` و`0x03EL~0x03FL` و`0x043L~0x05CL`.
+- يتألف Reference من ثلاثة أقسام. القسم 0 كيانات `0x000L~0x01FL` (علامات الموضع، ونظام 5Q)، والقسم 1 EXTERNAL `0x020L~0x03FL`، والقسم 2 متفرقات `0x040L~0x05FL` (المؤشرات، وREFERENCE-ISSUER). وReserved هو `0x003L~0x004L` و`0x01EL~0x01FL` و`0x03EL~0x03FL` و`0x045L~0x05CL`.
 - حزمة الخانات الخمس (من LOCAL إلى EXTERNAL-ISSUER-16WORD) تأخذ خانة لكل عنصر بترتيب Quantifier أدناه. مثال: WIKIDATA-QID من نوع Identified هو `0x014L`، ومن نوع Generic هو `0x015L`.
 
 ### علامة الموضع (`0x000L~0x002L`) {#자리-표지-0x000l0x002l}
@@ -546,6 +548,8 @@ Issuer هو الجهة التي تعرّف المستندات والصيغ — [
 | `0x040L` | `0x00000400` | ISSUER-POINTER | Reference | 2 | [0x040L-issuer-pointer.md](reference/0x040L-issuer-pointer.md) |  |
 | `0x041L` | `0x00000410` | DOC-POINTER | Reference | 2 | [0x041L-doc-pointer.md](reference/0x041L-doc-pointer.md) |  |
 | `0x042L` | `0x00000420` | CODEC-POINTER | Reference | 2 | [0x042L-codec-pointer.md](reference/0x042L-codec-pointer.md) |  |
+| `0x043L` | `0x00000430` | TOKEN-0 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | زوج `TOKEN-0`·`TOKEN-1` |
+| `0x044L` | `0x00000440` | TOKEN-1 | Reference | 2 | [0x043L-token.md](reference/0x043L-token.md) | زوج `TOKEN-0`·`TOKEN-1` |
 | `0x05DL` | `0x000005D0` | REFERENCE-ISSUER-2WORD | Reference | 2 | [0x05DL-reference-issuer-2word.md](reference/0x05DL-reference-issuer-2word.md) |  |
 | `0x05EL` | `0x000005E0` | REFERENCE-ISSUER-4WORD | Reference | 2 | [0x05EL-reference-issuer-4word.md](reference/0x05EL-reference-issuer-4word.md) |  |
 | `0x05FL` | `0x000005F0` | REFERENCE-ISSUER-16WORD | Reference | 2 | [0x05FL-reference-issuer-16word.md](reference/0x05FL-reference-issuer-16word.md) |  |

@@ -48,9 +48,10 @@ ID יעד            כל השאר
 | `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | מכוון-מצהיר | ה-Issuer עצמו |
 | `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | מכוון-מצהיר | גרסה אחת של מסמך שפרסם Issuer |
 | `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | מכוון-מצהיר | גרסה אחת של Codec שפרסם Issuer |
+| `0x043L~0x044L` | [TOKEN-0·TOKEN-1](0x043L-token.md) | הצהרה | פריט באוצר המילים של אסימוני GEUL. ID אסימון של WORD אחד, סך הכול 2 WORD |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | פורמט Issuer | ה-Issuer מגדיר. הסיווג ומקום ID היעד נקבעים במסמך ה-Issuer |
 
-- Reserved הם `0x003L~0x004L`, `0x01EL~0x01FL` (קטע 0), `0x03EL~0x03FL` (קטע 1) ו-`0x043L~0x05CL` (קטע 2, מקום לערכות זיהוי חדשות).
+- Reserved הם `0x003L~0x004L`, `0x01EL~0x01FL` (קטע 0), `0x03EL~0x03FL` (קטע 1) ו-`0x045L~0x05CL` (קטע 2, מקום לערכות זיהוי חדשות).
 - מספר הערכה נקרא מההיסט בתוך הקטע `C`. בקטע 0, אם `5 <= C < 30`, הערכה היא `C / 5` (1~5). בקטע 1, אם `C < 30`, הערכה היא `6 + C / 5` (6~11).
 
 | ערכה | שם | Identified | Generic | Free-choice | Universal | Variable |

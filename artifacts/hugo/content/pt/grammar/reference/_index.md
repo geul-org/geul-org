@@ -48,9 +48,10 @@ ID do alvo        todo o restante
 | `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | indicação e declaração | O próprio Issuer |
 | `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | indicação e declaração | Uma versão de um documento publicado por um Issuer |
 | `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | indicação e declaração | Uma versão de um codec publicado por um Issuer |
+| `0x043L~0x044L` | [TOKEN-0·TOKEN-1](0x043L-token.md) | declaração | Uma entrada do vocabulário de tokens do GEUL. ID do token de 1 WORD, 2 WORD no total |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | formato de Issuer | Definido pelo Issuer. A classificação e a posição do ID do alvo são definidas pelo documento do Issuer |
 
-- Reserved são `0x003L~0x004L`, `0x01EL~0x01FL` (seção 0), `0x03EL~0x03FL` (seção 1) e `0x043L~0x05CL` (seção 2, posições para novos sistemas de identificação).
+- Reserved são `0x003L~0x004L`, `0x01EL~0x01FL` (seção 0), `0x03EL~0x03FL` (seção 1) e `0x045L~0x05CL` (seção 2, posições para novos sistemas de identificação).
 - O número do sistema é lido pelo deslocamento `C` na seção. Na seção 0, se `5 <= C < 30`, o sistema é `C / 5` (1~5); na seção 1, se `C < 30`, o sistema é `6 + C / 5` (6~11).
 
 | Sistema | Nome | Identified | Generic | Free-choice | Universal | Variable |

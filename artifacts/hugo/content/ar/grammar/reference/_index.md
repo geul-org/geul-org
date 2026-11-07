@@ -48,9 +48,10 @@ TAG WORD          000K KKKC CCCC LLLL      الأقسام 0~2 (0x000L~0x05FL)
 | `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | إشاري تصريحي | الـIssuer نفسه |
 | `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | إشاري تصريحي | إصدار واحد من مستند نشره Issuer |
 | `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | إشاري تصريحي | إصدار واحد من Codec نشره Issuer |
+| `0x043L~0x044L` | [TOKEN-0·TOKEN-1](0x043L-token.md) | تصريح | مدخل من مفردات رموز GEUL. معرّف الرمز 1 WORD، والمجموع 2 WORD |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | صيغة Issuer | يعرّفها الـIssuer. ويحدد مستند الـIssuer التصنيف وخانة معرّف الهدف |
 
-- الـReserved هي `0x003L~0x004L` و`0x01EL~0x01FL` (القسم 0) و`0x03EL~0x03FL` (القسم 1) و`0x043L~0x05CL` (القسم 2، موضع منظومات تعريف جديدة).
+- الـReserved هي `0x003L~0x004L` و`0x01EL~0x01FL` (القسم 0) و`0x03EL~0x03FL` (القسم 1) و`0x045L~0x05CL` (القسم 2، موضع منظومات تعريف جديدة).
 - يُقرأ رقم المنظومة من الإزاحة داخل القسم `C`. في القسم 0 إذا كان `5 <= C < 30` فالمنظومة `C / 5` (1~5)، وفي القسم 1 إذا كان `C < 30` فالمنظومة `6 + C / 5` (6~11).
 
 | المنظومة | الاسم | Identified | Generic | Free-choice | Universal | Variable |

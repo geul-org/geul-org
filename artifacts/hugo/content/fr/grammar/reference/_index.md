@@ -48,9 +48,10 @@ ID de cible       tout le reste
 | `0x040L` | [ISSUER-POINTER](0x040L-issuer-pointer.md) | désignation-déclaration | L'Issuer lui-même |
 | `0x041L` | [DOC-POINTER](0x041L-doc-pointer.md) | désignation-déclaration | Une version d'un document publié par un Issuer |
 | `0x042L` | [CODEC-POINTER](0x042L-codec-pointer.md) | désignation-déclaration | Une version d'un Codec publié par un Issuer |
+| `0x043L~0x044L` | [TOKEN-0·TOKEN-1](0x043L-token.md) | déclaration | Une entrée du vocabulaire de tokens de GEUL. ID de token de 1 WORD, 2 WORD au total |
 | `0x05DL~0x05FL` | [REFERENCE-ISSUER-2/4/16WORD](#reference-issuer) | format d'Issuer | Défini par l'Issuer. La classification et la place de l'ID de cible sont fixées par le document de l'Issuer |
 
-- Reserved : `0x003L~0x004L`, `0x01EL~0x01FL` (section 0), `0x03EL~0x03FL` (section 1), `0x043L~0x05CL` (section 2, places pour de nouveaux systèmes d'identification).
+- Reserved : `0x003L~0x004L`, `0x01EL~0x01FL` (section 0), `0x03EL~0x03FL` (section 1), `0x045L~0x05CL` (section 2, places pour de nouveaux systèmes d'identification).
 - Le numéro de système se lit à partir de l'offset dans la section `C`. En section 0, si `5 <= C < 30`, c'est le système `C / 5` (1~5) ; en section 1, si `C < 30`, c'est le système `6 + C / 5` (6~11).
 
 | Système | Nom | Identified | Generic | Free-choice | Universal | Variable |
