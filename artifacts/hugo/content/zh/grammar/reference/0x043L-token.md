@@ -2,7 +2,7 @@
 title: "TOKEN-0·TOKEN-1 (0x043L·0x044L)"
 weight: 67
 date: 2026-11-07T12:00:00+09:00
-lastmod: 2026-11-07T12:00:00+09:00
+lastmod: 2026-11-07T20:00:00+09:00
 tags: ["grammar", "reference"]
 summary: "TOKEN 是指向 GEUL 词元词表中某一条目的 2 WORD Reference。把连续的 TOKEN 记录的字节连起来，就得到原来的文本。"
 author: "朴俊宇"
@@ -28,7 +28,7 @@ FIELD 在文档中的顺序就是 Payload 字段的顺序（[Codec 规格文档]
 
 | 顺序 | 字段（BIND） | FIELD | 宽度 | 接收格式（CODEC） | ENUM |
 |---|---|---|---|---|---|
-| 1 | `code` | #2 | 原始值 1 WORD |  | 每个词元一个。公布词表第 1 版时填入 |
+| 1 | `token-id` | #2 | 原始值 1 WORD |  | ENUM 60,536 个（词元 ID `0x0000`~`0xEC77`）。例：`0x0000` `<0x00>`, `0x021B` 가, `0x2DE5` ` the`, `0xE75E` 한국 … |
 
 TOKEN 是指向 GEUL 词元词表中某一条目的 Reference。词表是以韩语和英语为对象训练的 BPE（Byte Pair Encoding）词表，一个条目就是一个字节序列。把连续的 TOKEN 记录的字节序列按顺序连起来，就得到原文本的字节。
 
@@ -52,7 +52,7 @@ Payload WORD 1st (16 位)           词元 ID − 65,536 (uint16)
 ## 解释与有效性 {#해석과-유효성}
 
 - 各 Codec 的目标 ID 就是 Payload 值。整个词表中的词元 ID，TOKEN-0 为目标 ID，TOKEN-1 为 65,536 + 目标 ID。
-- 词元的正式表示是其 Codec 的规格文档。每个词元 ID 在 FIELD `code` 上有一个 [ENUM](../edge/0x0BDL-enum.md)，通过 [BIND](../edge/0x0A3L-bind.md) 绑定到该 ENUM Edge Id 的名称就是词元的字节序列。TOKEN-1 的 ENUM 代码值是 Payload 值（词元 ID − 65,536）。
+- 词元的正式表示是其 Codec 的规格文档。每个词元 ID 在 FIELD `token-id` 上有一个 [ENUM](../edge/0x0BDL-enum.md)，通过 [BIND](../edge/0x0A3L-bind.md) 绑定到该 ENUM Edge Id 的名称就是词元的字节序列。TOKEN-1 的 ENUM 代码值是 Payload 值（词元 ID − 65,536）。
 - 词表是封闭列表。规格文档中没有 ENUM 的词元 ID 为 invalid。此 Codec 规则优先于 ENUM 的一般规则（“未声明的代码值不是错误”）。
 - **字节词元：** 词元 ID `0`~`255` 是单个字节。词元 ID 就是字节值。词表中没有的字，例如韩语和英语之外的字符，把其 UTF-8 字节写成字节词元。字节词元的 BIND 名称是机器名称 `<0x00>`~`<0xFF>`，其含义由本规则规定。
 - **其他词元：** 字节序列是合法的 UTF-8，BIND 名称就是该字节序列本身。
@@ -69,16 +69,21 @@ Payload WORD 1st (16 位)           词元 ID − 65,536 (uint16)
 
 ## 示例 {#예시}
 
-词表第 1 版公布之前，一般词元还没有编号。字节词元的编号由规则确定。
+这是词表第 1 版（规格文档 `0x00000000/codecs/0x00000430` 版本 1）的编号。共分配 60,536 个词元：字节 256、基本字符 283（空格·换行·制表符、ASCII、韩文字母、符号）、韩文音节 11,172（`0x021B` 가 ~ `0x2DBE` 힣）、合并词元 48,825。`0xEC78`~`0xFFFF` 留空，供日后追加。
 
-| 词元 | 词元 ID | 完整 WORD |
+| 词元（字节序列） | 词元 ID | 完整 WORD |
 |---|---|---|
-| 字节 `0xE3` | `227` | `0431 00E3` |
-| 字节 `0x80` | `128` | `0431 0080` |
+| 字节 `0xE3` | `0x00E3` | `0431 00E3` |
+| `가` | `0x021B` | `0431 021B` |
+| ` the` （前面带空格） | `0x2DE5` | `0431 2DE5` |
+| ` GEUL` （前面带空格） | `0x377F` | `0431 377F` |
+| `한국어` | `0xD0B8` | `0431 D0B8` |
+
+- 在规格文档中，` the` 是 `ENUM #2 0x2DE5` 以及绑定在其 Edge Id 上的 `BIND " the"`。
+- 空格附着在后面的单词上。所以 ` the` 与 `the`（`0x328D`）是不同的词元。
 
 ## 未决问题 {#열린-문제}
 
-- 词表第 1 版的公布。完成训练和验证后，在规格文档中填入 ENUM 和 BIND。
 - 把词元序列放进文档的格式。尚未确定哪个 Edge 或 Value 字段接收 TOKEN 记录序列。
 - 编码规范形式。如何在规格文档中写出切分规则和合并顺序，是否把同一文本的词元序列定为唯一一个。
 - 版本之间的解释。读取方遇到比自己所持版本更新的词元 ID 时，是作为 invalid 丢弃，还是保留原值并当作“未知词元”处理。
@@ -91,15 +96,27 @@ Payload WORD 1st (16 位)           词元 ID − 65,536 (uint16)
 
 ## 规格文档原文 {#규격-문서-원문}
 
-规格文档 `0x00000000/codecs/0x00000430/` 与词表第 1 版一起公布。目前尚未公布。形式如下（说明用）。
+这是用 `geul show` 读取规格文档 `0x00000000/codecs/0x00000430/latest.geul` 的样子（十六进制为大写）。 HEAD 中的两个 SOURCE 分别是词表文件和训练记录的 SHA-256。
 
 ```
+SPEC-VERSION 0x0001
+DOC-ID 0x0426000000000000043000000000
+#121077 SOURCE #0 ABSENT
+#121078 QUALIFIER P4092 #121077 SHA-256-DIGEST(0xE4DEEA8BA9FE74BEAAD836FEBE06CF4DAC32B30D1E9A85308D0A6E0A9CB6A417)
+#121079 SOURCE #0 ABSENT
+#121080 QUALIFIER P4092 #121079 SHA-256-DIGEST(0x5B2C82701BCFFD3589DC9640B398B3F07F0AC7F18E483486AF5221C3D30D4D9C)
 BODY
 #1 DECLARE 0x0430
 #2 FIELD #1 0x0001
 #3 BIND #1 "TOKEN-0"
-#4 BIND #2 "code"
+#4 BIND #2 "token-id"
 #5 ENUM #2 0x0000
 #6 BIND #5 "<0x00>"
-…
+#7 ENUM #2 0x0001
+#8 BIND #7 "<0x01>"
+… （省略 ENUM·BIND 121,064 行）
+#121073 ENUM #2 0xEC76
+#121074 BIND #121073 "etap"
+#121075 ENUM #2 0xEC77
+#121076 BIND #121075 " Aman"
 ```

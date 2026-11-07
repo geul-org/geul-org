@@ -2,7 +2,7 @@
 title: "TOKEN-0·TOKEN-1 (0x043L·0x044L)"
 weight: 67
 date: 2026-11-07T12:00:00+09:00
-lastmod: 2026-11-07T12:00:00+09:00
+lastmod: 2026-11-07T20:00:00+09:00
 tags: ["grammar", "reference"]
 summary: "TOKEN es un Reference de 2 WORD que señala una entrada del vocabulario de tokens de GEUL. Al unir los bytes de los registros TOKEN consecutivos se obtiene el texto original."
 author: "Junwoo Park"
@@ -28,7 +28,7 @@ El orden de los FIELD dentro del documento es el orden de los campos del Payload
 
 | Orden | Campo (BIND) | FIELD | Ancho | Formato que recibe (CODEC) | ENUM |
 |---|---|---|---|---|---|
-| 1 | `code` | #2 | valor en bruto de 1 WORD |  | Uno por token. Se rellena al publicar la edición 1 del vocabulario |
+| 1 | `token-id` | #2 | valor en bruto de 1 WORD |  | 60.536 ENUM (ID de token `0x0000`~`0xEC77`). Ejemplos: `0x0000` `<0x00>`, `0x021B` 가, `0x2DE5` ` the`, `0xE75E` 한국 … |
 
 TOKEN es un Reference que señala una entrada del vocabulario de tokens de GEUL. El vocabulario es un vocabulario BPE (Byte Pair Encoding) entrenado con coreano e inglés, y una entrada es una secuencia de bytes. Si se unen en orden las secuencias de bytes de los registros TOKEN consecutivos, se obtienen los bytes del texto original.
 
@@ -52,7 +52,7 @@ Payload WORD 1st (16 bits)           ID de token − 65.536 (uint16)
 ## Interpretación y validez {#해석과-유효성}
 
 - El ID de destino de cada Codec es el valor del Payload. El ID de token dentro de todo el vocabulario es el ID de destino en TOKEN-0, y 65.536 + el ID de destino en TOKEN-1.
-- La representación oficial de un token es el documento de especificación de su Codec. Para cada ID de token hay un [ENUM](../edge/0x0BDL-enum.md) en el FIELD `code`, y el nombre ligado por [BIND](../edge/0x0A3L-bind.md) a ese Edge Id del ENUM es la secuencia de bytes del token. El valor de código ENUM de TOKEN-1 es el valor del Payload (ID de token − 65.536).
+- La representación oficial de un token es el documento de especificación de su Codec. Para cada ID de token hay un [ENUM](../edge/0x0BDL-enum.md) en el FIELD `token-id`, y el nombre ligado por [BIND](../edge/0x0A3L-bind.md) a ese Edge Id del ENUM es la secuencia de bytes del token. El valor de código ENUM de TOKEN-1 es el valor del Payload (ID de token − 65.536).
 - El vocabulario es una lista cerrada. Un ID de token sin ENUM en el documento de especificación es invalid. Esta regla del Codec prevalece sobre la regla general de ENUM («un valor de código no declarado no es un error»).
 - **Tokens de byte:** Los ID de token `0`~`255` son un solo byte. El ID de token es el propio valor del byte. Para un carácter que no está en el vocabulario, como los ajenos al coreano y al inglés, sus bytes UTF-8 se escriben como tokens de byte. El nombre BIND de un token de byte es el nombre de máquina `<0x00>`~`<0xFF>`, y su significado lo fija esta regla.
 - **Otros tokens:** La secuencia de bytes es UTF-8 válido, y el nombre BIND es esa secuencia de bytes tal cual.
@@ -69,16 +69,21 @@ Payload WORD 1st (16 bits)           ID de token − 65.536 (uint16)
 
 ## Ejemplo {#예시}
 
-Antes de publicar la edición 1 del vocabulario, los tokens ordinarios aún no tienen número. Los tokens de byte tienen número fijado por la regla.
+Son los números de la edición 1 del vocabulario (versión 1 del documento de especificación `0x00000000/codecs/0x00000430`). Se asignaron 60.536 tokens: bytes 256, caracteres básicos 283 (espacio·salto de línea·tabulación, ASCII, jamo del hangul, símbolos), sílabas hangul 11.172 (`0x021B` 가 ~ `0x2DBE` 힣), fusiones 48.825. `0xEC78`~`0xFFFF` se dejó vacío para añadir más.
 
-| Token | ID de token | WORD completos |
+| Token (secuencia de bytes) | ID de token | WORD completos |
 |---|---|---|
-| byte `0xE3` | `227` | `0431 00E3` |
-| byte `0x80` | `128` | `0431 0080` |
+| byte `0xE3` | `0x00E3` | `0431 00E3` |
+| `가` | `0x021B` | `0431 021B` |
+| ` the` (con un espacio delante) | `0x2DE5` | `0431 2DE5` |
+| ` GEUL` (con un espacio delante) | `0x377F` | `0431 377F` |
+| `한국어` | `0xD0B8` | `0431 D0B8` |
+
+- En el documento de especificación, ` the` es `ENUM #2 0x2DE5` y el `BIND " the"` ligado a su Edge Id.
+- El espacio se pega a la palabra que le sigue. Por eso ` the` y `the` (`0x328D`) son tokens distintos.
 
 ## Problemas abiertos {#열린-문제}
 
-- Publicación de la edición 1 del vocabulario. Tras terminar el entrenamiento y la verificación, se rellenan ENUM y BIND en el documento de especificación.
 - Formato para llevar una secuencia de tokens en un documento. No se ha decidido qué campo de Edge o de Value recibe una secuencia de registros TOKEN.
 - Forma canónica de la codificación. Cómo escribir en el documento de especificación la regla de división y el orden de fusión, y si se fija una única secuencia de tokens para el mismo texto.
 - Interpretación entre ediciones. Cuando el lector encuentra un ID de token más nuevo que la edición que tiene, si lo descarta como invalid o conserva el valor original y lo trata como «token desconocido».
@@ -91,15 +96,27 @@ Antes de publicar la edición 1 del vocabulario, los tokens ordinarios aún no t
 
 ## Texto original del documento de especificación {#규격-문서-원문}
 
-El documento de especificación `0x00000000/codecs/0x00000430/` se publicará junto con la edición 1 del vocabulario. Todavía no está publicado. Su forma es la siguiente (a modo de explicación).
+Es el aspecto del documento de especificación `0x00000000/codecs/0x00000430/latest.geul` leído con `geul show` (hexadecimal en mayúsculas). Los dos SOURCE del HEAD son el SHA-256 del archivo de vocabulario y el del registro de entrenamiento.
 
 ```
+SPEC-VERSION 0x0001
+DOC-ID 0x0426000000000000043000000000
+#121077 SOURCE #0 ABSENT
+#121078 QUALIFIER P4092 #121077 SHA-256-DIGEST(0xE4DEEA8BA9FE74BEAAD836FEBE06CF4DAC32B30D1E9A85308D0A6E0A9CB6A417)
+#121079 SOURCE #0 ABSENT
+#121080 QUALIFIER P4092 #121079 SHA-256-DIGEST(0x5B2C82701BCFFD3589DC9640B398B3F07F0AC7F18E483486AF5221C3D30D4D9C)
 BODY
 #1 DECLARE 0x0430
 #2 FIELD #1 0x0001
 #3 BIND #1 "TOKEN-0"
-#4 BIND #2 "code"
+#4 BIND #2 "token-id"
 #5 ENUM #2 0x0000
 #6 BIND #5 "<0x00>"
-…
+#7 ENUM #2 0x0001
+#8 BIND #7 "<0x01>"
+… (121.064 líneas de ENUM·BIND omitidas)
+#121073 ENUM #2 0xEC76
+#121074 BIND #121073 "etap"
+#121075 ENUM #2 0xEC77
+#121076 BIND #121075 " Aman"
 ```
