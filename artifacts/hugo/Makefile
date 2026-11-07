@@ -9,14 +9,20 @@ S3_BUCKET ?= geul-org-public-768075277121
 CF_DIST_ID ?= E2G25D5G8IOTHZ
 GSC_SITE := sc-domain%3Ageul.org
 GSC_SCOPE := https://www.googleapis.com/auth/webmasters
-# GEUL 공표 아카이브(/.well-known/geul/): git 추적 파일 + 아직 커밋하지 않은 규격 문서와 그 h/ 사본만 geul build로 구워 올린다
-# (목록은 ../scripts/archive-files.sh, 위키데이터 변환 문서 제외)
+# GEUL 공표 아카이브(/.well-known/geul/): Issuer별 pack 세트(latest.txt, m/, o/)를 그대로 올린다.
+# 허용 Issuer 세트만 ARCHIVE_TMP로 옮겨 검사한 뒤 올린다(../scripts/archive-files.sh). 뷰어 HTML(geul build 출력)은 올리지 않는다.
+# Issuer 목록 issuers/는 0x00000000 세트에 들어 있다. 위키데이터(0x00000001)는 ARCHIVE_ISSUERS에 넣어도 ARCHIVE_DENY가 막는다.
 GEUL ?= geul
-ARCHIVE_REPO := ../../..
+ARCHIVE_REPO := ../../../../2-areas
 ARCHIVE_TMP ?= $(CURDIR)/resources/geul-archive
-ARCHIVE_DST := s3://$(S3_BUCKET)/.well-known/geul/
+ARCHIVE_DST := s3://$(S3_BUCKET)/.well-known/geul
+ARCHIVE_ISSUERS ?= 0x00000000
+ARCHIVE_DENY ?= 0x00000001
+ARCHIVE_MAX_BYTES ?= 104857600
+ARCHIVE_MAX_FILES ?= 1000
+ARCHIVE_STAGE := $(ARCHIVE_TMP)/src/.well-known/geul
 
-.PHONY: serve build clean deploy deploy-archive indexnow archive sitemap-ping publish validate
+.PHONY: serve build clean deploy deploy-archive deploy-archive-dryrun archive-stage indexnow archive sitemap-ping publish validate
 
 serve:
 	$(HUGO) server -D
@@ -34,17 +40,31 @@ deploy: build
 	@$(MAKE) indexnow
 
 # 아카이브는 Hugo 동기화(deploy)와 따로 올린다. deploy의 --delete는 .well-known/*를 건드리지 않는다.
-# <path>.geul = 원본 바이트(application/vnd.geul), 확장자 없는 <path>·index.html = 뷰어(text/html), index.json = 목록
-deploy-archive:
-	rm -rf $(ARCHIVE_TMP) && mkdir -p $(ARCHIVE_TMP)/src
-	GEUL=$(GEUL) ../scripts/archive-files.sh $(ARCHIVE_REPO) > $(ARCHIVE_TMP)/files.lst
-	cd $(ARCHIVE_REPO) && xargs -0 cp --parents -t $(ARCHIVE_TMP)/src < $(ARCHIVE_TMP)/files.lst
-	@if tr '\0' '\n' < $(ARCHIVE_TMP)/files.lst | grep -q '0x0001000[01]/'; then echo "wikidata documents in the archive list" >&2; exit 1; fi
-	$(GEUL) build -o $(ARCHIVE_TMP)/out $(ARCHIVE_TMP)/src
-	$(AWS) s3 sync $(ARCHIVE_TMP)/out/.well-known/geul/ $(ARCHIVE_DST) --delete --exclude "*" --include "*.geul" --content-type "application/vnd.geul"
-	$(AWS) s3 sync $(ARCHIVE_TMP)/out/.well-known/geul/ $(ARCHIVE_DST) --delete --exclude "*" --include "*.json" --content-type "application/json; charset=utf-8"
-	$(AWS) s3 sync $(ARCHIVE_TMP)/out/.well-known/geul/ $(ARCHIVE_DST) --delete --exclude "*" --include "_static/*"
-	$(AWS) s3 sync $(ARCHIVE_TMP)/out/.well-known/geul/ $(ARCHIVE_DST) --delete --exclude "*.geul" --exclude "*.json" --exclude "_static/*" --content-type "text/html; charset=utf-8"
+# archive-stage: 허용 Issuer 세트를 ARCHIVE_TMP로 옮기고 검사한다. 목록이 비거나, 허용 밖·위키데이터 Issuer가 섞이거나,
+#   상한(ARCHIVE_MAX_BYTES·ARCHIVE_MAX_FILES)을 넘거나, geul pack verify·check --archive가 실패하면 업로드 전에 멈춘다.
+archive-stage:
+	ARCHIVE_ISSUERS="$(ARCHIVE_ISSUERS)" ARCHIVE_DENY="$(ARCHIVE_DENY)" ARCHIVE_MAX_BYTES=$(ARCHIVE_MAX_BYTES) \
+	ARCHIVE_MAX_FILES=$(ARCHIVE_MAX_FILES) GEUL=$(GEUL) ../scripts/archive-files.sh $(ARCHIVE_REPO)/.well-known/geul $(ARCHIVE_TMP)
+
+# 드라이런: 올릴 목록(크기, 경로)과 원격과의 차이만 보인다(s3 sync --dryrun, 읽기만).
+deploy-archive-dryrun: archive-stage
+	@cat $(ARCHIVE_TMP)/files.lst
+	@for i in $(ARCHIVE_ISSUERS); do \
+		echo "== $$i latest.txt: $$(cat $(ARCHIVE_STAGE)/$$i/latest.txt)"; \
+		$(AWS) s3 sync $(ARCHIVE_STAGE)/$$i/ $(ARCHIVE_DST)/$$i/ --delete --dryrun || exit 1; \
+	done
+
+# Issuer 폴더마다 따로 sync해 원격의 다른 Issuer 폴더는 건드리지 않는다.
+# 순서: 새 객체(m/, o/, 불변) → latest.txt(세대 전환, no-cache) → 원격에만 남은 옛 객체 삭제
+deploy-archive: archive-stage
+	@set -e; for i in $(ARCHIVE_ISSUERS); do \
+		$(AWS) s3 sync $(ARCHIVE_STAGE)/$$i/ $(ARCHIVE_DST)/$$i/ --exclude latest.txt \
+			--content-type application/octet-stream --cache-control "public, max-age=31536000, immutable"; \
+		$(AWS) s3 cp $(ARCHIVE_STAGE)/$$i/latest.txt $(ARCHIVE_DST)/$$i/latest.txt \
+			--content-type "text/plain; charset=utf-8" --cache-control no-cache; \
+		$(AWS) s3 sync $(ARCHIVE_STAGE)/$$i/ $(ARCHIVE_DST)/$$i/ --exclude latest.txt --delete \
+			--content-type application/octet-stream --cache-control "public, max-age=31536000, immutable"; \
+	done
 	$(AWS) cloudfront create-invalidation --distribution-id $(CF_DIST_ID) --paths "/.well-known/geul/*"
 
 indexnow:
