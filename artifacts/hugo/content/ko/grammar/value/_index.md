@@ -34,7 +34,7 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 비트로 계열
 | NUMERIC | `0x060L~0x067L` |
 | DECIMAL | `0x068L~0x069L` |
 | TIME | `0x06AL~0x071L`, `0x081L` |
-| TEXT | `0x072L~0x07AL` |
+| TEXT | `0x072L~0x07AL`, `0x082L` |
 | BINARY | `0x07BL~0x080L` |
 
 - 벡터, 텐서, 복소수, 분수, 구간 같은 수치 값은 NUMERIC이다. 예외로 BIT-VECTOR는 BINARY다. 언어 코드는 TEXT다.
@@ -71,9 +71,10 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 비트로 계열
 | `0x07EL`/`0x07FL` | [OPAQUE-BYTES](0x07EL-opaque-bytes.md) | BINARY | 의미·형식 불명의 바이트열. 짝수·홀수 바이트 |
 | `0x080L` | [BIT-VECTOR](0x080L-bit-vector.md) | BINARY | bit-count 뒤에 MSB-first로 저장한 N bit |
 | `0x081L` | [DURATION-NANOSECONDS](0x081L-duration-nanoseconds.md) | TIME | 경과 시간(나노초) |
+| `0x082L` | [TOKEN-TEXT](0x082L-token-text.md) | TEXT | TOKEN-0·TOKEN-1 레코드열로 적은 텍스트(레코드마다 TAG 포함 2 WORD) |
 
 - 짝수·홀수로 짝지은 코드는 가변 길이 바이트열이다. 짝수 코드는 바이트 수가 짝수, 홀수 코드는 홀수다([레코드와 TAG WORD](../record.md)).
-- 직접 코드는 `0x060L~0x081L`에 Reserved 없이 있다. `0x082L~0x09CL`은 Reserved이고 `0x09DL~0x09FL`은 [VALUE-ISSUER-2WORD](0x09DL-value-issuer-2word.md)·[4WORD](0x09EL-value-issuer-4word.md)·[16WORD](0x09FL-value-issuer-16word.md)다.
+- 직접 코드는 `0x060L~0x082L`에 Reserved 없이 있다. `0x083L~0x09CL`은 Reserved이고 `0x09DL~0x09FL`은 [VALUE-ISSUER-2WORD](0x09DL-value-issuer-2word.md)·[4WORD](0x09EL-value-issuer-4word.md)·[16WORD](0x09FL-value-issuer-16word.md)다.
 
 ## Issuer 형식
 
@@ -145,10 +146,11 @@ TIME 계열은 날짜와 시각 형식이다. 직접 코드 `0x06AL~0x071L`과 `
 
 ### text
 
-TEXT 계열은 텍스트와 문자열 식별자 형식이다. 직접 코드 `0x072L~0x07AL`에 둔다.
+TEXT 계열은 텍스트와 문자열 식별자 형식이다. 직접 코드 `0x072L~0x07AL`과 `0x082L`(TOKEN-TEXT)에 둔다.
 
 - 언어가 없는 문자열은 UTF8-TEXT, 이름·제목·문장처럼 언어가 있는 텍스트는 UTF8-LANGUAGE-TEXT다.
 - 언어 코드(LANGUAGE-SHORT-CODE, LANGUAGE-BCP47-CODE)도 TEXT 계열이다.
+- 텍스트를 GEUL 토큰열로 적을 때는 TOKEN-TEXT를 쓴다. 이은 바이트가 같으면 UTF8-TEXT와 같은 텍스트다.
 - 가변 길이 바이트열은 짝수·홀수 Codec 쌍으로 둔다. 최하위 비트가 `1`이면 바이트 수가 홀수이고 마지막 WORD의 하위 바이트는 `0x00` 패딩이다([레코드와 TAG WORD](../record.md)).
 
 ### binary

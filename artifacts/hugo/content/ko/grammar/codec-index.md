@@ -280,14 +280,14 @@ Issuer는 문서와 형식을 정의하는 주체다 — [Issuer와 공표](issu
 
 `0x060L~0x09FL` — [Value](value/_index.md)
 
-Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x060L~0x081L`에 Reserved 없이 둔다. `0x082L~0x09CL`은 Reserved이고, `0x09DL~0x09FL`은 VALUE-ISSUER다. 계열 이름(NUMERIC, DECIMAL, TIME, TEXT, BINARY)은 주제 묶음이다. 짝수·홀수 쌍은 짝수 코드에서 시작한다.
+Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x060L~0x082L`에 Reserved 없이 둔다. `0x083L~0x09CL`은 Reserved이고, `0x09DL~0x09FL`은 VALUE-ISSUER다. 계열 이름(NUMERIC, DECIMAL, TIME, TEXT, BINARY)은 주제 묶음이다. 짝수·홀수 쌍은 짝수 코드에서 시작한다.
 
 | 계열 | 직접 코드 |
 |---|---|
 | [NUMERIC](value/_index.md#numeric) | `0x060L~0x067L` |
 | [DECIMAL](value/_index.md#decimal) | `0x068L~0x069L` |
 | [TIME](value/_index.md#time) | `0x06AL~0x071L`, `0x081L` |
-| [TEXT](value/_index.md#text) | `0x072L~0x07AL` |
+| [TEXT](value/_index.md#text) | `0x072L~0x07AL`, `0x082L` |
 | [BINARY](value/_index.md#binary) | `0x07BL~0x080L` |
 
 ### 직접 코드
@@ -325,6 +325,7 @@ Value 번호는 계열을 뜻하지 않는다. 직접 코드는 `0x060L~0x081L`�
 | `0x07FL` | [OPAQUE-BYTES-ODD](value/0x07EL-opaque-bytes.md) | BINARY | 위와 같음. 홀수 바이트 |
 | `0x080L` | [BIT-VECTOR](value/0x080L-bit-vector.md) | BINARY | bit-count 뒤에 MSB-first로 저장한 N bit |
 | `0x081L` | [DURATION-NANOSECONDS](value/0x081L-duration-nanoseconds.md) | TIME | epoch 없는 signed nanosecond 경과 시간 |
+| `0x082L` | [TOKEN-TEXT](value/0x082L-token-text.md) | TEXT | 텍스트를 TOKEN-0·TOKEN-1 레코드열로 적는다. 레코드마다 TAG 포함 2 WORD |
 | `0x09DL`~`0x09FL` | [VALUE-ISSUER-2WORD](value/0x09DL-value-issuer-2word.md), [-4WORD](value/0x09EL-value-issuer-4word.md), [-16WORD](value/0x09FL-value-issuer-16word.md) |  | Issuer가 정의한 형식. 아래 Value ISSUER 형식 참조 |
 
 ### Value ISSUER 형식
@@ -587,6 +588,7 @@ Meta 번호는 비트로 클래스를 나타내지 않는다. 클래스는 아�
 | `0x07FL` | `0x000007F0` | OPAQUE-BYTES-ODD | Value | 3 | [0x07EL-opaque-bytes.md](value/0x07EL-opaque-bytes.md) | 홀짝 `OPAQUE-BYTES` |
 | `0x080L` | `0x00000800` | BIT-VECTOR | Value | 4 | [0x080L-bit-vector.md](value/0x080L-bit-vector.md) |  |
 | `0x081L` | `0x00000810` | DURATION-NANOSECONDS | Value | 4 | [0x081L-duration-nanoseconds.md](value/0x081L-duration-nanoseconds.md) |  |
+| `0x082L` | `0x00000820` | TOKEN-TEXT | Value | 4 | [0x082L-token-text.md](value/0x082L-token-text.md) |  |
 | `0x09DL` | `0x000009D0` | VALUE-ISSUER-2WORD | Value | 4 | [0x09DL-value-issuer-2word.md](value/0x09DL-value-issuer-2word.md) |  |
 | `0x09EL` | `0x000009E0` | VALUE-ISSUER-4WORD | Value | 4 | [0x09EL-value-issuer-4word.md](value/0x09EL-value-issuer-4word.md) |  |
 | `0x09FL` | `0x000009F0` | VALUE-ISSUER-16WORD | Value | 4 | [0x09FL-value-issuer-16word.md](value/0x09FL-value-issuer-16word.md) |  |

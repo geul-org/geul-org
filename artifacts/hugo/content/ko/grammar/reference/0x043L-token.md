@@ -84,7 +84,6 @@ Payload WORD 1st (16비트)           토큰 ID − 65,536 (uint16)
 
 ## 열린 문제
 
-- 토큰열을 문서에 담는 형식. 어느 Edge나 Value 필드가 TOKEN 레코드 열을 받는지 정하지 않았다.
 - 인코딩 정규형. 분할 규칙과 병합 순서를 규격 문서에 어떻게 적을지, 같은 텍스트의 토큰열을 하나로 정할지.
 - 판 사이 해석. 읽는 쪽이 가진 판보다 새 토큰 ID를 만났을 때 invalid로 버릴지, 원값을 보존한 채 "모르는 토큰"으로 다룰지.
 
@@ -92,6 +91,7 @@ Payload WORD 1st (16비트)           토큰 ID − 65,536 (uint16)
 
 - [Reference](_index.md), [CODEC-POINTER](0x042L-codec-pointer.md)
 - [Codec 규격 문서](../codec-spec.md), [ENUM](../edge/0x0BDL-enum.md), [BIND](../edge/0x0A3L-bind.md), [SOURCE](../edge/0x0C0L-source.md)
+- 토큰열을 담는 Value: [TOKEN-TEXT](../value/0x082L-token-text.md)
 - 같은 꼴의 레지스트리: [LANGUAGE-SHORT-CODE](../value/0x07AL-language-short-code.md)
 
 ## 규격 문서 원문
