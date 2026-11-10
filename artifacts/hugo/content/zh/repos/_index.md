@@ -1,7 +1,7 @@
 ---
 title: "代码仓库"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-11-05T12:00:00+09:00
+lastmod: 2026-11-11T12:00:00+09:00
 summary: "GEUL的公开GitHub仓库列表。Go库与geul CLI、维基数据导入与转换、检索引擎SILK、归档统计、韩语分析器、v1之前的码本、网站。"
 image: "/images/og-default.webp"
 ---
@@ -90,7 +90,7 @@ GEUL Go库与`geul`命令行工具。
 
 ## 韩语
 
-### koparse
+### nlgeul
 
 韩语文本分析器。
 
@@ -98,7 +98,7 @@ GEUL Go库与`geul`命令行工具。
 
 | | |
 |---|---|
-| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| GitHub | [geul-org/nlgeul](https://github.com/geul-org/nlgeul) |
 | 语言 | Go |
 | 许可证 | CC0 |
 

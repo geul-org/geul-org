@@ -1,7 +1,7 @@
 ---
 title: "מאגרים"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-11-05T12:00:00+09:00
+lastmod: 2026-11-11T12:00:00+09:00
 summary: "המאגרים הציבוריים של GEUL ב-GitHub: ספריית Go וכלי geul CLI, טעינה והמרה של ויקינתונים, מנוע החיפוש SILK, סטטיסטיקה של ארכיונים, מנתח טקסט קוריאני, ספרי קודים מלפני v1 ואתר זה."
 image: "/images/og-default.webp"
 ---
@@ -90,7 +90,7 @@ image: "/images/og-default.webp"
 
 ## קוריאנית
 
-### koparse
+### nlgeul
 
 מנתח טקסט קוריאני.
 
@@ -98,7 +98,7 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| GitHub | [geul-org/nlgeul](https://github.com/geul-org/nlgeul) |
 | שפה | Go |
 | רישיון | CC0 |
 

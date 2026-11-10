@@ -1,7 +1,7 @@
 ---
 title: "リポジトリ"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-11-05T12:00:00+09:00
+lastmod: 2026-11-11T12:00:00+09:00
 summary: "GEULの公開GitHubリポジトリ一覧。Goライブラリとgeul CLI、ウィキデータの取り込みと変換、探索エンジンSILK、アーカイブ統計、韓国語解析器、v1以前のコードブック、ウェブサイト。"
 image: "/images/og-default.webp"
 ---
@@ -90,7 +90,7 @@ TAG WORDからLengthだけを除いた9ビットコード（TAG ID `0x000L`～`0
 
 ## 韓国語
 
-### koparse
+### nlgeul
 
 韓国語テキスト解析器。
 
@@ -98,7 +98,7 @@ TAG WORDからLengthだけを除いた9ビットコード（TAG ID `0x000L`～`0
 
 | | |
 |---|---|
-| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| GitHub | [geul-org/nlgeul](https://github.com/geul-org/nlgeul) |
 | 言語 | Go |
 | ライセンス | CC0 |
 

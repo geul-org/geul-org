@@ -1,7 +1,7 @@
 ---
 title: "Репозитории"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-11-05T12:00:00+09:00
+lastmod: 2026-11-11T12:00:00+09:00
 summary: "Публичные репозитории GEUL на GitHub: библиотека Go и CLI geul, загрузка и преобразование Wikidata, поисковый движок SILK, статистика архивов, анализатор корейского текста, кодовые книги до v1 и этот сайт."
 image: "/images/og-default.webp"
 ---
@@ -90,7 +90,7 @@ image: "/images/og-default.webp"
 
 ## Корейский язык
 
-### koparse
+### nlgeul
 
 Анализатор корейского текста.
 
@@ -98,7 +98,7 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| GitHub | [geul-org/nlgeul](https://github.com/geul-org/nlgeul) |
 | Язык | Go |
 | Лицензия | CC0 |
 

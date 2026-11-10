@@ -1,7 +1,7 @@
 ---
 title: "Repositories"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-11-05T12:00:00+09:00
+lastmod: 2026-11-11T12:00:00+09:00
 summary: "Public GitHub repositories of GEUL: the Go library and geul CLI, Wikidata loading and conversion, the SILK search engine, archive statistics, a Korean text analyzer, pre-v1 codebooks and this website."
 image: "/images/og-default.webp"
 ---
@@ -90,7 +90,7 @@ Counts records for each 9-bit code left after dropping the Length from a TAG WOR
 
 ## Korean
 
-### koparse
+### nlgeul
 
 A Korean text analyzer.
 
@@ -98,7 +98,7 @@ It starts by separating nouns from the particles and endings attached to them in
 
 | | |
 |---|---|
-| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| GitHub | [geul-org/nlgeul](https://github.com/geul-org/nlgeul) |
 | Language | Go |
 | License | CC0 |
 

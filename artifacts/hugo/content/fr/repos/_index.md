@@ -1,7 +1,7 @@
 ---
 title: "Dépôts"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-11-05T12:00:00+09:00
+lastmod: 2026-11-11T12:00:00+09:00
 summary: "Dépôts GitHub publics de GEUL : la bibliothèque Go et la CLI geul, le chargement et la conversion de Wikidata, le moteur de recherche SILK, des statistiques d'archives, un analyseur de texte coréen, des codebooks antérieurs à la v1 et ce site web."
 image: "/images/og-default.webp"
 ---
@@ -90,7 +90,7 @@ Compte les enregistrements pour chaque code de 9 bits obtenu en retirant le Leng
 
 ## Coréen
 
-### koparse
+### nlgeul
 
 Un analyseur de texte coréen.
 
@@ -98,7 +98,7 @@ Il commence par séparer les noms des particules et terminaisons qui leur sont a
 
 | | |
 |---|---|
-| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| GitHub | [geul-org/nlgeul](https://github.com/geul-org/nlgeul) |
 | Langage | Go |
 | Licence | CC0 |
 

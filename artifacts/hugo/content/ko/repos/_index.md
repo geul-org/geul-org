@@ -1,7 +1,7 @@
 ---
 title: "Repositories"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-11-05T12:00:00+09:00
+lastmod: 2026-11-11T12:00:00+09:00
 summary: "GEUL의 공개 GitHub 저장소 목록. Go 라이브러리와 geul CLI, 위키데이터 적재·변환, 탐색 엔진 SILK, 아카이브 통계, 한국어 분석기, v1 이전 코드북, 웹사이트."
 image: "/images/og-default.webp"
 ---
@@ -90,7 +90,7 @@ TAG WORD에서 Length만 뺀 9비트 코드(TAG ID `0x000L`~`0x1FFL`)마다 레�
 
 ## 한국어
 
-### koparse
+### nlgeul
 
 한국어 분석기.
 
@@ -98,7 +98,7 @@ TAG WORD에서 Length만 뺀 9비트 코드(TAG ID `0x000L`~`0x1FFL`)마다 레�
 
 | | |
 |---|---|
-| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| GitHub | [geul-org/nlgeul](https://github.com/geul-org/nlgeul) |
 | 언어 | Go |
 | 라이선스 | CC0 |
 

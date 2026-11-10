@@ -1,7 +1,7 @@
 ---
 title: "Repositori"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-11-05T12:00:00+09:00
+lastmod: 2026-11-11T12:00:00+09:00
 summary: "Repositori GitHub publik GEUL: pustaka Go dan CLI geul, pemuatan dan konversi Wikidata, mesin penelusuran SILK, statistik arsip, penganalisis teks bahasa Korea, codebook pra-v1, dan situs web ini."
 image: "/images/og-default.webp"
 ---
@@ -90,7 +90,7 @@ Menghitung jumlah rekaman untuk setiap kode 9-bit yang tersisa setelah Length di
 
 ## Bahasa Korea
 
-### koparse
+### nlgeul
 
 Penganalisis teks bahasa Korea.
 
@@ -98,7 +98,7 @@ Dimulai dengan memisahkan kata benda dari partikel dan akhiran yang melekat pada
 
 | | |
 |---|---|
-| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| GitHub | [geul-org/nlgeul](https://github.com/geul-org/nlgeul) |
 | Bahasa | Go |
 | Lisensi | CC0 |
 

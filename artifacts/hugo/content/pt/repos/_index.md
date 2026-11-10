@@ -1,7 +1,7 @@
 ---
 title: "Repositórios"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-11-05T12:00:00+09:00
+lastmod: 2026-11-11T12:00:00+09:00
 summary: "Repositórios públicos do GEUL no GitHub: a biblioteca Go e a CLI geul, carga e conversão do Wikidata, o motor de busca SILK, estatísticas de arquivos, um analisador de texto coreano, codebooks anteriores à v1 e este site."
 image: "/images/og-default.webp"
 ---
@@ -90,7 +90,7 @@ Conta os registros de cada código de 9 bits que resta ao retirar o Length de um
 
 ## Coreano
 
-### koparse
+### nlgeul
 
 Um analisador de texto coreano.
 
@@ -98,7 +98,7 @@ Começa separando os substantivos das partículas e terminações ligadas a eles
 
 | | |
 |---|---|
-| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| GitHub | [geul-org/nlgeul](https://github.com/geul-org/nlgeul) |
 | Linguagem | Go |
 | Licença | CC0 |
 

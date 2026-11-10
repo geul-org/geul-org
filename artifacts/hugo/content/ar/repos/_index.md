@@ -1,7 +1,7 @@
 ---
 title: "المستودعات"
 date: 2026-02-28T12:00:00+09:00
-lastmod: 2026-11-05T12:00:00+09:00
+lastmod: 2026-11-11T12:00:00+09:00
 summary: "مستودعات GEUL العامة على GitHub: مكتبة Go وأداة geul CLI، وتحميل ويكي بيانات وتحويلها، ومحرك البحث SILK، وإحصاءات الأرشيفات، ومحلل للنصوص الكورية، ودفاتر رموز سابقة للإصدار v1، وهذا الموقع."
 image: "/images/og-default.webp"
 ---
@@ -90,7 +90,7 @@ image: "/images/og-default.webp"
 
 ## الكورية
 
-### koparse
+### nlgeul
 
 محلل للنصوص الكورية.
 
@@ -98,7 +98,7 @@ image: "/images/og-default.webp"
 
 | | |
 |---|---|
-| GitHub | [geul-org/koparse](https://github.com/geul-org/koparse) |
+| GitHub | [geul-org/nlgeul](https://github.com/geul-org/nlgeul) |
 | اللغة | Go |
 | الرخصة | CC0 |
 
