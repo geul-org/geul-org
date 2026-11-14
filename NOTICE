@@ -2,17 +2,29 @@ geul-org (geul.org website)
 NOTICE — third-party material
 =============================
 
-Scope of CC0
-------------
-The GEUL project's own work in this repository — site content, layouts,
-scripts, images and other material we created —
-is dedicated to the public domain under CC0 1.0 Universal. LICENSE holds the
-CC0 1.0 legal text verbatim (unmodified, so that it is recognised as CC0-1.0);
-this section states what it covers.
+License scope
+-------------
 
-CC0 covers only our own work. Third-party material keeps its own license and is
-not covered by CC0: web fonts loaded from Google Fonts at runtime (SIL Open
-Font License 1.1), listed below; they are not redistributed here.
+CC0 content in this repository:
+  - site articles and pages: artifacts/hugo/content/ (all languages)
+  - images: artifacts/hugo/static/images/ and other images we made
+  - drafts and published sources: files/
+
+MIT code in this repository:
+  - site code: artifacts/hugo/layouts/, artifacts/hugo/assets/,
+    artifacts/hugo/Makefile, artifacts/hugo/hugo.toml, artifacts/scripts/,
+    artifacts/terraform/ and the top-level Makefile and scripts
+
+Site code is licensed under the MIT License (LICENSE). Site content and images
+that the GEUL project produced are dedicated to the public
+domain under CC0 1.0 Universal
+(https://creativecommons.org/publicdomain/zero/1.0/legalcode). No separate
+CC0 text file is kept here; the legal code at that address applies.
+
+Versions released before 2026-11-14 under CC0 remain CC0.
+
+Third-party material keeps its own license and is covered by neither MIT nor
+CC0 above: web fonts loaded from Google Fonts at runtime (SIL Open Font License 1.1), listed below; they are not redistributed here.
 
 * Noto Serif, Noto Serif KR, Noto Serif JP, Noto Serif SC, Noto Serif Hebrew
     License:     SIL Open Font License 1.1

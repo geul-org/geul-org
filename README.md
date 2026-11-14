@@ -17,4 +17,4 @@ English (default), 한국어, 中文, Español, العربية, Português, Baha
 
 ## License
 
-Our own work (site content, layouts, scripts and images) is released under CC0 1.0 ([LICENSE](LICENSE)). Third-party material (web fonts) is listed in [NOTICE](NOTICE).
+Site code (layouts, scripts, Makefile, Terraform) is under the MIT License ([LICENSE](LICENSE)). Site content and images are CC0 1.0 (see [NOTICE](NOTICE)). Third-party material (web fonts) is listed in [NOTICE](NOTICE).
